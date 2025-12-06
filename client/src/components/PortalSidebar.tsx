@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { FileText, MessageSquare, User, LogOut } from "lucide-react";
+import logoImage from "@assets/1764975447300-019af0bb-39c0-7323-97f9-1e4a0377aa15_(1)_1765023724795.jpg";
 
 interface PortalSidebarProps {
   activeTab: string;
@@ -21,8 +22,11 @@ export default function PortalSidebar({
   return (
     <aside className="w-64 border-r border-border bg-sidebar min-h-screen p-4 flex flex-col">
       <div className="mb-8">
-        <h2 className="font-bold text-lg">BROKEN PSYCHOLOGY LAB</h2>
-        <p className="text-xs text-primary">Member Portal</p>
+        <img 
+          src={logoImage} 
+          alt="Broken Psychology Lab" 
+          className="h-10 w-auto"
+        />
       </div>
       
       <nav className="flex-1 space-y-1">
