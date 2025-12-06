@@ -6,11 +6,13 @@ interface PortalSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onLogout?: () => void;
+  className?: string;
+  onNavigate?: () => void;
 }
 
 const menuItems = [
   { id: "content", label: "Content", icon: FileText },
-  { id: "archivist", label: "Talk to The Archivist AI", icon: MessageSquare },
+  { id: "archivist", label: "The Archivist AI", icon: MessageSquare },
   { id: "account", label: "Account", icon: User },
 ];
 
@@ -18,9 +20,16 @@ export default function PortalSidebar({
   activeTab,
   onTabChange,
   onLogout,
+  className = "",
+  onNavigate,
 }: PortalSidebarProps) {
+  const handleTabChange = (tab: string) => {
+    onTabChange(tab);
+    onNavigate?.();
+  };
+
   return (
-    <aside className="w-64 border-r border-border bg-sidebar min-h-screen p-4 flex flex-col">
+    <aside className={`border-r border-border bg-sidebar p-4 flex flex-col ${className}`}>
       <div className="mb-8">
         <img 
           src={logoImage} 
@@ -35,7 +44,7 @@ export default function PortalSidebar({
             key={item.id}
             variant={activeTab === item.id ? "secondary" : "ghost"}
             className="w-full justify-start gap-3"
-            onClick={() => onTabChange(item.id)}
+            onClick={() => handleTabChange(item.id)}
             data-testid={`button-nav-${item.id}`}
           >
             <item.icon className="h-4 w-4" />
