@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import logoImage from "@assets/1764975447300-019af0bb-39c0-7323-97f9-1e4a0377aa15_(1)_1765023724795.jpg";
+import logoImage from "@assets/1764975447300-019af0bb-39c0-7323-97f9-1e4a0377aa15__1_-removeb_1765023942955.png";
 
 interface NavbarProps {
   onLoginClick?: () => void;
