@@ -25,7 +25,7 @@ export default function PortalSidebar({
         <img 
           src={logoImage} 
           alt="Broken Psychology Lab" 
-          className="h-10 w-auto"
+          className="h-8 w-auto max-w-full object-contain"
         />
       </div>
       

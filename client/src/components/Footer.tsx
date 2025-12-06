@@ -7,7 +7,7 @@ export default function Footer() {
         <img 
           src={logoImage} 
           alt="Broken Psychology Lab" 
-          className="h-12 w-auto mx-auto"
+          className="h-10 sm:h-12 w-auto max-w-[250px] sm:max-w-none mx-auto object-contain"
           data-testid="img-footer-logo"
         />
         <p className="text-sm text-muted-foreground" data-testid="text-footer-copyright">
