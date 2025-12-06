@@ -1,0 +1,346 @@
+Create a complete sales funnel website for "Broken Psychology Lab" - a psychology pattern recognition digital product business.
+
+IMPORTANT: Build this as a Next.js app that works on Replit with integrated database and authentication.
+
+=== PROJECT OVERVIEW ===
+
+Business: Broken Psychology Lab
+Products: 
+- Pattern Recognition Session ($47) - Video + PDF + 30-day AI access
+- Complete Pattern Archive ($97) - Full system with lifetime AI access
+Brand: Dark, scientific, minimal. "Pattern Archaeology, Not Therapy"
+
+=== TECH STACK ===
+
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Replit Database (built-in key-value store)
+- Replit Auth (built-in authentication)
+- Stripe Checkout (hosted pages only)
+- Anthropic Claude API (for AI chatbot)
+
+=== DESIGN SYSTEM ===
+
+Colors:
+- Background: #000000 (black)
+- Text: #FAFAFA (off-white)
+- Primary accent: #00FFC8 (teal)
+- Secondary accent: #FF0094 (pink)
+- Cards: #1A1A1A (dark gray)
+
+Typography:
+- Font: System fonts (no external fonts for speed)
+- Headers: Bold, large
+- Body: 16px, readable
+
+Style:
+- Dark theme throughout
+- High contrast
+- Minimal design
+- Smooth animations
+- Mobile responsive
+
+=== PAGES ===
+
+1. LANDING PAGE (/)
+2. THANK YOU PAGE (/thank-you)
+3. MEMBER PORTAL (/portal)
+
+=== LANDING PAGE (/) ===
+
+Navbar (sticky):
+- Left: Text logo "BROKEN PSYCHOLOGY LAB"
+- Right: "Member Login" button
+
+Hero Section (full height):
+- Headline: "The Patterns Running Your Life Have a Blueprint"
+- Subheadline: "Pattern Archaeology, Not Therapy" (teal color)
+- Tagline: "See The Code. Break The Loop."
+- Description: "Excavate the hidden logic systems that shape your choices, relationships, and self-perception"
+- CTA: "Start Pattern Recognition" (smooth scroll to products)
+
+Products Section (2 cards side-by-side, stack on mobile):
+
+Card 1 - Pattern Recognition Session:
+- Price: $47 (large, teal)
+- Title: "Pattern Recognition Session"
+- Features:
+  * 90-minute Pattern Recognition video
+  * Pattern Recognition Workbook (PDF)
+  * 30 days AI chatbot access
+  * Identify 2-3 dominant patterns
+  * Learn 4-step excavation method
+- Button: "Get Pattern Recognition - $47"
+
+Card 2 - Complete Pattern Archive:
+- Badge: "COMPLETE SYSTEM" (pink glow)
+- Price: $97 (large, pink)
+- Title: "The Complete Pattern Archive"
+- Features:
+  * Everything from $47 product
+  * 250+ page pattern manual
+  * All 7 core patterns deep dive
+  * 90-day week-by-week protocol
+  * Pattern combination strategies
+  * Lifetime AI chatbot access
+- Button: "Get Complete Archive - $97"
+
+How It Works (3 steps):
+1. Watch Your Pattern Recognition Video
+2. Download Your Workbook
+3. Talk to The Archivist AI
+
+The Method (4 cards):
+- FOCUS: Observe pattern without judgment
+- EXCAVATION: Find the Original Room (childhood origin)
+- INTERRUPTION: Identify circuit break point
+- REWRITE: Install new behavioral responses
+
+The 7 Core Patterns (expandable accordion):
+1. Disappearing - Pull away when intimacy increases
+2. Apology Loop - Apologize for existing
+3. Testing - Push people away to see if they stay
+4. Attraction to Harm - Choose people who hurt you
+5. Compliment Deflection - Can't accept praise
+6. Draining Bond - Stay when should leave
+7. Success Sabotage - Destroy before breakthrough
+
+Guarantee:
+- "90-Day Money-Back Guarantee"
+- "If this doesn't show you something new, full refund"
+
+Footer:
+- "BROKEN PSYCHOLOGY LAB"
+- "Pattern Archaeology, Not Therapy"
+- Copyright 2024
+
+=== THANK YOU PAGE (/thank-you) ===
+
+Shows after successful Stripe payment.
+
+Success Message:
+- Checkmark icon (animated)
+- "Welcome to the Archive"
+- "Your pattern excavation begins now"
+- "Check your email for access details"
+
+Upsell (only if bought $47 product):
+- "Ready to Break ALL Your Patterns?"
+- Show Complete Archive offer
+- "Upgrade for only $50 more" (saves $47)
+- Button: "Upgrade Now"
+
+Access Button:
+- "Access Your Portal" → /portal
+
+=== MEMBER PORTAL (/portal) ===
+
+Login Required (use Replit Auth):
+- If not logged in, show login button
+- After login, show content based on purchase
+
+Layout:
+- Sidebar navigation:
+  * Content
+  * Talk to The Archivist AI
+  * Account
+  * Logout
+
+Content Tab:
+
+Section 1 - Pattern Recognition Video:
+- YouTube embed (placeholder URL)
+- Title: "Your Pattern Recognition Session"
+
+Section 2 - Downloads:
+- "Pattern Recognition Workbook" download button (always)
+- "Complete Pattern Archive" download button (only if purchased $97)
+
+The Archivist AI Tab:
+
+Layout:
+- Left sidebar (1/4 width):
+  * "New Conversation" button
+  * List of past conversations
+  * Click to load conversation
+
+- Main chat area (3/4 width):
+  * Header: "The Archivist"
+  * Messages area (scrollable)
+  * Input box at bottom
+
+Chat Styling:
+- User messages: Teal bubble, right-aligned
+- AI messages: Dark gray bubble, left-aligned
+- Typing indicator when AI responds
+- Auto-scroll to bottom
+
+AI System Prompt (use this exactly):
+"You are The Archivist - a precise, calm guide trained on The Archivist Method for pattern interruption.
+
+Your role: Help users excavate their psychological patterns through conversational guidance.
+
+The Method:
+- FOCUS: Observe without judgment
+- EXCAVATION: Find the Original Room (childhood origin)
+- INTERRUPTION: Identify circuit break point
+- REWRITE: Install new responses
+
+Your approach:
+- Ask probing questions
+- Help identify pattern triggers
+- Guide to childhood origins
+- Show survival logic (why it made sense then)
+- Identify body sensations
+- Be direct but compassionate
+- Use pattern/program/circuit language, not therapy language
+
+The 7 Core Patterns:
+1. Disappearing
+2. Apology Loop
+3. Testing
+4. Attraction to Harm
+5. Compliment Deflection
+6. Draining Bond
+7. Success Sabotage
+
+Upselling (only for $47 users, 1 in 7 responses):
+When asked about advanced topics, briefly mention: 'The Complete Pattern Archive has the full 90-day protocol' then continue helping.
+
+Start NEW conversations: 'Welcome. I'm The Archivist. Tell me about a pattern you've noticed in your life.'"
+
+=== STRIPE INTEGRATION ===
+
+Use Stripe Checkout (hosted pages):
+
+Products:
+1. Pattern Recognition Session - $47
+2. Complete Pattern Archive - $97
+3. Upgrade to Complete - $50
+
+Checkout Flow:
+- User clicks "Buy Now" button
+- Call /api/checkout with product type
+- Redirect to Stripe Checkout
+- After payment, redirect to /thank-you?session_id={ID}
+
+Webhook:
+- Endpoint: /api/webhooks/stripe
+- Event: checkout.session.completed
+- Action:
+  * Get customer email
+  * Store purchase in Replit Database
+  * Send access email
+
+=== REPLIT DATABASE STRUCTURE ===
+
+Use Replit's built-in key-value database:
+
+Users:
+Key: user:{email}
+Value: {
+  email: string,
+  created_at: timestamp,
+  has_pattern_session: boolean,
+  has_complete_archive: boolean,
+  stripe_customer_id: string
+}
+
+Purchases:
+Key: purchase:{session_id}
+Value: {
+  user_email: string,
+  product: string,
+  amount: number,
+  created_at: timestamp
+}
+
+Conversations:
+Key: conversation:{user_email}:{conversation_id}
+Value: {
+  title: string,
+  messages: Array<{role, content, timestamp}>,
+  created_at: timestamp,
+  updated_at: timestamp
+}
+
+=== API ROUTES ===
+
+/api/checkout (POST):
+- Accept: { product: 'pattern_session' | 'complete_archive' | 'upgrade' }
+- Create Stripe Checkout Session
+- Return checkout URL
+
+/api/webhooks/stripe (POST):
+- Verify Stripe signature
+- Handle checkout.session.completed
+- Store purchase in database
+- Send confirmation email
+
+/api/chat (POST):
+- Accept: { message: string, conversationId?: string }
+- Check user authentication (Replit Auth)
+- Verify user has AI access
+- Call Anthropic API with streaming
+- Save messages to database
+- Return streaming response
+
+/api/download (GET):
+- Accept: ?file=workbook or ?file=archive
+- Check authentication
+- Check access rights
+- Return PDF file
+
+=== AUTHENTICATION ===
+
+Use Replit Auth (built-in):
+- No password setup needed
+- Users authenticate via Replit
+- After purchase, auto-create account
+- Magic link email for first login
+
+=== FILES TO CREATE ===
+
+Placeholders in /public/:
+- downloads/pattern-recognition-workbook.pdf
+- downloads/complete-pattern-archive.pdf
+- (I'll upload actual files after build)
+
+=== ENVIRONMENT VARIABLES ===
+
+Set in Replit Secrets:
+
+STRIPE_SECRET_KEY=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
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=[provide after build]
+STRIPE_WEBHOOK_SECRET=[create after deploy]
+STRIPE_PRICE_PATTERN_SESSION=[create in Stripe]
+STRIPE_PRICE_COMPLETE_ARCHIVE=[create in Stripe]
+STRIPE_PRICE_UPGRADE=[create in Stripe]
+
+ANTHROPIC_API_KEY=[provide after build]
+
+NEXT_PUBLIC_SITE_URL=[Replit app URL]
+
+=== DEPLOYMENT ===
+
+1. Build the app in Replit
+2. Test locally in Replit preview
+3. Deploy using Replit's deployment
+4. Get public URL
+5. Set up Stripe webhook with that URL
+6. Upload PDF files
+7. Test full purchase flow
+
+=== REQUIREMENTS ===
+
+1. App must run on Replit without errors
+2. Use Replit's built-in database (no external DB)
+3. Use Replit Auth (no external auth)
+4. Mobile responsive
+5. Fast load times
+6. Clean, minimal UI
+7. All features working
+8. Proper error handling
+
+Build this complete app now. Make it production-ready and deployable on Replit.
