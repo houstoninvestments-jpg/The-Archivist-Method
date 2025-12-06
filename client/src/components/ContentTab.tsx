@@ -9,7 +9,7 @@ interface ContentTabProps {
 
 export default function ContentTab({
   hasCompleteArchive = false,
-  videoUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  videoUrl = "https://www.youtube.com/embed/vQRSALJ5hgc",
 }: ContentTabProps) {
   return (
     <div className="space-y-8 p-6">
