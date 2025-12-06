@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Home } from "lucide-react";
 import PortalSidebar from "@/components/PortalSidebar";
 import ContentTab from "@/components/ContentTab";
 import ChatInterface from "@/components/ChatInterface";
@@ -55,17 +55,24 @@ export default function Portal() {
       {isMobile ? (
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <div className="flex flex-col w-full">
-            <header className="flex items-center gap-4 border-b border-border p-3">
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
-                  <Menu className="h-5 w-5" />
+            <header className="flex items-center justify-between gap-4 border-b border-border p-3">
+              <div className="flex items-center gap-2">
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <span className="font-semibold text-sm">
+                  {activeTab === "content" && "Content"}
+                  {activeTab === "archivist" && "The Archivist AI"}
+                  {activeTab === "account" && "Account"}
+                </span>
+              </div>
+              <Link href="/">
+                <Button variant="ghost" size="icon" data-testid="button-home-mobile">
+                  <Home className="h-5 w-5" />
                 </Button>
-              </SheetTrigger>
-              <span className="font-semibold text-sm">
-                {activeTab === "content" && "Content"}
-                {activeTab === "archivist" && "The Archivist AI"}
-                {activeTab === "account" && "Account"}
-              </span>
+              </Link>
             </header>
             <main className="flex-1 overflow-auto">
               {activeTab === "content" && (

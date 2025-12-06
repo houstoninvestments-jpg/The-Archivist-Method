@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import Navbar from "@/components/Navbar";
 
 interface ThankYouContentProps {
   purchaseType?: "pattern_session" | "complete_archive";
@@ -17,7 +18,9 @@ export default function ThankYouContent({
   const showUpsell = purchaseType === "pattern_session";
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16">
+    <div className="min-h-screen flex flex-col">
+      <Navbar showMemberLogin={false} />
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
       <div className="max-w-xl w-full space-y-8 text-center">
         <div className={`${isAnimated ? "animate-bounce" : ""}`}>
           <CheckCircle className="h-20 w-20 text-primary mx-auto" />
@@ -70,6 +73,7 @@ export default function ThankYouContent({
             <ArrowRight className="h-5 w-5" />
           </Button>
         </Link>
+      </div>
       </div>
     </div>
   );

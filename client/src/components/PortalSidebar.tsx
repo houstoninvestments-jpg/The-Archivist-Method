@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { FileText, MessageSquare, User, LogOut } from "lucide-react";
+import { FileText, MessageSquare, User, LogOut, Home } from "lucide-react";
+import { Link } from "wouter";
 import logoImage from "@assets/1764975447300-019af0bb-39c0-7323-97f9-1e4a0377aa15__1_-removeb_1765023942955.png";
 
 interface PortalSidebarProps {
@@ -53,15 +54,27 @@ export default function PortalSidebar({
         ))}
       </nav>
       
-      <Button
-        variant="ghost"
-        className="w-full justify-start gap-3 text-muted-foreground"
-        onClick={onLogout}
-        data-testid="button-logout"
-      >
-        <LogOut className="h-4 w-4" />
-        Logout
-      </Button>
+      <div className="space-y-1">
+        <Link href="/">
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 text-muted-foreground"
+            data-testid="button-home-sidebar"
+          >
+            <Home className="h-4 w-4" />
+            Back to Home
+          </Button>
+        </Link>
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 text-muted-foreground"
+          onClick={onLogout}
+          data-testid="button-logout"
+        >
+          <LogOut className="h-4 w-4" />
+          Logout
+        </Button>
+      </div>
     </aside>
   );
 }
