@@ -8,6 +8,7 @@ import MethodSection from "@/components/MethodSection";
 import PatternAccordion from "@/components/PatternAccordion";
 import Guarantee from "@/components/Guarantee";
 import Footer from "@/components/Footer";
+import Divider from "@/components/Divider";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -73,10 +74,15 @@ export default function Landing() {
         </div>
       </section>
       
+      <Divider />
       <HowItWorks />
+      <Divider />
       <MethodSection />
+      <Divider />
       <PatternAccordion />
+      <Divider />
       <Guarantee />
+      <Divider />
       <Footer />
     </div>
   );

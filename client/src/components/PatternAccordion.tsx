@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import fogOverlay from "@assets/generated_images/teal_pink_fog_overlay.png";
 
 const patterns = [
   {
@@ -45,8 +46,17 @@ const patterns = [
 
 export default function PatternAccordion() {
   return (
-    <section className="py-20 px-4">
-      <div className="container mx-auto max-w-3xl">
+    <section className="relative py-20 px-4 overflow-hidden">
+      <div 
+        className="absolute inset-0 opacity-20"
+        style={{ 
+          backgroundImage: `url(${fogOverlay})`, 
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          transform: 'scaleX(-1)'
+        }}
+      />
+      <div className="container mx-auto max-w-3xl relative z-10">
         <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-patterns-title">
           The 7 Core Patterns
         </h2>
