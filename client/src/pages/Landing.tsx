@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import HowItWorks from "@/components/HowItWorks";
 import MethodSection from "@/components/MethodSection";
 import PatternAccordion from "@/components/PatternAccordion";
+import ComparisonTable from "@/components/ComparisonTable";
 import Guarantee from "@/components/Guarantee";
 import Footer from "@/components/Footer";
 
@@ -22,8 +23,14 @@ export default function Landing() {
   };
 
   const handleBuy = (product: string) => {
-    console.log(`Buying ${product}`);
-    setLocation("/thank-you");
+    console.log(`Navigating to ${product}`);
+    if (product === "crash_course") {
+      setLocation("/free-download");
+    } else if (product === "quick_start") {
+      setLocation("/quick-start");
+    } else if (product === "complete_archive") {
+      setLocation("/complete-archive");
+    }
   };
 
   return (
@@ -97,6 +104,7 @@ export default function Landing() {
       
       <HowItWorks />
       <MethodSection />
+      <ComparisonTable />
       <PatternAccordion />
       <Guarantee />
       <Footer />

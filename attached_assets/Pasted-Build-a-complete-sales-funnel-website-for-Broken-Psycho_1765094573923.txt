@@ -1,0 +1,524 @@
+Build a complete sales funnel website for Broken Psychology Lab - The Archivist Method™.
+
+=== BRAND IDENTITY ===
+
+Company: Broken Psychology Lab
+Method: The Archivist Method™
+Tagline: "Pattern Archaeology, Not Therapy"
+
+COLORS:
+- Primary Teal: #00FFC8
+- Primary Pink: #FF0094
+- Dark Background: #1a1a1a
+- Light Background: #FAFAFA
+- Text Dark: #1a1a1a
+- Text Light: #FFFFFF
+
+FONTS:
+- Headers: 'Helvetica Neue', Helvetica, Arial, sans-serif
+- Body: Georgia, 'Palatino Linotype', serif
+
+AESTHETIC:
+- Dark mode with neon teal/pink accents
+- Cyberpunk meets clinical psychology
+- Clean, modern, ADHD-friendly (clear hierarchy, no clutter)
+
+=== FILE STRUCTURE ===
+
+/public/
+  /images/
+    - archivist-logo.png (circular Archivist head icon)
+    - archivist-full-logo.png (icon + text logo)
+    - hero-background.jpg (optional - teal/pink gradient)
+  
+  /downloads/
+    /free/
+      - 7-day-crash-course.pdf
+    
+    /paid-47/
+      - quick-start-system.pdf
+      - bonus-daily-tracker.pdf
+      - bonus-weekly-review.pdf
+      - bonus-emergency-cards.pdf
+    
+    /paid-197/
+      - complete-archive.pdf
+  
+  /videos/
+    - pattern-interruption-orientation.mp4 (25-minute video for $47 buyers)
+
+/pages/
+  - index.html (homepage)
+  - free-download.html (7-Day Crash Course landing page)
+  - quick-start.html ($47 product page)
+  - complete-archive.html ($197 product page)
+  - members-47.html (members area for $47 purchases)
+  - members-197.html (members area for $197 purchases)
+  - thank-you.html (post-purchase confirmation)
+
+=== HOMEPAGE (index.html) ===
+
+HERO SECTION:
+- Dark background (#1a1a1a)
+- Archivist logo (large, centered or left-aligned)
+- H1: "THE ARCHIVIST METHOD™" (teal color, 48px)
+- H2: "Pattern Archaeology, Not Therapy" (pink color, 24px)
+- Paragraph: "Stop running the same destructive patterns. Therapy processes what happened. The Archivist Method™ interrupts what it made you do."
+- CTA Button: "Start Free 7-Day Crash Course" (teal background #00FFC8, black text, links to /free-download.html)
+
+HOW IT WORKS SECTION:
+- H2: "You Keep Running the Same Patterns"
+- Bullets:
+  • You disappear when relationships get close
+  • You apologize for existing
+  • You test if people really love you
+  • You're attracted to people who hurt you
+  • You can't accept compliments
+  • You stay in toxic situations
+  • You sabotage right before success
+
+- H2: "The Archivist Method™ Interrupts Them"
+- 4 Steps (displayed as cards):
+  1. IDENTIFY - Which pattern is running your life
+  2. EXCAVATE - Find where it was installed (Original Room)
+  3. CIRCUIT BREAK - Interrupt it before it executes
+  4. REWRITE - Execute new behavior instead
+
+3-TIER PRODUCT SECTION:
+Display as 3 cards side-by-side (responsive: stack on mobile)
+
+CARD 1 - 7-DAY CRASH COURSE:
+- Badge: "FREE" (teal background)
+- Title: "7-Day Crash Course"
+- Subtitle: "Can't commit to 90 days? Start here."
+- Features:
+  ✓ Identify your pattern in 24 hours
+  ✓ Learn the body signature
+  ✓ First interrupt attempt by Day 5
+  ✓ 30 pages, ADHD-optimized
+- Price: FREE
+- Button: "Get Free Crash Course" (teal, links to /free-download.html)
+
+CARD 2 - QUICK-START SYSTEM:
+- Badge: "MOST POPULAR" (pink background)
+- Title: "Quick-Start System"
+- Subtitle: "Fix ONE pattern in 90 days"
+- Features:
+  ✓ Complete 90-Day Protocol (75 pages)
+  ✓ 25-Minute Video Training
+  ✓ Circuit Break Library
+  ✓ Crisis Protocols
+  ✓ 3 Printable Bonus Templates
+- Price: $47
+- Strikethrough: Was $197
+- Button: "Get Quick-Start System" (pink background, links to /quick-start.html)
+
+CARD 3 - COMPLETE ARCHIVE:
+- Badge: "LIFETIME MASTERY"
+- Title: "Complete Archive"
+- Subtitle: "Master all patterns. Every context. Forever."
+- Features:
+  ✓ 685 pages comprehensive manual
+  ✓ All 23 sections
+  ✓ Trauma, Addiction, Relationships
+  ✓ Parenting, Career, Sexuality
+  ✓ 15 Case Studies + Visual Maps
+- Price: $197
+- Button: "Get Complete Archive" (gradient teal→pink, links to /complete-archive.html)
+
+WHAT MAKES THIS DIFFERENT SECTION:
+- H2: "Pattern Archaeology, Not Therapy"
+- Table comparing Therapy vs The Archivist Method™:
+
+| THERAPY | THE ARCHIVIST METHOD™ |
+|---------|----------------------|
+| Processes trauma | Interrupts patterns trauma created |
+| Takes years | 7-90 days to see results |
+| Talk about childhood | Find Original Room, then interrupt |
+| Insight-focused | Behavior-focused |
+| $200/session ongoing | $47-$197 one-time |
+
+FOOTER:
+- "THE ARCHIVIST METHOD™ | BROKEN PSYCHOLOGY LAB"
+- "Pattern Archaeology, Not Therapy"
+- Copyright © 2024 Broken Psychology Lab. All rights reserved.
+- Links: Privacy Policy | Terms of Service | Contact
+
+=== FREE DOWNLOAD PAGE (free-download.html) ===
+
+HEADER:
+- H1: "Get The 7-Day Crash Course FREE"
+- Subhead: "One week. One pattern. See if this works for you."
+
+WHAT YOU GET:
+- ✓ 30-page guide (ADHD-optimized)
+- ✓ Day-by-day protocol
+- ✓ Pattern assessment quiz
+- ✓ First interrupt attempt by Day 5
+- ✓ Decide if you want to continue
+
+EMAIL CAPTURE FORM:
+- Name field
+- Email field
+- Button: "Send Me The Free Course" (teal background)
+
+ACTION:
+- On submit: Send download link to email
+- OR: Immediate download link appears: <a href="/public/downloads/free/7-day-crash-course.pdf" download>Download Your Free 7-Day Crash Course</a>
+- Redirect to /thank-you.html with message: "Check your email for the download link!"
+
+UPSELL (below form):
+- "Want the full 90-day system? Get Quick-Start for $47 →"
+
+=== $47 PRODUCT PAGE (quick-start.html) ===
+
+HEADER:
+- H1: "The Archivist Method™ Quick-Start System"
+- Subhead: "Fix ONE pattern in 90 days"
+
+WHAT'S INCLUDED:
+Display as checklist with icons:
+✅ Quick-Start System PDF (75 pages)
+  - Complete 90-Day Protocol
+  - Pattern Assessment Quiz
+  - Circuit Break Library
+  - Original Room Excavation Guide
+  - Crisis Protocols
+  - Relationship Scripts
+
+✅ 25-Minute Video Training
+  - Pattern Interruption Orientation
+  - Watch FIRST, then work through guide
+
+✅ 3 Printable Bonus Templates
+  - Daily Tracker
+  - Weekly Review
+  - Emergency Protocol Cards
+
+PRICING:
+- Big number: $47
+- Small strikethrough: Was $197
+- "One-time payment. Lifetime access."
+
+STRIPE BUY BUTTON:
+<stripe-buy-button
+  buy-button-id="buy_btn_XXXXX"
+  publishable-key="pk_live_XXXXX">
+</stripe-buy-button>
+
+(You'll add actual Stripe button code after connecting Stripe account)
+
+On successful purchase: Redirect to /members-47.html
+
+TESTIMONIALS (if you have any):
+- Add 2-3 testimonials here
+
+GUARANTEE:
+- "30-Day Money-Back Guarantee. If this doesn't interrupt your pattern, full refund."
+
+=== $197 PRODUCT PAGE (complete-archive.html) ===
+
+HEADER:
+- H1: "The Archivist Method™ Complete Archive"
+- Subhead: "Master all patterns. Every context. Forever."
+
+WHAT'S INCLUDED:
+✅ Complete 685-Page Manual
+  - All 7 Core Patterns (Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage)
+  
+✅ All 23 Sections:
+  - The 90-Day Protocol
+  - Severe Trauma & Addiction
+  - Relationships & Repair Scripts
+  - Parenting & Generational Patterns
+  - Career & Money Patterns
+  - Neurodivergent Adaptations (ADHD, Autism, OCD)
+  - Sexuality & Intimacy
+  - Faith & Spiritual Integration
+  - Long-Term Maintenance
+  
+✅ 15 Real Case Studies
+✅ Visual Pattern Maps
+✅ Complete Glossary
+✅ Lifetime Updates
+
+PRICING:
+- $197
+- "One-time payment. Lifetime access. All future updates included."
+
+STRIPE BUY BUTTON (similar to $47 page)
+
+On successful purchase: Redirect to /members-197.html
+
+=== MEMBERS AREA - $47 (members-47.html) ===
+
+HEADER:
+- H1: "Welcome to The Archivist Method™"
+- Subhead: "You now have lifetime access to:"
+
+SECTION 1 - VIDEO (most prominent):
+- H2: "🎥 WATCH THIS FIRST"
+- Embedded video player:
+<video width="100%" controls>
+  <source src="/public/videos/pattern-interruption-orientation.mp4" type="video/mp4">
+  Your browser does not support video.
+</video>
+- Text below: "Watch this 25-minute orientation, then download your guides below."
+
+SECTION 2 - MAIN GUIDE:
+- H2: "📚 Your Main Guide"
+- <a href="/public/downloads/paid-47/quick-start-system.pdf" download class="download-btn">Download Quick-Start System PDF</a>
+
+SECTION 3 - BONUS TEMPLATES:
+- H2: "📝 Bonus Templates (Printable)"
+- <a href="/public/downloads/paid-47/bonus-daily-tracker.pdf" download>Download Daily Tracker</a>
+- <a href="/public/downloads/paid-47/bonus-weekly-review.pdf" download>Download Weekly Review</a>
+- <a href="/public/downloads/paid-47/bonus-emergency-cards.pdf" download>Download Emergency Protocol Cards</a>
+
+UPSELL TO $197:
+- Box with pink border:
+  "Want the Complete Archive? (All 23 sections, 685 pages)"
+  "Upgrade for only $150 more (normally $197)" 
+  Button: "Upgrade Now" → links to special upgrade Stripe link
+
+SUPPORT:
+- "Questions? Email: support@brokenpsychologylab.com"
+
+=== MEMBERS AREA - $197 (members-197.html) ===
+
+HEADER:
+- H1: "Welcome to The Complete Archive"
+- Subhead: "You have lifetime access to the full Archivist Method™"
+
+MAIN DOWNLOAD:
+- H2: "📚 Your Complete Archive"
+- <a href="/public/downloads/paid-197/complete-archive.pdf" download class="download-btn">Download Complete Archive (685 pages)</a>
+- "This includes everything: all 23 sections, all patterns, all contexts, lifetime reference."
+
+BONUS ACCESS (give them $47 stuff too):
+- H2: "🎥 Bonus: Quick-Start Video Training"
+- Embedded video (same as $47 members)
+
+- H2: "📝 Bonus: Printable Templates"
+- Links to all 3 bonus PDFs
+
+=== THANK YOU PAGE (thank-you.html) ===
+
+After email signup OR purchase:
+- H1: "Thank You!"
+- For free download: "Check your email for your free 7-Day Crash Course download link."
+- For $47 purchase: "Check your email for access to your members area."
+- For $197 purchase: "Check your email for access to the Complete Archive."
+
+Next step CTA:
+- "While you're here, join our email list for pattern interruption tips" (if not already captured)
+
+=== STYLING (styles.css) ===
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, 'Palatino Linotype', serif;
+  background: #1a1a1a;
+  color: #FFFFFF;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 48px;
+  color: #00FFC8;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+h2 {
+  font-size: 36px;
+  color: #FF0094;
+  margin: 40px 0 20px 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 200, 0.1), rgba(255, 0, 148, 0.1));
+}
+
+.btn-primary {
+  background: #00FFC8;
+  color: #1a1a1a;
+  padding: 18px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  background: #00FFD4;
+}
+
+.btn-secondary {
+  background: #FF0094;
+  color: #FFFFFF;
+}
+
+.btn-secondary:hover {
+  background: #FF1AA8;
+}
+
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #2a2a2a;
+  border: 2px solid #3a3a3a;
+  border-radius: 12px;
+  padding: 40px;
+  transition: border-color 0.3s;
+}
+
+.card:hover {
+  border-color: #00FFC8;
+}
+
+.card.featured {
+  border-color: #FF0094;
+  position: relative;
+}
+
+.badge {
+  background: #00FFC8;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.badge.popular {
+  background: #FF0094;
+  color: #FFFFFF;
+}
+
+.price {
+  font-size: 48px;
+  color: #00FFC8;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.features {
+  list-style: none;
+  margin: 30px 0;
+}
+
+.features li {
+  padding: 12px 0;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.features li:before {
+  content: "✓ ";
+  color: #00FFC8;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #00FFC8, #FF0094);
+  color: #FFFFFF;
+  padding: 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 20px 0;
+}
+
+.download-btn:hover {
+  transform: scale(1.05);
+}
+
+video {
+  border-radius: 12px;
+  margin: 30px 0;
+  box-shadow: 0 10px 40px rgba(0, 255, 200, 0.3);
+}
+
+footer {
+  text-align: center;
+  padding: 60px 20px;
+  background: #0a0a0a;
+  color: #999;
+  margin-top: 100px;
+}
+
+=== STRIPE INTEGRATION ===
+
+After you connect Stripe account:
+1. Create 2 products in Stripe:
+   - Quick-Start System: $47
+   - Complete Archive: $197
+
+2. Generate "Buy Button" code for each
+
+3. Replace placeholder <stripe-buy-button> code with actual Stripe code
+
+4. Set success_url to redirect to appropriate members page:
+   - $47 → /members-47.html
+   - $197 → /members-197.html
+
+=== NAVIGATION (all pages) ===
+
+Header nav bar (sticky top):
+- Logo (left) - links to /
+- Links (right):
+  • Home
+  • Free 7-Day Course
+  • Quick-Start ($47)
+  • Complete Archive ($197)
+
+=== MOBILE RESPONSIVE ===
+
+All pages must be mobile-responsive:
+- Product cards stack vertically on mobile
+- Font sizes scale down appropriately
+- Buttons remain full-width and easy to tap
+- Video player responsive
+
+=== FINAL CHECKLIST ===
+
+✅ All 6 PDFs uploaded to correct folders
+✅ Video uploaded to /public/videos/
+✅ Stripe buttons on product pages
+✅ Download links functional on members pages
+✅ Email capture working on free-download page
+✅ All navigation links working
+✅ Mobile responsive
+✅ Teal/pink branding throughout
+✅ Dark mode aesthetic
+
+Build this as a clean, modern, ADHD-friendly sales funnel. Keep it simple, clear, and focused on conversions.
