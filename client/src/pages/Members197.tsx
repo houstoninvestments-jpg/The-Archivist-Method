@@ -44,7 +44,7 @@ export default function Members197() {
                 This includes everything: all 23 sections, all patterns, all contexts, lifetime reference.
               </p>
               <a
-                href="/attached_assets/THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE_1765084919733.pdf"
+                href="/attached_assets/THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE_1765097351318.pdf"
                 download
               >
                 <Button className="w-full btn-gradient-teal-pink font-semibold text-lg py-6" data-testid="button-download-archive">
@@ -69,14 +69,15 @@ export default function Members197() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="aspect-video bg-archivist-dark rounded-lg flex items-center justify-center border border-muted">
-                <div className="text-center">
-                  <Video className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">25-Minute Video Training</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Video player will be added here
-                  </p>
-                </div>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/vQRSALJ5hgc"
+                  title="Pattern Interruption Orientation"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  data-testid="video-orientation"
+                />
               </div>
               <p className="text-muted-foreground mt-4">
                 Pattern Interruption Orientation - watch this to get started quickly.
@@ -99,7 +100,7 @@ export default function Members197() {
             </CardHeader>
             <CardContent>
               <a
-                href="/attached_assets/THE-ARCHIVIST-METHOD-QUICK-START_1765084919733.pdf"
+                href="/attached_assets/THE-ARCHIVIST-METHOD-QUICK-START_1765097351318.pdf"
                 download
               >
                 <Button variant="outline" className="w-full border-archivist-teal text-archivist-teal" data-testid="button-download-quickstart">
@@ -125,7 +126,7 @@ export default function Members197() {
             </CardHeader>
             <CardContent className="space-y-3">
               <a
-                href="/attached_assets/BONUS-1-Daily-Tracker-Archivist-Method_1765084919726.pdf"
+                href="/attached_assets/BONUS-1-Daily-Tracker-Archivist-Method_1765097351316.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-daily">
@@ -134,7 +135,7 @@ export default function Members197() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-2-Weekly-Review-Archivist-Method_1765084919728.pdf"
+                href="/attached_assets/BONUS-2-Weekly-Review-Archivist-Method_1765097351316.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-weekly">
@@ -143,7 +144,7 @@ export default function Members197() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-3-Emergency-Cards-Archivist-Method_1765084919729.pdf"
+                href="/attached_assets/BONUS-3-Emergency-Cards-Archivist-Method_1765097351317.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-emergency">
