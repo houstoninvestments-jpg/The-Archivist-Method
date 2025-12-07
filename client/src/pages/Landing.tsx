@@ -22,7 +22,6 @@ export default function Landing() {
   };
 
   const handleBuy = (product: string) => {
-    // todo: remove mock functionality - redirect to Stripe checkout
     console.log(`Buying ${product}`);
     setLocation("/thank-you");
   };
@@ -34,44 +33,67 @@ export default function Landing() {
       <Hero onCTAClick={scrollToProducts} />
       
       <section ref={productsRef} className="py-20 px-4" id="products">
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-products-title">
             Choose Your Path
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             Start your pattern excavation journey today
           </p>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-3">
             <ProductCard
-              title="Pattern Recognition Session"
-              price={47}
+              title="7-Day Crash Course"
+              subtitle="Can't commit to 90 days? Start here."
+              price="FREE"
+              tier="free"
+              badge="FREE"
+              ctaText="Start Free"
               features={[
-                "90-minute Pattern Recognition video",
-                "Pattern Recognition Workbook (PDF)",
-                "30 days AI chatbot access",
-                "Identify 2-3 dominant patterns",
-                "Learn 4-step excavation method",
+                "Pattern identification basics",
+                "Body signature recognition",
+                "First interrupt attempt",
+                "Core concepts introduction",
               ]}
-              onBuyClick={() => handleBuy("pattern_session")}
+              onBuyClick={() => handleBuy("crash_course")}
             />
             <ProductCard
-              title="The Complete Pattern Archive"
-              price={97}
+              title="Quick-Start System"
+              subtitle="Fix ONE pattern in 90 days"
+              price={47}
+              tier="popular"
+              badge="MOST POPULAR"
+              ctaText="Get Quick-Start - $47"
               features={[
-                "Everything from $47 product",
-                "250+ page pattern manual",
-                "All 7 core patterns deep dive",
-                "90-day week-by-week protocol",
-                "Pattern combination strategies",
-                "Lifetime AI chatbot access",
+                "Complete 90-day protocol",
+                "Crisis protocols",
+                "Tracking templates",
+                "Relationship scripts",
+                "Pattern interrupt techniques",
               ]}
-              isPremium
-              badge="COMPLETE SYSTEM"
+              onBuyClick={() => handleBuy("quick_start")}
+            />
+            <ProductCard
+              title="Complete Archive"
+              subtitle="Master all patterns. Every context. Forever."
+              price={197}
+              tier="premium"
+              badge="LIFETIME ACCESS"
+              ctaText="Get Full Archive - $197"
+              features={[
+                "685 pages of content",
+                "All 23 sections covered",
+                "Advanced applications",
+                "Lifetime reference",
+                "All bonuses included",
+                "Daily tracker templates",
+              ]}
               onBuyClick={() => handleBuy("complete_archive")}
             />
           </div>
         </div>
       </section>
+
+      <div className="gradient-divider max-w-4xl mx-auto" />
       
       <HowItWorks />
       <MethodSection />

@@ -2,33 +2,54 @@ import ProductCard from '../ProductCard';
 
 export default function ProductCardExample() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+    <div className="grid gap-6 md:grid-cols-3 max-w-6xl mx-auto">
       <ProductCard
-        title="Pattern Recognition Session"
-        price={47}
+        title="7-Day Crash Course"
+        subtitle="Can't commit to 90 days? Start here."
+        price="FREE"
+        tier="free"
+        badge="FREE"
+        ctaText="Start Free"
         features={[
-          "90-minute Pattern Recognition video",
-          "Pattern Recognition Workbook (PDF)",
-          "30 days AI chatbot access",
-          "Identify 2-3 dominant patterns",
-          "Learn 4-step excavation method",
+          "Pattern identification basics",
+          "Body signature recognition",
+          "First interrupt attempt",
+          "Core concepts introduction",
         ]}
-        onBuyClick={() => console.log('Buy $47 clicked')}
+        onBuyClick={() => console.log('Free tier clicked')}
       />
       <ProductCard
-        title="The Complete Pattern Archive"
-        price={97}
+        title="Quick-Start System"
+        subtitle="Fix ONE pattern in 90 days"
+        price={47}
+        tier="popular"
+        badge="MOST POPULAR"
+        ctaText="Get Quick-Start - $47"
         features={[
-          "Everything from $47 product",
-          "250+ page pattern manual",
-          "All 7 core patterns deep dive",
-          "90-day week-by-week protocol",
-          "Pattern combination strategies",
-          "Lifetime AI chatbot access",
+          "Complete 90-day protocol",
+          "Crisis protocols",
+          "Tracking templates",
+          "Relationship scripts",
+          "Pattern interrupt techniques",
         ]}
-        isPremium
-        badge="COMPLETE SYSTEM"
-        onBuyClick={() => console.log('Buy $97 clicked')}
+        onBuyClick={() => console.log('$47 tier clicked')}
+      />
+      <ProductCard
+        title="Complete Archive"
+        subtitle="Master all patterns. Every context. Forever."
+        price={197}
+        tier="premium"
+        badge="LIFETIME ACCESS"
+        ctaText="Get Full Archive - $197"
+        features={[
+          "685 pages of content",
+          "All 23 sections covered",
+          "Advanced applications",
+          "Lifetime reference",
+          "All bonuses included",
+          "Daily tracker templates",
+        ]}
+        onBuyClick={() => console.log('$197 tier clicked')}
       />
     </div>
   );

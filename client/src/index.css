@@ -285,4 +285,99 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* Archivist Method Branding - Teal/Pink Theme */
+  .bg-archivist-dark {
+    background-color: #1a1a1a;
+  }
+
+  .text-archivist-teal {
+    color: #00FFC8;
+  }
+
+  .text-archivist-pink {
+    color: #FF0094;
+  }
+
+  .bg-archivist-teal {
+    background-color: #00FFC8;
+  }
+
+  .bg-archivist-pink {
+    background-color: #FF0094;
+  }
+
+  /* Gradient buttons */
+  .btn-gradient-teal-pink {
+    background: linear-gradient(135deg, #00FFC8 0%, #FF0094 100%);
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  /* Fog overlay effect for hero */
+  .fog-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fog-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(0, 255, 200, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255, 0, 148, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0, 255, 200, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .fog-overlay > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Card glow effect on hover */
+  .glow-card {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .glow-card:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.3), 0 0 40px rgba(255, 0, 148, 0.2);
+  }
+
+  .glow-card-teal:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.4);
+  }
+
+  .glow-card-pink:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 148, 0.4);
+  }
+
+  .glow-card-gradient:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 200, 0.3), 0 0 50px rgba(255, 0, 148, 0.3);
+  }
+
+  /* Gradient divider */
+  .gradient-divider {
+    height: 2px;
+    background: linear-gradient(90deg, #00FFC8 0%, #FF0094 50%, #00FFC8 100%);
+  }
+
+  /* Border glow effects */
+  .border-glow-teal {
+    border: 1px solid rgba(0, 255, 200, 0.5);
+  }
+
+  .border-glow-pink {
+    border: 1px solid rgba(255, 0, 148, 0.5);
+  }
+
+  /* Typography for headers */
+  .font-archivist {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
 }
