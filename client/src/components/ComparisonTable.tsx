@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function ComparisonTable() {
@@ -47,22 +48,20 @@ export default function ComparisonTable() {
 
               {/* Rows */}
               {comparisons.map((row, index) => (
-                <>
+                <Fragment key={index}>
                   <div
-                    key={`therapy-${index}`}
                     className="p-4 border-r border-muted text-muted-foreground text-center"
                     style={{ borderBottom: index < comparisons.length - 1 ? '1px solid hsl(var(--muted))' : 'none' }}
                   >
                     {row.therapy}
                   </div>
                   <div
-                    key={`archivist-${index}`}
                     className="p-4 text-center"
                     style={{ borderBottom: index < comparisons.length - 1 ? '1px solid hsl(var(--muted))' : 'none' }}
                   >
                     <span className="text-archivist-pink font-medium">{row.archivist}</span>
                   </div>
-                </>
+                </Fragment>
               ))}
             </div>
           </CardContent>
