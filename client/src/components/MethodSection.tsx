@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, Shovel, Zap, FileEdit } from "lucide-react";
-import brainCircuit from "@assets/generated_images/brain_circuit_pattern_imagery.png";
-import patternTexture from "@assets/generated_images/pattern_texture_background.png";
 
 const methods = [
   {
@@ -28,20 +26,8 @@ const methods = [
 
 export default function MethodSection() {
   return (
-    <section className="relative py-20 px-4 overflow-hidden">
-      <div 
-        className="absolute inset-0 opacity-5"
-        style={{ backgroundImage: `url(${patternTexture})`, backgroundSize: '400px' }}
-      />
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <div className="flex justify-center mb-8">
-          <img 
-            src={brainCircuit} 
-            alt="Pattern Recognition" 
-            className="h-32 w-32 sm:h-40 sm:w-40 object-contain opacity-80"
-            data-testid="img-brain-circuit"
-          />
-        </div>
+    <section className="py-20 px-4 bg-card/50">
+      <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-method-title">
           The Method
         </h2>
