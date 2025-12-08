@@ -64,6 +64,7 @@ app.use((req, res, next) => {
     console.log("Starting server initialization...");
     console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`PORT: ${process.env.PORT || "5000 (default)"}`);
+    console.log(`DATABASE_URL: ${process.env.DATABASE_URL ? "configured" : "NOT SET"}`);
     
     await registerRoutes(httpServer, app);
     console.log("Routes registered successfully");
