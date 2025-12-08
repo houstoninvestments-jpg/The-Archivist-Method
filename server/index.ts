@@ -61,7 +61,12 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
+    console.log("Starting server initialization...");
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+    console.log(`PORT: ${process.env.PORT || "5000 (default)"}`);
+    
     await registerRoutes(httpServer, app);
+    console.log("Routes registered successfully");
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
@@ -75,10 +80,14 @@ app.use((req, res, next) => {
     // setting up all the other routes so the catch-all route
     // doesn't interfere with the other routes
     if (process.env.NODE_ENV === "production") {
+      console.log("Setting up static file serving for production...");
       serveStatic(app);
+      console.log("Static file serving configured");
     } else {
+      console.log("Setting up Vite for development...");
       const { setupVite } = await import("./vite");
       await setupVite(httpServer, app);
+      console.log("Vite development server configured");
     }
 
     // ALWAYS serve the app on the port specified in the environment variable PORT
