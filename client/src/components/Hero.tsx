@@ -45,38 +45,6 @@ export default function Hero({ onCTAClick }: HeroProps) {
 
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-16">
-          {/* THE ARCHIVIST - Large, prominent, with cosmic glow */}
-          <div className="relative inline-block">
-            {/* Multi-layer glow effect */}
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-archivist-teal/30 via-archivist-pink/20 to-archivist-teal/30 blur-[100px] animate-pulse"
-              style={{ animationDuration: "4s" }}
-            />
-            <div className="absolute inset-0 bg-archivist-teal/10 blur-3xl" />
-
-            {/* The Archivist avatar */}
-            <div className="relative">
-              <img
-                src={logoImage}
-                alt="The Archivist"
-                className="relative w-72 h-72 md:w-96 md:h-96 mx-auto object-contain
-                           drop-shadow-[0_0_60px_rgba(0,217,192,0.4)]
-                           hover:scale-105 transition-all duration-700"
-              />
-
-              {/* Gradient ring - teal to pink */}
-              <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(0,217,192,0.3) 0%, rgba(255,0,128,0.3) 100%)",
-                  filter: "blur(2px)",
-                  animation: "pulse 3s ease-in-out infinite",
-                }}
-              />
-            </div>
-          </div>
-
           {/* Content stack */}
           <div className="space-y-6">
             {/* Main headline */}
