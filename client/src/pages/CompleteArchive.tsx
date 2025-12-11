@@ -10,9 +10,8 @@ export default function CompleteArchive() {
   const [, setLocation] = useLocation();
 
   const handleBuy = () => {
-    // TODO: Integrate with Stripe checkout
-    console.log("Buying Complete Archive");
-    setLocation("/members-197");
+    window.location.href =
+      "https://buy.stripe.com/test_8x214f7hQdwv2augKm6c002";
   };
 
   const sections = [
@@ -24,7 +23,7 @@ export default function CompleteArchive() {
     "Neurodivergent Adaptations (ADHD, Autism, OCD)",
     "Sexuality & Intimacy",
     "Faith & Spiritual Integration",
-    "Long-Term Maintenance"
+    "Long-Term Maintenance",
   ];
 
   const patterns = [
@@ -34,22 +33,30 @@ export default function CompleteArchive() {
     "Attraction to Harm",
     "Compliment Deflection",
     "Draining Bond",
-    "Success Sabotage"
+    "Success Sabotage",
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar onLoginClick={() => setLocation("/portal")} />
-      
+
       <section className="fog-overlay bg-archivist-dark py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <Badge className="btn-gradient-teal-pink mb-4">LIFETIME MASTERY</Badge>
-            <h1 className="font-archivist text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4" data-testid="text-archive-headline">
+            <Badge className="btn-gradient-teal-pink mb-4">
+              LIFETIME MASTERY
+            </Badge>
+            <h1
+              className="font-archivist text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4"
+              data-testid="text-archive-headline"
+            >
               The Archivist Method™ Complete Archive
             </h1>
-            <p className="text-xl text-archivist-teal" data-testid="text-archive-subheadline">
+            <p
+              className="text-xl text-archivist-teal"
+              data-testid="text-archive-subheadline"
+            >
               Master all patterns. Every context. Forever.
             </p>
           </div>
@@ -62,13 +69,21 @@ export default function CompleteArchive() {
                 <div className="p-3 rounded-full bg-archivist-teal/20">
                   <BookOpen className="h-6 w-6 text-archivist-teal" />
                 </div>
-                <h3 className="text-xl font-semibold">Complete 685-Page Manual</h3>
+                <h3 className="text-xl font-semibold">
+                  Complete 685-Page Manual
+                </h3>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">All 7 Core Patterns:</p>
+                <p className="text-muted-foreground mb-4">
+                  All 7 Core Patterns:
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {patterns.map((pattern, i) => (
-                    <Badge key={i} variant="outline" className="border-archivist-pink text-archivist-pink">
+                    <Badge
+                      key={i}
+                      variant="outline"
+                      className="border-archivist-pink text-archivist-pink"
+                    >
                       {pattern}
                     </Badge>
                   ))}
@@ -89,7 +104,9 @@ export default function CompleteArchive() {
                   {sections.map((section, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-archivist-teal shrink-0" />
-                      <span className="text-sm text-muted-foreground">{section}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {section}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -106,7 +123,8 @@ export default function CompleteArchive() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  See exactly how others interrupted their patterns with detailed walkthroughs.
+                  See exactly how others interrupted their patterns with
+                  detailed walkthroughs.
                 </p>
               </CardContent>
             </Card>
@@ -137,12 +155,17 @@ export default function CompleteArchive() {
           {/* Pricing */}
           <Card className="glow-card glow-card-gradient text-center p-8">
             <div className="mb-6">
-              <p className="text-6xl font-bold bg-gradient-to-r from-archivist-teal to-archivist-pink bg-clip-text text-transparent" data-testid="text-price">
+              <p
+                className="text-6xl font-bold bg-gradient-to-r from-archivist-teal to-archivist-pink bg-clip-text text-transparent"
+                data-testid="text-price"
+              >
                 $197
               </p>
-              <p className="text-muted-foreground mt-2">One-time payment. Lifetime access. All future updates included.</p>
+              <p className="text-muted-foreground mt-2">
+                One-time payment. Lifetime access. All future updates included.
+              </p>
             </div>
-            
+
             <Button
               size="lg"
               className="w-full max-w-md btn-gradient-teal-pink font-semibold text-lg py-6"

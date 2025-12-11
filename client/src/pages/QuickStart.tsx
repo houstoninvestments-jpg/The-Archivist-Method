@@ -10,9 +10,8 @@ export default function QuickStart() {
   const [, setLocation] = useLocation();
 
   const handleBuy = () => {
-    // TODO: Integrate with Stripe checkout
-    console.log("Buying Quick-Start System");
-    setLocation("/members-47");
+    window.location.href =
+      "https://buy.stripe.com/test_cNidR1eKi8cb1i6qaLY6c01";
   };
 
   const mainFeatures = [
@@ -25,49 +24,55 @@ export default function QuickStart() {
         "Circuit Break Library",
         "Original Room Excavation Guide",
         "Crisis Protocols",
-        "Relationship Scripts"
-      ]
+        "Relationship Scripts",
+      ],
     },
     {
       icon: Video,
       title: "25-Minute Video Training",
       items: [
         "Pattern Interruption Orientation",
-        "Watch FIRST, then work through guide"
-      ]
+        "Watch FIRST, then work through guide",
+      ],
     },
     {
       icon: Download,
       title: "3 Printable Bonus Templates",
-      items: [
-        "Daily Tracker",
-        "Weekly Review",
-        "Emergency Protocol Cards"
-      ]
-    }
+      items: ["Daily Tracker", "Weekly Review", "Emergency Protocol Cards"],
+    },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar onLoginClick={() => setLocation("/portal")} />
-      
+
       <section className="fog-overlay bg-archivist-dark py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <Badge className="bg-archivist-pink text-white mb-4">MOST POPULAR</Badge>
-            <h1 className="font-archivist text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4" data-testid="text-quickstart-headline">
+            <Badge className="bg-archivist-pink text-white mb-4">
+              MOST POPULAR
+            </Badge>
+            <h1
+              className="font-archivist text-4xl font-bold tracking-tight text-white sm:text-5xl mb-4"
+              data-testid="text-quickstart-headline"
+            >
               The Archivist Method™ Quick-Start System
             </h1>
-            <p className="text-xl text-archivist-teal" data-testid="text-quickstart-subheadline">
+            <p
+              className="text-xl text-archivist-teal"
+              data-testid="text-quickstart-subheadline"
+            >
               Fix ONE pattern in 90 days
             </p>
           </div>
 
           {/* What's Included */}
           <div className="space-y-6 mb-12">
-            <h2 className="text-2xl font-bold text-center mb-8">What's Included</h2>
-            
+            <h2 className="text-2xl font-bold text-center mb-8">
+              What's Included
+            </h2>
+
             {mainFeatures.map((feature, index) => (
               <Card key={index} className="glow-card glow-card-pink">
                 <CardHeader className="flex flex-row items-center gap-4">
@@ -93,11 +98,20 @@ export default function QuickStart() {
           {/* Pricing */}
           <Card className="glow-card glow-card-gradient text-center p-8">
             <div className="mb-6">
-              <p className="text-muted-foreground line-through text-xl">Was $197</p>
-              <p className="text-6xl font-bold text-archivist-pink" data-testid="text-price">$47</p>
-              <p className="text-muted-foreground mt-2">One-time payment. Lifetime access.</p>
+              <p className="text-muted-foreground line-through text-xl">
+                Was $197
+              </p>
+              <p
+                className="text-6xl font-bold text-archivist-pink"
+                data-testid="text-price"
+              >
+                $47
+              </p>
+              <p className="text-muted-foreground mt-2">
+                One-time payment. Lifetime access.
+              </p>
             </div>
-            
+
             <Button
               size="lg"
               className="w-full max-w-md bg-archivist-pink text-white font-semibold text-lg py-6"
