@@ -10,8 +10,7 @@ export default function CompleteArchive() {
   const [, setLocation] = useLocation();
 
   const handleBuy = () => {
-    window.location.href =
-      "https://buy.stripe.com/test_8x214f7hQdwv2augKm6c002";
+    window.location.href = "https://buy.stripe.com/8x214f7hQdwv2augKm6c002";
   };
 
   const sections = [

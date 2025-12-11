@@ -9,8 +9,7 @@ import Footer from "@/components/Footer";
 export default function QuickStart() {
   const [, setLocation] = useLocation();
 
-  window.location.href = "https://buy.stripe.com/test_cNidR1eKi8cb16qalY6c001";
-
+  window.location.href = "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001";
   const mainFeatures = [
     {
       icon: FileText,
