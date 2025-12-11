@@ -9,10 +9,7 @@ import Footer from "@/components/Footer";
 export default function QuickStart() {
   const [, setLocation] = useLocation();
 
-  const handleBuy = () => {
-    window.location.href =
-      "https://buy.stripe.com/test_cNidR1eKi8cb1i6qaLY6c01";
-  };
+  window.location.href = "https://buy.stripe.com/test_cNidR1eKi8cb16qalY6c001";
 
   const mainFeatures = [
     {
