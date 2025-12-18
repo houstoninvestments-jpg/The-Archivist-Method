@@ -64,6 +64,7 @@ export default function Landing() {
                 "Body signature recognition",
                 "First interrupt attempt",
                 "Core concepts introduction",
+                "Self-assessment tools",
               ]}
               onBuyClick={() => handleBuy("crash_course")}
             />
