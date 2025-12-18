@@ -68,7 +68,7 @@ export default function ProductCard({
       {/* Card with Gothic frame */}
       <div className={getCardClass()}>
         {/* Gothic decorative frame - INSIDE borders */}
-        <div className="absolute inset-4 border border-archivist-teal/40 rounded pointer-events-none"></div>
+        <div className="absolute inset-4 border border-archivist-teal rounded pointer-events-none"></div>
         <div className="absolute top-6 left-6 w-4 h-4 border-t-2 border-l-2 border-archivist-teal"></div>
         <div className="absolute top-6 right-6 w-4 h-4 border-t-2 border-r-2 border-archivist-teal"></div>
         <div className="absolute bottom-6 left-6 w-4 h-4 border-b-2 border-l-2 border-archivist-teal"></div>
