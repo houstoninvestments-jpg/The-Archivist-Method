@@ -1,53 +1,49 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
 interface ProductCardProps {
   title: string;
   subtitle: string;
-  price: number | "FREE";
-  features: string[];
+  price: number | string;
   tier: "free" | "popular" | "premium";
   badge?: string;
   ctaText: string;
-  onBuyClick?: () => void;
+  features: string[];
+  onBuyClick: () => void;
 }
 
 export default function ProductCard({
   title,
   subtitle,
   price,
-  features,
   tier,
   badge,
   ctaText,
+  features,
   onBuyClick,
 }: ProductCardProps) {
-  const getGlowClass = () => {
+  const getCardClass = () => {
+    const base = "relative rounded-lg p-8 h-full flex flex-col";
+    const border = "border-2";
+
     switch (tier) {
       case "free":
-        return "shadow-[0_0_20px_rgba(0,217,192,0.15)]";
+        return `${base} ${border} border-archivist-teal/30 bg-archivist-dark/50`;
       case "popular":
-        return "shadow-[0_0_25px_rgba(255,0,128,0.2)]"; // REDUCED from intense glow
+        return `${base} ${border} border-archivist-pink/50 bg-archivist-dark/50 shadow-[0_0_25px_rgba(255,0,128,0.2)]`;
       case "premium":
-        return "shadow-[0_0_20px_rgba(0,217,192,0.15)]";
+        return `${base} ${border} border-archivist-teal/30 bg-archivist-dark/50`;
       default:
-        return "";
+        return base;
     }
   };
 
   const getButtonClass = () => {
     switch (tier) {
       case "free":
-        return "w-full bg-archivist-teal text-archivist-dark font-semibold hover:bg-archivist-teal/90";
+        return "w-full bg-archivist-teal hover:bg-archivist-teal/90";
       case "popular":
-        return "w-full bg-archivist-pink text-white font-semibold hover:bg-archivist-pink/90";
+        return "w-full btn-gradient-pink";
       case "premium":
         return "w-full btn-gradient-teal-pink";
       default:
@@ -55,63 +51,61 @@ export default function ProductCard({
     }
   };
 
-  const getCheckColor = () => {
-    switch (tier) {
-      case "free":
-        return "text-archivist-teal";
-      case "popular":
-        return "text-archivist-pink";
-      case "premium":
-        return "text-archivist-teal";
-      default:
-        return "text-archivist-teal";
-    }
-  };
-
   return (
-    <Card
-      className={`relative bg-[#1a1d29] border border-gray-800 ${getGlowClass()} transition-all duration-300 hover:scale-105`}
-    >
+    <div className="relative h-full">
+      {/* Badge - Positioned OUTSIDE card */}
       {badge && (
-        <Badge
-          className={`absolute -top-3 left-1/2 transform -translate-x-1/2 ${
-            tier === "free"
-              ? "bg-archivist-teal text-archivist-dark"
-              : tier === "popular"
-                ? "bg-archivist-pink text-white"
-                : "bg-gradient-to-r from-archivist-teal to-archivist-pink text-white"
-          }`}
-        >
-          {badge}
-        </Badge>
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+          <span
+            className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+            ${tier === "popular" ? "bg-archivist-pink text-white" : "bg-archivist-teal text-archivist-dark"}`}
+          >
+            {badge}
+          </span>
+        </div>
       )}
 
-      <CardHeader className="text-center space-y-2">
-        <div className="text-5xl font-bold text-white">
-          {price === "FREE" ? "FREE" : `$${price}`}
-        </div>
-        <h3 className="text-2xl font-bold text-white">{title}</h3>
-        <p className="text-gray-400">{subtitle}</p>
-      </CardHeader>
+      {/* Card with Gothic frame */}
+      <div className={getCardClass()}>
+        {/* Gothic corner accents */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-archivist-teal/20"></div>
+        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-archivist-teal/20"></div>
+        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-archivist-teal/20"></div>
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-archivist-teal/20"></div>
 
-      <CardContent className="space-y-4">
-        {features.map((feature, index) => (
-          <div key={index} className="flex items-start gap-3">
-            <Check
-              className={`w-5 h-5 ${getCheckColor()} flex-shrink-0 mt-0.5`}
-            />
-            <span className="text-gray-300 text-sm leading-relaxed">
-              {feature}
-            </span>
+        {/* Content */}
+        <div className="space-y-6 flex-grow">
+          {/* Title */}
+          <div className="text-center pt-4">
+            <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
+            <p className="text-gray-400">{subtitle}</p>
           </div>
-        ))}
-      </CardContent>
 
-      <CardFooter>
-        <Button onClick={onBuyClick} className={getButtonClass()} size="lg">
-          {ctaText}
-        </Button>
-      </CardFooter>
-    </Card>
+          {/* Price */}
+          <div className="text-center py-4">
+            <div className="text-5xl font-bold text-archivist-teal">
+              {typeof price === "number" ? `$${price}` : price}
+            </div>
+          </div>
+
+          {/* Features */}
+          <ul className="space-y-3 flex-grow">
+            {features.map((feature, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-archivist-teal shrink-0 mt-0.5" />
+                <span className="text-gray-300">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Button - Always at bottom */}
+        <div className="mt-8">
+          <Button className={getButtonClass()} size="lg" onClick={onBuyClick}>
+            {ctaText}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
