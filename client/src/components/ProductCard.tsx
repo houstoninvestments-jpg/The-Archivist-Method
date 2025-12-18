@@ -43,7 +43,7 @@ export default function ProductCard({
   const getButtonClass = () => {
     switch (tier) {
       case "free":
-        return "w-full bg-archivist-teal hover:bg-archivist-teal/90 transition-all duration-300";
+        return "w-full bg-archivist-teal hover:bg-archivist-teal/90 hover:scale-105 transition-all duration-300";
       case "popular":
         return "w-full btn-gradient-pink hover:scale-105 transition-all duration-300";
       case "premium":
