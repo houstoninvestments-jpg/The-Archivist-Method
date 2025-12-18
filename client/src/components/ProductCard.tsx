@@ -68,11 +68,10 @@ export default function ProductCard({
       {/* Card with Gothic frame */}
       <div className={getCardClass()}>
         {/* Gothic corner accents */}
-        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-archivist-teal/20"></div>
-        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-archivist-teal/20"></div>
-        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-archivist-teal/20"></div>
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-archivist-teal/20"></div>
-
+        <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-archivist-teal/60"></div>
+        <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-archivist-teal/60"></div>
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-archivist-teal/60"></div>
+        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-archivist-teal/60"></div>
         {/* Content */}
         <div className="space-y-6 flex-grow">
           {/* Title */}
