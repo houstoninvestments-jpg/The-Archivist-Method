@@ -10,7 +10,7 @@ export default function Navbar() {
             <a className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 rounded-full overflow-hidden border border-archivist-teal/30">
                 <img
-                  src="/attached_assets/upscalemedia-transformed__2_.png"
+                  src="/archivist-icon.png"
                   alt="The Archivist Method"
                   className="w-full h-full object-cover"
                 />
