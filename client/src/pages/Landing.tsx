@@ -36,22 +36,18 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar onLoginClick={handleLogin} />
-
+      
       <Hero onCTAClick={scrollToProducts} />
-
+      
       <section ref={productsRef} className="py-20 px-4" id="products">
         <div className="container mx-auto max-w-6xl">
-          <h2
-            className="text-3xl font-bold text-center mb-4"
-            data-testid="text-products-title"
-          >
-            Choose Your Excavation Level{" "}
+          <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-products-title">
+            Choose Your Path
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             Start your pattern excavation journey today
           </p>
-          <div className="grid gap-6 md:grid-cols-3 items-start">
-            {" "}
+          <div className="grid gap-6 md:grid-cols-3">
             <ProductCard
               title="7-Day Crash Course"
               subtitle="Can't commit to 90 days? Start here."
@@ -64,7 +60,6 @@ export default function Landing() {
                 "Body signature recognition",
                 "First interrupt attempt",
                 "Core concepts introduction",
-                "Self-assessment tools",
               ]}
               onBuyClick={() => handleBuy("crash_course")}
             />
@@ -106,7 +101,7 @@ export default function Landing() {
       </section>
 
       <div className="gradient-divider max-w-4xl mx-auto" />
-
+      
       <HowItWorks />
       <MethodSection />
       <ComparisonTable />

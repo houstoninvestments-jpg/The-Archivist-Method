@@ -1,116 +1,131 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 
 interface ProductCardProps {
   title: string;
   subtitle: string;
-  price: number | string;
+  price: number | "FREE";
+  features: string[];
   tier: "free" | "popular" | "premium";
   badge?: string;
   ctaText: string;
-  features: string[];
-  onBuyClick: () => void;
+  onBuyClick?: () => void;
 }
 
 export default function ProductCard({
   title,
   subtitle,
   price,
+  features,
   tier,
   badge,
   ctaText,
-  features,
   onBuyClick,
 }: ProductCardProps) {
-  const getCardClass = () => {
-    const base =
-      "relative rounded-lg p-8 h-full flex flex-col transition-all duration-300";
-    const border = "border-2";
-    const hover = "hover:-translate-y-2";
-
+  const getGlowClass = () => {
     switch (tier) {
       case "free":
-        return `${base} ${border} ${hover} border-archivist-teal/30 bg-archivist-dark/50 hover:shadow-[0_0_40px_rgba(0,217,192,0.3)]`;
+        return "glow-card glow-card-teal";
       case "popular":
-        return `${base} ${border} ${hover} border-archivist-pink/50 bg-archivist-dark/50 shadow-[0_0_25px_rgba(255,0,128,0.2)] hover:shadow-[0_0_50px_rgba(255,0,128,0.4)]`;
+        return "glow-card glow-card-pink";
       case "premium":
-        return `${base} ${border} ${hover} border-archivist-teal/30 bg-archivist-dark/50 hover:shadow-[0_0_40px_rgba(0,217,192,0.3)]`;
+        return "glow-card glow-card-gradient";
       default:
-        return base;
+        return "glow-card";
     }
   };
 
   const getButtonClass = () => {
     switch (tier) {
       case "free":
-        return "w-full bg-archivist-teal hover:bg-archivist-teal/90 hover:scale-105 transition-all duration-300";
+        return "w-full bg-archivist-teal text-archivist-dark font-semibold";
       case "popular":
-        return "w-full btn-gradient-pink hover:scale-105 transition-all duration-300";
+        return "w-full bg-archivist-pink text-white font-semibold";
       case "premium":
-        return "w-full btn-gradient-teal-pink hover:scale-105 transition-all duration-300";
+        return "w-full btn-gradient-teal-pink";
       default:
         return "w-full";
     }
   };
 
+  const getCheckColor = () => {
+    switch (tier) {
+      case "free":
+        return "text-archivist-teal";
+      case "popular":
+        return "text-archivist-pink";
+      case "premium":
+        return "text-archivist-teal";
+      default:
+        return "text-primary";
+    }
+  };
+
+  const getBadgeClass = () => {
+    switch (tier) {
+      case "free":
+        return "bg-archivist-teal text-archivist-dark";
+      case "popular":
+        return "bg-archivist-pink text-white";
+      case "premium":
+        return "btn-gradient-teal-pink";
+      default:
+        return "";
+    }
+  };
+
   return (
-    <div className="relative h-full animate-fade-in">
-      {/* Badge - Positioned OUTSIDE card */}
-      {badge && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 animate-bounce-subtle">
-          <span
-            className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider
-            ${tier === "popular" ? "bg-archivist-pink text-white" : "bg-archivist-teal text-archivist-dark"}`}
+    <Card
+      className={`flex flex-col ${getGlowClass()}`}
+      data-testid={`card-product-${tier}`}
+    >
+      <CardHeader className="space-y-4">
+        {badge && (
+          <Badge
+            className={`w-fit ${getBadgeClass()}`}
+            data-testid="badge-product"
           >
             {badge}
-          </span>
+          </Badge>
+        )}
+        <div>
+          <p
+            className="text-4xl font-bold"
+            data-testid="text-price"
+          >
+            {typeof price === "number" ? `$${price}` : price}
+          </p>
         </div>
-      )}
-
-      {/* Card with Gothic frame */}
-      <div className={getCardClass()}>
-        {/* Gothic decorative frame */}
-        <div className="absolute inset-4 border border-archivist-teal rounded pointer-events-none"></div>
-        <div className="absolute top-6 left-6 w-4 h-4 border-t-2 border-l-2 border-archivist-teal"></div>
-        <div className="absolute top-6 right-6 w-4 h-4 border-t-2 border-r-2 border-archivist-teal"></div>
-        <div className="absolute bottom-6 left-6 w-4 h-4 border-b-2 border-l-2 border-archivist-teal"></div>
-        <div className="absolute bottom-6 right-6 w-4 h-4 border-b-2 border-r-2 border-archivist-teal"></div>
-
-        {/* Content */}
-        <div className="space-y-6 flex-grow">
-          {/* Title - BIGGER & BOLDER */}
-          <div className="text-center pt-4">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
-              {title}
-            </h3>
-            <p className="text-gray-400 text-base">{subtitle}</p>
-          </div>
-
-          {/* Price - MUCH BIGGER */}
-          <div className="text-center py-6">
-            <div className="text-6xl md:text-7xl font-bold text-archivist-teal">
-              {typeof price === "number" ? `$${price}` : price}
-            </div>
-          </div>
-
-          {/* Features */}
-          <ul className="space-y-3 flex-grow">
-            {features.map((feature, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <Check className="h-5 w-5 text-archivist-teal shrink-0 mt-0.5" />
-                <span className="text-gray-300 text-sm">{feature}</span>
-              </li>
-            ))}
-          </ul>
+        <div>
+          <h3 className="text-xl font-semibold" data-testid="text-product-title">
+            {title}
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1" data-testid="text-product-subtitle">
+            {subtitle}
+          </p>
         </div>
-
-        {/* Button - Always at bottom */}
-        <div className="mt-8">
-          <Button className={getButtonClass()} size="lg" onClick={onBuyClick}>
-            {ctaText}
-          </Button>
-        </div>
-      </div>
-    </div>
+      </CardHeader>
+      <CardContent className="flex-1">
+        <ul className="space-y-3">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-3">
+              <Check className={`mt-0.5 h-5 w-5 shrink-0 ${getCheckColor()}`} />
+              <span className="text-sm text-muted-foreground">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <Button
+          className={getButtonClass()}
+          onClick={onBuyClick}
+          data-testid={`button-buy-${tier}`}
+        >
+          {ctaText}
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
