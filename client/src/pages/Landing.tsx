@@ -83,7 +83,7 @@ export default function Landing() {
 
             <div className="grid gap-6 md:grid-cols-3 items-start">
               <ProductCard
-                title="7-Day Crash Course"
+                title="7-Day Crash"
                 subtitle="Can't commit to 90 days? Start here."
                 price="FREE"
                 tier="free"
