@@ -36,12 +36,15 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar onLoginClick={handleLogin} />
-      
+
       <Hero onCTAClick={scrollToProducts} />
-      
+
       <section ref={productsRef} className="py-20 px-4" id="products">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-products-title">
+          <h2
+            className="text-3xl font-bold text-center mb-4"
+            data-testid="text-products-title"
+          >
             Choose Your Excavation Level
           </h2>
           <p className="text-center text-muted-foreground mb-12">
@@ -82,7 +85,7 @@ export default function Landing() {
             />
             <ProductCard
               title="Complete Archive"
-              subtitle="Master all patterns. Every context. Forever."
+              subtitle="Master all patterns. Every context."
               price={197}
               tier="premium"
               badge="LIFETIME ACCESS"
@@ -102,7 +105,7 @@ export default function Landing() {
       </section>
 
       <div className="gradient-divider max-w-4xl mx-auto" />
-      
+
       <HowItWorks />
       <MethodSection />
       <ComparisonTable />
