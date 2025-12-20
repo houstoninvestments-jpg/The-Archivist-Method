@@ -5,6 +5,7 @@ import HowItWorks from "@/components/HowItWorks";
 import MethodSection from "@/components/MethodSection";
 import ComparisonTable from "@/components/ComparisonTable";
 import PatternAccordion from "@/components/PatternAccordion";
+import FAQ from "@/components/FAQ";
 import Guarantee from "@/components/Guarantee";
 import Footer from "@/components/Footer";
 
@@ -145,6 +146,9 @@ export default function Landing() {
 
         {/* Pattern Accordion */}
         <PatternAccordion />
+
+        {/* FAQ */}
+        <FAQ />
 
         {/* Guarantee */}
         <Guarantee />
