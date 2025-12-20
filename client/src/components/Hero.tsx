@@ -9,9 +9,9 @@ export default function Hero({ onCTAClick }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Gothic Library Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url(/archivist-hero-background.png)' }}
+        style={{ backgroundImage: "url(/archivist-hero-background.png)" }}
       />
 
       {/* Dark overlay for text readability */}
@@ -20,16 +20,6 @@ export default function Hero({ onCTAClick }: HeroProps) {
       {/* Content */}
       <div className="container mx-auto px-6 py-20 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
-
-          {/* Avatar Icon */}
-          <div className="flex justify-center mb-8">
-            <img 
-              src="/archivist-icon.png" 
-              alt="The Archivist" 
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full shadow-[0_0_40px_rgba(0,217,192,0.6)]"
-            />
-          </div>
-
           {/* Main Headline */}
           <h1 className="font-archivist text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]">
             THE ARCHIVIST
