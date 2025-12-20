@@ -46,9 +46,6 @@ export default function ProductCard({
 
   return (
     <div className="relative h-full">
-      {/* Badge */}
-      {/* Badge */}
-      {/* Badge */}
       {badge && (
         <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
           <span
@@ -59,11 +56,9 @@ export default function ProductCard({
         </div>
       )}
       
-      {/* Card */}
       <div
         className={`relative border-2 ${borderColor} ${shadowColor} rounded-lg p-8 bg-archivist-dark/50 h-full flex flex-col hover:-translate-y-2 transition-all duration-300`}
       >
-        {/* Title Section */}
         <div className="w-full mb-8">
           <h3 className="text-4xl font-bold text-white text-center mb-3">
             {title}
@@ -71,14 +66,12 @@ export default function ProductCard({
           <p className="text-gray-400 text-center">{subtitle}</p>
         </div>
 
-        {/* Price Section */}
         <div className="w-full mb-8">
           <div className="text-7xl font-bold text-archivist-teal text-center">
             {typeof price === "number" ? `$${price}` : price}
           </div>
         </div>
 
-        {/* Features */}
         <ul className="space-y-3 mb-8 flex-grow w-full">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
@@ -88,9 +81,8 @@ export default function ProductCard({
           ))}
         </ul>
 
-        {/* Button */}
         <div className="w-full">
-          <Button className={buttonClass} size="lg" onClick={onBuyClick}>
+          <Button className={buttonClass} size="lg" onClick={onBuyClick} data-testid={`button-buy-${tier}`}>
             {ctaText}
           </Button>
         </div>
