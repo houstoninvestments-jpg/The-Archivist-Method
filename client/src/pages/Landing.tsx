@@ -18,7 +18,7 @@ export default function Landing() {
 
   const handleBuy = (tier: string) => {
     const urls: Record<string, string> = {
-      crash_course: "/free-download",
+      crash_course: "https://buy.stripe.com/00w3cn8lUcsr7uOgKm6c003",
       quick_start: "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
       complete_archive: "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
     };
