@@ -17,8 +17,13 @@ export default function Landing() {
   };
 
   const handleBuy = (tier: string) => {
-    console.log(`Purchase initiated for: ${tier}`);
-    window.location.href = `https://buy.stripe.com/test_${tier}`;
+    const urls: Record<string, string> = {
+      crash_course: "/free-download",
+      quick_start: "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
+      complete_archive: "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
+    };
+
+    window.location.href = urls[tier] || "/";
   };
 
   return (
