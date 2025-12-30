@@ -11,19 +11,25 @@ import QuickStart from "@/pages/QuickStart";
 import CompleteArchive from "@/pages/CompleteArchive";
 import Members47 from "@/pages/Members47";
 import Members197 from "@/pages/Members197";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
+      <Route path="/thank-you" component={ThankYou} />
+      <Route path="/portal" component={Portal} />
       <Route path="/free-download" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
       <Route path="/complete-archive" component={CompleteArchive} />
-      <Route path="/members-47" component={Members47} />
-      <Route path="/members-197" component={Members197} />
-      <Route path="/thank-you" component={ThankYou} />
-      <Route path="/portal" component={Portal} />
+      <Route path="/members/47" component={Members47} />
+      <Route path="/members/197" component={Members197} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -33,8 +39,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
         <Router />
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
