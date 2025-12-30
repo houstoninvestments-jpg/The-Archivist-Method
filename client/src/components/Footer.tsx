@@ -53,6 +53,12 @@ export default function Footer() {
         >
           Copyright 2024. All rights reserved.
         </p>
+        <p className="text-xs text-gray-500 mt-6 max-w-3xl mx-auto">
+          Medical Disclaimer: The Archivist Method provides educational
+          information about behavioral pattern recognition. This is not therapy,
+          counseling, or medical advice. Always consult qualified healthcare
+          professionals for medical or mental health concerns.
+        </p>
       </div>
     </footer>
   );
