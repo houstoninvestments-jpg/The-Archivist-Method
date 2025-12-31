@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/Landing";
 import ThankYou from "@/pages/ThankYou";
+import ThankYouQuickStart from "@/pages/ThankYouQuickStart";
+import ThankYouComplete from "@/pages/ThankYouComplete";
 import Portal from "@/pages/Portal";
 import FreeDownload from "@/pages/FreeDownload";
 import QuickStart from "@/pages/QuickStart";
@@ -21,12 +23,14 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/thank-you" component={ThankYou} />
+      <Route path="/thank-you-quick-start" component={ThankYouQuickStart} />
+      <Route path="/thank-you-complete" component={ThankYouComplete} />
       <Route path="/portal" component={Portal} />
       <Route path="/free-download" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
       <Route path="/complete-archive" component={CompleteArchive} />
-      <Route path="/members/47" component={Members47} />
-      <Route path="/members/197" component={Members197} />
+      <Route path="/members47" component={Members47} />
+      <Route path="/members197" component={Members197} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
