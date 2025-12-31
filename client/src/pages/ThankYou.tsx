@@ -44,7 +44,7 @@ export default function ThankYou() {
               Start Immediately
             </h2>
             <p className="text-gray-300 mb-6">
-              Don't wait for the email - download your guide right now:
+              Download your guide right now:
             </p>
             <a
               href="/7-day-crash-course.pdf"
@@ -59,7 +59,7 @@ export default function ThankYou() {
 
           <div className="text-left bg-archivist-dark/50 border border-gray-800 rounded-lg p-6 mb-8">
             <h3 className="text-xl font-bold mb-4 text-archivist-teal">
-              What You're Getting:
+              What You Are Getting:
             </h3>
             <ul className="space-y-3 text-gray-300">
               <li className="flex items-start gap-3">
