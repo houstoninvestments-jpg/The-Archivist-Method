@@ -31,7 +31,7 @@ export default function ThankYouComplete() {
           <div className="bg-gradient-to-br from-archivist-pink/10 to-archivist-teal/10 border border-archivist-pink/30 rounded-lg p-8 mb-8">
             <h2 className="text-2xl font-bold mb-4 text-archivist-pink">Download Your Complete Archive</h2>
             <p className="text-gray-300 mb-6">Click below to download:</p>
-            <a href="/complete-archive.pdf" download className="inline-flex items-center gap-2 bg-archivist-pink text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-archivist-pink/90 transition-all" data-testid="link-download-archive">
+            <a href="/complete-archive.pdf" download className="inline-flex items-center gap-2 bg-archivist-pink text-white px-8 py-4 rounded-lg font-bold text-lg" data-testid="link-download-archive">
               <Download className="w-5 h-5" />
               Download Complete Archive
             </a>
@@ -39,10 +39,22 @@ export default function ThankYouComplete() {
           <div className="text-left bg-archivist-dark/50 border border-gray-800 rounded-lg p-6 mb-8">
             <h3 className="text-xl font-bold mb-4 text-archivist-pink">What Is Inside:</h3>
             <ul className="space-y-3 text-gray-300">
-              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" /><span>685-page complete system</span></li>
-              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" /><span>All patterns plus advanced content</span></li>
-              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" /><span>Relationship and parenting applications</span></li>
-              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" /><span>Lifetime access to updates</span></li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" />
+                <span>685-page complete system</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" />
+                <span>All patterns plus advanced content</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" />
+                <span>Relationship and parenting applications</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-archivist-pink mt-0.5 shrink-0" />
+                <span>Lifetime access to updates</span>
+              </li>
             </ul>
           </div>
           <div className="bg-archivist-teal/10 border border-archivist-teal/30 rounded-lg p-6">
