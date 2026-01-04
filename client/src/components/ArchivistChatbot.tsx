@@ -155,9 +155,25 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
           typeof window !== "undefined" &&
           "speechSynthesis" in window
         ) {
+          // Get available voices
+          const voices = window.speechSynthesis.getVoices();
+
+          // Prefer these voices in order: Google UK English Female, Microsoft David, or any English voice
+          const preferredVoice =
+            voices.find(
+              (voice) =>
+                voice.name.includes("Google UK English Female") ||
+                voice.name.includes("Daniel") ||
+                voice.name.includes("Karen") ||
+                voice.name.includes("Samantha") ||
+                (voice.lang.startsWith("en-") && voice.name.includes("Male")),
+            ) || voices.find((voice) => voice.lang.startsWith("en-"));
+
           const utterance = new SpeechSynthesisUtterance(data.content[0].text);
-          utterance.rate = 0.95;
-          utterance.pitch = 1.0;
+          if (preferredVoice) utterance.voice = preferredVoice;
+          utterance.rate = 0.85; // Slower, more deliberate
+          utterance.pitch = 0.9; // Slightly lower, more authoritative
+          utterance.volume = 1.0;
           window.speechSynthesis.speak(utterance);
         }
       }
