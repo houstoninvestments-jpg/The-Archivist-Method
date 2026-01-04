@@ -8,6 +8,7 @@ import {
   Volume2,
   VolumeX,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 
 interface Message {
@@ -127,12 +128,10 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || "",
-          "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
@@ -189,14 +188,68 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
 
   return (
     <>
+      <style jsx global>{`
+        @keyframes glow-pulse {
+          0%,
+          100% {
+            box-shadow:
+              0 0 20px rgba(20, 184, 166, 0.5),
+              0 0 40px rgba(20, 184, 166, 0.3),
+              0 0 60px rgba(20, 184, 166, 0.1);
+          }
+          50% {
+            box-shadow:
+              0 0 30px rgba(236, 72, 153, 0.6),
+              0 0 60px rgba(236, 72, 153, 0.4),
+              0 0 90px rgba(236, 72, 153, 0.2);
+          }
+        }
+
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .glow-border {
+          animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        .slide-up {
+          animation: slide-up 0.4s ease-out;
+        }
+
+        .float-animation {
+          animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
+
       {/* Floating Chat Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-teal-500 to-pink-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-200 flex items-center gap-2 group"
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-teal-500 via-cyan-500 to-pink-500 text-white p-5 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center gap-3 group glow-border float-animation"
         >
-          <MessageCircle className="h-6 w-6" />
-          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap">
+          <div className="relative">
+            <MessageCircle className="h-7 w-7" />
+            <Sparkles className="h-4 w-4 absolute -top-1 -right-1 text-yellow-300 animate-pulse" />
+          </div>
+          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap font-semibold">
             Talk to The Archivist
           </span>
         </button>
@@ -204,51 +257,68 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] max-w-[calc(100vw-3rem)] bg-gray-900 border-2 border-teal-500/50 rounded-lg shadow-2xl flex flex-col">
+        <div className="fixed bottom-6 right-6 z-50 w-[440px] h-[680px] max-w-[calc(100vw-3rem)] bg-black/95 backdrop-blur-xl border-2 border-teal-500/50 rounded-2xl shadow-2xl flex flex-col slide-up glow-border overflow-hidden">
+          {/* Animated Background Grid */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(20, 184, 166, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(20, 184, 166, 0.3) 1px, transparent 1px)",
+                backgroundSize: "30px 30px",
+              }}
+            ></div>
+          </div>
+
           {/* Header */}
-          <div className="bg-gradient-to-r from-teal-500 to-pink-500 p-4 rounded-t-lg flex items-center justify-between">
+          <div className="relative bg-gradient-to-r from-teal-500 via-cyan-500 to-pink-500 p-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl border-2 border-white/30 shadow-lg">
                 🧬
               </div>
               <div>
-                <h3 className="text-white font-bold">The Archivist</h3>
-                <p className="text-xs text-white/80">Pattern Archaeologist</p>
+                <h3 className="text-white font-bold text-lg tracking-wide">
+                  The Archivist
+                </h3>
+                <p className="text-xs text-white/90 font-medium">
+                  Pattern Archaeologist
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="text-white hover:bg-white/20 p-2 rounded transition-colors"
+                className="text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20"
                 title={isMuted ? "Enable voice" : "Disable voice"}
               >
                 {isMuted ? (
-                  <VolumeX className="h-4 w-4" />
+                  <VolumeX className="h-5 w-5" />
                 ) : (
-                  <Volume2 className="h-4 w-4" />
+                  <Volume2 className="h-5 w-5" />
                 )}
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 p-2 rounded transition-colors"
+                className="text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20"
               >
-                <X className="h-4 w-4" />
+                <X className="h-5 w-5" />
               </button>
             </div>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-900/50">
+          <div className="relative flex-1 overflow-y-auto p-5 space-y-4">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} slide-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
+                  className={`max-w-[85%] p-4 rounded-2xl backdrop-blur-sm ${
                     message.role === "user"
-                      ? "bg-teal-600 text-white"
-                      : "bg-gray-800 text-gray-100 border border-teal-500/30"
+                      ? "bg-gradient-to-r from-teal-600 to-cyan-600 text-white border border-teal-400/30 shadow-lg shadow-teal-500/20"
+                      : "bg-gray-900/80 text-gray-100 border border-teal-500/30 shadow-lg shadow-teal-500/10"
                   }`}
                   style={{ whiteSpace: "pre-wrap" }}
                 >
@@ -257,10 +327,13 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
               </div>
             ))}
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-800 text-gray-100 border border-teal-500/30 p-3 rounded-lg flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>The Archivist is analyzing...</span>
+              <div className="flex justify-start slide-up">
+                <div className="bg-gray-900/80 text-gray-100 border border-teal-500/30 p-4 rounded-2xl flex items-center gap-3 backdrop-blur-sm shadow-lg">
+                  <Loader2 className="h-5 w-5 animate-spin text-teal-400" />
+                  <span className="font-medium">
+                    The Archivist is analyzing
+                    <span className="animate-pulse">...</span>
+                  </span>
                 </div>
               </div>
             )}
@@ -268,26 +341,26 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
           </div>
 
           {/* Input */}
-          <div className="p-4 bg-gray-800 border-t border-teal-500/30 rounded-b-lg">
-            <div className="flex gap-2">
+          <div className="relative p-5 bg-gray-900/50 backdrop-blur-xl border-t border-teal-500/30">
+            <div className="flex gap-3">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Describe your pattern..."
-                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg border border-teal-500/30 focus:outline-none focus:border-teal-500 placeholder-gray-400"
+                className="flex-1 bg-gray-800/80 text-white px-5 py-3 rounded-xl border border-teal-500/30 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 placeholder-gray-400 transition-all duration-200 backdrop-blur-sm"
                 disabled={isLoading}
               />
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-teal-500 to-pink-500 text-white p-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-teal-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 font-semibold"
               >
                 <Send className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-xs text-gray-400 mt-2 text-center">
+            <p className="text-xs text-gray-400 mt-3 text-center font-medium tracking-wide">
               Not therapy. Pattern archaeology.
             </p>
           </div>
