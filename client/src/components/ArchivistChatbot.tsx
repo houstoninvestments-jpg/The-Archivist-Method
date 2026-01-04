@@ -8,7 +8,6 @@ import {
   Volume2,
   VolumeX,
   Loader2,
-  Sparkles,
 } from "lucide-react";
 
 interface Message {
@@ -38,7 +37,6 @@ const ArchivistChatbot = () => {
     scrollToBottom();
   }, [messages]);
 
-  // System prompt for The Archivist
   const systemPrompt = `You are The Archivist, a direct, wise pattern archaeologist who helps people understand their unconscious behavioral programs.
 
 CORE IDENTITY:
@@ -152,7 +150,6 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
         };
         setMessages((prev) => [...prev, assistantMessage]);
 
-        // Voice synthesis (if not muted)
         if (
           !isMuted &&
           typeof window !== "undefined" &&
@@ -189,26 +186,26 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
   return (
     <>
       <style jsx global>{`
-        @keyframes glow-pulse {
+        @keyframes neonPulse {
           0%,
           100% {
             box-shadow:
-              0 0 20px rgba(20, 184, 166, 0.5),
-              0 0 40px rgba(20, 184, 166, 0.3),
-              0 0 60px rgba(20, 184, 166, 0.1);
+              0 0 5px rgba(20, 184, 166, 0.6),
+              0 0 15px rgba(20, 184, 166, 0.4),
+              0 0 30px rgba(20, 184, 166, 0.2);
           }
           50% {
             box-shadow:
-              0 0 30px rgba(236, 72, 153, 0.6),
-              0 0 60px rgba(236, 72, 153, 0.4),
-              0 0 90px rgba(236, 72, 153, 0.2);
+              0 0 8px rgba(236, 72, 153, 0.7),
+              0 0 20px rgba(236, 72, 153, 0.5),
+              0 0 40px rgba(236, 72, 153, 0.3);
           }
         }
 
-        @keyframes slide-up {
+        @keyframes slideUp {
           from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(10px);
           }
           to {
             opacity: 1;
@@ -216,153 +213,193 @@ Remember: You're not a therapist. You're a pattern archaeologist. You help peopl
           }
         }
 
-        @keyframes float {
-          0%,
+        @keyframes scanline {
+          0% {
+            transform: translateY(-100%);
+          }
           100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
+            transform: translateY(200%);
           }
         }
 
-        .glow-border {
-          animation: glow-pulse 3s ease-in-out infinite;
+        .neon-border {
+          animation: neonPulse 3s ease-in-out infinite;
         }
-
         .slide-up {
-          animation: slide-up 0.4s ease-out;
-        }
-
-        .float-animation {
-          animation: float 3s ease-in-out infinite;
+          animation: slideUp 0.3s ease-out;
         }
       `}</style>
 
-      {/* Floating Chat Button */}
+      {/* Floating Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-teal-500 via-cyan-500 to-pink-500 text-white p-5 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center gap-3 group glow-border float-animation"
+          className="fixed bottom-8 right-8 z-50 group"
         >
           <div className="relative">
-            <MessageCircle className="h-7 w-7" />
-            <Sparkles className="h-4 w-4 absolute -top-1 -right-1 text-yellow-300 animate-pulse" />
+            {/* Outer glow */}
+            <div className="absolute -inset-2 rounded-full bg-teal-500/30 blur-xl group-hover:bg-pink-500/40 transition-all duration-500"></div>
+
+            {/* Main button */}
+            <div className="relative w-16 h-16 rounded-full bg-black border-2 border-teal-500 neon-border group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+              <MessageCircle
+                className="w-7 h-7 text-teal-400 group-hover:text-pink-400 transition-colors duration-300"
+                strokeWidth={2.5}
+              />
+              <div className="absolute inset-2 rounded-full bg-teal-500/10 group-hover:bg-pink-500/10 transition-colors duration-300"></div>
+            </div>
           </div>
-          <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap font-semibold">
-            Talk to The Archivist
-          </span>
         </button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-[440px] h-[680px] max-w-[calc(100vw-3rem)] bg-black/95 backdrop-blur-xl border-2 border-teal-500/50 rounded-2xl shadow-2xl flex flex-col slide-up glow-border overflow-hidden">
-          {/* Animated Background Grid */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="fixed bottom-8 right-8 z-50 w-[440px] h-[680px] max-w-[calc(100vw-4rem)]">
+          <div className="relative h-full bg-black/95 backdrop-blur-xl border-2 border-teal-500 neon-border rounded-2xl overflow-hidden">
+            {/* Animated scanline */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10">
+              <div
+                className="absolute w-full h-1 bg-gradient-to-r from-transparent via-teal-400 to-transparent blur-sm"
+                style={{ animation: "scanline 6s linear infinite" }}
+              ></div>
+            </div>
+
+            {/* Grid background */}
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 opacity-10"
               style={{
-                backgroundImage:
-                  "linear-gradient(rgba(20, 184, 166, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(20, 184, 166, 0.3) 1px, transparent 1px)",
+                backgroundImage: `
+                linear-gradient(rgba(20, 184, 166, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 184, 166, 0.3) 1px, transparent 1px)
+              `,
                 backgroundSize: "30px 30px",
               }}
             ></div>
-          </div>
 
-          {/* Header */}
-          <div className="relative bg-gradient-to-r from-teal-500 via-cyan-500 to-pink-500 p-5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl border-2 border-white/30 shadow-lg">
-                🧬
-              </div>
-              <div>
-                <h3 className="text-white font-bold text-lg tracking-wide">
-                  The Archivist
-                </h3>
-                <p className="text-xs text-white/90 font-medium">
-                  Pattern Archaeologist
-                </p>
+            {/* Corner accents */}
+            <div className="absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 border-pink-500/50"></div>
+            <div className="absolute top-0 right-0 w-20 h-20 border-r-2 border-t-2 border-teal-500/50"></div>
+            <div className="absolute bottom-0 left-0 w-20 h-20 border-l-2 border-b-2 border-teal-500/50"></div>
+            <div className="absolute bottom-0 right-0 w-20 h-20 border-r-2 border-b-2 border-pink-500/50"></div>
+
+            {/* Header */}
+            <div className="relative px-6 py-4 border-b border-teal-500/30 bg-black/40 backdrop-blur-sm">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="absolute -inset-1 rounded-full bg-teal-500/20 blur-md"></div>
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-teal-500/60">
+                    <img
+                      src="/archivist-icon.png"
+                      alt="The Archivist"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3
+                    className="text-[16px] font-bold text-teal-400"
+                    style={{ textShadow: "0 0 10px rgba(20, 184, 166, 0.5)" }}
+                  >
+                    The Archivist
+                  </h3>
+                  <p className="text-xs text-pink-400/80 font-medium">
+                    Pattern Archaeologist
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="p-2 rounded-lg border border-teal-500/30 hover:bg-teal-500/10 hover:border-teal-500/50 transition-all duration-200"
+                  >
+                    {isMuted ? (
+                      <VolumeX className="w-4 h-4 text-teal-400" />
+                    ) : (
+                      <Volume2 className="w-4 h-4 text-teal-400" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 rounded-lg border border-pink-500/30 hover:bg-pink-500/10 hover:border-pink-500/50 transition-all duration-200"
+                  >
+                    <X className="w-4 h-4 text-pink-400" />
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20"
-                title={isMuted ? "Enable voice" : "Disable voice"}
-              >
-                {isMuted ? (
-                  <VolumeX className="h-5 w-5" />
-                ) : (
-                  <Volume2 className="h-5 w-5" />
-                )}
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
 
-          {/* Messages */}
-          <div className="relative flex-1 overflow-y-auto p-5 space-y-4">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} slide-up`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+            {/* Messages */}
+            <div className="relative flex-1 overflow-y-auto px-6 py-4 space-y-3 h-[calc(100%-180px)]">
+              {messages.map((message, index) => (
                 <div
-                  className={`max-w-[85%] p-4 rounded-2xl backdrop-blur-sm ${
-                    message.role === "user"
-                      ? "bg-gradient-to-r from-teal-600 to-cyan-600 text-white border border-teal-400/30 shadow-lg shadow-teal-500/20"
-                      : "bg-gray-900/80 text-gray-100 border border-teal-500/30 shadow-lg shadow-teal-500/10"
-                  }`}
-                  style={{ whiteSpace: "pre-wrap" }}
+                  key={index}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} slide-up`}
                 >
-                  {message.content}
+                  <div
+                    className={`
+                      max-w-[85%] px-4 py-3 rounded-xl
+                      text-[14px] leading-relaxed
+                      ${
+                        message.role === "user"
+                          ? "bg-teal-500/20 text-white border border-teal-500/50 shadow-lg shadow-teal-500/20"
+                          : "bg-black/60 text-gray-100 border border-pink-500/30 shadow-lg shadow-pink-500/10"
+                      }
+                    `}
+                    style={{ whiteSpace: "pre-wrap" }}
+                  >
+                    {message.content}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start slide-up">
-                <div className="bg-gray-900/80 text-gray-100 border border-teal-500/30 p-4 rounded-2xl flex items-center gap-3 backdrop-blur-sm shadow-lg">
-                  <Loader2 className="h-5 w-5 animate-spin text-teal-400" />
-                  <span className="font-medium">
-                    The Archivist is analyzing
-                    <span className="animate-pulse">...</span>
-                  </span>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start slide-up">
+                  <div className="px-4 py-3 rounded-xl bg-black/60 border border-teal-500/40 flex items-center gap-3">
+                    <Loader2 className="w-4 h-4 animate-spin text-teal-400" />
+                    <span className="text-[14px] text-teal-300">
+                      Analyzing pattern...
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="relative p-5 bg-gray-900/50 backdrop-blur-xl border-t border-teal-500/30">
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Describe your pattern..."
-                className="flex-1 bg-gray-800/80 text-white px-5 py-3 rounded-xl border border-teal-500/30 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 placeholder-gray-400 transition-all duration-200 backdrop-blur-sm"
-                disabled={isLoading}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-teal-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 font-semibold"
-              >
-                <Send className="h-5 w-5" />
-              </button>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-            <p className="text-xs text-gray-400 mt-3 text-center font-medium tracking-wide">
-              Not therapy. Pattern archaeology.
-            </p>
+
+            {/* Input */}
+            <div className="relative px-6 py-4 border-t border-teal-500/30 bg-black/60 backdrop-blur-sm">
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Describe your pattern..."
+                  className="
+                    flex-1 px-4 py-2.5 rounded-lg
+                    bg-black/80 border-2 border-teal-500/40
+                    text-white placeholder-teal-300/40
+                    focus:outline-none focus:border-teal-500 focus:shadow-lg focus:shadow-teal-500/20
+                    transition-all duration-200
+                  "
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={isLoading || !input.trim()}
+                  className="
+                    px-5 py-2.5 rounded-lg
+                    bg-pink-500/20 border-2 border-pink-500/50
+                    hover:bg-pink-500/30 hover:border-pink-500/70
+                    hover:shadow-lg hover:shadow-pink-500/30
+                    disabled:opacity-40 disabled:cursor-not-allowed
+                    transition-all duration-200
+                  "
+                >
+                  <Send className="w-5 h-5 text-pink-400" />
+                </button>
+              </div>
+              <p className="text-[11px] text-teal-300/60 text-center mt-3 font-semibold tracking-widest uppercase">
+                Pattern Archaeology, Not Therapy
+              </p>
+            </div>
           </div>
         </div>
       )}
