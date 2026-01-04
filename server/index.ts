@@ -49,9 +49,8 @@ app.use((req, res, next) => {
     if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        logLine += `:: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
       log(logLine);
     }
   });
@@ -59,13 +58,47 @@ app.use((req, res, next) => {
   next();
 });
 
+// ADD THIS VOICE ENDPOINT HERE
+app.post("/api/generate-voice", async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    const response = await fetch(
+      "https://queue.fal.run/fal-ai/chatterbox/text-to-speech/turbo",
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Key c674d6c9-5450-443c-9985-10c8039d6726:bfc3b7413e748b4391d814d871e3a185",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: text.replace(/\[.*?\]/g, ""),
+          reference_audio_url:
+            "https://thearchivistmethod.com/archivist-voice.mp3",
+          exaggeration: 0.3,
+          cfg: 0.4,
+        }),
+      },
+    );
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Voice generation error:", error);
+    res.status(500).json({ error: "Voice generation failed" });
+  }
+});
+
 (async () => {
   try {
     console.log("Starting server initialization...");
     console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`PORT: ${process.env.PORT || "5000 (default)"}`);
-    console.log(`DATABASE_URL: ${process.env.DATABASE_URL ? "configured" : "NOT SET"}`);
-    
+    console.log(
+      `DATABASE_URL: ${process.env.DATABASE_URL ? "configured" : "NOT SET"}`,
+    );
+
     await registerRoutes(httpServer, app);
     console.log("Routes registered successfully");
 
@@ -77,9 +110,6 @@ app.use((req, res, next) => {
       throw err;
     });
 
-    // importantly only setup vite in development and after
-    // setting up all the other routes so the catch-all route
-    // doesn't interfere with the other routes
     if (process.env.NODE_ENV === "production") {
       console.log("Setting up static file serving for production...");
       serveStatic(app);
@@ -91,10 +121,6 @@ app.use((req, res, next) => {
       console.log("Vite development server configured");
     }
 
-    // ALWAYS serve the app on the port specified in the environment variable PORT
-    // Other ports are firewalled. Default to 5000 if not specified.
-    // this serves both the API and the client.
-    // It is the only port that is not firewalled.
     const port = parseInt(process.env.PORT || "5000", 10);
     httpServer.listen(
       {

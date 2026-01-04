@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import ArchivistChatbot from "@/components/ArchivistChatbot";
 import Landing from "@/pages/Landing";
 import ThankYou from "@/pages/ThankYou";
 import ThankYouQuickStart from "@/pages/ThankYouQuickStart";
@@ -26,11 +27,11 @@ function Router() {
       <Route path="/thank-you-quick-start" component={ThankYouQuickStart} />
       <Route path="/thank-you-complete" component={ThankYouComplete} />
       <Route path="/portal" component={Portal} />
-      <Route path="/free-download" component={FreeDownload} />
+      <Route path="/free" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
       <Route path="/complete-archive" component={CompleteArchive} />
-      <Route path="/members47" component={Members47} />
-      <Route path="/members197" component={Members197} />
+      <Route path="/members-47" component={Members47} />
+      <Route path="/members-197" component={Members197} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
@@ -43,8 +44,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Router />
         <Toaster />
+        <Router />
+        <ArchivistChatbot />
       </TooltipProvider>
     </QueryClientProvider>
   );
