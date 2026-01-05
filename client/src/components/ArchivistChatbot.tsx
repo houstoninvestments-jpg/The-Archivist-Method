@@ -285,9 +285,9 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 rounded-lg border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-200"
+                    className="p-3 rounded-lg border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   >
-                    <X className="w-4 h-4 text-pink-400" />
+                    <X className="w-5 h-5 text-pink-400" />
                   </button>
                 </div>
               </div>

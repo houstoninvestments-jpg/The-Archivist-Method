@@ -7,7 +7,7 @@ interface HeroProps {
 
 export default function Hero({ onCTAClick }: HeroProps) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-archivist-dark">
       {/* Gothic Library Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -20,20 +20,20 @@ export default function Hero({ onCTAClick }: HeroProps) {
       {/* Content */}
       <div className="container mx-auto px-6 py-20 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
-          {/* Main Headline */}
-          <h1 className="font-archivist text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          {/* Main Headline - FIXED */}
+          <h1 className="font-archivist text-[clamp(2.5rem,10vw,6rem)] font-bold tracking-tight text-white leading-[1.1] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]">
             THE ARCHIVIST
             <br />
             METHOD™
           </h1>
 
-          {/* Subheadline */}
-          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-archivist-teal drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+          {/* Subheadline - FIXED */}
+          <p className="text-[clamp(1.25rem,5vw,3rem)] font-bold text-archivist-teal drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] leading-tight">
             Pattern Archaeology, Not Therapy
           </p>
 
-          {/* Hook Text */}
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+          {/* Hook Text - FIXED */}
+          <p className="text-[clamp(1rem,3vw,1.5rem)] text-gray-300 max-w-3xl mx-auto leading-relaxed drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
             Stop running the same destructive patterns.
             <br />
             Learn the proven method to interrupt trauma patterns in 7-90 days.
