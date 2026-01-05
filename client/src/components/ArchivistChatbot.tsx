@@ -36,6 +36,7 @@ const ArchivistChatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const recognitionRef = useRef<any>(null);
+  const silenceTimerRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -62,52 +63,42 @@ const ArchivistChatbot = () => {
         (window as any).webkitSpeechRecognition ||
         (window as any).SpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true; // Keep listening
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
 
+      // FIX #2: Use isFinal to detect when user is done speaking
       recognitionRef.current.onresult = (event: any) => {
-        const transcript =
-          event.results[event.results.length - 1][0].transcript;
+        const result = event.results[event.results.length - 1];
+        const transcript = result[0].transcript;
         setInput(transcript);
 
-        // Auto-send in hands-free mode
-        if (handsFreeMode) {
-          setTimeout(() => {
-            const currentTranscript = transcript.trim();
-            if (currentTranscript) {
-              handleSendMessage(currentTranscript);
-            }
-          }, 500);
+        // If the engine is confident the user is done with a segment
+        if (result.isFinal && handsFreeMode) {
+          if (silenceTimerRef.current) {
+            clearTimeout(silenceTimerRef.current);
+          }
+
+          // 2-second silence buffer before sending
+          silenceTimerRef.current = setTimeout(() => {
+            handleSendMessage(transcript);
+            // Stop the mic briefly so it doesn't "hear" the AI's response
+            recognitionRef.current.stop();
+          }, 2000);
         }
       };
 
       recognitionRef.current.onerror = (event: any) => {
-        console.error("Speech recognition error:", event.error);
-        if (handsFreeMode && event.error === "no-speech") {
-          // Restart listening in hands-free mode
-          setTimeout(() => {
-            if (handsFreeMode && !isLoading && !isPlayingAudio) {
-              try {
-                recognitionRef.current.start();
-              } catch (e) {
-                // Already started
-              }
-            }
-          }, 1000);
-        }
+        console.error("Speech error:", event.error);
       };
 
       recognitionRef.current.onend = () => {
         setIsListening(false);
-        // Restart in hands-free mode
         if (handsFreeMode && !isLoading && !isPlayingAudio) {
           setTimeout(() => {
             try {
               recognitionRef.current.start();
               setIsListening(true);
-            } catch (e) {
-              // Already started
-            }
+            } catch (e) {}
           }, 500);
         }
       };
@@ -131,25 +122,24 @@ const ArchivistChatbot = () => {
     setHandsFreeMode(newMode);
 
     if (newMode) {
-      // Start hands-free mode
       try {
         recognitionRef.current.start();
         setIsListening(true);
-      } catch (e) {
-        console.log("Recognition already started");
-      }
+      } catch (e) {}
     } else {
-      // Stop hands-free mode
       try {
         recognitionRef.current.stop();
         setIsListening(false);
-      } catch (e) {
-        console.log("Recognition already stopped");
-      }
+        if (silenceTimerRef.current) {
+          clearTimeout(silenceTimerRef.current);
+        }
+      } catch (e) {}
     }
   };
 
+  // FIX #1: Corrected Fal.ai parameters
   const generateVoice = async (text: string) => {
+    console.log("🎤 Generating voice with corrected parameters...");
     try {
       const response = await fetch(
         "https://fal.run/fal-ai/chatterbox/text-to-speech/turbo",
@@ -163,13 +153,17 @@ const ArchivistChatbot = () => {
           body: JSON.stringify({
             text: text,
             reference_audio_url: "https://files.catbox.moe/8oygxu.mp3",
-            exaggeration: 0.3,
-            cfg: 0.4,
+            // CRITICAL FIXES:
+            exaggeration: 0.0, // Start at 0 to get pure clone
+            guidance_scale: 3.5, // Standard for turbo model
+            speech_steps: 25, // Higher quality processing
+            seed: 42, // Consistent seed for debugging
           }),
         },
       );
 
       const data = await response.json();
+      console.log("✅ Voice response:", data);
 
       if (data.audio?.url) {
         return data.audio.url;
@@ -193,15 +187,12 @@ const ArchivistChatbot = () => {
       audio.onplay = () => setIsPlayingAudio(true);
       audio.onended = () => {
         setIsPlayingAudio(false);
-        // Resume listening in hands-free mode after speech ends
         if (handsFreeMode && !isLoading) {
           setTimeout(() => {
             try {
               recognitionRef.current.start();
               setIsListening(true);
-            } catch (e) {
-              // Already started
-            }
+            } catch (e) {}
           }, 500);
         }
       };
@@ -239,6 +230,7 @@ THE 7 PATTERNS (reference naturally):
 
 REMEMBER: Short, conversational, curious. No lectures.`;
 
+  // FIX #3: Synchronized reveal - wait for BOTH Claude and voice before showing response
   const handleSendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
 
@@ -247,14 +239,11 @@ REMEMBER: Short, conversational, curious. No lectures.`;
     setInput("");
     setIsLoading(true);
 
-    // Stop listening while processing
     if (handsFreeMode && recognitionRef.current) {
       try {
         recognitionRef.current.stop();
         setIsListening(false);
-      } catch (e) {
-        // Already stopped
-      }
+      } catch (e) {}
     }
 
     try {
@@ -263,6 +252,8 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         content: msg.content,
       }));
 
+      // Step 1: Get Claude response (don't display yet)
+      console.log("💬 Getting Claude response...");
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -270,7 +261,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 150,
+          max_tokens: 150, // Keep it short for speed
           temperature: 0.9,
           system: systemPrompt,
           messages: [
@@ -283,33 +274,55 @@ REMEMBER: Short, conversational, curious. No lectures.`;
       const data = await response.json();
 
       if (data.content && data.content[0]) {
-        const assistantMessage: Message = {
-          role: "assistant",
-          content: data.content[0].text,
-        };
-        setMessages((prev) => [...prev, assistantMessage]);
+        const responseText = data.content[0].text;
+        console.log("✅ Claude responded");
+
+        if (!isMuted) {
+          // Step 2: Generate voice BEFORE displaying text
+          console.log("🎤 Generating voice...");
+          const audioUrl = await generateVoice(responseText);
+
+          if (audioUrl) {
+            console.log("✅ Voice ready");
+
+            // Step 3: NOW display text and play audio simultaneously
+            const assistantMessage: Message = {
+              role: "assistant",
+              content: responseText,
+            };
+            setMessages((prev) => [...prev, assistantMessage]);
+
+            // Play audio immediately
+            await playAudio(audioUrl);
+          } else {
+            // Fallback: no audio, just show text
+            const assistantMessage: Message = {
+              role: "assistant",
+              content: responseText,
+            };
+            setMessages((prev) => [...prev, assistantMessage]);
+          }
+        } else {
+          // Voice muted, just show text
+          const assistantMessage: Message = {
+            role: "assistant",
+            content: responseText,
+          };
+          setMessages((prev) => [...prev, assistantMessage]);
+
+          if (handsFreeMode) {
+            setTimeout(() => {
+              try {
+                recognitionRef.current.start();
+                setIsListening(true);
+              } catch (e) {}
+            }, 500);
+          }
+        }
 
         if (!hasMemory) {
           setHasMemory(true);
           localStorage.setItem("archivist-has-memory", "true");
-        }
-
-        // Generate voice FIRST, then show message
-        if (!isMuted) {
-          const audioUrl = await generateVoice(data.content[0].text);
-          if (audioUrl) {
-            await playAudio(audioUrl);
-          }
-        } else if (handsFreeMode) {
-          // If muted, resume listening immediately
-          setTimeout(() => {
-            try {
-              recognitionRef.current.start();
-              setIsListening(true);
-            } catch (e) {
-              // Already started
-            }
-          }, 500);
         }
       }
     } catch (error) {
