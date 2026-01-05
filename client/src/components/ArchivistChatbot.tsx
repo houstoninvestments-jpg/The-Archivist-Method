@@ -31,6 +31,7 @@ const ArchivistChatbot = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [handsFreeMode, setHandsFreeMode] = useState(false);
   const [hasMemory, setHasMemory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -61,31 +62,64 @@ const ArchivistChatbot = () => {
         (window as any).webkitSpeechRecognition ||
         (window as any).SpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
+      recognitionRef.current.continuous = true; // Keep listening
       recognitionRef.current.interimResults = false;
 
       recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
+        const transcript =
+          event.results[event.results.length - 1][0].transcript;
         setInput(transcript);
-        setIsListening(false);
+
+        // Auto-send in hands-free mode
+        if (handsFreeMode) {
+          setTimeout(() => {
+            const currentTranscript = transcript.trim();
+            if (currentTranscript) {
+              handleSendMessage(currentTranscript);
+            }
+          }, 500);
+        }
       };
 
-      recognitionRef.current.onerror = () => {
-        setIsListening(false);
+      recognitionRef.current.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error);
+        if (handsFreeMode && event.error === "no-speech") {
+          // Restart listening in hands-free mode
+          setTimeout(() => {
+            if (handsFreeMode && !isLoading && !isPlayingAudio) {
+              try {
+                recognitionRef.current.start();
+              } catch (e) {
+                // Already started
+              }
+            }
+          }, 1000);
+        }
       };
 
       recognitionRef.current.onend = () => {
         setIsListening(false);
+        // Restart in hands-free mode
+        if (handsFreeMode && !isLoading && !isPlayingAudio) {
+          setTimeout(() => {
+            try {
+              recognitionRef.current.start();
+              setIsListening(true);
+            } catch (e) {
+              // Already started
+            }
+          }, 500);
+        }
       };
     }
-  }, []);
+  }, [handsFreeMode, isLoading, isPlayingAudio]);
 
   const dismissOnboarding = () => {
     setShowOnboarding(false);
     localStorage.setItem("archivist-onboarding-seen", "true");
   };
 
-  const toggleListening = () => {
+  const toggleHandsFree = () => {
     if (!recognitionRef.current) {
       alert(
         "Speech recognition is not supported in your browser. Please use Chrome or Edge.",
@@ -93,12 +127,25 @@ const ArchivistChatbot = () => {
       return;
     }
 
-    if (isListening) {
-      recognitionRef.current.stop();
-      setIsListening(false);
+    const newMode = !handsFreeMode;
+    setHandsFreeMode(newMode);
+
+    if (newMode) {
+      // Start hands-free mode
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (e) {
+        console.log("Recognition already started");
+      }
     } else {
-      recognitionRef.current.start();
-      setIsListening(true);
+      // Stop hands-free mode
+      try {
+        recognitionRef.current.stop();
+        setIsListening(false);
+      } catch (e) {
+        console.log("Recognition already stopped");
+      }
     }
   };
 
@@ -144,7 +191,20 @@ const ArchivistChatbot = () => {
       audioRef.current = audio;
 
       audio.onplay = () => setIsPlayingAudio(true);
-      audio.onended = () => setIsPlayingAudio(false);
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        // Resume listening in hands-free mode after speech ends
+        if (handsFreeMode && !isLoading) {
+          setTimeout(() => {
+            try {
+              recognitionRef.current.start();
+              setIsListening(true);
+            } catch (e) {
+              // Already started
+            }
+          }, 500);
+        }
+      };
       audio.onerror = () => setIsPlayingAudio(false);
 
       await audio.play();
@@ -179,13 +239,23 @@ THE 7 PATTERNS (reference naturally):
 
 REMEMBER: Short, conversational, curious. No lectures.`;
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSendMessage = async (messageText: string) => {
+    if (!messageText.trim() || isLoading) return;
 
-    const userMessage: Message = { role: "user", content: input };
+    const userMessage: Message = { role: "user", content: messageText };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    // Stop listening while processing
+    if (handsFreeMode && recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+        setIsListening(false);
+      } catch (e) {
+        // Already stopped
+      }
+    }
 
     try {
       const conversationHistory = messages.map((msg) => ({
@@ -203,7 +273,10 @@ REMEMBER: Short, conversational, curious. No lectures.`;
           max_tokens: 150,
           temperature: 0.9,
           system: systemPrompt,
-          messages: [...conversationHistory, { role: "user", content: input }],
+          messages: [
+            ...conversationHistory,
+            { role: "user", content: messageText },
+          ],
         }),
       });
 
@@ -221,11 +294,22 @@ REMEMBER: Short, conversational, curious. No lectures.`;
           localStorage.setItem("archivist-has-memory", "true");
         }
 
+        // Generate voice FIRST, then show message
         if (!isMuted) {
           const audioUrl = await generateVoice(data.content[0].text);
           if (audioUrl) {
             await playAudio(audioUrl);
           }
+        } else if (handsFreeMode) {
+          // If muted, resume listening immediately
+          setTimeout(() => {
+            try {
+              recognitionRef.current.start();
+              setIsListening(true);
+            } catch (e) {
+              // Already started
+            }
+          }, 500);
         }
       }
     } catch (error) {
@@ -240,6 +324,10 @@ REMEMBER: Short, conversational, curious. No lectures.`;
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const sendMessage = () => {
+    handleSendMessage(input);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -405,9 +493,11 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     The Archivist
                   </h3>
                   <p className="text-xs text-pink-400/80 font-medium">
-                    {hasMemory
-                      ? "Remembers your patterns"
-                      : "AI Pattern Expert"}
+                    {handsFreeMode
+                      ? "🎤 Hands-Free Active"
+                      : hasMemory
+                        ? "Remembers your patterns"
+                        : "AI Pattern Expert"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -470,7 +560,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        Talk or type - I listen both ways
+                        <strong>Hands-free mode</strong> - just talk naturally
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
@@ -482,8 +572,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        <strong>I remember everything</strong> - patterns,
-                        triggers, progress
+                        I remember everything - patterns, triggers, progress
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
@@ -563,31 +652,32 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     focus:outline-none focus:border-teal-500 focus:shadow-lg focus:shadow-teal-500/30
                     transition-all duration-200
                   "
-                  disabled={isLoading || isListening}
+                  disabled={isLoading || handsFreeMode}
                 />
                 <button
-                  onClick={toggleListening}
+                  onClick={toggleHandsFree}
                   disabled={isLoading}
                   className={`
                     px-4 py-3 rounded-xl border-2
                     ${
-                      isListening
-                        ? "bg-red-500/20 border-red-500/50 mic-pulse"
+                      handsFreeMode
+                        ? "bg-teal-500/30 border-teal-500 mic-pulse"
                         : "bg-teal-500/20 border-teal-500/50 hover:bg-teal-500/30"
                     }
                     transition-all duration-200
                     disabled:opacity-40
                   `}
+                  title="Toggle hands-free mode"
                 >
-                  {isListening ? (
-                    <MicOff className="w-5 h-5 text-red-400" />
-                  ) : (
+                  {handsFreeMode ? (
                     <Mic className="w-5 h-5 text-teal-400" />
+                  ) : (
+                    <MicOff className="w-5 h-5 text-teal-400" />
                   )}
                 </button>
                 <button
                   onClick={sendMessage}
-                  disabled={isLoading || !input.trim()}
+                  disabled={isLoading || !input.trim() || handsFreeMode}
                   className="
                     px-6 py-3 rounded-xl
                     bg-gradient-to-r from-pink-500 to-pink-600 
@@ -603,7 +693,9 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                 </button>
               </div>
               <p className="text-[10px] text-teal-300/60 text-center mt-3 font-bold tracking-widest uppercase">
-                Pattern Archaeology, Not Therapy
+                {handsFreeMode
+                  ? "🎤 Hands-Free Active - Just Talk"
+                  : "Pattern Archaeology, Not Therapy"}
               </p>
             </div>
           </div>
