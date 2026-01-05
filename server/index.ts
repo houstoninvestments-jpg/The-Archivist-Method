@@ -29,7 +29,6 @@ export function log(message: string, source = "express") {
     second: "2-digit",
     hour12: true,
   });
-
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
@@ -58,11 +57,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// ADD THIS VOICE ENDPOINT HERE
+// VOICE ENDPOINT - FIXED URL
 app.post("/api/generate-voice", async (req, res) => {
   try {
     const { text } = req.body;
-
     const response = await fetch(
       "https://queue.fal.run/fal-ai/chatterbox/text-to-speech/turbo",
       {
@@ -75,7 +73,7 @@ app.post("/api/generate-voice", async (req, res) => {
         body: JSON.stringify({
           text: text.replace(/\[.*?\]/g, ""),
           reference_audio_url:
-            "https://thearchivistmethod.com/archivist-voice.mp3",
+            "https://thearchivistmethod.com/the-archivist-voice.mp3",
           exaggeration: 0.3,
           cfg: 0.4,
         }),
@@ -122,6 +120,7 @@ app.post("/api/generate-voice", async (req, res) => {
     }
 
     const port = parseInt(process.env.PORT || "5000", 10);
+
     httpServer.listen(
       {
         port,

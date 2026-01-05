@@ -37,6 +37,37 @@ export async function registerRoutes(
     }
   });
 
+  // Voice generation endpoint - FIXED URL
+  app.post("/api/generate-voice", async (req, res) => {
+    try {
+      const { text } = req.body;
+      const response = await fetch(
+        "https://fal.run/fal-ai/chatterbox/text-to-speech/turbo",
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Key c674d6c9-5450-443c-9985-10c8039d6726:bfc3b7413e748b4391d814d871e3a185",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: text.replace(/\[.*?\]/g, ""),
+            reference_audio_url:
+              "https://thearchivistmethod.com/the-archivist-voice.mp3",
+            exaggeration: 0.3,
+            cfg: 0.4,
+          }),
+        },
+      );
+
+      const data = await response.json();
+      res.json(data);
+    } catch (error) {
+      console.error("Voice generation error:", error);
+      res.status(500).json({ error: "Voice generation failed" });
+    }
+  });
+
   // Download success pages
   app.get("/success/crash-course", (_req, res) => {
     res.sendFile("public/downloads/pages/crash-course.html", { root: "." });
