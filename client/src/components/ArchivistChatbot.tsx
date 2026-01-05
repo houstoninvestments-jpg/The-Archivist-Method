@@ -87,7 +87,9 @@ const ArchivistChatbot = () => {
 
   const toggleListening = () => {
     if (!recognitionRef.current) {
-      alert("Speech recognition is not supported in your browser");
+      alert(
+        "Speech recognition is not supported in your browser. Please use Chrome or Edge.",
+      );
       return;
     }
 
@@ -113,7 +115,7 @@ const ArchivistChatbot = () => {
           },
           body: JSON.stringify({
             text: text,
-            reference_audio_url: "/the-archivist-voice.mp3",
+            reference_audio_url: "https://files.catbox.moe/8oygxu.mp3",
             exaggeration: 0.3,
             cfg: 0.4,
           }),
