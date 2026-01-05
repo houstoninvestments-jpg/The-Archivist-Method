@@ -8,9 +8,8 @@ import {
   Volume2,
   VolumeX,
   Loader2,
-  Sparkles,
-  Info,
-  Brain,
+  Mic,
+  MicOff,
 } from "lucide-react";
 
 interface Message {
@@ -31,9 +30,11 @@ const ArchivistChatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [hasMemory, setHasMemory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -53,11 +54,50 @@ const ArchivistChatbot = () => {
     if (memories) {
       setHasMemory(true);
     }
+
+    // Initialize speech recognition
+    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+      const SpeechRecognition =
+        (window as any).webkitSpeechRecognition ||
+        (window as any).SpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
   }, []);
 
   const dismissOnboarding = () => {
     setShowOnboarding(false);
     localStorage.setItem("archivist-onboarding-seen", "true");
+  };
+
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
+      alert("Speech recognition is not supported in your browser");
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
   };
 
   const generateVoice = async (text: string) => {
@@ -73,8 +113,7 @@ const ArchivistChatbot = () => {
           },
           body: JSON.stringify({
             text: text,
-            reference_audio_url:
-              "https://thearchivistmethod.com/the-archivist-voice.mp3",
+            reference_audio_url: "/the-archivist-voice.mp3",
             exaggeration: 0.3,
             cfg: 0.4,
           }),
@@ -269,6 +308,16 @@ REMEMBER: Short, conversational, curious. No lectures.`;
           }
         }
 
+        @keyframes micPulse {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.1);
+          }
+        }
+
         .neon-border {
           animation: neonPulse 3s ease-in-out infinite;
         }
@@ -277,6 +326,9 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         }
         .float-animation {
           animation: float 3s ease-in-out infinite;
+        }
+        .mic-pulse {
+          animation: micPulse 0.8s ease-in-out infinite;
         }
       `}</style>
 
@@ -296,12 +348,12 @@ REMEMBER: Short, conversational, curious. No lectures.`;
               />
               <div className="absolute inset-2 rounded-full bg-gradient-to-br from-teal-500/10 to-pink-500/10 group-hover:from-pink-500/10 group-hover:to-teal-500/10 transition-all duration-300"></div>
 
-              <div className="absolute -top-1 -right-1 w-5 h-5 bg-pink-500 rounded-full border-2 border-black flex items-center justify-center">
-                {hasMemory ? (
-                  <Brain className="w-3 h-3 text-white" />
-                ) : (
-                  <Sparkles className="w-3 h-3 text-white" />
-                )}
+              <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-black">
+                <img
+                  src="/archivist-icon.png"
+                  alt="The Archivist"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -347,33 +399,18 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   </div>
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-[16px] font-bold bg-gradient-to-r from-teal-400 to-pink-400 bg-clip-text text-transparent">
-                      The Archivist
-                    </h3>
-                    {hasMemory && (
-                      <Brain
-                        className="w-4 h-4 text-pink-400"
-                        style={{ animation: "pulse 2s ease-in-out infinite" }}
-                      />
-                    )}
-                  </div>
+                  <h3 className="text-[16px] font-bold bg-gradient-to-r from-teal-400 to-pink-400 bg-clip-text text-transparent">
+                    The Archivist
+                  </h3>
                   <p className="text-xs text-pink-400/80 font-medium">
                     {hasMemory
                       ? "Remembers your patterns"
-                      : "AI Pattern Expert • Live Now"}
+                      : "AI Pattern Expert"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setShowOnboarding(true)}
-                    className="p-2 rounded-lg border border-gray-700 hover:border-teal-500/50 hover:bg-teal-500/10 transition-all duration-200 group"
-                  >
-                    <Info className="w-4 h-4 text-gray-400 group-hover:text-teal-400 transition-colors" />
-                  </button>
-
                   {isPlayingAudio && (
-                    <div className="px-3 py-1.5 rounded-lg bg-teal-500/20 border border-teal-500/50 shadow-lg shadow-teal-500/20">
+                    <div className="px-3 py-1.5 rounded-lg bg-teal-500/20 border border-teal-500/50">
                       <span className="text-xs text-teal-400 font-bold flex items-center gap-1.5">
                         <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span>
                         Speaking
@@ -384,8 +421,8 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     onClick={() => setIsMuted(!isMuted)}
                     className={`p-2 rounded-lg border transition-all duration-200 ${
                       isMuted
-                        ? "border-gray-700 bg-gray-900/50 hover:border-red-500/50"
-                        : "border-teal-500/50 bg-teal-500/10 hover:border-teal-500"
+                        ? "border-gray-700 bg-gray-900/50"
+                        : "border-teal-500/50 bg-teal-500/10"
                     }`}
                   >
                     {isMuted ? (
@@ -396,7 +433,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 rounded-lg border border-pink-500/30 hover:bg-pink-500/20 hover:border-pink-500/50 transition-all duration-200"
+                    className="p-2 rounded-lg border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-200"
                   >
                     <X className="w-4 h-4 text-pink-400" />
                   </button>
@@ -409,8 +446,12 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                 <div className="max-w-md space-y-6 text-center slide-up">
                   <div className="relative mx-auto w-20 h-20">
                     <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-pink-500 rounded-full blur-xl opacity-50"></div>
-                    <div className="relative w-full h-full rounded-full bg-gradient-to-br from-teal-500 to-pink-500 flex items-center justify-center">
-                      <Brain className="w-10 h-10 text-white" />
+                    <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-teal-500 shadow-lg shadow-teal-500/50">
+                      <img
+                        src="/archivist-icon.png"
+                        alt="The Archivist"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
 
@@ -419,22 +460,21 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   </h2>
 
                   <p className="text-gray-300 leading-relaxed">
-                    I'm an AI trained to identify the 7 core patterns that
-                    control your life - unconscious programs installed in
-                    childhood.
+                    I identify the 7 core patterns controlling your life -
+                    unconscious programs from childhood.
                   </p>
 
                   <div className="space-y-3 text-left">
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        Talk naturally - I'll listen and ask questions
+                        Talk or type - I listen both ways
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-pink-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        I speak with voice - toggle on/off anytime
+                        I speak with voice - toggle on/off
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
@@ -511,7 +551,9 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="What's on your mind?"
+                  placeholder={
+                    isListening ? "Listening..." : "What's on your mind?"
+                  }
                   className="
                     flex-1 px-4 py-3 rounded-xl
                     bg-black/80 border-2 border-teal-500/40
@@ -519,8 +561,28 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     focus:outline-none focus:border-teal-500 focus:shadow-lg focus:shadow-teal-500/30
                     transition-all duration-200
                   "
-                  disabled={isLoading}
+                  disabled={isLoading || isListening}
                 />
+                <button
+                  onClick={toggleListening}
+                  disabled={isLoading}
+                  className={`
+                    px-4 py-3 rounded-xl border-2
+                    ${
+                      isListening
+                        ? "bg-red-500/20 border-red-500/50 mic-pulse"
+                        : "bg-teal-500/20 border-teal-500/50 hover:bg-teal-500/30"
+                    }
+                    transition-all duration-200
+                    disabled:opacity-40
+                  `}
+                >
+                  {isListening ? (
+                    <MicOff className="w-5 h-5 text-red-400" />
+                  ) : (
+                    <Mic className="w-5 h-5 text-teal-400" />
+                  )}
+                </button>
                 <button
                   onClick={sendMessage}
                   disabled={isLoading || !input.trim()}
