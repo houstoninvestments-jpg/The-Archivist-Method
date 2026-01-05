@@ -57,7 +57,6 @@ const ArchivistChatbot = () => {
       setHasMemory(true);
     }
 
-    // Initialize speech recognition
     if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
       const SpeechRecognition =
         (window as any).webkitSpeechRecognition ||
@@ -66,24 +65,22 @@ const ArchivistChatbot = () => {
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
 
-      // FIX #2: Use isFinal to detect when user is done speaking
       recognitionRef.current.onresult = (event: any) => {
         const result = event.results[event.results.length - 1];
         const transcript = result[0].transcript;
         setInput(transcript);
 
-        // If the engine is confident the user is done with a segment
-        if (result.isFinal && handsFreeMode) {
+        if (handsFreeMode) {
           if (silenceTimerRef.current) {
             clearTimeout(silenceTimerRef.current);
           }
 
-          // 2-second silence buffer before sending
           silenceTimerRef.current = setTimeout(() => {
-            handleSendMessage(transcript);
-            // Stop the mic briefly so it doesn't "hear" the AI's response
-            recognitionRef.current.stop();
-          }, 2000);
+            if (transcript.trim()) {
+              handleSendMessage(transcript.trim());
+              recognitionRef.current.stop();
+            }
+          }, 3000);
         }
       };
 
@@ -137,7 +134,6 @@ const ArchivistChatbot = () => {
     }
   };
 
-  // FIX #1: Corrected Fal.ai parameters
   const generateVoice = async (text: string) => {
     console.log("🎤 Generating voice with corrected parameters...");
     try {
@@ -153,11 +149,10 @@ const ArchivistChatbot = () => {
           body: JSON.stringify({
             text: text,
             reference_audio_url: "https://files.catbox.moe/8oygxu.mp3",
-            // CRITICAL FIXES:
-            exaggeration: 0.0, // Start at 0 to get pure clone
-            guidance_scale: 3.5, // Standard for turbo model
-            speech_steps: 25, // Higher quality processing
-            seed: 42, // Consistent seed for debugging
+            exaggeration: 0.0,
+            guidance_scale: 3.5,
+            speech_steps: 25,
+            seed: 42,
           }),
         },
       );
@@ -230,7 +225,6 @@ THE 7 PATTERNS (reference naturally):
 
 REMEMBER: Short, conversational, curious. No lectures.`;
 
-  // FIX #3: Synchronized reveal - wait for BOTH Claude and voice before showing response
   const handleSendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
 
@@ -247,12 +241,6 @@ REMEMBER: Short, conversational, curious. No lectures.`;
     }
 
     try {
-      const conversationHistory = messages.map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      }));
-
-      // Step 1: Get Claude response (don't display yet)
       console.log("💬 Getting Claude response...");
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -261,13 +249,10 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 150, // Keep it short for speed
+          max_tokens: 150,
           temperature: 0.9,
           system: systemPrompt,
-          messages: [
-            ...conversationHistory,
-            { role: "user", content: messageText },
-          ],
+          messages: [{ role: "user", content: messageText }],
         }),
       });
 
@@ -278,24 +263,20 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         console.log("✅ Claude responded");
 
         if (!isMuted) {
-          // Step 2: Generate voice BEFORE displaying text
           console.log("🎤 Generating voice...");
           const audioUrl = await generateVoice(responseText);
 
           if (audioUrl) {
             console.log("✅ Voice ready");
 
-            // Step 3: NOW display text and play audio simultaneously
             const assistantMessage: Message = {
               role: "assistant",
               content: responseText,
             };
             setMessages((prev) => [...prev, assistantMessage]);
 
-            // Play audio immediately
             await playAudio(audioUrl);
           } else {
-            // Fallback: no audio, just show text
             const assistantMessage: Message = {
               role: "assistant",
               content: responseText,
@@ -303,7 +284,6 @@ REMEMBER: Short, conversational, curious. No lectures.`;
             setMessages((prev) => [...prev, assistantMessage]);
           }
         } else {
-          // Voice muted, just show text
           const assistantMessage: Message = {
             role: "assistant",
             content: responseText,
