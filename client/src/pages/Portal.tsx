@@ -1,117 +1,41 @@
 import { useState } from "react";
-import { useLocation, Link } from "wouter";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Home } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PortalSidebar from "@/components/PortalSidebar";
 import ContentTab from "@/components/ContentTab";
-import ChatInterface from "@/components/ChatInterface";
 import AccountTab from "@/components/AccountTab";
-import LoginPrompt from "@/components/LoginPrompt";
 
 export default function Portal() {
-  const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("content");
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const isMobile = useIsMobile();
-  
-  // todo: remove mock functionality - get from actual auth state
-  const isLoggedIn = true;
-  const hasCompleteArchive = false;
-  const userEmail = "user@example.com";
-
-  const handleLogin = () => {
-    // todo: remove mock functionality - implement Replit Auth
-    console.log("Logging in with Replit Auth");
-  };
-
-  const handleLogout = () => {
-    // todo: remove mock functionality - implement logout
-    setLocation("/");
-  };
-
-  const handleUpgrade = () => {
-    // todo: remove mock functionality - redirect to Stripe checkout
-    console.log("Upgrading to complete archive");
-  };
-
-  if (!isLoggedIn) {
-    return <LoginPrompt onLogin={handleLogin} />;
-  }
-
-  const sidebarContent = (
-    <PortalSidebar
-      activeTab={activeTab}
-      onTabChange={setActiveTab}
-      onLogout={handleLogout}
-      className={isMobile ? "w-full h-full" : "w-64 min-h-screen"}
-      onNavigate={() => setSheetOpen(false)}
-    />
-  );
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {isMobile ? (
-        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <div className="flex flex-col w-full">
-            <header className="flex items-center justify-between gap-4 border-b border-border p-3">
-              <div className="flex items-center gap-2">
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <span className="font-semibold text-sm">
-                  {activeTab === "content" && "Content"}
-                  {activeTab === "archivist" && "The Archivist AI"}
-                  {activeTab === "account" && "Account"}
-                </span>
-              </div>
-              <Link href="/">
-                <Button variant="ghost" size="icon" data-testid="button-home-mobile">
-                  <Home className="h-5 w-5" />
-                </Button>
-              </Link>
-            </header>
-            <main className="flex-1 overflow-auto">
-              {activeTab === "content" && (
-                <ContentTab hasCompleteArchive={hasCompleteArchive} />
-              )}
-              {activeTab === "archivist" && <ChatInterface isMobile={true} />}
-              {activeTab === "account" && (
-                <AccountTab
-                  email={userEmail}
-                  hasPatternSession={true}
-                  hasCompleteArchive={hasCompleteArchive}
-                  onUpgrade={handleUpgrade}
-                />
-              )}
-            </main>
+    <div className="min-h-screen bg-archivist-dark">
+      <div className="flex">
+        <PortalSidebar />
+
+        <main className="flex-1 p-8">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="text-4xl font-bold text-white mb-8">
+              Member Portal
+            </h1>
+
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="mb-8">
+                <TabsTrigger value="content">Content</TabsTrigger>
+                <TabsTrigger value="account">Account</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="content">
+                <ContentTab />
+              </TabsContent>
+
+              <TabsContent value="account">
+                <AccountTab />
+              </TabsContent>
+            </Tabs>
           </div>
-          <SheetContent side="left" className="p-0 w-64">
-            {sidebarContent}
-          </SheetContent>
-        </Sheet>
-      ) : (
-        <>
-          {sidebarContent}
-          <main className="flex-1 overflow-hidden">
-            {activeTab === "content" && (
-              <ContentTab hasCompleteArchive={hasCompleteArchive} />
-            )}
-            {activeTab === "archivist" && <ChatInterface isMobile={false} />}
-            {activeTab === "account" && (
-              <AccountTab
-                email={userEmail}
-                hasPatternSession={true}
-                hasCompleteArchive={hasCompleteArchive}
-                onUpgrade={handleUpgrade}
-              />
-            )}
-          </main>
-        </>
-      )}
+        </main>
+      </div>
     </div>
   );
 }
