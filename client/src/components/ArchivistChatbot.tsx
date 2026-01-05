@@ -1,16 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import {
-  MessageCircle,
-  X,
-  Send,
-  Volume2,
-  VolumeX,
-  Loader2,
-  Mic,
-  MicOff,
-} from "lucide-react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -28,15 +19,8 @@ const ArchivistChatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [handsFreeMode, setHandsFreeMode] = useState(false);
   const [hasMemory, setHasMemory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const recognitionRef = useRef<any>(null);
-  const silenceTimerRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -56,148 +40,11 @@ const ArchivistChatbot = () => {
     if (memories) {
       setHasMemory(true);
     }
-
-    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
-      const SpeechRecognition =
-        (window as any).webkitSpeechRecognition ||
-        (window as any).SpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-
-      recognitionRef.current.onresult = (event: any) => {
-        const result = event.results[event.results.length - 1];
-        const transcript = result[0].transcript;
-        setInput(transcript);
-
-        if (handsFreeMode) {
-          if (silenceTimerRef.current) {
-            clearTimeout(silenceTimerRef.current);
-          }
-
-          silenceTimerRef.current = setTimeout(() => {
-            if (transcript.trim()) {
-              handleSendMessage(transcript.trim());
-              recognitionRef.current.stop();
-            }
-          }, 3000);
-        }
-      };
-
-      recognitionRef.current.onerror = (event: any) => {
-        console.error("Speech error:", event.error);
-      };
-
-      recognitionRef.current.onend = () => {
-        setIsListening(false);
-        if (handsFreeMode && !isLoading && !isPlayingAudio) {
-          setTimeout(() => {
-            try {
-              recognitionRef.current.start();
-              setIsListening(true);
-            } catch (e) {}
-          }, 500);
-        }
-      };
-    }
-  }, [handsFreeMode, isLoading, isPlayingAudio]);
+  }, []);
 
   const dismissOnboarding = () => {
     setShowOnboarding(false);
     localStorage.setItem("archivist-onboarding-seen", "true");
-  };
-
-  const toggleHandsFree = () => {
-    if (!recognitionRef.current) {
-      alert(
-        "Speech recognition is not supported in your browser. Please use Chrome or Edge.",
-      );
-      return;
-    }
-
-    const newMode = !handsFreeMode;
-    setHandsFreeMode(newMode);
-
-    if (newMode) {
-      try {
-        recognitionRef.current.start();
-        setIsListening(true);
-      } catch (e) {}
-    } else {
-      try {
-        recognitionRef.current.stop();
-        setIsListening(false);
-        if (silenceTimerRef.current) {
-          clearTimeout(silenceTimerRef.current);
-        }
-      } catch (e) {}
-    }
-  };
-
-  const generateVoice = async (text: string) => {
-    console.log("🎤 Generating voice with corrected parameters...");
-    try {
-      const response = await fetch(
-        "https://fal.run/fal-ai/chatterbox/text-to-speech/turbo",
-        {
-          method: "POST",
-          headers: {
-            Authorization:
-              "Key c674d6c9-5450-443c-9985-10c8039d6726:bfc3b7413e748b4391d814d871e3a185",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            text: text,
-            reference_audio_url: "https://files.catbox.moe/8oygxu.mp3",
-            exaggeration: 0.0,
-            guidance_scale: 3.5,
-            speech_steps: 25,
-            seed: 42,
-          }),
-        },
-      );
-
-      const data = await response.json();
-      console.log("✅ Voice response:", data);
-
-      if (data.audio?.url) {
-        return data.audio.url;
-      }
-      return null;
-    } catch (error) {
-      console.error("❌ Voice error:", error);
-      return null;
-    }
-  };
-
-  const playAudio = async (audioUrl: string) => {
-    try {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
-
-      audio.onplay = () => setIsPlayingAudio(true);
-      audio.onended = () => {
-        setIsPlayingAudio(false);
-        if (handsFreeMode && !isLoading) {
-          setTimeout(() => {
-            try {
-              recognitionRef.current.start();
-              setIsListening(true);
-            } catch (e) {}
-          }, 500);
-        }
-      };
-      audio.onerror = () => setIsPlayingAudio(false);
-
-      await audio.play();
-    } catch (error) {
-      console.error("❌ Playback error:", error);
-      setIsPlayingAudio(false);
-    }
   };
 
   const systemPrompt = `You are The Archivist - pattern expert who talks like a real human.
@@ -233,15 +80,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
     setInput("");
     setIsLoading(true);
 
-    if (handsFreeMode && recognitionRef.current) {
-      try {
-        recognitionRef.current.stop();
-        setIsListening(false);
-      } catch (e) {}
-    }
-
     try {
-      console.log("💬 Getting Claude response...");
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -259,46 +98,11 @@ REMEMBER: Short, conversational, curious. No lectures.`;
       const data = await response.json();
 
       if (data.content && data.content[0]) {
-        const responseText = data.content[0].text;
-        console.log("✅ Claude responded");
-
-        if (!isMuted) {
-          console.log("🎤 Generating voice...");
-          const audioUrl = await generateVoice(responseText);
-
-          if (audioUrl) {
-            console.log("✅ Voice ready");
-
-            const assistantMessage: Message = {
-              role: "assistant",
-              content: responseText,
-            };
-            setMessages((prev) => [...prev, assistantMessage]);
-
-            await playAudio(audioUrl);
-          } else {
-            const assistantMessage: Message = {
-              role: "assistant",
-              content: responseText,
-            };
-            setMessages((prev) => [...prev, assistantMessage]);
-          }
-        } else {
-          const assistantMessage: Message = {
-            role: "assistant",
-            content: responseText,
-          };
-          setMessages((prev) => [...prev, assistantMessage]);
-
-          if (handsFreeMode) {
-            setTimeout(() => {
-              try {
-                recognitionRef.current.start();
-                setIsListening(true);
-              } catch (e) {}
-            }, 500);
-          }
-        }
+        const assistantMessage: Message = {
+          role: "assistant",
+          content: data.content[0].text,
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
 
         if (!hasMemory) {
           setHasMemory(true);
@@ -306,7 +110,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         }
       }
     } catch (error) {
-      console.error("❌ Error:", error);
+      console.error("Error:", error);
       setMessages((prev) => [
         ...prev,
         {
@@ -391,16 +195,6 @@ REMEMBER: Short, conversational, curious. No lectures.`;
           }
         }
 
-        @keyframes micPulse {
-          0%,
-          100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.1);
-          }
-        }
-
         .neon-border {
           animation: neonPulse 3s ease-in-out infinite;
         }
@@ -409,9 +203,6 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         }
         .float-animation {
           animation: float 3s ease-in-out infinite;
-        }
-        .mic-pulse {
-          animation: micPulse 0.8s ease-in-out infinite;
         }
       `}</style>
 
@@ -486,36 +277,12 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     The Archivist
                   </h3>
                   <p className="text-xs text-pink-400/80 font-medium">
-                    {handsFreeMode
-                      ? "🎤 Hands-Free Active"
-                      : hasMemory
-                        ? "Remembers your patterns"
-                        : "AI Pattern Expert"}
+                    {hasMemory
+                      ? "Remembers your patterns"
+                      : "AI Pattern Expert"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  {isPlayingAudio && (
-                    <div className="px-3 py-1.5 rounded-lg bg-teal-500/20 border border-teal-500/50">
-                      <span className="text-xs text-teal-400 font-bold flex items-center gap-1.5">
-                        <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span>
-                        Speaking
-                      </span>
-                    </div>
-                  )}
-                  <button
-                    onClick={() => setIsMuted(!isMuted)}
-                    className={`p-2 rounded-lg border transition-all duration-200 ${
-                      isMuted
-                        ? "border-gray-700 bg-gray-900/50"
-                        : "border-teal-500/50 bg-teal-500/10"
-                    }`}
-                  >
-                    {isMuted ? (
-                      <VolumeX className="w-4 h-4 text-gray-400" />
-                    ) : (
-                      <Volume2 className="w-4 h-4 text-teal-400" />
-                    )}
-                  </button>
                   <button
                     onClick={() => setIsOpen(false)}
                     className="p-2 rounded-lg border border-pink-500/30 hover:bg-pink-500/20 transition-all duration-200"
@@ -553,23 +320,18 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        <strong>Hands-free mode</strong> - just talk naturally
+                        Talk naturally - I'll listen and ask questions
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-pink-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        I speak with voice - toggle on/off
+                        <strong>I remember everything</strong> - patterns,
+                        triggers, progress
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
-                      <p className="text-sm text-gray-400">
-                        I remember everything - patterns, triggers, progress
-                      </p>
-                    </div>
-                    <div className="flex gap-3 items-start">
-                      <div className="w-2 h-2 rounded-full bg-pink-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
                         No therapy talk - just mechanics
                       </p>
@@ -635,9 +397,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={
-                    isListening ? "Listening..." : "What's on your mind?"
-                  }
+                  placeholder="What's on your mind?"
                   className="
                     flex-1 px-4 py-3 rounded-xl
                     bg-black/80 border-2 border-teal-500/40
@@ -645,32 +405,11 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     focus:outline-none focus:border-teal-500 focus:shadow-lg focus:shadow-teal-500/30
                     transition-all duration-200
                   "
-                  disabled={isLoading || handsFreeMode}
+                  disabled={isLoading}
                 />
                 <button
-                  onClick={toggleHandsFree}
-                  disabled={isLoading}
-                  className={`
-                    px-4 py-3 rounded-xl border-2
-                    ${
-                      handsFreeMode
-                        ? "bg-teal-500/30 border-teal-500 mic-pulse"
-                        : "bg-teal-500/20 border-teal-500/50 hover:bg-teal-500/30"
-                    }
-                    transition-all duration-200
-                    disabled:opacity-40
-                  `}
-                  title="Toggle hands-free mode"
-                >
-                  {handsFreeMode ? (
-                    <Mic className="w-5 h-5 text-teal-400" />
-                  ) : (
-                    <MicOff className="w-5 h-5 text-teal-400" />
-                  )}
-                </button>
-                <button
                   onClick={sendMessage}
-                  disabled={isLoading || !input.trim() || handsFreeMode}
+                  disabled={isLoading || !input.trim()}
                   className="
                     px-6 py-3 rounded-xl
                     bg-gradient-to-r from-pink-500 to-pink-600 
@@ -686,9 +425,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                 </button>
               </div>
               <p className="text-[10px] text-teal-300/60 text-center mt-3 font-bold tracking-widest uppercase">
-                {handsFreeMode
-                  ? "🎤 Hands-Free Active - Just Talk"
-                  : "Pattern Archaeology, Not Therapy"}
+                Pattern Archaeology, Not Therapy
               </p>
             </div>
           </div>
