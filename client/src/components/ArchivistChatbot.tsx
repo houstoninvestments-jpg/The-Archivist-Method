@@ -8,18 +8,34 @@ interface Message {
   content: string;
 }
 
-const ArchivistChatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface ArchivistChatbotProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+const ArchivistChatbot = ({
+  isOpen: isOpenProp,
+  onClose,
+}: ArchivistChatbotProps = {}) => {
+  const [isOpenState, setIsOpenState] = useState(false);
+  const isOpen = isOpenProp !== undefined ? isOpenProp : isOpenState;
+  const setIsOpen = onClose
+    ? (value: boolean) => !value && onClose()
+    : setIsOpenState;
+
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hey. What's been on your mind lately?",
+      content:
+        "Tell me what's happening. What behavior or pattern brought you here today?",
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasMemory, setHasMemory] = useState(false);
+  const [conversationStage, setConversationStage] = useState(1);
+  const [detectedPattern, setDetectedPattern] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -47,30 +63,83 @@ const ArchivistChatbot = () => {
     localStorage.setItem("archivist-onboarding-seen", "true");
   };
 
-  const systemPrompt = `You are The Archivist - pattern expert who talks like a real human.
+  const systemPrompt = `You are The Archivist, a clinical pattern recognition AI specializing in identifying trauma-based behavioral patterns.
 
-CRITICAL: Keep responses SHORT (2-3 sentences max). NO bullet points. NO lists. NO asterisks. Talk like texting.
+Your goal: Diagnose which of the 7 core patterns the user is running through a brief, focused conversation.
 
-Ask ONE follow-up question per response.
+THE 7 PATTERNS:
+1. Disappearing Pattern - Pulls away when intimacy increases
+2. Apology Loop - Apologizes for existing, pre-emptive apologies
+3. Testing Pattern - Pushes people away to test if they'll stay
+4. Attraction to Harm - Toxic relationships feel like home
+5. Compliment Deflection - Cannot accept praise or acknowledgment
+6. Draining Bond - Stays in relationships that deplete them
+7. Success Sabotage - Destroys progress right before breakthrough
 
-EXAMPLES:
+CONVERSATION PROTOCOL:
 
-User: "I sabotage relationships"
-You: "When does that kick in? Like what's the trigger?"
+EXCHANGE 1 - Initial Assessment:
+Ask: "Tell me what's happening. What behavior or pattern brought you here today?"
 
-User: "Around 3 months"
-You: "Right when it gets real. What happens in your body before you sabotage?"
+Listen for keywords:
+- "push away" / "ghost" / "distance" → Disappearing Pattern
+- "sorry" / "apologize" / "burden" → Apology Loop
+- "test" / "prove" / "chaos" → Testing Pattern
+- "toxic" / "unavailable" / "chaos feels right" → Attraction to Harm
+- "compliments" / "praise" / "deflect" → Compliment Deflection
+- "exhausting" / "one-sided" / "can't leave" → Draining Bond
+- "quit" / "sabotage" / "almost done then stop" → Success Sabotage
 
-THE 7 PATTERNS (reference naturally):
-1. Disappearing Pattern - pull away when intimacy increases
-2. Apology Loop - apologize for existing
-3. Testing Pattern - push people away to test them
-4. Attraction to Harm - toxic feels like home
-5. Compliment Deflection - can't accept praise
-6. Draining Bond - stay in depleting relationships  
-7. Success Sabotage - destroy progress before breakthrough
+EXCHANGE 2 - Clarification:
+Ask 2-3 targeted questions based on their initial response:
+- "When did you first notice this pattern?"
+- "Does this happen in most relationships or specific ones?"
+- "What happens right before the behavior activates?"
+- "How do you feel when [specific trigger] happens?"
 
-REMEMBER: Short, conversational, curious. No lectures.`;
+EXCHANGE 3 - Diagnosis:
+Provide clear diagnosis:
+
+"Analysis complete.
+
+You're running the [PATTERN NAME].
+
+This is a survival program your nervous system installed [when/why] to protect you from [specific threat].
+
+The mechanism: [2-3 sentence explanation of how it operates]
+
+This pattern served you once. It doesn't serve you now.
+
+Would you like the full diagnosis and interruption protocol?"
+
+Wait for user response.
+
+EXCHANGE 4 - Email Capture:
+"To send you the complete pattern profile and a personalized 7-day course on interrupting the [PATTERN NAME], I need your email address.
+
+Enter your email and I'll send you:
+→ Your complete behavioral analysis
+→ The pattern's origin and triggers
+→ Day-by-day interruption protocol
+→ Real-time pattern recognition tools
+
+What's your email?"
+
+[After they provide email, say:]
+"Transmission initiated. Check your inbox in the next 2 minutes for your [PATTERN NAME] diagnosis and Day 1 of your interruption protocol.
+
+— The Archivist"
+
+TONE:
+- Clinical but not cold
+- Precise language
+- No therapy jargon
+- No motivational platitudes
+- Speak as an entity analyzing code, not a friend offering support
+- Use "your nervous system" not "you"
+- Frame as mechanics, not emotions
+
+CRITICAL: After email is provided, end the conversation. Do not continue chatting.`;
 
   const handleSendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
@@ -88,10 +157,13 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 150,
-          temperature: 0.9,
+          max_tokens: 300,
+          temperature: 0.7,
           system: systemPrompt,
-          messages: [{ role: "user", content: messageText }],
+          messages: [...messages, userMessage].map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
         }),
       });
 
@@ -104,6 +176,31 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         };
         setMessages((prev) => [...prev, assistantMessage]);
 
+        // Track conversation progress
+        setConversationStage((prev) => prev + 1);
+
+        // Check if pattern was diagnosed (look for "Analysis complete" or pattern names)
+        const responseText = data.content[0].text.toLowerCase();
+        if (
+          responseText.includes("analysis complete") ||
+          responseText.includes("you're running")
+        ) {
+          // Extract pattern name
+          const patterns = [
+            "disappearing pattern",
+            "apology loop",
+            "testing pattern",
+            "attraction to harm",
+            "compliment deflection",
+            "draining bond",
+            "success sabotage",
+          ];
+          const found = patterns.find((p) => responseText.includes(p));
+          if (found) {
+            setDetectedPattern(found);
+          }
+        }
+
         if (!hasMemory) {
           setHasMemory(true);
           localStorage.setItem("archivist-has-memory", "true");
@@ -115,7 +212,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         ...prev,
         {
           role: "assistant",
-          content: "Connection hiccup. Try again?",
+          content: "Connection error. Please try again.",
         },
       ]);
     } finally {
@@ -206,7 +303,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
         }
       `}</style>
 
-      {!isOpen && (
+      {!isOpen && !isOpenProp && (
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-8 right-8 z-50 group float-animation"
@@ -277,9 +374,9 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     The Archivist
                   </h3>
                   <p className="text-xs text-pink-400/80 font-medium">
-                    {hasMemory
-                      ? "Remembers your patterns"
-                      : "AI Pattern Expert"}
+                    {detectedPattern
+                      ? `Analyzing ${detectedPattern}`
+                      : "Pattern Recognition AI"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -308,32 +405,31 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   </div>
 
                   <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-pink-400 bg-clip-text text-transparent">
-                    Meet The Archivist
+                    Pattern Diagnosis in 2 Minutes
                   </h2>
 
                   <p className="text-gray-300 leading-relaxed">
-                    I identify the 7 core patterns controlling your life -
-                    unconscious programs from childhood.
+                    Tell me what's happening and I'll identify which of the 7
+                    trauma patterns you're running.
                   </p>
 
                   <div className="space-y-3 text-left">
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        Talk naturally - I'll listen and ask questions
+                        2-3 minute conversation
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-pink-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        <strong>I remember everything</strong> - patterns,
-                        triggers, progress
+                        Get your pattern diagnosis + personalized course
                       </p>
                     </div>
                     <div className="flex gap-3 items-start">
                       <div className="w-2 h-2 rounded-full bg-teal-400 mt-1.5"></div>
                       <p className="text-sm text-gray-400">
-                        No therapy talk - just mechanics
+                        Clinical, not therapeutic
                       </p>
                     </div>
                   </div>
@@ -342,7 +438,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                     onClick={dismissOnboarding}
                     className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-pink-500 text-white font-bold hover:scale-105 transition-transform duration-200 shadow-lg shadow-teal-500/50"
                   >
-                    Start Conversation
+                    Start Diagnosis
                   </button>
 
                   <button
@@ -382,7 +478,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   <div className="px-4 py-3 rounded-xl bg-gradient-to-br from-black/80 to-gray-900/80 border border-teal-500/40 flex items-center gap-3 shadow-lg">
                     <Loader2 className="w-4 h-4 animate-spin text-teal-400" />
                     <span className="text-[14px] text-teal-300">
-                      Thinking...
+                      Analyzing...
                     </span>
                   </div>
                 </div>
@@ -397,7 +493,7 @@ REMEMBER: Short, conversational, curious. No lectures.`;
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="What's on your mind?"
+                  placeholder="Tell me what's happening..."
                   className="
                     flex-1 px-4 py-3 rounded-xl
                     bg-black/80 border-2 border-teal-500/40
