@@ -30,6 +30,7 @@ function Router() {
       <Route path="/thank-you-complete" component={ThankYouComplete} />
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal/dashboard" component={PortalDashboard} />
+      <Route path="/portal/preview" component={PortalDashboard} />
       <Route path="/portal" component={Portal} />
       <Route path="/free" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
