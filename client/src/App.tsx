@@ -9,6 +9,8 @@ import ThankYou from "@/pages/ThankYou";
 import ThankYouQuickStart from "@/pages/ThankYouQuickStart";
 import ThankYouComplete from "@/pages/ThankYouComplete";
 import Portal from "@/pages/Portal";
+import PortalLogin from "@/pages/PortalLogin";
+import PortalDashboard from "@/pages/PortalDashboard";
 import FreeDownload from "@/pages/FreeDownload";
 import QuickStart from "@/pages/QuickStart";
 import CompleteArchive from "@/pages/CompleteArchive";
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/thank-you-quick-start" component={ThankYouQuickStart} />
       <Route path="/thank-you-complete" component={ThankYouComplete} />
+      <Route path="/portal/login" component={PortalLogin} />
+      <Route path="/portal/dashboard" component={PortalDashboard} />
       <Route path="/portal" component={Portal} />
       <Route path="/free" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />

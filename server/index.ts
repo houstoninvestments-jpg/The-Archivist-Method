@@ -2,6 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import cookieParser from "cookie-parser";
+import portalRoutes from "./portal/routes";
 
 const app = express();
 const httpServer = createServer(app);
@@ -12,6 +14,8 @@ declare module "http" {
   }
 }
 
+app.use(cookieParser());
+
 app.use(
   express.json({
     verify: (req, _res, buf) => {
@@ -19,7 +23,6 @@ app.use(
     },
   }),
 );
-
 app.use(express.urlencoded({ extended: false }));
 
 export function log(message: string, source = "express") {
@@ -48,7 +51,7 @@ app.use((req, res, next) => {
     if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
-        logLine += `:: ${JSON.stringify(capturedJsonResponse)}`;
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
       log(logLine);
     }
@@ -61,6 +64,7 @@ app.use((req, res, next) => {
 app.post("/api/generate-voice", async (req, res) => {
   try {
     const { text } = req.body;
+
     const response = await fetch(
       "https://queue.fal.run/fal-ai/chatterbox/text-to-speech/turbo",
       {
@@ -87,6 +91,9 @@ app.post("/api/generate-voice", async (req, res) => {
     res.status(500).json({ error: "Voice generation failed" });
   }
 });
+
+// PORTAL ROUTES
+app.use("/api/portal", portalRoutes);
 
 (async () => {
   try {
@@ -120,7 +127,6 @@ app.post("/api/generate-voice", async (req, res) => {
     }
 
     const port = parseInt(process.env.PORT || "5000", 10);
-
     httpServer.listen(
       {
         port,
