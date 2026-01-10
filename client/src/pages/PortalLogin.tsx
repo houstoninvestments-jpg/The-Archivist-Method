@@ -145,6 +145,7 @@ export default function PortalLogin() {
                 src="/archivist-icon.png"
                 alt="The Archivist"
                 className="relative w-full h-full object-contain"
+                style={{ mixBlendMode: 'screen' }}
               />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-3">

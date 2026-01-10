@@ -140,6 +140,7 @@ export default function PortalDashboardPreview() {
                 src={archivistIcon} 
                 alt="The Archivist" 
                 className="relative w-12 h-12 object-contain"
+                style={{ mixBlendMode: 'screen' }}
               />
             </div>
             <div>
