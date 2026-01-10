@@ -1,4 +1,5 @@
 import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight } from 'lucide-react';
+
 const archivistIcon = '/archivist-icon.png';
 
 const previewData = {
@@ -34,91 +35,19 @@ export default function PortalDashboardPreview() {
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
-      <style>{`
-        @keyframes rotate-border {
-          0% { --angle: 0deg; }
-          100% { --angle: 360deg; }
-        }
-        
-        @keyframes glow-pulse {
-          0%, 100% { opacity: 0.5; }
-          50% { opacity: 1; }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-5px); }
-        }
-        
-        .animate-border {
-          position: relative;
-          border-radius: 16px;
-          overflow: hidden;
-        }
-        
-        .animate-border::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          padding: 2px;
-          border-radius: 16px;
-          background: conic-gradient(from var(--angle, 0deg), #14B8A6, #06B6D4, #EC4899, #14B8A6);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          animation: rotate-border 4s linear infinite;
-        }
-        
-        .animate-border-slow::before {
-          animation: rotate-border 6s linear infinite;
-        }
-        
-        .glow-teal {
-          box-shadow: 0 0 40px rgba(20, 184, 166, 0.3), 0 0 80px rgba(6, 182, 212, 0.2);
-        }
-        
-        .glow-pink {
-          box-shadow: 0 0 40px rgba(236, 72, 153, 0.3), 0 0 80px rgba(236, 72, 153, 0.2);
-        }
-        
-        .glass-card {
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-        }
-        
-        .gradient-text-teal {
-          background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        
-        .gradient-text-pink {
-          background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        @property --angle {
-          syntax: '<angle>';
-          initial-value: 0deg;
-          inherits: false;
-        }
-      `}</style>
-
-      {/* Gothic grid background with radial fade */}
+      {/* Grid background */}
       <div 
-        className="fixed inset-0 opacity-30"
+        className="fixed inset-0 opacity-20"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px)
+            linear-gradient(rgba(20, 184, 166, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20, 184, 166, 0.1) 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }}
       />
+      
+      {/* Radial fade */}
       <div 
         className="fixed inset-0"
         style={{
@@ -126,38 +55,36 @@ export default function PortalDashboardPreview() {
         }}
       />
 
-      {/* Ambient glow effects */}
-      <div className="fixed top-0 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl" style={{ background: 'radial-gradient(circle, #14B8A6 0%, transparent 70%)' }} />
-      <div className="fixed bottom-0 right-1/4 w-96 h-96 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle, #EC4899 0%, transparent 70%)' }} />
+      {/* Static ambient glow */}
+      <div className="fixed top-0 left-1/4 w-96 h-96 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, #14B8A6 0%, transparent 70%)' }} />
+      <div className="fixed bottom-0 right-1/4 w-96 h-96 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #EC4899 0%, transparent 70%)' }} />
 
       {/* Sticky Header */}
-      <header className="sticky top-0 z-50 glass-card border-b border-white/5">
+      <header 
+        className="sticky top-0 z-50 border-b border-white/10"
+        style={{ background: 'rgba(10, 10, 10, 0.9)', backdropFilter: 'blur(8px)' }}
+      >
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full blur-xl opacity-60" style={{ background: 'radial-gradient(circle, #14B8A6 0%, transparent 70%)' }} />
-              <div className="w-12 h-12 rounded-full overflow-hidden" style={{ background: 'transparent' }}>
-                <img 
-                  src={archivistIcon} 
-                  alt="The Archivist" 
-                  className="w-full h-full object-cover"
-                  style={{ 
-                    mixBlendMode: 'lighten',
-                    filter: 'drop-shadow(0 0 20px rgba(20, 184, 166, 0.5))'
-                  }}
-                />
-              </div>
-            </div>
+            <img 
+              src={archivistIcon} 
+              alt="The Archivist" 
+              className="w-10 h-10 object-cover"
+              style={{ background: 'black', borderRadius: '50%', padding: '2px' }}
+            />
             <div>
-              <h1 className="text-2xl font-bold gradient-text-teal">
+              <h1 
+                className="text-xl font-bold bg-clip-text text-transparent"
+                style={{ backgroundImage: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' }}
+              >
                 Pattern Archive
               </h1>
-              <p className="text-gray-600 text-xs tracking-wider">PREVIEW MODE</p>
+              <p className="text-gray-500 text-xs tracking-wider">PREVIEW MODE</p>
             </div>
           </div>
           <button
             onClick={() => window.location.href = '/#pricing'}
-            className="px-5 py-2.5 rounded-lg font-semibold text-black transition-all hover:scale-105"
+            className="px-5 py-2.5 rounded-lg font-semibold text-black transition-opacity hover:opacity-90"
             style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' }}
             data-testid="button-get-access"
           >
@@ -172,8 +99,14 @@ export default function PortalDashboardPreview() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {/* Days in Archive */}
-            <div className="animate-border glow-teal">
-              <div className="glass-card rounded-2xl p-6 h-full">
+            <div 
+              className="rounded-2xl p-[1px]"
+              style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' }}
+            >
+              <div 
+                className="rounded-2xl p-6 h-full"
+                style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(8px)' }}
+              >
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-3 rounded-xl" style={{ background: 'rgba(20, 184, 166, 0.15)' }}>
                     <Clock className="w-6 h-6" style={{ color: '#14B8A6' }} />
@@ -185,8 +118,14 @@ export default function PortalDashboardPreview() {
             </div>
 
             {/* Active Systems */}
-            <div className="animate-border glow-teal">
-              <div className="glass-card rounded-2xl p-6 h-full">
+            <div 
+              className="rounded-2xl p-[1px]"
+              style={{ background: 'linear-gradient(135deg, #06B6D4 0%, #14B8A6 100%)' }}
+            >
+              <div 
+                className="rounded-2xl p-6 h-full"
+                style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(8px)' }}
+              >
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-3 rounded-xl" style={{ background: 'rgba(6, 182, 212, 0.15)' }}>
                     <BookOpen className="w-6 h-6" style={{ color: '#06B6D4' }} />
@@ -198,8 +137,14 @@ export default function PortalDashboardPreview() {
             </div>
 
             {/* AI Conversations */}
-            <div className="animate-border glow-teal">
-              <div className="glass-card rounded-2xl p-6 h-full">
+            <div 
+              className="rounded-2xl p-[1px]"
+              style={{ background: 'linear-gradient(135deg, #EC4899 0%, #14B8A6 100%)' }}
+            >
+              <div 
+                className="rounded-2xl p-6 h-full"
+                style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(8px)' }}
+              >
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-3 rounded-xl" style={{ background: 'rgba(236, 72, 153, 0.15)' }}>
                     <MessageCircle className="w-6 h-6" style={{ color: '#EC4899' }} />
@@ -219,19 +164,23 @@ export default function PortalDashboardPreview() {
             </h3>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {userData.purchases.map((purchase, index) => (
-                <div key={purchase.productId} className="animate-border animate-border-slow glow-teal">
-                  <div className="glass-card rounded-2xl p-6 h-full">
+              {userData.purchases.map((purchase) => (
+                <div 
+                  key={purchase.productId} 
+                  className="rounded-2xl p-[1px]"
+                  style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' }}
+                >
+                  <div 
+                    className="rounded-2xl p-6 h-full"
+                    style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(8px)' }}
+                  >
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div 
                           className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-3"
-                          style={{ 
-                            background: 'rgba(20, 184, 166, 0.15)',
-                            border: '1px solid rgba(20, 184, 166, 0.3)'
-                          }}
+                          style={{ background: 'rgba(20, 184, 166, 0.15)', border: '1px solid rgba(20, 184, 166, 0.3)' }}
                         >
-                          <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#14B8A6' }} />
+                          <span className="w-2 h-2 rounded-full" style={{ background: '#14B8A6' }} />
                           <span className="text-xs font-bold tracking-widest" style={{ color: '#14B8A6' }}>ACTIVE</span>
                         </div>
                         <h4 className="text-xl font-bold text-white mb-1">{purchase.productName}</h4>
@@ -250,11 +199,8 @@ export default function PortalDashboardPreview() {
 
                     <button
                       onClick={() => handleDownload(purchase.productId)}
-                      className="w-full mt-4 px-4 py-3 rounded-xl font-semibold text-black transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
-                      style={{ 
-                        background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
-                        boxShadow: '0 10px 40px rgba(20, 184, 166, 0.3)'
-                      }}
+                      className="w-full mt-4 px-4 py-3 rounded-xl font-semibold text-black transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
+                      style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' }}
                       data-testid={`button-download-${purchase.productId}`}
                     >
                       <Download className="w-5 h-5" />
@@ -276,23 +222,30 @@ export default function PortalDashboardPreview() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {userData.availableUpgrades.map((upgrade) => (
-                  <div key={upgrade.id} className="animate-border glow-pink">
-                    <div className="glass-card rounded-2xl p-6 h-full">
+                  <div 
+                    key={upgrade.id} 
+                    className="rounded-2xl p-[1px]"
+                    style={{ background: 'linear-gradient(135deg, #EC4899 0%, #F472B6 100%)' }}
+                  >
+                    <div 
+                      className="rounded-2xl p-6 h-full"
+                      style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(8px)' }}
+                    >
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <div 
                             className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-3"
-                            style={{ 
-                              background: 'rgba(255, 255, 255, 0.05)',
-                              border: '1px solid rgba(255, 255, 255, 0.1)'
-                            }}
+                            style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
                           >
                             <Lock className="w-3 h-3 text-gray-500" />
                             <span className="text-xs font-bold tracking-widest text-gray-500">LOCKED</span>
                           </div>
                           <h4 className="text-xl font-bold text-white mb-2">{upgrade.name}</h4>
                           <p className="text-sm text-gray-500 mb-4">{upgrade.description}</p>
-                          <div className="text-3xl font-bold gradient-text-pink">
+                          <div 
+                            className="text-3xl font-bold bg-clip-text text-transparent"
+                            style={{ backgroundImage: 'linear-gradient(135deg, #EC4899 0%, #F472B6 100%)' }}
+                          >
                             ${upgrade.price}
                           </div>
                         </div>
@@ -302,12 +255,8 @@ export default function PortalDashboardPreview() {
                       </div>
                       <button
                         onClick={() => window.location.href = "/#pricing"}
-                        className="w-full mt-4 px-4 py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
-                        style={{ 
-                          background: 'rgba(236, 72, 153, 0.1)',
-                          border: '1px solid rgba(236, 72, 153, 0.3)',
-                          color: '#EC4899'
-                        }}
+                        className="w-full mt-4 px-4 py-3 rounded-xl font-semibold transition-opacity hover:opacity-80 flex items-center justify-center gap-2"
+                        style={{ background: 'rgba(236, 72, 153, 0.1)', border: '1px solid rgba(236, 72, 153, 0.3)', color: '#EC4899' }}
                         data-testid={`button-unlock-${upgrade.id}`}
                       >
                         <span>Unlock System</span>
