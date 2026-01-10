@@ -136,12 +136,17 @@ export default function PortalDashboardPreview() {
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className="absolute inset-0 rounded-full blur-xl opacity-60" style={{ background: 'radial-gradient(circle, #14B8A6 0%, transparent 70%)' }} />
-              <img 
-                src={archivistIcon} 
-                alt="The Archivist" 
-                className="relative w-12 h-12 object-contain"
-                style={{ mixBlendMode: 'screen' }}
-              />
+              <div className="w-12 h-12 rounded-full overflow-hidden" style={{ background: 'transparent' }}>
+                <img 
+                  src={archivistIcon} 
+                  alt="The Archivist" 
+                  className="w-full h-full object-cover"
+                  style={{ 
+                    mixBlendMode: 'lighten',
+                    filter: 'drop-shadow(0 0 20px rgba(20, 184, 166, 0.5))'
+                  }}
+                />
+              </div>
             </div>
             <div>
               <h1 className="text-2xl font-bold gradient-text-teal">

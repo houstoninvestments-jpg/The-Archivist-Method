@@ -136,17 +136,22 @@ export default function PortalLogin() {
         <div className="w-full max-w-lg">
           {/* Logo */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 mb-6 relative">
+            <div className="inline-flex items-center justify-center mb-6 relative">
               <div 
                 className="absolute inset-0 rounded-full blur-xl animate-pulse"
                 style={{ background: 'radial-gradient(circle, rgba(20, 184, 166, 0.4) 0%, transparent 70%)' }}
               />
-              <img
-                src="/archivist-icon.png"
-                alt="The Archivist"
-                className="relative w-full h-full object-contain"
-                style={{ mixBlendMode: 'screen' }}
-              />
+              <div className="w-20 h-20 rounded-full overflow-hidden" style={{ background: 'transparent' }}>
+                <img 
+                  src="/archivist-icon.png" 
+                  alt="The Archivist" 
+                  className="w-full h-full object-cover"
+                  style={{ 
+                    mixBlendMode: 'lighten',
+                    filter: 'drop-shadow(0 0 20px rgba(20, 184, 166, 0.5))'
+                  }}
+                />
+              </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
               <span 
