@@ -1,4 +1,6 @@
-import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut } from 'lucide-react';
+import { useState } from 'react';
+import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut, BookMarked } from 'lucide-react';
+import PDFReader from '@/components/PDFReader';
 
 const archivistIcon = '/archivist-icon.png';
 
@@ -11,6 +13,10 @@ const previewData = {
       description: 'Full 685-page system with advanced pattern combinations and lifetime updates',
       price: 197,
       purchasedAt: new Date().toISOString(),
+      pdfUrl: '/downloads/complete-archive.pdf',
+      totalPages: 685,
+      currentPage: 219,
+      progress: 32,
     },
     {
       productId: 'quick-start',
@@ -18,6 +24,10 @@ const previewData = {
       description: 'Essential 47-page guide to identify your core patterns in 7 days',
       price: 47,
       purchasedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+      pdfUrl: '/downloads/quick-start-system.pdf',
+      totalPages: 47,
+      currentPage: 15,
+      progress: 32,
     },
   ],
   availableUpgrades: [] as { id: string; name: string; price: number; description: string }[],
@@ -25,9 +35,22 @@ const previewData = {
 
 export default function PortalDashboardPreview() {
   const userData = previewData;
+  const [activePdf, setActivePdf] = useState<{
+    url: string;
+    title: string;
+    initialPage: number;
+  } | null>(null);
 
   const handleDownload = (productId: string) => {
     window.location.href = `/api/portal/download/${productId}`;
+  };
+
+  const handleReadNow = (purchase: typeof previewData.purchases[0]) => {
+    setActivePdf({
+      url: purchase.pdfUrl,
+      title: purchase.productName,
+      initialPage: purchase.currentPage,
+    });
   };
 
   return (
@@ -333,18 +356,59 @@ export default function PortalDashboardPreview() {
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => handleDownload(purchase.productId)}
-                      className="w-full mt-3 px-4 py-3 rounded-lg font-semibold text-black transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
-                      style={{ 
-                        background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
-                        boxShadow: '0 4px 20px rgba(20, 184, 166, 0.25), inset 0 1px 0 rgba(255,255,255,0.15)'
-                      }}
-                      data-testid={`button-download-${purchase.productId}`}
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Access System</span>
-                    </button>
+                    {/* Progress Section */}
+                    <div className="mb-4 pt-3 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BookMarked className="w-3.5 h-3.5 text-gray-500" />
+                          <span className="text-xs text-gray-500">Last read: Page {purchase.currentPage}</span>
+                        </div>
+                        <span className="text-xs font-semibold" style={{ color: '#14B8A6' }}>{purchase.progress}% complete</span>
+                      </div>
+                      {/* Progress Bar */}
+                      <div 
+                        className="h-1.5 rounded-full overflow-hidden"
+                        style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                      >
+                        <div 
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{ 
+                            width: `${purchase.progress}%`,
+                            background: 'linear-gradient(90deg, #14B8A6 0%, #06B6D4 100%)',
+                            boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)'
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 mt-4">
+                      <button
+                        onClick={() => handleReadNow(purchase)}
+                        className="flex-1 px-4 py-3 rounded-lg font-semibold text-black transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
+                        style={{ 
+                          background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
+                          boxShadow: '0 4px 20px rgba(20, 184, 166, 0.25), inset 0 1px 0 rgba(255,255,255,0.15)'
+                        }}
+                        data-testid={`button-read-${purchase.productId}`}
+                      >
+                        <BookOpen className="w-4 h-4" />
+                        <span>Read Now</span>
+                      </button>
+                      <button
+                        onClick={() => handleDownload(purchase.productId)}
+                        className="px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
+                        style={{ 
+                          background: 'rgba(255, 255, 255, 0.03)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          color: '#fff'
+                        }}
+                        data-testid={`button-download-${purchase.productId}`}
+                      >
+                        <Download className="w-4 h-4" />
+                        <span className="hidden sm:inline">Download</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -420,6 +484,16 @@ export default function PortalDashboardPreview() {
           )}
         </div>
       </div>
+
+      {/* PDF Reader Modal */}
+      {activePdf && (
+        <PDFReader
+          pdfUrl={activePdf.url}
+          title={activePdf.title}
+          initialPage={activePdf.initialPage}
+          onClose={() => setActivePdf(null)}
+        />
+      )}
     </div>
   );
 }
