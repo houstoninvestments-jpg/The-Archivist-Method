@@ -19,7 +19,7 @@ const ParticleField = () => {
         initialY: Math.random() * 100,
         driftX: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
         driftY: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
-        duration: Math.random() * 15 + 12,
+        duration: Math.random() * 5 + 5,
         opacity: [0.15, Math.random() * 0.5 + 0.3, 0.15],
         delay: Math.random() * 5,
         color,
