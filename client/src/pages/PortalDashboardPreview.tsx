@@ -1,4 +1,4 @@
-import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, Sparkles, LogOut } from 'lucide-react';
+import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut } from 'lucide-react';
 
 const archivistIcon = '/archivist-icon.png';
 
@@ -27,7 +27,7 @@ export default function PortalDashboardPreview() {
   const userData = previewData;
 
   const handleDownload = (productId: string) => {
-    window.location.href = '/#pricing';
+    window.location.href = `/api/portal/download/${productId}`;
   };
 
   return (
@@ -79,7 +79,7 @@ export default function PortalDashboardPreview() {
         }}
       >
         <div className="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+          <a href="/" className="flex items-center gap-3.5 hover:opacity-90 transition-opacity">
             <img 
               src={archivistIcon} 
               alt="The Archivist" 
@@ -95,16 +95,16 @@ export default function PortalDashboardPreview() {
               </h1>
               <p className="text-gray-600 text-[11px]">Member Portal</p>
             </div>
-          </div>
+          </a>
           <div className="flex items-center gap-3">
             <span 
-              className="px-1.5 py-0.5 rounded text-[9px] font-medium tracking-wider"
+              className="px-1.5 py-0.5 rounded text-[9px] font-medium tracking-wider select-none"
               style={{ background: 'rgba(255, 255, 255, 0.03)', color: 'rgba(255, 255, 255, 0.35)', border: '1px solid rgba(255, 255, 255, 0.06)' }}
             >
               PREVIEW
             </span>
-            <button
-              onClick={() => window.location.href = '/#pricing'}
+            <a
+              href="/#products"
               className="px-4 py-2 rounded-lg font-semibold text-black text-sm transition-all duration-300 hover:scale-[1.02]"
               style={{ 
                 background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)', 
@@ -113,16 +113,16 @@ export default function PortalDashboardPreview() {
               data-testid="button-get-access"
             >
               Get Full Access
-            </button>
-            <button
-              onClick={() => window.location.href = '/portal/login'}
+            </a>
+            <a
+              href="/portal/login"
               className="p-2 rounded-lg transition-all duration-300 hover:scale-[1.02]"
               style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)' }}
               data-testid="button-logout"
               title="Logout"
             >
               <LogOut className="w-4 h-4 text-gray-500" />
-            </button>
+            </a>
           </div>
         </div>
       </header>
@@ -257,12 +257,12 @@ export default function PortalDashboardPreview() {
                       <MessageCircle className="w-8 h-8" style={{ color: '#14B8A6' }} />
                     </div>
                     <div>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5">Need Help Identifying Your Patterns?</h3>
-                      <p className="text-gray-400 text-sm md:text-base">Talk to The Archivist AI for personalized guidance on your trauma patterns.</p>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5">Excavating Your Patterns?</h3>
+                      <p className="text-gray-400 text-sm md:text-base">The Archivist AI can help identify which of the 7 Core Patterns are active in your life right now.</p>
                     </div>
                   </div>
-                  <button
-                    onClick={() => window.location.href = '/#pricing'}
+                  <a
+                    href="/"
                     className="flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-black transition-all duration-300 hover:scale-[1.02] flex-shrink-0"
                     style={{ 
                       background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
@@ -270,9 +270,9 @@ export default function PortalDashboardPreview() {
                     }}
                     data-testid="button-start-conversation"
                   >
-                    <span>Start Conversation</span>
+                    <span>Begin Pattern Analysis</span>
                     <ArrowRight className="w-5 h-5" />
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -315,7 +315,7 @@ export default function PortalDashboardPreview() {
                         <h4 className="text-lg font-bold text-white mb-2">{purchase.productName}</h4>
                         <p className="text-gray-400 text-sm mb-3">{purchase.description}</p>
                         <p className="text-xs text-gray-500">
-                          <span className="font-semibold text-gray-400">${purchase.price}</span> · Unlocked {new Date(purchase.purchasedAt).toLocaleDateString('en-US', { 
+                          <span className="font-semibold text-gray-400">${purchase.price}</span> · Accessed {new Date(purchase.purchasedAt).toLocaleDateString('en-US', { 
                             month: 'short', 
                             day: 'numeric', 
                             year: 'numeric' 
@@ -399,8 +399,8 @@ export default function PortalDashboardPreview() {
                           <Lock className="w-5 h-5" style={{ color: '#EC4899' }} />
                         </div>
                       </div>
-                      <button
-                        onClick={() => window.location.href = "/#pricing"}
+                      <a
+                        href="/#products"
                         className="w-full mt-3 px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
                         style={{ 
                           background: 'rgba(236, 72, 153, 0.08)', 
@@ -411,7 +411,7 @@ export default function PortalDashboardPreview() {
                       >
                         <span>Unlock System</span>
                         <ArrowRight className="w-4 h-4" />
-                      </button>
+                      </a>
                     </div>
                   </div>
                 ))}
