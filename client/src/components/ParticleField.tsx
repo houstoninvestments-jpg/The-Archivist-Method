@@ -1,21 +1,31 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 
+const TEAL = "#14B8A6";
+const PINK = "#EC4899";
+
 const ParticleField = () => {
   const particleCount = 60;
   
   const particles = useMemo(() => {
-    return Array.from({ length: particleCount }).map((_, i) => ({
-      id: i,
-      size: Math.random() * 3 + 1,
-      initialX: Math.random() * 100,
-      initialY: Math.random() * 100,
-      driftX: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
-      driftY: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
-      duration: Math.random() * 15 + 12,
-      opacity: [0.1, Math.random() * 0.4 + 0.2, 0.1],
-      delay: Math.random() * 5,
-    }));
+    return Array.from({ length: particleCount }).map((_, i) => {
+      const isTeal = i % 2 === 0;
+      const color = isTeal ? TEAL : PINK;
+      
+      return {
+        id: i,
+        size: Math.random() * 3 + 1.5,
+        initialX: Math.random() * 100,
+        initialY: Math.random() * 100,
+        driftX: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
+        driftY: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
+        duration: Math.random() * 15 + 12,
+        opacity: [0.15, Math.random() * 0.5 + 0.3, 0.15],
+        delay: Math.random() * 5,
+        color,
+        glowColor: isTeal ? "rgba(20, 184, 166, 0.6)" : "rgba(236, 72, 153, 0.6)",
+      };
+    });
   }, []);
 
   return (
@@ -40,12 +50,12 @@ const ParticleField = () => {
             height: p.size,
             left: `${p.initialX}%`,
             top: `${p.initialY}%`,
-            background: `rgba(255, 255, 255, 0.8)`,
+            background: p.color,
             borderRadius: "50%",
             filter: "blur(0.5px)",
-            boxShadow: "0 0 4px rgba(255, 255, 255, 0.3)",
+            boxShadow: `0 0 6px ${p.glowColor}, 0 0 12px ${p.glowColor}`,
           }}
-          initial={{ opacity: 0.1 }}
+          initial={{ opacity: 0.15 }}
           animate={{
             x: p.driftX,
             y: p.driftY,
