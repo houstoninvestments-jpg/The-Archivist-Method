@@ -76,7 +76,7 @@ export default function Landing() {
             />
             <ProductCard
               title="Complete Archive"
-              subtitle="The full 685-page system"
+              subtitle="All 7 Core Patterns mapped in detail"
               price={197}
               tier="premium"
               badge="Best Value"

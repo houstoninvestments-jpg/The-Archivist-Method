@@ -11,22 +11,22 @@ const previewData = {
     {
       productId: 'complete-archive',
       productName: 'The Complete Archive',
-      description: 'Full 685-page system with advanced pattern combinations and lifetime updates',
+      description: 'All 7 Core Patterns mapped in detail with advanced pattern combinations and lifetime updates',
       price: 197,
       purchasedAt: new Date().toISOString(),
       pdfUrl: '/downloads/paid-197/THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf',
-      totalPages: 685,
+      totalPages: 504,
       currentPage: 219,
       progress: 32,
     },
     {
       productId: 'quick-start',
       productName: 'The Quick-Start System',
-      description: 'Essential 47-page guide to identify your core patterns in 7 days',
+      description: 'Fast-track guide to identify your Original Room and start pattern interruption immediately',
       price: 47,
       purchasedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
       pdfUrl: '/downloads/paid-47/THE-ARCHIVIST-METHOD-QUICK-START.pdf',
-      totalPages: 47,
+      totalPages: 82,
       currentPage: 15,
       progress: 32,
     },
@@ -345,12 +345,12 @@ export default function PortalDashboardPreview() {
                   {/* Uncompleted Items */}
                   <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
                     <Circle className="w-5 h-5 flex-shrink-0 text-gray-600" />
-                    <span className="text-gray-300">Read pages 1-50 to identify your Original Room</span>
+                    <span className="text-gray-300">Read the introduction to identify your Original Room</span>
                   </div>
 
                   <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
                     <Circle className="w-5 h-5 flex-shrink-0 text-gray-600" />
-                    <span className="text-gray-300">Complete first pattern interrupt (page 87)</span>
+                    <span className="text-gray-300">Complete your first pattern interrupt exercise</span>
                   </div>
                 </div>
 

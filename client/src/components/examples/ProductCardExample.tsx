@@ -42,7 +42,7 @@ export default function ProductCardExample() {
         badge="LIFETIME ACCESS"
         ctaText="Get Full Archive - $197"
         features={[
-          "685 pages of content",
+          "All 7 Core Patterns mapped",
           "All 23 sections covered",
           "Advanced applications",
           "Lifetime reference",

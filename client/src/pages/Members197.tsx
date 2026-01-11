@@ -35,7 +35,7 @@ export default function Members197() {
                 </div>
                 <div>
                   <Badge className="btn-gradient-teal-pink mb-1">YOUR COMPLETE ARCHIVE</Badge>
-                  <h2 className="text-2xl font-bold">The Complete 685-Page Manual</h2>
+                  <h2 className="text-2xl font-bold">The Complete Archivist Method</h2>
                 </div>
               </div>
             </CardHeader>
@@ -49,7 +49,7 @@ export default function Members197() {
               >
                 <Button className="w-full btn-gradient-teal-pink font-semibold text-lg py-6" data-testid="button-download-archive">
                   <Download className="mr-2 h-5 w-5" />
-                  Download Complete Archive (685 pages)
+                  Download Complete Archive
                 </Button>
               </a>
             </CardContent>

@@ -68,7 +68,7 @@ export default function ContentTab({
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  250+ pages covering all 7 core patterns with the 90-day protocol
+                  All 7 core patterns with the complete 90-day protocol
                 </p>
                 <Button 
                   variant="destructive" 

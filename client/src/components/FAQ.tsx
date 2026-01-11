@@ -45,7 +45,7 @@ const faqs = [
   {
     question: "What's included in each tier?",
     answer:
-      "7-Day Crash: Pattern basics, body signatures, first interrupt attempt. Perfect for testing the method.\n\nQuick-Start System ($47): Complete 90-day protocol for ONE pattern. Crisis protocols, tracking templates, relationship scripts.\n\nComplete Archive ($197): All 23 sections, 685 pages. Every pattern, every context. Lifetime access.",
+      "7-Day Crash: Pattern basics, body signatures, first interrupt attempt. Perfect for testing the method.\n\nQuick-Start System ($47): Fast-track guide to identify your Original Room and start pattern interruption immediately. Get results in 7 days.\n\nComplete Archive ($197): All 7 Core Patterns mapped in detail with advanced pattern combinations. Everything you need to master The Archivist Method. Lifetime access.",
   },
   {
     question: "How long do I have access to the materials?",

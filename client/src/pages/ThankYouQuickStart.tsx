@@ -39,7 +39,7 @@ export default function ThankYouQuickStart() {
           </div>
           <div className="bg-gradient-to-br from-archivist-pink/10 to-archivist-teal/10 border border-archivist-pink/30 rounded-lg p-8">
             <h3 className="text-2xl font-bold mb-4">Want the Complete Archive?</h3>
-            <p className="text-gray-300 mb-6">Upgrade for the full 685-page system.</p>
+            <p className="text-gray-300 mb-6">Upgrade for all 7 Core Patterns mapped with advanced combinations.</p>
             <a href="https://buy.stripe.com/8x214f7hQdwv2augKm6c002" className="inline-flex items-center gap-2 bg-archivist-pink text-white px-8 py-4 rounded-lg font-bold text-lg" data-testid="link-upgrade-archive">Upgrade to Complete Archive ($197)<ArrowRight className="w-5 h-5" /></a>
           </div>
         </div>
