@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut, BookMarked } from 'lucide-react';
+import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut, BookMarked, CheckCircle2, Circle, ListChecks } from 'lucide-react';
 import PDFReader from '@/components/PDFReader';
 import ParticleField from '@/components/ParticleField';
 
@@ -174,9 +174,9 @@ export default function PortalDashboardPreview() {
               <div 
                 className="rounded-xl p-5 h-full transition-shadow duration-300"
                 style={{ 
-                  background: 'rgba(0, 0, 0, 0.4)', 
+                  background: 'rgba(10, 10, 10, 0.6)', 
                   backdropFilter: 'blur(10px)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                 }}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -203,9 +203,9 @@ export default function PortalDashboardPreview() {
               <div 
                 className="rounded-xl p-5 h-full transition-shadow duration-300"
                 style={{ 
-                  background: 'rgba(0, 0, 0, 0.4)', 
+                  background: 'rgba(10, 10, 10, 0.6)', 
                   backdropFilter: 'blur(10px)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                 }}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -232,9 +232,9 @@ export default function PortalDashboardPreview() {
               <div 
                 className="rounded-xl p-5 h-full transition-shadow duration-300"
                 style={{ 
-                  background: 'rgba(0, 0, 0, 0.4)', 
+                  background: 'rgba(10, 10, 10, 0.6)', 
                   backdropFilter: 'blur(10px)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                 }}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -266,9 +266,9 @@ export default function PortalDashboardPreview() {
               <div 
                 className="rounded-2xl p-6 md:p-8"
                 style={{ 
-                  background: 'rgba(0, 0, 0, 0.5)', 
-                  backdropFilter: 'blur(12px)',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)'
+                  background: 'rgba(10, 10, 10, 0.6)', 
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.03)'
                 }}
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -304,6 +304,84 @@ export default function PortalDashboardPreview() {
             </div>
           </section>
 
+          {/* Getting Started Checklist */}
+          <section className="mb-10">
+            <h3 className="text-xl font-bold text-white mb-5 flex items-center gap-3">
+              <span className="w-1 h-6 rounded-full" style={{ background: 'linear-gradient(180deg, #14B8A6 0%, #06B6D4 100%)' }} />
+              Getting Started
+            </h3>
+
+            <div 
+              className="rounded-xl p-[1px] transition-all duration-300"
+              style={{ 
+                background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.5) 0%, rgba(6, 182, 212, 0.3) 100%)',
+                boxShadow: '0 0 30px rgba(20, 184, 166, 0.1)'
+              }}
+            >
+              <div 
+                className="rounded-xl p-6"
+                style={{ 
+                  background: 'rgba(10, 10, 10, 0.6)', 
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <div 
+                    className="p-2 rounded-lg"
+                    style={{ background: 'rgba(20, 184, 166, 0.1)' }}
+                  >
+                    <ListChecks className="w-5 h-5" style={{ color: '#14B8A6' }} />
+                  </div>
+                  <div>
+                    <span className="text-white font-semibold">Your First Steps</span>
+                    <span className="text-gray-500 text-sm ml-2">1 of 3 complete</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Completed Item */}
+                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'rgba(20, 184, 166, 0.05)' }}>
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: '#14B8A6' }} />
+                    <span className="text-gray-300 line-through opacity-70">Download your PDF materials</span>
+                  </div>
+
+                  {/* Uncompleted Items */}
+                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
+                    <Circle className="w-5 h-5 flex-shrink-0 text-gray-600" />
+                    <span className="text-gray-300">Read pages 1-50 to identify your Original Room</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
+                    <Circle className="w-5 h-5 flex-shrink-0 text-gray-600" />
+                    <span className="text-gray-300">Complete first pattern interrupt (page 87)</span>
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-gray-500">Progress</span>
+                    <span className="text-xs font-semibold" style={{ color: '#14B8A6' }}>33% complete</span>
+                  </div>
+                  <div 
+                    className="h-2 rounded-full overflow-hidden"
+                    style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                  >
+                    <div 
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{ 
+                        width: '33%',
+                        background: 'linear-gradient(90deg, #14B8A6 0%, #06B6D4 100%)',
+                        boxShadow: '0 0 12px rgba(20, 184, 166, 0.6)'
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Your Pattern Systems */}
           <section className="mb-10">
             <h3 className="text-xl font-bold text-white mb-5 flex items-center gap-3">
@@ -324,9 +402,9 @@ export default function PortalDashboardPreview() {
                   <div 
                     className="rounded-xl p-6 h-full"
                     style={{ 
-                      background: 'rgba(0, 0, 0, 0.5)', 
-                      backdropFilter: 'blur(12px)',
-                      boxShadow: '0 8px 40px rgba(0, 0, 0, 0.4)'
+                      background: 'rgba(10, 10, 10, 0.6)', 
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                     }}
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -436,9 +514,9 @@ export default function PortalDashboardPreview() {
                     <div 
                       className="rounded-xl p-6 h-full"
                       style={{ 
-                        background: 'rgba(0, 0, 0, 0.5)', 
-                        backdropFilter: 'blur(12px)',
-                        boxShadow: '0 8px 40px rgba(0, 0, 0, 0.4)'
+                        background: 'rgba(10, 10, 10, 0.6)', 
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                       }}
                     >
                       <div className="flex items-start justify-between mb-4">
