@@ -4,6 +4,7 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import portalRoutes from "./portal/routes";
+import path from "path";
 
 const app = express();
 const httpServer = createServer(app);
@@ -94,6 +95,9 @@ app.post("/api/generate-voice", async (req, res) => {
 
 // PORTAL ROUTES
 app.use("/api/portal", portalRoutes);
+
+// Serve static files from public/downloads (before Vite middleware)
+app.use("/downloads", express.static(path.join(process.cwd(), "public", "downloads")));
 
 (async () => {
   try {
