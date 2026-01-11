@@ -42,10 +42,6 @@ export default function PortalDashboardPreview() {
     initialPage: number;
   } | null>(null);
 
-  const handleDownload = (productId: string) => {
-    window.location.href = `/api/portal/download/${productId}`;
-  };
-
   const handleReadNow = (purchase: typeof previewData.purchases[0]) => {
     setActivePdf({
       url: purchase.pdfUrl,
@@ -476,8 +472,11 @@ export default function PortalDashboardPreview() {
                         <BookOpen className="w-4 h-4" />
                         <span>Read Now</span>
                       </button>
-                      <button
-                        onClick={() => handleDownload(purchase.productId)}
+                      <a
+                        href={purchase.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
                         className="px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 text-sm"
                         style={{ 
                           background: 'rgba(255, 255, 255, 0.03)',
@@ -488,7 +487,7 @@ export default function PortalDashboardPreview() {
                       >
                         <Download className="w-4 h-4" />
                         <span className="hidden sm:inline">Download</span>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
