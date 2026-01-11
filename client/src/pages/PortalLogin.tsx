@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ParticleField from '@/components/ParticleField';
 
 export default function PortalLogin() {
   const [email, setEmail] = useState("");
@@ -39,6 +40,8 @@ export default function PortalLogin() {
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+      <ParticleField />
+      
       {/* Grid background */}
       <div
         className="absolute inset-0 opacity-15"

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Download, BookOpen, MessageCircle, Clock, Lock, ArrowRight, LogOut, BookMarked } from 'lucide-react';
 import PDFReader from '@/components/PDFReader';
+import ParticleField from '@/components/ParticleField';
 
 const archivistIcon = '/archivist-icon.png';
 
@@ -55,6 +56,8 @@ export default function PortalDashboardPreview() {
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#030303' }}>
+      <ParticleField />
+      
       {/* Dark grid background pattern - fixed position */}
       <div 
         className="fixed inset-0 pointer-events-none"
