@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, FileWarning, Download } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, ChevronUp, ChevronDown, FileWarning, Download } from 'lucide-react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Set worker source
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PDFReaderProps {
@@ -16,25 +15,95 @@ interface PDFReaderProps {
 
 export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: PDFReaderProps) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(initialPage);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
   const [scale, setScale] = useState<number>(1.0);
   const [jumpToPage, setJumpToPage] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(new Set());
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   useEffect(() => {
-    // Fade-in animation
     requestAnimationFrame(() => {
       setIsVisible(true);
     });
     
-    // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+  useEffect(() => {
+    if (numPages > 0 && initialPage > 1) {
+      setTimeout(() => {
+        scrollToPage(initialPage);
+      }, 100);
+    }
+  }, [numPages, initialPage]);
+
+  const updateVisiblePages = useCallback(() => {
+    if (!containerRef.current || numPages === 0) return;
+    
+    const container = containerRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const buffer = 2;
+    
+    let newVisiblePages = new Set<number>();
+    let topMostPage = 1;
+    let topMostOffset = Infinity;
+    
+    pageRefs.current.forEach((element, pageNum) => {
+      const rect = element.getBoundingClientRect();
+      const isVisible = rect.bottom > containerRect.top && rect.top < containerRect.bottom;
+      
+      if (isVisible) {
+        for (let i = Math.max(1, pageNum - buffer); i <= Math.min(numPages, pageNum + buffer); i++) {
+          newVisiblePages.add(i);
+        }
+        
+        const distanceFromTop = Math.abs(rect.top - containerRect.top);
+        if (rect.top <= containerRect.top + containerRect.height / 3 && distanceFromTop < topMostOffset) {
+          topMostOffset = distanceFromTop;
+          topMostPage = pageNum;
+        }
+      }
+    });
+    
+    if (newVisiblePages.size === 0) {
+      for (let i = 1; i <= Math.min(5, numPages); i++) {
+        newVisiblePages.add(i);
+      }
+    }
+    
+    setVisiblePages(newVisiblePages);
+    setCurrentPage(topMostPage);
+  }, [numPages]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    
+    const handleScroll = () => {
+      requestAnimationFrame(updateVisiblePages);
+    };
+    
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [updateVisiblePages]);
+
+  useEffect(() => {
+    if (numPages > 0) {
+      const initialVisible = new Set<number>();
+      for (let i = 1; i <= Math.min(5, numPages); i++) {
+        initialVisible.add(i);
+      }
+      setVisiblePages(initialVisible);
+    }
+  }, [numPages]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -48,18 +117,27 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
     setLoadError('PDF coming soon - use Download button below');
   }
 
+  function scrollToPage(pageNum: number) {
+    const element = pageRefs.current.get(pageNum);
+    if (element && containerRef.current) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   function goToPrevPage() {
-    setPageNumber((prev) => Math.max(prev - 1, 1));
+    const newPage = Math.max(currentPage - 1, 1);
+    scrollToPage(newPage);
   }
 
   function goToNextPage() {
-    setPageNumber((prev) => Math.min(prev + 1, numPages));
+    const newPage = Math.min(currentPage + 1, numPages);
+    scrollToPage(newPage);
   }
 
   function handleJumpToPage() {
     const page = parseInt(jumpToPage, 10);
     if (page >= 1 && page <= numPages) {
-      setPageNumber(page);
+      scrollToPage(page);
       setJumpToPage('');
     }
   }
@@ -77,6 +155,14 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
     setTimeout(onClose, 200);
   }
 
+  const setPageRef = useCallback((pageNum: number, element: HTMLDivElement | null) => {
+    if (element) {
+      pageRefs.current.set(pageNum, element);
+    } else {
+      pageRefs.current.delete(pageNum);
+    }
+  }, []);
+
   return (
     <div 
       className="fixed inset-0 z-[100] flex flex-col transition-opacity duration-200"
@@ -85,9 +171,8 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
         opacity: isVisible ? 1 : 0
       }}
     >
-      {/* Header */}
       <header 
-        className="flex items-center justify-between px-4 py-3 border-b"
+        className="flex items-center justify-between px-4 py-3 border-b shrink-0"
         style={{ 
           background: 'rgba(3, 3, 3, 0.9)', 
           backdropFilter: 'blur(16px)',
@@ -97,13 +182,17 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
         <div className="flex items-center gap-4">
           <h2 className="text-white font-semibold text-lg truncate max-w-[300px]">{title}</h2>
           {!isLoading && !loadError && (
-            <span className="text-gray-500 text-sm hidden md:block">
-              {numPages} pages
-            </span>
+            <div 
+              className="px-3 py-1.5 rounded-lg text-sm hidden md:flex items-center gap-2"
+              style={{ background: 'rgba(20, 184, 166, 0.1)', border: '1px solid rgba(20, 184, 166, 0.2)' }}
+            >
+              <span className="font-bold" style={{ color: '#14B8A6' }}>{currentPage}</span>
+              <span className="text-gray-400">/</span>
+              <span className="text-white">{numPages}</span>
+            </div>
           )}
         </div>
         
-        {/* Zoom Controls */}
         <div className="flex items-center gap-2">
           {!loadError && (
             <>
@@ -140,9 +229,9 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
         </div>
       </header>
 
-      {/* PDF Content Area */}
       <div 
-        className="flex-1 overflow-auto flex items-start justify-center py-6 px-4"
+        ref={containerRef}
+        className="flex-1 overflow-auto scroll-smooth"
         style={{ background: 'rgba(20, 20, 20, 0.5)' }}
       >
         {isLoading && !loadError && (
@@ -156,7 +245,7 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
         )}
 
         {loadError && (
-          <div className="flex flex-col items-center justify-center h-full gap-6 text-center max-w-md">
+          <div className="flex flex-col items-center justify-center h-full gap-6 text-center max-w-md mx-auto px-4">
             <div 
               className="p-6 rounded-2xl"
               style={{ 
@@ -190,76 +279,109 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             loading={null}
-            className="flex justify-center"
+            className="flex flex-col items-center py-6 gap-4"
           >
-            <Page 
-              pageNumber={pageNumber} 
-              scale={scale}
-              className="shadow-2xl"
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-            />
+            {Array.from({ length: numPages }, (_, index) => {
+              const pageNum = index + 1;
+              const shouldRender = visiblePages.has(pageNum);
+              
+              return (
+                <div
+                  key={pageNum}
+                  ref={(el) => setPageRef(pageNum, el)}
+                  className="relative"
+                  style={{ minHeight: shouldRender ? 'auto' : '800px' }}
+                >
+                  {shouldRender ? (
+                    <Page 
+                      pageNumber={pageNum}
+                      scale={scale}
+                      className="shadow-2xl"
+                      renderTextLayer={true}
+                      renderAnnotationLayer={true}
+                    />
+                  ) : (
+                    <div 
+                      className="flex items-center justify-center bg-gray-900/50 rounded-lg"
+                      style={{ width: `${595 * scale}px`, height: `${842 * scale}px` }}
+                    >
+                      <span className="text-gray-600 text-sm">Page {pageNum}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </Document>
         )}
       </div>
 
-      {/* Navigation Footer - only show if PDF loaded */}
-      {!loadError && (
+      {!loadError && numPages > 0 && (
+        <div 
+          className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <button
+            onClick={goToPrevPage}
+            disabled={currentPage <= 1}
+            className="p-3 rounded-full transition-all duration-200 hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ 
+              background: 'rgba(20, 184, 166, 0.2)', 
+              border: '1px solid rgba(20, 184, 166, 0.3)',
+              backdropFilter: 'blur(8px)'
+            }}
+            data-testid="button-prev-page"
+          >
+            <ChevronUp className="w-5 h-5" style={{ color: '#14B8A6' }} />
+          </button>
+          
+          <div 
+            className="px-3 py-2 rounded-full text-center text-sm font-bold"
+            style={{ 
+              background: 'rgba(3, 3, 3, 0.8)', 
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(8px)',
+              color: '#14B8A6'
+            }}
+          >
+            {currentPage}
+          </div>
+          
+          <button
+            onClick={goToNextPage}
+            disabled={currentPage >= numPages}
+            className="p-3 rounded-full transition-all duration-200 hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ 
+              background: 'rgba(20, 184, 166, 0.2)', 
+              border: '1px solid rgba(20, 184, 166, 0.3)',
+              backdropFilter: 'blur(8px)'
+            }}
+            data-testid="button-next-page"
+          >
+            <ChevronDown className="w-5 h-5" style={{ color: '#14B8A6' }} />
+          </button>
+        </div>
+      )}
+
+      {!loadError && numPages > 0 && (
         <footer 
-          className="px-4 py-3 border-t"
+          className="px-4 py-3 border-t shrink-0"
           style={{ 
             background: 'rgba(3, 3, 3, 0.9)', 
             backdropFilter: 'blur(16px)',
             borderColor: 'rgba(255, 255, 255, 0.08)'
           }}
         >
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
-            {/* Previous Button */}
-            <button
-              onClick={goToPrevPage}
-              disabled={pageNumber <= 1}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.05)', 
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff'
-              }}
-              data-testid="button-prev-page"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Previous</span>
-            </button>
-
-            {/* Page Indicator */}
+          <div className="flex items-center justify-center gap-3">
             <div 
-              className="px-4 py-2 rounded-lg text-sm"
+              className="px-4 py-2 rounded-lg text-sm md:hidden"
               style={{ background: 'rgba(20, 184, 166, 0.1)', border: '1px solid rgba(20, 184, 166, 0.2)' }}
             >
               <span className="text-gray-400">Page </span>
-              <span className="font-bold" style={{ color: '#14B8A6' }}>{pageNumber}</span>
+              <span className="font-bold" style={{ color: '#14B8A6' }}>{currentPage}</span>
               <span className="text-gray-400"> of </span>
               <span className="font-bold text-white">{numPages}</span>
             </div>
-
-            {/* Next Button */}
-            <button
-              onClick={goToNextPage}
-              disabled={pageNumber >= numPages}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.05)', 
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff'
-              }}
-              data-testid="button-next-page"
-            >
-              <span className="hidden sm:inline">Next</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-
-            <div className="w-px h-6 hidden md:block" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
-
-            {/* Jump to Page */}
+            
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -268,17 +390,17 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
                 value={jumpToPage}
                 onChange={(e) => setJumpToPage(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleJumpToPage()}
-                placeholder="Page #"
-                className="w-20 px-3 py-2 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none"
+                placeholder="Jump to..."
+                className="w-24 px-3 py-2 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1"
                 style={{ 
                   background: 'rgba(255, 255, 255, 0.05)', 
-                  border: '1px solid rgba(255, 255, 255, 0.1)' 
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}
                 data-testid="input-jump-page"
               />
               <button
                 onClick={handleJumpToPage}
-                className="px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02]"
+                className="px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-[1.02]"
                 style={{ 
                   background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
                   color: '#000'
@@ -288,6 +410,8 @@ export default function PDFReader({ pdfUrl, title, onClose, initialPage = 1 }: P
                 Go
               </button>
             </div>
+            
+            <span className="text-gray-500 text-sm hidden sm:block">Scroll to read continuously</span>
           </div>
         </footer>
       )}
