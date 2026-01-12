@@ -4,6 +4,7 @@ import { Download, BookOpen, MessageCircle, TrendingUp, Lock, ArrowRight } from 
 
 interface UserData {
   email: string;
+  name: string | null;
   purchases: Array<{
     productId: string;
     productName: string;
@@ -121,7 +122,7 @@ export default function PortalDashboard() {
 
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              Welcome Back, Archivist
+              Welcome Back, <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">{userData.name ? userData.name.split(' ')[0] : 'Archivist'}</span>
             </h2>
             <p className="text-gray-400 text-lg">{userData.email}</p>
           </div>

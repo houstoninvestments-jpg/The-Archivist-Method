@@ -7,6 +7,7 @@ const archivistIcon = '/archivist-icon.png';
 
 const previewData = {
   email: 'preview@example.com',
+  name: 'Alex Thompson',
   purchases: [
     {
       productId: 'complete-archive',
@@ -155,9 +156,9 @@ export default function PortalDashboardPreview() {
           {/* Welcome Message */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-1.5">
-              Welcome back, <span style={{ color: '#14B8A6' }}>{userData.email}</span>
+              Welcome back, <span style={{ color: '#14B8A6' }}>{userData.name ? userData.name.split(' ')[0] : 'Archivist'}</span>
             </h2>
-            <p className="text-gray-500 text-sm">Your excavation continues...</p>
+            <p className="text-gray-500 text-sm">{userData.email}</p>
           </div>
 
           {/* Stats Grid */}

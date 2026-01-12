@@ -13,6 +13,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export interface User {
   id: string;
   email: string;
+  name?: string;
   created_at: string;
   stripe_customer_id?: string;
 }
@@ -39,11 +40,34 @@ export async function getUserByEmail(email: string) {
   return data as User;
 }
 
-export async function createUser(email: string, stripeCustomerId?: string) {
+export async function createUser(email: string, stripeCustomerId?: string, name?: string) {
   const { data, error } = await supabase
     .from("users")
-    .insert([{ email, stripe_customer_id: stripeCustomerId }])
+    .insert([{ email, stripe_customer_id: stripeCustomerId, name }])
     .select()
+    .single();
+
+  if (error) throw error;
+  return data as User;
+}
+
+export async function updateUserName(userId: string, name: string) {
+  const { data, error } = await supabase
+    .from("users")
+    .update({ name })
+    .eq("id", userId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data as User;
+}
+
+export async function getUserById(userId: string) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", userId)
     .single();
 
   if (error) throw error;

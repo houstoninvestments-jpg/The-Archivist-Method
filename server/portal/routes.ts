@@ -4,6 +4,8 @@ import {
   createUser,
   getUserPurchases,
   createPurchase,
+  getUserById,
+  updateUserName,
 } from "./supabase";
 import { generateAuthToken, verifyAuthToken, generateMagicLink } from "./auth";
 import {
@@ -17,7 +19,7 @@ import { join } from "path";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-11-20.acacia",
+  apiVersion: "2025-11-17.clover" as const,
 });
 
 // Send magic login link
@@ -102,12 +104,16 @@ router.get("/user-data", async (req: Request, res: Response) => {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
-    const purchases = await getUserPurchases(authData.userId);
+    const [purchases, user] = await Promise.all([
+      getUserPurchases(authData.userId),
+      getUserById(authData.userId),
+    ]);
     const userAccess = calculateUserAccess(purchases);
     const availableUpgrades = getAvailableUpgrades(userAccess);
 
     res.json({
       email: authData.email,
+      name: user.name || null,
       purchases: userAccess.purchases,
       hasQuickStart: userAccess.hasQuickStart,
       hasCompleteArchive: userAccess.hasCompleteArchive,
@@ -207,6 +213,7 @@ router.post(
 
         const customerEmail =
           session.customer_email || session.customer_details?.email;
+        const customerName = session.customer_details?.name || null;
         const stripeCustomerId = session.customer as string;
         const paymentIntentId = session.payment_intent as string;
         const amountTotal = session.amount_total || 0;
@@ -222,9 +229,13 @@ router.post(
         let user;
         try {
           user = await getUserByEmail(customerEmail);
+          if (customerName && !user.name) {
+            user = await updateUserName(user.id, customerName);
+            console.log(`Updated user name: ${customerName}`);
+          }
         } catch (error) {
-          user = await createUser(customerEmail, stripeCustomerId);
-          console.log(`Created new user: ${user.id}`);
+          user = await createUser(customerEmail, stripeCustomerId, customerName || undefined);
+          console.log(`Created new user: ${user.id} (${customerName || 'no name'})`);
         }
 
         await createPurchase(
