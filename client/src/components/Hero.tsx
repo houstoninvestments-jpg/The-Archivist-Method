@@ -1,62 +1,70 @@
-interface DiagnosticSectionProps {
-  onOpenChat: () => void;
-}
+import libraryBg from '@assets/stock_images/dark_gothic_library__440107ab.jpg';
 
-export default function DiagnosticSection({
-  onOpenChat,
-}: DiagnosticSectionProps) {
+export default function Hero() {
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="relative py-24 px-4 bg-archivist-charcoal">
-      <div className="max-w-4xl mx-auto text-center space-y-8">
-        {/* Headline */}
-        <h2 className="text-4xl md:text-5xl font-bold">
-          Not Sure Which Pattern You're Running?
-        </h2>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${libraryBg})` }}
+      />
+      
+      {/* Dark Overlay Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90" />
+      
+      {/* Accent Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-teal-900/20 via-transparent to-pink-900/20" />
 
-        {/* Subheadline */}
-        <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-          The Archivist can identify it in 2 minutes.
-        </p>
+      {/* Content */}
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        {/* Main Title */}
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tight">
+          THE ARCHIVIST METHOD<span className="text-teal-400">&trade;</span>
+        </h1>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-6 py-8">
-          <div className="space-y-2">
-            <div className="text-archivist-teal text-3xl font-bold">01</div>
-            <h3 className="font-bold">Tell The Archivist</h3>
-            <p className="text-gray-400 text-sm">
-              Describe what's happening in your life
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-archivist-teal text-3xl font-bold">02</div>
-            <h3 className="font-bold">Get Your Diagnosis</h3>
-            <p className="text-gray-400 text-sm">
-              AI identifies which of the 7 patterns you're running
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-archivist-teal text-3xl font-bold">03</div>
-            <h3 className="font-bold">Receive Your Course</h3>
-            <p className="text-gray-400 text-sm">
-              Get a personalized 7-day plan to interrupt YOUR pattern
-            </p>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <button
-          onClick={onOpenChat}
-          className="px-10 py-5 bg-gradient-to-r from-archivist-teal to-archivist-pink text-black text-lg font-bold rounded-xl hover:opacity-90 transition-all transform hover:scale-105"
+        {/* Subtitle with Gradient */}
+        <p 
+          className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8"
+          style={{
+            background: 'linear-gradient(90deg, #14B8A6, #06B6D4)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
         >
-          Start Pattern Diagnosis
-        </button>
-
-        {/* Social Proof Placeholder */}
-        <p className="text-gray-500 text-sm">
-          Join 1,247 people who discovered their pattern this month
+          Pattern Archaeology, Not Therapy
         </p>
+
+        {/* Body Text */}
+        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed">
+          Stop running the same destructive patterns. Learn the proven method to interrupt trauma patterns in 7-90 days.
+        </p>
+
+        {/* Primary CTA Button */}
+        <button
+          onClick={scrollToPricing}
+          data-testid="button-hero-cta"
+          className="px-10 py-5 text-lg md:text-xl font-bold text-black rounded-xl transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/30"
+          style={{
+            background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
+          }}
+        >
+          Start Free 7-Day Crash Course
+        </button>
+      </div>
+
+      {/* Scroll Indicator - positioned relative to section */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse" />
+        </div>
       </div>
     </section>
   );
