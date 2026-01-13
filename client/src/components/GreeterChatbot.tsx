@@ -217,16 +217,27 @@ export default function GreeterChatbot() {
                   <p className="text-sm text-gray-500 mt-1">
                     Get instant answers about the method, patterns, and which product is right for you
                   </p>
+                  {!isExpanded && (
+                    <p className="text-xs text-teal-400/70 mt-2">
+                      Free • No signup required
+                    </p>
+                  )}
                 </div>
               </div>
               <ChevronDown 
-                className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
               />
             </div>
           </div>
 
-          {/* Expandable Chat Area */}
-          {isExpanded && (
+          {/* Expandable Chat Area with smooth animation */}
+          <div 
+            className="overflow-hidden transition-all duration-300 ease-in-out"
+            style={{ 
+              maxHeight: isExpanded ? '500px' : '0px',
+              opacity: isExpanded ? 1 : 0
+            }}
+          >
             <div className="border-t border-white/10">
               {/* Messages */}
               <div 
@@ -318,7 +329,7 @@ export default function GreeterChatbot() {
                 </p>
               </div>
             </div>
-          )}
+          </div>
 
           {/* Quick Questions (collapsed state) */}
           {!isExpanded && (
