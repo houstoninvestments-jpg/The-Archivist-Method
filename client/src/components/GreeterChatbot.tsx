@@ -184,42 +184,43 @@ export default function GreeterChatbot() {
         <div 
           className="rounded-2xl overflow-hidden"
           style={{
-            background: 'rgba(10, 10, 10, 0.6)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
+            background: 'rgba(8, 8, 8, 0.8)',
+            backdropFilter: 'blur(16px)',
+            boxShadow: '0 0 60px rgba(20, 184, 166, 0.15), 0 0 40px rgba(236, 72, 153, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6)',
+            border: '1px solid rgba(20, 184, 166, 0.2)'
           }}
         >
           {/* Header */}
           <div 
-            className="p-6 cursor-pointer"
+            className="p-8 cursor-pointer"
             onClick={() => setIsExpanded(!isExpanded)}
             data-testid="greeter-header"
           >
             <div className="flex items-start justify-between">
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-5">
                 <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 text-2xl"
                   style={{
-                    background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)'
+                    background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
+                    boxShadow: '0 4px 20px rgba(20, 184, 166, 0.4)'
                   }}
                 >
-                  <MessageCircle className="w-6 h-6 text-white" />
+                  <MessageCircle className="w-7 h-7 text-white" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-1">
-                    Not Sure Where To Start?
+                    Questions About Your Patterns?
                   </h3>
-                  <p className="text-sm text-gray-400 flex items-center gap-2">
+                  <p className="text-sm text-gray-300 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-teal-400" />
-                    Ask The Archivist <span className="text-xs text-gray-500">(Beta)</span>
+                    The Archivist Assistant
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Get instant answers about the method, patterns, and which product is right for you
+                  <p className="text-sm text-gray-400 mt-2">
+                    Get instant answers. No account needed. Completely free.
                   </p>
                   {!isExpanded && (
-                    <p className="text-xs text-teal-400/70 mt-2">
-                      Free • No signup required
+                    <p className="text-xs text-teal-400/80 mt-3 font-medium">
+                      Free • No signup • Private
                     </p>
                   )}
                 </div>
@@ -333,18 +334,18 @@ export default function GreeterChatbot() {
 
           {/* Quick Questions (collapsed state) */}
           {!isExpanded && (
-            <div className="px-6 pb-6 pt-0">
+            <div className="px-8 pb-8 pt-0">
               <p className="text-xs text-gray-500 mb-3">Common questions:</p>
               <div className="flex flex-wrap gap-2">
                 {[
-                  "Which product should I get?",
-                  "How is this different from therapy?",
-                  "What pattern am I running?"
+                  "Which pattern am I running?",
+                  "What's the difference between the products?",
+                  "How is this different from therapy?"
                 ].map((question, index) => (
                   <button
                     key={index}
                     onClick={() => handleQuickQuestion(question)}
-                    className="text-xs px-3 py-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all border border-white/10"
+                    className="text-xs px-4 py-2.5 rounded-full bg-white/5 text-gray-300 hover:bg-teal-500/20 hover:text-white hover:border-teal-500/40 transition-all border border-white/10"
                     data-testid={`button-quick-question-${index}`}
                   >
                     "{question}"
