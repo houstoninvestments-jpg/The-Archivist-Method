@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Hero from "../components/Hero";
 import GreeterChatbot from "../components/GreeterChatbot";
 import PatternAccordion from "../components/PatternAccordion";
@@ -6,11 +5,8 @@ import MethodSection from "../components/MethodSection";
 import ComparisonTable from "../components/ComparisonTable";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
-import ArchivistChatbot from "../components/ArchivistChatbot";
-import { MessageCircle } from "lucide-react";
 
 export default function Landing() {
-  const [showChat, setShowChat] = useState(false);
 
   const handleBuyFree = () => {
     window.location.href = "/free-download";
@@ -121,21 +117,6 @@ export default function Landing() {
       </section>
 
       <Footer />
-      
-      {/* Floating Chat Button */}
-      <button
-        onClick={() => setShowChat(true)}
-        data-testid="button-chat-floating"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-teal-500/30 transition-all hover:scale-110"
-        style={{
-          background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
-        }}
-        aria-label="Open chat support"
-      >
-        <MessageCircle className="w-6 h-6 text-white" />
-      </button>
-      
-      <ArchivistChatbot isOpen={showChat} onClose={() => setShowChat(false)} />
     </div>
   );
 }

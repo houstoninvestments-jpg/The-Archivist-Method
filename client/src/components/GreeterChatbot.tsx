@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, ChevronDown, Sparkles } from "lucide-react";
+import { Send, Loader2, ChevronDown, Sparkles } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -163,14 +163,6 @@ export default function GreeterChatbot() {
     }
   };
 
-  const handleQuickQuestion = (question: string) => {
-    setInput(question);
-    setIsExpanded(true);
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 100);
-  };
-
   const scrollToPricing = () => {
     const pricingSection = document.getElementById('pricing');
     if (pricingSection) {
@@ -178,184 +170,239 @@ export default function GreeterChatbot() {
     }
   };
 
+  const remainingMessages = MAX_MESSAGES - messageCount;
+
   return (
-    <section className="py-16 px-4 bg-archivist-dark">
-      <div className="max-w-2xl mx-auto">
+    <section className="py-20 px-4 bg-archivist-dark relative">
+      <div className="max-w-xl mx-auto">
+        {/* Premium Card Container */}
         <div 
-          className="rounded-2xl overflow-hidden"
+          className="relative rounded-3xl overflow-hidden"
           style={{
-            background: 'rgba(8, 8, 8, 0.8)',
-            backdropFilter: 'blur(16px)',
-            boxShadow: '0 0 60px rgba(20, 184, 166, 0.15), 0 0 40px rgba(236, 72, 153, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6)',
-            border: '1px solid rgba(20, 184, 166, 0.2)'
+            background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)',
+            padding: '1px',
           }}
         >
-          {/* Header */}
+          {/* Animated Glow Effect */}
           <div 
-            className="p-8 cursor-pointer"
-            onClick={() => setIsExpanded(!isExpanded)}
-            data-testid="greeter-header"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-start gap-5">
-                <div 
-                  className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 text-2xl"
-                  style={{
-                    background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
-                    boxShadow: '0 4px 20px rgba(20, 184, 166, 0.4)'
-                  }}
-                >
-                  <MessageCircle className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-1">
-                    Questions About Your Patterns?
-                  </h3>
-                  <p className="text-sm text-gray-300 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-teal-400" />
-                    The Archivist Assistant
-                  </p>
-                  <p className="text-sm text-gray-400 mt-2">
-                    Get instant answers. No account needed. Completely free.
-                  </p>
-                  {!isExpanded && (
-                    <p className="text-xs text-teal-400/80 mt-3 font-medium">
-                      Free • No signup • Private
-                    </p>
-                  )}
-                </div>
-              </div>
-              <ChevronDown 
-                className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
-              />
-            </div>
-          </div>
-
-          {/* Expandable Chat Area with smooth animation */}
+            className="absolute inset-0 opacity-50 blur-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
+              animation: 'pulse 4s ease-in-out infinite',
+            }}
+          />
+          
+          {/* Inner Card */}
           <div 
-            className="overflow-hidden transition-all duration-300 ease-in-out"
-            style={{ 
-              maxHeight: isExpanded ? '500px' : '0px',
-              opacity: isExpanded ? 1 : 0
+            className="relative rounded-3xl overflow-hidden"
+            style={{
+              background: 'rgba(5, 5, 5, 0.95)',
+              backdropFilter: 'blur(24px)',
             }}
           >
-            <div className="border-t border-white/10">
-              {/* Messages */}
-              <div 
-                className="h-[300px] overflow-y-auto p-4 space-y-4"
-                style={{ scrollBehavior: 'smooth' }}
-              >
-                {messages.length === 0 && (
-                  <div className="text-center text-gray-500 py-8">
-                    <p className="text-sm">Ask me anything about The Archivist Method</p>
-                  </div>
-                )}
-                
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                        message.role === "user"
-                          ? "bg-gradient-to-r from-teal-600 to-teal-500 text-white"
-                          : "bg-white/10 text-gray-200"
-                      }`}
-                    >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                    </div>
-                  </div>
-                ))}
-                
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="bg-white/10 rounded-2xl px-4 py-3">
-                      <Loader2 className="w-5 h-5 text-teal-400 animate-spin" />
-                    </div>
-                  </div>
-                )}
-                
-                <div ref={messagesEndRef} />
-              </div>
-
-              {/* Upsell Banner */}
-              {showUpsell && (
-                <div 
-                  className="mx-4 mb-4 p-3 rounded-xl text-center"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
-                    border: '1px solid rgba(20, 184, 166, 0.3)'
-                  }}
-                >
-                  <p className="text-sm text-gray-300 mb-2">Want to go deeper?</p>
-                  <button
-                    onClick={scrollToPricing}
-                    className="text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors"
-                    data-testid="button-greeter-upsell"
-                  >
-                    Get the free 7-day course →
-                  </button>
-                </div>
-              )}
-
-              {/* Input */}
-              <div className="p-4 border-t border-white/10">
-                <div className="flex gap-2">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={messageCount >= MAX_MESSAGES ? "Message limit reached" : "Ask..."}
-                    disabled={messageCount >= MAX_MESSAGES || isLoading}
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 disabled:opacity-50"
-                    data-testid="input-greeter-message"
-                  />
-                  <button
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading || messageCount >= MAX_MESSAGES}
-                    className="w-12 h-12 rounded-xl flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            {/* Header - Always Visible */}
+            <div 
+              className="p-10 cursor-pointer transition-all duration-300 hover:bg-white/[0.02]"
+              onClick={() => setIsExpanded(!isExpanded)}
+              data-testid="greeter-header"
+            >
+              <div className="flex items-start justify-between gap-6">
+                <div className="flex items-start gap-6">
+                  {/* Large Gradient Icon */}
+                  <div 
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
                     style={{
-                      background: input.trim() && !isLoading ? 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)' : 'rgba(255,255,255,0.1)'
+                      background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
+                      boxShadow: '0 8px 32px rgba(20, 184, 166, 0.4), 0 4px 16px rgba(236, 72, 153, 0.3)',
                     }}
-                    data-testid="button-greeter-send"
                   >
-                    <Send className="w-5 h-5 text-white" />
-                  </button>
+                    <svg 
+                      viewBox="0 0 24 24" 
+                      className="w-8 h-8 text-white fill-current"
+                      style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}
+                    >
+                      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
+                      <circle cx="12" cy="10" r="1.5"/>
+                      <circle cx="8" cy="10" r="1.5"/>
+                      <circle cx="16" cy="10" r="1.5"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Text Content */}
+                  <div className="flex-1">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+                      Questions About Your Patterns?
+                    </h3>
+                    <p className="text-base text-teal-400 flex items-center gap-2 mb-3 font-medium">
+                      <Sparkles className="w-5 h-5" />
+                      The Archivist Assistant
+                    </p>
+                    <p className="text-base text-gray-400 leading-relaxed">
+                      Get instant answers. No account needed. Completely free.
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-2 text-center">
-                  {MAX_MESSAGES - messageCount} messages remaining this session
-                </p>
+                
+                {/* Expand Arrow */}
+                <div 
+                  className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-white/5 border border-white/10"
+                >
+                  <ChevronDown 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Expandable Chat Area */}
+            <div 
+              className="overflow-hidden transition-all duration-500 ease-out"
+              style={{ 
+                maxHeight: isExpanded ? '600px' : '0px',
+                opacity: isExpanded ? 1 : 0,
+              }}
+            >
+              <div className="border-t border-white/10">
+                {/* Messages Area */}
+                <div 
+                  className="h-[320px] overflow-y-auto p-6 space-y-5"
+                  style={{ scrollBehavior: 'smooth' }}
+                >
+                  {messages.length === 0 && (
+                    <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                      <div 
+                        className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
+                        style={{ background: 'rgba(20, 184, 166, 0.1)' }}
+                      >
+                        <Sparkles className="w-6 h-6 text-teal-400" />
+                      </div>
+                      <p className="text-gray-400 text-base mb-2">Start a conversation</p>
+                      <p className="text-gray-600 text-sm">Ask about patterns, products, or the method</p>
+                    </div>
+                  )}
+                  
+                  {messages.map((message, index) => (
+                    <div
+                      key={index}
+                      className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`max-w-[85%] rounded-2xl px-5 py-4 ${
+                          message.role === "user"
+                            ? "rounded-br-md"
+                            : "rounded-bl-md"
+                        }`}
+                        style={{
+                          background: message.role === "user" 
+                            ? 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)'
+                            : 'rgba(255, 255, 255, 0.08)',
+                          boxShadow: message.role === "user"
+                            ? '0 4px 20px rgba(20, 184, 166, 0.3)'
+                            : '0 4px 20px rgba(0, 0, 0, 0.2)',
+                        }}
+                      >
+                        <p className={`text-sm leading-relaxed whitespace-pre-wrap ${
+                          message.role === "user" ? "text-white" : "text-gray-200"
+                        }`}>
+                          {message.content}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div 
+                        className="rounded-2xl rounded-bl-md px-5 py-4"
+                        style={{ background: 'rgba(255, 255, 255, 0.08)' }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="w-5 h-5 text-teal-400 animate-spin" />
+                          <span className="text-gray-400 text-sm">Thinking...</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {/* Upsell Banner */}
+                {showUpsell && (
+                  <div 
+                    className="mx-6 mb-4 p-4 rounded-xl text-center"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)',
+                      border: '1px solid rgba(20, 184, 166, 0.25)',
+                    }}
+                  >
+                    <p className="text-sm text-gray-300 mb-2">Want to go deeper?</p>
+                    <button
+                      onClick={scrollToPricing}
+                      className="text-sm font-semibold text-teal-400 hover:text-teal-300 transition-colors"
+                      data-testid="button-greeter-upsell"
+                    >
+                      Get the free 7-day course →
+                    </button>
+                  </div>
+                )}
+
+                {/* Premium Input Area */}
+                <div className="p-6 border-t border-white/10">
+                  <div 
+                    className="flex gap-3 p-2 rounded-2xl"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder={messageCount >= MAX_MESSAGES ? "Message limit reached" : "Ask anything..."}
+                      disabled={messageCount >= MAX_MESSAGES || isLoading}
+                      className="flex-1 bg-transparent px-4 py-3 text-white placeholder-gray-500 focus:outline-none disabled:opacity-50 text-base"
+                      data-testid="input-greeter-message"
+                    />
+                    <button
+                      onClick={handleSend}
+                      disabled={!input.trim() || isLoading || messageCount >= MAX_MESSAGES}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:scale-105"
+                      style={{
+                        background: input.trim() && !isLoading 
+                          ? 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)' 
+                          : 'rgba(255,255,255,0.05)',
+                        boxShadow: input.trim() && !isLoading 
+                          ? '0 4px 16px rgba(20, 184, 166, 0.4)' 
+                          : 'none',
+                      }}
+                      data-testid="button-greeter-send"
+                    >
+                      <Send className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                  
+                  {/* Message Counter */}
+                  <p className="text-xs text-teal-500/70 mt-3 text-center font-medium">
+                    {remainingMessages} messages remaining
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Quick Questions (collapsed state) */}
-          {!isExpanded && (
-            <div className="px-8 pb-8 pt-0">
-              <p className="text-xs text-gray-500 mb-3">Common questions:</p>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Which pattern am I running?",
-                  "What's the difference between the products?",
-                  "How is this different from therapy?"
-                ].map((question, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleQuickQuestion(question)}
-                    className="text-xs px-4 py-2.5 rounded-full bg-white/5 text-gray-300 hover:bg-teal-500/20 hover:text-white hover:border-teal-500/40 transition-all border border-white/10"
-                    data-testid={`button-quick-question-${index}`}
-                  >
-                    "{question}"
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
+      
+      {/* CSS for pulse animation */}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
+        }
+      `}</style>
     </section>
   );
 }
