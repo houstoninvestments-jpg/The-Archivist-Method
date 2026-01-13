@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Hero from "../components/Hero";
+import GreeterChatbot from "../components/GreeterChatbot";
 import PatternAccordion from "../components/PatternAccordion";
 import MethodSection from "../components/MethodSection";
 import ComparisonTable from "../components/ComparisonTable";
@@ -26,6 +27,9 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-archivist-dark text-white">
       <Hero />
+      
+      {/* Greeter Chatbot Widget */}
+      <GreeterChatbot />
       
       {/* Brief Intro Section */}
       <section className="py-20 px-4 bg-archivist-dark">
