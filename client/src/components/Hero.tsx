@@ -1,4 +1,4 @@
-import libraryBg from '@assets/stock_images/dark_gothic_library__440107ab.jpg';
+import libraryBg from '@assets/image_1768330163168.png';
 
 export default function Hero() {
   const scrollToPricing = () => {
