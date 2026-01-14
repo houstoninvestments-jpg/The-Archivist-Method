@@ -22,7 +22,7 @@ export default function Header() {
     { href: "/contact", label: "Contact" },
   ];
 
-  const scrollToSection = (href: string) => {
+  const handleNavClick = (href: string) => {
     if (href.startsWith("/#")) {
       const sectionId = href.replace("/#", "");
       if (location === "/") {
@@ -33,6 +33,8 @@ export default function Header() {
       } else {
         window.location.href = href;
       }
+    } else {
+      window.location.href = href;
     }
     setIsMobileMenuOpen(false);
   };
@@ -78,7 +80,7 @@ export default function Header() {
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => handleNavClick(link.href)}
                 className="text-sm text-gray-300 hover:text-white transition-colors font-medium"
                 data-testid={`nav-${link.label.toLowerCase()}`}
               >
@@ -127,7 +129,7 @@ export default function Header() {
               {navLinks.map((link) => (
                 <button
                   key={link.href}
-                  onClick={() => scrollToSection(link.href)}
+                  onClick={() => handleNavClick(link.href)}
                   className="text-xl text-gray-300 hover:text-white transition-colors font-medium"
                 >
                   {link.label}

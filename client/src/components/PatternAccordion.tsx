@@ -59,7 +59,7 @@ const patterns = [
 
 export default function PatternAccordion() {
   return (
-    <section className="py-20 px-4 bg-archivist-dark">
+    <section id="patterns" className="py-20 px-4 bg-archivist-dark">
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
           The 7 Core Patterns

@@ -9,7 +9,7 @@ import { ScrollReveal } from "../components/animations/ScrollReveal";
 export default function Landing() {
 
   const handleBuyFree = () => {
-    window.location.href = "/free-download";
+    window.location.href = "/free";
   };
 
   const handleBuyQuickStart = () => {

@@ -26,7 +26,7 @@ const methods = [
 
 export default function MethodSection() {
   return (
-    <section className="py-20 px-4 bg-card/50">
+    <section id="method" className="py-20 px-4 bg-card/50">
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl font-bold text-center mb-4" data-testid="text-method-title">
           The Method

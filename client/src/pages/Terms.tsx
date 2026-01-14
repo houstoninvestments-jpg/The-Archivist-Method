@@ -67,7 +67,7 @@ export default function Terms() {
               </p>
             </section>
 
-            <section>
+            <section id="refund">
               <h2 className="text-2xl font-bold text-white mb-3">
                 4. Refund Policy
               </h2>
