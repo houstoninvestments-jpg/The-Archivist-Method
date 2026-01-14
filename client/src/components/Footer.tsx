@@ -1,64 +1,174 @@
+import { Link } from "wouter";
+
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = {
+    method: [
+      { label: "Pattern Archaeology", href: "/#method" },
+      { label: "The 7 Patterns", href: "/#patterns" },
+      { label: "FEIR Framework", href: "/#method" },
+    ],
+    products: [
+      { label: "Free 7-Day Course", href: "/free" },
+      { label: "Quick-Start System", href: "/quick-start" },
+      { label: "Complete Archive", href: "/complete-archive" },
+    ],
+    legal: [
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Refund Policy", href: "/terms" },
+    ],
+    connect: [
+      { label: "Contact Us", href: "/contact" },
+      { label: "Portal Login", href: "/portal/login" },
+      { label: "Support", href: "/contact" },
+    ],
+  };
+
   return (
-    <footer className="bg-archivist-dark border-t border-gray-800 py-12 px-4">
-      <div className="container mx-auto max-w-5xl text-center space-y-6">
-        {/* Archivist Icon */}
-        <div className="flex justify-center mb-6">
-          <img
-            src="/archivist-icon.png"
-            alt="The Archivist"
-            className="w-16 h-16 rounded-full"
-          />
+    <footer className="relative bg-black border-t border-white/10">
+      {/* Gradient Divider */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, #14B8A6 50%, #EC4899 100%)",
+        }}
+      />
+
+      {/* Top Section - Brand */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <div
+                className="w-16 h-16 rounded-xl flex items-center justify-center"
+                style={{
+                  background: "linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)",
+                  boxShadow: "0 8px 32px rgba(20, 184, 166, 0.3)",
+                }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-8 h-8 text-white fill-current"
+                >
+                  <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.09 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm16 7.36l-7 3.5v-7.36l7-3.5v7.36z" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 className="text-2xl font-bold text-white mb-2" data-testid="text-footer-title">
+              THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
+            </h3>
+            <p className="text-teal-400 text-sm mb-4" data-testid="text-footer-tagline">
+              Pattern Archaeology, Not Therapy
+            </p>
+            <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">
+              Discover and interrupt the unconscious patterns that have been running your life.
+            </p>
+
+            <Link href="/free">
+              <button
+                className="px-8 py-3 text-sm font-semibold text-black rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-teal-500/30"
+                style={{
+                  background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
+                }}
+                data-testid="button-footer-cta"
+              >
+                Start Free Course
+              </button>
+            </Link>
+          </div>
+
+          {/* Link Columns */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            {/* Method */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+                Method
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.method.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Products */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+                Products
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.products.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href}>
+                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
+                        {link.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+                Legal
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.legal.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href}>
+                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
+                        {link.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+                Connect
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.connect.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href}>
+                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
+                        {link.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="border-t border-white/10 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-500 text-sm" data-testid="text-footer-copyright">
+                © {currentYear} The Archivist Method. All rights reserved.
+              </p>
+              <p className="text-gray-600 text-xs text-center md:text-right max-w-lg">
+                Medical Disclaimer: This is educational content about behavioral patterns, not therapy or medical advice.
+              </p>
+            </div>
+          </div>
         </div>
-
-        <p
-          className="text-lg font-semibold text-white"
-          data-testid="text-footer-title"
-        >
-          THE ARCHIVIST METHOD™
-        </p>
-
-        <p
-          className="text-sm text-archivist-teal"
-          data-testid="text-footer-tagline"
-        >
-          Pattern Archaeology, Not Therapy
-        </p>
-
-        {/* Footer Links */}
-        <div className="flex justify-center gap-6 text-sm">
-          <a
-            href="/terms"
-            className="text-gray-400 hover:text-archivist-teal transition-colors"
-          >
-            Terms of Service
-          </a>
-          <a
-            href="/privacy"
-            className="text-gray-400 hover:text-archivist-teal transition-colors"
-          >
-            Privacy Policy
-          </a>
-          <a
-            href="/contact"
-            className="text-gray-400 hover:text-archivist-teal transition-colors"
-          >
-            Contact
-          </a>
-        </div>
-
-        <p
-          className="text-sm text-gray-500"
-          data-testid="text-footer-copyright"
-        >
-          Copyright 2024. All rights reserved.
-        </p>
-        <p className="text-xs text-gray-500 mt-6 max-w-3xl mx-auto">
-          Medical Disclaimer: The Archivist Method provides educational
-          information about behavioral pattern recognition. This is not therapy,
-          counseling, or medical advice. Always consult qualified healthcare
-          professionals for medical or mental health concerns.
-        </p>
       </div>
     </footer>
   );

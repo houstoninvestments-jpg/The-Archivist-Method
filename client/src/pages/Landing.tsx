@@ -4,7 +4,6 @@ import PatternAccordion from "../components/PatternAccordion";
 import MethodSection from "../components/MethodSection";
 import ComparisonTable from "../components/ComparisonTable";
 import ProductCard from "../components/ProductCard";
-import Footer from "../components/Footer";
 import { ScrollReveal } from "../components/animations/ScrollReveal";
 
 export default function Landing() {
@@ -128,8 +127,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

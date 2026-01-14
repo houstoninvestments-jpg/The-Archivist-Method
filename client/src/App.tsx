@@ -4,6 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ArchivistChatbot from "@/components/ArchivistChatbot";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Landing from "@/pages/Landing";
 import ThankYou from "@/pages/ThankYou";
 import ThankYouQuickStart from "@/pages/ThankYouQuickStart";
@@ -49,12 +51,17 @@ function Router() {
 function AppContent() {
   const [location] = useLocation();
   const isLandingPage = location === "/";
+  const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
   
   return (
-    <>
-      <Router />
+    <div className="min-h-screen flex flex-col">
+      {!isPortalDashboard && <Header />}
+      <main className="flex-1">
+        <Router />
+      </main>
+      {!isPortalDashboard && <Footer />}
       {!isLandingPage && <ArchivistChatbot />}
-    </>
+    </div>
   );
 }
 
