@@ -233,7 +233,7 @@ CRITICAL: After email is provided, end the conversation. Do not continue chattin
 
   return (
     <>
-      <style jsx global>{`
+      <style>{`
         @keyframes neonPulse {
           0%,
           100% {
