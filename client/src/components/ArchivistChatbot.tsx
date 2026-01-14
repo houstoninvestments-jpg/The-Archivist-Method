@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { X, Send, Loader2 } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -312,20 +312,12 @@ CRITICAL: After email is provided, end the conversation. Do not continue chattin
             <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-teal-500 to-pink-500 opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500"></div>
             <div className="absolute -inset-2 rounded-full bg-teal-500/30 blur-xl group-hover:bg-pink-500/40 transition-all duration-500"></div>
 
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-black via-gray-900 to-black border-2 border-teal-500 neon-border group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
-              <MessageCircle
-                className="w-7 h-7 text-teal-400 group-hover:text-pink-400 transition-colors duration-300"
-                strokeWidth={2.5}
+            <div className="relative w-16 h-16 rounded-full border-2 border-teal-500 neon-border group-hover:scale-110 transition-transform duration-300 flex items-center justify-center overflow-hidden">
+              <img
+                src="/archivist-icon.png"
+                alt="The Archivist"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-teal-500/10 to-pink-500/10 group-hover:from-pink-500/10 group-hover:to-teal-500/10 transition-all duration-300"></div>
-
-              <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-black">
-                <img
-                  src="/archivist-icon.png"
-                  alt="The Archivist"
-                  className="w-full h-full object-cover"
-                />
-              </div>
             </div>
           </div>
         </button>
