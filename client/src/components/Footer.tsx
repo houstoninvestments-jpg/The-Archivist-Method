@@ -10,9 +10,9 @@ export default function Footer() {
       { label: "FEIR Framework", href: "/#method" },
     ],
     products: [
-      { label: "Free 7-Day Course", href: "/free" },
-      { label: "Quick-Start System", href: "/quick-start" },
-      { label: "Complete Archive", href: "/complete-archive" },
+      { label: "Free 7-Day Course", href: "/free", external: false },
+      { label: "Quick-Start System", href: "https://buy.stripe.com/dR629j5dI1NS1aq3cd", external: true },
+      { label: "Complete Archive", href: "https://buy.stripe.com/8x214f7hQdwv2augKm6c002", external: true },
     ],
     legal: [
       { label: "Terms of Service", href: "/terms" },
@@ -104,11 +104,20 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.products.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href}>
-                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                      >
                         {link.label}
-                      </span>
-                    </Link>
+                      </a>
+                    ) : (
+                      <Link href={link.href}>
+                        <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
+                          {link.label}
+                        </span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
