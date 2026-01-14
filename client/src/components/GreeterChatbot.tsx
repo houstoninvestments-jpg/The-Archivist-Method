@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2, X, Sparkles, MessageCircle, ArrowRight } from "lucide-react";
+import { Send, Loader2, X, Sparkles, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
@@ -222,15 +222,14 @@ export default function GreeterChatbot() {
                 >
                   {/* Icon */}
                   <div className="flex justify-center mb-8">
-                    <div 
-                      className="w-20 h-20 rounded-2xl flex items-center justify-center"
+                    <img
+                      src="/archivist-icon.png"
+                      alt="The Archivist"
+                      className="w-20 h-20 rounded-2xl object-cover"
                       style={{
-                        background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
                         boxShadow: '0 12px 40px rgba(20, 184, 166, 0.4), 0 6px 20px rgba(236, 72, 153, 0.3)',
                       }}
-                    >
-                      <MessageCircle className="w-10 h-10 text-white" strokeWidth={1.5} />
-                    </div>
+                    />
                   </div>
 
                   {/* Title */}
@@ -310,14 +309,11 @@ export default function GreeterChatbot() {
                     }}
                   >
                     <div className="flex items-center gap-3">
-                      <div 
-                        className="w-10 h-10 rounded-xl flex items-center justify-center"
-                        style={{
-                          background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
-                        }}
-                      >
-                        <MessageCircle className="w-5 h-5 text-white" />
-                      </div>
+                      <img
+                        src="/archivist-icon.png"
+                        alt="The Archivist"
+                        className="w-10 h-10 rounded-xl object-cover"
+                      />
                       <div>
                         <h4 className="text-white font-semibold">The Archivist Assistant</h4>
                         <p className="text-teal-400 text-xs">Here to help</p>

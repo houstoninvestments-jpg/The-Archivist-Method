@@ -42,20 +42,14 @@ export default function Footer() {
           <div className="text-center mb-16">
             {/* Logo */}
             <div className="flex justify-center mb-6">
-              <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center"
+              <img
+                src="/archivist-icon.png"
+                alt="The Archivist"
+                className="w-16 h-16 rounded-xl object-cover"
                 style={{
-                  background: "linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)",
                   boxShadow: "0 8px 32px rgba(20, 184, 166, 0.3)",
                 }}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-8 h-8 text-white fill-current"
-                >
-                  <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.09 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm16 7.36l-7 3.5v-7.36l7-3.5v7.36z" />
-                </svg>
-              </div>
+              />
             </div>
 
             <h3 className="text-2xl font-bold text-white mb-2" data-testid="text-footer-title">

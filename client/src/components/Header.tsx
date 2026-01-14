@@ -52,19 +52,11 @@ export default function Header() {
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer group">
               {/* Logo Icon */}
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105"
-                style={{
-                  background: "linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)",
-                }}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5 text-white fill-current"
-                >
-                  <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.09 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm16 7.36l-7 3.5v-7.36l7-3.5v7.36z" />
-                </svg>
-              </div>
+              <img
+                src="/archivist-icon.png"
+                alt="The Archivist"
+                className="w-10 h-10 rounded-lg transition-transform group-hover:scale-105 object-cover"
+              />
               {/* Brand Text */}
               <div className="hidden sm:block">
                 <div className="text-lg font-bold text-white tracking-tight">
