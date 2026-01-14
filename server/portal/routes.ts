@@ -182,6 +182,110 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
   }
 });
 
+// Create checkout session for Quick-Start upsell ($37)
+router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) => {
+  try {
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : process.env.REPLIT_DOMAINS
+        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+        : "http://localhost:5000";
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: "price_1SpdpX11kGDis0LriTWyDo1f", // $37 upsell price
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${baseUrl}/success/quick-start`,
+      cancel_url: `${baseUrl}/thank-you`,
+      metadata: {
+        product_id: "quick-start",
+        product_name: "Quick-Start System",
+        price_type: "upsell",
+      },
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Checkout session error:", error);
+    res.status(500).json({ error: "Failed to create checkout session" });
+  }
+});
+
+// Create checkout session for Quick-Start regular ($47)
+router.post("/checkout/quick-start", async (req: Request, res: Response) => {
+  try {
+    const { priceId } = req.body;
+    
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : process.env.REPLIT_DOMAINS
+        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+        : "http://localhost:5000";
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: priceId || "price_quick_start", // Use provided price ID or default
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${baseUrl}/success/quick-start`,
+      cancel_url: `${baseUrl}/`,
+      metadata: {
+        product_id: "quick-start",
+        product_name: "Quick-Start System",
+      },
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Checkout session error:", error);
+    res.status(500).json({ error: "Failed to create checkout session" });
+  }
+});
+
+// Create checkout session for Complete Archive ($197)
+router.post("/checkout/complete-archive", async (req: Request, res: Response) => {
+  try {
+    const { priceId } = req.body;
+    
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : process.env.REPLIT_DOMAINS
+        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+        : "http://localhost:5000";
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: priceId || "price_complete_archive", // Use provided price ID or default
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${baseUrl}/success/complete-archive`,
+      cancel_url: `${baseUrl}/`,
+      metadata: {
+        product_id: "complete-archive",
+        product_name: "Complete Archive",
+      },
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Checkout session error:", error);
+    res.status(500).json({ error: "Failed to create checkout session" });
+  }
+});
+
 // Stripe webhook handler
 router.post(
   "/webhooks/stripe",

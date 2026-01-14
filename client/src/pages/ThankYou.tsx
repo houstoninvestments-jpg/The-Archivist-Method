@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export default function ThankYou() {
   const [timeLeft, setTimeLeft] = useState(600);
   const [isExpired, setIsExpired] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,8 +39,28 @@ export default function ThankYou() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const handleUpsellClick = () => {
-    window.location.href = "https://buy.stripe.com/dR629j5dI1NS1aq3cd";
+  const handleUpsellClick = async () => {
+    if (isLoading || isExpired) return;
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch("/api/portal/checkout/quick-start-upsell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setIsLoading(false);
+    }
   };
 
   const benefits = [
@@ -177,13 +199,15 @@ export default function ThankYou() {
               <div className="relative z-10">
                 <motion.button
                   onClick={handleUpsellClick}
-                  disabled={isExpired}
-                  whileHover={{ scale: isExpired ? 1 : 1.02 }}
-                  whileTap={{ scale: isExpired ? 1 : 0.98 }}
-                  className={`w-full py-4 px-8 rounded-xl font-bold text-lg transition-all ${
+                  disabled={isExpired || isLoading}
+                  whileHover={{ scale: (isExpired || isLoading) ? 1 : 1.02 }}
+                  whileTap={{ scale: (isExpired || isLoading) ? 1 : 0.98 }}
+                  className={`w-full py-4 px-8 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 ${
                     isExpired
                       ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                      : "text-black hover:shadow-xl hover:shadow-teal-500/20"
+                      : isLoading
+                        ? "text-black/70 cursor-wait"
+                        : "text-black hover:shadow-xl hover:shadow-teal-500/20"
                   }`}
                   style={
                     isExpired
@@ -194,7 +218,8 @@ export default function ThankYou() {
                   }
                   data-testid="button-upsell-accept"
                 >
-                  {isExpired ? "Offer Has Expired" : "Get Quick-Start — $37"}
+                  {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+                  {isExpired ? "Offer Has Expired" : isLoading ? "Redirecting..." : "Get Quick-Start — $37"}
                 </motion.button>
 
                 {/* Decline Link */}
