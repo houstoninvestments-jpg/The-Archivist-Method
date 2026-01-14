@@ -3,17 +3,29 @@ import { motion } from "framer-motion";
 interface StaggeredTextProps {
   text: string;
   className?: string;
+  wordClassName?: string;
+  delay?: number;
+  as?: "h1" | "h2" | "p" | "span";
 }
 
-export const StaggeredText = ({ text, className = "" }: StaggeredTextProps) => {
+export const StaggeredText = ({ 
+  text, 
+  className = "", 
+  wordClassName = "",
+  delay = 0,
+  as = "h1" 
+}: StaggeredTextProps) => {
   const words = text.split(" ");
 
   const container = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
+    visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
-    }),
+      transition: { 
+        staggerChildren: 0.12, 
+        delayChildren: delay,
+      },
+    },
   };
 
   const child = {
@@ -34,8 +46,10 @@ export const StaggeredText = ({ text, className = "" }: StaggeredTextProps) => {
     },
   };
 
+  const MotionComponent = motion[as];
+
   return (
-    <motion.h1
+    <MotionComponent
       style={{ display: "flex", flexWrap: "wrap", overflow: "hidden" }}
       variants={container}
       initial="hidden"
@@ -47,10 +61,11 @@ export const StaggeredText = ({ text, className = "" }: StaggeredTextProps) => {
           variants={child}
           key={index}
           style={{ marginRight: "0.5rem" }}
+          className={wordClassName}
         >
           {word}
         </motion.span>
       ))}
-    </motion.h1>
+    </MotionComponent>
   );
 };

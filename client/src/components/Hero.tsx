@@ -32,24 +32,24 @@ export default function Hero() {
           className="text-6xl md:text-8xl font-bold text-white text-center mb-6 justify-center"
         />
 
-        {/* Subtitle with Gradient - Blur In */}
-        <BlurIn delay={0.5}>
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-6">
-            <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-              Pattern Archaeology, Not Therapy
-            </span>
-          </h2>
-        </BlurIn>
+        {/* Subtitle with Gradient - Staggered Animation */}
+        <StaggeredText 
+          text="Pattern Archaeology, Not Therapy" 
+          as="h2"
+          delay={0.8}
+          className="text-3xl md:text-5xl font-bold text-center mb-6 justify-center"
+          wordClassName="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
+        />
 
         {/* Body Text - Blur In */}
-        <BlurIn delay={0.8}>
+        <BlurIn delay={1.4}>
           <p className="text-xl text-gray-300 text-center max-w-3xl mx-auto mb-12">
             Stop running the same destructive patterns. Learn the proven method to interrupt trauma patterns in 7-90 days.
           </p>
         </BlurIn>
 
         {/* Primary CTA Button - Blur In */}
-        <BlurIn delay={1.1}>
+        <BlurIn delay={1.7}>
           <button
             onClick={scrollToPricing}
             data-testid="button-hero-cta"
