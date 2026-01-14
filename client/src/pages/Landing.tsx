@@ -5,6 +5,7 @@ import MethodSection from "../components/MethodSection";
 import ComparisonTable from "../components/ComparisonTable";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
+import { ScrollReveal } from "../components/animations/ScrollReveal";
 
 export default function Landing() {
 
@@ -30,25 +31,35 @@ export default function Landing() {
       {/* Brief Intro Section */}
       <section className="py-20 px-4 bg-archivist-dark">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            What is <span className="text-teal-400">Pattern Archaeology</span>?
-          </h2>
-          <p className="text-lg text-gray-400 leading-relaxed mb-8">
-            Pattern Archaeology is a systematic method for identifying and interrupting the unconscious behavioral loops that sabotage your relationships, career, and wellbeing. Unlike traditional therapy that asks "why," we focus on the "how" - mapping the exact sequence of triggers, reactions, and outcomes that keep you stuck in cycles you didn't choose.
-          </p>
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              What is <span className="text-teal-400">Pattern Archaeology</span>?
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal>
+            <p className="text-lg text-gray-400 leading-relaxed mb-8">
+              Pattern Archaeology is a systematic method for identifying and interrupting the unconscious behavioral loops that sabotage your relationships, career, and wellbeing. Unlike traditional therapy that asks "why," we focus on the "how" - mapping the exact sequence of triggers, reactions, and outcomes that keep you stuck in cycles you didn't choose.
+            </p>
+          </ScrollReveal>
           <div className="grid md:grid-cols-3 gap-6 text-left">
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-teal-400 text-2xl font-bold mb-2">Identify</div>
-              <p className="text-gray-400 text-sm">Recognize the 7 core patterns that drive 90% of self-sabotaging behavior</p>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-teal-400 text-2xl font-bold mb-2">Interrupt</div>
-              <p className="text-gray-400 text-sm">Learn circuit-breaking techniques that stop patterns mid-execution</p>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-teal-400 text-2xl font-bold mb-2">Replace</div>
-              <p className="text-gray-400 text-sm">Install new neural pathways through the FEIR framework</p>
-            </div>
+            <ScrollReveal>
+              <div className="p-6 rounded-xl bg-white/5 border border-white/10 h-full">
+                <div className="text-teal-400 text-2xl font-bold mb-2">Identify</div>
+                <p className="text-gray-400 text-sm">Recognize the 7 core patterns that drive 90% of self-sabotaging behavior</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="p-6 rounded-xl bg-white/5 border border-white/10 h-full">
+                <div className="text-teal-400 text-2xl font-bold mb-2">Interrupt</div>
+                <p className="text-gray-400 text-sm">Learn circuit-breaking techniques that stop patterns mid-execution</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="p-6 rounded-xl bg-white/5 border border-white/10 h-full">
+                <div className="text-teal-400 text-2xl font-bold mb-2">Replace</div>
+                <p className="text-gray-400 text-sm">Install new neural pathways through the FEIR framework</p>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -59,12 +70,14 @@ export default function Landing() {
       
       <section className="py-20 px-4 bg-archivist-dark" id="pricing">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
-            Choose Your Path
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Start free or go deep with our complete systems
-          </p>
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+              Choose Your Path
+            </h2>
+            <p className="text-center text-muted-foreground mb-12">
+              Start free or go deep with our complete systems
+            </p>
+          </ScrollReveal>
           <div className="grid md:grid-cols-3 gap-8">
             <ProductCard
               title="7-Day Crash Course"
