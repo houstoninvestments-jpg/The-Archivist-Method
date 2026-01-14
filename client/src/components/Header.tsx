@@ -57,7 +57,8 @@ export default function Header() {
               <img
                 src="/archivist-icon.png"
                 alt="The Archivist"
-                className="w-10 h-10 rounded-lg transition-transform group-hover:scale-105 object-cover"
+                className="w-10 h-10 transition-transform group-hover:scale-105 object-contain"
+                style={{ background: 'transparent' }}
               />
               {/* Brand Text */}
               <div className="hidden sm:block">

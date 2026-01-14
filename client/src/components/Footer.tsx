@@ -45,10 +45,8 @@ export default function Footer() {
               <img
                 src="/archivist-icon.png"
                 alt="The Archivist"
-                className="w-16 h-16 rounded-xl object-cover"
-                style={{
-                  boxShadow: "0 8px 32px rgba(20, 184, 166, 0.3)",
-                }}
+                className="w-16 h-16 object-contain"
+                style={{ background: 'transparent' }}
               />
             </div>
 

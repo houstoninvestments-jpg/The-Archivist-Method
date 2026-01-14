@@ -225,10 +225,8 @@ export default function GreeterChatbot() {
                     <img
                       src="/archivist-icon.png"
                       alt="The Archivist"
-                      className="w-20 h-20 rounded-2xl object-cover"
-                      style={{
-                        boxShadow: '0 12px 40px rgba(20, 184, 166, 0.4), 0 6px 20px rgba(236, 72, 153, 0.3)',
-                      }}
+                      className="w-20 h-20 object-contain"
+                      style={{ background: 'transparent' }}
                     />
                   </div>
 
@@ -312,7 +310,8 @@ export default function GreeterChatbot() {
                       <img
                         src="/archivist-icon.png"
                         alt="The Archivist"
-                        className="w-10 h-10 rounded-xl object-cover"
+                        className="w-10 h-10 object-contain"
+                        style={{ background: 'transparent' }}
                       />
                       <div>
                         <h4 className="text-white font-semibold">The Archivist Assistant</h4>
