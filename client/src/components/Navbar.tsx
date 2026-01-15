@@ -119,7 +119,7 @@ export default function Navbar({
           <Link href="/" className="flex items-center">
             <img
               src={logoImage}
-              alt="Broken Psychology Lab"
+              alt="The Archivist Method™"
               className="h-20 sm:h-24 md:h-28 w-auto max-w-[300px] sm:max-w-[400px] md:max-w-none object-contain"
               data-testid="img-logo"
             />

@@ -35,7 +35,7 @@ export default function ThankYouQuickStart() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-archivist-dark/95 backdrop-blur-sm border-b border-archivist-teal/20">
         <div className="container mx-auto px-6 py-4">
           <button onClick={() => setLocation("/")} className="flex items-center gap-3" data-testid="button-home">
-            <span className="text-xl font-bold">BROKEN PSYCHOLOGY LAB</span>
+            <span className="text-xl font-bold">THE ARCHIVIST METHOD™</span>
           </button>
         </div>
       </nav>
