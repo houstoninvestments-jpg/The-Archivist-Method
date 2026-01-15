@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Check, ArrowRight, Mail } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function FreeDownload() {
   const [, setLocation] = useLocation();
@@ -34,8 +32,7 @@ export default function FreeDownload() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar onLoginClick={() => setLocation("/portal")} />
+    <div className="min-h-screen bg-background pt-20">
       
       <section className="fog-overlay bg-archivist-dark py-20 px-4">
         <div className="container mx-auto max-w-4xl">
@@ -150,8 +147,6 @@ export default function FreeDownload() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

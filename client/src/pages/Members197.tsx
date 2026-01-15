@@ -3,15 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Download, Video, FileText, BookOpen, Mail } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function Members197() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar onLoginClick={() => setLocation("/portal")} />
+    <div className="min-h-screen bg-background pt-20">
       
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
@@ -159,13 +156,11 @@ export default function Members197() {
           <div className="text-center text-muted-foreground">
             <div className="flex items-center justify-center gap-2">
               <Mail className="h-4 w-4" />
-              <span>Questions? Email: support@brokenpsychologylab.com</span>
+              <span>Questions? Email: support@archivistmethod.com</span>
             </div>
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

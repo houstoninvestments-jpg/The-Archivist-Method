@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Video, FileText, Download, Shield, Loader2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function QuickStart() {
   const [, setLocation] = useLocation();
@@ -62,8 +60,7 @@ export default function QuickStart() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar onLoginClick={() => setLocation("/portal")} />
+    <div className="min-h-screen bg-background pt-20">
 
       <section className="fog-overlay bg-archivist-dark py-20 px-4">
         <div className="container mx-auto max-w-4xl">
@@ -159,8 +156,6 @@ export default function QuickStart() {
           </Card>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
