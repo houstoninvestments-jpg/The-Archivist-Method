@@ -116,7 +116,7 @@ export default function FreeDownload() {
                       <p className="text-archivist-teal font-semibold">Success!</p>
                     </div>
                     <a
-                      href="/attached_assets/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE_1765084919732.pdf"
+                      href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                       download
                       className="inline-block"
                     >

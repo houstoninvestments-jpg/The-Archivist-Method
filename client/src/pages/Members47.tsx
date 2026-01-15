@@ -65,7 +65,7 @@ export default function Members47() {
             </CardHeader>
             <CardContent>
               <a
-                href="/attached_assets/THE-ARCHIVIST-METHOD-QUICK-START_1765097351318.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button className="w-full bg-archivist-teal text-archivist-dark font-semibold" data-testid="button-download-quickstart">
@@ -88,7 +88,7 @@ export default function Members47() {
             </CardHeader>
             <CardContent className="space-y-3">
               <a
-                href="/attached_assets/BONUS-1-Daily-Tracker-Archivist-Method_1765097351316.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-daily">
@@ -97,7 +97,7 @@ export default function Members47() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-2-Weekly-Review-Archivist-Method_1765097351316.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-weekly">
@@ -106,7 +106,7 @@ export default function Members47() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-3-Emergency-Cards-Archivist-Method_1765097351317.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-emergency">

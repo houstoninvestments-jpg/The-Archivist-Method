@@ -99,6 +99,9 @@ app.use("/api/portal", portalRoutes);
 // Serve static files from public/downloads (before Vite middleware)
 app.use("/downloads", express.static(path.join(process.cwd(), "public", "downloads")));
 
+// Serve generated PDFs
+app.use("/generated_pdfs", express.static(path.join(process.cwd(), "generated_pdfs")));
+
 (async () => {
   try {
     console.log("Starting server initialization...");

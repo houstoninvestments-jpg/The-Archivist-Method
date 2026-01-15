@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, Play } from "lucide-react";
-import completeArchivePdf from "@assets/complete-pattern-archive_(1)_1765043385635.pdf";
 
 interface ContentTabProps {
   hasCompleteArchive?: boolean;
@@ -50,7 +49,7 @@ export default function ContentTab({
                 The complete workbook to help you identify and excavate your patterns
               </p>
               <Button className="w-full gap-2" data-testid="button-download-workbook" asChild>
-                <a href={completeArchivePdf} download="Pattern-Recognition-Workbook.pdf">
+                <a href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf" download="The-Archivist-Method-7-Day-Crash-Course.pdf">
                   <Download className="h-4 w-4" />
                   Download PDF
                 </a>
@@ -76,7 +75,7 @@ export default function ContentTab({
                   data-testid="button-download-archive"
                   asChild
                 >
-                  <a href={completeArchivePdf} download="Complete-Pattern-Archive.pdf">
+                  <a href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf" download="The-Archivist-Method-Complete-Archive.pdf">
                     <Download className="h-4 w-4" />
                     Download PDF
                   </a>

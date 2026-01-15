@@ -41,7 +41,7 @@ export default function Members197() {
                 This includes everything: all 23 sections, all patterns, all contexts, lifetime reference.
               </p>
               <a
-                href="/attached_assets/THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE_1765097351318.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button className="w-full btn-gradient-teal-pink font-semibold text-lg py-6" data-testid="button-download-archive">
@@ -97,7 +97,7 @@ export default function Members197() {
             </CardHeader>
             <CardContent>
               <a
-                href="/attached_assets/THE-ARCHIVIST-METHOD-QUICK-START_1765097351318.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full border-archivist-teal text-archivist-teal" data-testid="button-download-quickstart">
@@ -123,7 +123,7 @@ export default function Members197() {
             </CardHeader>
             <CardContent className="space-y-3">
               <a
-                href="/attached_assets/BONUS-1-Daily-Tracker-Archivist-Method_1765097351316.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-daily">
@@ -132,7 +132,7 @@ export default function Members197() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-2-Weekly-Review-Archivist-Method_1765097351316.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-weekly">
@@ -141,7 +141,7 @@ export default function Members197() {
                 </Button>
               </a>
               <a
-                href="/attached_assets/BONUS-3-Emergency-Cards-Archivist-Method_1765097351317.pdf"
+                href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
                 download
               >
                 <Button variant="outline" className="w-full justify-start" data-testid="button-download-emergency">
