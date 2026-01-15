@@ -219,8 +219,6 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
 // Create checkout session for Quick-Start regular ($47)
 router.post("/checkout/quick-start", async (req: Request, res: Response) => {
   try {
-    const { priceId } = req.body;
-    
     const baseUrl = process.env.REPLIT_DEV_DOMAIN 
       ? `https://${process.env.REPLIT_DEV_DOMAIN}`
       : process.env.REPLIT_DOMAINS
@@ -231,7 +229,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: priceId || "price_quick_start", // Use provided price ID or default
+          price: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $47
           quantity: 1,
         },
       ],
@@ -254,8 +252,6 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
 // Create checkout session for Complete Archive ($197)
 router.post("/checkout/complete-archive", async (req: Request, res: Response) => {
   try {
-    const { priceId } = req.body;
-    
     const baseUrl = process.env.REPLIT_DEV_DOMAIN 
       ? `https://${process.env.REPLIT_DEV_DOMAIN}`
       : process.env.REPLIT_DOMAINS
@@ -266,7 +262,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: priceId || "price_complete_archive", // Use provided price ID or default
+          price: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $197
           quantity: 1,
         },
       ],

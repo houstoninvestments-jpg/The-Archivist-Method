@@ -14,8 +14,8 @@ export const PRODUCTS: Record<string, Product> = {
     id: "quick-start",
     name: "Quick-Start System",
     price: 47,
-    stripeProductId: "prod_quick_start", // Update with actual Stripe Product ID
-    stripePriceId: "price_quick_start", // Update with actual Stripe Price ID
+    stripeProductId: "prod_quick_start",
+    stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $47
     description: "7-day intensive pattern interruption system",
     features: [
       "Complete FEIR framework introduction",
@@ -30,8 +30,8 @@ export const PRODUCTS: Record<string, Product> = {
     id: "complete-archive",
     name: "Complete Archive",
     price: 197,
-    stripeProductId: "prod_complete_archive", // Update with actual Stripe Product ID
-    stripePriceId: "price_complete_archive", // Update with actual Stripe Price ID
+    stripeProductId: "prod_complete_archive",
+    stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $197
     description: "Full 90-day transformation system with all 7 patterns",
     features: [
       "All 7 destructive patterns fully mapped",
