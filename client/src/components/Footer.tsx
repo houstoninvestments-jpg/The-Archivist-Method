@@ -1,5 +1,3 @@
-import { Link } from "wouter";
-
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -10,9 +8,9 @@ export default function Footer() {
       { label: "FEIR Framework", href: "/#method" },
     ],
     products: [
-      { label: "Free 7-Day Course", href: "/free", external: false },
-      { label: "Quick-Start System", href: "/quick-start", external: false },
-      { label: "Complete Archive", href: "/complete-archive", external: false },
+      { label: "Free 7-Day Course", href: "/free" },
+      { label: "Quick-Start System", href: "/quick-start" },
+      { label: "Complete Archive", href: "/complete-archive" },
     ],
     legal: [
       { label: "Terms of Service", href: "/terms" },
@@ -60,17 +58,16 @@ export default function Footer() {
               Discover and interrupt the unconscious patterns that have been running your life.
             </p>
 
-            <Link href="/free">
-              <button
-                className="px-8 py-3 text-sm font-semibold text-black rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-teal-500/30"
-                style={{
-                  background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
-                }}
-                data-testid="button-footer-cta"
-              >
-                Start Free Course
-              </button>
-            </Link>
+            <a
+              href="/free"
+              className="inline-block px-8 py-3 text-sm font-semibold text-black rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-teal-500/30"
+              style={{
+                background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
+              }}
+              data-testid="button-footer-cta"
+            >
+              Start Free Course
+            </a>
           </div>
 
           {/* Link Columns */}
@@ -102,20 +99,13 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.products.map((link) => (
                   <li key={link.label}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link href={link.href}>
-                        <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
-                          {link.label}
-                        </span>
-                      </Link>
-                    )}
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                      data-testid={`link-footer-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -129,11 +119,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href}>
-                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
-                        {link.label}
-                      </span>
-                    </Link>
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                    >
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -147,11 +138,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.connect.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href}>
-                      <span className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer">
-                        {link.label}
-                      </span>
-                    </Link>
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                    >
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>
