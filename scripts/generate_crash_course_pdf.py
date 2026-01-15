@@ -6,13 +6,14 @@ Branded with dark gothic/industrial aesthetic
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.colors import HexColor
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image as RLImage
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from PIL import Image
 import os
+import shutil
 
 DARK_BG = HexColor('#1a1a1a')
 CHARCOAL = HexColor('#2a2a2a')
@@ -24,6 +25,7 @@ MED_GRAY = HexColor('#9CA3AF')
 DARK_GRAY = HexColor('#4B5563')
 
 OUTPUT_PATH = "/home/runner/workspace/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
+LOGO_PATH = "/home/runner/workspace/attached_assets/archivist-portrait-circle.jpg"
 
 
 class ArchivistPDFTemplate:
@@ -207,10 +209,19 @@ def create_styles():
 
 
 def build_title_page(styles):
-    """Create the title page elements"""
+    """Create the title page elements with logo"""
     elements = []
     
-    elements.append(Spacer(1, 1.5*inch))
+    elements.append(Spacer(1, 0.5*inch))
+    
+    if os.path.exists(LOGO_PATH):
+        logo = RLImage(LOGO_PATH, width=2*inch, height=2*inch)
+        logo.hAlign = 'CENTER'
+        elements.append(logo)
+        elements.append(Spacer(1, 0.4*inch))
+    else:
+        elements.append(Spacer(1, 1*inch))
+    
     elements.append(Paragraph("THE ARCHIVIST METHOD™", styles['TitleMain']))
     elements.append(Paragraph("7-DAY CRASH COURSE", styles['TitleMain']))
     elements.append(Spacer(1, 0.5*inch))
