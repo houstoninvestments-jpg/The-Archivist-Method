@@ -1,16 +1,36 @@
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, BookOpen, Users, Map, Infinity, Shield } from "lucide-react";
+import { Check, BookOpen, Users, Map, Infinity, Shield, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function CompleteArchive() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleBuy = () => {
-    window.location.href = "https://buy.stripe.com/8x214f7hQdwv2augKm6c002";
+  const handleBuy = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch("/api/portal/checkout/complete-archive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setIsLoading(false);
+    }
   };
 
   const sections = [
@@ -169,9 +189,17 @@ export default function CompleteArchive() {
               size="lg"
               className="w-full max-w-md btn-gradient-teal-pink font-semibold text-lg py-6"
               onClick={handleBuy}
+              disabled={isLoading}
               data-testid="button-buy-archive"
             >
-              Get Complete Archive - $197
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Redirecting to Checkout...
+                </>
+              ) : (
+                "Get Complete Archive - $197"
+              )}
             </Button>
 
             {/* Guarantee */}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Hero from "../components/Hero";
 import GreeterChatbot from "../components/GreeterChatbot";
 import PatternAccordion from "../components/PatternAccordion";
@@ -7,17 +8,54 @@ import ProductCard from "../components/ProductCard";
 import { ScrollReveal } from "../components/animations/ScrollReveal";
 
 export default function Landing() {
+  const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
 
   const handleBuyFree = () => {
     window.location.href = "/free";
   };
 
-  const handleBuyQuickStart = () => {
-    window.location.href = "https://buy.stripe.com/dR629j5dI1NS1aq3cd";
+  const handleBuyQuickStart = async () => {
+    if (loadingProduct) return;
+    setLoadingProduct("quick-start");
+    
+    try {
+      const response = await fetch("/api/portal/checkout/quick-start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setLoadingProduct(null);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setLoadingProduct(null);
+    }
   };
 
-  const handleBuyComplete = () => {
-    window.location.href = "https://buy.stripe.com/8x214f7hQdwv2augKm6c002";
+  const handleBuyComplete = async () => {
+    if (loadingProduct) return;
+    setLoadingProduct("complete-archive");
+    
+    try {
+      const response = await fetch("/api/portal/checkout/complete-archive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setLoadingProduct(null);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setLoadingProduct(null);
+    }
   };
 
   return (

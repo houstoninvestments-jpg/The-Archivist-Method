@@ -11,8 +11,8 @@ export default function Footer() {
     ],
     products: [
       { label: "Free 7-Day Course", href: "/free", external: false },
-      { label: "Quick-Start System", href: "https://buy.stripe.com/dR629j5dI1NS1aq3cd", external: true },
-      { label: "Complete Archive", href: "https://buy.stripe.com/8x214f7hQdwv2augKm6c002", external: true },
+      { label: "Quick-Start System", href: "/quick-start", external: false },
+      { label: "Complete Archive", href: "/complete-archive", external: false },
     ],
     legal: [
       { label: "Terms of Service", href: "/terms" },

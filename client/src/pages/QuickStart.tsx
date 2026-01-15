@@ -1,16 +1,36 @@
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Video, FileText, Download, Shield } from "lucide-react";
+import { Check, Video, FileText, Download, Shield, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function QuickStart() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleBuy = () => {
-    window.location.href = "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001";
+  const handleBuy = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch("/api/portal/checkout/quick-start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setIsLoading(false);
+    }
   };
 
   const mainFeatures = [
@@ -115,9 +135,17 @@ export default function QuickStart() {
               size="lg"
               className="w-full max-w-md bg-archivist-pink text-white font-semibold text-lg py-6"
               onClick={handleBuy}
+              disabled={isLoading}
               data-testid="button-buy-quickstart"
             >
-              Get Quick-Start System - $47
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Redirecting to Checkout...
+                </>
+              ) : (
+                "Get Quick-Start System - $47"
+              )}
             </Button>
 
             {/* Guarantee */}

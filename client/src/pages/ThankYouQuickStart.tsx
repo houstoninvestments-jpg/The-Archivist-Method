@@ -1,10 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Check, Download, ArrowRight } from "lucide-react";
+import { Check, Download, ArrowRight, Loader2 } from "lucide-react";
 
 export default function ThankYouQuickStart() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const handleUpgrade = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch("/api/portal/checkout/complete-archive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-archivist-dark text-white">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-archivist-dark/95 backdrop-blur-sm border-b border-archivist-teal/20">
@@ -40,7 +65,24 @@ export default function ThankYouQuickStart() {
           <div className="bg-gradient-to-br from-archivist-pink/10 to-archivist-teal/10 border border-archivist-pink/30 rounded-lg p-8">
             <h3 className="text-2xl font-bold mb-4">Want the Complete Archive?</h3>
             <p className="text-gray-300 mb-6">Upgrade for all 7 Core Patterns mapped with advanced combinations.</p>
-            <a href="https://buy.stripe.com/8x214f7hQdwv2augKm6c002" className="inline-flex items-center gap-2 bg-archivist-pink text-white px-8 py-4 rounded-lg font-bold text-lg" data-testid="link-upgrade-archive">Upgrade to Complete Archive ($197)<ArrowRight className="w-5 h-5" /></a>
+            <button 
+              onClick={handleUpgrade}
+              disabled={isLoading}
+              className="inline-flex items-center gap-2 bg-archivist-pink text-white px-8 py-4 rounded-lg font-bold text-lg disabled:opacity-70 disabled:cursor-wait hover:bg-archivist-pink/90 transition-colors" 
+              data-testid="button-upgrade-archive"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Redirecting...
+                </>
+              ) : (
+                <>
+                  Upgrade to Complete Archive ($197)
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>
