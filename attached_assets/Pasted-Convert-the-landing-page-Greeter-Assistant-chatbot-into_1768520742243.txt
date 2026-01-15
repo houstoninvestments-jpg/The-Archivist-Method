@@ -1,0 +1,66 @@
+Convert the landing page Greeter Assistant chatbot into an interactive Pattern Identification Quiz.
+
+CURRENT CHATBOT LOCATION:
+Find the Greeter Assistant component on the landing page (likely in /client/src/components/ or similar).
+
+NEW FUNCTIONALITY - PATTERN QUIZ:
+
+QUIZ STRUCTURE:
+The chatbot will ask 7-10 conversational questions (one at a time) to identify which of the 7 destructive patterns the user is running.
+
+THE 7 PATTERNS:
+1. Disappearing Pattern - Vanish when relationships get close, ghost when intimacy increases
+2. Apology Loop - Apologize for existing, constant "sorry to bother you"
+3. Testing Pattern - Push people away to see if they'll stay, create loyalty tests
+4. Attraction to Harm - Toxic feels like chemistry, safe people feel boring
+5. Compliment Deflection - Cannot accept praise, visibility triggers panic
+6. Draining Bond - Stay bonded to harmful people/situations, can't leave despite knowing you should
+7. Success Sabotage - Destroy things right before they succeed, can't tolerate sustained wins
+
+SAMPLE QUESTIONS (create 7-10 similar):
+- "When someone gets close to you, what's your first instinct?" (flee/test them/get closer)
+- "How do you feel when someone compliments your work?" (uncomfortable/suspicious/grateful)
+- "You're 3 weeks from a big goal. What happens?" (push harder/sabotage/lose interest)
+- "When you need to ask for help, how do you start the conversation?" (apologize first/ask directly/avoid asking)
+- "Safe, stable people feel..." (boring/comfortable/what I want)
+- "When thinking about leaving a toxic situation, you feel..." (guilt/relief/trapped)
+- "Your partner says 'I love you' for the first time. Your chest feels..." (tight/warm/panicked)
+
+QUIZ FLOW:
+1. Opening: "I'm The Archivist. I can identify which pattern is destroying your life in under 2 minutes. Want to know which one you're running?"
+2. Questions appear one at a time with typing animation
+3. User selects from 2-3 options per question (buttons, not text input)
+4. Progress indicator: "Question 3 of 7"
+5. After final question: "Analyzing your patterns..." (brief loading animation)
+6. Results page with their primary pattern revealed
+
+RESULTS PAGE SHOULD SHOW:
+- Pattern name in large teal text
+- Brief description (2-3 sentences about what this pattern does)
+- What it costs them (consequences)
+- CTA: "Want the 7-day protocol to interrupt this pattern? Enter your email below."
+- Email capture form
+- After email submitted: Redirect to /thank-you with their pattern result
+
+DESIGN REQUIREMENTS:
+- Match site branding (dark background, teal #14B8A6 accents, pink #EC4899 for emphasis)
+- Smooth animations between questions (Framer Motion)
+- Chat bubble style responses (bot on left, user selections on right)
+- Mobile-responsive
+- Fast, snappy interactions (no lag between questions)
+- Progress bar at top showing quiz completion
+- Results feel significant (not just "here's your answer")
+
+TECHNICAL REQUIREMENTS:
+- Store pattern result in state
+- Pass pattern + email to backend when form submitted
+- Track which pattern was assigned for email segmentation
+- Chatbot should close after email submitted and redirect to thank you page
+
+DATA TO STORE:
+- User email
+- Assigned pattern
+- Timestamp
+- Store in Supabase for email sequences
+
+Make this feel like a premium personality quiz, not a boring survey. Every interaction should feel smooth and engaging.

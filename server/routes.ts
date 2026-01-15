@@ -124,5 +124,29 @@ export async function registerRoutes(
     );
   });
 
+  // Quiz submission endpoint
+  app.post("/api/quiz/submit", async (req, res) => {
+    try {
+      const { email, pattern, timestamp } = req.body;
+      
+      if (!email || !pattern) {
+        return res.status(400).json({ error: "Email and pattern are required" });
+      }
+      
+      // Store quiz submission
+      await storage.createQuizSubmission({
+        email,
+        pattern,
+        submittedAt: new Date(timestamp || Date.now())
+      });
+      
+      console.log(`Quiz submission: ${email} - Pattern: ${pattern}`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Quiz submission error:", error);
+      res.status(500).json({ error: "Failed to save quiz submission" });
+    }
+  });
+
   return httpServer;
 }

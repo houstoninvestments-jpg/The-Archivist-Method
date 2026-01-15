@@ -1,14 +1,72 @@
 import { useEffect, useState } from "react";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, Download, ArrowRight } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Button } from "@/components/ui/button";
+
+type PatternType = 
+  | "disappearing"
+  | "apology-loop"
+  | "testing"
+  | "attraction-to-harm"
+  | "compliment-deflection"
+  | "draining-bond"
+  | "success-sabotage";
+
+interface PatternInfo {
+  name: string;
+  description: string;
+  nextStep: string;
+}
+
+const PATTERNS: Record<PatternType, PatternInfo> = {
+  "disappearing": {
+    name: "The Disappearing Pattern",
+    description: "You vanish when relationships get close. Your crash course includes specific circuit breaks for intimacy triggers.",
+    nextStep: "Day 1 focuses on recognizing your body's flight response before you ghost."
+  },
+  "apology-loop": {
+    name: "The Apology Loop",
+    description: "You apologize for existing. Your crash course includes scripts for replacing 'sorry' with direct communication.",
+    nextStep: "Day 1 maps every situation where you minimize yourself."
+  },
+  "testing": {
+    name: "The Testing Pattern",
+    description: "You create loyalty tests to see if people will stay. Your crash course includes alternatives to testing behavior.",
+    nextStep: "Day 1 identifies your specific testing triggers."
+  },
+  "attraction-to-harm": {
+    name: "Attraction to Harm",
+    description: "Chaos feels like chemistry. Your crash course helps you recognize the difference between danger and attraction.",
+    nextStep: "Day 1 maps the 'boring vs exciting' confusion."
+  },
+  "compliment-deflection": {
+    name: "Compliment Deflection",
+    description: "Visibility triggers panic. Your crash course includes scripts for accepting praise without minimizing.",
+    nextStep: "Day 1 tracks every deflection and what it costs you."
+  },
+  "draining-bond": {
+    name: "The Draining Bond",
+    description: "Guilt keeps you stuck. Your crash course addresses the difference between loyalty and self-destruction.",
+    nextStep: "Day 1 examines why leaving feels like betrayal."
+  },
+  "success-sabotage": {
+    name: "Success Sabotage",
+    description: "Success feels dangerous. Your crash course helps you build tolerance for sustained wins.",
+    nextStep: "Day 1 identifies your sabotage triggers and timeline."
+  }
+};
 
 export default function ThankYou() {
   const [timeLeft, setTimeLeft] = useState(600);
   const [isExpired, setIsExpired] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const searchString = useSearch();
+  const params = new URLSearchParams(searchString);
+  const patternParam = params.get("pattern") as PatternType | null;
+  const patternInfo = patternParam && PATTERNS[patternParam] ? PATTERNS[patternParam] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -83,25 +141,78 @@ export default function ThankYou() {
       <main className="pt-28 pb-24">
         <div className="container mx-auto px-4 max-w-3xl">
           
-          {/* Hero Section - Minimal & Centered */}
+          {/* Hero Section - Pattern Personalized or Default */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h1 
-              className="text-4xl md:text-5xl font-bold mb-4 tracking-tight"
-              data-testid="text-success-title"
-            >
-              Your Crash Course is Coming
-            </h1>
-            <p 
-              className="text-xl text-gray-400"
-              data-testid="text-success-subtitle"
-            >
-              Check your email in the next 60 seconds
-            </p>
+            {patternInfo ? (
+              <>
+                <p className="text-gray-500 text-sm uppercase tracking-wider mb-2">Your Primary Pattern</p>
+                <h1 
+                  className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
+                  style={{
+                    background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                  data-testid="text-pattern-name"
+                >
+                  {patternInfo.name}
+                </h1>
+                <p className="text-lg text-gray-300 mb-4" data-testid="text-pattern-description">
+                  {patternInfo.description}
+                </p>
+                <div 
+                  className="inline-block rounded-xl px-6 py-3 mb-6"
+                  style={{ background: 'rgba(20, 184, 166, 0.1)', border: '1px solid rgba(20, 184, 166, 0.3)' }}
+                >
+                  <p className="text-teal-400 text-sm">
+                    {patternInfo.nextStep}
+                  </p>
+                </div>
+                
+                {/* Download CTA */}
+                <div className="flex flex-col items-center gap-4">
+                  <a 
+                    href="/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf" 
+                    download
+                    className="inline-block"
+                  >
+                    <Button
+                      className="px-8 py-4 text-base font-semibold"
+                      style={{
+                        background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
+                      }}
+                      data-testid="button-download-crash-course"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download Your Crash Course
+                    </Button>
+                  </a>
+                  <p className="text-gray-500 text-sm">
+                    Check your email for additional resources
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <h1 
+                  className="text-4xl md:text-5xl font-bold mb-4 tracking-tight"
+                  data-testid="text-success-title"
+                >
+                  Your Crash Course is Coming
+                </h1>
+                <p 
+                  className="text-xl text-gray-400"
+                  data-testid="text-success-subtitle"
+                >
+                  Check your email in the next 60 seconds
+                </p>
+              </>
+            )}
           </motion.div>
 
           {/* Upsell Section - Main Focus */}
