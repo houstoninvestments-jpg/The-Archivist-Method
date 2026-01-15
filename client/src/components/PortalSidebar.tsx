@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { FileText, MessageSquare, User, LogOut, Home } from "lucide-react";
 import { Link } from "wouter";
-import logoImage from "@assets/1764975447300-019af0bb-39c0-7323-97f9-1e4a0377aa15__1_-removeb_1765023942955.png";
+import logoImage from "@assets/1764975872068-019af0c1-cda8-7192-9719-57a9a8ba81d9-removebg-pr_1767909887311.png";
 
 interface PortalSidebarProps {
   activeTab: string;
