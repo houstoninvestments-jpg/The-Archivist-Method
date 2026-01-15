@@ -1,4 +1,4 @@
-# Design Guidelines: Broken Psychology Lab
+# Design Guidelines: The Archivist Method™
 
 ## Design Approach
 **Style**: Dark, scientific, minimal aesthetic with high contrast
@@ -29,7 +29,7 @@
 
 ### Navbar
 - Sticky positioning
-- Left: Text logo "BROKEN PSYCHOLOGY LAB"
+- Left: Text logo "THE ARCHIVIST METHOD™"
 - Right: "Member Login" button
 - Minimal, unobtrusive design
 

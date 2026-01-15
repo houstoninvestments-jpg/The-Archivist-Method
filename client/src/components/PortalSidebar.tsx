@@ -34,7 +34,7 @@ export default function PortalSidebar({
       <div className="mb-8">
         <img 
           src={logoImage} 
-          alt="Broken Psychology Lab" 
+          alt="The Archivist Method™" 
           className="h-8 w-auto max-w-full object-contain"
         />
       </div>

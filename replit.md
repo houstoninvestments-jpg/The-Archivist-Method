@@ -1,8 +1,8 @@
-# Broken Psychology Lab
+# The Archivist Method™
 
 ## Overview
 
-Broken Psychology Lab is a dark-themed digital product sales funnel for psychology pattern recognition services. The application offers two products: a Pattern Recognition Session ($47) and a Complete Pattern Archive ($97). The site features a landing page with product offerings, a thank-you page for post-purchase upsells, and a member portal with video content, downloadable materials, and an AI chatbot interface ("The Archivist").
+The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. The application offers two products: a Pattern Recognition Session ($47) and a Complete Pattern Archive ($97). The site features a landing page with product offerings, a thank-you page for post-purchase upsells, and a member portal with video content, downloadable materials, and an AI chatbot interface ("The Archivist").
 
 The application uses a full-stack TypeScript architecture with React on the frontend and Express on the backend, designed to run on Replit with integrated database and authentication capabilities.
 
