@@ -1,9 +1,37 @@
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+interface RedactionRevealProps {
+  children: React.ReactNode;
+  delay?: number;
+}
+
+function RedactionReveal({ children, delay = 0 }: RedactionRevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <div ref={ref} className="relative overflow-hidden">
+      {children}
+      <motion.div
+        className="absolute inset-0 bg-[#1a1a1a]"
+        initial={{ x: 0 }}
+        animate={isInView ? { x: "-100%" } : { x: 0 }}
+        transition={{
+          duration: 0.7,
+          delay: delay,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
+      />
+    </div>
+  );
+}
 
 const patterns = [
   {
@@ -81,12 +109,16 @@ export default function PatternAccordion() {
                     0{pattern.id}
                   </span>
                   <div className="flex-grow">
-                    <div className="text-white font-bold text-xl mb-1">
-                      {pattern.title}
-                    </div>
-                    <div className="text-gray-400 text-sm font-normal">
-                      {pattern.hook}
-                    </div>
+                    <RedactionReveal delay={parseInt(pattern.id) * 0.1}>
+                      <div className="text-white font-bold text-xl mb-1">
+                        {pattern.title}
+                      </div>
+                    </RedactionReveal>
+                    <RedactionReveal delay={parseInt(pattern.id) * 0.1 + 0.05}>
+                      <div className="text-gray-400 text-sm font-normal">
+                        {pattern.hook}
+                      </div>
+                    </RedactionReveal>
                   </div>
                 </div>
               </AccordionTrigger>
