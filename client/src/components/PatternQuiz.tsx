@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { ArrowRight, Loader2, Mail, Check, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Loader2, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,213 +17,199 @@ interface PatternInfo {
   name: string;
   shortName: string;
   description: string;
-  costs: string;
-  lifeArea: string;
+  driver: string;
 }
 
 const PATTERNS: Record<PatternType, PatternInfo> = {
   "disappearing": {
     name: "The Disappearing Pattern",
     shortName: "Disappearing",
-    description: "You vanish when relationships get close. When someone says 'I love you,' your chest tightens and you're mentally booking a flight by Tuesday. Intimacy triggers an overwhelming urge to flee.",
-    costs: "Chronic loneliness. Serial almost-relationships. You can't maintain connections past 3 months because you ghost before they can leave you.",
-    lifeArea: "relationships"
+    description: "You vanish when relationships get close. When someone says 'I love you,' your chest tightens and you're mentally booking a flight by Tuesday.",
+    driver: "Intimacy was unsafe in your past. Someone getting close meant getting hurt. So your nervous system learned: distance = safety. Now closeness triggers flight."
   },
   "apology-loop": {
     name: "The Apology Loop",
     shortName: "Apology Loop",
-    description: "You apologize for existing. 'Sorry to bother you.' 'Sorry, quick question.' You minimize yourself before anyone else can, convinced you're fundamentally a burden.",
-    costs: "You can't negotiate salary, state boundaries, or ask for what you need. People walk over you because you've trained them to.",
-    lifeArea: "career and boundaries"
+    description: "You apologize for existing. 'Sorry to bother you.' 'Sorry, quick question.' You minimize yourself before anyone else can.",
+    driver: "You learned early that your needs were 'too much.' So you shrink preemptively—apologizing for taking up space that was never safely yours to begin with."
   },
   "testing": {
     name: "The Testing Pattern",
     shortName: "Testing",
-    description: "You pick fights at 11pm to see if they'll still be there at breakfast. You create loyalty tests, push people away, and watch to see who fights to stay.",
-    costs: "You exhaust partners who love you. The self-fulfilling prophecy plays out: you push until they leave, confirming your fear that no one stays.",
-    lifeArea: "relationships"
+    description: "You create loyalty tests, push people away, and watch to see who fights to stay. You pick fights at 11pm to see if they'll still be there at breakfast.",
+    driver: "Someone important failed you when it mattered. Now you test everyone before you trust them—creating the very abandonment you're trying to prevent."
   },
   "attraction-to-harm": {
     name: "Attraction to Harm",
     shortName: "Attraction to Harm",
-    description: "The nice ones feel boring. The unavailable ones feel like chemistry. You see red flags and feel attraction, not warning. Chaos feels like home.",
-    costs: "Serial toxic relationships. You can't stay attracted to healthy partners. The good ones feel wrong, so you keep choosing people who hurt you.",
-    lifeArea: "love life"
+    description: "The nice ones feel boring. The unavailable ones feel like chemistry. You see red flags and feel attraction, not warning.",
+    driver: "Chaos was normalized in your formative years. Your nervous system learned to equate unpredictability with love. Calm feels wrong because it wasn't modeled as safe."
   },
   "compliment-deflection": {
     name: "Compliment Deflection",
     shortName: "Compliment Deflection",
-    description: "Someone says 'nice work' and you immediately minimize it. 'Oh, it was nothing. Anyone could have done it.' Visibility triggers panic. Being seen feels dangerous.",
-    costs: "Career stagnation. You're underpaid despite talent. Invisible to people who could help you. Passed over for promotions you deserve.",
-    lifeArea: "career"
+    description: "Someone says 'nice work' and you immediately minimize it. 'Oh, it was nothing.' Visibility triggers panic. Being seen feels dangerous.",
+    driver: "Standing out was punished—through criticism, jealousy, or having your accomplishments used against you. Now success feels like a target on your back."
   },
   "draining-bond": {
     name: "The Draining Bond",
     shortName: "Draining Bond",
-    description: "You know you should leave. Your friends tell you to leave. Your therapist tells you to leave. But the guilt of abandoning them keeps you stuck.",
-    costs: "Years in toxic jobs or relationships. Chronic depletion. You watch your life pass while staying bonded to people and situations that drain you.",
-    lifeArea: "entire life"
+    description: "You know you should leave. Your friends tell you to leave. But the guilt of abandoning them keeps you stuck in relationships that drain you.",
+    driver: "You were made responsible for someone else's emotions too young. Now leaving feels like betrayal—even when staying is destroying you."
   },
   "success-sabotage": {
     name: "Success Sabotage",
     shortName: "Success Sabotage",
-    description: "You're three weeks from launching. Everything's going well. Suddenly you stop working on it. Or pick a fight with your partner. Or miss the deadline. Success feels dangerous.",
-    costs: "A pattern of almost-success then failure. Perpetual struggle. You watch people with less talent succeed because they can tolerate winning.",
-    lifeArea: "success"
+    description: "You're one week from launching. Everything's going well. Suddenly you blow it up, quit, or create a crisis that makes finishing impossible.",
+    driver: "Success meant separation from your family or origin group. Winning felt like leaving them behind. So you stay stuck to stay connected."
   }
 };
 
-interface Scenario {
+interface Question {
   id: number;
+  pattern: PatternType;
   prompt: string;
-  options: {
-    text: string;
-    pattern: PatternType | null;
-  }[];
+  options: string[];
 }
 
-const SCENARIOS: Scenario[] = [
+const QUESTIONS: Question[] = [
   {
     id: 1,
-    prompt: "You meet someone. Three months in, they say 'I love you.' Choose what happens next:",
+    pattern: "disappearing",
+    prompt: "You've been dating someone for 3 months. It's going well. They text: 'I think I'm falling for you.' What happens next?",
     options: [
-      { text: "My chest gets tight, I need space", pattern: "disappearing" },
-      { text: "I wonder if they really mean it", pattern: "testing" },
-      { text: "I feel uncomfortable but stay", pattern: "attraction-to-harm" },
-      { text: "None of these", pattern: null }
+      "My chest gets tight and I need space immediately",
+      "I start finding reasons they're wrong for me",
+      "I ghost for a few days then come back with an excuse"
     ]
   },
   {
     id: 2,
-    prompt: "Someone compliments your work publicly. Your immediate reaction:",
+    pattern: "apology-loop",
+    prompt: "You're 5 minutes late to meet a friend. When you arrive, what's your opening line?",
     options: [
-      { text: "Minimize it — 'anyone could have done this'", pattern: "compliment-deflection" },
-      { text: "Feel suspicious of their motives", pattern: "testing" },
-      { text: "Apologize for something unrelated", pattern: "apology-loop" },
-      { text: "None of these", pattern: null }
+      "\"I'm so sorry\" (and you apologize 3 more times in the next 10 minutes)",
+      "\"Sorry I exist\" (joking but also not joking)",
+      "You apologize for things that aren't even your fault during the hangout"
     ]
   },
   {
     id: 3,
-    prompt: "You're approaching a major milestone. What typically happens?",
+    pattern: "testing",
+    prompt: "Someone you care about says 'I'll always be here for you.' Your immediate thought is:",
     options: [
-      { text: "I sabotage it right before success", pattern: "success-sabotage" },
-      { text: "I stay stuck in a situation holding me back", pattern: "draining-bond" },
-      { text: "I pull away from the people supporting me", pattern: "disappearing" },
-      { text: "None of these", pattern: null }
+      "\"Let's see how long that lasts\"",
+      "You create a small crisis to see if they mean it",
+      "You push them away to prove they'll leave"
     ]
   },
   {
     id: 4,
-    prompt: "When you need to ask for help, you typically:",
+    pattern: "attraction-to-harm",
+    prompt: "You meet someone new. Red flags everywhere—they're emotionally unavailable, hot/cold, slight edge of danger. You feel:",
     options: [
-      { text: "Start with 'Sorry to bother you...'", pattern: "apology-loop" },
-      { text: "Avoid asking entirely", pattern: "disappearing" },
-      { text: "Test if they'll offer first", pattern: "testing" },
-      { text: "None of these", pattern: null }
+      "Electric. This is chemistry.",
+      "Like you've known them forever (trauma bond)",
+      "Drawn to 'fix' them or 'earn' their consistency"
+    ]
+  },
+  {
+    id: 5,
+    pattern: "compliment-deflection",
+    prompt: "Your boss publicly praises your work in front of the team. Your response is:",
+    options: [
+      "\"It was nothing\" / \"Anyone could have done it\"",
+      "Immediately point out everything you did wrong",
+      "Physically uncomfortable, need to change the subject"
+    ]
+  },
+  {
+    id: 6,
+    pattern: "draining-bond",
+    prompt: "You're in a relationship/friendship that exhausts you. It's been harmful for months. Why are you still there?",
+    options: [
+      "Leaving feels like abandoning them (even though they hurt you)",
+      "You keep hoping they'll change back to who they were",
+      "The idea of being alone feels worse than staying"
+    ]
+  },
+  {
+    id: 7,
+    pattern: "success-sabotage",
+    prompt: "You're one week from launching something important—business, project, goal. What happens?",
+    options: [
+      "You blow it up / quit / 'pivot' to something new",
+      "You pick a fight with someone close to you",
+      "You create a crisis that makes finishing impossible"
     ]
   }
 ];
 
-type QuizPhase = "intro" | "scenario" | "analyzing" | "result" | "select-pattern" | "email";
+type QuizPhase = "intro" | "questions" | "analyzing" | "result" | "fallback";
 
 export default function PatternQuiz() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [phase, setPhase] = useState<QuizPhase>("intro");
-  const [currentScenario, setCurrentScenario] = useState(0);
-  const [patternCounts, setPatternCounts] = useState<Record<PatternType, number>>({
-    "disappearing": 0,
-    "apology-loop": 0,
-    "testing": 0,
-    "attraction-to-harm": 0,
-    "compliment-deflection": 0,
-    "draining-bond": 0,
-    "success-sabotage": 0
-  });
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [firstPatternSelected, setFirstPatternSelected] = useState<PatternType | null>(null);
   const [noneCount, setNoneCount] = useState(0);
   const [result, setResult] = useState<PatternType | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showTyping, setShowTyping] = useState(false);
-  const [displayedText, setDisplayedText] = useState("");
-
-  const typeText = (text: string, callback?: () => void) => {
-    setShowTyping(true);
-    setDisplayedText("");
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        setDisplayedText(text.slice(0, index + 1));
-        index++;
-      } else {
-        clearInterval(interval);
-        setShowTyping(false);
-        if (callback) setTimeout(callback, 300);
-      }
-    }, 20);
-  };
-
-  useEffect(() => {
-    if (phase === "intro" && isExpanded) {
-      typeText("I'm The Archivist. I've catalogued over 10,000 destructive patterns. In the next 90 seconds, I'll identify which one is running your life. This works better if you're honest. Ready?");
-    }
-  }, [phase, isExpanded]);
-
-  useEffect(() => {
-    if (phase === "scenario" && currentScenario < SCENARIOS.length) {
-      typeText(SCENARIOS[currentScenario].prompt);
-    }
-  }, [phase, currentScenario]);
 
   const handleStart = () => {
-    setPhase("scenario");
-    setCurrentScenario(0);
+    setPhase("questions");
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setFirstPatternSelected(null);
+    setNoneCount(0);
   };
 
-  const handleAnswer = (pattern: PatternType | null) => {
-    const nextNoneCount = pattern === null ? noneCount + 1 : noneCount;
-    const nextPatternCounts = pattern === null 
-      ? patternCounts 
-      : { ...patternCounts, [pattern]: patternCounts[pattern] + 1 };
+  const handleSelectAnswer = (index: number) => {
+    setSelectedAnswer(index);
+  };
 
-    if (pattern === null) {
-      setNoneCount(nextNoneCount);
-    } else {
-      setPatternCounts(nextPatternCounts);
+  const handleNext = () => {
+    if (selectedAnswer === null) return;
+
+    const isNoneSelected = selectedAnswer === 3;
+    const currentNoneCount = isNoneSelected ? noneCount + 1 : noneCount;
+    
+    if (!isNoneSelected && firstPatternSelected === null) {
+      setFirstPatternSelected(QUESTIONS[currentQuestion].pattern);
     }
 
-    if (currentScenario < SCENARIOS.length - 1) {
-      setCurrentScenario(prev => prev + 1);
+    if (isNoneSelected) {
+      setNoneCount(currentNoneCount);
+    }
+
+    if (currentQuestion < QUESTIONS.length - 1) {
+      setCurrentQuestion(prev => prev + 1);
+      setSelectedAnswer(null);
     } else {
       setPhase("analyzing");
+      
+      const finalFirstPattern = !isNoneSelected && firstPatternSelected === null 
+        ? QUESTIONS[currentQuestion].pattern 
+        : firstPatternSelected;
+      
       setTimeout(() => {
-        const topPattern = Object.entries(nextPatternCounts).reduce((a, b) => 
-          a[1] > b[1] ? a : b
-        );
-        
-        if (topPattern[1] >= 2) {
-          setResult(topPattern[0] as PatternType);
+        if (currentNoneCount >= 5) {
+          setPhase("fallback");
+        } else if (finalFirstPattern) {
+          setResult(finalFirstPattern);
           setPhase("result");
-        } else if (nextNoneCount >= 3) {
-          setPhase("select-pattern");
         } else {
-          setPhase("select-pattern");
+          setPhase("fallback");
         }
       }, 2500);
     }
   };
 
-  const handleSelectPattern = (pattern: PatternType) => {
+  const handleSelectFallbackPattern = (pattern: PatternType) => {
     setResult(pattern);
     setPhase("result");
-  };
-
-  const handleConfirmPattern = (confirmed: boolean) => {
-    if (confirmed) {
-      setPhase("email");
-    } else {
-      setPhase("select-pattern");
-    }
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -249,9 +235,9 @@ export default function PatternQuiz() {
     }
   };
 
-  const progress = phase === "scenario" 
-    ? ((currentScenario + 1) / SCENARIOS.length) * 100 
-    : phase === "analyzing" || phase === "result" || phase === "email" || phase === "select-pattern"
+  const progress = phase === "questions" 
+    ? ((currentQuestion + 1) / QUESTIONS.length) * 100 
+    : phase === "analyzing" || phase === "result" || phase === "fallback"
       ? 100 
       : 0;
 
@@ -296,7 +282,6 @@ export default function PatternQuiz() {
                     backdropFilter: 'blur(32px)',
                   }}
                 >
-                  {/* Avatar with gradient ring */}
                   <div className="flex justify-center mb-8">
                     <div className="relative">
                       <div 
@@ -322,29 +307,23 @@ export default function PatternQuiz() {
                     </div>
                   </div>
 
-                  {/* Label */}
                   <p className="text-gray-400 text-xs uppercase tracking-[0.2em] mb-6">Pattern Archaeology Session</p>
 
-                  {/* Headline */}
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
                     Which Pattern Is Running Your Life?
                   </h3>
                   
-                  {/* Subhead */}
                   <p className="text-gray-400 text-base md:text-lg mb-12 max-w-md mx-auto">
                     Find yours in under 2 minutes — then get the free crash course to interrupt it.
                   </p>
 
-                  {/* Steps Section */}
                   <div className="max-w-sm mx-auto mb-12">
                     <div className="relative">
-                      {/* Vertical connecting line */}
                       <div 
                         className="absolute left-[11px] top-[24px] w-[2px] h-[calc(100%-48px)]"
                         style={{ background: 'linear-gradient(180deg, rgba(20, 184, 166, 0.4) 0%, rgba(20, 184, 166, 0.1) 100%)' }}
                       />
                       
-                      {/* Step 1 */}
                       <div className="flex items-start gap-4 mb-6">
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
                           <span className="text-teal-400 text-xs font-medium">1</span>
@@ -352,7 +331,6 @@ export default function PatternQuiz() {
                         <p className="text-gray-300 text-sm text-left pt-0.5">Take the 2-minute pattern quiz</p>
                       </div>
                       
-                      {/* Step 2 */}
                       <div className="flex items-start gap-4 mb-6">
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
                           <span className="text-teal-400 text-xs font-medium">2</span>
@@ -360,7 +338,6 @@ export default function PatternQuiz() {
                         <p className="text-gray-300 text-sm text-left pt-0.5">Get your result + what's driving it</p>
                       </div>
                       
-                      {/* Step 3 */}
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
                           <span className="text-teal-400 text-xs font-medium">3</span>
@@ -370,7 +347,6 @@ export default function PatternQuiz() {
                     </div>
                   </div>
 
-                  {/* CTA Button */}
                   <button
                     onClick={() => setIsExpanded(true)}
                     className="inline-flex items-center gap-3 px-10 py-4 rounded-xl text-lg font-semibold text-black transition-all hover:scale-105 hover:shadow-2xl"
@@ -384,7 +360,6 @@ export default function PatternQuiz() {
                     <ArrowRight className="w-5 h-5" />
                   </button>
 
-                  {/* Trust line */}
                   <p className="text-gray-500 text-sm mt-6">
                     Free • Private • Brutally Honest
                   </p>
@@ -413,7 +388,6 @@ export default function PatternQuiz() {
                     backdropFilter: 'blur(32px)',
                   }}
                 >
-                  {/* Progress Bar */}
                   {phase !== "intro" && (
                     <div className="h-1 bg-white/10">
                       <motion.div 
@@ -426,7 +400,6 @@ export default function PatternQuiz() {
                     </div>
                   )}
 
-                  {/* Header */}
                   <div 
                     className="flex items-center justify-between px-6 py-4 border-b border-white/10"
                     style={{ background: 'rgba(255, 255, 255, 0.02)' }}
@@ -439,350 +412,272 @@ export default function PatternQuiz() {
                       />
                       <div>
                         <h4 className="text-white font-semibold">Pattern Archaeology Session</h4>
-                        {phase === "scenario" && (
-                          <p className="text-teal-400 text-xs">Scenario {currentScenario + 1} of {SCENARIOS.length}</p>
+                        {phase === "questions" && (
+                          <p className="text-teal-400 text-xs">Question {currentQuestion + 1} of {QUESTIONS.length}</p>
                         )}
                         {phase === "analyzing" && (
-                          <p className="text-pink-400 text-xs animate-pulse">Analysis in progress...</p>
+                          <p className="text-pink-400 text-xs animate-pulse">Analyzing your responses...</p>
                         )}
-                        {(phase === "result" || phase === "email") && (
+                        {phase === "result" && (
                           <p className="text-teal-400 text-xs">Pattern identified</p>
                         )}
-                        {phase === "select-pattern" && (
+                        {phase === "fallback" && (
                           <p className="text-pink-400 text-xs">Manual identification required</p>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  {/* Content Area */}
-                  <div className="min-h-[450px] md:min-h-[500px] p-6">
+                  <div className="min-h-[500px] md:min-h-[550px] p-6 md:p-8">
                     <AnimatePresence mode="wait">
-                      {/* INTRO PHASE */}
                       {phase === "intro" && (
                         <motion.div
                           key="intro"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          className="space-y-6"
+                          className="flex flex-col items-center justify-center h-full text-center py-12"
                         >
-                          <div className="flex gap-4 items-start">
-                            <div className="relative flex-shrink-0">
-                              <img
-                                src="/archivist-icon.png"
-                                alt="The Archivist"
-                                className="w-12 h-12 object-contain rounded-full"
-                                style={{ boxShadow: '0 0 20px rgba(20, 184, 166, 0.3)' }}
-                              />
-                            </div>
-                            <div
-                              className="flex-1 rounded-2xl rounded-tl-md px-5 py-4 border-l-2 border-teal-500/50"
-                              style={{ background: 'rgba(255, 255, 255, 0.06)' }}
-                            >
-                              <p className="text-gray-200 text-[15px] leading-relaxed">
-                                {displayedText}
-                                {showTyping && <span className="animate-pulse text-teal-400">|</span>}
-                              </p>
-                            </div>
+                          <div className="mb-8">
+                            <img
+                              src="/archivist-icon.png"
+                              alt="The Archivist"
+                              className="w-20 h-20 object-contain rounded-full mx-auto mb-6"
+                              style={{ boxShadow: '0 0 30px rgba(20, 184, 166, 0.4)' }}
+                            />
+                            <p className="text-gray-300 text-lg leading-relaxed max-w-md mx-auto">
+                              I'm The Archivist. I've catalogued over 10,000 destructive patterns. 
+                              Answer 7 scenarios honestly and I'll identify which one is running your life.
+                            </p>
                           </div>
                           
-                          {!showTyping && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="flex justify-end"
-                            >
-                              <Button
-                                onClick={handleStart}
-                                className="px-8 py-3 text-base font-semibold"
-                                style={{
-                                  background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
-                                }}
-                                data-testid="button-quiz-start"
-                              >
-                                Yes, analyze me
-                                <ArrowRight className="w-4 h-4 ml-2" />
-                              </Button>
-                            </motion.div>
-                          )}
+                          <Button
+                            onClick={handleStart}
+                            className="px-10 py-4 text-lg font-semibold"
+                            style={{
+                              background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
+                            }}
+                            data-testid="button-quiz-start"
+                          >
+                            Begin
+                            <ArrowRight className="w-5 h-5 ml-2" />
+                          </Button>
                         </motion.div>
                       )}
 
-                      {/* SCENARIO PHASE */}
-                      {phase === "scenario" && (
+                      {phase === "questions" && (
                         <motion.div
-                          key={`scenario-${currentScenario}`}
+                          key={`question-${currentQuestion}`}
                           initial={{ opacity: 0, x: 50 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -50 }}
                           transition={{ duration: 0.3 }}
-                          className="space-y-6"
+                          className="flex flex-col h-full"
                         >
-                          <div className="flex gap-4 items-start">
-                            <div className="relative flex-shrink-0">
-                              <img
-                                src="/archivist-icon.png"
-                                alt="The Archivist"
-                                className="w-12 h-12 object-contain rounded-full"
-                                style={{ boxShadow: '0 0 20px rgba(20, 184, 166, 0.3)' }}
-                              />
-                            </div>
-                            <div
-                              className="flex-1 rounded-2xl rounded-tl-md px-5 py-4 border-l-2 border-teal-500/50"
-                              style={{ background: 'rgba(255, 255, 255, 0.06)' }}
-                            >
-                              <p className="text-gray-200 text-[15px] leading-relaxed">
-                                {displayedText}
-                                {showTyping && <span className="animate-pulse text-teal-400">|</span>}
-                              </p>
-                            </div>
-                          </div>
-                          
-                          {!showTyping && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.2 }}
-                              className="space-y-3 pl-16"
-                            >
-                              {SCENARIOS[currentScenario].options.map((option, index) => (
+                          <div className="flex-1">
+                            <p className="text-gray-200 text-lg md:text-xl leading-relaxed mb-8">
+                              {QUESTIONS[currentQuestion].prompt}
+                            </p>
+                            
+                            <div className="space-y-3">
+                              {QUESTIONS[currentQuestion].options.map((option, index) => (
                                 <motion.button
                                   key={index}
-                                  initial={{ opacity: 0, x: 20 }}
-                                  animate={{ opacity: 1, x: 0 }}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: 0.1 * index }}
-                                  onClick={() => handleAnswer(option.pattern)}
-                                  className={`w-full text-left px-5 py-4 rounded-xl border transition-all group ${
-                                    option.pattern === null 
-                                      ? 'border-white/5 hover:border-white/20 hover:bg-white/3' 
-                                      : 'border-white/10 hover:border-teal-500/50 hover:bg-white/5'
+                                  onClick={() => handleSelectAnswer(index)}
+                                  className={`w-full text-left px-5 py-4 rounded-xl border transition-all ${
+                                    selectedAnswer === index 
+                                      ? 'border-teal-500 bg-teal-500/10' 
+                                      : 'border-white/10 hover:border-white/30 hover:bg-white/5'
                                   }`}
                                   data-testid={`button-answer-${index}`}
                                 >
                                   <span className={`transition-colors ${
-                                    option.pattern === null 
-                                      ? 'text-gray-500 group-hover:text-gray-400' 
-                                      : 'text-gray-300 group-hover:text-white'
+                                    selectedAnswer === index ? 'text-teal-300' : 'text-gray-300'
                                   }`}>
-                                    {option.text}
+                                    {option}
                                   </span>
                                 </motion.button>
                               ))}
-                            </motion.div>
-                          )}
+                              
+                              <motion.button
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                onClick={() => handleSelectAnswer(3)}
+                                className={`w-full text-left px-5 py-4 rounded-xl border transition-all ${
+                                  selectedAnswer === 3 
+                                    ? 'border-gray-500 bg-gray-500/10' 
+                                    : 'border-white/5 hover:border-white/15 hover:bg-white/3'
+                                }`}
+                                data-testid="button-answer-none"
+                              >
+                                <span className={`transition-colors ${
+                                  selectedAnswer === 3 ? 'text-gray-300' : 'text-gray-500'
+                                }`}>
+                                  None of these
+                                </span>
+                              </motion.button>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-end mt-8">
+                            <Button
+                              onClick={handleNext}
+                              disabled={selectedAnswer === null}
+                              className={`px-8 py-3 text-base font-semibold transition-all ${
+                                selectedAnswer === null ? 'opacity-40 cursor-not-allowed' : ''
+                              }`}
+                              style={{
+                                background: selectedAnswer !== null 
+                                  ? 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' 
+                                  : 'rgba(255,255,255,0.1)',
+                              }}
+                              data-testid="button-next"
+                            >
+                              {currentQuestion === QUESTIONS.length - 1 ? 'See My Result' : 'Next'}
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                          </div>
                         </motion.div>
                       )}
 
-                      {/* ANALYZING PHASE */}
                       {phase === "analyzing" && (
                         <motion.div
                           key="analyzing"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="flex flex-col items-center justify-center h-[400px] space-y-6"
+                          className="flex flex-col items-center justify-center h-full text-center py-16"
                         >
-                          <div className="relative">
+                          <div className="relative mb-8">
+                            <Loader2 className="w-16 h-16 text-teal-400 animate-spin" />
                             <div 
-                              className="w-24 h-24 rounded-full flex items-center justify-center"
-                              style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)' }}
-                            >
-                              <Loader2 className="w-12 h-12 text-white animate-spin" />
-                            </div>
-                            <div 
-                              className="absolute -inset-6 rounded-full opacity-40 blur-2xl animate-pulse"
-                              style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)' }}
+                              className="absolute inset-0 blur-xl opacity-50"
+                              style={{ background: 'radial-gradient(circle, #14B8A6 0%, transparent 70%)' }}
                             />
                           </div>
-                          <p className="text-2xl text-gray-200 font-medium">Analyzing patterns...</p>
-                          <p className="text-gray-500 text-sm">Cross-referencing behavioral signatures</p>
+                          <p className="text-gray-300 text-lg">Analyzing your responses...</p>
+                          <p className="text-gray-500 text-sm mt-2">Cross-referencing with the archive</p>
                         </motion.div>
                       )}
 
-                      {/* RESULT PHASE */}
                       {phase === "result" && result && (
                         <motion.div
                           key="result"
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="space-y-6"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          className="space-y-8"
                         >
-                          <div className="text-center py-4">
-                            <p className="text-gray-500 text-sm uppercase tracking-widest mb-3">Pattern Identified</p>
-                            <motion.h3 
+                          <div className="text-center">
+                            <p className="text-teal-400 text-sm uppercase tracking-widest mb-3">Your Primary Pattern</p>
+                            <h3 
                               className="text-3xl md:text-4xl font-bold mb-6"
                               style={{
-                                background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
+                                background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
                               }}
-                              initial={{ scale: 0.8 }}
-                              animate={{ scale: 1 }}
-                              transition={{ type: "spring", stiffness: 200 }}
-                              data-testid="text-pattern-title"
                             >
-                              You're running the {PATTERNS[result].shortName}.
-                            </motion.h3>
-                          </div>
-
-                          <div 
-                            className="rounded-2xl p-6 border border-white/10"
-                            style={{ background: 'rgba(255, 255, 255, 0.03)' }}
-                          >
-                            <p className="text-gray-300 leading-relaxed mb-4">
+                              {PATTERNS[result].name}
+                            </h3>
+                            
+                            <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-lg mx-auto">
                               {PATTERNS[result].description}
                             </p>
-                            <div className="pt-4 border-t border-white/10">
-                              <p className="text-pink-400 font-medium mb-2">What It Costs You:</p>
-                              <p className="text-gray-400 text-sm leading-relaxed" data-testid="text-pattern-consequence">
-                                {PATTERNS[result].costs}
+                            
+                            <div 
+                              className="rounded-xl p-5 border border-teal-500/20 mb-8 max-w-lg mx-auto"
+                              style={{ background: 'rgba(20, 184, 166, 0.05)' }}
+                            >
+                              <p className="text-teal-400 text-sm font-medium mb-2">Here's what's driving it:</p>
+                              <p className="text-gray-400 text-sm leading-relaxed">
+                                {PATTERNS[result].driver}
                               </p>
                             </div>
                           </div>
-
-                          <div className="text-center py-2">
-                            <p className="text-gray-400 mb-4">This pattern has been running for years. Sound right?</p>
-                          </div>
-
-                          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Button
-                              onClick={() => handleConfirmPattern(true)}
-                              className="px-8 py-3 text-base font-semibold"
-                              style={{
-                                background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
-                              }}
-                              data-testid="button-confirm-pattern"
-                            >
-                              <Check className="w-4 h-4 mr-2" />
-                              Yes, that's me
-                            </Button>
-                            <Button
-                              onClick={() => handleConfirmPattern(false)}
-                              variant="outline"
-                              className="px-8 py-3 text-base border-white/20 hover:bg-white/5"
-                              data-testid="button-show-all-patterns"
-                            >
-                              No, show me all patterns
-                            </Button>
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* SELECT PATTERN PHASE */}
-                      {phase === "select-pattern" && (
-                        <motion.div
-                          key="select-pattern"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0 }}
-                          className="space-y-5"
-                        >
-                          <div className="flex gap-4 items-start mb-6">
-                            <div className="relative flex-shrink-0">
-                              <img
-                                src="/archivist-icon.png"
-                                alt="The Archivist"
-                                className="w-12 h-12 object-contain rounded-full"
-                                style={{ boxShadow: '0 0 20px rgba(20, 184, 166, 0.3)' }}
-                              />
-                            </div>
-                            <div
-                              className="flex-1 rounded-2xl rounded-tl-md px-5 py-4 border-l-2 border-pink-500/50"
-                              style={{ background: 'rgba(255, 255, 255, 0.06)' }}
-                            >
-                              <p className="text-gray-200 text-[15px] leading-relaxed">
-                                I can't identify your primary pattern from those responses. Let me show you all 7 — read through them and pick the one that made your stomach drop.
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
-                            {(Object.entries(PATTERNS) as [PatternType, PatternInfo][]).map(([key, pattern]) => (
-                              <motion.button
-                                key={key}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                onClick={() => handleSelectPattern(key)}
-                                className="w-full text-left p-4 rounded-xl border border-white/10 hover:border-teal-500/50 hover:bg-white/5 transition-all group"
-                                data-testid={`button-pattern-${key}`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="text-teal-400 font-medium group-hover:text-teal-300">
-                                    {pattern.name}
-                                  </span>
-                                  <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-teal-400" />
-                                </div>
-                                <p className="text-gray-500 text-sm mt-1 line-clamp-2 group-hover:text-gray-400">
-                                  {pattern.description.split('.')[0]}.
-                                </p>
-                              </motion.button>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* EMAIL CAPTURE PHASE */}
-                      {phase === "email" && result && (
-                        <motion.div
-                          key="email"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0 }}
-                          className="space-y-6"
-                        >
-                          <div className="text-center py-4">
-                            <p className="text-gray-500 text-sm uppercase tracking-widest mb-3">Free Protocol</p>
-                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                              Your {PATTERNS[result].shortName} is destroying your {PATTERNS[result].lifeArea}.
-                            </h3>
-                            <p className="text-gray-400 leading-relaxed">
-                              I can teach you to interrupt it in 7 days. Want the protocol?
-                            </p>
-                          </div>
-
-                          <form onSubmit={handleEmailSubmit} className="space-y-4">
+                          
+                          <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto space-y-4">
+                            <label className="block text-center text-white font-medium mb-4">
+                              Get the free 7-day crash course
+                            </label>
                             <div className="relative">
-                              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                               <Input
                                 type="email"
-                                placeholder="Your email address"
+                                placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="pl-12 py-4 h-14 text-base bg-white/5 border-white/10 focus:border-teal-500/50 rounded-xl"
+                                className="pl-12 py-6 bg-white/5 border-white/10 text-white placeholder:text-gray-500"
                                 required
-                                data-testid="input-quiz-email"
+                                data-testid="input-email"
                               />
                             </div>
                             <Button
                               type="submit"
                               disabled={isSubmitting || !email}
-                              className="w-full py-4 h-14 text-base font-semibold rounded-xl"
+                              className="w-full py-6 text-lg font-semibold"
                               style={{
-                                background: email && !isSubmitting 
-                                  ? 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' 
-                                  : 'rgba(255,255,255,0.1)',
+                                background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
                               }}
                               data-testid="button-submit-email"
                             >
                               {isSubmitting ? (
                                 <>
-                                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                  Processing...
+                                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                                  Starting...
                                 </>
                               ) : (
-                                <>
-                                  Send Me The Free Course
-                                  <ArrowRight className="w-4 h-4 ml-2" />
-                                </>
+                                'Start Free Course'
                               )}
                             </Button>
+                            <p className="text-gray-500 text-sm text-center">
+                              Free • Private • Brutally Honest
+                            </p>
                           </form>
+                        </motion.div>
+                      )}
 
-                          <p className="text-gray-600 text-xs text-center">
-                            Your email is kept private. Unsubscribe anytime.
-                          </p>
+                      {phase === "fallback" && (
+                        <motion.div
+                          key="fallback"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          className="space-y-6"
+                        >
+                          <div className="text-center mb-8">
+                            <h3 className="text-2xl font-bold text-white mb-3">
+                              I can't identify your primary pattern from those responses.
+                            </h3>
+                            <p className="text-gray-400">
+                              Let me show you all 7 — read through them and pick the one that made your stomach drop.
+                            </p>
+                          </div>
+                          
+                          <div className="grid gap-3 max-h-[400px] overflow-y-auto pr-2">
+                            {(Object.entries(PATTERNS) as [PatternType, PatternInfo][]).map(([key, pattern], index) => (
+                              <motion.button
+                                key={key}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.05 * index }}
+                                onClick={() => handleSelectFallbackPattern(key)}
+                                className="w-full text-left p-4 rounded-xl border border-white/10 hover:border-teal-500/50 hover:bg-white/5 transition-all group"
+                                data-testid={`button-pattern-${key}`}
+                              >
+                                <h4 className="text-white font-medium group-hover:text-teal-300 transition-colors">
+                                  {pattern.name}
+                                </h4>
+                                <p className="text-gray-500 text-sm mt-1 line-clamp-2">
+                                  {pattern.description}
+                                </p>
+                              </motion.button>
+                            ))}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -793,24 +688,6 @@ export default function PatternQuiz() {
           )}
         </AnimatePresence>
       </div>
-
-      <style>{`
-        @keyframes pulseGlow {
-          0%, 100% { opacity: 0.4; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.02); }
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 2px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(20, 184, 166, 0.3);
-          border-radius: 2px;
-        }
-      `}</style>
     </section>
   );
 }
