@@ -6,6 +6,7 @@ import MethodSection from "../components/MethodSection";
 import ComparisonTable from "../components/ComparisonTable";
 import ProductCard from "../components/ProductCard";
 import { ScrollReveal } from "../components/animations/ScrollReveal";
+import ParticleField from "../components/ParticleField";
 
 export default function Landing() {
   const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
@@ -59,7 +60,8 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-archivist-dark text-white">
+    <div className="min-h-screen bg-archivist-dark text-white relative">
+      <ParticleField />
       <Hero />
       
       {/* Pattern Identification Quiz */}
