@@ -5,7 +5,7 @@ const TEAL = "#14B8A6";
 const PINK = "#EC4899";
 
 const ParticleField = () => {
-  const particleCount = 60;
+  const particleCount = 120;
   
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }).map((_, i) => {
