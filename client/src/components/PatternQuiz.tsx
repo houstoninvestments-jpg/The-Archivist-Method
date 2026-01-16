@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, Loader2, Mail, Check, ChevronRight } from "lucide-react";
+import { ArrowRight, Loader2, Mail, Check, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -296,45 +296,81 @@ export default function PatternQuiz() {
                     backdropFilter: 'blur(32px)',
                   }}
                 >
+                  {/* Avatar with gradient ring */}
                   <div className="flex justify-center mb-8">
                     <div className="relative">
+                      <div 
+                        className="absolute -inset-1 rounded-full"
+                        style={{ 
+                          background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)',
+                          padding: '3px',
+                        }}
+                      />
                       <img
                         src="/archivist-icon.png"
                         alt="The Archivist"
-                        className="w-24 h-24 object-contain rounded-full"
+                        className="relative w-20 h-20 object-contain rounded-full"
                         style={{ 
-                          background: 'transparent',
+                          background: '#030303',
                           boxShadow: '0 0 40px rgba(20, 184, 166, 0.3)'
                         }}
                       />
                       <div 
-                        className="absolute -inset-2 rounded-full opacity-50 blur-xl"
+                        className="absolute -inset-3 rounded-full opacity-40 blur-xl -z-10"
                         style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #EC4899 100%)' }}
                       />
                     </div>
                   </div>
 
-                  <p className="text-gray-400 text-sm uppercase tracking-widest mb-4">Pattern Archaeology Session</p>
+                  {/* Label */}
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.2em] mb-6">Pattern Archaeology Session</p>
 
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                  {/* Headline */}
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
                     Which Pattern Is Running Your Life?
                   </h3>
                   
-                  <p 
-                    className="text-xl md:text-2xl font-medium mb-6"
-                    style={{
-                      background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}
-                  >
-                    I'll Identify It in 90 Seconds
+                  {/* Subhead */}
+                  <p className="text-gray-400 text-base md:text-lg mb-12 max-w-md mx-auto">
+                    Find yours in under 2 minutes — then get the free crash course to interrupt it.
                   </p>
 
-                  <p className="text-gray-300 text-lg leading-relaxed max-w-lg mx-auto mb-10">
-                    I've catalogued over 10,000 destructive patterns. Answer 4 scenarios honestly and I'll tell you which one you're running.
-                  </p>
+                  {/* Steps Section */}
+                  <div className="max-w-sm mx-auto mb-12">
+                    <div className="relative">
+                      {/* Vertical connecting line */}
+                      <div 
+                        className="absolute left-[11px] top-[24px] w-[2px] h-[calc(100%-48px)]"
+                        style={{ background: 'linear-gradient(180deg, rgba(20, 184, 166, 0.4) 0%, rgba(20, 184, 166, 0.1) 100%)' }}
+                      />
+                      
+                      {/* Step 1 */}
+                      <div className="flex items-start gap-4 mb-6">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
+                          <span className="text-teal-400 text-xs font-medium">1</span>
+                        </div>
+                        <p className="text-gray-300 text-sm text-left pt-0.5">Take the 2-minute pattern quiz</p>
+                      </div>
+                      
+                      {/* Step 2 */}
+                      <div className="flex items-start gap-4 mb-6">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
+                          <span className="text-teal-400 text-xs font-medium">2</span>
+                        </div>
+                        <p className="text-gray-300 text-sm text-left pt-0.5">Get your result + what's driving it</p>
+                      </div>
+                      
+                      {/* Step 3 */}
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/50 flex items-center justify-center">
+                          <span className="text-teal-400 text-xs font-medium">3</span>
+                        </div>
+                        <p className="text-gray-300 text-sm text-left pt-0.5">Start the free 7-day crash course to interrupt it</p>
+                      </div>
+                    </div>
+                  </div>
 
+                  {/* CTA Button */}
                   <button
                     onClick={() => setIsExpanded(true)}
                     className="inline-flex items-center gap-3 px-10 py-4 rounded-xl text-lg font-semibold text-black transition-all hover:scale-105 hover:shadow-2xl"
@@ -344,12 +380,12 @@ export default function PatternQuiz() {
                     }}
                     data-testid="button-start-quiz"
                   >
-                    Yes, Analyze Me
+                    Start the Quiz
                     <ArrowRight className="w-5 h-5" />
                   </button>
 
-                  <p className="text-teal-500 text-sm mt-6 flex items-center justify-center gap-2">
-                    <Sparkles className="w-4 h-4" />
+                  {/* Trust line */}
+                  <p className="text-gray-500 text-sm mt-6">
                     Free • Private • Brutally Honest
                   </p>
                 </div>
