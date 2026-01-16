@@ -50,8 +50,8 @@ function Router() {
 
 function AppContent() {
   const [location] = useLocation();
-  const isLandingPage = location === "/";
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
+  const showPremiumChatbot = isPortalDashboard;
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -60,7 +60,7 @@ function AppContent() {
         <Router />
       </main>
       {!isPortalDashboard && <Footer />}
-      {!isLandingPage && <ArchivistChatbot />}
+      {showPremiumChatbot && <ArchivistChatbot />}
     </div>
   );
 }
