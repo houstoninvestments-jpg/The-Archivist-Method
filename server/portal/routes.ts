@@ -20,6 +20,40 @@ import { db } from "../db";
 import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
+import { z } from "zod";
+
+// Validation schemas for PDF viewer routes
+const progressSchema = z.object({
+  documentId: z.string().min(1).max(50),
+  currentPage: z.number().int().positive(),
+  totalPages: z.number().int().positive().optional(),
+  percentComplete: z.number().int().min(0).max(100),
+  pagesViewed: z.array(z.number().int().positive()),
+});
+
+const bookmarkSchema = z.object({
+  documentId: z.string().min(1).max(50),
+  pageNumber: z.number().int().positive(),
+  pageLabel: z.string().max(50).optional(),
+  note: z.string().max(500).optional(),
+});
+
+const highlightSchema = z.object({
+  documentId: z.string().min(1).max(50),
+  pageNumber: z.number().int().positive(),
+  text: z.string().min(1).max(2000),
+  color: z.string().max(20).optional(),
+  position: z.object({
+    start: z.number(),
+    end: z.number(),
+  }).optional(),
+});
+
+const chatSchema = z.object({
+  message: z.string().min(1).max(2000),
+  documentId: z.string().min(1).max(50),
+  currentPage: z.number().int().positive().optional(),
+});
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
@@ -411,7 +445,12 @@ router.post("/reader/progress", async (req: Request, res: Response) => {
     const userId = getAuthUserId(req);
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
-    const { documentId, currentPage, totalPages, percentComplete, pagesViewed } = req.body;
+    const validation = progressSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({ error: "Invalid data", details: validation.error.errors });
+    }
+
+    const { documentId, currentPage, totalPages, percentComplete, pagesViewed } = validation.data;
 
     const [existing] = await db
       .select()
@@ -472,7 +511,12 @@ router.post("/reader/bookmarks", async (req: Request, res: Response) => {
     const userId = getAuthUserId(req);
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
-    const { documentId, pageNumber, pageLabel, note } = req.body;
+    const validation = bookmarkSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({ error: "Invalid data", details: validation.error.errors });
+    }
+
+    const { documentId, pageNumber, pageLabel, note } = validation.data;
 
     const [newBookmark] = await db
       .insert(bookmarks)
@@ -527,7 +571,12 @@ router.post("/reader/highlights", async (req: Request, res: Response) => {
     const userId = getAuthUserId(req);
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
-    const { documentId, pageNumber, text, color, position } = req.body;
+    const validation = highlightSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({ error: "Invalid data", details: validation.error.errors });
+    }
+
+    const { documentId, pageNumber, text, color, position } = validation.data;
 
     const [newHighlight] = await db
       .insert(highlights)
@@ -582,7 +631,12 @@ router.post("/reader/chat", async (req: Request, res: Response) => {
     const userId = getAuthUserId(req);
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
-    const { message, documentId, currentPage } = req.body;
+    const validation = chatSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({ error: "Invalid data", details: validation.error.errors });
+    }
+
+    const { message, documentId, currentPage } = validation.data;
 
     // Save user message to history
     await db.insert(pdfChatHistory).values({
@@ -619,7 +673,7 @@ router.post("/reader/chat", async (req: Request, res: Response) => {
       max_tokens: 1000,
       system: `You are The Archivist, a helpful guide for The Archivist Method. You help users understand the "${documentName}" PDF they are reading.
 
-The user is currently on page ${currentPage}.
+The user is currently on page ${currentPage || 1}.
 
 Be concise, supportive, and reference specific sections or concepts from the methodology. If asked about specific page numbers, be helpful but note that you don't have the exact PDF content - instead offer to explain concepts or patterns they might be reading about.
 
@@ -632,16 +686,27 @@ Key topics in the Quick-Start System:
       messages,
     });
 
-    const assistantMessage = response.content[0].type === "text" ? response.content[0].text : "";
+    // Extract text from response, handle non-text content gracefully
+    let assistantMessage = "";
+    for (const block of response.content) {
+      if (block.type === "text") {
+        assistantMessage = block.text;
+        break;
+      }
+    }
 
-    // Save assistant response
-    await db.insert(pdfChatHistory).values({
-      userId,
-      documentId,
-      role: "assistant",
-      message: assistantMessage,
-      currentPage,
-    });
+    // Only save if we got a valid text response
+    if (assistantMessage) {
+      await db.insert(pdfChatHistory).values({
+        userId,
+        documentId,
+        role: "assistant",
+        message: assistantMessage,
+        currentPage,
+      });
+    } else {
+      assistantMessage = "I'm sorry, I couldn't generate a response. Please try again.";
+    }
 
     res.json({ message: assistantMessage });
   } catch (error) {

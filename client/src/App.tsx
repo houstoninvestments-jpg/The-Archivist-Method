@@ -25,6 +25,7 @@ import Contact from "@/pages/Contact";
 import Quiz from "@/pages/Quiz";
 import QuizResult from "@/pages/QuizResult";
 import QuizFallback from "@/pages/QuizFallback";
+import PortalReader from "@/pages/PortalReader";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal/dashboard" component={PortalDashboard} />
       <Route path="/portal/preview" component={PortalDashboardPreview} />
+      <Route path="/portal/reader/:documentId" component={PortalReader} />
       <Route path="/portal" component={Portal} />
       <Route path="/free" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
@@ -58,8 +60,9 @@ function AppContent() {
   const [location] = useLocation();
   const isLanding = location === "/";
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
+  const isPortalReader = location.startsWith("/portal/reader");
   const isQuiz = location.startsWith("/quiz");
-  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding;
+  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader;
   const showPremiumChatbot = isPortalDashboard;
   
   return (
