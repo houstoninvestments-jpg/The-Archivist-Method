@@ -29,7 +29,7 @@ const footerLinks = {
 
 function FooterLink({ href, label }: { href: string; label: string }) {
   const testId = `link-footer-${label.toLowerCase().replace(/\s+/g, '-')}`;
-  const className = "text-gray-500 hover:text-pink-500 transition-colors text-sm cursor-pointer block";
+  const className = "text-gray-500 hover:text-teal-500 transition-colors text-sm cursor-pointer block";
   
   if (href.startsWith("http")) {
     return (

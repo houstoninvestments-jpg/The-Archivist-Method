@@ -56,9 +56,10 @@ function Router() {
 
 function AppContent() {
   const [location] = useLocation();
+  const isLanding = location === "/";
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
   const isQuiz = location.startsWith("/quiz");
-  const hideHeaderFooter = isPortalDashboard || isQuiz;
+  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding;
   const showPremiumChatbot = isPortalDashboard;
   
   return (
