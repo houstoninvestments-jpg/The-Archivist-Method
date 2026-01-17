@@ -16,6 +16,10 @@ import {
 import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { db } from "../db";
+import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import Anthropic from "@anthropic-ai/sdk";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
@@ -369,5 +373,301 @@ router.post(
     }
   },
 );
+
+// ============================================
+// PDF VIEWER API ROUTES
+// ============================================
+
+// Helper to get authenticated user ID
+const getAuthUserId = (req: Request): string | null => {
+  const token = req.cookies.auth_token;
+  if (!token) return null;
+  const authData = verifyAuthToken(token);
+  return authData?.userId || null;
+};
+
+// Get user progress for a document
+router.get("/reader/progress/:documentId", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId } = req.params;
+    const [progress] = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.documentId, documentId)));
+
+    res.json(progress || { currentPage: 1, percentComplete: 0, pagesViewed: [] });
+  } catch (error) {
+    console.error("Get progress error:", error);
+    res.status(500).json({ error: "Failed to get progress" });
+  }
+});
+
+// Save/update user progress
+router.post("/reader/progress", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId, currentPage, totalPages, percentComplete, pagesViewed } = req.body;
+
+    const [existing] = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.documentId, documentId)));
+
+    if (existing) {
+      await db
+        .update(userProgress)
+        .set({
+          currentPage,
+          totalPages,
+          percentComplete,
+          pagesViewed,
+          lastAccessed: new Date(),
+        })
+        .where(eq(userProgress.id, existing.id));
+    } else {
+      await db.insert(userProgress).values({
+        userId,
+        documentId,
+        currentPage,
+        totalPages,
+        percentComplete,
+        pagesViewed,
+      });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Save progress error:", error);
+    res.status(500).json({ error: "Failed to save progress" });
+  }
+});
+
+// Get bookmarks for a document
+router.get("/reader/bookmarks/:documentId", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId } = req.params;
+    const userBookmarks = await db
+      .select()
+      .from(bookmarks)
+      .where(and(eq(bookmarks.userId, userId), eq(bookmarks.documentId, documentId)));
+
+    res.json(userBookmarks);
+  } catch (error) {
+    console.error("Get bookmarks error:", error);
+    res.status(500).json({ error: "Failed to get bookmarks" });
+  }
+});
+
+// Add a bookmark
+router.post("/reader/bookmarks", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId, pageNumber, pageLabel, note } = req.body;
+
+    const [newBookmark] = await db
+      .insert(bookmarks)
+      .values({ userId, documentId, pageNumber, pageLabel, note })
+      .returning();
+
+    res.json(newBookmark);
+  } catch (error) {
+    console.error("Add bookmark error:", error);
+    res.status(500).json({ error: "Failed to add bookmark" });
+  }
+});
+
+// Delete a bookmark
+router.delete("/reader/bookmarks/:id", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { id } = req.params;
+    await db.delete(bookmarks).where(and(eq(bookmarks.id, id), eq(bookmarks.userId, userId)));
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete bookmark error:", error);
+    res.status(500).json({ error: "Failed to delete bookmark" });
+  }
+});
+
+// Get highlights for a document
+router.get("/reader/highlights/:documentId", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId } = req.params;
+    const userHighlights = await db
+      .select()
+      .from(highlights)
+      .where(and(eq(highlights.userId, userId), eq(highlights.documentId, documentId)));
+
+    res.json(userHighlights);
+  } catch (error) {
+    console.error("Get highlights error:", error);
+    res.status(500).json({ error: "Failed to get highlights" });
+  }
+});
+
+// Add a highlight
+router.post("/reader/highlights", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId, pageNumber, text, color, position } = req.body;
+
+    const [newHighlight] = await db
+      .insert(highlights)
+      .values({ userId, documentId, pageNumber, text, color, position })
+      .returning();
+
+    res.json(newHighlight);
+  } catch (error) {
+    console.error("Add highlight error:", error);
+    res.status(500).json({ error: "Failed to add highlight" });
+  }
+});
+
+// Delete a highlight
+router.delete("/reader/highlights/:id", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { id } = req.params;
+    await db.delete(highlights).where(and(eq(highlights.id, id), eq(highlights.userId, userId)));
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete highlight error:", error);
+    res.status(500).json({ error: "Failed to delete highlight" });
+  }
+});
+
+// Track download
+router.post("/reader/track-download", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId } = req.body;
+
+    await db.insert(downloadLogs).values({ userId, documentId });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Track download error:", error);
+    res.status(500).json({ error: "Failed to track download" });
+  }
+});
+
+// PDF-aware AI chat
+const anthropic = new Anthropic();
+
+router.post("/reader/chat", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { message, documentId, currentPage } = req.body;
+
+    // Save user message to history
+    await db.insert(pdfChatHistory).values({
+      userId,
+      documentId,
+      role: "user",
+      message,
+      currentPage,
+    });
+
+    // Get chat history for context
+    const history = await db
+      .select()
+      .from(pdfChatHistory)
+      .where(and(eq(pdfChatHistory.userId, userId), eq(pdfChatHistory.documentId, documentId)))
+      .orderBy(pdfChatHistory.timestamp)
+      .limit(10);
+
+    // Build messages for Claude
+    const messages = history.slice(-8).map((h) => ({
+      role: h.role as "user" | "assistant",
+      content: h.message,
+    }));
+
+    // Add current message if not already in history
+    if (messages.length === 0 || messages[messages.length - 1].content !== message) {
+      messages.push({ role: "user" as const, content: message });
+    }
+
+    const documentName = documentId === "quick-start" ? "90-Day Quick-Start System" : "Complete Pattern Archive";
+
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      system: `You are The Archivist, a helpful guide for The Archivist Method. You help users understand the "${documentName}" PDF they are reading.
+
+The user is currently on page ${currentPage}.
+
+Be concise, supportive, and reference specific sections or concepts from the methodology. If asked about specific page numbers, be helpful but note that you don't have the exact PDF content - instead offer to explain concepts or patterns they might be reading about.
+
+Key topics in the Quick-Start System:
+- The 7 core psychological patterns (Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage)
+- Body signature identification
+- Pattern recognition exercises
+- Breaking pattern cycles
+- 90-day implementation timeline`,
+      messages,
+    });
+
+    const assistantMessage = response.content[0].type === "text" ? response.content[0].text : "";
+
+    // Save assistant response
+    await db.insert(pdfChatHistory).values({
+      userId,
+      documentId,
+      role: "assistant",
+      message: assistantMessage,
+      currentPage,
+    });
+
+    res.json({ message: assistantMessage });
+  } catch (error) {
+    console.error("Chat error:", error);
+    res.status(500).json({ error: "Failed to process chat message" });
+  }
+});
+
+// Get chat history for a document
+router.get("/reader/chat/:documentId", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { documentId } = req.params;
+    const history = await db
+      .select()
+      .from(pdfChatHistory)
+      .where(and(eq(pdfChatHistory.userId, userId), eq(pdfChatHistory.documentId, documentId)))
+      .orderBy(pdfChatHistory.timestamp);
+
+    res.json(history);
+  } catch (error) {
+    console.error("Get chat history error:", error);
+    res.status(500).json({ error: "Failed to get chat history" });
+  }
+});
 
 export default router;

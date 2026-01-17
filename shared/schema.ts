@@ -60,3 +60,92 @@ export const patternNames: Record<PatternType, string> = {
   drainingBond: "The Draining Bond",
   successSabotage: "Success Sabotage",
 };
+
+// PDF Viewer - User Progress
+export const userProgress = pgTable("user_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  documentId: varchar("document_id", { length: 50 }).notNull(),
+  currentPage: integer("current_page").default(1),
+  totalPages: integer("total_pages"),
+  percentComplete: integer("percent_complete").default(0),
+  pagesViewed: json("pages_viewed").$type<number[]>().default([]),
+  lastAccessed: timestamp("last_accessed").defaultNow(),
+});
+
+export const insertUserProgressSchema = createInsertSchema(userProgress).omit({
+  id: true,
+  lastAccessed: true,
+});
+export type InsertUserProgress = z.infer<typeof insertUserProgressSchema>;
+export type UserProgress = typeof userProgress.$inferSelect;
+
+// PDF Viewer - Bookmarks
+export const bookmarks = pgTable("bookmarks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  documentId: varchar("document_id", { length: 50 }).notNull(),
+  pageNumber: integer("page_number").notNull(),
+  pageLabel: varchar("page_label", { length: 50 }),
+  note: text("note"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertBookmarkSchema = createInsertSchema(bookmarks).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertBookmark = z.infer<typeof insertBookmarkSchema>;
+export type Bookmark = typeof bookmarks.$inferSelect;
+
+// PDF Viewer - Highlights
+export const highlights = pgTable("highlights", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  documentId: varchar("document_id", { length: 50 }).notNull(),
+  pageNumber: integer("page_number").notNull(),
+  text: text("text").notNull(),
+  color: varchar("color", { length: 20 }).default("#FFD700"),
+  position: json("position").$type<{ start: number; end: number }>(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertHighlightSchema = createInsertSchema(highlights).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertHighlight = z.infer<typeof insertHighlightSchema>;
+export type Highlight = typeof highlights.$inferSelect;
+
+// PDF Viewer - Download Logs
+export const downloadLogs = pgTable("download_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  documentId: varchar("document_id", { length: 50 }).notNull(),
+  timestamp: timestamp("timestamp").defaultNow(),
+});
+
+export const insertDownloadLogSchema = createInsertSchema(downloadLogs).omit({
+  id: true,
+  timestamp: true,
+});
+export type InsertDownloadLog = z.infer<typeof insertDownloadLogSchema>;
+export type DownloadLog = typeof downloadLogs.$inferSelect;
+
+// PDF Viewer - Chat History (for AI context)
+export const pdfChatHistory = pgTable("pdf_chat_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  documentId: varchar("document_id", { length: 50 }).notNull(),
+  role: varchar("role", { length: 20 }).notNull(), // 'user' or 'assistant'
+  message: text("message").notNull(),
+  currentPage: integer("current_page"),
+  timestamp: timestamp("timestamp").defaultNow(),
+});
+
+export const insertPdfChatSchema = createInsertSchema(pdfChatHistory).omit({
+  id: true,
+  timestamp: true,
+});
+export type InsertPdfChat = z.infer<typeof insertPdfChatSchema>;
+export type PdfChatHistory = typeof pdfChatHistory.$inferSelect;
