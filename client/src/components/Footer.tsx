@@ -59,14 +59,14 @@ export default function Footer() {
             </p>
 
             <a
-              href="/free"
+              href="/quiz"
               className="inline-block px-8 py-3 text-sm font-semibold text-black rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-teal-500/30"
               style={{
                 background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
               }}
               data-testid="button-footer-cta"
             >
-              Start Free Course
+              Take the Pattern Quiz
             </a>
           </div>
 

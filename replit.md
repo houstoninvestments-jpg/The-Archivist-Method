@@ -32,8 +32,11 @@ Preferred communication style: Simple, everyday language.
 - No global state management library (Redux, Zustand, etc.)
 
 **Key Pages**:
-- Landing page (/) - Hero, product cards, method section, pattern accordion, guarantee
-- Thank you page (/thank-you) - Post-purchase confirmation with upsell opportunities
+- Landing page (/) - Quiz-first design with 8 sections: Hero, Trust Builder, 7 Patterns, How It Works, Original Room, Pricing, Social Proof, Final CTA. All CTAs link to /quiz
+- Quiz (/quiz) - 10-question Pattern Identification Quiz with multi-select scoring algorithm
+- Quiz Results (/quiz/result/:pattern) - 7 pattern-specific result pages with email capture
+- Quiz Fallback (/quiz/result/select) - Manual pattern selection for users with no clear result
+- Thank you pages (/thank-you, /thank-you-quick-start, /thank-you-complete) - Post-purchase confirmation with upsells
 - Member portal (/portal) - Tabbed interface with content, AI chat, and account sections
 
 ### Backend Architecture
