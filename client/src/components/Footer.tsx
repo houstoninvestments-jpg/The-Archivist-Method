@@ -1,74 +1,80 @@
+import { Link } from "wouter";
+
+const footerLinks = {
+  method: [
+    { label: "Pattern Archaeology", href: "/#origin" },
+    { label: "The 7 Patterns", href: "/#patterns" },
+    { label: "FEIR Framework", href: "/#method" },
+    { label: "The Original Room", href: "/#origin" }
+  ],
+  products: [
+    { label: "Free 7-Day Crash Course", href: "/quiz" },
+    { label: "90-Day Quick-Start System", href: "/quick-start" },
+    { label: "Complete Archive", href: "/complete-archive" },
+    { label: "Gift Options", href: "/gift" }
+  ],
+  legal: [
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Refund Policy", href: "/refunds" },
+    { label: "Cookie Policy", href: "/cookies" }
+  ],
+  connect: [
+    { label: "Contact Us", href: "/contact" },
+    { label: "Portal Login", href: "/portal/login" },
+    { label: "Help Center", href: "/help" },
+    { label: "Support", href: "/support" }
+  ]
+};
+
+function FooterLink({ href, label }: { href: string; label: string }) {
+  const testId = `link-footer-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  const className = "text-gray-500 hover:text-pink-500 transition-colors text-sm cursor-pointer block";
+  
+  if (href.startsWith("http")) {
+    return (
+      <a
+        href={href}
+        className={className}
+        data-testid={testId}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {label}
+      </a>
+    );
+  }
+  
+  if (href.startsWith("/#")) {
+    return (
+      <a
+        href={href}
+        className={className}
+        data-testid={testId}
+      >
+        {label}
+      </a>
+    );
+  }
+  
+  return (
+    <Link href={href} className={className} data-testid={testId}>
+      {label}
+    </Link>
+  );
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    method: [
-      { label: "Pattern Archaeology", href: "/#method" },
-      { label: "The 7 Patterns", href: "/#patterns" },
-      { label: "FEIR Framework", href: "/#method" },
-    ],
-    products: [
-      { label: "Free 7-Day Course", href: "/free" },
-      { label: "Quick-Start System", href: "/quick-start" },
-      { label: "Complete Archive", href: "/complete-archive" },
-    ],
-    legal: [
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Refund Policy", href: "/terms#refund" },
-    ],
-    connect: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Portal Login", href: "/portal/login" },
-      { label: "Support", href: "/contact" },
-    ],
-  };
-
   return (
-    <footer className="relative bg-black border-t border-white/10">
-      {/* Gradient Divider */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, #14B8A6 50%, #EC4899 100%)",
-        }}
-      />
-
-      {/* Top Section - Brand */}
+    <footer className="bg-black border-t border-[#1a1a1a]" data-testid="footer">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <img
-                src="/archivist-icon.png"
-                alt="The Archivist"
-                className="w-20 h-20 md:w-24 md:h-24 object-contain"
-                style={{ background: 'transparent' }}
-              />
-            </div>
-
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2" data-testid="text-footer-title">
-              THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
-            </h3>
-            <p className="text-sm md:text-base mb-4" data-testid="text-footer-tagline">
-              <span className="text-teal-400">Pattern Archaeology,</span> <span className="text-pink-400">Not Therapy</span>
-            </p>
-            <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">
-              Discover and interrupt the unconscious patterns that have been running your life.
-            </p>
-
-            <a
-              href="/quiz"
-              className="inline-block px-10 py-4 text-base font-bold text-white bg-teal-500 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:bg-teal-400 shadow-[0_0_20px_rgba(20,184,166,0.4)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5),0_0_40px_rgba(236,72,153,0.3)]"
-              data-testid="button-footer-cta"
-            >
-              Take the Pattern Quiz →
-            </a>
-          </div>
-
-          {/* Link Columns */}
+          
+          {/* 4-Column Link Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            
             {/* Method */}
             <div>
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
@@ -77,12 +83,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.method.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm"
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href} label={link.label} />
                   </li>
                 ))}
               </ul>
@@ -96,13 +97,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.products.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
-                      data-testid={`link-footer-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href} label={link.label} />
                   </li>
                 ))}
               </ul>
@@ -116,12 +111,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href} label={link.label} />
                   </li>
                 ))}
               </ul>
@@ -135,29 +125,28 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.connect.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href} label={link.label} />
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* Bottom Section */}
-          <div className="border-t border-white/10 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-gray-500 text-sm" data-testid="text-footer-copyright">
-                © {currentYear} The Archivist Method. All rights reserved.
+          {/* Bottom Section - Brand */}
+          <div className="border-t border-[#1a1a1a] pt-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-white mb-2" data-testid="text-footer-title">
+                THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
+              </h3>
+              <p className="text-sm mb-4" data-testid="text-footer-tagline">
+                Pattern Archaeology, <span className="text-pink-500">Not</span> Therapy
               </p>
-              <p className="text-gray-600 text-xs text-center md:text-right max-w-lg">
-                Medical Disclaimer: This is educational content about behavioral patterns, not therapy or medical advice.
+              <p className="text-gray-600 text-sm" data-testid="text-footer-copyright">
+                © {currentYear} The Archivist Method. All rights reserved.
               </p>
             </div>
           </div>
+          
         </div>
       </div>
     </footer>
