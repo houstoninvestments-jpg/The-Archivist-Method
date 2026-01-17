@@ -390,7 +390,7 @@ export default function Landing() {
           </div>
           
           {/* Deadline */}
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-pink-500 text-lg md:text-xl font-semibold text-center mb-6">
+          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-white text-lg md:text-xl font-semibold text-center mb-6">
             This ends February 28, 2026. After that, everyone pays.
           </p>
           
@@ -447,19 +447,19 @@ export default function Landing() {
         
         {/* Links */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-5 mb-8">
-          <Link href="/#method" className="text-gray-500 text-sm hover:text-pink-500 transition-colors">
+          <Link href="/#method" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
             Method
           </Link>
-          <Link href="/contact" className="text-gray-500 text-sm hover:text-pink-500 transition-colors">
+          <Link href="/contact" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
             Contact
           </Link>
-          <Link href="/portal/login" className="text-gray-500 text-sm hover:text-pink-500 transition-colors">
+          <Link href="/portal/login" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
             Portal Login
           </Link>
-          <Link href="/terms" className="text-gray-500 text-sm hover:text-pink-500 transition-colors">
+          <Link href="/terms" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
             Terms
           </Link>
-          <Link href="/privacy" className="text-gray-500 text-sm hover:text-pink-500 transition-colors">
+          <Link href="/privacy" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
             Privacy
           </Link>
         </div>
