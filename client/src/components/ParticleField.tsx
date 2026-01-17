@@ -5,11 +5,12 @@ const TEAL = "#14B8A6";
 const PINK = "#EC4899";
 
 const ParticleField = () => {
-  const particleCount = 120;
+  const particleCount = 60;
   
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }).map((_, i) => {
-      const isTeal = i % 2 === 0;
+      // 70% teal, 30% pink as per premium design spec
+      const isTeal = i < particleCount * 0.7;
       const color = isTeal ? TEAL : PINK;
       
       return {

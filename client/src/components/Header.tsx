@@ -52,25 +52,25 @@ export default function Header() {
         <div className="container mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/">
-            <div className="flex items-center gap-3 cursor-pointer group">
+            <div className="flex items-center gap-4 cursor-pointer group">
               {/* Logo Icon */}
               <img
                 src="/archivist-icon.png"
                 alt="The Archivist"
-                className="w-10 h-10 transition-transform group-hover:scale-105 object-contain"
+                className="w-12 h-12 md:w-14 md:h-14 transition-transform group-hover:scale-105 object-contain"
                 style={{ background: 'transparent' }}
               />
               {/* Brand Text */}
               <div className="hidden sm:block">
-                <div className="text-lg font-bold text-white tracking-tight">
+                <div className="text-xl md:text-2xl font-bold text-white tracking-tight">
                   THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
                 </div>
                 <div
-                  className={`text-xs text-teal-400 transition-all duration-300 ${
+                  className={`text-sm text-teal-400 transition-all duration-300 ${
                     isScrolled ? "opacity-0 h-0 overflow-hidden" : "opacity-100"
                   }`}
                 >
-                  Pattern Archaeology, Not Therapy
+                  Pattern Archaeology, <span className="text-pink-400">Not Therapy</span>
                 </div>
               </div>
             </div>

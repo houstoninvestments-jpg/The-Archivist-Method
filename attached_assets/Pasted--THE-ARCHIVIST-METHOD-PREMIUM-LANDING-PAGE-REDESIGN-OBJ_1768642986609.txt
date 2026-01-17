@@ -1,0 +1,1088 @@
+# THE ARCHIVIST METHOD - PREMIUM LANDING PAGE REDESIGN
+
+## OBJECTIVE
+Transform the current functional landing page into a .1% premium brand experience that maintains conversion optimization while elevating visual craft, strategic pink/teal branding, and gothic aesthetic.
+
+**Current State:** Functional quiz funnel (B grade)  
+**Target State:** Premium brand experience + high conversion (A+ grade)
+
+---
+
+## CORE PROBLEMS TO FIX
+
+1. **Missing visual anchor** - Hero background image (library) removed
+2. **Weak brand presence** - Logo/lockup too small, tagline buried
+3. **Copy too dense** - Walls of text, explanation-heavy
+4. **Hierarchy not strong** - Everything feels equally important
+5. **Pink underused** - Brand color barely visible, all teal
+6. **Lacks premium feel** - Feels like generic lead gen, not THE ARCHIVIST METHOD
+
+---
+
+## BRAND DESIGN SYSTEM
+
+### **Colors:**
+- **Background Dark:** #0a0a0a (pure black) or #1a1a1a (dark gray)
+- **Secondary Dark:** #111111 (section alternates)
+- **Teal (Primary):** #14B8A6 - 70% of accent usage
+- **Pink (Accent):** #EC4899 - 30% of accent usage
+- **White:** #ffffff (headlines)
+- **Light Gray:** #e5e5e5 or #f5f5f5 (body text)
+- **Medium Gray:** #9ca3af (supporting text)
+
+### **Teal/Pink Usage Rules:**
+- **Teal** = Trust, method, science, primary CTAs, section headlines
+- **Pink** = Energy, emotion, emphasis, hover states, premium elements
+- **Always pair together** in gradients, glows, complementary placement
+- **Never pink alone** - must work with teal for balance
+
+### **Typography Scale:**
+- **Hero Headline:** 64-72px desktop, 40-48px mobile, BOLD
+- **Section Headlines:** 42-48px desktop, 32-36px mobile, BOLD
+- **Subheadings:** 24-28px, SEMIBOLD
+- **Body Text:** 18-20px, line-height 1.8-2.0
+- **Small Text:** 14-16px
+
+### **Spacing Scale:**
+- **Section padding:** 120px top/bottom desktop, 80px mobile
+- **Element spacing:** 40-60px between major elements
+- **Card padding:** 40px internal padding
+- **Card gaps:** 32px between cards
+
+### **Visual Elements:**
+- **Gothic aesthetic** - Sharp edges, not rounded
+- **Library imagery** - Old books, atmospheric, mysterious
+- **Particle effects** - Subtle, 70% teal / 30% pink
+- **Gradient overlays** - Teal-to-pink or dark-to-transparent
+- **Depth shadows** - Layered teal + pink glows
+
+---
+
+## SECTION 1: HERO - PREMIUM TRANSFORMATION
+
+### **Current Problems:**
+- No background image (lost visual anchor)
+- Text floating in void
+- Logo too small
+- Copy too wordy (3 sentences)
+- Button doesn't stand out enough
+
+### **Premium Solution:**
+
+**Visual Structure:**
+```
+[Background Layer 1: Library image - the archivist with books]
+  - Image: Atmospheric library scene, old man, mysterious
+  - Opacity: 0.3-0.4 (darkened so text readable)
+  - Color grading: Slight teal/pink tint
+  - Blur: Very subtle (1-2px) for depth
+
+[Background Layer 2: Dark gradient overlay]
+  - Gradient from bottom: rgba(10,10,10,0.8) → transparent
+  - Ensures text readability
+
+[Background Layer 3: Particle effects]
+  - Subtle floating particles
+  - 70% teal (#14B8A6), 30% pink (#EC4899)
+  - Slow movement, ethereal feel
+```
+
+**Top Left - Brand Lockup (MUCH LARGER):**
+```
+[Logo - 1.5x current size]
+[THE ARCHIVIST METHOD™] - 24px, bold, white
+[Pattern Archaeology, Not Therapy] - 16px, teal with pink accent on "Not Therapy"
+```
+
+**Center Hero Content:**
+```
+[Small text, teal, 14px, letterspacing]
+PATTERN ARCHAEOLOGY SESSION
+
+[MASSIVE headline, 64-72px, BOLD]
+Which Pattern Is
+Running Your Life?
+
+[Gradient text: White → Teal → Pink]
+Special treatment on "Your Life" (pink emphasis)
+
+[Subhead - ONE sentence, 24px, light gray]
+Find yours in 2 minutes. Then interrupt it.
+
+[LARGE CTA button - 20px padding, bold text]
+Take the 2-Minute Quiz →
+
+Button design:
+- Background: Teal (#14B8A6)
+- Text: White, 18-20px, bold
+- Border radius: 8px
+- Default shadow: 0 0 20px rgba(20, 184, 166, 0.5) [teal glow]
+- Hover shadow: 
+    0 0 30px rgba(20, 184, 166, 0.6) [teal glow]
+    0 0 50px rgba(236, 72, 153, 0.4) [pink glow added]
+- Hover transform: scale(1.02)
+- Transition: 0.3s smooth
+
+[Below button, small, gray, 14px]
+Free • Private • Brutally Honest
+```
+
+**Spacing:**
+- Top padding: 140px (below header)
+- Content max-width: 900px centered
+- Headline margin-bottom: 24px
+- Subhead margin-bottom: 40px
+- Button margin-bottom: 16px
+
+**Overall Height:** Full viewport on desktop, comfortable scroll on mobile
+
+---
+
+## SECTION 2: TRUST BUILDER - CUT COPY 50%
+
+### **Current Problems:**
+- Too much text (6 sentences)
+- No visual element
+- Feels like reading a manual
+
+### **Premium Solution:**
+
+**Visual Structure:**
+```
+[Background: #111111 - slightly lighter than hero]
+[Content max-width: 1000px centered]
+[Padding: 100px top/bottom]
+
+[Section headline, centered, 42px, white, BOLD]
+WHAT IS PATTERN ARCHAEOLOGY?
+
+[Subhead, 20px, light gray, centered, margin-bottom 40px]
+Not therapy. Not self-help. Not another "healing journey."
+
+[Statement, 24px, teal, centered, bold, margin-bottom 60px]
+This is behavioral forensics.
+
+[Visual diagram - centered, large]
+Animated or static visual showing:
+
+Trigger → Body Sensation → Thought → Behavior
+        [3-7 second window]
+
+Design:
+- Arrow connectors: Gradient teal → pink
+- Text: White
+- "3-7 second window" emphasized in pink
+- Clean, minimal, premium feel
+
+[Body text - 2 sentences max, 18px, centered, max-width 700px]
+Right now, those 3-7 seconds are automatic. You don't see the 
+pattern until after it's already run.
+
+We teach you to catch it before it executes.
+
+[CTA button, centered, margin-top 50px]
+Take the Quiz - Find Your Pattern →
+
+Button: Teal background, pink glow on hover
+```
+
+**Key Changes:**
+- Cut from 6 sentences to 2
+- Added visual diagram (make it scannable)
+- Increased font sizes for impact
+- More white space
+- Cleaner hierarchy
+
+---
+
+## SECTION 3: THE 7 PATTERNS - PREMIUM CARDS
+
+### **Current Problems:**
+- Cards are flat (no depth)
+- Text too dense (3-4 sentences each)
+- All cards same visual weight
+- Pink nowhere to be seen
+
+### **Premium Solution:**
+
+**Section Header:**
+```
+[Background: #0a0a0a - dark]
+[Padding: 120px top/bottom]
+[Content max-width: 1400px]
+
+[Section headline, centered, 48px, white, BOLD, margin-bottom 20px]
+THE 7 DESTRUCTIVE PATTERNS
+
+[Subhead, centered, 20px, gray, margin-bottom 80px]
+One (or more) of these is running your life:
+```
+
+**Pattern Card Design (PREMIUM):**
+
+```
+[Each card - hover-enabled]
+
+Default State:
+- Background: #1a1a1a
+- Border: 2px solid transparent
+- Background gradient trick for border:
+  linear-gradient(135deg, #14B8A6 0%, #EC4899 100%) border-box
+  Creates teal-to-pink gradient border
+- Padding: 40px
+- Border-radius: 12px
+- Shadow: 0 4px 20px rgba(0,0,0,0.3)
+- Transition: all 0.3s ease
+
+Hover State:
+- Transform: translateY(-4px) scale(1.02)
+- Shadow: 
+    0 8px 30px rgba(20, 184, 166, 0.3) [teal]
+    0 8px 50px rgba(236, 72, 153, 0.2) [pink]
+- Border glow: Gradient border brightens
+
+[Card Content]
+
+[Pattern number + name - top of card]
+1. DISAPPEARING
+   ↑ Number: 32px, teal, bold
+   ↑ Period/dot after number: pink
+   ↑ Name: 24px, white, bold, pink underline appears on hover
+
+[Description - ONE punchy sentence, not 3-4]
+You ghost when relationships get close.
+
+Font: 18px, light gray, line-height 1.6
+Key word emphasized: "ghost" in pink or "close" in pink
+
+[Optional: "Learn more" link on hover]
+Small teal text with arrow, appears on hover
+```
+
+**Grid Layout:**
+- Desktop: 2 columns, 32px gap
+- Tablet: 2 columns, 24px gap  
+- Mobile: 1 column, 24px gap
+- Cards have equal height in same row
+
+**Below Cards:**
+```
+[Centered text, 24px, white, margin-top 60px]
+Which pattern made your stomach drop?
+
+[CTA button, centered, large, margin-top 40px]
+Take the Quiz to Find Out →
+
+Pink glow on hover
+```
+
+**Card Content for Each Pattern (SHORTENED):**
+
+1. **DISAPPEARING:** You ghost when relationships get close.
+
+2. **APOLOGY LOOP:** You apologize for existing. Twenty times per day.
+
+3. **TESTING:** You push people away to see if they'll stay.
+
+4. **ATTRACTION TO HARM:** Safe people feel boring. Chaos feels like chemistry.
+
+5. **COMPLIMENT DEFLECTION:** You can't accept praise without deflecting it.
+
+6. **DRAINING BOND:** You can't leave. Even when you know you should.
+
+7. **SUCCESS SABOTAGE:** You destroy things right before they succeed.
+
+**One sentence each. Impact over explanation.**
+
+---
+
+## SECTION 4: HOW IT WORKS - VISUAL + MINIMAL
+
+### **Current Problems:**
+- 5 steps with dense paragraphs
+- No visual hierarchy
+- Feels like reading instructions
+
+### **Premium Solution:**
+
+**Visual Structure:**
+```
+[Background: #111111]
+[Padding: 120px top/bottom]
+[Content max-width: 1100px]
+
+[Section headline, centered, 48px, white, BOLD, margin-bottom 80px]
+HERE'S HOW PATTERN INTERRUPTION WORKS
+
+[5 Steps - Vertical layout with numbers in circles]
+
+Each step:
+
+[Left side: Large circle with number]
+Circle design:
+- Size: 80px diameter
+- Border: 3px solid teal
+- Background: transparent
+- Number inside: 36px, teal, bold
+- Pink glow on circle when in viewport (animate on scroll)
+
+[Right side: Step content]
+[Step title, 24px, teal, bold]
+STEP 1: IDENTIFY THE PATTERN
+
+[Description - ONE sentence, 18px, light gray]
+Take the 2-minute quiz. Get your result. Understand what's running your life.
+
+[Spacing between steps: 60px]
+```
+
+**Steps Copy (SHORTENED):**
+
+**STEP 1: IDENTIFY THE PATTERN**  
+Take the 2-minute quiz. Get your result.
+
+**STEP 2: LEARN YOUR BODY SIGNATURE**  
+Your body signals the pattern BEFORE it runs. Learn the 3-7 second warning.
+
+**STEP 3: CIRCUIT BREAK**  
+Speak your circuit break statement. This creates a pause in the execution.
+
+**STEP 4: CHOOSE DIFFERENT BEHAVIOR**  
+In the pause, choose a different response. Not by willpower—by interruption.
+
+**STEP 5: TRACK AND REFINE**  
+Every attempt generates data. You get better over time.
+
+**Below Steps:**
+```
+[Centered text, 20px, light gray, max-width 700px, margin-top 60px]
+This isn't therapy. It's catching the pattern mid-execution 
+and installing new behavior in real-time.
+
+[CTA button, centered, margin-top 50px]
+Start Your 7-Day Crash Course - Take Quiz →
+```
+
+---
+
+## SECTION 5: THE ORIGINAL ROOM - EMOTION + EMPHASIS
+
+### **Current Problems:**
+- Dense paragraphs (too much text)
+- No visual emphasis on key concepts
+- Pink completely missing
+
+### **Premium Solution:**
+
+**Visual Structure:**
+```
+[Background: #0a0a0a with subtle library texture overlay]
+[Padding: 120px top/bottom]
+[Content max-width: 900px]
+
+[Section headline, centered, 48px, white, BOLD, margin-bottom 60px]
+WHY PATTERNS RUN AUTOMATICALLY
+
+[Body text - keep emotional depth, cut 30% of words]
+
+[Paragraph 1 - 3 sentences, 18px, light gray, line-height 2.0]
+These patterns installed in what we call The Original Room.
+
+Your childhood environment. The people who raised you. The situations 
+that shaped your nervous system before you had language.
+
+[Subhead - 24px, teal, margin 40px top/bottom]
+In The Original Room, you learned equations:
+
+[Equations - Large format with PINK emphasis]
+
+Each equation:
+- Font: 20px
+- Format: "[Teal] = [PINK]"
+- Spacing: 24px between each
+
+• Closeness = Danger (Disappearing Pattern)
+            ↑ PINK
+• Your Needs = Burden to Others (Apology Loop)
+               ↑ PINK
+• Love = Pain + Chaos (Attraction to Harm)
+         ↑ PINK
+• Success = Threat Incoming (Success Sabotage)
+            ↑ PINK
+
+[Paragraph 2 - 2 sentences, margin-top 50px]
+Those equations still run today. Not because you're broken—because 
+your nervous system is doing exactly what it was trained to do.
+
+[Paragraph 3 - 2 sentences]
+The patterns aren't personality traits. They're survival code that 
+wrote itself when you needed it and never got uninstalled.
+
+[Closing statement - 24px, slight emphasis]
+Pattern interruption doesn't rewrite The Original Room. It teaches 
+you to catch the pattern before it executes.
+
+[CTA button, centered, margin-top 60px]
+Find Your Pattern - Take the Quiz →
+```
+
+**Key Changes:**
+- Cut from ~8 sentences to 6
+- Pink emphasizes threatening/negative elements
+- Larger, more impactful equations
+- More spacing around key elements
+- Emotional depth maintained, wordiness removed
+
+---
+
+## SECTION 6: PRICING - CLEAN + HIERARCHY
+
+### **Current Problems:**
+- Cards blend together
+- Too many feature bullets (7+)
+- No clear visual hierarchy between tiers
+
+### **Premium Solution:**
+
+**Visual Structure:**
+```
+[Background: #111111]
+[Padding: 120px top/bottom]
+[Content max-width: 1300px]
+
+[Section headline, centered, 48px, white, BOLD, margin-bottom 80px]
+THE COMPLETE SYSTEM
+
+[3 Pricing Cards - Grid layout]
+Desktop: 3 columns, 32px gap
+Mobile: Stack vertically, 24px gap
+```
+
+**Card Design (TIER-SPECIFIC):**
+
+**FREE CARD (Recommended):**
+```
+[Card with teal emphasis]
+- Border: 3px solid #14B8A6 (teal)
+- "RECOMMENDED" badge: Teal background, top of card
+- Slightly larger than other cards (1.05x scale)
+- Shadow: Teal glow
+
+[Content]
+7-DAY CRASH COURSE
+FREE - 72px, teal, bold
+
+[Features - 6 max, not 7+]
+✓ Pattern identification quiz
+✓ Complete pattern analysis
+✓ 7-day interruption protocol
+✓ Circuit break scripts
+✓ Body signature guide
+✓ AI pattern coach (basic)
+
+Checkmarks: Teal color
+
+[Button - Primary CTA]
+Start Free - Take Quiz →
+Teal background, white text, pink glow hover
+```
+
+**QUICK-START CARD:**
+```
+[Card with gradient border - PREMIUM]
+- Border: 2px teal-to-pink gradient (like pattern cards)
+- "MOST POPULAR" badge (once you have data): Pink/teal gradient
+- Standard size
+- Gradient glow on hover
+
+[Content]
+90-DAY QUICK-START SYSTEM
+$47 - 72px, gradient (teal→pink), bold
+
+[Features - 6 max]
+✓ Everything in crash course
+✓ All 7 patterns (not just yours)
+✓ 90-day structured protocol
+✓ Crisis intervention protocols
+✓ Relationship scripts
+✓ Unlimited AI coach
+
+Checkmarks: Alternate teal/pink
+
+[Button - Secondary]
+Learn More
+Pink border, teal text, hover inverts
+```
+
+**ARCHIVE CARD (Premium Tier):**
+```
+[Card with pink emphasis]
+- Border: 2px solid #EC4899 (pink) or pink glow
+- "PREMIUM" badge: Pink background
+- Standard size
+- Pink shadow/glow
+
+[Content]
+COMPLETE ARCHIVE
+$197 - 72px, pink, bold
+
+[Features - 6 max]
+✓ Everything in Quick-Start
+✓ Pattern combinations
+✓ Long-term maintenance
+✓ Workplace scenarios
+✓ Parenting protocols
+✓ Lifetime access + updates
+
+Checkmarks: Pink color
+
+[Button - Secondary]
+Learn More
+Pink border, teal text, hover inverts
+```
+
+**Below Cards:**
+```
+[Centered text, 18px, gray, margin 60px top]
+Start with the free crash course. Upgrade only if it works for you.
+
+[Final CTA, large, centered, margin 40px top]
+Take the Quiz - Start Free →
+Teal background, pink glow hover
+```
+
+---
+
+## SECTION 7: SOCIAL PROOF (HONEST) - CLEAN
+
+### **Current Problems:**
+- Text-heavy
+- No visual interest
+
+### **Premium Solution:**
+
+```
+[Background: #0a0a0a]
+[Padding: 100px top/bottom]
+[Content max-width: 800px, centered]
+
+[Section headline, centered, 42px, white, BOLD, margin-bottom 40px]
+YOU'RE EARLY TO THIS
+
+[Body - short paragraphs, centered, 18px, light gray]
+
+The Archivist Method launched January 2026. You're one of the first.
+
+No "10,000+ success stories." No manufactured testimonials. No inflated claims.
+
+Just a method that either works for your nervous system or doesn't.
+
+[Emphasized text, 20px, slight teal tint]
+The 7-day crash course shows you which. One successful interrupt in 
+7 days = proof of concept.
+
+Then you decide if you want to continue.
+
+[Closing line, 18px]
+Fast validation. No bullshit. Real results or honest failure.
+
+[CTA button, centered, margin-top 50px]
+Take the Quiz - Find Your Pattern →
+```
+
+---
+
+## SECTION 8: FINAL CTA - SIMPLE + STRONG
+
+### **Current Problems:**
+- Too wordy
+- Doesn't feel final/urgent
+
+### **Premium Solution:**
+
+```
+[Background: #111111]
+[Padding: 100px top/bottom]
+[Content centered]
+
+[Headline, 48px, white, BOLD, gradient optional]
+FIND YOUR PATTERN
+
+[Three lines, 22px, light gray, line-height 1.8, centered]
+Take the 2-minute quiz.
+Get your result + what's driving it.
+Start the free 7-day crash course.
+
+[LARGE CTA button, centered, margin-top 50px]
+Take the Pattern Quiz →
+
+Button: Extra large (24px padding)
+Teal background
+Pink + teal layered glow
+Scale on hover
+
+[Below button, small]
+Free • Private • Brutally Honest
+```
+
+---
+
+## SECTION 9: FOOTER - PREMIUM ORGANIZATION
+
+### **Current Structure:** Functional but basic
+
+### **Premium Solution:**
+
+```
+[Background: #0a0a0a]
+[Padding: 80px top/bottom]
+[Content max-width: 1400px]
+
+[Top section - 4 columns on desktop, stack on mobile]
+
+Column 1: METHOD
+- Pattern Archaeology
+- The 7 Patterns
+- FEIR Framework
+
+Column 2: PRODUCTS
+- Free 7-Day Course
+- Quick-Start System
+- Complete Archive
+
+Column 3: LEGAL
+- Terms of Service
+- Privacy Policy
+- Refund Policy
+
+Column 4: CONNECT
+- Contact Us
+- Portal Login
+- Support
+
+Links: 
+- Default: Gray (#9ca3af)
+- Hover: Pink (#EC4899) - not teal
+
+[Middle section - Brand lockup, centered, margin 60px top/bottom]
+
+[Logo - larger]
+THE ARCHIVIST METHOD™
+Pattern Archaeology, Not Therapy
+
+[Optional: One more quiz CTA button]
+Take the Pattern Quiz
+
+[Bottom section - Copyright, centered]
+© 2026 The Archivist Method™. All rights reserved.
+
+Font: 14px, dark gray
+```
+
+---
+
+## HEADER/NAVIGATION - STICKY + CLEAN
+
+### **Premium Design:**
+
+```
+[Fixed position on scroll]
+[Background: rgba(10, 10, 10, 0.9) with backdrop-blur]
+[Height: 80px]
+[Border-bottom: 1px solid rgba(255,255,255,0.1)]
+
+[Left side - Brand lockup, LARGER than current]
+[Logo] THE ARCHIVIST METHOD™
+       Pattern Archaeology, Not Therapy
+
+Logo + text: 1.5x current size
+
+[Right side - Navigation]
+Method  |  Pricing  |  Contact  |  [Portal Login button]
+
+Links:
+- Gray default
+- Teal on hover (not pink)
+- Active section: Teal with pink underline
+
+Portal Login button:
+- Teal outline
+- Teal text
+- Hover: Fill teal, white text
+
+[Mobile: Hamburger menu]
+- Full-screen overlay
+- Large links
+- Teal/pink gradient background
+```
+
+---
+
+## ANIMATIONS + INTERACTIONS (PREMIUM POLISH)
+
+### **Scroll Animations:**
+```
+Elements fade in as they enter viewport:
+- Section headlines: Fade in from below
+- Pattern cards: Stagger fade-in (0.1s delay between each)
+- Pricing cards: Fade + scale up
+- Steps in "How It Works": Fade in with circle glow
+
+Timing: 0.6s ease-out
+Trigger: When 20% of element is visible
+```
+
+### **Hover States:**
+```
+Buttons:
+- Scale: 1.02
+- Glow: Add pink to existing teal
+- Transition: 0.3s smooth
+
+Pattern cards:
+- Lift: translateY(-4px)
+- Glow: Teal + pink layered shadows
+- Border: Gradient brightens
+- Transition: 0.3s ease
+
+Links:
+- Color change: Gray → Pink
+- Underline: Slide in from left
+- Transition: 0.2s ease
+```
+
+### **Particle Effects:**
+```
+Hero section:
+- 50-70 particles total
+- 70% teal (#14B8A6)
+- 30% pink (#EC4899)
+- Size: 2-4px
+- Opacity: 0.3-0.6
+- Movement: Slow drift upward
+- Blur: 1px slight
+```
+
+### **Loading States:**
+```
+On page load:
+- Hero fades in (0.8s)
+- Particles start after hero visible
+- Smooth, not jarring
+
+On navigation:
+- Smooth scroll (not instant jump)
+- Section fades in as user scrolls
+```
+
+---
+
+## TYPOGRAPHY SYSTEM (COMPLETE)
+
+### **Font Families:**
+```
+Primary (Headlines, UI): 
+- Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+- Weights: 400 (regular), 600 (semibold), 700 (bold)
+
+Secondary (Body):
+- Same as primary for consistency
+- Could use Georgia or serif for body if want different feel
+```
+
+### **Font Sizes (Desktop):**
+```
+Hero Headline: 64-72px, bold, 1.1 line-height
+Section Headlines: 42-48px, bold, 1.2 line-height
+Subsection Headlines: 28-32px, semibold, 1.3 line-height
+Large Body: 20-24px, regular, 1.6 line-height
+Body Text: 18-20px, regular, 1.8 line-height
+Small Text: 14-16px, regular, 1.5 line-height
+```
+
+### **Font Sizes (Mobile):**
+```
+Hero Headline: 40-48px
+Section Headlines: 32-36px
+Subsection Headlines: 24-28px
+Large Body: 18-20px
+Body Text: 16-18px
+Small Text: 14px
+```
+
+---
+
+## RESPONSIVE DESIGN (CRITICAL)
+
+### **Breakpoints:**
+```
+Desktop: 1024px+
+Tablet: 768px - 1023px
+Mobile: < 768px
+```
+
+### **Mobile-Specific Changes:**
+
+**Hero:**
+- Background image: More zoomed in, darker
+- Headline: 40-48px, shorter line length
+- Button: Full width (90%), thumb-friendly height (56px min)
+- Padding: Reduce to 60px top
+
+**Pattern Cards:**
+- Single column
+- Full width with 20px margins
+- Slightly reduce padding (32px instead of 40px)
+- Touch-friendly (no reliance on hover)
+
+**Pricing Cards:**
+- Stack vertically
+- Full width with 20px margins
+- Maintain visual hierarchy (FREE still emphasized)
+
+**Navigation:**
+- Hamburger menu
+- Full-screen overlay when open
+- Large touch targets (min 44px)
+
+**Spacing:**
+- Reduce section padding: 80px → 60px
+- Reduce between elements: 40px → 30px
+- Maintain readability with proper line length
+
+---
+
+## PERFORMANCE OPTIMIZATION
+
+### **Images:**
+```
+Hero background:
+- WebP format with JPG fallback
+- Size: 1920x1080 optimized (under 200KB)
+- Lazy load: No (critical for hero)
+
+Pattern card images (if added):
+- WebP format
+- Lazy load: Yes
+- Size: 400x300 max
+```
+
+### **Fonts:**
+```
+Preload critical fonts:
+- Inter Bold (headlines)
+- Inter Regular (body)
+
+Load other weights async
+Use font-display: swap
+```
+
+### **Animations:**
+```
+Use transform and opacity (GPU accelerated)
+Avoid animating: width, height, top, left (causes reflow)
+Use will-change sparingly (only on hover elements)
+```
+
+### **Code:**
+```
+Minimize CSS (remove unused)
+Defer non-critical JavaScript
+Lazy load below-fold images
+Use CSS containment where possible
+```
+
+---
+
+## ACCESSIBILITY (WCAG AA)
+
+### **Color Contrast:**
+```
+Verify all text meets WCAG AA:
+- White on #0a0a0a: ✓ (21:1)
+- Light gray (#e5e5e5) on dark: ✓ (>7:1)
+- Teal (#14B8A6) on dark: ✓ (>4.5:1)
+- Pink (#EC4899) on dark: ✓ (>4.5:1)
+
+Test tool: WebAIM Contrast Checker
+```
+
+### **Keyboard Navigation:**
+```
+All interactive elements:
+- Focusable via Tab
+- Visible focus indicator (teal/pink outline)
+- Logical tab order
+- Skip to main content link
+
+Buttons:
+- Enter/Space to activate
+- No keyboard traps
+```
+
+### **Screen Readers:**
+```
+Semantic HTML:
+- <header>, <main>, <section>, <footer>
+- <h1> for main headline, <h2> for sections
+- <button> not <div> styled as button
+
+Alt text:
+- Logo: "The Archivist Method"
+- Decorative images: alt=""
+- Background images: Not announced (decorative)
+
+ARIA labels:
+- CTA buttons: "Take the pattern identification quiz"
+- Navigation: aria-label="Main navigation"
+```
+
+---
+
+## QUALITY CHECKLIST
+
+Before calling this done, verify:
+
+### **Visual:**
+- [ ] Hero background image restored and beautiful
+- [ ] Logo/brand lockup 1.5x larger, prominent
+- [ ] Pink used strategically (30% of accents)
+- [ ] Teal/pink gradients on key elements
+- [ ] Headlines 20-30% larger, BOLD weight
+- [ ] Copy cut by 30-50% across all sections
+- [ ] White space 2x between sections
+- [ ] Pattern cards have gradient borders + glow
+- [ ] Pricing hierarchy clear (FREE emphasized)
+- [ ] Buttons have pink glow on hover
+
+### **Content:**
+- [ ] Pattern cards: 1 sentence each, not 3-4
+- [ ] How It Works: 1 sentence per step, not paragraphs
+- [ ] Original Room: Pink emphasis on threatening words
+- [ ] All copy punchy, not explanation-heavy
+- [ ] Every section has clear CTA
+
+### **Interaction:**
+- [ ] All CTAs link to /quiz
+- [ ] Hover states smooth (0.3s transitions)
+- [ ] Scroll animations subtle, not jarring
+- [ ] Particles: 70% teal, 30% pink
+- [ ] Mobile touch-friendly (44px+ tap targets)
+- [ ] Keyboard navigation works
+
+### **Technical:**
+- [ ] Loads under 3 seconds
+- [ ] Mobile responsive (test on actual device)
+- [ ] No console errors
+- [ ] Images optimized (WebP)
+- [ ] Fonts load properly
+- [ ] Smooth scroll on navigation clicks
+
+### **Brand:**
+- [ ] Feels like THE ARCHIVIST METHOD (not generic quiz)
+- [ ] Gothic aesthetic throughout
+- [ ] Premium, not cheap
+- [ ] Mysterious, not clinical
+- [ ] Brutal honesty maintained in voice
+
+---
+
+## IMPLEMENTATION PRIORITY
+
+### **Phase 1: Critical (Do First):**
+1. Restore hero background image
+2. Increase logo/brand lockup size
+3. Add pink to hero headline (gradient)
+4. Increase all headline sizes 20-30%
+5. Add teal/pink button glows
+6. Cut pattern card copy to 1 sentence each
+
+**Time: 2-3 hours**  
+**Impact: 60% of visual improvement**
+
+### **Phase 2: High Impact:**
+7. Add gradient borders to pattern cards
+8. Add pink emphasis to Original Room equations
+9. Cut "How It Works" copy to 1 sentence/step
+10. Upgrade pricing card hierarchy
+11. Add more white space (2x section padding)
+12. Add scroll animations
+
+**Time: 3-4 hours**  
+**Impact: 30% of visual improvement**
+
+### **Phase 3: Polish:**
+13. Particle effects (teal/pink mix)
+14. Hover animations refined
+15. Mobile optimization
+16. Performance optimization
+17. Accessibility audit
+18. Final copy edit
+
+**Time: 2-3 hours**  
+**Impact: 10% of visual improvement**
+
+---
+
+## SUCCESS METRICS
+
+### **Before (Current State):**
+- Visual quality: B grade
+- Brand presence: Weak
+- Copy density: Too heavy
+- Pink usage: 5%
+- Conversion focus: Good
+- Premium feel: Lacking
+
+### **After (Target State):**
+- Visual quality: A+ grade
+- Brand presence: Strong, memorable
+- Copy density: Perfect balance
+- Pink usage: 30% strategic
+- Conversion focus: Maintained
+- Premium feel: Exceptional
+
+### **User Reaction Goals:**
+- First impression: "This looks expensive"
+- Emotional response: "They actually get me"
+- Pattern cards: "Holy shit that's me" (recognition)
+- Brand recall: Remembers pink/teal + gothic aesthetic
+- Trust signal: "This is legit, not generic"
+
+---
+
+## FINAL NOTES
+
+### **What Makes This .1%:**
+
+1. **Visual craft** - Every pixel intentional
+2. **Brand consistency** - Gothic aesthetic throughout
+3. **Pink/teal balance** - Strategic, not accidental
+4. **Typography hierarchy** - Clear, bold, impactful
+5. **Copy precision** - Every word earns its place
+6. **White space** - Breathing room creates premium feel
+7. **Interaction polish** - Smooth, satisfying animations
+8. **Conversion maintained** - Premium AND effective
+
+### **The Difference:**
+
+**B-grade landing page:** Works, converts okay, forgettable
+
+**.1% landing page:** Works, converts great, memorable, makes people want to tell others about it
+
+### **Remember:**
+
+Premium isn't expensive features. Premium is:
+- Attention to detail
+- Consistent craft
+- Strategic restraint
+- Intentional choices
+- Elevated execution
+
+**You have all the pieces. Now make them sing.**
+
+---
+
+Build this. Every detail matters. This is how you make The Archivist Method feel like the premium brand it deserves to be.
+
+Let's fucking go.

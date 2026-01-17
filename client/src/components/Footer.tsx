@@ -43,16 +43,16 @@ export default function Footer() {
               <img
                 src="/archivist-icon.png"
                 alt="The Archivist"
-                className="w-16 h-16 object-contain"
+                className="w-20 h-20 md:w-24 md:h-24 object-contain"
                 style={{ background: 'transparent' }}
               />
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-2" data-testid="text-footer-title">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2" data-testid="text-footer-title">
               THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
             </h3>
-            <p className="text-teal-400 text-sm mb-4" data-testid="text-footer-tagline">
-              Pattern Archaeology, Not Therapy
+            <p className="text-sm md:text-base mb-4" data-testid="text-footer-tagline">
+              <span className="text-teal-400">Pattern Archaeology,</span> <span className="text-pink-400">Not Therapy</span>
             </p>
             <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">
               Discover and interrupt the unconscious patterns that have been running your life.
@@ -60,13 +60,10 @@ export default function Footer() {
 
             <a
               href="/quiz"
-              className="inline-block px-8 py-3 text-sm font-semibold text-black rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-teal-500/30"
-              style={{
-                background: "linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)",
-              }}
+              className="inline-block px-10 py-4 text-base font-bold text-white bg-teal-500 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:bg-teal-400 shadow-[0_0_20px_rgba(20,184,166,0.4)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5),0_0_40px_rgba(236,72,153,0.3)]"
               data-testid="button-footer-cta"
             >
-              Take the Pattern Quiz
+              Take the Pattern Quiz →
             </a>
           </div>
 
@@ -82,7 +79,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm"
+                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm"
                     >
                       {link.label}
                     </a>
@@ -101,7 +98,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
                       data-testid={`link-footer-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       {link.label}
@@ -121,7 +118,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
                     >
                       {link.label}
                     </a>
@@ -140,7 +137,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-gray-400 hover:text-teal-400 transition-colors text-sm cursor-pointer"
+                      className="text-gray-400 hover:text-pink-400 transition-colors text-sm cursor-pointer"
                     >
                       {link.label}
                     </a>
