@@ -17,7 +17,7 @@ import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { db } from "../db";
-import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory } from "@shared/schema";
+import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
@@ -66,6 +66,32 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Valid email required" });
     }
 
+    const normalizedEmail = email.toLowerCase();
+
+    // Check test_users first
+    const [testUser] = await db.select().from(testUsers).where(eq(testUsers.email, normalizedEmail));
+    
+    if (testUser) {
+      // Generate magic link for test user
+      const baseUrl = process.env.REPL_SLUG
+        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+        : "http://localhost:5000";
+
+      const magicLink = await generateMagicLink(email, `test_${testUser.id}`, baseUrl);
+      console.log(`Magic link for test user ${email}: ${magicLink}`);
+
+      if (process.env.NODE_ENV === "development") {
+        return res.json({
+          message: "Login link generated",
+          devLink: magicLink,
+          isTestUser: true,
+        });
+      }
+
+      return res.json({ message: "Login link sent to your email" });
+    }
+
+    // If not a test user, check regular purchases
     let user;
     try {
       user = await getUserByEmail(email);
@@ -137,6 +163,30 @@ router.get("/user-data", async (req: Request, res: Response) => {
 
     if (!authData) {
       return res.status(401).json({ error: "Invalid or expired token" });
+    }
+
+    // Check if this is a test user (userId prefixed with "test_")
+    if (authData.userId.startsWith("test_")) {
+      const testUserId = authData.userId.replace("test_", "");
+      const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
+      
+      if (!testUser) {
+        return res.status(401).json({ error: "Test user not found" });
+      }
+
+      // Map test user access level to purchases
+      const hasQuickStart = testUser.accessLevel === "quick-start" || testUser.accessLevel === "archive";
+      const hasCompleteArchive = testUser.accessLevel === "archive";
+
+      return res.json({
+        email: testUser.email,
+        name: null,
+        isTestUser: true,
+        purchases: [],
+        hasQuickStart,
+        hasCompleteArchive,
+        availableUpgrades: [],
+      });
     }
 
     const [purchases, user] = await Promise.all([

@@ -26,6 +26,8 @@ import Quiz from "@/pages/Quiz";
 import QuizResult from "@/pages/QuizResult";
 import QuizFallback from "@/pages/QuizFallback";
 import PortalReader from "@/pages/PortalReader";
+import AdminLogin from "@/pages/AdminLogin";
+import AdminDashboard from "@/pages/AdminDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -51,6 +53,8 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
+      <Route path="/admin" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -62,7 +66,8 @@ function AppContent() {
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
   const isPortalReader = location.startsWith("/portal/reader");
   const isQuiz = location.startsWith("/quiz");
-  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader;
+  const isAdmin = location.startsWith("/admin");
+  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader || isAdmin;
   const showPremiumChatbot = isPortalDashboard;
   
   return (

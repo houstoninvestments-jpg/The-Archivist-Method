@@ -149,3 +149,27 @@ export const insertPdfChatSchema = createInsertSchema(pdfChatHistory).omit({
 });
 export type InsertPdfChat = z.infer<typeof insertPdfChatSchema>;
 export type PdfChatHistory = typeof pdfChatHistory.$inferSelect;
+
+// Test Users (Admin Panel) - for granting free access
+export const testUsers = pgTable("test_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  accessLevel: varchar("access_level", { length: 50 }).notNull(), // 'crash-course', 'quick-start', 'archive'
+  note: text("note"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertTestUserSchema = createInsertSchema(testUsers).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertTestUser = z.infer<typeof insertTestUserSchema>;
+export type TestUser = typeof testUsers.$inferSelect;
+
+export const AccessLevel = {
+  CRASH_COURSE: "crash-course",
+  QUICK_START: "quick-start",
+  ARCHIVE: "archive",
+} as const;
+
+export type AccessLevel = typeof AccessLevel[keyof typeof AccessLevel];
