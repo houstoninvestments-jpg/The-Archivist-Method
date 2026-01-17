@@ -6,12 +6,10 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express,
 ): Promise<Server> {
-  // Health check endpoint for deployment verification
   app.get("/api/health", (_req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
-  // Chat endpoint for Archivist AI
   app.post("/api/chat", async (req, res) => {
     try {
       const { model, max_tokens, system, messages } = req.body;
@@ -37,7 +35,6 @@ export async function registerRoutes(
     }
   });
 
-  // Voice generation endpoint - FIXED URL
   app.post("/api/generate-voice", async (req, res) => {
     try {
       const { text } = req.body;
@@ -68,7 +65,6 @@ export async function registerRoutes(
     }
   });
 
-  // Download success pages
   app.get("/success/crash-course", (_req, res) => {
     res.sendFile("public/downloads/pages/crash-course.html", { root: "." });
   });
@@ -81,7 +77,6 @@ export async function registerRoutes(
     res.sendFile("public/downloads/pages/complete-archive.html", { root: "." });
   });
 
-  // PDF download routes
   app.get("/api/download/crash-course", (_req, res) => {
     res.download(
       "public/downloads/free/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf",
@@ -124,27 +119,156 @@ export async function registerRoutes(
     );
   });
 
-  // Quiz submission endpoint
   app.post("/api/quiz/submit", async (req, res) => {
     try {
-      const { email, pattern, timestamp } = req.body;
+      const { email, primaryPattern, secondaryPatterns, patternScores } = req.body;
       
-      if (!email || !pattern) {
+      if (!email || !primaryPattern) {
         return res.status(400).json({ error: "Email and pattern are required" });
       }
       
-      // Store quiz submission
-      await storage.createQuizSubmission({
+      const user = await storage.createQuizUser({
         email,
-        pattern,
-        submittedAt: new Date(timestamp || Date.now())
+        primaryPattern,
+        secondaryPatterns: secondaryPatterns || [],
+        patternScores: patternScores || {},
       });
       
-      console.log(`Quiz submission: ${email} - Pattern: ${pattern}`);
-      res.json({ success: true });
+      console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
+      
+      res.json({ 
+        success: true, 
+        token: user.magicLinkToken,
+        userId: user.id,
+      });
     } catch (error) {
       console.error("Quiz submission error:", error);
       res.status(500).json({ error: "Failed to save quiz submission" });
+    }
+  });
+
+  app.get("/api/quiz/user", async (req, res) => {
+    try {
+      const token = req.cookies?.quiz_token || req.headers.authorization?.replace('Bearer ', '');
+      
+      if (!token) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const user = await storage.getQuizUserByToken(token);
+      
+      if (!user) {
+        return res.status(401).json({ error: "Invalid or expired token" });
+      }
+      
+      res.json({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        primaryPattern: user.primaryPattern,
+        secondaryPatterns: user.secondaryPatterns,
+        patternScores: user.patternScores,
+        accessLevel: user.accessLevel,
+        crashCourseDay: user.crashCourseDay,
+        crashCourseStarted: user.crashCourseStarted,
+      });
+    } catch (error) {
+      console.error("Get user error:", error);
+      res.status(500).json({ error: "Failed to get user data" });
+    }
+  });
+
+  app.post("/api/quiz/start-crash-course", async (req, res) => {
+    try {
+      const token = req.cookies?.quiz_token || req.headers.authorization?.replace('Bearer ', '');
+      
+      if (!token) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const user = await storage.getQuizUserByToken(token);
+      
+      if (!user) {
+        return res.status(401).json({ error: "Invalid or expired token" });
+      }
+      
+      if (!user.crashCourseStarted) {
+        await storage.updateQuizUser(user.id, {
+          crashCourseStarted: new Date(),
+          crashCourseDay: 1,
+        });
+      }
+      
+      res.json({ success: true, day: user.crashCourseDay || 1 });
+    } catch (error) {
+      console.error("Start crash course error:", error);
+      res.status(500).json({ error: "Failed to start crash course" });
+    }
+  });
+
+  app.get("/api/portal/user-data", async (req, res) => {
+    try {
+      const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+      
+      if (!token) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const user = await storage.getQuizUserByToken(token);
+      
+      if (!user) {
+        return res.status(401).json({ error: "Invalid or expired token" });
+      }
+      
+      const purchases = [];
+      if (user.accessLevel === 'quickstart' || user.accessLevel === 'archive') {
+        purchases.push({
+          productId: 'quickstart',
+          productName: 'Quick-Start System',
+          purchasedAt: new Date().toISOString(),
+        });
+      }
+      if (user.accessLevel === 'archive') {
+        purchases.push({
+          productId: 'archive',
+          productName: 'Complete Archive',
+          purchasedAt: new Date().toISOString(),
+        });
+      }
+      
+      const availableUpgrades = [];
+      if (user.accessLevel === 'free') {
+        availableUpgrades.push({
+          id: 'quickstart',
+          name: 'Quick-Start System',
+          price: 47,
+          description: '90-day protocol, all 7 patterns, crisis protocols',
+        });
+      }
+      if (user.accessLevel !== 'archive') {
+        availableUpgrades.push({
+          id: 'archive',
+          name: 'Complete Archive',
+          price: user.accessLevel === 'quickstart' ? 150 : 197,
+          description: 'Pattern combinations, long-term maintenance, advanced applications',
+        });
+      }
+      
+      res.json({
+        email: user.email,
+        name: user.name || user.email.split('@')[0],
+        primaryPattern: user.primaryPattern,
+        secondaryPatterns: user.secondaryPatterns,
+        patternScores: user.patternScores,
+        accessLevel: user.accessLevel,
+        crashCourseDay: user.crashCourseDay,
+        crashCourseStarted: user.crashCourseStarted,
+        purchases,
+        availableUpgrades,
+      });
+    } catch (error) {
+      console.error("Get portal user data error:", error);
+      res.status(500).json({ error: "Failed to get user data" });
     }
   });
 

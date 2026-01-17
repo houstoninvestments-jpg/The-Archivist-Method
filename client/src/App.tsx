@@ -22,12 +22,18 @@ import Members197 from "@/pages/Members197";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
 import Contact from "@/pages/Contact";
+import Quiz from "@/pages/Quiz";
+import QuizResult from "@/pages/QuizResult";
+import QuizFallback from "@/pages/QuizFallback";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
+      <Route path="/quiz" component={Quiz} />
+      <Route path="/quiz/result/select" component={QuizFallback} />
+      <Route path="/quiz/result/:pattern" component={QuizResult} />
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/thank-you-quick-start" component={ThankYouQuickStart} />
       <Route path="/thank-you-complete" component={ThankYouComplete} />
@@ -51,15 +57,17 @@ function Router() {
 function AppContent() {
   const [location] = useLocation();
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
+  const isQuiz = location.startsWith("/quiz");
+  const hideHeaderFooter = isPortalDashboard || isQuiz;
   const showPremiumChatbot = isPortalDashboard;
   
   return (
     <div className="min-h-screen flex flex-col">
-      {!isPortalDashboard && <Header />}
+      {!hideHeaderFooter && <Header />}
       <main className="flex-1">
         <Router />
       </main>
-      {!isPortalDashboard && <Footer />}
+      {!hideHeaderFooter && <Footer />}
       {showPremiumChatbot && <ArchivistChatbot />}
     </div>
   );

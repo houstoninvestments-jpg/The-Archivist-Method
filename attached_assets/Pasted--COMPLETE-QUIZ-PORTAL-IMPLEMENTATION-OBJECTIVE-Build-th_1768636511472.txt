@@ -1,0 +1,562 @@
+# COMPLETE QUIZ + PORTAL IMPLEMENTATION
+
+## OBJECTIVE
+Build the complete pattern quiz, result pages, email capture, and portal access flow for The Archivist Method.
+
+---
+
+## PART 1: QUIZ SYSTEM
+
+### Quiz Structure
+- **10 questions**, multi-select (choose all that apply)
+- Premium UX with progress indicator
+- Each question scores multiple patterns simultaneously
+- "None of these" option on every question (mutually exclusive)
+- Back button to change previous answers
+- Smooth transitions between questions
+
+### The 10 Questions (Exact Copy):
+
+**Question 1: Intimacy Response**  
+"You've been dating someone for 3 months. They text: 'I think I'm falling for you.' What happens? (Choose all that apply)"
+
+☐ Chest gets tight, I feel trapped, need space NOW → Disappearing +3  
+☐ I wonder if they really mean it or if they'll change their mind → Testing +3, Apology Loop +1  
+☐ I want to say it back but can't feel it - something's blocking me → Attraction to Harm +2, Disappearing +1  
+☐ I deflect with humor or change the subject → Compliment Deflection +2, Disappearing +1  
+☐ I apologize for not being ready to say it back yet → Apology Loop +3  
+☐ None of these - I feel happy and reciprocate → +0 all (clears other selections)
+
+---
+
+**Question 2: Conflict Response**  
+"You're in a disagreement with someone you care about. What happens? (Choose all that apply)"
+
+☐ I apologize even if I'm not wrong, just to end it → Apology Loop +3, Draining Bond +1  
+☐ I pick bigger fights to see if they'll still stay after → Testing +3  
+☐ I shut down emotionally and disappear → Disappearing +3  
+☐ I stay and argue but feel drained for days after → Draining Bond +2, Testing +1  
+☐ I assume this means they're going to leave me → Testing +2, Disappearing +1  
+☐ None of these fit → +0 all
+
+---
+
+**Question 3: Success Proximity**  
+"You're one week from launching something important (project, business, goal). What do you feel? (Choose all that apply)"
+
+☐ Sudden dread - something bad is coming, I should stop now → Success Sabotage +3  
+☐ Anxious that people will see it and judge me → Compliment Deflection +2, Apology Loop +1  
+☐ Like I should quit before I fail publicly → Success Sabotage +2, Compliment Deflection +1  
+☐ I keep finding reasons to delay the launch → Success Sabotage +2  
+☐ Urge to blow it up or create a crisis → Success Sabotage +3  
+☐ None of these - I feel ready and excited → +0 all
+
+---
+
+**Question 4: Receiving Praise**  
+"Your boss publicly praises your work in a team meeting. What's your immediate reaction? (Choose all that apply)"
+
+☐ Physically uncomfortable - I want to disappear or leave → Compliment Deflection +3  
+☐ "It was nothing" or "Anyone could have done it" → Compliment Deflection +3, Apology Loop +1  
+☐ I assume they're setting me up for more work or harder tasks → Testing +2, Apology Loop +1  
+☐ I immediately point out everything I did wrong → Compliment Deflection +2, Success Sabotage +1  
+☐ I apologize or minimize it somehow → Apology Loop +2, Compliment Deflection +2  
+☐ None of these - I say thank you and accept it → +0 all
+
+---
+
+**Question 5: Asking For Help**  
+"You need help with something. What stops you or happens when you ask? (Choose all that apply)"
+
+☐ I feel like a burden - they're busy, I shouldn't bother them → Apology Loop +3  
+☐ I can't ask because then I'll owe them something → Draining Bond +2, Testing +1  
+☐ I'd rather struggle alone than risk being told no → Disappearing +2, Apology Loop +2  
+☐ I ask but apologize 5+ times while doing it → Apology Loop +3  
+☐ I downplay how much I actually need the help → Apology Loop +2, Compliment Deflection +1  
+☐ Nothing stops me - I ask directly when I need help → +0 all
+
+---
+
+**Question 6: Relationship Selection**  
+"Think about people you've been most attracted to. What's true? (Choose all that apply)"
+
+☐ Unavailable, chaotic, or slightly dangerous - "boring" people don't interest me → Attraction to Harm +3  
+☐ Safe people who prove they care, but then I test them until they leave → Testing +2, Disappearing +1  
+☐ People who need me or who I can fix → Draining Bond +3, Apology Loop +1  
+☐ Anyone who shows interest - I feel like I can't be picky → Apology Loop +2, Draining Bond +1  
+☐ Consistent people feel wrong or boring compared to inconsistent ones → Attraction to Harm +3  
+☐ None of these fit my pattern → +0 all
+
+---
+
+**Question 7: Leaving Bad Situations**  
+"You're in a job/relationship/friendship that's clearly harmful. What keeps you there? (Choose all that apply)"
+
+☐ Leaving feels like abandoning them - I can't do that → Draining Bond +3  
+☐ They need me / Things will get better / I owe them → Draining Bond +3, Apology Loop +1  
+☐ I know I should leave but being alone feels worse → Draining Bond +2, Disappearing +1  
+☐ I keep hoping they'll change back to who they used to be → Draining Bond +2, Attraction to Harm +1  
+☐ I feel guilty about the idea of leaving → Apology Loop +2, Draining Bond +2  
+☐ I left when it got bad - this doesn't apply → +0 all
+
+---
+
+**Question 8: Good Things Happening**  
+"When things are going really well in your life, what typically happens? (Choose all that apply)"
+
+☐ I blow it up - quit, pick a fight, make a drastic change → Success Sabotage +3  
+☐ I wait for the other shoe to drop - good things don't last → Success Sabotage +2, Testing +1  
+☐ I feel guilty, like I don't deserve it → Apology Loop +2, Compliment Deflection +2  
+☐ I get uncomfortable with sustained happiness and create problems → Success Sabotage +3  
+☐ I minimize the success or redirect credit to others → Compliment Deflection +2, Apology Loop +1  
+☐ Good things continue - I don't sabotage them → +0 all
+
+---
+
+**Question 9: Stating Boundaries**  
+"Someone crosses a boundary. What do you do? (Choose all that apply)"
+
+☐ Say nothing - I don't want to cause conflict or seem difficult → Apology Loop +3, Draining Bond +1  
+☐ I apologize for having boundaries in the first place → Apology Loop +3  
+☐ State it but then test if they'll respect it → Testing +2, Apology Loop +1  
+☐ Pull away completely rather than have the conversation → Disappearing +3  
+☐ I feel guilty for setting the boundary → Apology Loop +2, Draining Bond +1  
+☐ I state the boundary clearly and hold it → +0 all
+
+---
+
+**Question 10: Trust Response**  
+"Someone proves they're safe, consistent, and trustworthy. How do you respond? (Choose all that apply)"
+
+☐ I create tests to make sure they really mean it → Testing +3  
+☐ I pull away - this feels wrong or unfamiliar → Disappearing +2, Attraction to Harm +2  
+☐ I stay but keep waiting for them to leave or hurt me → Testing +2, Draining Bond +1  
+☐ They feel "boring" compared to people who are inconsistent → Attraction to Harm +3  
+☐ I assume I'll ruin it eventually and start protecting myself → Success Sabotage +2, Testing +1  
+☐ I trust them and let the relationship develop → +0 all
+
+---
+
+## PART 2: SCORING ALGORITHM
+
+```javascript
+// Initialize scores
+const scores = {
+  disappearing: 0,
+  apologyLoop: 0,
+  testing: 0,
+  attractionToHarm: 0,
+  complimentDeflection: 0,
+  drainingBond: 0,
+  successSabotage: 0
+};
+
+// For each question, add points for ALL selected options
+// "None of these" selection clears all other selections for that question
+
+// After all 10 questions answered, calculate results:
+
+const total = Object.values(scores).reduce((a, b) => a + b, 0);
+const sortedPatterns = Object.entries(scores)
+  .sort((a, b) => b[1] - a[1])
+  .filter(([_, score]) => score > 0);
+
+// Result determination:
+
+if (total === 0) {
+  // User selected "none of these" on every question
+  → Show FALLBACK SCREEN (all 7 patterns, manual selection)
+}
+else if (sortedPatterns[0][1] >= 15) {
+  // Strong primary pattern (5+ strong selections)
+  → Show PRIMARY PATTERN result page
+  → Include secondary patterns if score >= 6
+}
+else if (sortedPatterns.length >= 3 && sortedPatterns[2][1] >= 8) {
+  // Multiple strong patterns
+  → Show "MULTIPLE PATTERNS" result page
+  → Display top 3-4 patterns with scores
+}
+else {
+  // 1-2 moderate patterns
+  → Show PRIMARY result page
+  → Mention secondary if score >= 6
+}
+```
+
+---
+
+## PART 3: RESULT PAGES (7 TEASERS)
+
+### Pattern Name Mapping:
+- disappearing → "Disappearing Pattern"
+- apologyLoop → "Apology Loop"
+- testing → "Testing Pattern"
+- attractionToHarm → "Attraction to Harm"
+- complimentDeflection → "Compliment Deflection"
+- drainingBond → "Draining Bond"
+- successSabotage → "Success Sabotage"
+
+### Result Page Structure (300-400 words each):
+
+**Section 1: Pattern Recognition (3-4 sentences)**
+- Immediate gut-punch recognition
+- Specific behavioral examples
+- "You watch yourself do it. You know it's happening. You do it anyway."
+
+**Section 2: The Insight (2-3 paragraphs)**
+- "Here's what's actually happening"
+- Not [common misdiagnosis], this is a survival program
+- The Original Room equation
+- "You're not choosing X. You're executing code..."
+
+**Section 3: Email Gate**
+```
+GET YOUR COMPLETE PATTERN ANALYSIS
+
+Your full breakdown is ready in your personal portal:
+
+✓ What's driving this pattern (The Original Room analysis)
+✓ What it's costing you [specific to pattern]
+✓ Your body signature (the 3-7 second warning)
+✓ Secondary patterns you're also running
+✓ How to interrupt it (your custom protocol)
+✓ 7-Day Crash Course specific to [Pattern]
+✓ AI Pattern Coach (ask questions 24/7)
+
+[EMAIL INPUT FIELD]
+[ACCESS MY FULL ANALYSIS →]
+
+Free • Private • Brutally Honest • Instant Access
+
+Your complete pattern profile is ready.
+Access it in your personal portal in 60 seconds.
+```
+
+**Section 4: Honest Positioning**
+```
+YOU'RE EARLY TO THIS
+
+This launched January 2026. No fake testimonials. No inflated numbers.
+
+Just a method that either works for your nervous system or doesn't.
+
+Enter your email. Access your full analysis. Decide in 7 days if this is real.
+```
+
+**USE THE TEASER FILES PROVIDED** for exact copy for each pattern.
+
+---
+
+## PART 4: FALLBACK SCREEN (If All Scores = 0)
+
+```
+I CAN'T IDENTIFY YOUR PRIMARY PATTERN
+
+Based on your responses, you selected "none of these" on most questions.
+
+This means either:
+• You're highly self-aware and already interrupting patterns
+• Your patterns are more subtle than the quiz captures
+• None of the 7 core patterns match your experience
+
+Let me show you all 7 — read through them and pick the one that makes your stomach drop.
+
+[Display all 7 pattern cards with names + 2-sentence descriptions]
+
+[User clicks one → goes to that pattern's result page]
+```
+
+---
+
+## PART 5: EMAIL CAPTURE & PORTAL ACCESS
+
+### After Email Submitted:
+
+**Option A (Recommended): Immediate Portal Redirect**
+1. Create user account in Supabase
+2. Assign pattern data (primary + secondaries)
+3. Grant "crash_course_access" permission
+4. Generate magic link token
+5. Redirect to portal with auto-login
+6. Also send magic link email as backup
+
+**Option B: Email-First**
+1. Show confirmation: "Check your email (arrives in 60 seconds)"
+2. Send magic link email with portal access
+3. User clicks link → portal with auto-login
+
+**Recommended: Option A** (immediate gratification, higher engagement)
+
+---
+
+## PART 6: PORTAL LANDING PAGE
+
+### What User Sees After Login:
+
+```
+WELCOME, [NAME]
+
+Your Pattern Analysis Is Ready
+
+---
+
+📊 YOUR RESULTS
+
+PRIMARY PATTERN: [Pattern Name]
+SECONDARY PATTERNS: [Secondary 1], [Secondary 2] (if applicable)
+
+[Read Your Full Analysis →]
+(Opens full 1,000+ word analysis from original result page templates)
+
+---
+
+🎯 YOUR 7-DAY CRASH COURSE
+
+Learn to interrupt your [Pattern] in one week.
+
+Day 1: Identify triggers
+Day 2: Learn body signature
+Day 3: Map activation patterns
+Day 4: Circuit break scripts
+Day 5: First interrupt attempt
+Day 6: Refine and retry
+Day 7: Results evaluation
+
+[Start Day 1 →] (FREE - unlocked now)
+
+---
+
+🤖 ASK YOUR AI PATTERN COACH
+
+Got questions about your pattern? Need help?
+
+[Start Chatting →] (FREE - available 24/7)
+
+---
+
+⚡ READY TO GO DEEPER?
+
+Most people do the 7-day crash course first. But if you want to master this across ALL areas immediately:
+
+QUICK-START SYSTEM ($47)
+• 90-day protocol (not just 7 days)
+• ALL 7 patterns (not just yours)
+• Crisis protocols
+• Relationship scripts
+• Workplace applications
+• Advanced circuit breaks
+
+[View Details →] or [Unlock for $47 →]
+
+Or stick with the free crash course. Your call.
+
+---
+
+📚 COMPLETE ARCHIVE ($197)
+
+Everything in Quick-Start PLUS:
+• Pattern combinations
+• Long-term maintenance
+• Workplace deep-dive
+• Parenting protocols
+• Advanced applications
+
+[View Details →] or [Unlock for $197 →]
+```
+
+---
+
+## PART 7: ACCESS LEVELS & GATING
+
+### Database Structure:
+```javascript
+users: {
+  id: uuid,
+  email: string,
+  name: string,
+  primary_pattern: string,
+  secondary_patterns: array,
+  access_level: string, // 'free', 'quickstart', 'archive'
+  crash_course_started: timestamp,
+  created_at: timestamp
+}
+```
+
+### Content Visibility:
+- **FREE tier:** Pattern analysis, 7-day crash course, basic AI chatbot
+- **QUICKSTART tier:** Everything in free + Quick-Start content (unlocked after $47 purchase)
+- **ARCHIVE tier:** Everything (unlocked after $197 purchase OR $150 upgrade from Quick-Start)
+
+### Grayed-Out Content:
+Show locked content with visual indicator:
+```
+🔒 QUICK-START SYSTEM
+90-day protocol, all 7 patterns, crisis protocols
+
+[Unlock for $47 →]
+```
+
+---
+
+## PART 8: DAY 7 CONVERSION TRIGGER
+
+### Email Automation:
+- Send Day 7 email (use provided copy) at 9am user's timezone on Day 7
+- Track if user has purchased Quick-Start (if yes, don't send)
+
+### Portal Banner:
+- Show banner at top of portal dashboard starting Day 7
+- Banner remains visible until:
+  * User purchases Quick-Start
+  * User dismisses it
+  * 7 days pass (then remove automatically)
+
+### Banner Copy (provided in day-7-conversion.md):
+```
+🎉 CRASH COURSE COMPLETE
+
+You've seen how pattern interruption works. Ready to master it?
+
+QUICK-START SYSTEM ($47)
+90 days • All 7 patterns • Advanced protocols
+
+[Unlock Quick-Start →] [Maybe Later]
+```
+
+---
+
+## PART 9: UX SPECIFICATIONS
+
+### Quiz UX:
+- **Checkboxes** for multi-select (NOT radio buttons)
+- **Clear "Choose all that apply" instruction** at top of each question
+- **"None of these" visually distinct** (different position or subtle styling)
+- **Selection counter** shows how many selected
+- **"None of these" clears others** when clicked
+- **Any other selection clears "None of these"** automatically
+- **Progress indicator:** "Question X of 10" at top
+- **Next button activates** only when at least 1 option selected
+- **Back button** to change previous answers
+- **Smooth transitions** between questions (no jarring page loads)
+
+### Visual Design (Match Archivist Brand):
+- **Dark background** (#1a1a1a or #0a0a0a)
+- **Teal accents** (#14B8A6) for buttons, highlights
+- **Pink accent** (#EC4899) for secondary elements
+- **White/light gray text** (#e5e5e5 or #f5f5f5)
+- **Gothic, industrial aesthetic**
+- **Premium feel** (like high-end app, not survey)
+
+### Result Page Design:
+- **Clean, spacious layout**
+- **Email input prominently placed**
+- **Button with teal background** and clear CTA
+- **Maintains brand aesthetic**
+
+### Portal Design:
+- **Dashboard style** (not just document reader)
+- **Clear sections** for Analysis, Crash Course, Chatbot, Upgrades
+- **Sidebar navigation** showing access level and locked content
+- **Premium feel** (this is their exclusive portal)
+
+---
+
+## PART 10: TECHNICAL IMPLEMENTATION NOTES
+
+### Stripe Integration:
+Use existing Stripe setup with these products:
+- Quick-Start: $47 (existing price ID)
+- Complete Archive: $197 (existing price ID)
+- Archive Upgrade (from Quick-Start): $150 (create new price)
+
+### Webhook Handling:
+After successful purchase:
+1. Update user access_level in database
+2. Unlock corresponding content in portal
+3. Send confirmation email
+4. Redirect to portal with success message
+
+### Magic Link Authentication:
+- Generate secure token (expires in 24 hours)
+- Send email with login link
+- Auto-login when token used
+- Create session, store in cookie
+
+### AI Chatbot:
+- Use existing chatbot implementation
+- Free tier: Basic pattern questions
+- Paid tiers: Unlimited access, more context
+
+---
+
+## PART 11: DELIVERABLES CHECKLIST
+
+Build the following:
+
+### Quiz System:
+- [ ] 10-question multi-select quiz with exact copy provided
+- [ ] Scoring algorithm (cumulative multi-select logic)
+- [ ] Progress indicator showing Question X of 10
+- [ ] Back button functionality
+- [ ] Premium UX with brand aesthetic
+
+### Result Pages:
+- [ ] 7 pattern-specific teaser pages (use provided copy)
+- [ ] Fallback page for unclear results
+- [ ] Email capture form on each result page
+- [ ] Proper routing based on scoring algorithm
+
+### Email & Authentication:
+- [ ] Email capture creates Supabase user
+- [ ] Magic link email generation
+- [ ] Portal auto-login after email submit
+- [ ] Session management
+
+### Portal:
+- [ ] Landing page with pattern analysis
+- [ ] 7-Day Crash Course display (Day 1-7)
+- [ ] AI chatbot integration (basic for free tier)
+- [ ] Quick-Start and Archive upsell sections
+- [ ] Access level gating (show locked content)
+- [ ] Sidebar navigation showing access level
+
+### Conversion Elements:
+- [ ] Day 7 email automation
+- [ ] Day 7 portal banner
+- [ ] Quick-Start purchase flow
+- [ ] Archive purchase flow
+- [ ] Upgrade flow (Quick-Start → Archive for $150)
+
+### Analytics Tracking:
+- [ ] Quiz completion rate
+- [ ] Pattern distribution
+- [ ] Email capture rate
+- [ ] Portal login rate
+- [ ] Crash course completion rate
+- [ ] Conversion rates (free → Quick-Start, Quick-Start → Archive)
+
+---
+
+## SUCCESS CRITERIA
+
+The implementation is complete when:
+
+1. ✅ User can take quiz and get accurate pattern result
+2. ✅ Result page creates information gap (teaser, not full)
+3. ✅ Email capture works and creates portal access
+4. ✅ Portal displays full analysis + crash course + chatbot
+5. ✅ Quick-Start and Archive are visible but gated
+6. ✅ Day 7 triggers work (email + banner)
+7. ✅ Purchase flows unlock content properly
+8. ✅ Everything matches brand aesthetic
+9. ✅ UX feels premium, not generic
+10. ✅ Conversion path is clear and frictionless
+
+---
+
+Build this entire flow. Use the provided copy files for exact text. Match the brand aesthetic. Make it feel like a $197 product from the moment they start the quiz.
+
+This is the funnel that converts browsers into customers.
+
+Let's fucking go.
