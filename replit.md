@@ -32,7 +32,7 @@ Preferred communication style: Simple, everyday language.
 - No global state management library (Redux, Zustand, etc.)
 
 **Key Pages**:
-- Landing page (/) - Quiz-first design with 8 sections: Hero, Trust Builder, 7 Patterns, How It Works, Original Room, Pricing, Social Proof, Final CTA. All CTAs link to /quiz
+- Landing page (/) - Minimal 7-section design: Hero (with Archival Reveal animation), Pattern Cards (7 patterns), Origin (The Original Room), Method (3 steps), Founding Member Offer, Final CTA, Minimal Footer. All CTAs link to /quiz
 - Quiz (/quiz) - 10-question Pattern Identification Quiz with multi-select scoring algorithm
 - Quiz Results (/quiz/result/:pattern) - 7 pattern-specific result pages with email capture
 - Quiz Fallback (/quiz/result/select) - Manual pattern selection for users with no clear result
@@ -112,7 +112,7 @@ Preferred communication style: Simple, everyday language.
 
 **Theme**: Dark mode enforced throughout with brutalist minimalism aesthetic
 
-**Typography**: System font stack (no external font loading for performance)
+**Typography**: Bebas Neue (display/headlines) + Inter (body text) from Google Fonts
 
 **Component Patterns**:
 - Card-based layouts with consistent border radius and spacing
