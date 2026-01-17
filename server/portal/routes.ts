@@ -43,7 +43,7 @@ const highlightSchema = z.object({
   pageNumber: z.number().int().min(1),
   text: z.string().min(1).max(5000),
   color: z.string().max(20).optional(),
-  position: z.record(z.unknown()).optional(),
+  position: z.object({ start: z.number(), end: z.number() }).optional(),
 });
 
 const chatSchema = z.object({
@@ -238,13 +238,35 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    const purchases = await getUserPurchases(authData.userId);
-    const hasPurchased = purchases.some((p) => p.product_id === productId);
+    // Check if test user
+    if (authData.userId.startsWith("test_")) {
+      const testUserId = authData.userId.replace("test_", "");
+      const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
+      
+      if (!testUser) {
+        return res.status(401).json({ error: "Test user not found" });
+      }
 
-    if (!hasPurchased) {
-      return res.status(403).json({
-        error: "Access denied. You have not purchased this product.",
-      });
+      // Check access based on test user's access level
+      const hasQuickStart = testUser.accessLevel === "quick-start" || testUser.accessLevel === "archive";
+      const hasCompleteArchive = testUser.accessLevel === "archive";
+
+      const hasAccess = (productId === "quick-start" && hasQuickStart) || 
+                       (productId === "complete-archive" && hasCompleteArchive);
+
+      if (!hasAccess) {
+        return res.status(403).json({ error: "Access denied for your access level." });
+      }
+    } else {
+      // Regular user - check purchases
+      const purchases = await getUserPurchases(authData.userId);
+      const hasPurchased = purchases.some((p) => p.product_id === productId);
+
+      if (!hasPurchased) {
+        return res.status(403).json({
+          error: "Access denied. You have not purchased this product.",
+        });
+      }
     }
 
     const pdfPath = join(
