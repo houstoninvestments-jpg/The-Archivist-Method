@@ -2,9 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { 
   X, ZoomIn, ZoomOut, ChevronUp, ChevronDown, Download, Bookmark, 
-  MessageCircle, BookOpen, Clock, CheckCircle, Send, Menu, ArrowLeft
+  MessageCircle, BookOpen, Clock, CheckCircle, Send, ArrowLeft, Highlighter, Trash2
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -20,12 +19,27 @@ interface Bookmark {
   createdAt: string;
 }
 
+interface Highlight {
+  id: string;
+  pageNumber: number;
+  text: string;
+  color: string;
+  createdAt: string;
+}
+
 interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   message: string;
   timestamp: string;
 }
+
+const HIGHLIGHT_COLORS = [
+  { name: 'Yellow', value: '#FFD700' },
+  { name: 'Teal', value: '#14B8A6' },
+  { name: 'Pink', value: '#EC4899' },
+  { name: 'Blue', value: '#3B82F6' },
+];
 
 interface PremiumPDFViewerProps {
   pdfUrl: string;
@@ -55,6 +69,12 @@ export default function PremiumPDFViewer({
   
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [showBookmarks, setShowBookmarks] = useState(false);
+  
+  const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const [showHighlights, setShowHighlights] = useState(false);
+  const [selectedHighlightColor, setSelectedHighlightColor] = useState(HIGHLIGHT_COLORS[0].value);
+  const [selectedText, setSelectedText] = useState('');
+  const [showColorPicker, setShowColorPicker] = useState(false);
   
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
@@ -87,8 +107,26 @@ export default function PremiumPDFViewer({
   useEffect(() => {
     loadProgress();
     loadBookmarks();
+    loadHighlights();
     loadChatHistory();
   }, [documentId]);
+
+  useEffect(() => {
+    const handleTextSelection = () => {
+      const selection = window.getSelection();
+      const text = selection?.toString().trim();
+      if (text && text.length > 0 && text.length < 500) {
+        setSelectedText(text);
+        setShowColorPicker(true);
+      } else {
+        setSelectedText('');
+        setShowColorPicker(false);
+      }
+    };
+
+    document.addEventListener('mouseup', handleTextSelection);
+    return () => document.removeEventListener('mouseup', handleTextSelection);
+  }, []);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -191,6 +229,57 @@ export default function PremiumPDFViewer({
       toast({ title: 'Bookmark Removed' });
     } catch (error) {
       console.error('Failed to delete bookmark:', error);
+    }
+  };
+
+  const loadHighlights = async () => {
+    try {
+      const response = await fetch(`/api/portal/reader/highlights/${documentId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setHighlights(data);
+      }
+    } catch (error) {
+      console.error('Failed to load highlights:', error);
+    }
+  };
+
+  const addHighlight = async (text: string, color: string) => {
+    if (!text.trim()) return;
+    
+    try {
+      const response = await fetch('/api/portal/reader/highlights', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          documentId,
+          pageNumber: currentPage,
+          text: text.trim(),
+          color,
+        }),
+      });
+      
+      if (response.ok) {
+        const newHighlight = await response.json();
+        setHighlights([...highlights, newHighlight]);
+        setSelectedText('');
+        setShowColorPicker(false);
+        window.getSelection()?.removeAllRanges();
+        toast({ title: 'Highlight Saved', description: `Text highlighted on page ${currentPage}` });
+      }
+    } catch (error) {
+      console.error('Failed to add highlight:', error);
+      toast({ title: 'Error', description: 'Failed to save highlight', variant: 'destructive' });
+    }
+  };
+
+  const deleteHighlight = async (id: string) => {
+    try {
+      await fetch(`/api/portal/reader/highlights/${id}`, { method: 'DELETE' });
+      setHighlights(highlights.filter(h => h.id !== id));
+      toast({ title: 'Highlight Removed' });
+    } catch (error) {
+      console.error('Failed to delete highlight:', error);
     }
   };
 
@@ -474,6 +563,14 @@ export default function PremiumPDFViewer({
             </button>
             
             <button
+              onClick={() => setShowHighlights(!showHighlights)}
+              className={`p-2 rounded-lg transition-all ${showHighlights ? 'bg-teal-500/20' : 'hover:bg-white/5'}`}
+              data-testid="button-show-highlights"
+            >
+              <Highlighter className={`w-4 h-4 ${showHighlights ? 'text-teal-500' : 'text-gray-400'}`} />
+            </button>
+            
+            <button
               onClick={handleDownload}
               className="p-2 rounded-lg transition-all hover:bg-white/5"
               data-testid="button-download"
@@ -539,6 +636,60 @@ export default function PremiumPDFViewer({
                         {bookmark.note && (
                           <p className="text-gray-400 text-xs mt-1">{bookmark.note}</p>
                         )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {showHighlights && (
+            <div 
+              className="w-64 border-r overflow-y-auto shrink-0 hidden md:block"
+              style={{ 
+                background: '#0d0d0d',
+                borderColor: 'rgba(255, 255, 255, 0.08)'
+              }}
+            >
+              <div className="p-4">
+                <h3 className="text-teal-500 font-semibold mb-4 flex items-center gap-2">
+                  <Highlighter className="w-4 h-4" />
+                  Your Highlights
+                </h3>
+                
+                <p className="text-gray-500 text-xs mb-4">Select text in the document to highlight it.</p>
+                
+                {highlights.length === 0 ? (
+                  <p className="text-gray-500 text-sm">No highlights yet. Select text to create a highlight.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {highlights.map(highlight => (
+                      <div 
+                        key={highlight.id}
+                        className="p-3 rounded-lg bg-black/50 border border-white/5 group"
+                        style={{ borderLeftColor: highlight.color, borderLeftWidth: '3px' }}
+                        data-testid={`card-highlight-${highlight.id}`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1">
+                            <button 
+                              onClick={() => scrollToPage(highlight.pageNumber)}
+                              className="text-gray-400 text-xs hover:text-teal-500 mb-1"
+                              data-testid={`button-goto-highlight-${highlight.id}`}
+                            >
+                              Page {highlight.pageNumber}
+                            </button>
+                            <p className="text-white text-sm line-clamp-3">{highlight.text}</p>
+                          </div>
+                          <button
+                            onClick={() => deleteHighlight(highlight.id)}
+                            className="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                            data-testid={`button-delete-highlight-${highlight.id}`}
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -764,6 +915,46 @@ export default function PremiumPDFViewer({
         >
           <MessageCircle className="w-6 h-6 text-black" />
         </button>
+      )}
+
+      {showColorPicker && selectedText && (
+        <div 
+          className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[120] p-4 rounded-xl shadow-2xl"
+          style={{ 
+            background: '#0d0d0d',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
+          data-testid="highlight-color-picker"
+        >
+          <p className="text-gray-400 text-xs mb-3 text-center">Highlight selected text</p>
+          <div className="flex items-center gap-3">
+            {HIGHLIGHT_COLORS.map(color => (
+              <button
+                key={color.value}
+                onClick={() => {
+                  setSelectedHighlightColor(color.value);
+                  addHighlight(selectedText, color.value);
+                }}
+                className={`w-8 h-8 rounded-full transition-all hover:scale-110 ${selectedHighlightColor === color.value ? 'ring-2 ring-white ring-offset-2 ring-offset-black' : ''}`}
+                style={{ background: color.value }}
+                title={color.name}
+                data-testid={`button-highlight-color-${color.name.toLowerCase()}`}
+              />
+            ))}
+            <button
+              onClick={() => {
+                setShowColorPicker(false);
+                setSelectedText('');
+                window.getSelection()?.removeAllRanges();
+              }}
+              className="p-1.5 rounded-lg hover:bg-white/10 text-gray-500 hover:text-white"
+              data-testid="button-cancel-highlight"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <p className="text-gray-600 text-xs mt-2 text-center max-w-[200px] truncate">"{selectedText.substring(0, 40)}{selectedText.length > 40 ? '...' : ''}"</p>
+        </div>
       )}
 
       <style>{`
