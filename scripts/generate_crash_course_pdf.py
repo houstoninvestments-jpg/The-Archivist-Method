@@ -25,7 +25,35 @@ MED_GRAY = HexColor('#9CA3AF')
 DARK_GRAY = HexColor('#4B5563')
 
 OUTPUT_PATH = "/home/runner/workspace/generated_pdfs/THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf"
-LOGO_PATH = "/home/runner/workspace/attached_assets/archivist-portrait-circle.jpg"
+LOGO_PATH = "/home/runner/workspace/attached_assets/archivist-logo-pdf.png"
+LOGO_PATH_COMPOSITED = "/home/runner/workspace/attached_assets/archivist-logo-pdf-composited.png"
+
+
+def prepare_logo_for_pdf():
+    """Pre-composite the logo onto dark background to avoid transparency issues in PDF"""
+    if not os.path.exists(LOGO_PATH):
+        return None
+    
+    try:
+        # Load the logo with transparency
+        logo = Image.open(LOGO_PATH).convert('RGBA')
+        
+        # Create dark background matching PDF background color (#1a1a1a)
+        dark_bg = Image.new('RGBA', logo.size, (26, 26, 26, 255))
+        
+        # Composite the logo onto the dark background
+        composited = Image.alpha_composite(dark_bg, logo)
+        
+        # Convert to RGB (no alpha needed now since background is solid)
+        final = composited.convert('RGB')
+        
+        # Save the composited version
+        final.save(LOGO_PATH_COMPOSITED, 'PNG', quality=95)
+        
+        return LOGO_PATH_COMPOSITED
+    except Exception as e:
+        print(f"Error preparing logo: {e}")
+        return LOGO_PATH
 
 
 class ArchivistPDFTemplate:
@@ -214,8 +242,10 @@ def build_title_page(styles):
     
     elements.append(Spacer(1, 0.5*inch))
     
-    if os.path.exists(LOGO_PATH):
-        logo = RLImage(LOGO_PATH, width=2*inch, height=2*inch)
+    # Prepare composited logo for PDF (handles transparency properly)
+    logo_path = prepare_logo_for_pdf()
+    if logo_path and os.path.exists(logo_path):
+        logo = RLImage(logo_path, width=2*inch, height=2*inch)
         logo.hAlign = 'CENTER'
         elements.append(logo)
         elements.append(Spacer(1, 0.4*inch))
