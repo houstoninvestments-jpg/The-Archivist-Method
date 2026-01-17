@@ -67,6 +67,8 @@ export default function PremiumPDFViewer({
   const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const progressSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const restoredProgressRef = useRef<{ page: number; percent: number; viewed: number[] } | null>(null);
+  const hasRestoredScrollRef = useRef(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setIsVisible(true));
@@ -99,9 +101,17 @@ export default function PremiumPDFViewer({
       const response = await fetch(`/api/portal/reader/progress/${documentId}`);
       if (response.ok) {
         const data = await response.json();
-        if (data.currentPage) setCurrentPage(data.currentPage);
-        if (data.percentComplete) setPercentComplete(data.percentComplete);
-        if (data.pagesViewed) setPagesViewed(new Set(data.pagesViewed));
+        // Store restored progress for later application after document loads
+        if (data.currentPage || data.percentComplete || (data.pagesViewed && data.pagesViewed.length > 0)) {
+          restoredProgressRef.current = {
+            page: data.currentPage || 1,
+            percent: data.percentComplete || 0,
+            viewed: data.pagesViewed || [],
+          };
+          setCurrentPage(data.currentPage || 1);
+          setPercentComplete(data.percentComplete || 0);
+          setPagesViewed(new Set(data.pagesViewed || []));
+        }
       }
     } catch (error) {
       console.error('Failed to load progress:', error);
@@ -109,10 +119,16 @@ export default function PremiumPDFViewer({
   };
 
   const saveProgress = useCallback((page: number, viewed: Set<number>) => {
+    // Defer save until document is fully loaded to prevent 0% overwrite
+    if (numPages === 0) return;
+    
+    // Don't save until we've restored scroll position to prevent overwriting restored progress
+    if (!hasRestoredScrollRef.current) return;
+    
     if (progressSaveTimeoutRef.current) clearTimeout(progressSaveTimeoutRef.current);
     
     progressSaveTimeoutRef.current = setTimeout(async () => {
-      const percent = numPages > 0 ? Math.round((viewed.size / numPages) * 100) : 0;
+      const percent = Math.round((viewed.size / numPages) * 100);
       setPercentComplete(percent);
       
       try {
@@ -154,7 +170,6 @@ export default function PremiumPDFViewer({
           documentId,
           pageNumber: currentPage,
           pageLabel: `Page ${currentPage}`,
-          note: '',
         }),
       });
       
@@ -322,6 +337,17 @@ export default function PremiumPDFViewer({
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     setIsLoading(false);
+    
+    // Restore scroll position after document loads
+    setTimeout(() => {
+      if (restoredProgressRef.current && restoredProgressRef.current.page > 1) {
+        scrollToPage(restoredProgressRef.current.page);
+      }
+      // Mark restoration complete after a delay to allow scroll to settle
+      setTimeout(() => {
+        hasRestoredScrollRef.current = true;
+      }, 500);
+    }, 100);
   }
 
   function scrollToPage(pageNum: number) {
@@ -651,6 +677,7 @@ export default function PremiumPDFViewer({
             <button 
               onClick={() => setShowChat(false)}
               className="p-2 rounded-lg hover:bg-white/5"
+              data-testid="button-close-chat"
             >
               <X className="w-4 h-4 text-gray-400" />
             </button>
@@ -672,6 +699,7 @@ export default function PremiumPDFViewer({
               <div 
                 key={msg.id}
                 className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                data-testid={`chat-message-${msg.role}-${msg.id}`}
               >
                 <div 
                   className={`max-w-[80%] p-3 rounded-xl ${

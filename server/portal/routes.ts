@@ -22,37 +22,34 @@ import { eq, and } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 
-// Validation schemas for PDF viewer routes
+// Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
   documentId: z.string().min(1).max(50),
-  currentPage: z.number().int().positive(),
-  totalPages: z.number().int().positive().optional(),
-  percentComplete: z.number().int().min(0).max(100),
-  pagesViewed: z.array(z.number().int().positive()),
+  currentPage: z.number().int().min(1),
+  totalPages: z.number().int().min(1).optional(),
+  percentComplete: z.number().int().min(0).max(100).optional().default(0),
+  pagesViewed: z.array(z.number().int().min(1)).optional().default([]),
 });
 
 const bookmarkSchema = z.object({
   documentId: z.string().min(1).max(50),
-  pageNumber: z.number().int().positive(),
-  pageLabel: z.string().max(50).optional(),
-  note: z.string().max(500).optional(),
+  pageNumber: z.number().int().min(1),
+  pageLabel: z.string().max(50).optional().nullable(),
+  note: z.string().max(500).optional().nullable(),
 });
 
 const highlightSchema = z.object({
   documentId: z.string().min(1).max(50),
-  pageNumber: z.number().int().positive(),
-  text: z.string().min(1).max(2000),
+  pageNumber: z.number().int().min(1),
+  text: z.string().min(1).max(5000),
   color: z.string().max(20).optional(),
-  position: z.object({
-    start: z.number(),
-    end: z.number(),
-  }).optional(),
+  position: z.record(z.unknown()).optional(),
 });
 
 const chatSchema = z.object({
-  message: z.string().min(1).max(2000),
+  message: z.string().min(1).max(4000),
   documentId: z.string().min(1).max(50),
-  currentPage: z.number().int().positive().optional(),
+  currentPage: z.number().int().min(1).optional(),
 });
 
 const router = express.Router();
@@ -623,13 +620,18 @@ router.post("/reader/track-download", async (req: Request, res: Response) => {
   }
 });
 
-// PDF-aware AI chat
-const anthropic = new Anthropic();
+// PDF-aware AI chat - verify API key exists
+const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
 
 router.post("/reader/chat", async (req: Request, res: Response) => {
   try {
     const userId = getAuthUserId(req);
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    // Check if AI is available
+    if (!anthropic) {
+      return res.status(503).json({ error: "AI service unavailable" });
+    }
 
     const validation = chatSchema.safeParse(req.body);
     if (!validation.success) {
