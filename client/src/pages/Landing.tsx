@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Check } from "lucide-react";
+import { Check, Zap, Heart, MessageCircle, RefreshCw, ArrowRight, ArrowUp } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
@@ -69,7 +69,7 @@ function TypewriterHeadline() {
 
   return (
     <h2
-      className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight min-h-[90px] md:min-h-[120px] text-center"
+      className="text-[24px] md:text-[28px] font-semibold text-white mb-6 leading-tight min-h-[60px] md:min-h-[80px] text-center"
       data-testid="text-hero-headline"
     >
       <span className="inline-block">
@@ -227,7 +227,7 @@ export default function Landing() {
               THE ARCHIVIST METHOD™
             </h1>
             <p 
-              className="font-['Inter',sans-serif] text-2xl md:text-[32px] font-bold tracking-[-0.02em] text-teal-500 mt-4 opacity-0 animate-fade-in-delay"
+              className="font-['Inter',sans-serif] text-[28px] md:text-[36px] font-bold tracking-[0.5px] text-teal-500 uppercase mt-6 mb-8 opacity-0 animate-fade-in-delay"
               data-testid="text-brand-tagline"
             >
               Pattern Archaeology, Not Therapy
@@ -343,10 +343,57 @@ export default function Landing() {
               Right now, your patterns run in a <span className="text-teal-500 font-semibold">3-7 second window</span>:
             </p>
             
-            {/* Pattern Window */}
-            <p className="scroll-reveal stagger-7 text-xl text-teal-500 font-semibold text-center my-8">
-              Trigger → Body Sensation → Thought → Behavior
-            </p>
+            {/* Pattern Window - Visual Timeline */}
+            <div className="scroll-reveal stagger-7 my-12 p-6 md:p-8 bg-[rgba(20,184,166,0.05)] border-2 border-teal-500/20 rounded-xl">
+              {/* Timeline */}
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-2">
+                {/* Trigger */}
+                <div className="flex-1 text-center">
+                  <Zap className="w-8 h-8 mx-auto mb-2 text-teal-500" />
+                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">TRIGGER</div>
+                  <div className="text-gray-500 text-xs">External event</div>
+                </div>
+                
+                {/* Arrow */}
+                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
+                
+                {/* Body Signature - HIGHLIGHTED */}
+                <div className="flex-1 text-center relative bg-pink-500/10 border-2 border-pink-500 rounded-lg p-4">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-500 text-white text-[11px] font-bold px-3 py-1 rounded whitespace-nowrap">
+                    3-7 SECOND WINDOW
+                  </div>
+                  <Heart className="w-8 h-8 mx-auto mb-2 text-pink-500" />
+                  <div className="text-pink-500 text-sm font-bold tracking-wider mb-1">BODY SIGNATURE</div>
+                  <div className="text-gray-500 text-xs">Physical response</div>
+                </div>
+                
+                {/* Arrow */}
+                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
+                
+                {/* Thought */}
+                <div className="flex-1 text-center">
+                  <MessageCircle className="w-8 h-8 mx-auto mb-2 text-teal-500" />
+                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">THOUGHT</div>
+                  <div className="text-gray-500 text-xs">Justification</div>
+                </div>
+                
+                {/* Arrow */}
+                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
+                
+                {/* Behavior */}
+                <div className="flex-1 text-center">
+                  <RefreshCw className="w-8 h-8 mx-auto mb-2 text-teal-500" />
+                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">PATTERN EXECUTES</div>
+                  <div className="text-gray-500 text-xs">Automatic behavior</div>
+                </div>
+              </div>
+              
+              {/* Interrupt Indicator */}
+              <div className="text-center mt-6 text-pink-500 font-bold">
+                <ArrowUp className="w-6 h-6 mx-auto" />
+                <div className="text-sm tracking-wider">INTERRUPT HERE</div>
+              </div>
+            </div>
             
             <p className="scroll-reveal text-lg text-gray-300 leading-relaxed">
               You don't catch the pattern until after it's already executed.
@@ -452,7 +499,7 @@ export default function Landing() {
                     <td className="p-4 text-gray-400 text-base">
                       {row.therapy}
                     </td>
-                    <td className={`p-4 text-base ${row.highlight ? 'text-teal-400 font-semibold' : 'text-white'}`}>
+                    <td className={`p-4 text-base ${row.highlight ? 'text-pink-500 font-bold' : 'text-white'}`}>
                       {row.archivist}
                     </td>
                   </tr>
@@ -518,17 +565,19 @@ export default function Landing() {
           </h2>
           
           <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            The Archivist Method was built in December 2025. Not in a lab. 
-            Not with funding. Not from stability.
+            The Archivist Method was built in December 2025.
           </p>
           
           <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            Homeless. Failing laptop. Van for workspace. Coding between bartending shifts. 
-            Running out of AI credits at 2am. Choosing credits over food.
+            Not in a lab. Not with funding. Not from stability.
           </p>
           
           <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            Built while actively running every pattern it interrupts.
+            Homeless. Failing equipment. No resources. Life actively collapsing.
+          </p>
+          
+          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
+            Built while running every pattern it interrupts.
           </p>
           
           <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-8">
