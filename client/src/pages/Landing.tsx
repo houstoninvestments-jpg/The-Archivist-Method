@@ -247,6 +247,7 @@ export default function Landing() {
   const originRef = useScrollReveal();
   const methodRef = useScrollReveal();
   const foundingRef = useScrollReveal();
+  const finalCtaRef = useScrollReveal();
   
   return (
     <div className="min-h-screen bg-black text-white font-['Inter',sans-serif]">
@@ -543,6 +544,7 @@ export default function Landing() {
       {/* SECTION 6: FINAL CTA */}
       <section 
         id="final-cta"
+        ref={finalCtaRef}
         className="bg-black py-16 md:py-20 px-5 text-center"
       >
         <h2 
