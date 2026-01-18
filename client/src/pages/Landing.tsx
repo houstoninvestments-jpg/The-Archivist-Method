@@ -477,14 +477,14 @@ export default function Landing() {
           </p>
           
           {/* Comparison Table */}
-          <div className="scroll-reveal overflow-x-auto">
-            <table className="w-full min-w-[500px] border-collapse">
+          <div className="scroll-reveal">
+            <table className="w-full border-collapse table-fixed">
               <thead>
                 <tr>
-                  <th className="text-left p-4 text-gray-500 font-bold text-lg border-b border-[#333]">
+                  <th className="text-left p-3 md:p-4 text-gray-500 font-bold text-sm md:text-lg border-b border-[#333] w-1/2">
                     THERAPY
                   </th>
-                  <th className="text-left p-4 text-teal-500 font-bold text-lg border-b border-[#333]">
+                  <th className="text-left p-3 md:p-4 text-teal-500 font-bold text-sm md:text-lg border-b border-[#333] w-1/2">
                     THE ARCHIVIST METHOD™
                   </th>
                 </tr>
@@ -496,10 +496,10 @@ export default function Landing() {
                     className={`border-b border-[#222] ${row.highlight ? 'bg-[#1a1a1a]' : ''}`}
                     data-testid={`comparison-row-${index + 1}`}
                   >
-                    <td className="p-4 text-gray-400 text-base">
+                    <td className="p-3 md:p-4 text-gray-400 text-sm md:text-base align-top">
                       {row.therapy}
                     </td>
-                    <td className={`p-4 text-base ${row.highlight ? 'text-pink-500 font-bold' : 'text-white'}`}>
+                    <td className={`p-3 md:p-4 text-sm md:text-base align-top ${row.highlight ? 'text-pink-500 font-bold' : 'text-white'}`}>
                       {row.archivist}
                     </td>
                   </tr>
