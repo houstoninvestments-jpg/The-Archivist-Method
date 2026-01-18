@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import ParticleField from '@/components/ParticleField';
 
 export default function PortalLogin() {
@@ -6,6 +7,7 @@ export default function PortalLogin() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [, setLocation] = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,17 @@ export default function PortalLogin() {
         throw new Error(data.error || "Failed to send login link");
       }
 
-      setMessage("Access granted. Check your email.");
+      // Test users get instant access - redirect immediately
+      if (data.instantAccess) {
+        setMessage("Access granted. Redirecting...");
+        setTimeout(() => {
+          setLocation("/portal/dashboard");
+        }, 1000);
+        return;
+      }
+
+      // Regular users need to check email
+      setMessage("Access granted. Check your email for your login link.");
 
       if (data.devLink) {
         setMessage(`Dev mode - ${data.devLink}`);

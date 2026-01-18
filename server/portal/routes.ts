@@ -72,7 +72,7 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
     const [testUser] = await db.select().from(testUsers).where(eq(testUsers.email, normalizedEmail));
     
     if (testUser) {
-      // Generate magic link for test user
+      // Generate magic link for test user (for backup/email)
       const baseUrl = process.env.REPL_SLUG
         ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
         : "http://localhost:5000";
@@ -80,15 +80,25 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
       const magicLink = await generateMagicLink(email, `test_${testUser.id}`, baseUrl);
       console.log(`Magic link for test user ${email}: ${magicLink}`);
 
-      if (process.env.NODE_ENV === "development") {
-        return res.json({
-          message: "Login link generated",
-          devLink: magicLink,
-          isTestUser: true,
-        });
-      }
+      // For test users: Create session immediately (instant access)
+      const sessionToken = generateAuthToken(`test_${testUser.id}`, normalizedEmail);
+      
+      // Set auth cookie immediately for test users
+      res.cookie("auth_token", sessionToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
 
-      return res.json({ message: "Login link sent to your email" });
+      // TODO: Send magic link email in background (async, non-blocking)
+      // For now, just log it
+
+      return res.json({
+        message: "Access granted. Redirecting...",
+        isTestUser: true,
+        instantAccess: true,
+      });
     }
 
     // If not a test user, check regular purchases
