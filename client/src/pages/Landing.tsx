@@ -532,6 +532,32 @@ export default function Landing() {
           }
         }
         
+        /* Typewriter animations */
+        @keyframes typing {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+        
+        @keyframes blink-cursor {
+          from, to { border-color: transparent; }
+          50% { border-color: #EC4899; }
+        }
+        
+        .typewriter-text {
+          border-right: 3px solid #EC4899;
+          padding-right: 8px;
+          width: 0;
+          animation: 
+            typing 3s steps(44) 1.5s forwards,
+            blink-cursor 0.75s step-end infinite 1.5s;
+        }
+        
+        .typewriter-text.typing-complete {
+          border-right: none !important;
+          animation: none !important;
+          width: 100% !important;
+        }
+        
         .animate-archival-reveal {
           animation: archival-reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards;
           transform: translateY(100%);
@@ -560,6 +586,12 @@ export default function Landing() {
             }
           }
           
+          .typewriter-text {
+            animation: 
+              typing 2s steps(44) 1s forwards,
+              blink-cursor 0.75s step-end infinite 1s;
+          }
+          
           .animate-archival-reveal {
             animation: mobile-fade-in 0.8s ease-out 0.3s forwards;
             transform: none;
@@ -580,6 +612,12 @@ export default function Landing() {
             animation: none;
             transform: none;
             opacity: 1;
+          }
+          
+          .typewriter-text {
+            animation: none !important;
+            width: 100% !important;
+            border-right: none !important;
           }
           
           .scroll-reveal {
