@@ -172,10 +172,10 @@ export default function PortalDashboard() {
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-12 text-center">
                 <p className="text-gray-400 text-lg mb-6">No systems unlocked yet. Begin your excavation.</p>
                 <button
-                  onClick={() => window.location.href = "/#products"}
+                  onClick={() => window.location.href = "/quick-start"}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 rounded-lg text-black font-semibold transition-all"
                 >
-                  <span>View Systems</span>
+                  <span>Get Quick-Start System</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -242,10 +242,16 @@ export default function PortalDashboard() {
                         <Lock className="w-8 h-8 text-gray-600" />
                       </div>
                       <button
-                        onClick={() => window.location.href = "/#products"}
+                        onClick={() => {
+                          const isArchive = upgrade.id.toLowerCase().includes('archive') || 
+                                           upgrade.name.toLowerCase().includes('archive') ||
+                                           upgrade.price >= 150;
+                          window.location.href = isArchive ? "/complete-archive" : "/quick-start";
+                        }}
                         className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 hover:from-pink-500/30 hover:to-purple-500/30 border border-pink-500/30 rounded-lg text-pink-400 font-semibold transition-all flex items-center justify-center gap-2"
+                        data-testid={`button-upgrade-${upgrade.id}`}
                       >
-                        <span>Unlock System</span>
+                        <span>Upgrade Now - ${upgrade.price}</span>
                         <ArrowRight className="w-5 h-5" />
                       </button>
                     </div>

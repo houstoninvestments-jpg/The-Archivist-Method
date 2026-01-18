@@ -15,7 +15,7 @@ function getAdminPassword(): string | null {
 
 function generateAdminToken(): string {
   const token = crypto.randomBytes(32).toString("hex");
-  adminTokens.set(token, { expires: Date.now() + 24 * 60 * 60 * 1000 });
+  adminTokens.set(token, { expires: Date.now() + 60 * 60 * 1000 }); // 60 minutes for security
   return token;
 }
 
