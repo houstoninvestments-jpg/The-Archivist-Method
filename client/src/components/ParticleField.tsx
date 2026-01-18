@@ -1,16 +1,26 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const TEAL = "#14B8A6";
 const PINK = "#EC4899";
 
 const ParticleField = () => {
-  const particleCount = 60;
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // 150 particles on desktop, 75 on mobile
+  const particleCount = isMobile ? 75 : 150;
   
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }).map((_, i) => {
-      // 70% teal, 30% pink as per premium design spec
-      const isTeal = i < particleCount * 0.7;
+      // 80% teal, 20% pink as per design spec
+      const isTeal = i % 5 !== 0; // Every 5th particle is pink
       const color = isTeal ? TEAL : PINK;
       
       return {
@@ -27,7 +37,7 @@ const ParticleField = () => {
         glowColor: isTeal ? "rgba(20, 184, 166, 0.6)" : "rgba(236, 72, 153, 0.6)",
       };
     });
-  }, []);
+  }, [particleCount]);
 
   return (
     <div 

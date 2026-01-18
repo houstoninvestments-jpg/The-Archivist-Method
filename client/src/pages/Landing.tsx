@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Check } from "lucide-react";
 import { useEffect, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
+import ParticleField from "@/components/ParticleField";
 
 const patterns = [
   {
@@ -79,7 +80,7 @@ function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", data
     <Link 
       href="/quiz"
       data-testid={dataTestId}
-      className={`inline-block bg-teal-500 text-white font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5 px-10 py-5 text-lg shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(20,184,166,0.4),0_4px_40px_rgba(236,72,153,0.15)] ${className}`}
+      className={`inline-block bg-teal-500 text-white font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5 px-10 py-5 text-lg shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.4),0_6px_40px_rgba(236,72,153,0.3)] hover:bg-gradient-to-r hover:from-teal-500 hover:to-pink-500 ${className}`}
     >
       {text} →
     </Link>
@@ -120,6 +121,8 @@ export default function Landing() {
   
   return (
     <div className="min-h-screen bg-black text-white font-['Inter',sans-serif]">
+      {/* Floating Particles - All Pages */}
+      <ParticleField />
       
       {/* SECTION 1: HERO */}
       <section 
@@ -131,7 +134,8 @@ export default function Landing() {
           backgroundPosition: 'center'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,10,10,0.7)] to-[rgba(10,10,10,0.85)]" />
+        {/* Lighter overlay - reduced opacity for more background visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,10,10,0.5)] to-[rgba(10,10,10,0.7)]" />
         
         <div className="relative z-10 max-w-[900px] text-center">
           {/* Brand Lockup with Archival Reveal Animation */}
@@ -155,7 +159,7 @@ export default function Landing() {
             className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
             data-testid="text-hero-headline"
           >
-            Stop Running the Same Destructive Patterns
+            Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
           </h2>
           
           {/* Subhead */}
@@ -201,7 +205,7 @@ export default function Landing() {
                 data-testid={`card-pattern-${pattern.number}`}
               >
                 <div className="mb-3">
-                  <span className="text-teal-500 text-3xl font-bold">{pattern.number}.</span>
+                  <span className="text-pink-500 text-3xl font-bold">{pattern.number}.</span>
                   <span className="text-white text-xl font-bold ml-2">{pattern.name}</span>
                 </div>
                 <p className="text-gray-300 text-base leading-relaxed">
@@ -232,7 +236,7 @@ export default function Landing() {
             className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-3xl md:text-[42px] font-bold text-white mb-10 leading-snug"
             data-testid="text-origin-headline"
           >
-            THESE AREN'T PERSONALITY TRAITS. THEY'RE SURVIVAL CODE.
+            THESE AREN'T PERSONALITY TRAITS. THEY'RE <span className="text-pink-500">SURVIVAL CODE</span>.
           </h2>
           
           <div className="space-y-6">
@@ -295,7 +299,7 @@ export default function Landing() {
             className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-3xl md:text-[42px] font-bold text-white text-center mb-16"
             data-testid="text-method-headline"
           >
-            HOW PATTERN INTERRUPTION WORKS
+            HOW PATTERN <span className="text-pink-500">INTERRUPTION</span> WORKS
           </h2>
           
           {/* Steps */}
@@ -362,8 +366,8 @@ export default function Landing() {
             </p>
           </div>
           
-          <h3 className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-teal-500 text-2xl md:text-3xl font-bold text-center mb-8">
-            BETA LAUNCH PERKS
+          <h3 className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-2xl md:text-3xl font-bold text-center mb-8">
+            <span className="text-pink-500">BETA</span> <span className="text-teal-500">LAUNCH PERKS</span>
           </h3>
           <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-gray-400 text-center mb-12">
             (Available through February 28, 2026)
@@ -509,6 +513,33 @@ export default function Landing() {
         .scroll-reveal.visible {
           opacity: 1 !important;
           transform: translateY(0) !important;
+        }
+        
+        /* Mobile - simpler, more reliable animation */
+        @media (max-width: 768px) {
+          @keyframes mobile-fade-in {
+            from {
+              opacity: 0;
+              transform: scale(0.95);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+          
+          .animate-archival-reveal {
+            animation: mobile-fade-in 0.8s ease-out 0.3s forwards;
+            transform: none;
+          }
+          
+          .animate-fade-in-delay {
+            animation: mobile-fade-in 0.8s ease-out 0.6s forwards;
+          }
+          
+          .scroll-reveal {
+            transition-delay: 0s !important;
+          }
         }
         
         @media (prefers-reduced-motion: reduce) {
