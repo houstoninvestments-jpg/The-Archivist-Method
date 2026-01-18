@@ -268,18 +268,18 @@ export default function Landing() {
         
         <div className="relative z-10 max-w-[900px] text-center">
           {/* Brand Lockup with Archival Reveal Animation */}
-          <div className="overflow-hidden h-[120px] md:h-[140px] mb-10">
+          <div className="overflow-hidden mb-8">
             <h1 
-              className="font-['Bebas_Neue',Oswald,sans-serif] text-[40px] md:text-[64px] font-bold tracking-wider uppercase text-white m-0 leading-tight animate-archival-reveal"
+              className="font-['Inter',sans-serif] text-[48px] md:text-[72px] font-black tracking-tight uppercase text-white m-0 leading-[1.1] animate-archival-reveal"
               data-testid="text-brand-title"
             >
               THE ARCHIVIST METHOD™
             </h1>
             <p 
-              className="font-['Inter',sans-serif] text-base md:text-xl font-normal tracking-wide uppercase text-white mt-2 opacity-0 animate-fade-in-delay"
+              className="font-['Inter',sans-serif] text-xl md:text-3xl font-bold italic tracking-tight text-teal-500 mt-4 opacity-0 animate-fade-in-delay"
               data-testid="text-brand-tagline"
             >
-              PATTERN ARCHAEOLOGY, <span className="text-pink-500">NOT</span> THERAPY
+              Pattern Archaeology, <span className="text-pink-500">Not</span> Therapy
             </p>
           </div>
           
