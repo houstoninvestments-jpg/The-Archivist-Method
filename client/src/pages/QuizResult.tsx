@@ -196,36 +196,54 @@ export default function QuizResult() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 data-testid="input-email"
-                className="flex-1 px-5 py-4 bg-black/50 border border-white/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors"
+                aria-label="Email address"
+                className="flex-1 px-5 py-4 bg-black/50 border border-white/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all"
               />
               <button
                 type="submit"
                 data-testid="button-submit-email"
                 disabled={submitting}
-                className="px-6 py-4 bg-gradient-to-r from-teal-500 to-cyan-400 text-black font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 whitespace-nowrap"
+                className="px-6 py-4 bg-gradient-to-r from-teal-500 to-cyan-400 text-black font-bold rounded-xl hover:shadow-[0_0_24px_rgba(20,184,166,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 whitespace-nowrap min-h-[56px]"
               >
-                {submitting ? 'Processing...' : 'Access My Analysis'}
+                {submitting ? 'Processing...' : 'Start 7-Day Crash Course'}
                 {!submitting && <ArrowRight className="w-5 h-5" />}
               </button>
             </div>
-            {error && <p className="text-red-400 text-sm text-center mt-3">{error}</p>}
+            {error && <p className="text-red-400 text-sm text-center mt-3" role="alert">{error}</p>}
           </form>
 
           <div className="text-center mt-6">
             <p className="text-sm text-gray-500">Free • Private • Brutally Honest • Instant Access</p>
-            <p className="text-xs text-gray-600 mt-2">Your complete pattern profile is ready. Access it in your personal portal in 60 seconds.</p>
+          </div>
+        </div>
+
+        {/* Secondary CTA for ready buyers */}
+        <div className="mt-10 text-center">
+          <p className="text-gray-400 text-sm mb-4">Ready for the complete system?</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/quick-start"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-xl text-white hover:bg-white/5 hover:border-teal-500/50 transition-all"
+            >
+              Quick-Start System
+              <span className="text-teal-400 font-bold">$47</span>
+            </a>
+            <a
+              href="/complete-archive"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-pink-500/30 bg-pink-500/5 rounded-xl text-white hover:bg-pink-500/10 hover:border-pink-500/50 transition-all"
+            >
+              Complete Archive
+              <span className="text-pink-400 font-bold">$197</span>
+            </a>
           </div>
         </div>
 
         <div className="mt-12 text-center">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-6 inline-block">
-            <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">You're Early To This</p>
-            <p className="text-gray-300 max-w-md">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-6 inline-block max-w-lg">
+            <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">Pattern Archaeology, Not Therapy</p>
+            <p className="text-gray-300">
               This launched January 2026. No fake testimonials. No inflated numbers.
               Just a method that either works for your nervous system or doesn't.
-            </p>
-            <p className="text-teal-400 text-sm mt-4">
-              Enter your email. Access your full analysis. Decide in 7 days if this is real.
             </p>
           </div>
         </div>
