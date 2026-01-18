@@ -175,7 +175,7 @@ const steps = [
   {
     number: 1,
     title: "IDENTIFY YOUR PATTERN",
-    description: "Take the 2-minute assessment. Get your pattern analysis and the specific equation running your life."
+    description: "Take the 2-minute assessment. Get your pattern analysis and the specific survival code running your life."
   },
   {
     number: 2,
@@ -367,27 +367,26 @@ export default function Landing() {
           
           <div className="space-y-6">
             <p className="scroll-reveal stagger-1 text-lg text-gray-300 leading-relaxed">
-              The patterns installed in what we call <span className="text-teal-500 font-semibold">The Original Room</span>.
+              Your childhood. Before you had language for what was happening. Before you understood why closeness felt dangerous or why success triggered panic.
             </p>
             
             <p className="scroll-reveal stagger-2 text-lg text-gray-300 leading-relaxed">
-              Your childhood. The environment that shaped your nervous system before you had language to process what was happening.
+              You weren't broken then. <span className="text-teal-500 font-semibold">You were adapting.</span>
             </p>
             
             <p className="scroll-reveal stagger-3 text-lg text-gray-300 leading-relaxed">
-              In The Original Room, you learned equations:
+              Your nervous system learned what kept you safe:
             </p>
             
-            {/* Equations */}
             <div className="scroll-reveal stagger-4 text-xl text-teal-500 leading-loose pl-5 my-8 border-l-2 border-teal-500/30">
-              <p>Closeness = Danger</p>
-              <p>Your Needs = Burden to Others</p>
-              <p>Love = Pain + Chaos</p>
-              <p>Success = Threat Incoming</p>
+              <p>Disappear before they leave you.</p>
+              <p>Apologize before they get angry.</p>
+              <p>Test them before you trust them.</p>
+              <p>Destroy it before it destroys you.</p>
             </div>
             
             <p className="scroll-reveal stagger-5 text-lg text-gray-300 leading-relaxed">
-              Those equations are still running. Not because you're broken. Because your nervous system is doing exactly what it was trained to do 20 years ago.
+              Twenty years later, those patterns are still running.
             </p>
             
             <p className="scroll-reveal stagger-6 text-lg text-gray-300 leading-relaxed">
