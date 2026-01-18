@@ -742,7 +742,7 @@ def build_original_room(styles):
     elements.append(Paragraph("2. Differentiate THEN (when pattern was necessary) from NOW (when it's not)", styles['BulletItem']))
     elements.append(Paragraph("3. Thank the pattern for protecting you when you had no other options", styles['BulletItem']))
     elements.append(Paragraph("4. Release its function (you have other tools now)", styles['BulletItem']))
-    elements.append(Paragraph("You don't need to process the Original Room. You don't need to heal from it. You just need to know it exists.", styles['TealHighlight']))
+    elements.append(Paragraph("You don't need to process the Original Room. You don't need to decode it further. You just need to know it exists.", styles['TealHighlight']))
     elements.append(Spacer(1, 0.2*inch))
     
     elements.append(Paragraph("THE EXCAVATION PROCESS", styles['SubsectionHeader']))

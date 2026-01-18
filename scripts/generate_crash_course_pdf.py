@@ -453,7 +453,7 @@ def build_day1(styles):
         styles['BodyText']
     ))
     elements.append(Paragraph(
-        "You do not need to process the Original Room. You do not need to heal from it. You just need to know it exists so you understand why the pattern feels so automatic.",
+        "You do not need to process the Original Room. You do not need to decode it further. You just need to know it exists so you understand why the pattern feels so automatic.",
         styles['BodyItalic']
     ))
     elements.append(Spacer(1, 0.2*inch))
