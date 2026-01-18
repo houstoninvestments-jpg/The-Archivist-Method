@@ -1,0 +1,360 @@
+# LANDING PAGE CONTENT FIXES - 3 UPDATES
+## Pain-point comparison + Remove beta + Add founder teaser
+
+---
+
+## COPY THIS TO REPLIT:
+
+```
+LANDING PAGE CONTENT UPDATES - 3 FIXES
+
+Location: Homepage / Landing page sections
+
+---
+
+FIX #1: COMPARISON TABLE - PAIN POINT FOCUSED
+==============================================
+
+Issue: Current comparison is good but could hit pain points harder
+
+Current comparison:
+- Therapy vs The Archivist Method
+- Generic differences
+- Doesn't emphasize the visceral pain points
+
+Required: Make it HURT. Make readers see their own patterns.
+
+NEW COMPARISON TABLE:
+
+Section header:
+"Pattern Archaeology, Not Therapy"
+Subheader: "What makes The Archivist Method™ different"
+
+Table structure (keep the dark card design, teal/pink colors):
+
+Column 1: THERAPY
+Column 2: THE ARCHIVIST METHOD™
+
+Row 1:
+Therapy: "Processes trauma"
+Archivist: "Interrupts patterns trauma created"
+
+Row 2:
+Therapy: "Takes years"
+Archivist: "7-90 days to see results"
+
+Row 3:
+Therapy: "Talk about childhood"
+Archivist: "Find Original Room, then interrupt"
+
+Row 4:
+Therapy: "Insight-focused"
+Archivist: "Behavior-focused"
+
+Row 5:
+Therapy: "$200/session ongoing"
+Archivist: "$47-$197 one-time"
+
+Row 6 (NEW - PAIN POINT):
+Therapy: "You understand why you do it"
+Archivist: "You stop doing it"
+
+Row 7 (NEW - PAIN POINT):
+Therapy: "Explores the pattern"
+Archivist: "Interrupts the pattern"
+
+Row 8 (NEW - VISCERAL):
+Therapy: "Validates your feelings"
+Archivist: "Maps your body signature"
+
+Styling notes:
+- Keep Therapy column in muted gray/white
+- Keep Archivist column in TEAL/PINK (brand colors)
+- Bold the pain-point rows (6, 7, 8)
+- Make sure mobile: table scrolls or stacks cleanly
+
+---
+
+FIX #2: REMOVE ALL BETA/EARLY LANGUAGE
+========================================
+
+Issue: Beta perks section feels corny, unnecessary, creates artificial urgency
+
+DELETE ENTIRELY:
+- "YOU'RE EARLY TO THIS" section
+- "BETA LAUNCH PERKS" heading
+- "Available through February 28, 2026" deadline
+- "If you're one of the first 100..." copy
+- All beta tester benefits/perks
+- "This isn't about discounts..." copy
+- Any mention of "beta"
+- Any mention of "early access"
+- Any mention of "founding members"
+
+Replace with: NOTHING (just remove it)
+
+Why: 
+- The method stands on its own value
+- Beta language creates discount expectations (brand violation)
+- "First 100" creates false scarcity (off-brand)
+- Premium product doesn't need "early access" positioning
+- You're not begging for beta testers, you're offering pattern interruption
+
+If there's a CTA button in that section, keep the CTA but move it:
+
+Move this button:
+"Take the Assessment - Start Free 7-Day Course →"
+
+To: Right after the comparison table
+
+New section after comparison:
+```html
+<section class="cta-section">
+  <h2>Stop Running the Pattern</h2>
+  <p>Take the 2-minute assessment.</p>
+  <p>Get your 7-day protocol.</p>
+  <p>Start breaking the cycle today.</p>
+  
+  <button class="cta-primary">
+    Take the Free Assessment →
+  </button>
+  
+  <p class="cta-subtext">
+    Free • Private • No Email Required • Instant Results
+  </p>
+</section>
+```
+
+---
+
+FIX #3: ADD FOUNDER TEASER (MINIMAL & MYSTERIOUS)
+=================================================
+
+Issue: Need credibility without victim narrative, mysterious without corny
+
+Location: Add new section BEFORE footer, AFTER final CTA
+
+Section: "Built in Survival Mode"
+
+Content:
+```html
+<section class="founder-teaser">
+  <div class="founder-content">
+    <h2>BUILT IN SURVIVAL MODE</h2>
+    
+    <p>
+      The Archivist Method was built in December 2025. Not in a lab. 
+      Not with funding. Not from stability.
+    </p>
+    
+    <p>
+      Homeless. Failing laptop. Van for workspace. Coding between bartending shifts. 
+      Running out of AI credits at 2am. Choosing credits over food.
+    </p>
+    
+    <p>
+      Built while actively running every pattern it interrupts.
+    </p>
+    
+    <p>
+      Because survival mode is when you see the code clearest.
+    </p>
+    
+    <p class="founder-tagline">
+      If it works here, it works anywhere.
+    </p>
+    
+    <p class="founder-signature">
+      — The Archivist
+    </p>
+  </div>
+</section>
+```
+
+Styling:
+```css
+.founder-teaser {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(20, 184, 166, 0.1);
+  border-bottom: 1px solid rgba(20, 184, 166, 0.1);
+  padding: 80px 20px;
+  margin: 80px 0;
+}
+
+.founder-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.founder-teaser h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #14B8A6;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+
+.founder-teaser p {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #94A3B8;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.founder-tagline {
+  font-size: 19px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.founder-signature {
+  font-style: italic;
+  color: #6B7280;
+  font-size: 15px;
+}
+
+@media (max-width: 640px) {
+  .founder-teaser h2 {
+    font-size: 22px;
+  }
+  
+  .founder-teaser p {
+    font-size: 16px;
+  }
+  
+  .founder-tagline {
+    font-size: 18px;
+  }
+}
+```
+
+Why this works:
+- ✅ Mysterious (no name, no full story)
+- ✅ Credible (specific details: homeless, van, laptop, credits, food)
+- ✅ Not victim ("built anyway" frame, not "poor me")
+- ✅ Validates method (if it works under pressure, it works)
+- ✅ Intriguing (leaves you wanting more)
+- ✅ On-brand (direct, clinical, not emotional)
+
+What it DOESN'T say:
+- ❌ Names (Carissa, Stephanie, kids)
+- ❌ Full story (eviction details, restraining order)
+- ❌ Sob story ("I was suffering...")
+- ❌ Victim frame ("despite my circumstances...")
+- ❌ Inspirational ("I overcame...")
+
+What it DOES say:
+- ✅ Built in survival mode (context)
+- ✅ Specific constraints (homeless, van, credits)
+- ✅ Choice framing ("choosing credits over food")
+- ✅ Pattern validation ("built while running patterns")
+- ✅ Results focus ("if it works here, it works")
+
+---
+
+COMPLETE PAGE STRUCTURE (AFTER ALL 3 FIXES):
+============================================
+
+1. Hero section
+   - THE ARCHIVIST METHOD™
+   - Pattern Archaeology, Not Therapy (bold tagline)
+   - Stop Running the Same Destructive Patterns
+   - Take the Pattern Assessment (CTA)
+
+2. Pattern Assessment preview / 7 Patterns overview
+
+3. Comparison Table (UPDATED - 8 rows, pain-point focused)
+
+4. CTA Section
+   - Stop Running the Pattern
+   - Take the 2-minute assessment
+   - Start Free 7-Day Course
+   - [CTA Button]
+
+5. How It Works / Method explanation
+
+6. Pricing (FREE / $47 / $197)
+
+7. Founder Teaser (NEW - "Built in Survival Mode")
+
+8. Final CTA
+
+9. Footer
+   - Logo (fixed brand styling)
+   - Links
+   - Copyright
+
+---
+
+WHAT TO REMOVE COMPLETELY:
+==========================
+
+DELETE these sections entirely:
+- [ ] "YOU'RE EARLY TO THIS" section
+- [ ] "BETA LAUNCH PERKS" heading
+- [ ] "(Available through February 28, 2026)" deadline
+- [ ] "If you're one of the first 100 to complete the crash course:" box
+- [ ] "If you buy Quick-Start or Archive before March 1:" box
+- [ ] All beta tester benefits lists
+- [ ] "This isn't about discounts..." copy
+- [ ] Any artificial deadline copy
+- [ ] Any "founding member" language
+
+KEEP but MOVE:
+- [ ] "Take the Assessment - Start Free 7-Day Course" button
+     → Move to right after comparison table
+
+---
+
+TESTING CHECKLIST:
+==================
+
+After all 3 fixes:
+
+Comparison Table:
+- [ ] 8 rows (not 5)
+- [ ] Pain points hit hard ("You understand why" vs "You stop doing it")
+- [ ] Brand colors consistent (Teal/Pink for Archivist column)
+- [ ] Mobile: Table scrolls or stacks cleanly
+
+Beta Language:
+- [ ] Global search for "beta" returns ZERO results
+- [ ] Global search for "early" returns ZERO results (except in founder teaser "You're early" if kept)
+- [ ] No artificial deadlines anywhere
+- [ ] No "first 100" language
+- [ ] No perks/benefits lists
+
+Founder Teaser:
+- [ ] Located before footer, after final CTA
+- [ ] "BUILT IN SURVIVAL MODE" heading in teal
+- [ ] Mysterious (no names)
+- [ ] Not victim frame
+- [ ] Specific details (van, laptop, credits, food)
+- [ ] On-brand voice (direct, clinical)
+- [ ] Mobile: Readable, centered
+
+Overall:
+- [ ] Page flows smoothly without beta section
+- [ ] No gaps or weird spacing where beta was removed
+- [ ] CTAs still prominent
+- [ ] Brand consistent throughout
+- [ ] No corny language anywhere
+
+---
+
+BUILD ALL 3 FIXES NOW:
+
+1. Update comparison table (add 3 pain-point rows)
+2. Remove all beta/early language completely
+3. Add founder teaser section before footer
+
+Test on desktop and mobile. Verify brand consistency. Verify no "beta" language remains.
+
+Build now.
+```

@@ -141,19 +141,16 @@ const steps = [
   }
 ];
 
-const crashCoursePerks = [
-  "Your experience shapes how we build this",
-  "Featured on the site if you share your results",
-  "Early access to new protocols before anyone else",
-  "Beta tester badge (you were here first)"
-];
-
-const purchasePerks = [
-  "Everything above, plus",
-  "Private community access (coming soon)",
-  "First to know about new features",
-  "Input on which patterns we add next",
-  "Permanent access to all future updates"
+// Comparison table data - Pain-point focused
+const comparisonRows = [
+  { therapy: "Processes trauma", archivist: "Interrupts patterns trauma created" },
+  { therapy: "Takes years", archivist: "7-90 days to see results" },
+  { therapy: "Talk about childhood", archivist: "Find Original Room, then interrupt" },
+  { therapy: "Insight-focused", archivist: "Behavior-focused" },
+  { therapy: "$200/session ongoing", archivist: "$47-$197 one-time" },
+  { therapy: "You understand why you do it", archivist: "You stop doing it", highlight: true },
+  { therapy: "Explores the pattern", archivist: "Interrupts the pattern", highlight: true },
+  { therapy: "Validates your feelings", archivist: "Maps your body signature", highlight: true },
 ];
 
 function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", dataTestId = "button-cta" }: { text?: string; className?: string; dataTestId?: string }) {
@@ -198,7 +195,8 @@ export default function Landing() {
   const patternsRef = useScrollReveal();
   const originRef = useScrollReveal();
   const methodRef = useScrollReveal();
-  const foundingRef = useScrollReveal();
+  const comparisonRef = useScrollReveal();
+  const founderRef = useScrollReveal();
   const finalCtaRef = useScrollReveal();
   
   return (
@@ -414,80 +412,58 @@ export default function Landing() {
         </div>
       </section>
       
-      {/* SECTION 5: BETA LAUNCH PERKS */}
+      {/* SECTION 5: COMPARISON TABLE */}
       <section 
-        id="beta-perks"
-        ref={foundingRef}
-        className="relative bg-[#0d0d0d] py-24 md:py-32 px-5"
+        id="comparison"
+        ref={comparisonRef}
+        className="bg-[#0d0d0d] py-20 md:py-24 px-5"
       >
-        {/* Subtle teal glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.03)_0%,transparent_70%)] pointer-events-none" />
-        
-        <div className="relative z-10 max-w-[1100px] mx-auto">
+        <div className="max-w-[900px] mx-auto">
           <h2 
-            className="scroll-reveal glitch-header text-4xl md:text-5xl font-black text-white text-center mb-8"
-            data-text="YOU'RE EARLY TO THIS"
-            data-testid="text-beta-headline"
+            className="scroll-reveal text-3xl md:text-[42px] font-black text-center mb-4"
+            data-testid="text-comparison-headline"
           >
-            YOU'RE EARLY TO THIS
+            <span className="text-teal-500">Pattern Archaeology,</span> <span className="text-white">Not Therapy</span>
           </h2>
-          
-          <div className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[800px] mx-auto mb-16">
-            <p className="mb-6">The Archivist Method launched January 2026.</p>
-            <p className="mb-6">
-              No "10,000+ success stories." No manufactured testimonials.<br />
-              No inflated claims.
-            </p>
-            <p>
-              Just a method that either works for your nervous system or doesn't.<br />
-              The 7-day crash course shows you which. One successful pattern interrupt = proof of concept.
-            </p>
-          </div>
-          
-          <h3 className="scroll-reveal text-2xl md:text-3xl font-bold text-center mb-8">
-            <span className="text-pink-500">BETA</span> <span className="text-teal-500">LAUNCH PERKS</span>
-          </h3>
-          <p className="scroll-reveal text-gray-400 text-center mb-12">
-            (Available through February 28, 2026)
+          <p className="scroll-reveal text-lg text-gray-400 text-center mb-12">
+            What makes The Archivist Method™ different
           </p>
           
-          {/* Crash Course Perks Box */}
-          <div className="scroll-reveal bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-8 hover:border-teal-500/50 transition-colors duration-300">
-            <h4 className="text-white text-xl font-bold mb-6">If you're one of the first 100 to complete the crash course:</h4>
-            <ul className="space-y-4">
-              {crashCoursePerks.map((perk, index) => (
-                <li key={index} className={`perk-item scroll-reveal stagger-${index + 1} flex items-start gap-4 text-gray-300 text-lg`}>
-                  <div className="perk-checkbox w-6 h-6 border-2 border-teal-500 rounded flex-shrink-0 mt-0.5" />
-                  <span>{perk}</span>
-                </li>
-              ))}
-            </ul>
+          {/* Comparison Table */}
+          <div className="scroll-reveal overflow-x-auto">
+            <table className="w-full min-w-[500px] border-collapse">
+              <thead>
+                <tr>
+                  <th className="text-left p-4 text-gray-500 font-bold text-lg border-b border-[#333]">
+                    THERAPY
+                  </th>
+                  <th className="text-left p-4 text-teal-500 font-bold text-lg border-b border-[#333]">
+                    THE ARCHIVIST METHOD™
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row, index) => (
+                  <tr 
+                    key={index}
+                    className={`border-b border-[#222] ${row.highlight ? 'bg-[#1a1a1a]' : ''}`}
+                    data-testid={`comparison-row-${index + 1}`}
+                  >
+                    <td className="p-4 text-gray-400 text-base">
+                      {row.therapy}
+                    </td>
+                    <td className={`p-4 text-base ${row.highlight ? 'text-teal-400 font-semibold' : 'text-white'}`}>
+                      {row.archivist}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           
-          {/* Purchase Perks Box */}
-          <div className="scroll-reveal bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-10 hover:border-teal-500/50 transition-colors duration-300">
-            <h4 className="text-white text-xl font-bold mb-6">If you buy Quick-Start or Archive before March 1:</h4>
-            <ul className="space-y-4">
-              {purchasePerks.map((perk, index) => (
-                <li key={index} className={`perk-item scroll-reveal stagger-${index + 1} flex items-start gap-4 text-gray-300 text-lg`}>
-                  <div className="perk-checkbox w-6 h-6 border-2 border-teal-500 rounded flex-shrink-0 mt-0.5" />
-                  <span>{perk}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {/* Closing statement */}
-          <p className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[700px] mx-auto mb-6">
-            This isn't about discounts. It's about being part of building something that actually works.
-          </p>
-          
-          <p className="scroll-reveal text-white text-lg font-semibold text-center mb-10">
-            Prices stay the same. Perks end February 28.
-          </p>
-          
-          <div className="scroll-reveal text-center">
-            <PrimaryCTA text="Take the Assessment - Start Free 7-Day Course" dataTestId="button-beta-cta" />
+          {/* CTA after comparison */}
+          <div className="scroll-reveal text-center mt-12">
+            <PrimaryCTA text="Take the Assessment - Start Free 7-Day Course" dataTestId="button-comparison-cta" />
           </div>
         </div>
       </section>
@@ -527,7 +503,49 @@ export default function Landing() {
         </p>
       </section>
       
-      {/* SECTION 7: MINIMAL FOOTER */}
+      {/* SECTION 7: FOUNDER TEASER - "Built in Survival Mode" */}
+      <section 
+        id="founder"
+        ref={founderRef}
+        className="bg-[#0a0a0a] border-t border-teal-500/10 border-b border-teal-500/10 py-20 md:py-24 px-5"
+      >
+        <div className="max-w-[700px] mx-auto text-center">
+          <h2 
+            className="scroll-reveal text-[22px] md:text-[28px] font-bold tracking-[2px] text-teal-500 mb-8"
+            data-testid="text-founder-headline"
+          >
+            BUILT IN SURVIVAL MODE
+          </h2>
+          
+          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
+            The Archivist Method was built in December 2025. Not in a lab. 
+            Not with funding. Not from stability.
+          </p>
+          
+          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
+            Homeless. Failing laptop. Van for workspace. Coding between bartending shifts. 
+            Running out of AI credits at 2am. Choosing credits over food.
+          </p>
+          
+          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
+            Built while actively running every pattern it interrupts.
+          </p>
+          
+          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-8">
+            Because survival mode is when you see the code clearest.
+          </p>
+          
+          <p className="scroll-reveal text-lg md:text-[19px] font-semibold text-white mb-6">
+            If it works here, it works anywhere.
+          </p>
+          
+          <p className="scroll-reveal text-[15px] italic text-gray-500">
+            — The Archivist
+          </p>
+        </div>
+      </section>
+      
+      {/* SECTION 8: MINIMAL FOOTER */}
       <footer className="bg-black border-t border-[#1a1a1a] py-16 px-5 text-center">
         {/* Brand Lockup - Matches Hero Styling */}
         <div className="mb-8">
