@@ -4,38 +4,130 @@ import { useEffect, useRef, useState } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
 
-// Typewriter component for hero headline
-function TypewriterHeadline() {
+// TextScramble class for Matrix-style text effect
+class TextScramble {
+  el: HTMLElement;
+  chars: string;
+  queue: Array<{ from: string; to: string; start: number; end: number; char?: string }>;
+  frame: number;
+  frameRequest: number;
+  resolve: () => void;
+
+  constructor(el: HTMLElement) {
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#________';
+    this.queue = [];
+    this.frame = 0;
+    this.frameRequest = 0;
+    this.resolve = () => {};
+    this.update = this.update.bind(this);
+  }
+
+  setText(newText: string): Promise<void> {
+    const oldText = this.el.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    const promise = new Promise<void>((resolve) => { this.resolve = resolve; });
+    this.queue = [];
+
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || '';
+      const to = newText[i] || '';
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      this.queue.push({ from, to, start, end });
+    }
+
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  }
+
+  update() {
+    let output = '';
+    let complete = 0;
+
+    for (let i = 0, n = this.queue.length; i < n; i++) {
+      let { from, to, start, end, char } = this.queue[i];
+
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = this.randomChar();
+          this.queue[i].char = char;
+        }
+        output += `<span class="scramble-dud">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+
+    this.el.innerHTML = output;
+
+    if (complete === this.queue.length) {
+      // Add pink emphasis to "Same Destructive" after scramble completes
+      this.el.innerHTML = this.el.innerHTML.replace(
+        'Same Destructive',
+        '<span class="text-pink-500">Same Destructive</span>'
+      );
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  }
+
+  randomChar(): string {
+    return this.chars[Math.floor(Math.random() * this.chars.length)];
+  }
+}
+
+// Scramble headline component
+function ScrambleHeadline() {
+  const textRef = useRef<HTMLSpanElement>(null);
   const [isComplete, setIsComplete] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
   useEffect(() => {
-    // Check if mobile
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    // Remove cursor after typing completes
-    // Desktop: 1.5s delay + 3s typing = 4.5s
-    // Mobile: 1s delay + 2s typing = 3s
-    const completionTime = window.innerWidth <= 768 ? 3000 : 4500;
-    const timer = setTimeout(() => setIsComplete(true), completionTime);
-    
+    // Check reduced motion preference
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(motionQuery.matches);
+
+    if (motionQuery.matches) {
+      setIsComplete(true);
+      return;
+    }
+
+    if (!textRef.current) return;
+
+    const fx = new TextScramble(textRef.current);
+
+    // Wait for brand lockup to finish (1.5s), then scramble
+    const timer = setTimeout(() => {
+      fx.setText('Stop Running the Same Destructive Patterns').then(() => {
+        setIsComplete(true);
+      });
+    }, 1500);
+
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('resize', checkMobile);
     };
   }, []);
-  
+
   return (
-    <h2 
-      className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight min-h-[120px] md:min-h-[140px] text-center"
+    <h2
+      className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight min-h-[90px] md:min-h-[120px] text-center"
       data-testid="text-hero-headline"
     >
-      <span className="typewriter-container inline-block">
-        <span className={`typewriter-text inline-block overflow-hidden whitespace-nowrap ${isComplete ? 'typing-complete' : ''}`}>
-          Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
-        </span>
+      <span
+        ref={textRef}
+        className="scramble-text inline-block"
+      >
+        {prefersReducedMotion && (
+          <>Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns</>
+        )}
       </span>
     </h2>
   );
@@ -191,8 +283,8 @@ export default function Landing() {
             </p>
           </div>
           
-          {/* Headline with Typewriter Animation */}
-          <TypewriterHeadline />
+          {/* Headline with Scramble Animation */}
+          <ScrambleHeadline />
           
           {/* Subhead */}
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
@@ -532,30 +624,15 @@ export default function Landing() {
           }
         }
         
-        /* Typewriter animations */
-        @keyframes typing {
-          from { width: 0; }
-          to { width: 100%; }
+        /* Scramble animation styles */
+        .scramble-text {
+          font-family: 'Inter', sans-serif;
+          letter-spacing: 0.5px;
         }
         
-        @keyframes blink-cursor {
-          from, to { border-color: transparent; }
-          50% { border-color: #EC4899; }
-        }
-        
-        .typewriter-text {
-          border-right: 3px solid #EC4899;
-          padding-right: 8px;
-          width: 0;
-          animation: 
-            typing 3s steps(44) 1.5s forwards,
-            blink-cursor 0.75s step-end infinite 1.5s;
-        }
-        
-        .typewriter-text.typing-complete {
-          border-right: none !important;
-          animation: none !important;
-          width: 100% !important;
+        .scramble-dud {
+          color: #14B8A6;
+          opacity: 0.8;
         }
         
         .animate-archival-reveal {
@@ -586,12 +663,6 @@ export default function Landing() {
             }
           }
           
-          .typewriter-text {
-            animation: 
-              typing 2s steps(44) 1s forwards,
-              blink-cursor 0.75s step-end infinite 1s;
-          }
-          
           .animate-archival-reveal {
             animation: mobile-fade-in 0.8s ease-out 0.3s forwards;
             transform: none;
@@ -612,12 +683,6 @@ export default function Landing() {
             animation: none;
             transform: none;
             opacity: 1;
-          }
-          
-          .typewriter-text {
-            animation: none !important;
-            width: 100% !important;
-            border-right: none !important;
           }
           
           .scroll-reveal {
