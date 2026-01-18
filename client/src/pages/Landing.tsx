@@ -59,20 +59,19 @@ const steps = [
   }
 ];
 
-const foundingBenefits = [
-  "Free 7-Day Crash Course (immediate access)",
-  "Free Quick-Start System when you complete crash course ($47 value)",
-  "Free Complete Archive when it releases ($197 value)",
-  "Your feedback shapes how we build this",
-  "Lifetime access to all future updates",
-  "First-mover status - you were here before anyone"
+const crashCoursePerks = [
+  "Your experience shapes how we build this",
+  "Featured on the site if you share your results",
+  "Early access to new protocols before anyone else",
+  "Beta tester badge (you were here first)"
 ];
 
-const foundingAsking = [
-  "Take the 7-day crash course",
-  "Track your interrupt attempts (system does this automatically)",
-  "Share what worked, what didn't (2-minute survey after)",
-  "Optional: Write 2 sentences about your experience"
+const purchasePerks = [
+  "Everything above, plus",
+  "Private community access (coming soon)",
+  "First to know about new features",
+  "Input on which patterns we add next",
+  "Permanent access to all future updates"
 ];
 
 function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", dataTestId = "button-cta" }: { text?: string; className?: string; dataTestId?: string }) {
@@ -334,9 +333,9 @@ export default function Landing() {
         </div>
       </section>
       
-      {/* SECTION 5: FOUNDING MEMBER OFFER */}
+      {/* SECTION 5: BETA LAUNCH PERKS */}
       <section 
-        id="founding"
+        id="beta-perks"
         ref={foundingRef}
         className="relative bg-[#0d0d0d] py-24 md:py-32 px-5"
       >
@@ -346,64 +345,67 @@ export default function Landing() {
         <div className="relative z-10 max-w-[1100px] mx-auto">
           <h2 
             className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-4xl md:text-5xl font-bold text-white text-center mb-8"
-            data-testid="text-founding-headline"
+            data-testid="text-beta-headline"
           >
-            YOU'RE NOT EARLY. YOU'RE FIRST.
+            YOU'RE EARLY TO THIS
           </h2>
           
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[800px] mx-auto mb-16">
-            The Archivist Method launched January 2026. This is the beta.
-            <br /><br />
-            We need pattern interruption data from real attempts. Real results. Real failures. You test the method—we give you lifetime access to everything we build.
+          <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[800px] mx-auto mb-16">
+            <p className="mb-6">The Archivist Method launched January 2026.</p>
+            <p className="mb-6">
+              No "10,000+ success stories." No manufactured testimonials.<br />
+              No inflated claims.
+            </p>
+            <p>
+              Just a method that either works for your nervous system or doesn't.<br />
+              The 7-day crash course shows you which. One successful pattern interrupt = proof of concept.
+            </p>
+          </div>
+          
+          <h3 className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-teal-500 text-2xl md:text-3xl font-bold text-center mb-8">
+            BETA LAUNCH PERKS
+          </h3>
+          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-gray-400 text-center mb-12">
+            (Available through February 28, 2026)
           </p>
           
-          {/* Benefits Box */}
+          {/* Crash Course Perks Box */}
           <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-8">
-            <h3 className="text-teal-500 text-2xl font-bold mb-6">FOUNDING MEMBER BENEFITS:</h3>
+            <h4 className="text-white text-xl font-bold mb-6">If you're one of the first 100 to complete the crash course:</h4>
             <ul className="space-y-4">
-              {foundingBenefits.map((benefit, index) => (
+              {crashCoursePerks.map((perk, index) => (
                 <li key={index} className="flex items-start gap-4 text-gray-300 text-lg">
                   <Check className="w-6 h-6 text-teal-500 flex-shrink-0 mt-0.5" />
-                  <span>{benefit}</span>
+                  <span>{perk}</span>
                 </li>
               ))}
             </ul>
-            <p className="text-xl text-white font-semibold mt-6">
-              Total value: $244 - Yours free.
-            </p>
           </div>
           
-          {/* Asking Box */}
+          {/* Purchase Perks Box */}
           <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-10">
-            <h3 className="text-teal-500 text-2xl font-bold mb-6">WHAT WE'RE ASKING:</h3>
+            <h4 className="text-white text-xl font-bold mb-6">If you buy Quick-Start or Archive before March 1:</h4>
             <ul className="space-y-4">
-              {foundingAsking.map((item, index) => (
+              {purchasePerks.map((perk, index) => (
                 <li key={index} className="flex items-start gap-4 text-gray-300 text-lg">
-                  <span className="text-teal-500 text-2xl font-bold">•</span>
-                  <span>{item}</span>
+                  <Check className="w-6 h-6 text-teal-500 flex-shrink-0 mt-0.5" />
+                  <span>{perk}</span>
                 </li>
               ))}
             </ul>
-            <p className="text-gray-300 text-lg mt-6">
-              That's it. No gimmicks. No obligations.
-            </p>
           </div>
           
-          {/* Deadline */}
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-white text-lg md:text-xl font-semibold text-center mb-6">
-            This ends February 28, 2026. After that, everyone pays.
+          {/* Closing statement */}
+          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[700px] mx-auto mb-6">
+            This isn't about discounts. It's about being part of building something that actually works.
           </p>
           
-          {/* Closing */}
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[700px] mx-auto mb-10">
-            Right now? You're not a customer. You're a founding member. A collaborator. Someone who was here first.
+          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-white text-lg font-semibold text-center mb-10">
+            Prices stay the same. Perks end February 28.
           </p>
           
           <div className="text-center">
-            <PrimaryCTA text="Become a Founding Member - Free" dataTestId="button-founding-cta" />
-            <p className="text-gray-500 text-sm mt-4">
-              Limited to first 500 members
-            </p>
+            <PrimaryCTA text="Take the Assessment - Start Free 7-Day Course" dataTestId="button-beta-cta" />
           </div>
         </div>
       </section>
