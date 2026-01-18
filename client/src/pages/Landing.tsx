@@ -310,12 +310,13 @@ export default function Landing() {
       >
         <div className="max-w-[1400px] mx-auto">
           <h2 
-            className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-4xl md:text-5xl font-bold text-white text-center mb-6"
+            className="scroll-reveal glitch-header text-4xl md:text-5xl font-black text-white text-center mb-6"
+            data-text="THE 7 DESTRUCTIVE PATTERNS"
             data-testid="text-patterns-headline"
           >
             THE 7 DESTRUCTIVE PATTERNS
           </h2>
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-400 text-center mb-16">
+          <p className="scroll-reveal text-lg md:text-xl text-gray-400 text-center mb-16">
             One (or more) of these is running your life:
           </p>
           
@@ -324,12 +325,11 @@ export default function Landing() {
             {patterns.map((pattern, index) => (
               <div 
                 key={pattern.number}
-                className={`scroll-reveal opacity-0 translate-y-5 transition-all duration-600 bg-[#1a1a1a] border border-[#333333] p-8 rounded-lg hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4),0_0_20px_rgba(20,184,166,0.1)]`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`scroll-reveal stagger-${index + 1} bg-[#1a1a1a] border border-[#333333] p-8 rounded-lg transition-all duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4),0_0_30px_rgba(20,184,166,0.15)]`}
                 data-testid={`card-pattern-${pattern.number}`}
               >
                 <div className="mb-3">
-                  <span className="text-pink-500 text-3xl font-bold">{pattern.number}.</span>
+                  <span className="text-pink-500 text-3xl font-black">{pattern.number}.</span>
                   <span className="text-white text-xl font-bold ml-2">{pattern.name}</span>
                 </div>
                 <p className="text-gray-300 text-base leading-relaxed">
@@ -600,31 +600,132 @@ export default function Landing() {
         </p>
       </footer>
       
-      {/* CSS Animations */}
+      {/* CSS Animations - Complete System */}
       <style>{`
+        /* ===== BASE KEYFRAMES ===== */
         @keyframes archival-reveal {
-          from {
-            transform: translateY(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
         }
         
         @keyframes fade-in-delay {
-          from {
-            opacity: 0;
-            transform: translateY(5px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(5px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Scramble animation styles */
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slide-in-left {
+          from { opacity: 0; transform: translateX(-40px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slide-in-right {
+          from { opacity: 0; transform: translateX(40px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* ===== GLITCH EFFECT ===== */
+        @keyframes glitch-in {
+          0% { opacity: 0; transform: translateX(-20px); filter: blur(4px); }
+          20% { opacity: 1; transform: translateX(5px) skew(-2deg); }
+          40% { transform: translateX(-3px) skew(1deg); }
+          60% { transform: translateX(2px); }
+          100% { opacity: 1; transform: translateX(0) skew(0deg); filter: blur(0); }
+        }
+        
+        .glitch-header {
+          animation: glitch-in 0.8s ease-out forwards;
+          position: relative;
+        }
+        
+        .glitch-header::before,
+        .glitch-header::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity: 0;
+          pointer-events: none;
+        }
+        
+        .glitch-header::before {
+          animation: rgb-split-pink 0.3s ease-in-out 3;
+          color: #EC4899;
+          z-index: -1;
+        }
+        
+        .glitch-header::after {
+          animation: rgb-split-teal 0.3s ease-in-out 3;
+          color: #14B8A6;
+          z-index: -1;
+        }
+        
+        @keyframes rgb-split-pink {
+          0%, 100% { opacity: 0; transform: translateX(0); }
+          50% { opacity: 0.4; transform: translateX(-3px); }
+        }
+        
+        @keyframes rgb-split-teal {
+          0%, 100% { opacity: 0; transform: translateX(0); }
+          50% { opacity: 0.4; transform: translateX(3px); }
+        }
+        
+        /* ===== PULSE GLOW ===== */
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
+          50% { box-shadow: 0 0 0 15px rgba(20, 184, 166, 0); }
+        }
+        
+        @keyframes featured-pulse {
+          0%, 100% { box-shadow: 0 0 30px rgba(20, 184, 166, 0.2); }
+          50% { box-shadow: 0 0 50px rgba(20, 184, 166, 0.4); }
+        }
+        
+        /* ===== CTA SHIMMER ===== */
+        @keyframes cta-pulse {
+          0%, 100% { box-shadow: 0 0 30px rgba(20, 184, 166, 0.3); }
+          50% { box-shadow: 0 0 50px rgba(20, 184, 166, 0.5); }
+        }
+        
+        @keyframes shimmer {
+          from { left: -100%; }
+          to { left: 100%; }
+        }
+        
+        .cta-shimmer {
+          position: relative;
+          overflow: hidden;
+          animation: cta-pulse 3s ease-in-out infinite;
+        }
+        
+        .cta-shimmer::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          animation: shimmer 3s infinite;
+        }
+        
+        /* ===== CHECKBOX TICK ===== */
+        @keyframes check-pop {
+          from { transform: translate(-50%, -50%) scale(0); }
+          to { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes slide-in-check {
+          from { opacity: 0; transform: translateX(-20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* ===== SCRAMBLE STYLES ===== */
         .scramble-text {
           font-family: 'Inter', sans-serif;
           letter-spacing: 0.5px;
@@ -635,6 +736,72 @@ export default function Landing() {
           opacity: 0.8;
         }
         
+        /* ===== SCROLL REVEAL SYSTEM ===== */
+        .scroll-reveal {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-reveal.visible {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+        
+        /* Stagger delays for cards */
+        .scroll-reveal.stagger-1 { transition-delay: 0s; }
+        .scroll-reveal.stagger-2 { transition-delay: 0.1s; }
+        .scroll-reveal.stagger-3 { transition-delay: 0.2s; }
+        .scroll-reveal.stagger-4 { transition-delay: 0.3s; }
+        .scroll-reveal.stagger-5 { transition-delay: 0.4s; }
+        .scroll-reveal.stagger-6 { transition-delay: 0.5s; }
+        .scroll-reveal.stagger-7 { transition-delay: 0.6s; }
+        
+        /* ===== STEP NUMBER PULSE ===== */
+        .step-number-circle {
+          position: relative;
+        }
+        
+        .step-number-circle.visible {
+          animation: pulse-glow 2s ease-out;
+        }
+        
+        /* ===== PERK CHECKBOX ===== */
+        .perk-checkbox {
+          position: relative;
+        }
+        
+        .perk-checkbox::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0);
+          width: 12px;
+          height: 12px;
+          background: #14B8A6;
+          border-radius: 2px;
+        }
+        
+        .perk-item.visible .perk-checkbox::after {
+          animation: check-pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
+        }
+        
+        .perk-item {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        
+        .perk-item.visible {
+          animation: slide-in-check 0.5s ease-out forwards;
+        }
+        
+        .perk-item:nth-child(1).visible { animation-delay: 0s; }
+        .perk-item:nth-child(2).visible { animation-delay: 0.1s; }
+        .perk-item:nth-child(3).visible { animation-delay: 0.2s; }
+        .perk-item:nth-child(4).visible { animation-delay: 0.3s; }
+        
+        /* ===== ARCHIVAL REVEAL ===== */
         .animate-archival-reveal {
           animation: archival-reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards;
           transform: translateY(100%);
@@ -645,50 +812,59 @@ export default function Landing() {
           animation: fade-in-delay 0.8s ease-out 1.0s forwards;
         }
         
-        .scroll-reveal.visible {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-        
-        /* Mobile - simpler, more reliable animation */
+        /* ===== MOBILE OPTIMIZATIONS ===== */
         @media (max-width: 768px) {
           @keyframes mobile-fade-in {
-            from {
-              opacity: 0;
-              transform: scale(0.95);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
           }
           
           .animate-archival-reveal {
-            animation: mobile-fade-in 0.8s ease-out 0.3s forwards;
+            animation: mobile-fade-in 0.6s ease-out 0.3s forwards;
             transform: none;
           }
           
           .animate-fade-in-delay {
-            animation: mobile-fade-in 0.8s ease-out 0.6s forwards;
+            animation: mobile-fade-in 0.6s ease-out 0.5s forwards;
           }
           
           .scroll-reveal {
+            transition-duration: 0.4s;
             transition-delay: 0s !important;
+          }
+          
+          .glitch-header::before,
+          .glitch-header::after {
+            display: none;
+          }
+          
+          .perk-item.visible {
+            animation-delay: 0s !important;
           }
         }
         
+        /* ===== REDUCED MOTION ===== */
         @media (prefers-reduced-motion: reduce) {
-          .animate-archival-reveal,
-          .animate-fade-in-delay {
-            animation: none;
-            transform: none;
-            opacity: 1;
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
           }
           
-          .scroll-reveal {
+          .animate-archival-reveal,
+          .animate-fade-in-delay,
+          .scroll-reveal,
+          .glitch-header,
+          .perk-item {
+            animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            transition: none !important;
+          }
+          
+          .cta-shimmer::before {
+            display: none;
           }
         }
       `}</style>
