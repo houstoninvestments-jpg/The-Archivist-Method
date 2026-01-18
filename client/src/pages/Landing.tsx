@@ -357,56 +357,57 @@ export default function Landing() {
       >
         <div className="max-w-[900px] mx-auto">
           <h2 
-            className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-3xl md:text-[42px] font-bold text-white mb-10 leading-snug"
+            className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white mb-10 leading-snug"
+            data-text="THESE AREN'T PERSONALITY TRAITS. THEY'RE SURVIVAL CODE."
             data-testid="text-origin-headline"
           >
             THESE AREN'T PERSONALITY TRAITS. THEY'RE <span className="text-pink-500">SURVIVAL CODE</span>.
           </h2>
           
           <div className="space-y-6">
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
-              The patterns installed in what we call The Original Room.
+            <p className="scroll-reveal stagger-1 text-lg text-gray-300 leading-relaxed">
+              The patterns installed in what we call <span className="text-teal-500 font-semibold">The Original Room</span>.
             </p>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
+            <p className="scroll-reveal stagger-2 text-lg text-gray-300 leading-relaxed">
               Your childhood. The environment that shaped your nervous system before you had language to process what was happening.
             </p>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
+            <p className="scroll-reveal stagger-3 text-lg text-gray-300 leading-relaxed">
               In The Original Room, you learned equations:
             </p>
             
             {/* Equations */}
-            <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-xl text-teal-500 leading-loose pl-5 my-8">
+            <div className="scroll-reveal stagger-4 text-xl text-teal-500 leading-loose pl-5 my-8 border-l-2 border-teal-500/30">
               <p>Closeness = Danger</p>
               <p>Your Needs = Burden to Others</p>
               <p>Love = Pain + Chaos</p>
               <p>Success = Threat Incoming</p>
             </div>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
+            <p className="scroll-reveal stagger-5 text-lg text-gray-300 leading-relaxed">
               Those equations are still running. Not because you're broken. Because your nervous system is doing exactly what it was trained to do 20 years ago.
             </p>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
-              Right now, your patterns run in a 3-7 second window:
+            <p className="scroll-reveal stagger-6 text-lg text-gray-300 leading-relaxed">
+              Right now, your patterns run in a <span className="text-teal-500 font-semibold">3-7 second window</span>:
             </p>
             
             {/* Pattern Window */}
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-xl text-teal-500 font-semibold text-center my-8">
+            <p className="scroll-reveal stagger-7 text-xl text-teal-500 font-semibold text-center my-8">
               Trigger → Body Sensation → Thought → Behavior
             </p>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
+            <p className="scroll-reveal text-lg text-gray-300 leading-relaxed">
               You don't catch the pattern until after it's already executed.
             </p>
             
-            <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg text-gray-300 leading-relaxed">
-              Pattern archaeology teaches you to recognize the pattern BEFORE it runs. In that 3-7 second window. In that recognition, you create a gap. In that gap, you can interrupt the code.
+            <p className="scroll-reveal text-lg text-gray-300 leading-relaxed">
+              <span className="text-teal-500 font-semibold">Pattern archaeology</span> teaches you to recognize the pattern BEFORE it runs. In that 3-7 second window. In that recognition, you create a gap. In that gap, you can interrupt the code.
             </p>
           </div>
           
-          <div className="mt-12 text-center">
+          <div className="scroll-reveal mt-12 text-center">
             <PrimaryCTA text="Learn Your Pattern - Take Assessment" dataTestId="button-origin-cta" />
           </div>
         </div>
@@ -420,7 +421,8 @@ export default function Landing() {
       >
         <div className="max-w-[1000px] mx-auto">
           <h2 
-            className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-3xl md:text-[42px] font-bold text-white text-center mb-16"
+            className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white text-center mb-16"
+            data-text="HOW PATTERN INTERRUPTION WORKS"
             data-testid="text-method-headline"
           >
             HOW PATTERN <span className="text-pink-500">INTERRUPTION</span> WORKS
@@ -431,11 +433,10 @@ export default function Landing() {
             {steps.map((step, index) => (
               <div 
                 key={step.number}
-                className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 flex flex-col md:flex-row gap-4 md:gap-8 items-start"
-                style={{ transitionDelay: `${index * 150}ms` }}
+                className={`scroll-reveal stagger-${index + 1} flex flex-col md:flex-row gap-4 md:gap-8 items-start`}
                 data-testid={`step-${step.number}`}
               >
-                <div className="flex-shrink-0 w-[60px] h-[60px] rounded-full border-[3px] border-teal-500 flex items-center justify-center text-3xl font-bold text-teal-500">
+                <div className="step-number-circle flex-shrink-0 w-[70px] h-[70px] md:w-[80px] md:h-[80px] rounded-full border-[3px] border-teal-500 flex items-center justify-center text-3xl md:text-4xl font-black text-teal-500">
                   {step.number}
                 </div>
                 <div className="flex-1">
@@ -451,11 +452,11 @@ export default function Landing() {
           </div>
           
           {/* Closing */}
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed mb-10">
+          <p className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed mb-10">
             The 7-day protocol gives you proof of concept. One successful interrupt = the method works for you. Then decide.
           </p>
           
-          <div className="text-center">
+          <div className="scroll-reveal text-center">
             <PrimaryCTA text="Start Your Free Protocol" dataTestId="button-method-cta" />
           </div>
         </div>
@@ -472,13 +473,14 @@ export default function Landing() {
         
         <div className="relative z-10 max-w-[1100px] mx-auto">
           <h2 
-            className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-4xl md:text-5xl font-bold text-white text-center mb-8"
+            className="scroll-reveal glitch-header text-4xl md:text-5xl font-black text-white text-center mb-8"
+            data-text="YOU'RE EARLY TO THIS"
             data-testid="text-beta-headline"
           >
             YOU'RE EARLY TO THIS
           </h2>
           
-          <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[800px] mx-auto mb-16">
+          <div className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[800px] mx-auto mb-16">
             <p className="mb-6">The Archivist Method launched January 2026.</p>
             <p className="mb-6">
               No "10,000+ success stories." No manufactured testimonials.<br />
@@ -490,20 +492,20 @@ export default function Landing() {
             </p>
           </div>
           
-          <h3 className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-2xl md:text-3xl font-bold text-center mb-8">
+          <h3 className="scroll-reveal text-2xl md:text-3xl font-bold text-center mb-8">
             <span className="text-pink-500">BETA</span> <span className="text-teal-500">LAUNCH PERKS</span>
           </h3>
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-gray-400 text-center mb-12">
+          <p className="scroll-reveal text-gray-400 text-center mb-12">
             (Available through February 28, 2026)
           </p>
           
           {/* Crash Course Perks Box */}
-          <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-8">
+          <div className="scroll-reveal bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-8 hover:border-teal-500/50 transition-colors duration-300">
             <h4 className="text-white text-xl font-bold mb-6">If you're one of the first 100 to complete the crash course:</h4>
             <ul className="space-y-4">
               {crashCoursePerks.map((perk, index) => (
-                <li key={index} className="flex items-start gap-4 text-gray-300 text-lg">
-                  <Check className="w-6 h-6 text-teal-500 flex-shrink-0 mt-0.5" />
+                <li key={index} className={`perk-item scroll-reveal stagger-${index + 1} flex items-start gap-4 text-gray-300 text-lg`}>
+                  <div className="perk-checkbox w-6 h-6 border-2 border-teal-500 rounded flex-shrink-0 mt-0.5" />
                   <span>{perk}</span>
                 </li>
               ))}
@@ -511,12 +513,12 @@ export default function Landing() {
           </div>
           
           {/* Purchase Perks Box */}
-          <div className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-10">
+          <div className="scroll-reveal bg-[#1a1a1a] border border-[#333333] rounded-xl p-8 md:p-10 mb-10 hover:border-teal-500/50 transition-colors duration-300">
             <h4 className="text-white text-xl font-bold mb-6">If you buy Quick-Start or Archive before March 1:</h4>
             <ul className="space-y-4">
               {purchasePerks.map((perk, index) => (
-                <li key={index} className="flex items-start gap-4 text-gray-300 text-lg">
-                  <Check className="w-6 h-6 text-teal-500 flex-shrink-0 mt-0.5" />
+                <li key={index} className={`perk-item scroll-reveal stagger-${index + 1} flex items-start gap-4 text-gray-300 text-lg`}>
+                  <div className="perk-checkbox w-6 h-6 border-2 border-teal-500 rounded flex-shrink-0 mt-0.5" />
                   <span>{perk}</span>
                 </li>
               ))}
@@ -524,15 +526,15 @@ export default function Landing() {
           </div>
           
           {/* Closing statement */}
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[700px] mx-auto mb-6">
+          <p className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed max-w-[700px] mx-auto mb-6">
             This isn't about discounts. It's about being part of building something that actually works.
           </p>
           
-          <p className="scroll-reveal opacity-0 translate-y-2.5 transition-all duration-800 text-white text-lg font-semibold text-center mb-10">
+          <p className="scroll-reveal text-white text-lg font-semibold text-center mb-10">
             Prices stay the same. Perks end February 28.
           </p>
           
-          <div className="text-center">
+          <div className="scroll-reveal text-center">
             <PrimaryCTA text="Take the Assessment - Start Free 7-Day Course" dataTestId="button-beta-cta" />
           </div>
         </div>
@@ -544,21 +546,30 @@ export default function Landing() {
         className="bg-black py-16 md:py-20 px-5 text-center"
       >
         <h2 
-          className="text-3xl md:text-[42px] font-bold text-white mb-8"
+          className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white mb-8"
+          data-text="STOP RUNNING THE PATTERN"
           data-testid="text-final-headline"
         >
           STOP RUNNING THE PATTERN
         </h2>
         
-        <div className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
+        <div className="scroll-reveal text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
           <p>Take the 2-minute assessment.</p>
           <p>Get your 7-day protocol.</p>
           <p>Start breaking the cycle today.</p>
         </div>
         
-        <PrimaryCTA className="text-xl px-12 py-5 shadow-[0_0_30px_rgba(20,184,166,0.4)] hover:shadow-[0_0_40px_rgba(20,184,166,0.5),0_6px_50px_rgba(236,72,153,0.2)] hover:scale-[1.02]" dataTestId="button-final-cta" />
+        <div className="scroll-reveal">
+          <Link
+            href="/quiz"
+            className="cta-shimmer inline-block bg-gradient-to-r from-teal-500 to-teal-600 text-white text-xl font-bold px-12 py-5 rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_60px_rgba(20,184,166,0.5),0_6px_50px_rgba(236,72,153,0.2)]"
+            data-testid="button-final-cta"
+          >
+            Take the Free Assessment
+          </Link>
+        </div>
         
-        <p className="text-gray-500 text-sm mt-4">
+        <p className="scroll-reveal text-gray-500 text-sm mt-4">
           Free • Private • No Email Required • Instant Results
         </p>
       </section>
