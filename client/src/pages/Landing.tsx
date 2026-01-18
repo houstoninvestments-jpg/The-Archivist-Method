@@ -4,17 +4,15 @@ import { useEffect, useState, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
 
-// Typewriter headline component - clean, archaeological feel
+// Typewriter headline component - premium typography
 function TypewriterHeadline() {
   const [displayText, setDisplayText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const fullText = 'Stop Running the Same Destructive Patterns';
+  const fullText = 'THE ARCHIVIST METHOD™';
 
   useEffect(() => {
     // Check reduced motion preference
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(motionQuery.matches);
 
     if (motionQuery.matches) {
       setDisplayText(fullText);
@@ -22,66 +20,63 @@ function TypewriterHeadline() {
       return;
     }
 
-    // Wait for brand lockup to finish (1.5s), then start typewriter
-    let typewriterInterval: ReturnType<typeof setInterval> | null = null;
-    
-    const startDelay = setTimeout(() => {
-      let index = 0;
-      
-      typewriterInterval = setInterval(() => {
-        if (index < fullText.length) {
-          setDisplayText(fullText.slice(0, index + 1));
-          index++;
-        } else {
-          if (typewriterInterval) clearInterval(typewriterInterval);
-          setIsComplete(true);
-        }
-      }, 70); // 70ms per character - smooth, deliberate pace
-    }, 1500);
+    let index = 0;
+    const typewriterInterval = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(typewriterInterval);
+        setIsComplete(true);
+      }
+    }, 60); // 60ms per character = ~1.2s total
 
-    return () => {
-      clearTimeout(startDelay);
-      if (typewriterInterval) clearInterval(typewriterInterval);
-    };
+    return () => clearInterval(typewriterInterval);
   }, []);
 
-  // Render text with pink highlighting for "Same Destructive"
-  const renderText = () => {
-    const highlightStart = fullText.indexOf('Same Destructive');
-    const highlightEnd = highlightStart + 'Same Destructive'.length;
-    
-    if (displayText.length <= highlightStart) {
-      return displayText;
-    }
-    
-    const beforeHighlight = displayText.slice(0, highlightStart);
-    const highlightPart = displayText.slice(highlightStart, Math.min(displayText.length, highlightEnd));
-    const afterHighlight = displayText.slice(highlightEnd);
-    
-    return (
-      <>
-        {beforeHighlight}
-        <span className="text-pink-500">{highlightPart}</span>
-        {afterHighlight}
-      </>
-    );
-  };
-
   return (
-    <h2
-      className="text-[24px] md:text-[28px] font-semibold text-white mb-6 leading-tight min-h-[60px] md:min-h-[80px] text-center"
-      data-testid="text-hero-headline"
+    <h1
+      className="hero-title-premium mb-10 text-center"
+      data-testid="text-brand-title"
     >
       <span className="inline-block">
-        {renderText()}
+        {displayText}
         <span 
-          className={`inline-block w-[3px] h-[1em] bg-teal-500 ml-1 transition-opacity duration-300 ${
+          className={`inline-block w-[4px] h-[0.8em] bg-teal-500 ml-2 transition-opacity duration-300 ${
             isComplete ? 'opacity-0' : 'animate-pulse'
           }`}
           aria-hidden="true"
         />
       </span>
-    </h2>
+    </h1>
+  );
+}
+
+// Geometric accent elements
+function GeometricAccents() {
+  return (
+    <div className="geometric-accents">
+      {/* Top-left accent */}
+      <div className="geo-shape geo-tl">
+        <div className="geo-line geo-line-h" />
+        <div className="geo-line geo-line-v" />
+        <div className="geo-corner" />
+      </div>
+      
+      {/* Bottom-right accent */}
+      <div className="geo-shape geo-br">
+        <div className="geo-line geo-line-h" />
+        <div className="geo-line geo-line-v" />
+        <div className="geo-corner" />
+      </div>
+      
+      {/* Center grid marker */}
+      <div className="geo-center">
+        <div className="geo-circle" />
+        <div className="geo-crosshair-h" />
+        <div className="geo-crosshair-v" />
+      </div>
+    </div>
   );
 }
 
@@ -204,50 +199,59 @@ export default function Landing() {
       {/* Floating Particles - All Pages */}
       <ParticleField />
       
-      {/* SECTION 1: HERO */}
+      {/* SECTION 1: HERO - Premium Design */}
       <section 
         id="hero"
-        className="relative min-h-screen flex items-center justify-center px-5 py-24"
+        className="hero-premium flex items-center justify-center"
         style={{
           backgroundImage: `url(${heroBackground})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
-        {/* Lighter overlay - reduced opacity for more background visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,10,10,0.5)] to-[rgba(10,10,10,0.7)]" />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.8)] z-[4]" />
         
-        <div className="relative z-10 max-w-[900px] text-center">
-          {/* Brand Lockup with Archival Reveal Animation */}
-          <div className="overflow-hidden mb-8">
-            <h1 
-              className="font-['Inter',sans-serif] text-[48px] md:text-[72px] font-black tracking-tight uppercase text-white m-0 leading-[1.1] animate-archival-reveal"
-              data-testid="text-brand-title"
-            >
-              THE ARCHIVIST METHOD™
-            </h1>
-            <p 
-              className="font-['Inter',sans-serif] text-[28px] md:text-[36px] font-bold tracking-[0.5px] text-teal-500 uppercase mt-6 mb-8 opacity-0 animate-fade-in-delay"
-              data-testid="text-brand-tagline"
-            >
-              Pattern Archaeology, Not Therapy
-            </p>
-          </div>
-          
-          {/* Headline with Typewriter Animation */}
+        {/* Geometric accents */}
+        <GeometricAccents />
+        
+        <div className="hero-content-premium text-center relative z-10">
+          {/* Typewriter headline */}
           <TypewriterHeadline />
           
-          {/* Subhead */}
-          <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
+          {/* Tagline with glow */}
+          <p 
+            className="hero-tagline-premium mb-12 hero-fade-1"
+            data-testid="text-brand-tagline"
+          >
+            Pattern Archaeology, Not Therapy
+          </p>
+          
+          {/* Subtitle */}
+          <p 
+            className="hero-subtitle-premium mb-8 hero-fade-2"
+            data-testid="text-hero-subtitle"
+          >
+            Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
+          </p>
+          
+          {/* Description */}
+          <p className="text-lg md:text-xl text-slate-400 leading-relaxed mb-14 max-w-[700px] mx-auto hero-fade-3">
             You watch yourself do it. You know it's happening.<br />
             You do it anyway.
           </p>
           
           {/* CTA */}
-          <PrimaryCTA dataTestId="button-hero-cta" />
+          <div className="hero-fade-4">
+            <PrimaryCTA 
+              text="Take the Pattern Assessment" 
+              dataTestId="button-hero-cta" 
+              className="px-12 py-5 text-lg"
+            />
+          </div>
           
           {/* Trust Indicators */}
-          <p className="mt-4 text-sm text-gray-500" data-testid="text-trust-indicators">
+          <p className="mt-6 text-sm text-slate-500 hero-fade-4" data-testid="text-trust-indicators">
             Free • 2 Minutes • Instant Results
           </p>
         </div>
