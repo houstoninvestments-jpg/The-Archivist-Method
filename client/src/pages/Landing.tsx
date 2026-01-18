@@ -1,8 +1,45 @@
 import { Link } from "wouter";
 import { Check } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
+
+// Typewriter component for hero headline
+function TypewriterHeadline() {
+  const [isComplete, setIsComplete] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    // Remove cursor after typing completes
+    // Desktop: 1.5s delay + 3s typing = 4.5s
+    // Mobile: 1s delay + 2s typing = 3s
+    const completionTime = window.innerWidth <= 768 ? 3000 : 4500;
+    const timer = setTimeout(() => setIsComplete(true), completionTime);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+  
+  return (
+    <h2 
+      className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight min-h-[120px] md:min-h-[140px] text-center"
+      data-testid="text-hero-headline"
+    >
+      <span className="typewriter-container inline-block">
+        <span className={`typewriter-text inline-block overflow-hidden whitespace-nowrap ${isComplete ? 'typing-complete' : ''}`}>
+          Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
+        </span>
+      </span>
+    </h2>
+  );
+}
 
 const patterns = [
   {
@@ -154,13 +191,8 @@ export default function Landing() {
             </p>
           </div>
           
-          {/* Headline */}
-          <h2 
-            className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
-            data-testid="text-hero-headline"
-          >
-            Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
-          </h2>
+          {/* Headline with Typewriter Animation */}
+          <TypewriterHeadline />
           
           {/* Subhead */}
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
