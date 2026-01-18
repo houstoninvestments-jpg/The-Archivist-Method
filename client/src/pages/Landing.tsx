@@ -1,94 +1,15 @@
 import { Link } from "wouter";
 import { Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
 
-// TextScramble class for Matrix-style text effect
-class TextScramble {
-  el: HTMLElement;
-  chars: string;
-  queue: Array<{ from: string; to: string; start: number; end: number; char?: string }>;
-  frame: number;
-  frameRequest: number;
-  resolve: () => void;
-
-  constructor(el: HTMLElement) {
-    this.el = el;
-    this.chars = '!<>-_\\/[]{}—=+*^?#________';
-    this.queue = [];
-    this.frame = 0;
-    this.frameRequest = 0;
-    this.resolve = () => {};
-    this.update = this.update.bind(this);
-  }
-
-  setText(newText: string): Promise<void> {
-    const oldText = this.el.innerText;
-    const length = Math.max(oldText.length, newText.length);
-    const promise = new Promise<void>((resolve) => { this.resolve = resolve; });
-    this.queue = [];
-
-    for (let i = 0; i < length; i++) {
-      const from = oldText[i] || '';
-      const to = newText[i] || '';
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
-      this.queue.push({ from, to, start, end });
-    }
-
-    cancelAnimationFrame(this.frameRequest);
-    this.frame = 0;
-    this.update();
-    return promise;
-  }
-
-  update() {
-    let output = '';
-    let complete = 0;
-
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
-
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = this.randomChar();
-          this.queue[i].char = char;
-        }
-        output += `<span class="scramble-dud">${char}</span>`;
-      } else {
-        output += from;
-      }
-    }
-
-    this.el.innerHTML = output;
-
-    if (complete === this.queue.length) {
-      // Add pink emphasis to "Same Destructive" after scramble completes
-      this.el.innerHTML = this.el.innerHTML.replace(
-        'Same Destructive',
-        '<span class="text-pink-500">Same Destructive</span>'
-      );
-      this.resolve();
-    } else {
-      this.frameRequest = requestAnimationFrame(this.update);
-      this.frame++;
-    }
-  }
-
-  randomChar(): string {
-    return this.chars[Math.floor(Math.random() * this.chars.length)];
-  }
-}
-
-// Scramble headline component
-function ScrambleHeadline() {
-  const textRef = useRef<HTMLSpanElement>(null);
+// Typewriter headline component - clean, archaeological feel
+function TypewriterHeadline() {
+  const [displayText, setDisplayText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const fullText = 'Stop Running the Same Destructive Patterns';
 
   useEffect(() => {
     // Check reduced motion preference
@@ -96,38 +17,69 @@ function ScrambleHeadline() {
     setPrefersReducedMotion(motionQuery.matches);
 
     if (motionQuery.matches) {
+      setDisplayText(fullText);
       setIsComplete(true);
       return;
     }
 
-    if (!textRef.current) return;
-
-    const fx = new TextScramble(textRef.current);
-
-    // Wait for brand lockup to finish (1.5s), then scramble
-    const timer = setTimeout(() => {
-      fx.setText('Stop Running the Same Destructive Patterns').then(() => {
-        setIsComplete(true);
-      });
+    // Wait for brand lockup to finish (1.5s), then start typewriter
+    let typewriterInterval: ReturnType<typeof setInterval> | null = null;
+    
+    const startDelay = setTimeout(() => {
+      let index = 0;
+      
+      typewriterInterval = setInterval(() => {
+        if (index < fullText.length) {
+          setDisplayText(fullText.slice(0, index + 1));
+          index++;
+        } else {
+          if (typewriterInterval) clearInterval(typewriterInterval);
+          setIsComplete(true);
+        }
+      }, 70); // 70ms per character - smooth, deliberate pace
     }, 1500);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(startDelay);
+      if (typewriterInterval) clearInterval(typewriterInterval);
     };
   }, []);
+
+  // Render text with pink highlighting for "Same Destructive"
+  const renderText = () => {
+    const highlightStart = fullText.indexOf('Same Destructive');
+    const highlightEnd = highlightStart + 'Same Destructive'.length;
+    
+    if (displayText.length <= highlightStart) {
+      return displayText;
+    }
+    
+    const beforeHighlight = displayText.slice(0, highlightStart);
+    const highlightPart = displayText.slice(highlightStart, Math.min(displayText.length, highlightEnd));
+    const afterHighlight = displayText.slice(highlightEnd);
+    
+    return (
+      <>
+        {beforeHighlight}
+        <span className="text-pink-500">{highlightPart}</span>
+        {afterHighlight}
+      </>
+    );
+  };
 
   return (
     <h2
       className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight min-h-[90px] md:min-h-[120px] text-center"
       data-testid="text-hero-headline"
     >
-      <span
-        ref={textRef}
-        className="scramble-text inline-block"
-      >
-        {prefersReducedMotion && (
-          <>Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns</>
-        )}
+      <span className="inline-block">
+        {renderText()}
+        <span 
+          className={`inline-block w-[3px] h-[1em] bg-teal-500 ml-1 transition-opacity duration-300 ${
+            isComplete ? 'opacity-0' : 'animate-pulse'
+          }`}
+          aria-hidden="true"
+        />
       </span>
     </h2>
   );
@@ -277,15 +229,15 @@ export default function Landing() {
               THE ARCHIVIST METHOD™
             </h1>
             <p 
-              className="font-['Inter',sans-serif] text-xl md:text-3xl font-bold italic tracking-tight text-teal-500 mt-4 opacity-0 animate-fade-in-delay"
+              className="font-['Inter',sans-serif] text-2xl md:text-[32px] font-bold tracking-[-0.02em] text-teal-500 mt-4 opacity-0 animate-fade-in-delay"
               data-testid="text-brand-tagline"
             >
-              Pattern Archaeology, <span className="text-pink-500">Not</span> Therapy
+              Pattern Archaeology, Not Therapy
             </p>
           </div>
           
-          {/* Headline with Scramble Animation */}
-          <ScrambleHeadline />
+          {/* Headline with Typewriter Animation */}
+          <TypewriterHeadline />
           
           {/* Subhead */}
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
@@ -577,13 +529,13 @@ export default function Landing() {
       
       {/* SECTION 7: MINIMAL FOOTER */}
       <footer className="bg-black border-t border-[#1a1a1a] py-16 px-5 text-center">
-        {/* Brand Lockup */}
+        {/* Brand Lockup - Matches Hero Styling */}
         <div className="mb-8">
-          <h3 className="font-['Bebas_Neue',Oswald,sans-serif] text-2xl font-bold tracking-wide text-white">
+          <h3 className="font-['Inter',sans-serif] text-xl font-bold tracking-[0.5px] text-white uppercase">
             THE ARCHIVIST METHOD™
           </h3>
-          <p className="text-gray-500 text-sm uppercase tracking-wider mt-2">
-            PATTERN ARCHAEOLOGY, <span className="text-pink-500">NOT</span> THERAPY
+          <p className="font-['Inter',sans-serif] text-sm font-semibold uppercase tracking-wider mt-2 text-teal-500">
+            PATTERN ARCHAEOLOGY, NOT THERAPY
           </p>
         </div>
         
