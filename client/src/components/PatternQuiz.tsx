@@ -428,7 +428,7 @@ export default function PatternQuiz() {
                     </div>
                   </div>
 
-                  <div className="min-h-[500px] md:min-h-[550px] p-6 md:p-8">
+                  <div className="min-h-0 p-4 sm:p-6 md:p-8">
                     <AnimatePresence mode="wait">
                       {phase === "intro" && (
                         <motion.div
@@ -436,7 +436,7 @@ export default function PatternQuiz() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          className="flex flex-col items-center justify-center h-full text-center py-12"
+                          className="flex flex-col items-center justify-center h-full text-center py-6 sm:py-12"
                         >
                           <div className="mb-8">
                             <img
@@ -472,14 +472,14 @@ export default function PatternQuiz() {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -50 }}
                           transition={{ duration: 0.3 }}
-                          className="flex flex-col h-full"
+                          className="flex flex-col"
                         >
                           <div className="flex-1">
-                            <p className="text-gray-200 text-lg md:text-xl leading-relaxed mb-8">
+                            <p className="text-gray-200 text-base sm:text-lg md:text-xl leading-relaxed mb-4 sm:mb-6 md:mb-8">
                               {QUESTIONS[currentQuestion].prompt}
                             </p>
                             
-                            <div className="space-y-3">
+                            <div className="space-y-2 sm:space-y-3">
                               {QUESTIONS[currentQuestion].options.map((option, index) => (
                                 <motion.button
                                   key={index}
@@ -487,14 +487,14 @@ export default function PatternQuiz() {
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: 0.1 * index }}
                                   onClick={() => handleSelectAnswer(index)}
-                                  className={`w-full text-left px-5 py-4 rounded-xl border transition-all ${
+                                  className={`w-full text-left px-3 py-3 sm:px-5 sm:py-4 rounded-xl border transition-all min-h-[44px] ${
                                     selectedAnswer === index 
                                       ? 'border-teal-500 bg-teal-500/10' 
                                       : 'border-white/10 hover:border-white/30 hover:bg-white/5'
                                   }`}
                                   data-testid={`button-answer-${index}`}
                                 >
-                                  <span className={`transition-colors ${
+                                  <span className={`transition-colors text-sm sm:text-base ${
                                     selectedAnswer === index ? 'text-teal-300' : 'text-gray-300'
                                   }`}>
                                     {option}
@@ -507,14 +507,14 @@ export default function PatternQuiz() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
                                 onClick={() => handleSelectAnswer(3)}
-                                className={`w-full text-left px-5 py-4 rounded-xl border transition-all ${
+                                className={`w-full text-left px-3 py-3 sm:px-5 sm:py-4 rounded-xl border transition-all min-h-[44px] ${
                                   selectedAnswer === 3 
                                     ? 'border-gray-500 bg-gray-500/10' 
                                     : 'border-white/5 hover:border-white/15 hover:bg-white/3'
                                 }`}
                                 data-testid="button-answer-none"
                               >
-                                <span className={`transition-colors ${
+                                <span className={`transition-colors text-sm sm:text-base ${
                                   selectedAnswer === 3 ? 'text-gray-300' : 'text-gray-500'
                                 }`}>
                                   None of these
@@ -523,7 +523,7 @@ export default function PatternQuiz() {
                             </div>
                           </div>
                           
-                          <div className="flex justify-end mt-8">
+                          <div className="flex justify-end mt-4 sm:mt-6 md:mt-8">
                             <Button
                               onClick={handleNext}
                               disabled={selectedAnswer === null}

@@ -75,16 +75,17 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black flex flex-col">
       <div className="fixed inset-0 opacity-20 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 via-transparent to-pink-500/10"></div>
       </div>
 
-      <div className="relative max-w-3xl mx-auto px-4 py-8 md:py-12">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-gray-500 uppercase tracking-wider">Pattern Identification Quiz</span>
-            <span className="text-sm text-teal-400 font-medium">Question {currentQuestion + 1} of {quizQuestions.length}</span>
+      <div className="relative max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-8 md:py-12 flex-1 flex flex-col">
+        {/* Progress header - compact on mobile */}
+        <div className="mb-4 sm:mb-8">
+          <div className="flex items-center justify-between mb-2 sm:mb-4">
+            <span className="text-xs sm:text-sm text-gray-500 uppercase tracking-wider">Pattern Quiz</span>
+            <span className="text-xs sm:text-sm text-teal-400 font-medium">{currentQuestion + 1} / {quizQuestions.length}</span>
           </div>
           <div className="h-1 bg-white/10 rounded-full overflow-hidden">
             <div 
@@ -94,14 +95,17 @@ export default function Quiz() {
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
-          <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{question.title}</h2>
-            <p className="text-gray-300 text-lg">{question.subtitle}</p>
-            <p className="text-sm text-teal-400 mt-4">Choose all that apply</p>
+        {/* Quiz card - optimized for mobile viewport */}
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 flex-1 flex flex-col">
+          {/* Question header - reduced margins on mobile */}
+          <div className="mb-4 sm:mb-6 md:mb-8">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">{question.title}</h2>
+            <p className="text-gray-300 text-sm sm:text-base md:text-lg">{question.subtitle}</p>
+            <p className="text-xs sm:text-sm text-teal-400 mt-2 sm:mt-4">Choose all that apply</p>
           </div>
 
-          <div className="space-y-3 mb-8">
+          {/* Options - compact spacing on mobile */}
+          <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 md:mb-8 flex-1">
             {question.options.map((option) => {
               const isSelected = selectedOptions.includes(option.id);
               return (
@@ -109,7 +113,7 @@ export default function Quiz() {
                   key={option.id}
                   data-testid={`quiz-option-${option.id}`}
                   onClick={() => handleOptionToggle(option.id, option.isNone)}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 group ${
+                  className={`w-full text-left px-3 py-2.5 sm:p-4 rounded-xl border-2 transition-all duration-200 group min-h-[44px] ${
                     isSelected
                       ? 'border-teal-500 bg-teal-500/10'
                       : option.isNone
@@ -117,15 +121,15 @@ export default function Quiz() {
                       : 'border-white/10 bg-white/5 hover:border-teal-500/50 hover:bg-teal-500/5'
                   }`}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                       isSelected
                         ? 'border-teal-500 bg-teal-500'
                         : 'border-white/30 group-hover:border-teal-500/50'
                     }`}>
-                      {isSelected && <Check className="w-4 h-4 text-black" />}
+                      {isSelected && <Check className="w-3 h-3 sm:w-4 sm:h-4 text-black" />}
                     </div>
-                    <span className={`text-base ${isSelected ? 'text-white' : 'text-gray-300'} ${option.isNone ? 'italic' : ''}`}>
+                    <span className={`text-sm sm:text-base leading-tight ${isSelected ? 'text-white' : 'text-gray-300'} ${option.isNone ? 'italic' : ''}`}>
                       {option.text}
                     </span>
                   </div>
@@ -134,38 +138,40 @@ export default function Quiz() {
             })}
           </div>
 
-          <div className="flex items-center justify-between gap-4">
+          {/* Navigation buttons - compact on mobile */}
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
             <button
               data-testid="quiz-back-btn"
               onClick={handleBack}
               disabled={currentQuestion === 0}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
+              className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium transition-all min-h-[44px] ${
                 currentQuestion === 0
                   ? 'text-gray-600 cursor-not-allowed'
                   : 'text-gray-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <ChevronLeft className="w-5 h-5" />
-              Back
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Back</span>
             </button>
             
             <button
               data-testid="quiz-next-btn"
               onClick={handleNext}
               disabled={!canProceed}
-              className={`flex items-center gap-2 px-8 py-3 rounded-xl font-semibold transition-all ${
+              className={`flex items-center gap-1 sm:gap-2 px-4 sm:px-8 py-2.5 sm:py-3 rounded-xl font-semibold transition-all min-h-[44px] ${
                 canProceed
                   ? 'bg-gradient-to-r from-teal-500 to-cyan-400 text-black hover:opacity-90'
                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
               }`}
             >
-              {currentQuestion === quizQuestions.length - 1 ? 'See My Results' : 'Next'}
-              <ChevronRight className="w-5 h-5" />
+              <span className="text-sm sm:text-base">{currentQuestion === quizQuestions.length - 1 ? 'See Results' : 'Next'}</span>
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
-        <div className="mt-6 flex justify-center gap-2">
+        {/* Progress dots - hidden on mobile to save space */}
+        <div className="mt-4 sm:mt-6 hidden sm:flex justify-center gap-2">
           {quizQuestions.map((_, idx) => (
             <div
               key={idx}
