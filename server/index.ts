@@ -103,6 +103,9 @@ app.use("/api/admin", adminRoutes);
 // Serve static files from public/downloads (before Vite middleware)
 app.use("/downloads", express.static(path.join(process.cwd(), "public", "downloads")));
 
+// Serve PDF workbooks from public/pdfs
+app.use("/pdfs", express.static(path.join(process.cwd(), "public", "pdfs")));
+
 // Serve generated PDFs
 app.use("/generated_pdfs", express.static(path.join(process.cwd(), "generated_pdfs")));
 

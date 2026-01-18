@@ -28,7 +28,11 @@ import QuizFallback from "@/pages/QuizFallback";
 import PortalReader from "@/pages/PortalReader";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
+import PortalDownloads from "@/pages/PortalDownloads";
+import PortalWorkbook from "@/pages/PortalWorkbook";
 import NotFound from "@/pages/not-found";
+import TestingPanel from "@/components/TestingPanel";
+import GodModeBadge from "@/components/GodModeBadge";
 
 function Router() {
   return (
@@ -44,6 +48,8 @@ function Router() {
       <Route path="/portal/dashboard" component={PortalDashboard} />
       <Route path="/portal/preview" component={PortalDashboardPreview} />
       <Route path="/portal/reader/:documentId" component={PortalReader} />
+      <Route path="/portal/downloads" component={PortalDownloads} />
+      <Route path="/portal/workbook/:slug" component={PortalWorkbook} />
       <Route path="/portal" component={Portal} />
       <Route path="/free" component={FreeDownload} />
       <Route path="/quick-start" component={QuickStart} />
@@ -65,10 +71,13 @@ function AppContent() {
   const isLanding = location === "/";
   const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
   const isPortalReader = location.startsWith("/portal/reader");
+  const isPortalDownloads = location.startsWith("/portal/downloads");
+  const isPortalWorkbook = location.startsWith("/portal/workbook");
   const isQuiz = location.startsWith("/quiz");
   const isAdmin = location.startsWith("/admin");
-  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader || isAdmin;
+  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader || isAdmin || isPortalDownloads || isPortalWorkbook;
   const showPremiumChatbot = isPortalDashboard;
+  const showTestingPanel = isPortalDashboard || isPortalDownloads || isPortalWorkbook || isAdmin;
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -78,6 +87,8 @@ function AppContent() {
       </main>
       {!hideHeaderFooter && <Footer />}
       {showPremiumChatbot && <ArchivistChatbot />}
+      {showTestingPanel && <TestingPanel />}
+      <GodModeBadge />
     </div>
   );
 }
