@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Download, BookOpen, MessageCircle, TrendingUp, Lock, ArrowRight } from 'lucide-react';
+import { Download, BookOpen, MessageCircle, TrendingUp, Lock, ArrowRight, Loader2 } from 'lucide-react';
 
 interface UserData {
   email: string;
@@ -22,6 +22,7 @@ export default function PortalDashboard() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [upgradingId, setUpgradingId] = useState<string | null>(null);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -56,6 +57,47 @@ export default function PortalDashboard() {
 
   const handleDownload = (productId: string) => {
     window.open(`/api/portal/download/${productId}`, '_blank');
+  };
+
+  const handleUpgrade = async (upgradeId: string, upgradePrice: number, upgradeName: string) => {
+    if (upgradingId) return; // Prevent double-click
+    setUpgradingId(upgradeId);
+    
+    try {
+      const isArchive = upgradeId.toLowerCase().includes('archive') || 
+                       upgradeName.toLowerCase().includes('archive') ||
+                       upgradePrice >= 150;
+      
+      // Determine the correct endpoint based on product and price
+      let endpoint: string;
+      if (isArchive) {
+        // If upgrading to archive at $150 discount (for existing Quick-Start owners)
+        if (upgradePrice === 150) {
+          endpoint = '/api/portal/checkout/archive-upgrade';
+        } else {
+          endpoint = '/api/portal/checkout/complete-archive';
+        }
+      } else {
+        endpoint = '/api/portal/checkout/quick-start';
+      }
+      
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url; // Redirect to Stripe checkout
+      } else {
+        console.error('No checkout URL returned');
+        setUpgradingId(null);
+      }
+    } catch (error) {
+      console.error('Upgrade checkout error:', error);
+      setUpgradingId(null);
+    }
   };
 
   if (loading) {
@@ -242,17 +284,22 @@ export default function PortalDashboard() {
                         <Lock className="w-8 h-8 text-gray-600" />
                       </div>
                       <button
-                        onClick={() => {
-                          const isArchive = upgrade.id.toLowerCase().includes('archive') || 
-                                           upgrade.name.toLowerCase().includes('archive') ||
-                                           upgrade.price >= 150;
-                          window.location.href = isArchive ? "/complete-archive" : "/quick-start";
-                        }}
-                        className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 hover:from-pink-500/30 hover:to-purple-500/30 border border-pink-500/30 rounded-lg text-pink-400 font-semibold transition-all flex items-center justify-center gap-2"
+                        onClick={() => handleUpgrade(upgrade.id, upgrade.price, upgrade.name)}
+                        disabled={upgradingId !== null}
+                        className={`w-full mt-4 px-4 py-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 hover:from-pink-500/30 hover:to-purple-500/30 border border-pink-500/30 rounded-lg text-pink-400 font-semibold transition-all flex items-center justify-center gap-2 ${upgradingId ? 'opacity-60 cursor-wait' : ''}`}
                         data-testid={`button-upgrade-${upgrade.id}`}
                       >
-                        <span>Upgrade Now - ${upgrade.price}</span>
-                        <ArrowRight className="w-5 h-5" />
+                        {upgradingId === upgrade.id ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            <span>Redirecting to Checkout...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Upgrade Now - ${upgrade.price}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>

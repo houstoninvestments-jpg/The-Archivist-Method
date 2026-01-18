@@ -34,6 +34,7 @@ export default function AdminDashboard() {
 
   const token = localStorage.getItem("adminToken");
 
+  // Redirect if no token
   useEffect(() => {
     if (!token) {
       setLocation("/admin");
@@ -41,6 +42,44 @@ export default function AdminDashboard() {
     }
     loadData();
   }, [token]);
+
+  // Client-side inactivity timeout (60 minutes)
+  useEffect(() => {
+    if (!token) return;
+
+    const TIMEOUT_DURATION = 60 * 60 * 1000; // 60 minutes
+    let lastActivity = Date.now();
+    
+    const updateActivity = () => {
+      lastActivity = Date.now();
+    };
+    
+    const checkTimeout = setInterval(() => {
+      if (Date.now() - lastActivity > TIMEOUT_DURATION) {
+        // Auto logout due to inactivity
+        fetch('/api/admin/logout', { 
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        localStorage.removeItem('adminToken');
+        setLocation('/admin?reason=timeout');
+      }
+    }, 60000); // Check every minute
+    
+    // Track user activity
+    window.addEventListener('mousemove', updateActivity);
+    window.addEventListener('keydown', updateActivity);
+    window.addEventListener('click', updateActivity);
+    window.addEventListener('scroll', updateActivity);
+    
+    return () => {
+      clearInterval(checkTimeout);
+      window.removeEventListener('mousemove', updateActivity);
+      window.removeEventListener('keydown', updateActivity);
+      window.removeEventListener('click', updateActivity);
+      window.removeEventListener('scroll', updateActivity);
+    };
+  }, [token, setLocation]);
 
   const loadData = async () => {
     try {

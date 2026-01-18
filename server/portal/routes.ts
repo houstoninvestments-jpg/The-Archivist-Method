@@ -399,6 +399,48 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
   }
 });
 
+// Create checkout session for Archive Upgrade ($150 - for existing Quick-Start owners)
+router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => {
+  try {
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : process.env.REPLIT_DOMAINS
+        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
+        : "http://localhost:5000";
+
+    // Use price_data to create a one-time $150 upgrade price
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Complete Archive Upgrade",
+              description: "Upgrade from Quick-Start to Complete Archive - All 7 Core Patterns",
+            },
+            unit_amount: 15000, // $150 in cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${baseUrl}/success/complete-archive`,
+      cancel_url: `${baseUrl}/portal/dashboard`,
+      metadata: {
+        product_id: "complete-archive",
+        product_name: "Complete Archive (Upgrade)",
+        upgrade_from: "quick-start",
+      },
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Upgrade checkout session error:", error);
+    res.status(500).json({ error: "Failed to create upgrade checkout session" });
+  }
+});
+
 // Stripe webhook handler
 router.post(
   "/webhooks/stripe",

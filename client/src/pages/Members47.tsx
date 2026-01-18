@@ -1,11 +1,38 @@
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, Video, FileText, ArrowRight, Mail } from "lucide-react";
+import { Download, Video, FileText, ArrowRight, Mail, Loader2 } from "lucide-react";
 
 export default function Members47() {
   const [, setLocation] = useLocation();
+  const [isUpgrading, setIsUpgrading] = useState(false);
+
+  const handleUpgradeToArchive = async () => {
+    if (isUpgrading) return;
+    setIsUpgrading(true);
+    
+    try {
+      // Use the $150 upgrade endpoint (discounted from $197 for existing Quick-Start owners)
+      const response = await fetch('/api/portal/checkout/archive-upgrade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url; // Direct to Stripe checkout at $150
+      } else {
+        console.error('No checkout URL returned');
+        setIsUpgrading(false);
+      }
+    } catch (error) {
+      console.error('Upgrade checkout error:', error);
+      setIsUpgrading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background pt-20">
@@ -124,15 +151,25 @@ export default function Members47() {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Want the Complete Archive?</h3>
                   <p className="text-muted-foreground">All 7 Core Patterns mapped with advanced combinations</p>
-                  <p className="text-archivist-pink font-semibold">Upgrade for only $150 more (normally $197)</p>
+                  <p className="text-archivist-pink font-semibold">Upgrade for only $150 (you save $47)</p>
                 </div>
                 <Button
                   className="bg-archivist-pink text-white shrink-0"
-                  onClick={() => setLocation("/complete-archive")}
+                  onClick={handleUpgradeToArchive}
+                  disabled={isUpgrading}
                   data-testid="button-upgrade-archive"
                 >
-                  Upgrade Now
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  {isUpgrading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Redirecting...
+                    </>
+                  ) : (
+                    <>
+                      Upgrade Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               </div>
             </CardContent>
