@@ -495,6 +495,36 @@
   text-transform: none;
 }
 
+/* Pink accent line - pattern list */
+.hero-pink-accent {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #EC4899;
+  text-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+@media (max-width: 768px) {
+  .hero-pink-accent {
+    font-size: 16px;
+  }
+}
+
+/* Teal solution line */
+.hero-solution-line {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #14B8A6;
+}
+
+@media (max-width: 768px) {
+  .hero-solution-line {
+    font-size: 16px;
+  }
+}
+
 /* Subtitle premium - BOLD supporting text */
 .hero-subtitle-premium {
   font-family: 'Inter', sans-serif;

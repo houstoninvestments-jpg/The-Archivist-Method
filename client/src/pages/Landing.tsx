@@ -184,7 +184,7 @@ export default function Landing() {
           {/* Main headline */}
           <HeroHeadline />
           
-          {/* Tagline - proper case like older version */}
+          {/* Tagline */}
           <p 
             className="hero-tagline-premium mb-10"
             data-testid="text-brand-tagline"
@@ -192,15 +192,30 @@ export default function Landing() {
             Pattern Archaeology, Not Therapy
           </p>
           
-          {/* Description - matching older version */}
-          <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-[700px] mx-auto">
-            Stop running the same destructive patterns. Learn the proven method to interrupt<br />
-            trauma patterns in 7-90 days.
-          </p>
+          {/* Problem/Agitate/Solution Copy */}
+          <div className="max-w-[700px] mx-auto mb-10">
+            {/* Problem - you recognize it */}
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              You watch yourself do it. You know it's happening.
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-4">
+              You do it anyway.
+            </p>
+            
+            {/* Agitate - the pattern list (PINK) */}
+            <p className="hero-pink-accent my-4" data-testid="text-pattern-list">
+              Disappear. Apologize. Test. Sabotage. Repeat.
+            </p>
+            
+            {/* Solution - the promise */}
+            <p className="hero-solution-line mt-4" data-testid="text-solution">
+              Interrupt the code in 7-90 days.
+            </p>
+          </div>
           
           {/* CTA */}
           <PrimaryCTA 
-            text="Start Free 7-Day Crash Course" 
+            text="Discover Your Pattern →" 
             dataTestId="button-hero-cta" 
             className="px-10 py-4 text-lg"
           />
