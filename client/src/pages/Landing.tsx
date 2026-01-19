@@ -4,50 +4,15 @@ import { useEffect, useState, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
 
-// Typewriter headline component - premium typography
-function TypewriterHeadline() {
-  const [displayText, setDisplayText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
-  const fullText = 'THE ARCHIVIST METHOD™';
-
-  useEffect(() => {
-    // Check reduced motion preference
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    if (motionQuery.matches) {
-      setDisplayText(fullText);
-      setIsComplete(true);
-      return;
-    }
-
-    let index = 0;
-    const typewriterInterval = setInterval(() => {
-      if (index < fullText.length) {
-        setDisplayText(fullText.slice(0, index + 1));
-        index++;
-      } else {
-        clearInterval(typewriterInterval);
-        setIsComplete(true);
-      }
-    }, 60); // 60ms per character = ~1.2s total
-
-    return () => clearInterval(typewriterInterval);
-  }, []);
-
+// Hero headline component - matching older version with two lines
+function HeroHeadline() {
   return (
     <h1
-      className="hero-title-premium mb-10 text-center"
+      className="hero-title-premium mb-8 text-center"
       data-testid="text-brand-title"
     >
-      <span className="inline-block">
-        {displayText}
-        <span 
-          className={`inline-block w-[4px] h-[0.8em] bg-teal-500 ml-2 transition-opacity duration-300 ${
-            isComplete ? 'opacity-0' : 'animate-pulse'
-          }`}
-          aria-hidden="true"
-        />
-      </span>
+      <span className="block">THE ARCHIVIST</span>
+      <span className="block">METHOD™</span>
     </h1>
   );
 }
@@ -216,42 +181,32 @@ export default function Landing() {
         <GeometricAccents />
         
         <div className="hero-content-premium text-center relative z-10">
-          {/* Typewriter headline */}
-          <TypewriterHeadline />
+          {/* Main headline */}
+          <HeroHeadline />
           
-          {/* Tagline with glow */}
+          {/* Tagline - proper case like older version */}
           <p 
-            className="hero-tagline-premium mb-12 hero-fade-1"
+            className="hero-tagline-premium mb-10"
             data-testid="text-brand-tagline"
           >
             Pattern Archaeology, Not Therapy
           </p>
           
-          {/* Subtitle */}
-          <p 
-            className="hero-subtitle-premium mb-8 hero-fade-2"
-            data-testid="text-hero-subtitle"
-          >
-            Stop Running the <span className="text-pink-500">Same Destructive</span> Patterns
-          </p>
-          
-          {/* Description */}
-          <p className="text-lg md:text-xl text-slate-400 leading-relaxed mb-14 max-w-[700px] mx-auto hero-fade-3">
-            You watch yourself do it. You know it's happening.<br />
-            You do it anyway.
+          {/* Description - matching older version */}
+          <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-[700px] mx-auto">
+            Stop running the same destructive patterns. Learn the proven method to interrupt<br />
+            trauma patterns in 7-90 days.
           </p>
           
           {/* CTA */}
-          <div className="hero-fade-4">
-            <PrimaryCTA 
-              text="Take the Pattern Assessment" 
-              dataTestId="button-hero-cta" 
-              className="px-12 py-5 text-lg"
-            />
-          </div>
+          <PrimaryCTA 
+            text="Start Free 7-Day Crash Course" 
+            dataTestId="button-hero-cta" 
+            className="px-10 py-4 text-lg"
+          />
           
           {/* Trust Indicators */}
-          <p className="mt-6 text-sm text-slate-500 hero-fade-4" data-testid="text-trust-indicators">
+          <p className="mt-6 text-sm text-gray-500" data-testid="text-trust-indicators">
             Free • 2 Minutes • Instant Results
           </p>
         </div>

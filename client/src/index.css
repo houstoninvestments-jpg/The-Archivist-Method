@@ -457,42 +457,42 @@
   z-index: 2;
 }
 
-/* Premium headline typography - HEAVY, ARCHITECTURAL */
+/* Premium headline typography - HEAVY, ARCHITECTURAL (matching older version) */
 .hero-title-premium {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 104px;
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 96px;
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -2px;
   color: #FFFFFF;
-  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
   .hero-title-premium {
-    font-size: 64px;
-    letter-spacing: -2px;
+    font-size: 48px;
+    letter-spacing: -1px;
   }
 }
 
-/* Tagline with glow - CARVED LABEL feel */
+/* Tagline - matching older version style */
 .hero-tagline-premium {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 36px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: -0.5px;
   color: #14B8A6;
-  text-shadow: 
-    0 0 40px rgba(20, 184, 166, 0.6),
-    0 0 60px rgba(20, 184, 166, 0.4);
 }
 
 @media (max-width: 768px) {
   .hero-tagline-premium {
-    font-size: 24px;
-    letter-spacing: 2px;
+    font-size: 22px;
   }
+}
+
+/* Remove uppercase from tagline - use proper case like older version */
+.hero-tagline-proper-case {
+  text-transform: none;
 }
 
 /* Subtitle premium - BOLD supporting text */
