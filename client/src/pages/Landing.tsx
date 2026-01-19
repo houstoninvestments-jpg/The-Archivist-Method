@@ -569,40 +569,13 @@ export default function Landing() {
       </section>
       
       {/* SECTION 8: MINIMAL FOOTER */}
-      <footer className="bg-black border-t border-[#1a1a1a] py-16 px-5 text-center">
-        {/* Brand Lockup - Matches Hero Styling */}
-        <div className="mb-8">
-          <h3 className="font-['Inter',sans-serif] text-xl font-bold tracking-[0.5px] text-white uppercase">
-            THE ARCHIVIST METHOD™
-          </h3>
-          <p className="font-['Inter',sans-serif] text-sm font-semibold uppercase tracking-wider mt-2 text-teal-500">
-            PATTERN ARCHAEOLOGY, NOT THERAPY
+      <footer className="border-t border-slate-800 py-8 mt-16">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-3">
+          <p className="text-slate-500 text-sm leading-relaxed">
+            Built in the fire. Years of observation. Systematized December 2025.
           </p>
+          <p className="text-slate-600 text-xs italic">— The Archivist</p>
         </div>
-        
-        {/* Links */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-5 mb-8">
-          <Link href="/#method" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
-            Method
-          </Link>
-          <Link href="/contact" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
-            Contact
-          </Link>
-          <Link href="/portal/login" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
-            Portal Login
-          </Link>
-          <Link href="/terms" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
-            Terms
-          </Link>
-          <Link href="/privacy" className="text-gray-500 text-sm hover:text-teal-500 transition-colors">
-            Privacy
-          </Link>
-        </div>
-        
-        {/* Copyright */}
-        <p className="text-gray-600 text-sm">
-          © 2026 The Archivist Method
-        </p>
       </footer>
       
       {/* CSS Animations - Complete System */}
