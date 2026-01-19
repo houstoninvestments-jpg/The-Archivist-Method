@@ -495,28 +495,30 @@
   text-transform: none;
 }
 
-/* Pink accent line - pattern list */
+/* Pink accent line - pattern list (VISUAL HOOK - 2nd most prominent) */
 .hero-pink-accent {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 32px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   color: #EC4899;
-  text-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+  text-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
 }
 
 @media (max-width: 768px) {
   .hero-pink-accent {
-    font-size: 16px;
+    font-size: 22px;
+    letter-spacing: 1px;
   }
 }
 
-/* Teal solution line */
+/* Teal solution line - glowing promise */
 .hero-solution-line {
   font-family: 'Inter', sans-serif;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   color: #14B8A6;
+  text-shadow: 0 0 30px rgba(20, 184, 166, 0.6);
 }
 
 @media (max-width: 768px) {

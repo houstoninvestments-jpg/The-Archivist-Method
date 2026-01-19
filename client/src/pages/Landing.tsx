@@ -215,7 +215,7 @@ export default function Landing() {
           
           {/* CTA */}
           <PrimaryCTA 
-            text="Discover Your Pattern →" 
+            text="Discover Your Pattern" 
             dataTestId="button-hero-cta" 
             className="px-10 py-4 text-lg"
           />
