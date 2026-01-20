@@ -524,45 +524,50 @@ export default function Landing() {
         </p>
       </section>
       
-      {/* SECTION 7: FOUNDER TEASER - "Built in Survival Mode" */}
+      {/* SECTION 7: ABOUT THE ARCHIVIST METHOD */}
       <section 
-        id="founder"
+        id="about"
         ref={founderRef}
         className="bg-[#0a0a0a] border-t border-teal-500/10 border-b border-teal-500/10 py-20 md:py-24 px-5"
       >
-        <div className="max-w-[700px] mx-auto text-center">
+        <div className="max-w-2xl mx-auto text-center">
           <h2 
-            className="scroll-reveal text-[22px] md:text-[28px] font-bold tracking-[2px] text-teal-500 mb-8"
-            data-testid="text-founder-headline"
+            className="scroll-reveal text-2xl font-bold tracking-widest uppercase mb-8"
+            style={{ color: '#14B8A6' }}
+            data-testid="text-about-headline"
           >
-            BUILT IN SURVIVAL MODE
+            ABOUT THE ARCHIVIST METHOD
           </h2>
           
-          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            The Archivist Method was built in December 2025.
-          </p>
+          <div className="scroll-reveal space-y-4 text-slate-300 leading-relaxed">
+            <p>
+              The archive was built over years.
+              <br />
+              <span className="font-semibold" style={{ color: '#EC4899' }}>December 2025</span> made it a system.
+            </p>
+            
+            <p>
+              Not theory. Not academic research.
+              <br />
+              Pattern archaeology performed in real time.
+            </p>
+            
+            <p>
+              Built while running the code it documents.
+              <br />
+              Field research. Real conditions. Active patterns.
+            </p>
+            
+            <p className="italic text-slate-400">
+              When you're inside the pattern, you see the architecture.
+            </p>
+            
+            <p className="italic text-slate-400">
+              The method works because it was tested where it matters.
+            </p>
+          </div>
           
-          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            Not in a lab. Not with funding. Not from stability.
-          </p>
-          
-          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            Homeless. Failing equipment. No resources. Life actively collapsing.
-          </p>
-          
-          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-5">
-            Built while running every pattern it interrupts.
-          </p>
-          
-          <p className="scroll-reveal text-base md:text-[17px] text-gray-400 leading-[1.7] mb-8">
-            Because survival mode is when you see the code clearest.
-          </p>
-          
-          <p className="scroll-reveal text-lg md:text-[19px] font-semibold text-white mb-6">
-            If it works here, it works anywhere.
-          </p>
-          
-          <p className="scroll-reveal text-[15px] italic text-gray-500">
+          <p className="scroll-reveal text-sm italic text-slate-500 mt-8">
             — The Archivist
           </p>
         </div>
