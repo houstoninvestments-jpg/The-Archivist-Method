@@ -112,35 +112,70 @@ export default function Quiz() {
   if (screen === 'intro') {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center px-6">
+        {/* Subtle background gradient */}
+        <div className="fixed inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-pink-500/5 pointer-events-none" />
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-lg"
+          className="text-center max-w-2xl relative z-10"
         >
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-            THE ARCHIVIST
-          </h1>
-          <p className="text-xl text-teal-400 font-semibold mb-8">
-            Pattern Identification Quiz
-          </p>
-          <p className="text-slate-400 mb-12 leading-relaxed">
-            15 questions to identify which survival patterns are running your life.
-            Answer honestly — there are no wrong answers.
-          </p>
+          {/* Brand title */}
+          <h2 className="text-2xl font-bold text-white tracking-widest mb-4">
+            THE ARCHIVIST METHOD™
+          </h2>
           
+          {/* Pink divider line */}
+          <div className="h-0.5 w-24 bg-pink-500 mx-auto mb-8" />
+          
+          {/* Main headline with glow */}
+          <h1 
+            className="text-4xl md:text-5xl font-black mb-6 tracking-tight"
+            style={{ 
+              color: '#14B8A6',
+              textShadow: '0 0 30px rgba(20, 184, 166, 0.3)'
+            }}
+          >
+            DISCOVER YOUR PATTERN
+          </h1>
+          
+          {/* Body copy */}
+          <div className="text-lg text-slate-300 leading-relaxed mb-8 max-w-xl mx-auto">
+            <p className="mb-4">
+              You watch yourself do it. You know it's happening.
+              <br />
+              <span 
+                className="font-bold"
+                style={{ 
+                  color: '#EC4899',
+                  textShadow: '0 0 20px rgba(236, 72, 153, 0.4)'
+                }}
+              >
+                You do it anyway.
+              </span>
+            </p>
+            <p className="text-white">
+              15 questions. 2 minutes.
+              <br />
+              Pattern archaeology, not therapy.
+            </p>
+          </div>
+          
+          {/* CTA Button */}
           <motion.button
             data-testid="quiz-start-btn"
             onClick={() => setScreen('quiz')}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-4 bg-teal-500 hover:bg-teal-400 text-black font-bold text-lg rounded-xl transition-colors"
+            className="px-10 py-4 bg-teal-500 hover:bg-teal-600 text-black font-bold text-lg rounded-xl transition-all"
           >
-            Begin Assessment
+            Discover Your Pattern →
           </motion.button>
           
+          {/* Subtext */}
           <p className="mt-6 text-slate-500 text-sm">
-            Takes about 3-5 minutes
+            Free • 2 Minutes • Instant Results
           </p>
         </motion.div>
       </div>
