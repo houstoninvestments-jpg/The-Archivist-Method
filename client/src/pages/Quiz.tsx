@@ -216,24 +216,37 @@ export default function Quiz() {
   // QUIZ SCREEN
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
-      {/* Progress bar at top */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-sm">
-        <div className="h-1 bg-slate-800">
+      {/* Subtle background gradient */}
+      <div className="fixed inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-pink-500/5 pointer-events-none" />
+      
+      {/* Progress bar at top - teal to pink gradient */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-sm border-b border-slate-800/50">
+        <div className="h-1.5 bg-slate-800">
           <motion.div 
-            className="h-full bg-teal-500"
+            className="h-full bg-gradient-to-r from-teal-500 via-teal-400 to-pink-500"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
+            style={{ boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)' }}
           />
         </div>
-        <div className="flex items-center justify-between px-4 py-2">
-          <span className="text-xs text-slate-500 uppercase tracking-wider">Pattern Quiz</span>
-          <span className="text-xs text-teal-400 font-semibold">{currentQuestion + 1} / {quizQuestions.length}</span>
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-xs text-slate-400 uppercase tracking-widest font-medium">Pattern Quiz</span>
+          <div className="flex items-center gap-2">
+            <span 
+              className="text-sm font-bold"
+              style={{ color: '#EC4899' }}
+            >
+              {currentQuestion + 1}
+            </span>
+            <span className="text-slate-500">/</span>
+            <span className="text-sm text-slate-400">{quizQuestions.length}</span>
+          </div>
         </div>
       </div>
 
       {/* Question cards with slide animation */}
-      <div className="flex-1 flex flex-col pt-16 pb-4">
+      <div className="flex-1 flex flex-col pt-20 pb-4 relative z-10">
         <div className="flex-1 flex items-center justify-center px-4">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -246,13 +259,32 @@ export default function Quiz() {
               transition={springConfig}
               className="w-full max-w-xl"
             >
-              {/* Question card */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+              {/* Question card with premium styling */}
+              <div 
+                className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 md:p-8"
+                style={{ boxShadow: '0 0 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(20, 184, 166, 0.05)' }}
+              >
+                {/* Question number badge */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span 
+                    className="text-xs font-bold px-3 py-1 rounded-full"
+                    style={{ 
+                      background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(20, 184, 166, 0.2))',
+                      border: '1px solid rgba(236, 72, 153, 0.3)',
+                      color: '#EC4899'
+                    }}
+                  >
+                    Q{currentQuestion + 1}
+                  </span>
+                </div>
+                
                 <h2 className="text-xl md:text-2xl font-bold text-white mb-2">{question.title}</h2>
-                <p className="text-slate-300 mb-2">{question.subtitle}</p>
-                <p className="text-sm text-teal-400 mb-6">Choose all that apply</p>
+                <p className="text-slate-300 mb-2 leading-relaxed">{question.subtitle}</p>
+                <p className="text-sm mb-6">
+                  <span className="text-teal-400">Choose all that apply</span>
+                </p>
 
-                {/* Options */}
+                {/* Options with improved styling */}
                 <div className="space-y-3">
                   {question.options.map((option) => {
                     const isSelected = selectedOptions.includes(option.id);
@@ -261,22 +293,26 @@ export default function Quiz() {
                         key={option.id}
                         data-testid={`quiz-option-${option.id}`}
                         onClick={() => handleOptionToggle(option.id, option.isNone)}
+                        whileHover={{ scale: 1.01, x: 4 }}
                         whileTap={{ scale: 0.98 }}
-                        className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-colors ${
+                        className={`w-full text-left px-4 py-3.5 rounded-xl border-2 transition-all duration-200 ${
                           isSelected
-                            ? 'border-teal-500 bg-teal-500/15'
-                            : 'border-slate-700 bg-slate-800 hover:bg-slate-700 hover:border-slate-600'
+                            ? 'border-teal-500 bg-teal-500/10'
+                            : 'border-slate-700/50 bg-slate-800/50 hover:bg-slate-800 hover:border-slate-600'
                         }`}
+                        style={isSelected ? { 
+                          boxShadow: '0 0 20px rgba(20, 184, 166, 0.15), inset 0 0 20px rgba(20, 184, 166, 0.05)' 
+                        } : {}}
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 ${
+                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                             isSelected
-                              ? 'border-teal-500 bg-teal-500'
+                              ? 'border-teal-500 bg-teal-500 scale-110'
                               : 'border-slate-600'
                           }`}>
                             {isSelected && <Check className="w-3 h-3 text-black" strokeWidth={3} />}
                           </div>
-                          <span className={`text-sm ${isSelected ? 'text-white font-medium' : 'text-slate-300'} ${option.isNone ? 'italic text-slate-400' : ''}`}>
+                          <span className={`text-sm leading-relaxed ${isSelected ? 'text-white font-medium' : 'text-slate-300'} ${option.isNone ? 'italic text-slate-400' : ''}`}>
                             {option.text}
                           </span>
                         </div>
@@ -289,18 +325,19 @@ export default function Quiz() {
           </AnimatePresence>
         </div>
 
-        {/* Navigation buttons - fixed at bottom 40% area */}
+        {/* Navigation buttons with pink accent */}
         <div className="px-4 pb-8 pt-4">
           <div className="max-w-xl mx-auto flex gap-3">
             <motion.button
               data-testid="quiz-back-btn"
               onClick={handleBack}
               disabled={currentQuestion === 0}
-              whileTap={{ scale: 0.95 }}
-              className={`flex-1 py-4 rounded-xl font-semibold transition-colors ${
+              whileHover={currentQuestion > 0 ? { scale: 1.02 } : {}}
+              whileTap={currentQuestion > 0 ? { scale: 0.95 } : {}}
+              className={`flex-1 py-4 rounded-xl font-semibold transition-all ${
                 currentQuestion === 0
-                  ? 'bg-slate-800/50 text-slate-600 cursor-not-allowed'
-                  : 'bg-slate-800 hover:bg-slate-700 text-white'
+                  ? 'bg-slate-800/30 text-slate-600 cursor-not-allowed'
+                  : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
               }`}
             >
               Back
@@ -310,14 +347,19 @@ export default function Quiz() {
               data-testid="quiz-next-btn"
               onClick={handleNext}
               disabled={!canProceed}
-              whileTap={{ scale: 0.95 }}
-              className={`flex-[2] py-4 rounded-xl font-bold transition-colors ${
+              whileHover={canProceed ? { scale: 1.02 } : {}}
+              whileTap={canProceed ? { scale: 0.95 } : {}}
+              className={`flex-[2] py-4 rounded-xl font-bold transition-all ${
                 canProceed
-                  ? 'bg-teal-500 hover:bg-teal-400 text-black'
-                  : 'bg-slate-800/50 text-slate-600 cursor-not-allowed'
+                  ? 'text-black'
+                  : 'bg-slate-800/30 text-slate-600 cursor-not-allowed'
               }`}
+              style={canProceed ? {
+                background: 'linear-gradient(135deg, #14B8A6, #0D9488)',
+                boxShadow: '0 0 20px rgba(20, 184, 166, 0.3), 0 0 40px rgba(236, 72, 153, 0.1)'
+              } : {}}
             >
-              {currentQuestion === quizQuestions.length - 1 ? 'See Results' : 'Next'}
+              {currentQuestion === quizQuestions.length - 1 ? 'See Results →' : 'Next →'}
             </motion.button>
           </div>
         </div>
