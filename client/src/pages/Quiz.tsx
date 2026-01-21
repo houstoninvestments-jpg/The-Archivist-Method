@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check } from 'lucide-react';
-import { quizQuestions, calculatePatternScores, determineQuizResult } from '@/lib/quizData';
+import { quizQuestions, calculatePatternScores, determineQuizResult, patternDisplayNames, type PatternKey } from '@/lib/quizData';
 
 // Spring animation config
 const springConfig = { type: "spring", stiffness: 300, damping: 30 };
@@ -24,11 +24,14 @@ const slideVariants = {
 };
 
 export default function Quiz() {
-  const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing'>('intro');
+  const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing' | 'emailCapture'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string[]>>({});
   const [direction, setDirection] = useState(0);
   const [, setLocation] = useLocation();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quizResult, setQuizResult] = useState<{ type: string; primaryPattern: string | null; scores: Record<string, number> } | null>(null);
 
   const question = quizQuestions[currentQuestion];
   const selectedOptions = answers[question?.id] || [];
@@ -62,16 +65,47 @@ export default function Quiz() {
       setTimeout(() => {
         const scores = calculatePatternScores(answers);
         const result = determineQuizResult(scores);
-        const resultData = encodeURIComponent(JSON.stringify(result));
-        
-        if (result.type === "fallback") {
-          setLocation(`/quiz/result/select?data=${resultData}`);
-        } else {
-          setLocation(`/quiz/result/${result.primaryPattern}?data=${resultData}`);
-        }
+        setQuizResult(result);
+        setScreen('emailCapture');
       }, 2500);
     }
-  }, [currentQuestion, answers, setLocation]);
+  }, [currentQuestion, answers]);
+  
+  const handleEmailSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !quizResult) return;
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Store quiz result data in localStorage for portal access
+      if (quizResult.primaryPattern) {
+        localStorage.setItem('quizResultPattern', quizResult.primaryPattern);
+      }
+      localStorage.setItem('userEmail', email);
+      // Store full scores for fallback/select flow context
+      localStorage.setItem('quizScores', JSON.stringify(quizResult.scores));
+      
+      // Redirect to result page with encoded data
+      const resultData = encodeURIComponent(JSON.stringify(quizResult));
+      if (quizResult.type === "fallback" || !quizResult.primaryPattern) {
+        setLocation(`/quiz/result/select?data=${resultData}`);
+      } else {
+        setLocation(`/quiz/result/${quizResult.primaryPattern}?data=${resultData}`);
+      }
+    } catch (error) {
+      console.error('Error submitting email:', error);
+      setIsSubmitting(false);
+      // Show user-facing error feedback by resetting state
+      alert('Something went wrong. Please try again.');
+    }
+  }, [email, quizResult, setLocation]);
 
   const handleBack = useCallback(() => {
     if (currentQuestion > 0) {
@@ -216,6 +250,91 @@ export default function Quiz() {
           <h2 className="text-2xl font-bold text-white mb-3">Analyzing Your Patterns</h2>
           <p className="text-slate-400 max-w-md">
             Cross-referencing your responses against 7 core survival patterns...
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // EMAIL CAPTURE SCREEN
+  if (screen === 'emailCapture') {
+    const patternName = quizResult?.primaryPattern 
+      ? patternDisplayNames[quizResult.primaryPattern as PatternKey] || 'Your Pattern'
+      : 'Your Pattern';
+    
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center px-6">
+        <div className="fixed inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-pink-500/5 pointer-events-none" />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-xl w-full relative z-10"
+        >
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Get Your Pattern Analysis
+            </h2>
+            <p className="text-slate-300 text-lg">
+              Your full breakdown is ready in your personal portal:
+            </p>
+          </div>
+          
+          <div className="bg-slate-900/80 border border-slate-700/50 rounded-2xl p-6 md:p-8 mb-8">
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">What's driving this pattern <span className="text-slate-500 italic">(The Original Room)</span></span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">Your body signature <span className="text-slate-500 italic">(the 2.7 second warning)</span></span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">Secondary patterns you're also running</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">7-Day Crash Course specific to <span className="text-pink-400 font-medium">{patternName}</span></span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">How to interrupt it <span className="text-slate-500 italic">(your custom protocol)</span></span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
+                <span className="text-slate-300">AI Pattern Coach <span className="text-slate-500 italic">(ask questions 24/7)</span></span>
+              </li>
+            </ul>
+          </div>
+          
+          <form onSubmit={handleEmailSubmit} className="space-y-4">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+              className="w-full px-5 py-4 bg-slate-800 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
+              data-testid="input-email"
+            />
+            
+            <motion.button
+              type="submit"
+              disabled={isSubmitting || !email}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full px-8 py-4 bg-teal-500 hover:bg-teal-600 disabled:bg-slate-600 disabled:cursor-not-allowed text-black font-bold text-lg rounded-xl transition-all"
+              data-testid="button-submit-email"
+            >
+              {isSubmitting ? 'Opening Archive...' : 'Enter The Archive →'}
+            </motion.button>
+          </form>
+          
+          <p className="text-center text-slate-500 text-sm mt-6">
+            Free • Private • Brutally Honest • Instant Access
           </p>
         </motion.div>
       </div>
