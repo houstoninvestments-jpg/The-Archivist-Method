@@ -139,4 +139,29 @@ router.get("/stats", adminAuth, async (req: Request, res: Response) => {
   }
 });
 
+router.patch("/test-user/:id/god-mode", adminAuth, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { godMode } = req.body;
+    
+    if (typeof godMode !== "boolean") {
+      return res.status(400).json({ error: "godMode must be a boolean" });
+    }
+
+    const [updated] = await db.update(testUsers)
+      .set({ godMode })
+      .where(eq(testUsers.id, id))
+      .returning();
+
+    if (!updated) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(updated);
+  } catch (error) {
+    console.error("Toggle god mode error:", error);
+    res.status(500).json({ error: "Failed to update god mode" });
+  }
+});
+
 export default router;

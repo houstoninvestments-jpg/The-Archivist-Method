@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Users, Trash2, LogOut, Plus, BookOpen, Zap, Archive, Eye } from "lucide-react";
+import { Shield, Users, Trash2, LogOut, Plus, BookOpen, Zap, Archive } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import type { TestUser } from "@shared/schema";
 
@@ -30,28 +30,10 @@ export default function AdminDashboard() {
   const [note, setNote] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
-  const [godModeEnabled, setGodModeEnabled] = useState(() => {
-    return localStorage.getItem("godMode") === "true";
-  });
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   const token = localStorage.getItem("adminToken");
-
-  const toggleGodMode = (enabled: boolean) => {
-    if (enabled) {
-      localStorage.setItem("godMode", "true");
-    } else {
-      localStorage.removeItem("godMode");
-    }
-    setGodModeEnabled(enabled);
-    toast({
-      title: enabled ? "God Mode Enabled" : "God Mode Disabled",
-      description: enabled 
-        ? "Full portal access is now active" 
-        : "Portal access restrictions restored",
-    });
-  };
 
   // Redirect if no token
   useEffect(() => {
@@ -174,6 +156,31 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleToggleUserGodMode = async (id: string, currentValue: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/test-user/${id}/god-mode`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ godMode: !currentValue }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to toggle");
+      }
+
+      toast({
+        title: !currentValue ? "God Mode Enabled" : "God Mode Disabled",
+        description: !currentValue ? "User has full portal access" : "User access restrictions restored",
+      });
+      loadData();
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to toggle god mode", variant: "destructive" });
+    }
+  };
+
   const handleLogout = async () => {
     await fetch("/api/admin/logout", {
       method: "POST",
@@ -283,28 +290,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* God Mode Toggle */}
-        <Card className="bg-[#1a1a1a] border-[#333333]">
-          <CardContent className="py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${godModeEnabled ? 'bg-pink-500/20' : 'bg-[#333333]'}`}>
-                  <Eye className={`w-5 h-5 ${godModeEnabled ? 'text-pink-400' : 'text-[#9ca3af]'}`} />
-                </div>
-                <div>
-                  <h3 className="text-white font-medium">God Mode</h3>
-                  <p className="text-sm text-[#9ca3af]">Bypass all restrictions and access full portal</p>
-                </div>
-              </div>
-              <Switch
-                checked={godModeEnabled}
-                onCheckedChange={toggleGodMode}
-                data-testid="switch-god-mode"
-              />
-            </div>
-          </CardContent>
-        </Card>
-
         <Card className="bg-[#1a1a1a] border-[#333333]">
           <CardHeader>
             <CardTitle className="text-lg text-white flex items-center gap-2">
@@ -372,6 +357,7 @@ export default function AdminDashboard() {
                     <tr className="border-b border-[#333333]">
                       <th className="text-left py-3 px-4 text-[#9ca3af] font-medium text-sm">Email</th>
                       <th className="text-left py-3 px-4 text-[#9ca3af] font-medium text-sm">Access</th>
+                      <th className="text-center py-3 px-4 text-[#9ca3af] font-medium text-sm">God Mode</th>
                       <th className="text-left py-3 px-4 text-[#9ca3af] font-medium text-sm">Note</th>
                       <th className="text-left py-3 px-4 text-[#9ca3af] font-medium text-sm">Added</th>
                       <th className="text-right py-3 px-4 text-[#9ca3af] font-medium text-sm">Action</th>
@@ -394,6 +380,13 @@ export default function AdminDashboard() {
                           >
                             {accessLevelLabels[user.accessLevel] || user.accessLevel}
                           </span>
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <Switch
+                            checked={user.godMode || false}
+                            onCheckedChange={() => handleToggleUserGodMode(user.id, user.godMode || false)}
+                            data-testid={`switch-god-mode-${user.id}`}
+                          />
                         </td>
                         <td className="py-3 px-4">
                           <span className="text-[#9ca3af]">{user.note || "-"}</span>

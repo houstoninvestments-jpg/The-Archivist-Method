@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, integer, json } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, json, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -155,6 +155,7 @@ export const testUsers = pgTable("test_users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: text("email").notNull().unique(),
   accessLevel: varchar("access_level", { length: 50 }).notNull(), // 'crash-course', 'quick-start', 'archive'
+  godMode: boolean("god_mode").default(false),
   note: text("note"),
   createdAt: timestamp("created_at").defaultNow(),
 });
