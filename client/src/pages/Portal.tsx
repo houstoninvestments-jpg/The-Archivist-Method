@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Download, BookOpen, MessageCircle, Lock, ArrowRight, Loader2, 
   Settings, LogOut, ChevronDown, ChevronUp, FileText, Send, 
-  X, Check, Sparkles, Target, Layers, Eye
+  X, Check, Sparkles, Target, Layers, Eye, Search, Zap, RefreshCw
 } from 'lucide-react';
 import { patternDisplayNames, patternDescriptions, type PatternKey } from '@/lib/quizData';
 
@@ -12,59 +12,75 @@ const patternDetails: Record<PatternKey, {
   triggers: string[];
   behaviors: string[];
   origin: string;
+  bodySignature: string[];
+  interruption: string[];
 }> = {
   disappearing: {
     triggers: ["Emotional intimacy increases", "Someone expresses deep feelings", "Relationships become 'real'"],
     behaviors: ["Ghosting or slow fading", "Creating distance through conflict", "Finding reasons to leave"],
-    origin: "Early experiences where closeness meant danger or disappointment taught your nervous system that escape equals safety."
+    origin: "Early experiences where closeness meant danger or disappointment taught your nervous system that escape equals safety.",
+    bodySignature: ["Chest tightens or feels 'caged'", "Sudden urge to check your phone", "Feet feel restless, want to move"],
+    interruption: ["Name it: 'The Disappearing pattern is running'", "Stay physically still for 30 seconds", "Say out loud: 'This feeling will pass'"]
   },
   apologyLoop: {
     triggers: ["Taking up space", "Having needs", "Existing in someone's awareness"],
     behaviors: ["Preemptive apologizing", "Over-explaining simple requests", "Making yourself small"],
-    origin: "When your presence was treated as a burden, you learned to apologize for existing."
+    origin: "When your presence was treated as a burden, you learned to apologize for existing.",
+    bodySignature: ["Shoulders round forward", "Voice gets quieter or higher", "Compulsion to shrink physically"],
+    interruption: ["Catch the 'sorry' before it leaves", "Replace with 'Thank you for waiting'", "Stand/sit 2 inches taller"]
   },
   testing: {
     triggers: ["Things going well", "Trust beginning to form", "Vulnerability moments"],
     behaviors: ["Creating tests of loyalty", "Pushing people away", "Sabotaging good situations"],
-    origin: "Unpredictable early relationships taught you to test people before trusting them."
+    origin: "Unpredictable early relationships taught you to test people before trusting them.",
+    bodySignature: ["Jaw clenches", "Scanning for exits or 'evidence'", "Heart rate increases during calm moments"],
+    interruption: ["Notice the test before you deploy it", "Ask: 'Am I testing or trusting?'", "Tell them: 'I'm feeling uncertain'"]
   },
   attractionToHarm: {
     triggers: ["Meeting 'safe' people", "Stability in relationships", "Calm, predictable connection"],
     behaviors: ["Choosing unavailable partners", "Feeling bored by kindness", "Mistaking chaos for passion"],
-    origin: "When chaos was normal, your nervous system learned to read danger as excitement."
+    origin: "When chaos was normal, your nervous system learned to read danger as excitement.",
+    bodySignature: ["Boredom feels physical, like restlessness", "Excitement only with uncertainty", "Calm feels 'wrong' in your body"],
+    interruption: ["Label it: 'Boredom is not the same as wrong'", "Stay in the calm for 5 more minutes", "Notice: 'This is what safe feels like'"]
   },
   complimentDeflection: {
     triggers: ["Receiving praise", "Being seen positively", "Moments of recognition"],
     behaviors: ["Deflecting with humor", "Pointing out flaws", "Feeling physically uncomfortable"],
-    origin: "Praise that came with strings or was later withdrawn taught you that positive attention is dangerous."
+    origin: "Praise that came with strings or was later withdrawn taught you that positive attention is dangerous.",
+    bodySignature: ["Face flushes or skin crawls", "Urge to look away or laugh", "Stomach tightens"],
+    interruption: ["Pause before deflecting", "Say only: 'Thank you'", "Sit with the discomfort for 10 seconds"]
   },
   drainingBond: {
     triggers: ["Opportunity to leave harmful situations", "Recognizing dysfunction", "Others pointing out problems"],
     behaviors: ["Staying past the point of harm", "Making excuses for others", "Feeling responsible for their emotions"],
-    origin: "Bonding to harmful situations was once necessary for survival. Leaving felt like dying."
+    origin: "Bonding to harmful situations was once necessary for survival. Leaving felt like dying.",
+    bodySignature: ["Guilt in your stomach when thinking of leaving", "Physical exhaustion after interactions", "Tension headaches"],
+    interruption: ["Ask: 'Would I accept this for someone I love?'", "Write down what leaving would feel like", "Notice: 'Loyalty ≠ destruction'"]
   },
   successSabotage: {
     triggers: ["Approaching success", "Things going well", "Recognition or achievement looming"],
     behaviors: ["Creating crises before breakthroughs", "Procrastination near finish lines", "Self-destructive choices"],
-    origin: "Success may have meant danger, attention, or the removal of something precious. Your system learned: don't succeed."
+    origin: "Success may have meant danger, attention, or the removal of something precious. Your system learned: don't succeed.",
+    bodySignature: ["Anxiety increases as success approaches", "Sudden urge to 'blow it up'", "Sleep disruption near achievements"],
+    interruption: ["Name it: 'Success Sabotage is running'", "Complete 1 small task toward the goal", "Say: 'I am allowed to succeed'"]
   }
 };
 
 const onboardingScreens = [
   {
-    title: "Welcome to Your Pattern Archive",
-    subtitle: "You made it through the first door.",
-    content: "This is where your excavation begins. Not healing—archaeology. We're here to map the code that's been running your life."
+    title: "Welcome to The Pattern Archive",
+    subtitle: "This is your excavation site.",
+    content: "Here's how it works: We map the code that's been running your life. Not healing—archaeology."
   },
   {
-    title: "What You'll Find Here",
-    subtitle: "Your pattern breakdown, resources, and The Archivist.",
-    content: "Pattern analysis based on your quiz. Downloadable resources when you unlock them. And an AI that understands the code you're running."
+    title: "Right Now, You Have",
+    subtitle: "Door 1 of The Four Doors Protocol.",
+    content: "Your pattern breakdown and 7-Day Crash Course (free). Pattern recognition and body signature awareness."
   },
   {
-    title: "Ready to Begin?",
-    subtitle: "One pattern at a time. One insight at a time.",
-    content: "Scroll down to see your pattern breakdown. Then explore what's available to you. The archive is always open."
+    title: "Want The Complete System?",
+    subtitle: "Unlock the full Four Doors Protocol.",
+    content: "Quick-Start ($47): All four doors for your pattern with 90 days of exercises + AI. Archive ($197): All four doors for all 7 patterns with lifetime access."
   }
 ];
 
@@ -254,9 +270,42 @@ function PatternBreakdown({ pattern }: { pattern: PatternKey }) {
         </div>
       </div>
       
-      <div className="bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-xl p-5 border-l-4 border-teal-500">
-        <h5 className="text-sm font-bold text-white uppercase tracking-wider mb-2">Origin</h5>
+      <div className="bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-xl p-5 border-l-4 border-teal-500 mb-8">
+        <h5 className="text-sm font-bold text-white uppercase tracking-wider mb-2">The Original Room</h5>
         <p className="text-slate-300 italic leading-relaxed">{details.origin}</p>
+      </div>
+      
+      {/* Body Signature Section */}
+      <div className="bg-pink-500/5 border border-pink-500/20 rounded-xl p-5 mb-8">
+        <h5 className="text-sm font-bold text-pink-400 uppercase tracking-wider mb-4">
+          Your Body Signature
+        </h5>
+        <p className="text-xs text-slate-500 mb-4 italic">This is your 2.7 second window</p>
+        <ul className="space-y-2">
+          {details.bodySignature.map((sign, i) => (
+            <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
+              <span className="text-pink-400 mt-1">•</span>
+              {sign}
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      {/* How to Interrupt Section */}
+      <div className="bg-teal-500/5 border border-teal-500/20 rounded-xl p-5">
+        <h5 className="text-sm font-bold text-teal-400 uppercase tracking-wider mb-4">
+          How To Interrupt It
+        </h5>
+        <ol className="space-y-3">
+          {details.interruption.map((step, i) => (
+            <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
+              <span className="flex-shrink-0 w-6 h-6 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold text-xs">
+                {i + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
@@ -643,6 +692,144 @@ export default function Portal() {
             isCollapsed={excavationCollapsed} 
             onToggle={handleExcavationToggle} 
           />
+
+          {/* Pattern Recognition Session Video */}
+          <section className="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-6 md:p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-teal-400" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Pattern Recognition Session</h3>
+                <p className="text-sm text-slate-400">Watch this first — everything below will make sense</p>
+              </div>
+            </div>
+            
+            <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden mb-4">
+              <iframe 
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Pattern Recognition Session"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            
+            <div className="text-sm text-slate-400 space-y-2">
+              <p className="font-semibold text-slate-300">This video covers:</p>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-teal-400">•</span>
+                  What pattern archaeology is
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-teal-400">•</span>
+                  All 7 core patterns (you'll recognize yours)
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-teal-400">•</span>
+                  The Four Doors Protocol
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-teal-400">•</span>
+                  How to begin interrupting patterns
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Four Doors Progress */}
+          <section className="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-6 md:p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-br from-teal-500/20 to-pink-500/20 rounded-xl flex items-center justify-center">
+                <Layers className="w-5 h-5 text-teal-400" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Your Four Doors Progress</h3>
+                <p className="text-sm text-slate-400">Complete all four doors to fully interrupt your pattern</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Door 1 - Unlocked */}
+              <div className="p-4 bg-teal-500/10 border border-teal-500/30 rounded-xl">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-5 h-5 text-teal-400" />
+                    <span className="font-bold text-teal-400">DOOR 1: FOCUS</span>
+                  </div>
+                  <span className="text-xs font-bold bg-teal-500/20 text-teal-400 px-2 py-1 rounded-full">UNLOCKED</span>
+                </div>
+                <p className="text-sm text-slate-300 mb-3">Days 1-7 • Pattern recognition</p>
+                <button 
+                  className="w-full py-2 bg-teal-500 hover:bg-teal-600 text-black font-semibold rounded-lg transition-colors text-sm"
+                  data-testid="button-door-1-continue"
+                >
+                  Continue →
+                </button>
+              </div>
+              
+              {/* Door 2 - Locked */}
+              <div className="p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl opacity-75">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Search className="w-5 h-5 text-slate-500" />
+                    <span className="font-bold text-slate-400">DOOR 2: EXCAVATION</span>
+                  </div>
+                  <span className="text-xs font-bold bg-slate-800 text-slate-500 px-2 py-1 rounded-full flex items-center gap-1">
+                    <Lock className="w-3 h-3" /> LOCKED
+                  </span>
+                </div>
+                <p className="text-sm text-slate-500 mb-3">Days 8-21 • Origin discovery</p>
+                <button 
+                  className="w-full py-2 bg-pink-500/20 border border-pink-500/30 text-pink-400 font-semibold rounded-lg text-sm"
+                  data-testid="button-door-2-unlock"
+                >
+                  Unlock with Quick-Start ($47)
+                </button>
+              </div>
+              
+              {/* Door 3 - Locked */}
+              <div className="p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl opacity-75">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-slate-500" />
+                    <span className="font-bold text-slate-400">DOOR 3: INTERRUPTION</span>
+                  </div>
+                  <span className="text-xs font-bold bg-slate-800 text-slate-500 px-2 py-1 rounded-full flex items-center gap-1">
+                    <Lock className="w-3 h-3" /> LOCKED
+                  </span>
+                </div>
+                <p className="text-sm text-slate-500 mb-3">Days 22-60 • Circuit breaking</p>
+                <button 
+                  className="w-full py-2 bg-pink-500/20 border border-pink-500/30 text-pink-400 font-semibold rounded-lg text-sm"
+                  data-testid="button-door-3-unlock"
+                >
+                  Unlock with Quick-Start ($47)
+                </button>
+              </div>
+              
+              {/* Door 4 - Locked */}
+              <div className="p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl opacity-75">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="w-5 h-5 text-slate-500" />
+                    <span className="font-bold text-slate-400">DOOR 4: REWRITE</span>
+                  </div>
+                  <span className="text-xs font-bold bg-slate-800 text-slate-500 px-2 py-1 rounded-full flex items-center gap-1">
+                    <Lock className="w-3 h-3" /> LOCKED
+                  </span>
+                </div>
+                <p className="text-sm text-slate-500 mb-3">Days 61-90 • New pathways</p>
+                <button 
+                  className="w-full py-2 bg-pink-500/20 border border-pink-500/30 text-pink-400 font-semibold rounded-lg text-sm"
+                  data-testid="button-door-4-unlock"
+                >
+                  Unlock with Quick-Start ($47)
+                </button>
+              </div>
+            </div>
+          </section>
 
           <PatternBreakdown pattern={userPattern} />
 

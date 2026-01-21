@@ -155,6 +155,15 @@ export default function Quiz() {
                 You do it anyway.
               </span>
             </p>
+            <p 
+              className="mb-4 font-bold"
+              style={{ 
+                color: '#EC4899',
+                textShadow: '0 0 15px rgba(236, 72, 153, 0.3)'
+              }}
+            >
+              Disappear. Apologize. Test. Sabotage. Repeat.
+            </p>
             <p className="text-white">
               15 questions. 2 minutes.
               <br />

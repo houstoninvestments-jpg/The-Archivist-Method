@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Check, Zap, Heart, MessageCircle, RefreshCw, ArrowRight, ArrowUp } from "lucide-react";
+import { Check, Zap, Heart, MessageCircle, RefreshCw, ArrowRight, ArrowUp, Eye, Search, Sparkles } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import heroBackground from "@assets/archivist-hero-background.png";
 import ParticleField from "@/components/ParticleField";
@@ -573,13 +573,247 @@ export default function Landing() {
         </div>
       </section>
       
-      {/* SECTION 8: MINIMAL FOOTER */}
-      <footer className="border-t border-slate-800 py-8 mt-16">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-3">
-          <p className="text-slate-500 text-sm leading-relaxed">
+      {/* SECTION 8: THE FOUR DOORS PROTOCOL */}
+      <section 
+        id="four-doors"
+        className="py-20 md:py-24 px-5 bg-slate-950"
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 
+              className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-4"
+              style={{ color: '#14B8A6' }}
+              data-testid="text-four-doors-headline"
+            >
+              THE FOUR DOORS PROTOCOL™
+            </h2>
+            <p className="text-slate-400 text-lg">
+              Your systematic path to pattern interruption
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Door 1 */}
+            <div className="scroll-reveal bg-slate-900/50 border-l-4 border-teal-500 p-6 rounded-r-lg hover:bg-slate-900 transition-colors">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                  <Eye className="w-5 h-5 text-teal-400" />
+                </div>
+                <span className="text-lg font-bold text-teal-400">DOOR 1: FOCUS</span>
+              </div>
+              <p className="text-slate-300">See the pattern clearly</p>
+            </div>
+            
+            {/* Door 2 */}
+            <div className="scroll-reveal bg-slate-900/50 border-l-4 border-teal-500 p-6 rounded-r-lg hover:bg-slate-900 transition-colors" style={{animationDelay: '0.1s'}}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                  <Search className="w-5 h-5 text-teal-400" />
+                </div>
+                <span className="text-lg font-bold text-teal-400">DOOR 2: EXCAVATION</span>
+              </div>
+              <p className="text-slate-300">Understand the original room</p>
+            </div>
+            
+            {/* Door 3 */}
+            <div className="scroll-reveal bg-slate-900/50 border-l-4 border-teal-500 p-6 rounded-r-lg hover:bg-slate-900 transition-colors" style={{animationDelay: '0.2s'}}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-teal-400" />
+                </div>
+                <span className="text-lg font-bold text-teal-400">DOOR 3: INTERRUPTION</span>
+              </div>
+              <p className="text-slate-300">Break the circuit in real-time</p>
+            </div>
+            
+            {/* Door 4 */}
+            <div className="scroll-reveal bg-slate-900/50 border-l-4 border-teal-500 p-6 rounded-r-lg hover:bg-slate-900 transition-colors" style={{animationDelay: '0.3s'}}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                  <RefreshCw className="w-5 h-5 text-teal-400" />
+                </div>
+                <span className="text-lg font-bold text-teal-400">DOOR 4: REWRITE</span>
+              </div>
+              <p className="text-slate-300">Build new behavioral pathways</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* SECTION 9: PRICING CARDS */}
+      <section 
+        id="pricing"
+        className="py-20 md:py-24 px-5 bg-black"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 
+              className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-4 text-white"
+              data-testid="text-pricing-headline"
+            >
+              CHOOSE YOUR PATH
+            </h2>
+            <p className="text-slate-400">
+              Pattern interruption at every level
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free Tier */}
+            <div className="scroll-reveal bg-slate-900/50 border border-slate-700 rounded-xl p-6 hover:border-teal-500/30 transition-all">
+              <div className="mb-6">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Free</span>
+                <h3 className="text-xl font-bold text-white mt-2">7-DAY CRASH COURSE</h3>
+                <p className="text-teal-400 text-sm font-semibold mt-1 flex items-center gap-1.5">
+                  <Eye className="w-3.5 h-3.5" /> DOOR 1: FOCUS
+                </p>
+              </div>
+              
+              <ul className="space-y-3 mb-8 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Pattern recognition training</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Body signature identification</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>7 days of observation protocols</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Your pattern breakdown</span>
+                </li>
+              </ul>
+              
+              <Link 
+                href="/quiz"
+                className="block w-full text-center py-3 border border-teal-500 text-teal-400 rounded-lg hover:bg-teal-500/10 transition-colors font-semibold"
+                data-testid="button-pricing-free"
+              >
+                Discover Your Pattern →
+              </Link>
+            </div>
+            
+            {/* Quick-Start ($47) */}
+            <div className="scroll-reveal bg-gradient-to-b from-teal-500/10 to-slate-900/50 border-2 border-teal-500 rounded-xl p-6 relative" style={{animationDelay: '0.1s'}}>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-500 text-black text-xs font-bold px-4 py-1 rounded-full">
+                MOST POPULAR
+              </div>
+              
+              <div className="mb-6">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-white">$47</span>
+                  <span className="text-slate-500 text-sm">one-time</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mt-2">90-DAY QUICK-START</h3>
+                <p className="text-teal-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL</p>
+              </div>
+              
+              <ul className="space-y-3 mb-8 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <Eye className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+                  <span>DOOR 1: FOCUS (Days 1-7)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Search className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+                  <span>DOOR 2: EXCAVATION (Days 8-21)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Zap className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+                  <span>DOOR 3: INTERRUPTION (Days 22-60)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <RefreshCw className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
+                  <span>DOOR 4: REWRITE (Days 61-90)</span>
+                </li>
+                <li className="flex items-start gap-2 pt-2 border-t border-slate-700/50">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Complete interruption system</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Daily exercises (90 days)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
+                  <span>Archivist AI access</span>
+                </li>
+              </ul>
+              
+              <Link 
+                href="/quiz"
+                className="block w-full text-center py-3 bg-teal-500 text-black rounded-lg hover:bg-teal-600 transition-colors font-bold shadow-lg shadow-teal-500/20"
+                data-testid="button-pricing-quickstart"
+              >
+                Unlock Quick-Start →
+              </Link>
+            </div>
+            
+            {/* Complete Archive ($197) */}
+            <div className="scroll-reveal bg-slate-900/50 border border-pink-500/30 rounded-xl p-6 hover:border-pink-500/50 transition-all" style={{animationDelay: '0.2s'}}>
+              <div className="mb-6">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-white">$197</span>
+                  <span className="text-slate-500 text-sm">one-time</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mt-2">COMPLETE ARCHIVE</h3>
+                <p className="text-pink-400 text-sm font-semibold mt-1">ALL 7 PATTERNS MAPPED</p>
+              </div>
+              
+              <ul className="space-y-3 mb-8 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <Sparkles className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+                  <span className="font-semibold">All Four Doors, Fully Documented</span>
+                </li>
+                <li className="flex items-start gap-2 pt-2 border-t border-slate-700/50">
+                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>All 7 patterns mapped</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>Cross-pattern analysis</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>Advanced protocols</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>Lifetime access</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                  <span>Archivist AI access</span>
+                </li>
+              </ul>
+              
+              <Link 
+                href="/quiz"
+                className="block w-full text-center py-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/50 text-pink-400 rounded-lg hover:from-pink-500/30 hover:to-purple-500/30 transition-all font-bold"
+                data-testid="button-pricing-archive"
+              >
+                Enter The Archive →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* SECTION 10: MINIMAL FOOTER */}
+      <footer className="border-t border-slate-800 py-12">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
+          <p className="text-slate-400 text-sm leading-relaxed">
             Built in the fire. Years of observation. Systematized December 2025.
           </p>
-          <p className="text-slate-600 text-xs italic">— The Archivist</p>
+          <p className="text-slate-500 text-xs italic">— The Archivist</p>
+          <div className="pt-4 border-t border-slate-800/50">
+            <p className="text-slate-600 text-xs">
+              © 2025 The Archivist Method™. Pattern archaeology, not therapy.
+            </p>
+          </div>
         </div>
       </footer>
       
