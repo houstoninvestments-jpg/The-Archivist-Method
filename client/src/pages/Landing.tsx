@@ -1,8 +1,10 @@
 import { Link } from "wouter";
 import { Check, Zap, Heart, MessageCircle, RefreshCw, ArrowRight, ArrowUp, Eye, Search, Sparkles } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
-import heroBackground from "@assets/archivist-hero-background.png";
-import ParticleField from "@/components/ParticleField";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
+import heroBackground from "@assets/archivist-hero-background-optimized.jpg";
+
+// Lazy load ParticleField - non-critical visual effect
+const ParticleField = lazy(() => import("@/components/ParticleField"));
 
 // Hero headline component - matching older version with two lines
 function HeroHeadline() {
@@ -45,7 +47,8 @@ function GeometricAccents() {
   );
 }
 
-const patterns = [
+// Memoized static data to prevent re-renders
+const patterns = Object.freeze([
   {
     number: 1,
     name: "DISAPPEARING",
@@ -81,9 +84,9 @@ const patterns = [
     name: "SUCCESS SABOTAGE",
     description: "You destroy things right before they succeed. Three weeks from launch, you quit. One week from promotion, you blow it up. Sustained success triggers panic—so you destroy it first."
   }
-];
+]);
 
-const steps = [
+const steps = Object.freeze([
   {
     number: 1,
     title: "IDENTIFY YOUR PATTERN",
@@ -99,10 +102,10 @@ const steps = [
     title: "INTERRUPT & TRACK",
     description: "When you feel your body signature, speak your circuit break statement. Out loud or internal. Track attempts. Refine approach. You get better every time."
   }
-];
+]);
 
 // Comparison table data - Pain-point focused
-const comparisonRows = [
+const comparisonRows = Object.freeze([
   { therapy: "Processes trauma", archivist: "Interrupts patterns trauma created" },
   { therapy: "Takes years", archivist: "7-90 days to see results" },
   { therapy: "Talk about childhood", archivist: "Find Original Room, then interrupt" },
@@ -111,7 +114,7 @@ const comparisonRows = [
   { therapy: "You understand why you do it", archivist: "You stop doing it", highlight: true },
   { therapy: "Explores the pattern", archivist: "Interrupts the pattern", highlight: true },
   { therapy: "Validates your feelings", archivist: "Maps your body signature", highlight: true },
-];
+]);
 
 function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", dataTestId = "button-cta" }: { text?: string; className?: string; dataTestId?: string }) {
   return (
@@ -161,8 +164,10 @@ export default function Landing() {
   
   return (
     <div className="min-h-screen bg-black text-white font-['Inter',sans-serif]">
-      {/* Floating Particles - All Pages */}
-      <ParticleField />
+      {/* Floating Particles - All Pages (lazy loaded) */}
+      <Suspense fallback={null}>
+        <ParticleField />
+      </Suspense>
       
       {/* SECTION 1: HERO - Premium Design */}
       <section 

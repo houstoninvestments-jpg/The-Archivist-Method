@@ -14,8 +14,8 @@ const ParticleField = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // 150 particles on desktop, 75 on mobile
-  const particleCount = isMobile ? 75 : 150;
+  // Reduced particle count for better performance: 50 on desktop, 25 on mobile
+  const particleCount = isMobile ? 25 : 50;
   
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }).map((_, i) => {
