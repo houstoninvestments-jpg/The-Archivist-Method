@@ -104,18 +104,6 @@ const steps = Object.freeze([
   }
 ]);
 
-// Comparison table data - Pain-point focused
-const comparisonRows = Object.freeze([
-  { therapy: "Processes trauma", archivist: "Interrupts patterns trauma created" },
-  { therapy: "Takes years", archivist: "7-90 days to see results" },
-  { therapy: "Talk about childhood", archivist: "Find Original Room, then interrupt" },
-  { therapy: "Insight-focused", archivist: "Behavior-focused" },
-  { therapy: "$200/session ongoing", archivist: "$47-$197 one-time" },
-  { therapy: "You understand why you do it", archivist: "You stop doing it", highlight: true },
-  { therapy: "Explores the pattern", archivist: "Interrupts the pattern", highlight: true },
-  { therapy: "Validates your feelings", archivist: "Maps your body signature", highlight: true },
-]);
-
 function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", dataTestId = "button-cta" }: { text?: string; className?: string; dataTestId?: string }) {
   return (
     <Link 
@@ -158,7 +146,6 @@ export default function Landing() {
   const patternsRef = useScrollReveal();
   const originRef = useScrollReveal();
   const methodRef = useScrollReveal();
-  const comparisonRef = useScrollReveal();
   const founderRef = useScrollReveal();
   const finalCtaRef = useScrollReveal();
   
@@ -229,21 +216,6 @@ export default function Landing() {
           <p className="mt-6 text-sm text-gray-500" data-testid="text-trust-indicators">
             Free • 2 Minutes • Instant Results
           </p>
-        </div>
-      </section>
-      
-      {/* SECTION: THE REAL PROBLEM */}
-      <section 
-        id="real-problem"
-        className="bg-zinc-950 border-t border-zinc-800 py-16 md:py-20 px-5"
-      >
-        <div className="max-w-[900px] mx-auto text-center">
-          <h2 
-            className="text-2xl md:text-3xl font-bold tracking-widest uppercase text-white"
-            data-testid="text-real-problem-headline"
-          >
-            THE REAL PROBLEM YOU
-          </h2>
         </div>
       </section>
       
@@ -672,63 +644,7 @@ export default function Landing() {
         </div>
       </section>
       
-      {/* SECTION 5: COMPARISON TABLE */}
-      <section 
-        id="comparison"
-        ref={comparisonRef}
-        className="bg-[#0d0d0d] py-20 md:py-24 px-5"
-      >
-        <div className="max-w-[900px] mx-auto">
-          <h2 
-            className="scroll-reveal text-3xl md:text-[42px] font-black text-center mb-4"
-            data-testid="text-comparison-headline"
-          >
-            <span className="text-teal-500">Pattern Archaeology,</span> <span className="text-white">Not Therapy</span>
-          </h2>
-          <p className="scroll-reveal text-lg text-gray-400 text-center mb-12">
-            What makes The Archivist Method™ different
-          </p>
-          
-          {/* Comparison Table */}
-          <div className="scroll-reveal">
-            <table className="w-full border-collapse table-fixed">
-              <thead>
-                <tr>
-                  <th className="text-left p-3 md:p-4 text-gray-500 font-bold text-sm md:text-lg border-b border-[#333] w-1/2">
-                    THERAPY
-                  </th>
-                  <th className="text-left p-3 md:p-4 text-teal-500 font-bold text-sm md:text-lg border-b border-[#333] w-1/2">
-                    THE ARCHIVIST METHOD™
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparisonRows.map((row, index) => (
-                  <tr 
-                    key={index}
-                    className={`border-b border-[#222] ${row.highlight ? 'bg-[#1a1a1a]' : ''}`}
-                    data-testid={`comparison-row-${index + 1}`}
-                  >
-                    <td className="p-3 md:p-4 text-gray-400 text-sm md:text-base align-top">
-                      {row.therapy}
-                    </td>
-                    <td className={`p-3 md:p-4 text-sm md:text-base align-top ${row.highlight ? 'text-pink-500 font-bold' : 'text-white'}`}>
-                      {row.archivist}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          {/* CTA after comparison */}
-          <div className="scroll-reveal text-center mt-12">
-            <PrimaryCTA text="Take the Assessment - Start Free 7-Day Course" dataTestId="button-comparison-cta" />
-          </div>
-        </div>
-      </section>
-      
-      {/* SECTION: THERAPY VS ARCHIVIST COMPARISON */}
+      {/* SECTION 5: THERAPY COMPARISON */}
       <section 
         id="therapy-comparison"
         className="bg-zinc-950 py-20 md:py-24 px-5 border-t border-zinc-800"
