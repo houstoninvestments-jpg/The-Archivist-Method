@@ -227,6 +227,21 @@ export default function Landing() {
         </div>
       </section>
       
+      {/* SECTION: THE REAL PROBLEM */}
+      <section 
+        id="real-problem"
+        className="bg-zinc-950 border-t border-zinc-800 py-16 md:py-20 px-5"
+      >
+        <div className="max-w-[900px] mx-auto text-center">
+          <h2 
+            className="text-2xl md:text-3xl font-bold tracking-widest uppercase text-white"
+            data-testid="text-real-problem-headline"
+          >
+            THE REAL PROBLEM YOU
+          </h2>
+        </div>
+      </section>
+      
       {/* SECTION 2: ABOUT THE ARCHIVIST METHOD */}
       <section 
         id="about"
