@@ -13,6 +13,57 @@ const memoryAnchors: Record<PatternKey, string> = {
   successSabotage: "You're not afraid of failure. You're afraid of having no excuse left.",
 };
 
+const whyTherapyDoesntFix: Record<PatternKey, { reasons: string[]; bodySignal: string; interrupt: string; redirect?: string; closing: string }> = {
+  disappearing: {
+    reasons: ["Childhood abandonment.", "Attachment wounds.", "Fear of intimacy."],
+    bodySignal: "That specific tightness in your chest, that urge to check your phone one more time, that thought: \"They're better off without me\"—",
+    interrupt: "Before you ghost.\nBefore you disappear.\nBefore the damage.",
+    closing: "That's not therapy.\nThat's real-time pattern interruption.",
+  },
+  apologyLoop: {
+    reasons: ["Low self-worth.", "People-pleasing conditioning.", "Trauma response."],
+    bodySignal: "That automatic \"sorry\" for existing, for taking up space, for having needs—",
+    interrupt: "And interrupt it before it leaves your mouth.",
+    redirect: "Then redirect: What do I actually need to say here?",
+    closing: "That's not therapy.\nThat's pattern interruption in action.",
+  },
+  testing: {
+    reasons: ["Abandonment fears.", "Trust issues.", "Anxious attachment."],
+    bodySignal: "That urge to cancel plans, to create distance, to see if they'll chase you—",
+    interrupt: "And interrupt it before you sabotage another relationship.",
+    redirect: "Then redirect: What do I actually need? Can I ask for it directly?",
+    closing: "That's not therapy.\nThat's real-time recognition.",
+  },
+  attractionToHarm: {
+    reasons: ["Familiar dysfunction.", "Learned associations.", "Trauma bonding."],
+    bodySignal: "That excitement that feels like chemistry, that drama that feels like passion—",
+    interrupt: "And recognize it as pattern activation, not attraction.",
+    redirect: "Then interrupt before you commit.",
+    closing: "That's not therapy.\nThat's pattern recognition that saves you years.",
+  },
+  complimentDeflection: {
+    reasons: ["Low self-esteem.", "Imposter syndrome.", "Worthiness wounds."],
+    bodySignal: "That urge to minimize, to joke it away, to redirect to someone else—",
+    interrupt: "And interrupt it before it leaves your mouth.",
+    redirect: "Then redirect: \"Thank you\" and nothing else.",
+    closing: "That's not therapy.\nThat's reprogramming in real-time.",
+  },
+  drainingBond: {
+    reasons: ["Caretaker conditioning.", "Boundary issues.", "Self-abandonment patterns."],
+    bodySignal: "That urgency, that \"they need me,\" that familiar role—",
+    interrupt: "And interrupt it before you abandon yourself again.",
+    redirect: "Then redirect: What do I need right now?",
+    closing: "That's not therapy.\nThat's boundary enforcement through pattern recognition.",
+  },
+  successSabotage: {
+    reasons: ["Fear of success.", "Worthiness issues.", "Comfort zone attachment."],
+    bodySignal: "That sudden \"new idea\" that feels more exciting, that urge to pivot, that voice saying \"this isn't good enough\"—",
+    interrupt: "And interrupt it before you kill another dream.",
+    redirect: "Then redirect: What's one small step forward on THIS project?",
+    closing: "That's not therapy.\nThat's completion through interruption.",
+  },
+};
+
 const patternTeasers: Record<PatternKey, { recognition: string; insight: string; cost: string }> = {
   disappearing: {
     recognition: "You pull away when intimacy increases. The moment someone gets too close—when they start to matter—your chest tightens and you need space. You've ended relationships that were going well. You've ghosted people who cared about you. You've created distance in ways that confused everyone, including yourself. You watch yourself do it. You know it's happening. You do it anyway.",
@@ -159,6 +210,48 @@ export default function QuizResult() {
           <div className="bg-pink-500/5 backdrop-blur-xl border border-pink-500/20 rounded-2xl p-6 md:p-8">
             <h2 className="text-xl font-bold text-pink-400 mb-4">What It's Costing You</h2>
             <p className="text-gray-300 leading-relaxed">{teaser.cost}</p>
+          </div>
+        </div>
+
+        {/* Why Therapy Doesn't Fix This Pattern Section */}
+        <div className="bg-zinc-900/80 border border-zinc-700 rounded-2xl p-6 md:p-10 mb-8" data-testid="section-why-therapy">
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-6 text-center">
+            Why Therapy Doesn't Fix This Pattern
+          </h2>
+          
+          <div className="text-gray-300 leading-relaxed space-y-4">
+            <p>Therapy will help you understand WHY you {patternKey === 'disappearing' ? 'disappear' : patternKey === 'apologyLoop' ? 'apologize excessively' : patternKey === 'testing' ? 'test people' : patternKey === 'attractionToHarm' ? 'chaos feels safe' : patternKey === 'complimentDeflection' ? "can't accept praise" : patternKey === 'drainingBond' ? 'your codependency' : 'self-sabotage'}.</p>
+            
+            <ul className="space-y-1 pl-2">
+              {whyTherapyDoesntFix[patternKey].reasons.map((reason, i) => (
+                <li key={i} className="text-slate-400">• {reason}</li>
+              ))}
+            </ul>
+            
+            <p>All true. All valid.</p>
+            
+            <p>But understanding WHY doesn't stop the pattern from running {patternKey === 'disappearing' ? 'three days from now' : patternKey === 'apologyLoop' ? 'five times in the next conversation' : patternKey === 'testing' ? 'when you push people away' : patternKey === 'attractionToHarm' ? 'tomorrow night' : patternKey === 'complimentDeflection' ? 'on the next compliment you receive' : patternKey === 'drainingBond' ? 'at 2 AM' : 'at 87% complete'}.</p>
+            
+            <p>
+              The Archivist Method teaches you to{' '}
+              <span className="text-white font-semibold italic">FEEL the pattern activating in your body</span>—
+            </p>
+            
+            <p className="text-white italic">{whyTherapyDoesntFix[patternKey].bodySignal}</p>
+            
+            <p>{whyTherapyDoesntFix[patternKey].interrupt.split('\n').map((line, i) => (
+              <span key={i}>{line}<br /></span>
+            ))}</p>
+            
+            {whyTherapyDoesntFix[patternKey].redirect && (
+              <p className="text-teal-400">{whyTherapyDoesntFix[patternKey].redirect}</p>
+            )}
+            
+            <p className="text-white font-semibold text-lg pt-4 border-t border-zinc-700">
+              {whyTherapyDoesntFix[patternKey].closing.split('\n').map((line, i) => (
+                <span key={i}>{line}<br /></span>
+              ))}
+            </p>
           </div>
         </div>
 
