@@ -11,7 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Users, Trash2, LogOut, Plus, BookOpen, Zap, Archive } from "lucide-react";
+import { Shield, Users, Trash2, LogOut, Plus, BookOpen, Zap, Archive, Eye } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import type { TestUser } from "@shared/schema";
 
 interface Stats {
@@ -29,10 +30,28 @@ export default function AdminDashboard() {
   const [note, setNote] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [godModeEnabled, setGodModeEnabled] = useState(() => {
+    return localStorage.getItem("godMode") === "true";
+  });
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   const token = localStorage.getItem("adminToken");
+
+  const toggleGodMode = (enabled: boolean) => {
+    if (enabled) {
+      localStorage.setItem("godMode", "true");
+    } else {
+      localStorage.removeItem("godMode");
+    }
+    setGodModeEnabled(enabled);
+    toast({
+      title: enabled ? "God Mode Enabled" : "God Mode Disabled",
+      description: enabled 
+        ? "Full portal access is now active" 
+        : "Portal access restrictions restored",
+    });
+  };
 
   // Redirect if no token
   useEffect(() => {
@@ -263,6 +282,28 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* God Mode Toggle */}
+        <Card className="bg-[#1a1a1a] border-[#333333]">
+          <CardContent className="py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${godModeEnabled ? 'bg-pink-500/20' : 'bg-[#333333]'}`}>
+                  <Eye className={`w-5 h-5 ${godModeEnabled ? 'text-pink-400' : 'text-[#9ca3af]'}`} />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">God Mode</h3>
+                  <p className="text-sm text-[#9ca3af]">Bypass all restrictions and access full portal</p>
+                </div>
+              </div>
+              <Switch
+                checked={godModeEnabled}
+                onCheckedChange={toggleGodMode}
+                data-testid="switch-god-mode"
+              />
+            </div>
+          </CardContent>
+        </Card>
 
         <Card className="bg-[#1a1a1a] border-[#333333]">
           <CardHeader>
