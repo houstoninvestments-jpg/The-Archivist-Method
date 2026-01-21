@@ -823,6 +823,135 @@ export default function Landing() {
         </div>
       </section>
       
+      {/* SECTION: FAQ */}
+      <section 
+        id="faq"
+        className="bg-zinc-950 py-20 md:py-24 px-5"
+      >
+        <div className="max-w-3xl mx-auto">
+          <h2 
+            className="text-2xl font-bold tracking-widest uppercase mb-12 text-center"
+            style={{ color: '#14B8A6' }}
+            data-testid="text-faq-headline"
+          >
+            Frequently Asked Questions
+          </h2>
+          
+          <div className="space-y-12">
+            {/* FAQ 1 */}
+            <div className="space-y-4" data-testid="faq-item-1">
+              <h3 className="text-xl md:text-2xl font-bold text-white">
+                Is this therapy?
+              </h3>
+              <div className="text-slate-300 leading-relaxed space-y-4">
+                <p><span className="font-semibold text-white">No.</span> This is pattern archaeology.</p>
+                
+                <p>
+                  Therapy asks: "Why do I do this?"<br />
+                  The Archivist Method asks: "What pattern am I running right now?"
+                </p>
+                
+                <p>
+                  Therapy is designed to help you understand your past.<br />
+                  This is designed to help you interrupt your present.
+                </p>
+                
+                <p>
+                  We're not healing trauma.<br />
+                  We're not processing emotions.<br />
+                  We're not building coping strategies.
+                </p>
+                
+                <p>
+                  We're teaching you to recognize patterns in real-time and interrupt them before they run.
+                </p>
+                
+                <p>
+                  That's not therapy.<br />
+                  That's pattern recognition training.
+                </p>
+                
+                <p>
+                  Think of it like this:<br />
+                  Therapy is archaeology of the past.<br />
+                  This is archaeology of the present.
+                </p>
+                
+                <p>
+                  Both have value.<br />
+                  They're just solving different problems.
+                </p>
+              </div>
+            </div>
+            
+            {/* FAQ 2 */}
+            <div className="space-y-4 pt-8 border-t border-slate-800" data-testid="faq-item-2">
+              <h3 className="text-xl md:text-2xl font-bold text-white">
+                Can I do this instead of therapy?
+              </h3>
+              <div className="text-slate-300 leading-relaxed space-y-4">
+                <p>That's not for me to say.</p>
+                
+                <p>If you're in therapy and it's working, keep going.</p>
+                
+                <p>This method works alongside therapy, not against it.</p>
+                
+                <p>
+                  The difference:<br />
+                  Therapy helps you understand WHY you run patterns.<br />
+                  This helps you INTERRUPT them when they activate.
+                </p>
+                
+                <p className="font-semibold text-white">Understanding why ≠ stopping what.</p>
+                
+                <p>
+                  You can have both.<br />
+                  You can have one.<br />
+                  You can have neither.
+                </p>
+                
+                <p>
+                  But if you're tired of understanding your patterns and ready to actually interrupt them—this is the method.
+                </p>
+              </div>
+            </div>
+            
+            {/* FAQ 3 */}
+            <div className="space-y-4 pt-8 border-t border-slate-800" data-testid="faq-item-3">
+              <h3 className="text-xl md:text-2xl font-bold text-white">
+                Do I need to talk about my trauma?
+              </h3>
+              <div className="text-slate-300 leading-relaxed space-y-4">
+                <p><span className="font-semibold text-white">No.</span></p>
+                
+                <p>The Archivist Method doesn't require you to:</p>
+                <ul className="space-y-1 pl-4">
+                  <li>• Revisit your past</li>
+                  <li>• Process your trauma</li>
+                  <li>• Share your story</li>
+                  <li>• Understand your childhood</li>
+                </ul>
+                
+                <p>All you need to do is:</p>
+                <ul className="space-y-1 pl-4">
+                  <li>• Recognize which pattern you're running</li>
+                  <li>• Feel it activating in your body</li>
+                  <li>• Interrupt it before the action</li>
+                  <li>• Redirect the energy</li>
+                </ul>
+                
+                <p>
+                  Your past created the pattern.<br />
+                  But your present is where you break it.
+                </p>
+                
+                <p className="font-semibold text-white">We stay in your present.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* SECTION 10: MINIMAL FOOTER */}
       <footer className="border-t border-slate-800 py-12">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
