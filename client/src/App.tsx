@@ -1,39 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import ArchivistChatbot from "@/components/ArchivistChatbot";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Landing from "@/pages/Landing";
-import ThankYou from "@/pages/ThankYou";
-import ThankYouQuickStart from "@/pages/ThankYouQuickStart";
-import ThankYouComplete from "@/pages/ThankYouComplete";
-import Portal from "@/pages/Portal";
-import PortalLogin from "@/pages/PortalLogin";
-import PortalDashboard from "@/pages/PortalDashboard";
-import PortalDashboardPreview from "@/pages/PortalDashboardPreview";
-import FreeDownload from "@/pages/FreeDownload";
-import QuickStart from "@/pages/QuickStart";
-import CompleteArchive from "@/pages/CompleteArchive";
-import Members47 from "@/pages/Members47";
-import Members197 from "@/pages/Members197";
-import Terms from "@/pages/Terms";
-import Privacy from "@/pages/Privacy";
-import Contact from "@/pages/Contact";
-import Quiz from "@/pages/Quiz";
-import QuizResult from "@/pages/QuizResult";
-import QuizFallback from "@/pages/QuizFallback";
-import PortalReader from "@/pages/PortalReader";
-import AdminLogin from "@/pages/AdminLogin";
-import AdminDashboard from "@/pages/AdminDashboard";
-import PortalDownloads from "@/pages/PortalDownloads";
-import PortalWorkbook from "@/pages/PortalWorkbook";
-import NotFound from "@/pages/not-found";
-import TestingPanel from "@/components/TestingPanel";
 import GodModeBadge from "@/components/GodModeBadge";
+
+// Eagerly loaded - Landing page for fast initial load
+import Landing from "@/pages/Landing";
+import NotFound from "@/pages/not-found";
+
+// Lazy loaded pages for code splitting
+const Quiz = lazy(() => import("@/pages/Quiz"));
+const QuizResult = lazy(() => import("@/pages/QuizResult"));
+const QuizFallback = lazy(() => import("@/pages/QuizFallback"));
+const ThankYou = lazy(() => import("@/pages/ThankYou"));
+const ThankYouQuickStart = lazy(() => import("@/pages/ThankYouQuickStart"));
+const ThankYouComplete = lazy(() => import("@/pages/ThankYouComplete"));
+const Portal = lazy(() => import("@/pages/Portal"));
+const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
+const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
+const PortalDashboardPreview = lazy(() => import("@/pages/PortalDashboardPreview"));
+const PortalReader = lazy(() => import("@/pages/PortalReader"));
+const PortalDownloads = lazy(() => import("@/pages/PortalDownloads"));
+const PortalWorkbook = lazy(() => import("@/pages/PortalWorkbook"));
+const FreeDownload = lazy(() => import("@/pages/FreeDownload"));
+const QuickStart = lazy(() => import("@/pages/QuickStart"));
+const CompleteArchive = lazy(() => import("@/pages/CompleteArchive"));
+const Members47 = lazy(() => import("@/pages/Members47"));
+const Members197 = lazy(() => import("@/pages/Members197"));
+const Terms = lazy(() => import("@/pages/Terms"));
+const Privacy = lazy(() => import("@/pages/Privacy"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const ArchivistChatbot = lazy(() => import("@/components/ArchivistChatbot"));
+const TestingPanel = lazy(() => import("@/components/TestingPanel"));
+
+// Loading fallback component
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#14B8A6]"></div>
+    </div>
+  );
+}
 
 function Router() {
   return (
@@ -104,11 +117,15 @@ function AppContent() {
     <div className="min-h-screen flex flex-col">
       {!hideHeaderFooter && <Header />}
       <main className="flex-1">
-        <Router />
+        <Suspense fallback={<PageLoader />}>
+          <Router />
+        </Suspense>
       </main>
       {!hideHeaderFooter && <Footer />}
-      {showPremiumChatbot && <ArchivistChatbot />}
-      {showTestingPanel && <TestingPanel />}
+      <Suspense fallback={null}>
+        {showPremiumChatbot && <ArchivistChatbot />}
+        {showTestingPanel && <TestingPanel />}
+      </Suspense>
       <GodModeBadge />
     </div>
   );
