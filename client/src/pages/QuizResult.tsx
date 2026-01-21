@@ -64,6 +64,170 @@ const whyTherapyDoesntFix: Record<PatternKey, { reasons: string[]; bodySignal: s
   },
 };
 
+const fourDoorsProtocol: Record<PatternKey, {
+  feel: { whatToFeel: string[]; context: string };
+  engage: string;
+  interrupt: string[];
+  redirect: { action: string; result: string };
+}> = {
+  disappearing: {
+    feel: {
+      whatToFeel: [
+        "Tightness in your chest",
+        "Urge to check your phone compulsively",
+        "Thought forming: \"They're better off without me\"",
+        "Restlessness, need to create distance"
+      ],
+      context: "This feeling usually comes after connection or vulnerability. Learn to recognize THIS specific sensation."
+    },
+    engage: "This is Disappearing Act activating.",
+    interrupt: [
+      "Do NOT ghost.",
+      "Do NOT send the distancing text.",
+      "Do NOT make excuses to cancel.",
+      "Close your phone. Breathe. Wait 90 seconds.",
+      "The urge to run will peak and then start to fade."
+    ],
+    redirect: {
+      action: "I'm feeling overwhelmed and need some space. Can we reconnect Friday?",
+      result: "Same need for distance. Different method. This preserves the relationship instead of destroying it."
+    }
+  },
+  apologyLoop: {
+    feel: {
+      whatToFeel: [
+        "The word \"sorry\" forming in your throat",
+        "Before you even think about whether you need to apologize",
+        "Automatic, reflexive sensation",
+        "Anxiety about taking up space"
+      ],
+      context: "This happens in normal conversations, not just when you've done something wrong."
+    },
+    engage: "This is Apology Loop.",
+    interrupt: [
+      "Do NOT say \"sorry.\"",
+      "Pause. Breathe. Let the word dissolve.",
+      "It will feel wrong. You'll feel rude.",
+      "You'll feel like you're breaking a rule.",
+      "You're not."
+    ],
+    redirect: {
+      action: "Thank you for your patience",
+      result: "Or 'I appreciate you' — or just say what you actually mean to say. Same acknowledgment of the other person. Different frame. No self-erasure."
+    }
+  },
+  testing: {
+    feel: {
+      whatToFeel: [
+        "Urge to cancel plans",
+        "Impulse to create distance \"to see what they do\"",
+        "Thought: \"If they cared, they would...\"",
+        "Restlessness, need to \"test\" the relationship"
+      ],
+      context: "This usually comes when things are going well. That's the trigger."
+    },
+    engage: "This is Testing Pattern. I'm about to push them away to see if they'll stay.",
+    interrupt: [
+      "Do NOT cancel.",
+      "Do NOT create artificial distance.",
+      "Do NOT send the \"testing\" text.",
+      "Sit with the insecurity for 60 seconds."
+    ],
+    redirect: {
+      action: "I'm feeling insecure. Can you reassure me you want to hang out?",
+      result: "Vulnerability instead of manipulation. Same need for reassurance. Healthier method."
+    }
+  },
+  attractionToHarm: {
+    feel: {
+      whatToFeel: [
+        "Excitement toward chaos (feels like chemistry)",
+        "Boredom with stability (feels flat)",
+        "Pull toward red flags",
+        "Distrust of anything that feels peaceful"
+      ],
+      context: "This is a body-level attraction. Learn your specific signature."
+    },
+    engage: "This is Attraction to Harm. I'm confusing familiar with safe.",
+    interrupt: [
+      "Do NOT move toward the chaotic option.",
+      "Do NOT text the red flag person.",
+      "Do NOT choose the drama.",
+      "Pause. The pull will feel magnetic. Wait it out."
+    ],
+    redirect: {
+      action: "What would safe actually look like?",
+      result: "Then choose the boring option deliberately. Not because it's exciting. Because it's actually safe."
+    }
+  },
+  complimentDeflection: {
+    feel: {
+      whatToFeel: [
+        "Discomfort when praised",
+        "Urge to minimize, joke away, or redirect",
+        "Thought: \"They don't really mean it\"",
+        "Physical need to escape the attention"
+      ],
+      context: "This happens in the second after receiving a compliment."
+    },
+    engage: "This is Compliment Deflection. I'm about to minimize this.",
+    interrupt: [
+      "Do NOT deflect.",
+      "Do NOT say \"Oh, it was nothing.\"",
+      "Do NOT redirect to someone else.",
+      "Pause. Sit with the discomfort of being seen."
+    ],
+    redirect: {
+      action: "Thank you.",
+      result: "Nothing else. Just \"Thank you.\" Let the compliment land. Sit with it. This is reprogramming."
+    }
+  },
+  drainingBond: {
+    feel: {
+      whatToFeel: [
+        "Pull to \"help\" someone who never changes",
+        "Urgency: \"They need me\"",
+        "Familiar exhaustion",
+        "Thought: \"I'm the only one who understands them\""
+      ],
+      context: "This feels like purpose. It's not."
+    },
+    engage: "This is Draining Bond. I'm about to abandon myself to rescue them.",
+    interrupt: [
+      "Do NOT answer the 2 AM crisis call.",
+      "Do NOT drop everything to fix their problem.",
+      "Do NOT sacrifice your needs.",
+      "Breathe. The urgency will feel overwhelming. Wait."
+    ],
+    redirect: {
+      action: "What do I need right now?",
+      result: "Then do that instead. Set the boundary. Turn off your phone. Take care of yourself first."
+    }
+  },
+  successSabotage: {
+    feel: {
+      whatToFeel: [
+        "Sudden \"better idea\" excitement",
+        "Boredom with current project (especially near completion)",
+        "Perfectionism spike",
+        "Thought: \"This isn't good enough\""
+      ],
+      context: "This happens around 80-90% completion. Always."
+    },
+    engage: "This is Success Sabotage. I'm about to abandon this.",
+    interrupt: [
+      "Do NOT open a new document.",
+      "Do NOT start planning the \"better\" version.",
+      "Do NOT pivot.",
+      "Close the laptop. Walk away. Come back tomorrow."
+    ],
+    redirect: {
+      action: "I can explore new ideas AFTER I finish this.",
+      result: "Set a date to revisit the new idea. Then do ONE small task on the current project. Complete instead of abandon."
+    }
+  }
+};
+
 const patternTeasers: Record<PatternKey, { recognition: string; insight: string; cost: string }> = {
   disappearing: {
     recognition: "You pull away when intimacy increases. The moment someone gets too close—when they start to matter—your chest tightens and you need space. You've ended relationships that were going well. You've ghosted people who cared about you. You've created distance in ways that confused everyone, including yourself. You watch yourself do it. You know it's happening. You do it anyway.",
@@ -252,6 +416,68 @@ export default function QuizResult() {
                 <span key={i}>{line}<br /></span>
               ))}
             </p>
+          </div>
+        </div>
+
+        {/* Four Doors Protocol Section */}
+        <div className="bg-slate-950 border border-slate-700 rounded-2xl p-6 md:p-10 mb-8" data-testid="section-four-doors">
+          <h2 className="text-xl md:text-2xl font-bold text-teal-400 mb-6 text-center">
+            HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+          </h2>
+          
+          <div className="space-y-6">
+            {/* Door 1: FEEL */}
+            <div className="bg-zinc-900/50 p-5 rounded-lg">
+              <h3 className="text-lg font-bold text-white mb-3">
+                <span className="text-teal-400">DOOR 1 - FEEL:</span> What to feel for
+              </h3>
+              <ul className="space-y-1 mb-3">
+                {fourDoorsProtocol[patternKey].feel.whatToFeel.map((item, i) => (
+                  <li key={i} className="text-slate-300">• {item}</li>
+                ))}
+              </ul>
+              <p className="text-slate-400 text-sm italic">{fourDoorsProtocol[patternKey].feel.context}</p>
+            </div>
+            
+            {/* Door 2: ENGAGE */}
+            <div className="bg-zinc-900/50 p-5 rounded-lg">
+              <h3 className="text-lg font-bold text-white mb-3">
+                <span className="text-teal-400">DOOR 2 - ENGAGE:</span> Name it
+              </h3>
+              <p className="text-white italic">"{fourDoorsProtocol[patternKey].engage}"</p>
+              <p className="text-slate-400 text-sm mt-2">Don't judge it. Don't analyze it. Just recognize: "Oh, there it is."</p>
+            </div>
+            
+            {/* Door 3: INTERRUPT */}
+            <div className="bg-zinc-900/50 p-5 rounded-lg">
+              <h3 className="text-lg font-bold text-white mb-3">
+                <span className="text-teal-400">DOOR 3 - INTERRUPT:</span> Stop the action
+              </h3>
+              <ul className="space-y-1">
+                {fourDoorsProtocol[patternKey].interrupt.map((item, i) => (
+                  <li key={i} className={item.startsWith('Do NOT') ? 'text-pink-400 font-medium' : 'text-slate-300'}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Door 4: REDIRECT */}
+            <div className="bg-zinc-900/50 p-5 rounded-lg">
+              <h3 className="text-lg font-bold text-white mb-3">
+                <span className="text-teal-400">DOOR 4 - REDIRECT:</span> Channel the energy
+              </h3>
+              <p className="text-teal-400 italic mb-2">"{fourDoorsProtocol[patternKey].redirect.action}"</p>
+              <p className="text-slate-400 text-sm">{fourDoorsProtocol[patternKey].redirect.result}</p>
+            </div>
+          </div>
+          
+          <div className="text-center mt-6 pt-4 border-t border-slate-700">
+            <a 
+              href="/four-doors"
+              className="text-teal-400 hover:text-teal-300 font-semibold transition-colors"
+              data-testid="link-four-doors-full"
+            >
+              Learn the complete Four Doors methodology →
+            </a>
           </div>
         </div>
 

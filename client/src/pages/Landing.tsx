@@ -373,68 +373,96 @@ export default function Landing() {
         className="py-20 md:py-24 px-5 bg-slate-950"
       >
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 
-              className="scroll-reveal text-3xl font-black tracking-widest uppercase mb-4"
+              className="scroll-reveal text-3xl md:text-4xl font-black tracking-widest uppercase mb-4"
               style={{ color: '#14B8A6' }}
               data-testid="text-four-doors-headline"
             >
-              THE FOUR DOORS PROTOCOL™
+              THE FOUR DOORS PROTOCOL
             </h2>
-            <p className="text-slate-400 text-xl mb-12">
-              Your systematic path to pattern interruption
+            <p className="scroll-reveal text-xl md:text-2xl text-white font-semibold mb-6">
+              HOW TO STOP RUNNING PATTERNS IN REAL-TIME
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Door 1 */}
+          <div className="scroll-reveal max-w-[700px] mx-auto text-center mb-12">
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Most people try to stop patterns through willpower.<br />
+              <span className="text-pink-400 font-semibold">It doesn't work.</span>
+            </p>
+            <p className="text-slate-400 mb-4">
+              Patterns run faster than conscious thought.<br />
+              By the time you realize you're doing it, you've already done it.
+            </p>
+            <p className="text-white font-semibold">
+              The Four Doors Protocol teaches you to interrupt patterns BEFORE they become actions.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {/* Door 1: FEEL */}
+            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-teal-400" />
+                </div>
+                <span className="text-xl font-bold text-white">DOOR 1: FEEL</span>
+              </div>
+              <p className="text-white font-medium mb-2">Recognize the pattern activating in your body before it becomes action.</p>
+              <p className="text-slate-400 text-sm">Every pattern has a signature feeling—a tightness in your chest, an urge, a thought that triggers the sequence. Door 1 teaches you to catch the feeling first.</p>
+            </div>
+            
+            {/* Door 2: ENGAGE */}
             <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
                   <Eye className="w-5 h-5 text-teal-400" />
                 </div>
-                <span className="text-xl font-bold text-white">DOOR 1: FOCUS</span>
+                <span className="text-xl font-bold text-white">DOOR 2: ENGAGE</span>
               </div>
-              <p className="text-slate-300 leading-relaxed">See the pattern clearly</p>
+              <p className="text-white font-medium mb-2">Name the pattern in real-time: "This is [Pattern Name] activating."</p>
+              <p className="text-slate-400 text-sm">Naming breaks the automaticity. The pattern loses power when you see it clearly. This isn't analysis. This is recognition.</p>
             </div>
             
-            {/* Door 2 */}
-            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
-                  <Search className="w-5 h-5 text-teal-400" />
-                </div>
-                <span className="text-xl font-bold text-white">DOOR 2: EXCAVATION</span>
-              </div>
-              <p className="text-slate-300 leading-relaxed">Understand the original room</p>
-            </div>
-            
-            {/* Door 3 */}
+            {/* Door 3: INTERRUPT */}
             <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
                   <Zap className="w-5 h-5 text-teal-400" />
                 </div>
-                <span className="text-xl font-bold text-white">DOOR 3: INTERRUPTION</span>
+                <span className="text-xl font-bold text-white">DOOR 3: INTERRUPT</span>
               </div>
-              <p className="text-slate-300 leading-relaxed">Break the circuit in real-time</p>
+              <p className="text-white font-medium mb-2">Stop the action before it happens. Pause. Breathe. Wait.</p>
+              <p className="text-slate-400 text-sm">If you can pause for 60-90 seconds without feeding the pattern, the urge will pass. Every successful interruption weakens the pattern's grip.</p>
             </div>
             
-            {/* Door 4 */}
+            {/* Door 4: REDIRECT */}
             <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
                   <RefreshCw className="w-5 h-5 text-teal-400" />
                 </div>
-                <span className="text-xl font-bold text-white">DOOR 4: REWRITE</span>
+                <span className="text-xl font-bold text-white">DOOR 4: REDIRECT</span>
               </div>
-              <p className="text-slate-300 leading-relaxed">Build new behavioral pathways</p>
+              <p className="text-white font-medium mb-2">Channel the energy into something that actually serves you.</p>
+              <p className="text-slate-400 text-sm">Instead of ghosting, you communicate. Instead of apologizing for existing, you express gratitude. Redirect gives you something TO DO instead of something NOT TO DO.</p>
             </div>
           </div>
           
-          <p className="scroll-reveal text-slate-400 italic text-center mt-12">
-            Pattern archaeology in four stages.
-          </p>
+          <div className="scroll-reveal text-center">
+            <p className="text-slate-400 italic mb-6">
+              This isn't theory. This is real-time pattern interruption.<br />
+              And it works on all 7 patterns.
+            </p>
+            <Link 
+              href="/four-doors"
+              className="inline-block text-teal-400 hover:text-teal-300 font-semibold transition-colors"
+              data-testid="link-four-doors-page"
+            >
+              Learn the complete methodology →
+            </Link>
+          </div>
         </div>
       </section>
       

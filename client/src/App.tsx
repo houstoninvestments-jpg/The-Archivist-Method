@@ -34,6 +34,7 @@ const Members197 = lazy(() => import("@/pages/Members197"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
+const FourDoors = lazy(() => import("@/pages/FourDoors"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const ArchivistChatbot = lazy(() => import("@/components/ArchivistChatbot"));
@@ -73,6 +74,7 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
+      <Route path="/four-doors" component={FourDoors} />
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
