@@ -683,9 +683,11 @@ export default function Portal() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <div className="mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">
-              Welcome, <span className="text-teal-400">Archivist</span>
+              Welcome Back, <span className="text-teal-400">Archivist</span>
             </h2>
-            <p className="text-slate-500">Your pattern excavation begins here</p>
+            <p className="text-slate-400">
+              Your Pattern: <span className="text-pink-400 font-semibold">{patternDisplayNames[userPattern]}</span>
+            </p>
           </div>
 
           <ExcavationCard 
@@ -871,6 +873,29 @@ export default function Portal() {
           </section>
 
           <ArchivistAISection isUnlocked={hasAIAccess} />
+          
+          {/* Footer */}
+          <footer className="mt-16 pt-8 border-t border-slate-800 text-center">
+            <p className="text-slate-500 italic mb-2">
+              "Built in the fire. Years of observation. Systematized <span className="text-pink-400 font-semibold">December 2025</span>."
+            </p>
+            <p className="text-slate-600 text-sm mb-6">— The Archivist</p>
+            <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
+              <button className="hover:text-white transition-colors" data-testid="link-support">
+                Support
+              </button>
+              <button className="hover:text-white transition-colors" data-testid="link-documentation">
+                Documentation
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="hover:text-white transition-colors"
+                data-testid="link-logout-footer"
+              >
+                Logout
+              </button>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
