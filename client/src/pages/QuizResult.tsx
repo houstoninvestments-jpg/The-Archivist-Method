@@ -3,6 +3,16 @@ import { useLocation, useRoute } from 'wouter';
 import { Check, ArrowRight, AlertTriangle } from 'lucide-react';
 import { PatternKey, patternDisplayNames, QuizResult as QuizResultType } from '@/lib/quizData';
 
+const memoryAnchors: Record<PatternKey, string> = {
+  disappearing: "You're not avoiding them. You're protecting them from the version of you that you can't stand.",
+  apologyLoop: "You're not sorry for what you did. You're sorry for taking up space.",
+  testing: "You're not checking if they care. You're collecting evidence that they don't.",
+  attractionToHarm: "You don't love chaos. You trust it more than peace.",
+  complimentDeflection: "You're not being humble. You're being loyal to the story you tell yourself.",
+  drainingBond: "You're not helping them. You're hiding from yourself.",
+  successSabotage: "You're not afraid of failure. You're afraid of having no excuse left.",
+};
+
 const patternTeasers: Record<PatternKey, { recognition: string; insight: string; cost: string }> = {
   disappearing: {
     recognition: "You pull away when intimacy increases. The moment someone gets too close—when they start to matter—your chest tightens and you need space. You've ended relationships that were going well. You've ghosted people who cared about you. You've created distance in ways that confused everyone, including yourself. You watch yourself do it. You know it's happening. You do it anyway.",
@@ -150,6 +160,16 @@ export default function QuizResult() {
             <h2 className="text-xl font-bold text-pink-400 mb-4">What It's Costing You</h2>
             <p className="text-gray-300 leading-relaxed">{teaser.cost}</p>
           </div>
+        </div>
+
+        {/* Memory Anchor Section */}
+        <div className="my-12 py-10 px-6 md:px-10 bg-zinc-900/60 border-l-4 border-teal-500 rounded-r-xl" data-testid="section-memory-anchor">
+          <p className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold mb-4 text-center">
+            The One Thing to Remember:
+          </p>
+          <p className="text-xl md:text-2xl font-semibold text-white text-center leading-relaxed italic">
+            "{memoryAnchors[patternKey]}"
+          </p>
         </div>
 
         <div className="bg-gradient-to-br from-teal-500/10 to-cyan-500/10 border border-teal-500/30 rounded-2xl p-6 md:p-10">
