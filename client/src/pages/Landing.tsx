@@ -695,6 +695,92 @@ export default function Landing() {
         </div>
       </section>
       
+      {/* SECTION: THERAPY VS ARCHIVIST COMPARISON */}
+      <section 
+        id="therapy-comparison"
+        className="bg-zinc-950 py-20 md:py-24 px-5 border-t border-zinc-800"
+      >
+        <div className="max-w-4xl mx-auto">
+          <h2 
+            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-12 text-center"
+            style={{ color: '#14B8A6' }}
+            data-testid="text-therapy-comparison-headline"
+          >
+            This Is Not Therapy.<br /><span className="text-lg md:text-xl text-slate-400">Here's The Difference.</span>
+          </h2>
+          
+          {/* Desktop Table */}
+          <div className="scroll-reveal hidden md:block overflow-hidden rounded-xl border border-zinc-700">
+            <table className="w-full" data-testid="table-therapy-comparison">
+              <thead>
+                <tr>
+                  <th className="bg-slate-800 text-slate-300 font-semibold uppercase tracking-wider text-sm py-4 px-6 text-left w-1/2">
+                    Therapy
+                  </th>
+                  <th className="bg-teal-900/40 text-teal-400 font-semibold uppercase tracking-wider text-sm py-4 px-6 text-left w-1/2">
+                    The Archivist Method
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Explores your past", "Works in your present"],
+                  ["Asks \"Why do I do this?\"", "Asks \"What pattern am I running?\""],
+                  ["Processes emotions", "Interrupts actions"],
+                  ["Builds understanding", "Builds recognition"],
+                  ["Healing-focused", "Interruption-focused"],
+                  ["Long-term process", "Immediate application"],
+                  ["Licensed professionals", "Lived experience"],
+                  ["Weekly sessions", "Real-time practice"],
+                ].map(([therapy, archivist], index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-zinc-900/50' : 'bg-zinc-900/30'}>
+                    <td className="py-4 px-6 text-slate-400 border-t border-zinc-800">{therapy}</td>
+                    <td className="py-4 px-6 text-white font-medium border-t border-zinc-800">{archivist}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          {/* Mobile Stacked Cards */}
+          <div className="scroll-reveal md:hidden space-y-4">
+            {[
+              ["Explores your past", "Works in your present"],
+              ["Asks \"Why do I do this?\"", "Asks \"What pattern am I running?\""],
+              ["Processes emotions", "Interrupts actions"],
+              ["Builds understanding", "Builds recognition"],
+              ["Healing-focused", "Interruption-focused"],
+              ["Long-term process", "Immediate application"],
+              ["Licensed professionals", "Lived experience"],
+              ["Weekly sessions", "Real-time practice"],
+            ].map(([therapy, archivist], index) => (
+              <div key={index} className="bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
+                <div className="bg-slate-800/50 py-3 px-4">
+                  <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Therapy</p>
+                  <p className="text-slate-400">{therapy}</p>
+                </div>
+                <div className="bg-teal-900/20 py-3 px-4 border-t border-zinc-700">
+                  <p className="text-xs uppercase tracking-wider text-teal-500 mb-1">The Archivist Method</p>
+                  <p className="text-white font-medium">{archivist}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Closing Text */}
+          <div className="scroll-reveal text-center mt-12 space-y-4">
+            <p className="text-slate-300 text-lg leading-relaxed">
+              Both have value.<br />
+              They solve different problems.
+            </p>
+            <p className="text-white text-xl font-semibold leading-relaxed">
+              If you need to heal, get therapy.<br />
+              If you need to interrupt, <span style={{ color: '#14B8A6' }}>get this.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+      
       {/* SECTION 6: FINAL CTA */}
       <section 
         id="final-cta"
