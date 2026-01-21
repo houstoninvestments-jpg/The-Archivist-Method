@@ -291,6 +291,77 @@ export default function Landing() {
         </div>
       </section>
       
+      {/* SECTION: WHY THIS ISN'T THERAPY */}
+      <section 
+        id="not-therapy"
+        className="bg-black py-20 md:py-24 px-5 border-t border-zinc-800"
+      >
+        <div className="max-w-[800px] mx-auto">
+          <h2 
+            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-10 text-center"
+            style={{ color: '#14B8A6' }}
+            data-testid="text-not-therapy-headline"
+          >
+            Why This Isn't Therapy<br /><span className="text-lg md:text-xl text-slate-400">(And Why That Matters)</span>
+          </h2>
+          
+          <div className="scroll-reveal text-slate-300 leading-relaxed space-y-6">
+            <p>
+              I'm not a therapist.<br />
+              I'm not a psychologist.<br />
+              I'm not a licensed anything.
+            </p>
+            
+            <p>
+              I'm a bartender who spent 19 years watching people run the same patterns over and over, and then realized I was running them too.
+            </p>
+            
+            <p>
+              This method didn't come from a textbook.<br />
+              It came from 19 years of pattern recognition in the most honest laboratory on earth: a bar at 1 AM.
+            </p>
+            
+            <p>
+              People don't lie to their bartender.<br />
+              People don't perform for their bartender.
+            </p>
+            
+            <p>They just... run their patterns.</p>
+            
+            <p>And after 19 years, I could see them coming three drinks before they activated.</p>
+            
+            <p className="font-semibold text-white">
+              The Disappearing Act.<br />
+              The Apology Loop.<br />
+              The Testing Pattern.
+            </p>
+            
+            <p>I could call them like a fight prediction.</p>
+            
+            <p>And then I realized: <span className="text-white font-semibold">I was running all seven.</span></p>
+            
+            <p>
+              So I developed a method to interrupt them.<br />
+              Not heal them.<br />
+              Not understand them.<br />
+              <span className="text-white font-semibold">Interrupt them.</span>
+            </p>
+            
+            <p>
+              That's what The Archivist Method is:<br />
+              <span className="text-white">Pattern interruption for people who are tired of understanding and ready to stop running.</span>
+            </p>
+            
+            <p className="pt-4 border-t border-zinc-800">
+              This is <span style={{ color: '#EC4899' }}>not</span> therapy.<br />
+              This is pattern archaeology.
+            </p>
+            
+            <p className="text-white font-semibold text-lg">And it works.</p>
+          </div>
+        </div>
+      </section>
+      
       {/* SECTION 3: THE FOUR DOORS PROTOCOL */}
       <section 
         id="four-doors"
