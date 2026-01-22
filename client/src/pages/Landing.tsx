@@ -148,6 +148,12 @@ export default function Landing() {
   const methodRef = useScrollReveal();
   const founderRef = useScrollReveal();
   const finalCtaRef = useScrollReveal();
+  const whoIsThisForRef = useScrollReveal();
+  const notTherapyRef = useScrollReveal();
+  const fourDoorsRef = useScrollReveal();
+  const therapyComparisonRef = useScrollReveal();
+  const pricingRef = useScrollReveal();
+  const faqRef = useScrollReveal();
   
   return (
     <div className="min-h-screen bg-black text-white font-['Inter',sans-serif]">
@@ -222,6 +228,7 @@ export default function Landing() {
       {/* SECTION: WHO IS THIS FOR */}
       <section 
         id="who-is-this-for"
+        ref={whoIsThisForRef}
         className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
         data-testid="section-who-is-this-for"
       >
@@ -356,6 +363,7 @@ export default function Landing() {
       {/* SECTION: WHY THIS ISN'T THERAPY */}
       <section 
         id="not-therapy"
+        ref={notTherapyRef}
         className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
       >
         <div className="max-w-[800px] mx-auto">
@@ -427,6 +435,7 @@ export default function Landing() {
       {/* SECTION 3: THE FOUR DOORS PROTOCOL */}
       <section 
         id="four-doors"
+        ref={fourDoorsRef}
         className="py-12 md:py-16 px-5 bg-slate-950"
       >
         <div className="max-w-[1200px] mx-auto">
@@ -732,6 +741,7 @@ export default function Landing() {
       {/* SECTION 5: THERAPY COMPARISON */}
       <section 
         id="therapy-comparison"
+        ref={therapyComparisonRef}
         className="bg-zinc-950 py-12 md:py-16 px-5 border-t border-zinc-800"
       >
         <div className="max-w-4xl mx-auto">
@@ -853,6 +863,7 @@ export default function Landing() {
       {/* SECTION 7: PRICING CARDS */}
       <section 
         id="pricing"
+        ref={pricingRef}
         className="py-12 md:py-16 px-5 bg-black"
       >
         <div className="max-w-5xl mx-auto">
@@ -1017,6 +1028,7 @@ export default function Landing() {
       {/* SECTION: FAQ */}
       <section 
         id="faq"
+        ref={faqRef}
         className="bg-zinc-950 py-12 md:py-16 px-5"
       >
         <div className="max-w-3xl mx-auto">
