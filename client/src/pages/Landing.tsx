@@ -219,11 +219,96 @@ export default function Landing() {
         </div>
       </section>
       
+      {/* SECTION: WHO IS THIS FOR */}
+      <section 
+        id="who-is-this-for"
+        className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
+        data-testid="section-who-is-this-for"
+      >
+        <div className="max-w-4xl mx-auto">
+          <h2 
+            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-8 text-center"
+            style={{ color: '#14B8A6' }}
+            data-testid="text-who-is-this-for-headline"
+          >
+            WHO IS THIS FOR?
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {/* This IS for... */}
+            <div className="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6">
+              <h3 className="text-teal-400 font-bold text-lg mb-4 flex items-center gap-2">
+                <Check className="w-5 h-5" /> This IS for you if:
+              </h3>
+              <ul className="space-y-3 text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>You watch yourself do destructive things and can't stop</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>You've been in therapy for years but still run the same patterns</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>You understand WHY you do it but can't stop DOING it</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>You sabotage relationships, success, or stability</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>You're tired of insight and ready for interruption</span>
+                </li>
+              </ul>
+            </div>
+            
+            {/* This is NOT for... */}
+            <div className="bg-pink-500/10 border border-pink-500/30 rounded-xl p-6">
+              <h3 className="text-pink-400 font-bold text-lg mb-4 flex items-center gap-2">
+                <span className="text-xl">✕</span> This is NOT for you if:
+              </h3>
+              <ul className="space-y-3 text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-pink-400 mt-1">•</span>
+                  <span>You're in crisis and need immediate professional help</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-pink-400 mt-1">•</span>
+                  <span>You want someone else to fix you</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-pink-400 mt-1">•</span>
+                  <span>You're looking for a quick fix with no effort</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-pink-400 mt-1">•</span>
+                  <span>You want to understand your childhood (get therapy)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-pink-400 mt-1">•</span>
+                  <span>You're not ready to see your patterns clearly</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <p className="scroll-reveal text-center text-slate-400 text-lg">
+            This method requires you to <span className="text-white font-semibold">watch yourself</span>, 
+            <span className="text-white font-semibold"> name what you see</span>, and 
+            <span className="text-white font-semibold"> interrupt it in real-time</span>.
+            <br />
+            <span className="text-teal-400">That's the work. That's all of it.</span>
+          </p>
+        </div>
+      </section>
+      
       {/* SECTION 2: ABOUT THE ARCHIVIST METHOD */}
       <section 
         id="about"
         ref={founderRef}
-        className="bg-slate-950 border-t border-slate-700 border-b border-slate-700 py-20 md:py-24 px-5"
+        className="bg-slate-950 border-t border-slate-700 border-b border-slate-700 py-12 md:py-16 px-5"
       >
         <div className="max-w-[800px] mx-auto text-center">
           <h2 
@@ -271,7 +356,7 @@ export default function Landing() {
       {/* SECTION: WHY THIS ISN'T THERAPY */}
       <section 
         id="not-therapy"
-        className="bg-black py-20 md:py-24 px-5 border-t border-zinc-800"
+        className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
       >
         <div className="max-w-[800px] mx-auto">
           <h2 
@@ -342,7 +427,7 @@ export default function Landing() {
       {/* SECTION 3: THE FOUR DOORS PROTOCOL */}
       <section 
         id="four-doors"
-        className="py-20 md:py-24 px-5 bg-slate-950"
+        className="py-12 md:py-16 px-5 bg-slate-950"
       >
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-8">
@@ -442,7 +527,7 @@ export default function Landing() {
       <section 
         id="patterns"
         ref={patternsRef}
-        className="bg-black py-24 md:py-32 px-5"
+        className="bg-black py-12 md:py-16 px-5"
       >
         <div className="max-w-[1400px] mx-auto">
           <h2 
@@ -489,7 +574,7 @@ export default function Landing() {
       <section 
         id="origin"
         ref={originRef}
-        className="bg-[#0d0d0d] py-20 md:py-24 px-5"
+        className="bg-[#0d0d0d] py-12 md:py-16 px-5"
       >
         <div className="max-w-[900px] mx-auto">
           <h2 
@@ -599,7 +684,7 @@ export default function Landing() {
       <section 
         id="method"
         ref={methodRef}
-        className="bg-black py-20 md:py-24 px-5"
+        className="bg-black py-12 md:py-16 px-5"
       >
         <div className="max-w-[1000px] mx-auto">
           <h2 
@@ -647,7 +732,7 @@ export default function Landing() {
       {/* SECTION 5: THERAPY COMPARISON */}
       <section 
         id="therapy-comparison"
-        className="bg-zinc-950 py-20 md:py-24 px-5 border-t border-zinc-800"
+        className="bg-zinc-950 py-12 md:py-16 px-5 border-t border-zinc-800"
       >
         <div className="max-w-4xl mx-auto">
           <h2 
@@ -734,7 +819,7 @@ export default function Landing() {
       <section 
         id="final-cta"
         ref={finalCtaRef}
-        className="bg-black py-16 md:py-20 px-5 text-center"
+        className="bg-black py-12 md:py-16 px-5 text-center"
       >
         <h2 
           className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white mb-8"
@@ -768,7 +853,7 @@ export default function Landing() {
       {/* SECTION 7: PRICING CARDS */}
       <section 
         id="pricing"
-        className="py-20 md:py-24 px-5 bg-black"
+        className="py-12 md:py-16 px-5 bg-black"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -932,7 +1017,7 @@ export default function Landing() {
       {/* SECTION: FAQ */}
       <section 
         id="faq"
-        className="bg-zinc-950 py-20 md:py-24 px-5"
+        className="bg-zinc-950 py-12 md:py-16 px-5"
       >
         <div className="max-w-3xl mx-auto">
           <h2 
