@@ -2,19 +2,20 @@
 import os
 import re
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.colors import HexColor
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.colors import HexColor, white, black
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, ListFlowable, ListItem
-from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
+from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, PageBreak, ListFlowable, ListItem
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+from reportlab.pdfgen import canvas
 
 COLORS = {
-    'background': '#1a1a1a',
+    'background': '#0A0A0A',
     'text': '#FFFFFF',
     'accent': '#14B8A6',
-    'muted': '#9CA3AF',
+    'muted': '#6B7280',
     'pink': '#EC4899',
-    'body': '#E5E7EB'
+    'body': '#D1D5DB'
 }
 
 CONTENT_ORDER = [
@@ -79,6 +80,14 @@ def clean_text(text):
     text = re.sub(r'_([^_]+)_', r'<i>\1</i>', text)
     text = re.sub(r'`([^`]+)`', r'<font color="#14B8A6">\1</font>', text)
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+    text = text.replace('&', '&amp;')
+    text = text.replace('<b>', '<<<BOLD>>>').replace('</b>', '<<<ENDBOLD>>>')
+    text = text.replace('<i>', '<<<ITALIC>>>').replace('</i>', '<<<ENDITALIC>>>')
+    text = text.replace('<font', '<<<FONT').replace('</font>', '<<<ENDFONT>>>')
+    text = text.replace('<', '&lt;').replace('>', '&gt;')
+    text = text.replace('<<<BOLD>>>', '<b>').replace('<<<ENDBOLD>>>', '</b>')
+    text = text.replace('<<<ITALIC>>>', '<i>').replace('<<<ENDITALIC>>>', '</i>')
+    text = text.replace('<<<FONT', '<font').replace('<<<ENDFONT>>>', '</font>')
     return text
 
 def parse_markdown(content, styles):
@@ -91,24 +100,24 @@ def parse_markdown(content, styles):
         
         if line.startswith('# '):
             text = clean_text(line[2:])
-            elements.append(Spacer(1, 20))
+            elements.append(Spacer(1, 24))
             elements.append(Paragraph(text.upper(), styles['h1']))
-            elements.append(Spacer(1, 15))
+            elements.append(Spacer(1, 16))
         elif line.startswith('## '):
             text = clean_text(line[3:])
-            elements.append(Spacer(1, 15))
+            elements.append(Spacer(1, 18))
             elements.append(Paragraph(text.upper(), styles['h2']))
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 12))
         elif line.startswith('### '):
             text = clean_text(line[4:])
-            elements.append(Spacer(1, 12))
+            elements.append(Spacer(1, 14))
             elements.append(Paragraph(text, styles['h3']))
-            elements.append(Spacer(1, 8))
+            elements.append(Spacer(1, 10))
         elif line.startswith('#### '):
             text = clean_text(line[5:])
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 12))
             elements.append(Paragraph(text, styles['h4']))
-            elements.append(Spacer(1, 6))
+            elements.append(Spacer(1, 8))
         elif line.startswith('- ') or line.startswith('* '):
             bullet_items = []
             while i < len(lines) and (lines[i].strip().startswith('- ') or lines[i].strip().startswith('* ')):
@@ -118,17 +127,20 @@ def parse_markdown(content, styles):
             i -= 1
             if bullet_items:
                 elements.append(ListFlowable(bullet_items, bulletType='bullet', leftIndent=20))
-                elements.append(Spacer(1, 10))
+                elements.append(Spacer(1, 12))
         elif line.startswith('> '):
             quote_text = clean_text(line[2:])
             elements.append(Paragraph(quote_text, styles['quote']))
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 12))
         elif line.startswith('---') or line.startswith('***'):
-            elements.append(Spacer(1, 20))
+            elements.append(Spacer(1, 24))
         elif line.strip():
             text = clean_text(line)
-            elements.append(Paragraph(text, styles['body']))
-            elements.append(Spacer(1, 8))
+            try:
+                elements.append(Paragraph(text, styles['body']))
+                elements.append(Spacer(1, 10))
+            except:
+                pass
         
         i += 1
     
@@ -140,19 +152,20 @@ def create_styles():
     styles['title'] = ParagraphStyle(
         'title',
         fontName='Helvetica-Bold',
-        fontSize=36,
+        fontSize=42,
         textColor=HexColor(COLORS['text']),
         alignment=TA_CENTER,
-        spaceAfter=20
+        spaceAfter=24,
+        leading=50
     )
     
     styles['subtitle'] = ParagraphStyle(
         'subtitle',
         fontName='Helvetica-Bold',
-        fontSize=18,
-        textColor=HexColor(COLORS['text']),
+        fontSize=20,
+        textColor=HexColor(COLORS['accent']),
         alignment=TA_CENTER,
-        spaceAfter=40
+        spaceAfter=48
     )
     
     styles['tagline'] = ParagraphStyle(
@@ -161,51 +174,53 @@ def create_styles():
         fontSize=11,
         textColor=HexColor(COLORS['body']),
         alignment=TA_CENTER,
-        spaceAfter=40,
+        spaceAfter=48,
         leading=18
     )
     
     styles['brand'] = ParagraphStyle(
         'brand',
         fontName='Helvetica-Bold',
-        fontSize=12,
+        fontSize=14,
         textColor=HexColor(COLORS['accent']),
-        alignment=TA_CENTER
+        alignment=TA_CENTER,
+        spaceBefore=40
     )
     
     styles['module_title'] = ParagraphStyle(
         'module_title',
         fontName='Helvetica-Bold',
-        fontSize=28,
-        textColor=HexColor(COLORS['accent']),
-        alignment=TA_CENTER
+        fontSize=32,
+        textColor=HexColor(COLORS['text']),
+        alignment=TA_CENTER,
+        leading=40
     )
     
     styles['h1'] = ParagraphStyle(
         'h1',
         fontName='Helvetica-Bold',
-        fontSize=18,
+        fontSize=20,
         textColor=HexColor(COLORS['text']),
-        spaceAfter=15,
-        borderWidth=0,
-        borderColor=HexColor(COLORS['accent']),
-        borderPadding=10
+        spaceAfter=16,
+        leading=26
     )
     
     styles['h2'] = ParagraphStyle(
         'h2',
         fontName='Helvetica-Bold',
-        fontSize=14,
+        fontSize=15,
         textColor=HexColor(COLORS['accent']),
-        spaceAfter=10
+        spaceAfter=12,
+        leading=20
     )
     
     styles['h3'] = ParagraphStyle(
         'h3',
         fontName='Helvetica-Bold',
-        fontSize=12,
+        fontSize=13,
         textColor=HexColor(COLORS['text']),
-        spaceAfter=8
+        spaceAfter=10,
+        leading=18
     )
     
     styles['h4'] = ParagraphStyle(
@@ -213,7 +228,8 @@ def create_styles():
         fontName='Helvetica-Bold',
         fontSize=11,
         textColor=HexColor(COLORS['muted']),
-        spaceAfter=6
+        spaceAfter=8,
+        leading=16
     )
     
     styles['body'] = ParagraphStyle(
@@ -222,8 +238,8 @@ def create_styles():
         fontSize=10,
         textColor=HexColor(COLORS['body']),
         alignment=TA_JUSTIFY,
-        leading=14,
-        spaceAfter=8
+        leading=15,
+        spaceAfter=10
     )
     
     styles['quote'] = ParagraphStyle(
@@ -232,30 +248,47 @@ def create_styles():
         fontSize=10,
         textColor=HexColor(COLORS['accent']),
         leftIndent=30,
-        leading=14
-    )
-    
-    styles['footer'] = ParagraphStyle(
-        'footer',
-        fontName='Helvetica',
-        fontSize=8,
-        textColor=HexColor(COLORS['muted']),
-        alignment=TA_CENTER
+        leading=15
     )
     
     return styles
 
-def add_page_background(canvas, doc):
-    canvas.saveState()
-    canvas.setFillColor(HexColor(COLORS['background']))
-    canvas.rect(0, 0, letter[0], letter[1], fill=1)
+class DarkBackgroundDocTemplate(BaseDocTemplate):
+    def __init__(self, filename, **kwargs):
+        BaseDocTemplate.__init__(self, filename, **kwargs)
+        
+        frame = Frame(
+            inch, 
+            inch, 
+            letter[0] - 2*inch, 
+            letter[1] - 2*inch,
+            id='normal'
+        )
+        
+        template = PageTemplate(
+            id='dark',
+            frames=frame,
+            onPage=self.add_dark_background
+        )
+        
+        self.addPageTemplates([template])
     
-    canvas.setFont('Helvetica', 8)
-    canvas.setFillColor(HexColor(COLORS['muted']))
-    canvas.drawString(inch, 0.5*inch, "THE ARCHIVIST METHOD | CLASSIFIED")
-    canvas.drawRightString(letter[0] - inch, 0.5*inch, str(doc.page))
-    
-    canvas.restoreState()
+    def add_dark_background(self, canvas_obj, doc):
+        canvas_obj.saveState()
+        
+        canvas_obj.setFillColor(HexColor(COLORS['background']))
+        canvas_obj.rect(0, 0, letter[0], letter[1], fill=1, stroke=0)
+        
+        canvas_obj.setFont('Helvetica', 8)
+        canvas_obj.setFillColor(HexColor(COLORS['muted']))
+        canvas_obj.drawString(inch, 0.5*inch, "THE ARCHIVIST METHOD™ | CLASSIFIED")
+        canvas_obj.drawRightString(letter[0] - inch, 0.5*inch, f"Page {doc.page}")
+        
+        canvas_obj.setStrokeColor(HexColor(COLORS['accent']))
+        canvas_obj.setLineWidth(0.5)
+        canvas_obj.line(inch, 0.75*inch, letter[0] - inch, 0.75*inch)
+        
+        canvas_obj.restoreState()
 
 def generate_pdf():
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -264,28 +297,30 @@ def generate_pdf():
     
     print('Generating THE ARCHIVIST METHOD™ Complete Archive PDF...\n')
     
-    doc = SimpleDocTemplate(
+    doc = DarkBackgroundDocTemplate(
         output_path,
         pagesize=letter,
         leftMargin=inch,
         rightMargin=inch,
-        topMargin=0.75*inch,
-        bottomMargin=0.75*inch
+        topMargin=inch,
+        bottomMargin=inch
     )
     
     styles = create_styles()
     story = []
     
-    story.append(Spacer(1, 150))
-    story.append(Paragraph("THE ARCHIVIST METHOD™", styles['title']))
+    story.append(Spacer(1, 180))
+    story.append(Paragraph("THE ARCHIVIST<br/>METHOD™", styles['title']))
+    story.append(Spacer(1, 20))
     story.append(Paragraph("COMPLETE ARCHIVE", styles['subtitle']))
+    story.append(Spacer(1, 30))
     story.append(Paragraph(
         "A systematic approach to identifying and interrupting the destructive patterns "
         "that have been running your life. This is not therapy. This is pattern archaeology—"
         "excavating the programs installed in childhood and replacing them with conscious choice.",
         styles['tagline']
     ))
-    story.append(Paragraph("PATTERN ARCHAEOLOGY, NOT THERAPY", styles['brand']))
+    story.append(Paragraph("PATTERN ARCHAEOLOGY, <font color='#EC4899'>NOT</font> THERAPY", styles['brand']))
     story.append(PageBreak())
     
     total_files = 0
@@ -299,7 +334,7 @@ def generate_pdf():
         
         title = MODULE_TITLES.get(module_name, module_name.upper())
         
-        story.append(Spacer(1, 200))
+        story.append(Spacer(1, 220))
         story.append(Paragraph(title, styles['module_title']))
         story.append(PageBreak())
         
@@ -319,7 +354,7 @@ def generate_pdf():
                 print(f'    Error processing {os.path.basename(file_path)}: {e}')
     
     print('  Building PDF...')
-    doc.build(story, onFirstPage=add_page_background, onLaterPages=add_page_background)
+    doc.build(story)
     
     file_size = os.path.getsize(output_path) / (1024 * 1024)
     print(f'\nPDF Generated Successfully!')
