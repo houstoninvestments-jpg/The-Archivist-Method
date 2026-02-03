@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 """
 THE ARCHIVIST METHOD™ - COMPLETE ARCHIVE PDF GENERATOR
+Simple version for better compatibility
 """
 
 import os
 import re
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from reportlab.lib.colors import HexColor, white
+from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image
 
-# Colors
-DARK_BG = HexColor('#1A1A1A')
-WHITE = HexColor('#FFFFFF')
-LIGHT_GRAY = HexColor('#E5E5E5')
+# Colors - Using dark text on light background for compatibility
+BLACK = HexColor('#1A1A1A')
+DARK_GRAY = HexColor('#333333')
+GRAY = HexColor('#666666')
 TEAL = HexColor('#14B8A6')
-DARK_GRAY = HexColor('#888888')
+PINK = HexColor('#EC4899')
 
 PAGE_WIDTH, PAGE_HEIGHT = letter
 MARGIN = 1 * inch
@@ -43,21 +44,22 @@ MODULE_TITLES = {
 
 def create_styles():
     return {
-        'title': ParagraphStyle('Title', fontSize=42, textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=50),
+        'title': ParagraphStyle('Title', fontSize=42, textColor=BLACK, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=50),
         'subtitle': ParagraphStyle('Subtitle', fontSize=28, textColor=TEAL, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=36),
-        'tagline': ParagraphStyle('Tagline', fontSize=12, textColor=LIGHT_GRAY, alignment=TA_CENTER, fontName='Helvetica-Oblique', leading=20),
+        'tagline': ParagraphStyle('Tagline', fontSize=12, textColor=GRAY, alignment=TA_CENTER, fontName='Helvetica-Oblique', leading=20),
         'brand': ParagraphStyle('Brand', fontSize=14, textColor=TEAL, alignment=TA_CENTER, fontName='Helvetica-Bold'),
         'module_label': ParagraphStyle('ModuleLabel', fontSize=14, textColor=TEAL, alignment=TA_CENTER, fontName='Helvetica-Bold'),
-        'module_title': ParagraphStyle('ModuleTitle', fontSize=32, textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=40),
-        'toc_title': ParagraphStyle('TOCTitle', fontSize=24, textColor=WHITE, alignment=TA_CENTER, fontName='Helvetica-Bold'),
-        'toc_entry': ParagraphStyle('TOCEntry', fontSize=11, textColor=LIGHT_GRAY, fontName='Helvetica', leading=22),
-        'h1': ParagraphStyle('H1', fontSize=20, textColor=WHITE, fontName='Helvetica-Bold', spaceBefore=20, spaceAfter=10, leading=26),
+        'module_title': ParagraphStyle('ModuleTitle', fontSize=32, textColor=BLACK, alignment=TA_CENTER, fontName='Helvetica-Bold', leading=40),
+        'toc_title': ParagraphStyle('TOCTitle', fontSize=24, textColor=BLACK, alignment=TA_CENTER, fontName='Helvetica-Bold'),
+        'toc_entry': ParagraphStyle('TOCEntry', fontSize=11, textColor=DARK_GRAY, fontName='Helvetica', leading=22),
+        'h1': ParagraphStyle('H1', fontSize=20, textColor=BLACK, fontName='Helvetica-Bold', spaceBefore=20, spaceAfter=10, leading=26),
         'h2': ParagraphStyle('H2', fontSize=16, textColor=TEAL, fontName='Helvetica-Bold', spaceBefore=16, spaceAfter=8, leading=22),
-        'h3': ParagraphStyle('H3', fontSize=13, textColor=WHITE, fontName='Helvetica-Bold', spaceBefore=12, spaceAfter=6, leading=18),
-        'h4': ParagraphStyle('H4', fontSize=11, textColor=LIGHT_GRAY, fontName='Helvetica-Bold', spaceBefore=10, spaceAfter=5, leading=16),
-        'body': ParagraphStyle('Body', fontSize=10, textColor=LIGHT_GRAY, fontName='Helvetica', alignment=TA_JUSTIFY, leading=15, spaceAfter=8),
+        'h3': ParagraphStyle('H3', fontSize=13, textColor=BLACK, fontName='Helvetica-Bold', spaceBefore=12, spaceAfter=6, leading=18),
+        'h4': ParagraphStyle('H4', fontSize=11, textColor=GRAY, fontName='Helvetica-Bold', spaceBefore=10, spaceAfter=5, leading=16),
+        'body': ParagraphStyle('Body', fontSize=10, textColor=DARK_GRAY, fontName='Helvetica', alignment=TA_JUSTIFY, leading=15, spaceAfter=8),
         'quote': ParagraphStyle('Quote', fontSize=10, textColor=TEAL, fontName='Helvetica-Oblique', leftIndent=25, leading=15, spaceAfter=10),
-        'bullet': ParagraphStyle('Bullet', fontSize=10, textColor=LIGHT_GRAY, fontName='Helvetica', leftIndent=20, leading=15, spaceAfter=5),
+        'bullet': ParagraphStyle('Bullet', fontSize=10, textColor=DARK_GRAY, fontName='Helvetica', leftIndent=20, leading=15, spaceAfter=5),
+        'footer': ParagraphStyle('Footer', fontSize=8, textColor=GRAY, alignment=TA_CENTER),
     }
 
 def clean_text(text):
@@ -70,20 +72,16 @@ def clean_text(text):
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
     text = text.replace('<<<', '').replace('>>>', '')
     
-    # Escape ampersands first
     text = text.replace('&', '&amp;')
     
-    # Protect our formatting tags
     protected = []
     for tag in ['<b>', '</b>', '<i>', '</i>', '<font color="#14B8A6">', '</font>']:
         placeholder = f'__TAG{len(protected)}__'
         text = text.replace(tag, placeholder)
         protected.append((placeholder, tag))
     
-    # Escape remaining angle brackets
     text = text.replace('<', '&lt;').replace('>', '&gt;')
     
-    # Restore tags
     for placeholder, tag in protected:
         text = text.replace(placeholder, tag)
     
@@ -119,8 +117,8 @@ def parse_markdown(content, styles):
                     elements.append(Paragraph(f'<font color="#14B8A6">{num}.</font> {clean_text(text)}', styles['bullet']))
             elif line.strip():
                 elements.append(Paragraph(clean_text(line), styles['body']))
-        except Exception as e:
-            pass  # Skip problematic lines
+        except:
+            pass
     
     return elements
 
@@ -145,14 +143,12 @@ def get_files_in_order(module_path):
     
     return result
 
-def draw_page(canvas, doc):
+def add_footer(canvas, doc):
     canvas.saveState()
-    canvas.setFillColor(DARK_BG)
-    canvas.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, fill=1, stroke=0)
-    canvas.setStrokeColor(TEAL)
+    canvas.setFillColor(HexColor('#14B8A6'))
     canvas.setLineWidth(0.5)
     canvas.line(MARGIN, 0.6*inch, PAGE_WIDTH - MARGIN, 0.6*inch)
-    canvas.setFillColor(DARK_GRAY)
+    canvas.setFillColor(HexColor('#888888'))
     canvas.setFont('Helvetica', 8)
     canvas.drawString(MARGIN, 0.4*inch, "THE ARCHIVIST METHOD™ | CLASSIFIED")
     canvas.drawRightString(PAGE_WIDTH - MARGIN, 0.4*inch, str(doc.page))
@@ -240,7 +236,7 @@ def generate_pdf():
         topMargin=MARGIN,
         bottomMargin=0.75*inch
     )
-    doc.build(story, onFirstPage=draw_page, onLaterPages=draw_page)
+    doc.build(story, onFirstPage=add_footer, onLaterPages=add_footer)
     
     size_mb = os.path.getsize(output_path) / (1024 * 1024)
     print(f'\nDone! {total_files} files, {size_mb:.2f} MB')
