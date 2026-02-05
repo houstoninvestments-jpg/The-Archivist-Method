@@ -167,6 +167,37 @@ export const insertTestUserSchema = createInsertSchema(testUsers).omit({
 export type InsertTestUser = z.infer<typeof insertTestUserSchema>;
 export type TestUser = typeof testUsers.$inferSelect;
 
+// Portal Chat History (persistent AI conversations)
+export const portalChatHistory = pgTable("portal_chat_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  role: varchar("role", { length: 20 }).notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertPortalChatSchema = createInsertSchema(portalChatHistory).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertPortalChat = z.infer<typeof insertPortalChatSchema>;
+export type PortalChatHistory = typeof portalChatHistory.$inferSelect;
+
+// Interrupt Log (streak tracking)
+export const interruptLog = pgTable("interrupt_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  date: text("date").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertInterruptLogSchema = createInsertSchema(interruptLog).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertInterruptLog = z.infer<typeof insertInterruptLogSchema>;
+export type InterruptLog = typeof interruptLog.$inferSelect;
+
 export const AccessLevel = {
   CRASH_COURSE: "crash-course",
   QUICK_START: "quick-start",

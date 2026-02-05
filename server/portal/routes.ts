@@ -17,8 +17,8 @@ import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { db } from "../db";
-import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers } from "@shared/schema";
-import { eq, and } from "drizzle-orm";
+import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "@shared/schema";
+import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 
@@ -858,6 +858,311 @@ router.get("/reader/chat/:documentId", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Get chat history error:", error);
     res.status(500).json({ error: "Failed to get chat history" });
+  }
+});
+
+// ============================================
+// PORTAL AI CHAT ROUTES
+// ============================================
+
+const portalChatSchema = z.object({
+  message: z.string().min(1).max(4000),
+});
+
+router.get("/chat/history", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const history = await db
+      .select()
+      .from(portalChatHistory)
+      .where(eq(portalChatHistory.userId, userId))
+      .orderBy(asc(portalChatHistory.createdAt))
+      .limit(100);
+
+    res.json(history);
+  } catch (error) {
+    console.error("Get portal chat history error:", error);
+    res.status(500).json({ error: "Failed to get chat history" });
+  }
+});
+
+router.post("/chat", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    if (!anthropic) {
+      return res.status(503).json({ error: "AI service unavailable" });
+    }
+
+    const validation = portalChatSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({ error: "Invalid data", details: validation.error.errors });
+    }
+
+    const { message } = validation.data;
+
+    await db.insert(portalChatHistory).values({
+      userId,
+      role: "user",
+      message,
+    });
+
+    const history = await db
+      .select()
+      .from(portalChatHistory)
+      .where(eq(portalChatHistory.userId, userId))
+      .orderBy(asc(portalChatHistory.createdAt))
+      .limit(50);
+
+    const messages = history.slice(-20).map((h) => ({
+      role: h.role as "user" | "assistant",
+      content: h.message,
+    }));
+
+    if (messages.length === 0 || messages[messages.length - 1].content !== message) {
+      messages.push({ role: "user" as const, content: message });
+    }
+
+    const { pattern, tier, streak } = req.body;
+    const patternName = pattern || "unknown";
+    const userTier = tier || "free";
+    const streakCount = streak || 0;
+
+    let tierAccess = "";
+    if (userTier === "free" || userTier === "crash-course") {
+      tierAccess = `If user_tier == "free":
+- You know their PRIMARY pattern deeply
+- If they ask about other patterns, give a 1-sentence answer, then: "I can go deeper on that when you unlock the Field Guide."
+- If they ask about advanced topics (combinations, relationships, workplace): "That's covered in the Complete Archive. Want me to give you the basics for now?"`;
+    } else if (userTier === "quick-start") {
+      tierAccess = `If user_tier == "field_guide":
+- You know ALL 7 patterns fully
+- You can help with implementation, circuit breaks, 90-day protocol
+- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive—want the short version?"`;
+    } else {
+      tierAccess = `If user_tier == "complete_archive":
+- Full access to everything
+- No gates, no upsells
+- Pattern combinations, relationship protocols, workplace applications, parenting, advanced techniques`;
+    }
+
+    const systemPrompt = `You are The Archivist, a pattern interruption specialist for The Archivist Method.
+
+USER CONTEXT:
+- Primary Pattern: ${patternName}
+- Tier: ${userTier}
+- Streak: ${streakCount} days
+
+YOUR PERSONALITY:
+- Direct, not harsh
+- Warm, not soft
+- Clinical when needed, human when it matters
+- Like a mentor who tells the truth at 2am
+
+YOU SAY THINGS LIKE:
+- "That's the pattern running. You see it now."
+- "What triggered it? Be specific."
+- "You didn't fail. You got data."
+- "That's progress. Keep going."
+
+YOU NEVER SAY:
+- "That must be so hard for you"
+- "Have you tried journaling about it?"
+- "Let's explore your feelings"
+- Therapy-speak, fluff, empty validation
+
+THE 7 PATTERNS:
+1. Disappearing Pattern - Pulls away when intimacy increases
+2. Apology Loop - Apologizes for existing, pre-emptive apologies
+3. Testing Pattern - Pushes people away to test if they'll stay
+4. Attraction to Harm - Toxic relationships feel like home
+5. Compliment Deflection - Cannot accept praise or acknowledgment
+6. Draining Bond - Stays in relationships that deplete them
+7. Success Sabotage - Destroys progress right before breakthrough
+
+${tierAccess}
+
+STREAK ACKNOWLEDGMENT:
+- At 7 days: "One week of interrupts. The pattern is losing its grip."
+- At 30 days: "30 days. You're rewiring the circuit. This is real progress."
+- At 90 days: "90 days. You've done what most people never do. The pattern doesn't run you anymore."
+
+WHEN THEY SAY THEY FAILED:
+Never agree they failed. Reframe:
+- "The pattern ran. You noticed. That's not failure—that's data."
+- "Catching it afterward is the first step. Next time you'll catch it sooner."
+
+WHEN THEY ASK WHY THEY KEEP DOING THIS:
+- "Because the pattern installed before you had words for it. It's not a character flaw. It's a circuit. And circuits can be interrupted."
+
+WHEN THEY SAY THEY FEEL BROKEN:
+- "You're not broken. You're running a program. Broken can't be fixed. Programs can be rewritten."
+
+Keep responses concise (2-4 paragraphs max). Be specific to their pattern.`;
+
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 800,
+      system: systemPrompt,
+      messages,
+    });
+
+    let assistantMessage = "";
+    for (const block of response.content) {
+      if (block.type === "text") {
+        assistantMessage = block.text;
+        break;
+      }
+    }
+
+    if (assistantMessage) {
+      await db.insert(portalChatHistory).values({
+        userId,
+        role: "assistant",
+        message: assistantMessage,
+      });
+    } else {
+      assistantMessage = "Connection disrupted. Try again.";
+    }
+
+    res.json({ message: assistantMessage });
+  } catch (error) {
+    console.error("Portal chat error:", error);
+    res.status(500).json({ error: "Failed to process chat message" });
+  }
+});
+
+router.delete("/chat/history", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    await db.delete(portalChatHistory).where(eq(portalChatHistory.userId, userId));
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Clear chat history error:", error);
+    res.status(500).json({ error: "Failed to clear chat history" });
+  }
+});
+
+// ============================================
+// STREAK TRACKING ROUTES
+// ============================================
+
+router.get("/streak", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const logs = await db
+      .select()
+      .from(interruptLog)
+      .where(eq(interruptLog.userId, userId))
+      .orderBy(desc(interruptLog.date));
+
+    const today = new Date().toISOString().split("T")[0];
+    const checkedToday = logs.some((l) => l.date === today);
+
+    let streakCount = 0;
+    if (logs.length > 0) {
+      const sortedDates = logs.map((l) => l.date).sort().reverse();
+      const todayDate = new Date(today);
+      let checkDate = new Date(todayDate);
+
+      if (!checkedToday) {
+        checkDate.setDate(checkDate.getDate() - 1);
+      }
+
+      let graceDays = 0;
+      for (let i = 0; i < sortedDates.length && graceDays <= 2; i++) {
+        const logDate = new Date(sortedDates[i]);
+        const diffDays = Math.floor((checkDate.getTime() - logDate.getTime()) / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+          streakCount++;
+          checkDate.setDate(checkDate.getDate() - 1);
+          graceDays = 0;
+        } else if (diffDays <= 2) {
+          graceDays += diffDays;
+          if (graceDays <= 2) {
+            streakCount++;
+            checkDate = new Date(logDate);
+            checkDate.setDate(checkDate.getDate() - 1);
+          }
+        } else {
+          break;
+        }
+      }
+    }
+
+    res.json({ streakCount, checkedToday, totalInterrupts: logs.length });
+  } catch (error) {
+    console.error("Get streak error:", error);
+    res.status(500).json({ error: "Failed to get streak" });
+  }
+});
+
+router.post("/interrupt", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const existing = await db
+      .select()
+      .from(interruptLog)
+      .where(and(eq(interruptLog.userId, userId), eq(interruptLog.date, today)));
+
+    if (existing.length > 0) {
+      return res.json({ success: true, alreadyChecked: true });
+    }
+
+    await db.insert(interruptLog).values({
+      userId,
+      date: today,
+    });
+
+    res.json({ success: true, alreadyChecked: false });
+  } catch (error) {
+    console.error("Record interrupt error:", error);
+    res.status(500).json({ error: "Failed to record interrupt" });
+  }
+});
+
+// Get user pattern from quiz_users (for portal context)
+router.get("/user-pattern", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    // The auth token contains userId and email
+    const token = req.cookies.auth_token;
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    // Try quiz_users table for pattern data
+    const { quizUsers } = await import("@shared/schema");
+    const [quizUser] = await db
+      .select()
+      .from(quizUsers)
+      .where(eq(quizUsers.email, authData.email));
+
+    if (quizUser) {
+      return res.json({
+        pattern: quizUser.primaryPattern,
+        patternScores: quizUser.patternScores,
+        secondaryPatterns: quizUser.secondaryPatterns,
+      });
+    }
+
+    res.json({ pattern: null, patternScores: null, secondaryPatterns: null });
+  } catch (error) {
+    console.error("Get user pattern error:", error);
+    res.status(500).json({ error: "Failed to get user pattern" });
   }
 });
 

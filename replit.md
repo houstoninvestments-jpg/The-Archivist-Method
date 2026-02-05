@@ -37,7 +37,8 @@ Preferred communication style: Simple, everyday language.
 - Quiz Results (/quiz/result/:pattern) - 7 pattern-specific result pages with email capture
 - Quiz Fallback (/quiz/result/select) - Manual pattern selection for users with no clear result
 - Thank you pages (/thank-you, /thank-you-quick-start, /thank-you-complete) - Post-purchase confirmation with upsells
-- Member portal (/portal) - Tabbed interface with content, AI chat, and account sections
+- Member portal (/portal/dashboard) - Two-panel desktop layout (left navigation + right AI chat), mobile tab navigation, persistent AI chat with tier-gated system prompts, streak tracking, locked product modals, first-login personalized greeting
+- Portal tiers (/portal/tiers) - Tier comparison page (Crash Course free, Field Guide $47, Complete Archive $197)
 
 ### Backend Architecture
 

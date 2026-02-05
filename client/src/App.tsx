@@ -24,6 +24,7 @@ const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
 const PortalDashboardPreview = lazy(() => import("@/pages/PortalDashboardPreview"));
 const PortalReader = lazy(() => import("@/pages/PortalReader"));
+const PortalTiers = lazy(() => import("@/pages/PortalTiers"));
 const PortalDownloads = lazy(() => import("@/pages/PortalDownloads"));
 const PortalWorkbook = lazy(() => import("@/pages/PortalWorkbook"));
 const FreeDownload = lazy(() => import("@/pages/FreeDownload"));
@@ -63,6 +64,7 @@ function Router() {
       <Route path="/portal/dashboard" component={PortalDashboard} />
       <Route path="/portal/preview" component={PortalDashboardPreview} />
       <Route path="/portal/reader/:documentId" component={PortalReader} />
+      <Route path="/portal/tiers" component={PortalTiers} />
       <Route path="/portal/downloads" component={PortalDownloads} />
       <Route path="/portal/workbook/:slug" component={PortalWorkbook} />
       <Route path="/portal" component={Portal} />
