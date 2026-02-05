@@ -8,10 +8,10 @@ import os
 import re
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from reportlab.lib.colors import HexColor, Color
+from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image, Table, TableStyle
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Flowable
 from reportlab.pdfgen import canvas
 
 # Colors matching Crash Course PDF
@@ -44,17 +44,45 @@ MODULE_TITLES = {
     'epilogue': ('', 'EPILOGUE')
 }
 
+class CircularLogo(Flowable):
+    """Custom flowable to draw logo with dark background mask"""
+    def __init__(self, image_path, size=140):
+        Flowable.__init__(self)
+        self.image_path = image_path
+        self.size = size
+        self.width = size
+        self.height = size
+    
+    def draw(self):
+        # Draw dark circle background first (larger than logo to mask any transparency)
+        self.canv.setFillColor(DARK_BG)
+        center_x = self.size / 2
+        center_y = self.size / 2
+        self.canv.circle(center_x, center_y, self.size / 2 + 5, fill=1, stroke=0)
+        
+        # Draw teal/pink gradient ring
+        self.canv.setStrokeColor(TEAL)
+        self.canv.setLineWidth(3)
+        self.canv.circle(center_x, center_y, self.size / 2 + 2, fill=0, stroke=1)
+        
+        # Draw the logo image
+        from reportlab.lib.utils import ImageReader
+        try:
+            img = ImageReader(self.image_path)
+            self.canv.drawImage(img, 0, 0, self.size, self.size, mask='auto')
+        except:
+            pass
+
 def create_styles():
     """Create styles matching Crash Course PDF - bold, impactful typography"""
     return {
-        # Title page styles
         'main_title': ParagraphStyle(
             'MainTitle', fontSize=48, textColor=WHITE, alignment=TA_CENTER, 
-            fontName='Helvetica-Bold', leading=56, spaceAfter=0
+            fontName='Helvetica-Bold', leading=56
         ),
         'archive_title': ParagraphStyle(
             'ArchiveTitle', fontSize=36, textColor=TEAL, alignment=TA_CENTER, 
-            fontName='Helvetica-Bold', leading=44, spaceAfter=0
+            fontName='Helvetica-Bold', leading=44
         ),
         'tagline': ParagraphStyle(
             'Tagline', fontSize=14, textColor=MEDIUM_GRAY, alignment=TA_CENTER, 
@@ -64,18 +92,14 @@ def create_styles():
             'Brand', fontSize=16, textColor=WHITE, alignment=TA_CENTER, 
             fontName='Helvetica-Bold', leading=24
         ),
-        
-        # Module title page styles
         'module_label': ParagraphStyle(
             'ModuleLabel', fontSize=18, textColor=TEAL, alignment=TA_CENTER, 
-            fontName='Helvetica-Bold', leading=26, letterSpacing=2
+            fontName='Helvetica-Bold', leading=26
         ),
         'module_title': ParagraphStyle(
             'ModuleTitle', fontSize=40, textColor=WHITE, alignment=TA_CENTER, 
             fontName='Helvetica-Bold', leading=48
         ),
-        
-        # TOC styles
         'toc_title': ParagraphStyle(
             'TOCTitle', fontSize=28, textColor=WHITE, alignment=TA_CENTER, 
             fontName='Helvetica-Bold', leading=36, spaceAfter=30
@@ -84,8 +108,6 @@ def create_styles():
             'TOCEntry', fontSize=13, textColor=LIGHT_GRAY, fontName='Helvetica', 
             leading=28, leftIndent=20
         ),
-        
-        # Content styles - BOLD and impactful
         'h1': ParagraphStyle(
             'H1', fontSize=24, textColor=WHITE, fontName='Helvetica-Bold', 
             spaceBefore=24, spaceAfter=14, leading=30
@@ -113,6 +135,10 @@ def create_styles():
         'bullet': ParagraphStyle(
             'Bullet', fontSize=11, textColor=LIGHT_GRAY, fontName='Helvetica', 
             leftIndent=25, leading=18, spaceAfter=6
+        ),
+        'callout': ParagraphStyle(
+            'Callout', fontSize=12, textColor=TEAL, fontName='Helvetica-Bold',
+            spaceBefore=16, spaceAfter=8, leading=18
         ),
     }
 
@@ -147,8 +173,91 @@ def draw_dark_background(canvas, doc):
     
     canvas.restoreState()
 
+def strip_emoji(text):
+    """Remove all emoji characters from text"""
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map symbols
+        "\U0001F700-\U0001F77F"  # alchemical symbols
+        "\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+        "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+        "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+        "\U0001FA00-\U0001FA6F"  # Chess Symbols
+        "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+        "\U00002702-\U000027B0"  # Dingbats
+        "\U000024C2-\U0001F251"
+        "\U0001f926-\U0001f937"
+        "\U00010000-\U0010ffff"
+        "\u200d"
+        "\u2640-\u2642"
+        "\u2600-\u2B55"
+        "\u23cf"
+        "\u23e9"
+        "\u231a"
+        "\ufe0f"
+        "\u3030"
+        "\u2934"
+        "\u2935"
+        "\u25aa-\u25ab"
+        "\u25b6"
+        "\u25c0"
+        "\u25fb-\u25fe"
+        "\u2614-\u2615"
+        "\u2648-\u2653"
+        "\u267f"
+        "\u2693"
+        "\u26a1"
+        "\u26aa-\u26ab"
+        "\u26bd-\u26be"
+        "\u26c4-\u26c5"
+        "\u26ce"
+        "\u26d4"
+        "\u26ea"
+        "\u26f2-\u26f3"
+        "\u26f5"
+        "\u26fa"
+        "\u26fd"
+        "\u2702"
+        "\u2705"
+        "\u2708-\u270d"
+        "\u270f"
+        "\u2712"
+        "\u2714"
+        "\u2716"
+        "\u271d"
+        "\u2721"
+        "\u2728"
+        "\u2733-\u2734"
+        "\u2744"
+        "\u2747"
+        "\u274c"
+        "\u274e"
+        "\u2753-\u2755"
+        "\u2757"
+        "\u2763-\u2764"
+        "\u2795-\u2797"
+        "\u27a1"
+        "\u27b0"
+        "\u27bf"
+        "\u2b05-\u2b07"
+        "\u2b1b-\u2b1c"
+        "\u2b50"
+        "\u2b55"
+        "\u231a-\u231b"
+        "\u23e9-\u23f3"
+        "\u23f8-\u23fa"
+        "\U0001F48E"  # gem/diamond emoji
+        "]+", flags=re.UNICODE
+    )
+    return emoji_pattern.sub('', text)
+
 def clean_text(text):
-    """Clean markdown and escape special characters"""
+    """Clean markdown, strip emoji, and escape special characters"""
+    # Strip emoji first
+    text = strip_emoji(text)
+    
     # Convert markdown formatting
     text = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', text)
     text = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<i>\1</i>', text)
@@ -174,7 +283,7 @@ def clean_text(text):
     for placeholder, tag in protected:
         text = text.replace(placeholder, tag)
     
-    return text
+    return text.strip()
 
 def parse_markdown(content, styles):
     """Parse markdown content into PDF elements"""
@@ -185,33 +294,58 @@ def parse_markdown(content, styles):
         if not line.strip():
             continue
         
+        # Strip emoji from the line first
+        line = strip_emoji(line)
+        
+        # Skip empty lines after emoji removal
+        if not line.strip():
+            continue
+        
         try:
+            # Check for GOLD NUGGET or similar callout sections
+            if 'GOLD NUGGET' in line.upper():
+                elements.append(Paragraph('<font color="#14B8A6">GOLD NUGGET</font>', styles['callout']))
+                continue
+            
             if line.startswith('# '):
                 text = clean_text(line[2:]).upper()
-                elements.append(Paragraph(text, styles['h1']))
+                if text:
+                    elements.append(Paragraph(text, styles['h1']))
             elif line.startswith('## '):
-                elements.append(Paragraph(clean_text(line[3:]), styles['h2']))
+                text = clean_text(line[3:])
+                if text:
+                    elements.append(Paragraph(text, styles['h2']))
             elif line.startswith('### '):
-                elements.append(Paragraph(clean_text(line[4:]), styles['h3']))
+                text = clean_text(line[4:])
+                if text:
+                    elements.append(Paragraph(text, styles['h3']))
             elif line.startswith('#### '):
-                elements.append(Paragraph(clean_text(line[5:]), styles['h4']))
+                text = clean_text(line[5:])
+                if text:
+                    elements.append(Paragraph(text, styles['h4']))
             elif line.strip() in ['---', '***', '___']:
                 elements.append(Spacer(1, 20))
             elif line.startswith('> '):
                 quote_text = clean_text(line[2:])
-                elements.append(Paragraph(f'"{quote_text}"', styles['quote']))
+                if quote_text:
+                    elements.append(Paragraph(f'"{quote_text}"', styles['quote']))
             elif line.strip().startswith('- ') or line.strip().startswith('* '):
                 text = clean_text(line.strip()[2:])
-                bullet = '<font color="#14B8A6"><b>•</b></font>'
-                elements.append(Paragraph(f'{bullet}  {text}', styles['bullet']))
+                if text:
+                    bullet = '<font color="#14B8A6"><b>•</b></font>'
+                    elements.append(Paragraph(f'{bullet}  {text}', styles['bullet']))
             elif re.match(r'^\d+\.\s', line.strip()):
                 match = re.match(r'^(\d+)\.\s*(.+)', line.strip())
                 if match:
                     num, text = match.groups()
-                    num_styled = f'<font color="#14B8A6"><b>{num}.</b></font>'
-                    elements.append(Paragraph(f'{num_styled}  {clean_text(text)}', styles['bullet']))
+                    text = clean_text(text)
+                    if text:
+                        num_styled = f'<font color="#14B8A6"><b>{num}.</b></font>'
+                        elements.append(Paragraph(f'{num_styled}  {text}', styles['bullet']))
             elif line.strip():
-                elements.append(Paragraph(clean_text(line), styles['body']))
+                text = clean_text(line)
+                if text:
+                    elements.append(Paragraph(text, styles['body']))
         except Exception as e:
             pass
     
@@ -263,15 +397,19 @@ def generate_pdf():
     # === TITLE PAGE ===
     story.append(Spacer(1, 80))
     
-    # Logo with gradient ring effect (achieved through table with colored borders)
+    # Logo with dark background mask and teal ring
     if os.path.exists(logo_path):
-        try:
-            logo = Image(logo_path, width=140, height=140)
-            logo.hAlign = 'CENTER'
-            story.append(logo)
-            story.append(Spacer(1, 40))
-        except Exception as e:
-            print(f'Logo error: {e}')
+        logo = CircularLogo(logo_path, size=140)
+        from reportlab.platypus import KeepInFrame
+        # Center the logo
+        from reportlab.platypus import Table, TableStyle
+        logo_table = Table([[logo]], colWidths=[PAGE_WIDTH - 2*MARGIN])
+        logo_table.setStyle(TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        story.append(logo_table)
+        story.append(Spacer(1, 40))
     
     # Main title
     story.append(Paragraph("THE ARCHIVIST METHOD™", styles['main_title']))
