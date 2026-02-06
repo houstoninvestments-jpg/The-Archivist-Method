@@ -279,17 +279,47 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
       }
     }
 
+    let pdfFileName = product.pdfFileName;
+
+    if (productId === "quick-start") {
+      const patternToFieldGuide: Record<string, string> = {
+        disappearing: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf",
+        apologyLoop: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-APOLOGY-LOOP.pdf",
+        testing: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-TESTING.pdf",
+        attractionToHarm: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-ATTRACTION-TO-HARM.pdf",
+        complimentDeflection: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-COMPLIMENT-DEFLECTION.pdf",
+        drainingBond: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DRAINING-BOND.pdf",
+        successSabotage: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-SUCCESS-SABOTAGE.pdf",
+        perfectionism: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-PERFECTIONISM.pdf",
+        rage: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-RAGE.pdf",
+      };
+
+      try {
+        const { quizUsers } = await import("@shared/schema");
+        const [quizUser] = await db
+          .select()
+          .from(quizUsers)
+          .where(eq(quizUsers.email, authData.email));
+
+        if (quizUser?.primaryPattern && patternToFieldGuide[quizUser.primaryPattern]) {
+          pdfFileName = patternToFieldGuide[quizUser.primaryPattern];
+        }
+      } catch (err) {
+        console.log("Could not resolve pattern-specific Field Guide, using default");
+      }
+    }
+
     const pdfPath = join(
       process.cwd(),
       "public",
       "downloads",
-      product.pdfFileName,
+      pdfFileName,
     );
     const pdfBuffer = await readFile(pdfPath);
 
     res.set({
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${product.pdfFileName}"`,
+      "Content-Disposition": `attachment; filename="${pdfFileName}"`,
     });
 
     res.send(pdfBuffer);
