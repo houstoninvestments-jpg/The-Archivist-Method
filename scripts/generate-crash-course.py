@@ -899,7 +899,9 @@ def build_whats_next(elements, styles):
 def generate_crash_course():
     output_dir = os.path.dirname(os.path.abspath(__file__))
     output_dir = os.path.join(os.path.dirname(output_dir))
-    output_file = os.path.join(output_dir, "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf")
+    downloads_dir = os.path.join(output_dir, "public", "downloads")
+    os.makedirs(downloads_dir, exist_ok=True)
+    output_file = os.path.join(downloads_dir, "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf")
 
     logo_candidates = [
         os.path.join(output_dir, "attached_assets", "archivist-logo-pdf-composited.png"),

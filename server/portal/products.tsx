@@ -24,7 +24,7 @@ export const PRODUCTS: Record<string, Product> = {
       "First interrupt attempt protocol",
       "7-day guided program",
     ],
-    pdfFileName: "crash-course.pdf",
+    pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf",
   },
   "quick-start": {
     id: "quick-start",
