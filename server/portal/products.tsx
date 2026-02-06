@@ -10,6 +10,22 @@ export interface Product {
 }
 
 export const PRODUCTS: Record<string, Product> = {
+  "crash-course": {
+    id: "crash-course",
+    name: "7-Day Crash Course",
+    price: 0,
+    stripeProductId: "",
+    stripePriceId: "",
+    description: "Free 7-day pattern interruption crash course",
+    features: [
+      "Identify your destructive pattern",
+      "Learn body signatures and triggers",
+      "Circuit break scripts for all 9 patterns",
+      "First interrupt attempt protocol",
+      "7-day guided program",
+    ],
+    pdfFileName: "crash-course.pdf",
+  },
   "quick-start": {
     id: "quick-start",
     name: "Quick-Start System",

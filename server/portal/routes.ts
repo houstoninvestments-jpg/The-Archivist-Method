@@ -248,8 +248,9 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Check if test user
-    if (authData.userId.startsWith("test_")) {
+    if (productId === "crash-course") {
+      // Crash course is free for all authenticated users
+    } else if (authData.userId.startsWith("test_")) {
       const testUserId = authData.userId.replace("test_", "");
       const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
       
@@ -257,7 +258,6 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Test user not found" });
       }
 
-      // Check access based on test user's access level
       const hasQuickStart = testUser.accessLevel === "quick-start" || testUser.accessLevel === "archive";
       const hasCompleteArchive = testUser.accessLevel === "archive";
 
@@ -268,7 +268,6 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
         return res.status(403).json({ error: "Access denied for your access level." });
       }
     } else {
-      // Regular user - check purchases
       const purchases = await getUserPurchases(authData.userId);
       const hasPurchased = purchases.some((p) => p.product_id === productId);
 
