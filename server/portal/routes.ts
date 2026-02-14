@@ -141,13 +141,13 @@ router.get("/auth/verify", (req: Request, res: Response) => {
   const { token } = req.query;
 
   if (!token || typeof token !== "string") {
-    return res.redirect("/portal/login?error=invalid");
+    return res.redirect("/portal?error=invalid");
   }
 
   const authData = verifyAuthToken(token);
 
   if (!authData) {
-    return res.redirect("/portal/login?error=expired");
+    return res.redirect("/portal?error=expired");
   }
 
   res.cookie("auth_token", token, {
@@ -157,7 +157,7 @@ router.get("/auth/verify", (req: Request, res: Response) => {
     maxAge: 60 * 60 * 24 * 7 * 1000, // 7 days
   });
 
-  res.redirect("/portal/dashboard");
+  res.redirect("/portal");
 });
 
 // Get user data and purchases

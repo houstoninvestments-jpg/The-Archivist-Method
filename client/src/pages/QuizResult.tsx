@@ -308,7 +308,7 @@ export default function QuizResult() {
           </form>
 
           <p className="text-center text-slate-500 text-xs mt-5">
-            Free access \u2022 No spam \u2022 Instant portal entry
+            {"Free access \u2022 No spam \u2022 Instant portal entry"}
           </p>
         </div>
       </div>

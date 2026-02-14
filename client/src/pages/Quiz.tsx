@@ -219,7 +219,7 @@ export default function Quiz() {
           </button>
 
           <p className="mt-6 text-slate-500 text-sm">
-            Free \u2022 2 Minutes \u2022 Instant Results
+            {"Free \u2022 2 Minutes \u2022 Instant Results"}
           </p>
         </div>
       </div>
@@ -304,7 +304,7 @@ export default function Quiz() {
           </form>
 
           <p className="text-center text-slate-500 text-sm mt-6">
-            Free \u2022 Private \u2022 Brutally Honest \u2022 Instant Access
+            {"Free \u2022 Private \u2022 Brutally Honest \u2022 Instant Access"}
           </p>
         </div>
       </div>
