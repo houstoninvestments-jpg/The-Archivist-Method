@@ -82,9 +82,20 @@ export async function registerRoutes(
       
       console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
       
+      const { generateAuthToken } = await import("./portal/auth");
+      const jwtToken = generateAuthToken(user.id, email);
+      
+      res.cookie("quiz_token", jwtToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax" as const,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7 * 1000,
+      });
+      
       res.json({ 
         success: true, 
-        token: user.magicLinkToken,
+        token: jwtToken,
         userId: user.id,
       });
     } catch (error) {

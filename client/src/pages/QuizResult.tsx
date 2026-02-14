@@ -157,6 +157,7 @@ export default function QuizResult() {
       const response = await fetch('/api/quiz/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           email,
           primaryPattern: finalPattern,
@@ -171,10 +172,6 @@ export default function QuizResult() {
       }
 
       const data = await response.json();
-
-      if (data.token) {
-        document.cookie = `quiz_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}`;
-      }
 
       localStorage.setItem('quizResultPattern', finalPattern);
       localStorage.setItem('userEmail', email);

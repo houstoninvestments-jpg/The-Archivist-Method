@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useLocation } from 'wouter';
-import { Check } from 'lucide-react';
-import { quizQuestions, calculatePatternScores, determineQuizResult, patternDisplayNames, type PatternKey } from '@/lib/quizData';
+import { quizQuestions, calculatePatternScores, determineQuizResult } from '@/lib/quizData';
 
 function useParticles(count: number) {
   return useMemo(() =>
@@ -14,13 +13,10 @@ function useParticles(count: number) {
 }
 
 export default function Quiz() {
-  const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing' | 'emailCapture'>('intro');
+  const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [, setLocation] = useLocation();
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [quizResult, setQuizResult] = useState<{ type: string; primaryPattern: string | null; scores: Record<string, number> } | null>(null);
   const [selectedFlash, setSelectedFlash] = useState<string | null>(null);
   const [slideState, setSlideState] = useState<'enter' | 'visible' | 'exit'>('visible');
   const [isAdvancing, setIsAdvancing] = useState(false);
@@ -55,8 +51,14 @@ export default function Quiz() {
       setTimeout(() => {
         const scores = calculatePatternScores(answers);
         const result = determineQuizResult(scores);
-        setQuizResult(result);
-        setScreen('emailCapture');
+
+        if (result.primaryPattern) {
+          localStorage.setItem('quizResultPattern', result.primaryPattern);
+        }
+        localStorage.setItem('quizScores', JSON.stringify(result.scores));
+
+        const resultData = encodeURIComponent(JSON.stringify(result));
+        setLocation(`/results?data=${resultData}`);
       }, 2500);
     }
   }, [currentQuestion, answers]);
@@ -91,29 +93,6 @@ export default function Quiz() {
     }
   }, [currentQuestion, isAdvancing]);
 
-  const handleEmailSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !quizResult) return;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return;
-
-    setIsSubmitting(true);
-
-    try {
-      if (quizResult.primaryPattern) {
-        localStorage.setItem('quizResultPattern', quizResult.primaryPattern);
-      }
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('quizScores', JSON.stringify(quizResult.scores));
-
-      const resultData = encodeURIComponent(JSON.stringify(quizResult));
-      setLocation(`/results?data=${resultData}`);
-    } catch (error) {
-      console.error('Error submitting email:', error);
-      setIsSubmitting(false);
-    }
-  }, [email, quizResult, setLocation]);
 
   useEffect(() => {
     if (screen !== 'quiz') return;
@@ -239,72 +218,6 @@ export default function Quiz() {
           <h2 className="text-2xl font-bold text-white mb-3">Analyzing Your Patterns</h2>
           <p className="text-slate-400 max-w-md mx-auto">
             Cross-referencing your responses against 9 core survival patterns...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (screen === 'emailCapture') {
-    const patternName = quizResult?.primaryPattern
-      ? patternDisplayNames[quizResult.primaryPattern as PatternKey] || 'Your Pattern'
-      : 'Your Pattern';
-
-    return (
-      <div className="quiz-screen min-h-screen bg-black flex items-center justify-center px-6">
-        <div className="quiz-fog" />
-
-        <div className="quiz-email-content max-w-xl w-full relative z-10">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Get Your Pattern Analysis
-            </h2>
-            <p className="text-slate-300 text-lg">
-              Your full breakdown is ready in your personal portal:
-            </p>
-          </div>
-
-          <div className="bg-slate-900/80 border border-slate-700/50 rounded-md p-6 md:p-8 mb-8">
-            <ul className="space-y-4">
-              {[
-                <>What's driving this pattern <span className="text-slate-500 italic">(The Original Room)</span></>,
-                <>Your body signature <span className="text-slate-500 italic">(the 2.7 second warning)</span></>,
-                <>Secondary patterns you're also running</>,
-                <>The Crash Course specific to <span className="text-pink-400 font-medium">{patternName}</span></>,
-                <>How to interrupt it <span className="text-slate-500 italic">(your custom protocol)</span></>,
-                <>AI Pattern Coach <span className="text-slate-500 italic">(ask questions 24/7)</span></>,
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-slate-300">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <form onSubmit={handleEmailSubmit} className="space-y-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              className="w-full px-5 py-4 bg-slate-800 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
-              data-testid="input-email"
-            />
-
-            <button
-              type="submit"
-              disabled={isSubmitting || !email}
-              className="quiz-cta-btn w-full px-8 py-4 bg-teal-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-black font-bold text-lg rounded-md transition-all"
-              data-testid="button-submit-email"
-            >
-              {isSubmitting ? 'Opening Archive...' : 'Enter The Archive'}
-            </button>
-          </form>
-
-          <p className="text-center text-slate-500 text-sm mt-6">
-            {"Free \u2022 Private \u2022 Brutally Honest \u2022 Instant Access"}
           </p>
         </div>
       </div>

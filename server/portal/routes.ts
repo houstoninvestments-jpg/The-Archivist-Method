@@ -163,7 +163,7 @@ router.get("/auth/verify", (req: Request, res: Response) => {
 // Get user data and purchases
 router.get("/user-data", async (req: Request, res: Response) => {
   try {
-    const token = req.cookies.auth_token;
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
       return res.status(401).json({ error: "Not authenticated" });
@@ -199,27 +199,51 @@ router.get("/user-data", async (req: Request, res: Response) => {
       });
     }
 
-    const [purchases, user] = await Promise.all([
-      getUserPurchases(authData.userId),
-      getUserById(authData.userId),
-    ]);
-    const userAccess = calculateUserAccess(purchases);
-    const availableUpgrades = getAvailableUpgrades(userAccess);
+    let userData;
+    try {
+      const [purchases, user] = await Promise.all([
+        getUserPurchases(authData.userId),
+        getUserById(authData.userId),
+      ]);
+      const userAccess = calculateUserAccess(purchases);
+      const availableUpgrades = getAvailableUpgrades(userAccess);
 
-    res.json({
-      email: authData.email,
-      name: user.name || null,
-      purchases: userAccess.purchases,
-      hasQuickStart: userAccess.hasQuickStart,
-      hasCompleteArchive: userAccess.hasCompleteArchive,
-      availableUpgrades: availableUpgrades.map((u) => ({
-        id: u.id,
-        name: u.name,
-        price: u.price,
-        description: u.description,
-        features: u.features,
-      })),
-    });
+      userData = {
+        email: authData.email,
+        name: user.name || null,
+        purchases: userAccess.purchases,
+        hasQuickStart: userAccess.hasQuickStart,
+        hasCompleteArchive: userAccess.hasCompleteArchive,
+        availableUpgrades: availableUpgrades.map((u) => ({
+          id: u.id,
+          name: u.name,
+          price: u.price,
+          description: u.description,
+          features: u.features,
+        })),
+      };
+    } catch {
+      const { quizUsers } = await import("@shared/schema");
+      const [quizUser] = await db
+        .select()
+        .from(quizUsers)
+        .where(eq(quizUsers.id, authData.userId));
+
+      if (!quizUser) {
+        return res.status(401).json({ error: "User not found" });
+      }
+
+      userData = {
+        email: quizUser.email,
+        name: quizUser.name || null,
+        purchases: [],
+        hasQuickStart: false,
+        hasCompleteArchive: false,
+        availableUpgrades: [],
+      };
+    }
+
+    res.json(userData);
   } catch (error) {
     console.error("User data error:", error);
     res.status(500).json({ error: "Failed to load user data" });
@@ -229,7 +253,7 @@ router.get("/user-data", async (req: Request, res: Response) => {
 // Download PDF with access control
 router.get("/download/:productId", async (req: Request, res: Response) => {
   try {
-    const token = req.cookies.auth_token;
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
       return res.status(401).json({ error: "Not authenticated" });
@@ -564,7 +588,7 @@ router.post(
 
 // Helper to get authenticated user ID
 const getAuthUserId = (req: Request): string | null => {
-  const token = req.cookies.auth_token;
+  const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
   if (!token) return null;
   const authData = verifyAuthToken(token);
   return authData?.userId || null;
@@ -1167,11 +1191,8 @@ router.post("/interrupt", async (req: Request, res: Response) => {
 // Get user pattern from quiz_users (for portal context)
 router.get("/user-pattern", async (req: Request, res: Response) => {
   try {
-    const userId = getAuthUserId(req);
-    if (!userId) return res.status(401).json({ error: "Not authenticated" });
-
-    // The auth token contains userId and email
-    const token = req.cookies.auth_token;
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
     const authData = verifyAuthToken(token);
     if (!authData) return res.status(401).json({ error: "Invalid token" });
 
