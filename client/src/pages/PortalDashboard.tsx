@@ -200,11 +200,11 @@ function LockedModal({
         </button>
         
         <button
-          onClick={() => { onClose(); setLocation('/portal/tiers'); }}
+          onClick={() => onClose()}
           className="w-full text-center text-slate-500 hover:text-slate-300 text-sm mt-3 py-2 transition-colors"
-          data-testid="button-compare-tiers"
+          data-testid="button-dismiss-modal"
         >
-          Compare all tiers
+          Maybe later
         </button>
       </div>
     </div>
@@ -255,7 +255,7 @@ export default function PortalDashboard() {
         ]);
 
         if (!userRes.ok) {
-          setLocation("/portal/login");
+          setLocation("/quiz");
           return;
         }
 
@@ -272,7 +272,7 @@ export default function PortalDashboard() {
           setStreakData(sData);
         }
       } catch {
-        setLocation("/portal/login");
+        setLocation("/quiz");
       } finally {
         setLoading(false);
       }
@@ -300,7 +300,7 @@ export default function PortalDashboard() {
 
   const handleLogout = async () => {
     document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setLocation("/portal/login");
+    setLocation("/");
   };
 
   const handleCheckout = async (productId: string) => {

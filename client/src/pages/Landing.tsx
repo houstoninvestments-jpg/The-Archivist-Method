@@ -532,11 +532,11 @@ export default function Landing() {
               And it works on all 9 patterns.
             </p>
             <Link 
-              href="/four-doors"
+              href="/quiz"
               className="inline-block text-teal-400 hover:text-teal-300 font-semibold transition-colors"
-              data-testid="link-four-doors-page"
+              data-testid="link-take-quiz"
             >
-              Learn the complete methodology →
+              Discover your pattern →
             </Link>
           </div>
         </div>
@@ -930,7 +930,7 @@ export default function Landing() {
               </Link>
             </div>
             
-            {/* Quick-Start ($47) */}
+            {/* The Field Guide ($47) */}
             <div className="scroll-reveal bg-gradient-to-b from-teal-500/10 to-slate-900/50 border-2 border-teal-500 rounded-xl p-6 relative" style={{animationDelay: '0.1s'}}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-500 text-black text-xs font-bold px-4 py-1 rounded-full">
                 MOST POPULAR
@@ -941,7 +941,7 @@ export default function Landing() {
                   <span className="text-3xl font-bold text-white">$47</span>
                   <span className="text-slate-500 text-sm">one-time</span>
                 </div>
-                <h3 className="text-xl font-bold text-white mt-2">90-DAY QUICK-START</h3>
+                <h3 className="text-xl font-bold text-white mt-2">THE FIELD GUIDE</h3>
                 <p className="text-teal-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL</p>
               </div>
               
@@ -981,7 +981,7 @@ export default function Landing() {
                 className="block w-full text-center py-3 bg-teal-500 text-black rounded-lg hover:bg-teal-600 transition-colors font-bold shadow-lg shadow-teal-500/20"
                 data-testid="button-pricing-quickstart"
               >
-                Unlock Quick-Start →
+                Get The Field Guide →
               </Link>
             </div>
             

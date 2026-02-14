@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings, X, FileText, Unlock, Lock, Download, ExternalLink } from 'lucide-react';
+import { Settings, X, Unlock, Lock, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 
@@ -36,19 +36,6 @@ export function hasGodModeAccess(requiredTier: string): boolean {
   if (godModeTier === 'crash-course' && (requiredTier === 'crash-course' || requiredTier === 'free')) return true;
   return requiredTier === 'free';
 }
-
-const workbooks = [
-  { title: 'Crash Course Workbook', slug: 'crash-course', tier: 'free' },
-  { title: 'Quick-Start Workbook', slug: 'quick-start', tier: 'quick-start' },
-  { title: 'Complete Archive Workbook', slug: 'archive', tier: 'archive' },
-  { title: 'Disappearing Pattern', slug: 'disappearing', tier: 'archive' },
-  { title: 'Apology Loop', slug: 'apology-loop', tier: 'archive' },
-  { title: 'Testing Pattern', slug: 'testing', tier: 'archive' },
-  { title: 'Attraction to Harm', slug: 'attraction-to-harm', tier: 'archive' },
-  { title: 'Compliment Deflection', slug: 'compliment-deflection', tier: 'archive' },
-  { title: 'Draining Bond', slug: 'draining-bond', tier: 'archive' },
-  { title: 'Success Sabotage', slug: 'success-sabotage', tier: 'archive' },
-];
 
 export default function TestingPanel() {
   const [isOpen, setIsOpen] = useState(false);
@@ -152,49 +139,18 @@ export default function TestingPanel() {
 
               <div className="space-y-3">
                 <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  PDF Workbooks
-                </h3>
-                
-                <div className="space-y-2">
-                  {workbooks.map((workbook) => (
-                    <Link
-                      key={workbook.slug}
-                      href={`/portal/workbook/${workbook.slug}`}
-                      className="flex items-center gap-2 p-2 rounded bg-gray-900 hover:bg-gray-800 text-sm text-gray-300 hover:text-white transition-colors"
-                      data-testid={`link-workbook-${workbook.slug}`}
-                    >
-                      <FileText className="w-4 h-4 text-teal-500 flex-shrink-0" />
-                      <span className="flex-1 truncate">{workbook.title}</span>
-                      <ExternalLink className="w-3 h-3 text-gray-500" />
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                  <Download className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4" />
                   Quick Links
                 </h3>
                 
                 <div className="space-y-2">
                   <Link
-                    href="/portal/downloads"
+                    href="/portal"
                     className="flex items-center gap-2 p-2 rounded bg-teal-500/10 border border-teal-500/30 text-sm text-teal-400 hover:bg-teal-500/20 transition-colors"
-                    data-testid="link-downloads-page"
+                    data-testid="link-portal"
                   >
-                    <Download className="w-4 h-4" />
-                    <span>Downloads Page</span>
-                  </Link>
-                  
-                  <Link
-                    href="/portal/dashboard"
-                    className="flex items-center gap-2 p-2 rounded bg-gray-900 hover:bg-gray-800 text-sm text-gray-300 hover:text-white transition-colors"
-                    data-testid="link-portal-dashboard"
-                  >
-                    <ExternalLink className="w-4 h-4 text-gray-500" />
-                    <span>Portal Dashboard</span>
+                    <ExternalLink className="w-4 h-4" />
+                    <span>Portal</span>
                   </Link>
                   
                   <Link

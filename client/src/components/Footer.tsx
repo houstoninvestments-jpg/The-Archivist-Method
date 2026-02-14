@@ -8,22 +8,18 @@ const footerLinks = {
     { label: "The Original Room", href: "/#origin" }
   ],
   products: [
-    { label: "Free 7-Day Crash Course", href: "/quiz" },
-    { label: "90-Day Quick-Start System", href: "/quick-start" },
-    { label: "Complete Archive", href: "/complete-archive" },
-    { label: "Gift Options", href: "/gift" }
+    { label: "The Crash Course (Free)", href: "/quiz" },
+    { label: "The Field Guide ($47)", href: "/portal" },
+    { label: "The Complete Archive ($197)", href: "/portal" },
   ],
   legal: [
     { label: "Terms of Service", href: "/terms" },
     { label: "Privacy Policy", href: "/privacy" },
-    { label: "Refund Policy", href: "/refunds" },
-    { label: "Cookie Policy", href: "/cookies" }
+    { label: "Contact Us", href: "/contact" },
   ],
   connect: [
-    { label: "Contact Us", href: "/contact" },
-    { label: "Portal Login", href: "/portal/login" },
-    { label: "Help Center", href: "/help" },
-    { label: "Support", href: "/support" }
+    { label: "Take the Quiz", href: "/quiz" },
+    { label: "Portal Login", href: "/portal" },
   ]
 };
 
@@ -72,10 +68,8 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
           
-          {/* 4-Column Link Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
             
-            {/* Method */}
             <div>
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
                 Method
@@ -89,7 +83,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Products */}
             <div>
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
                 Products
@@ -103,7 +96,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Legal */}
             <div>
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
                 Legal
@@ -117,7 +109,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Connect */}
             <div>
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
                 Connect
@@ -132,7 +123,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Bottom Section - Brand */}
           <div className="border-t border-[#1a1a1a] pt-8">
             <div className="text-center">
               <h3 className="text-2xl font-bold text-white mb-2" data-testid="text-footer-title">

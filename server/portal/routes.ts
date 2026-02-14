@@ -346,11 +346,11 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
         },
       ],
       mode: "payment",
-      success_url: `${baseUrl}/success/quick-start`,
-      cancel_url: `${baseUrl}/thank-you`,
+      success_url: `${baseUrl}/portal`,
+      cancel_url: `${baseUrl}/portal`,
       metadata: {
         product_id: "quick-start",
-        product_name: "Quick-Start System",
+        product_name: "The Field Guide",
         price_type: "upsell",
       },
     });
@@ -380,11 +380,11 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
         },
       ],
       mode: "payment",
-      success_url: `${baseUrl}/success/quick-start`,
+      success_url: `${baseUrl}/portal`,
       cancel_url: `${baseUrl}/`,
       metadata: {
         product_id: "quick-start",
-        product_name: "Quick-Start System",
+        product_name: "The Field Guide",
       },
     });
 
@@ -413,11 +413,11 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
         },
       ],
       mode: "payment",
-      success_url: `${baseUrl}/success/complete-archive`,
+      success_url: `${baseUrl}/portal`,
       cancel_url: `${baseUrl}/`,
       metadata: {
         product_id: "complete-archive",
-        product_name: "Complete Archive",
+        product_name: "The Complete Archive",
       },
     });
 
@@ -454,8 +454,8 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
         },
       ],
       mode: "payment",
-      success_url: `${baseUrl}/success/complete-archive`,
-      cancel_url: `${baseUrl}/portal/dashboard`,
+      success_url: `${baseUrl}/portal`,
+      cancel_url: `${baseUrl}/portal`,
       metadata: {
         product_id: "complete-archive",
         product_name: "Complete Archive (Upgrade)",
@@ -821,7 +821,7 @@ router.post("/reader/chat", async (req: Request, res: Response) => {
       messages.push({ role: "user" as const, content: message });
     }
 
-    const documentName = documentId === "quick-start" ? "90-Day Quick-Start System" : "Complete Pattern Archive";
+    const documentName = documentId === "quick-start" ? "The Field Guide" : "The Complete Archive";
 
     const response = await anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
@@ -832,8 +832,8 @@ The user is currently on page ${currentPage || 1}.
 
 Be concise, supportive, and reference specific sections or concepts from the methodology. If asked about specific page numbers, be helpful but note that you don't have the exact PDF content - instead offer to explain concepts or patterns they might be reading about.
 
-Key topics in the Quick-Start System:
-- The 7 core psychological patterns (Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage)
+Key topics in The Field Guide:
+- The 9 core psychological patterns (Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, Rage)
 - Body signature identification
 - Pattern recognition exercises
 - Breaking pattern cycles

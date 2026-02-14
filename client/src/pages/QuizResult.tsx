@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useRoute } from 'wouter';
+import { useLocation } from 'wouter';
 import { Check, ArrowRight, AlertTriangle } from 'lucide-react';
 import { PatternKey, patternDisplayNames, QuizResult as QuizResultType } from '@/lib/quizData';
 
@@ -337,13 +337,11 @@ const patternTeasers: Record<PatternKey, { recognition: string; insight: string;
 };
 
 export default function QuizResult() {
-  const [, params] = useRoute('/quiz/result/:pattern');
   const [location, setLocation] = useLocation();
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const patternKey = params?.pattern as PatternKey;
   const searchParams = new URLSearchParams(location.split('?')[1] || '');
   const resultData = searchParams.get('data');
   
@@ -353,6 +351,8 @@ export default function QuizResult() {
       result = JSON.parse(decodeURIComponent(resultData));
     }
   } catch {}
+
+  const patternKey = (result?.primaryPattern || localStorage.getItem('quizResultPattern') || '') as PatternKey;
 
   const teaser = patternTeasers[patternKey];
   const patternName = patternDisplayNames[patternKey];
@@ -589,7 +589,7 @@ export default function QuizResult() {
             </div>
             <div className="flex items-center gap-3 text-gray-300">
               <Check className="w-5 h-5 text-teal-400 flex-shrink-0" />
-              <span>7-Day Crash Course specific to {patternName}</span>
+              <span>The Crash Course specific to {patternName}</span>
             </div>
             <div className="flex items-center gap-3 text-gray-300">
               <Check className="w-5 h-5 text-teal-400 flex-shrink-0" />
@@ -614,7 +614,7 @@ export default function QuizResult() {
                 disabled={submitting}
                 className="px-6 py-4 bg-gradient-to-r from-teal-500 to-cyan-400 text-black font-bold rounded-xl hover:shadow-[0_0_24px_rgba(20,184,166,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 whitespace-nowrap min-h-[56px]"
               >
-                {submitting ? 'Processing...' : 'Start 7-Day Crash Course'}
+                {submitting ? 'Processing...' : 'Enter The Archive'}
                 {!submitting && <ArrowRight className="w-5 h-5" />}
               </button>
             </div>
@@ -631,17 +631,17 @@ export default function QuizResult() {
           <p className="text-gray-400 text-sm mb-4">Ready for the complete system?</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/quick-start"
+              href="/portal"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 rounded-xl text-white hover:bg-white/5 hover:border-teal-500/50 transition-all"
             >
-              Quick-Start System
+              The Field Guide
               <span className="text-teal-400 font-bold">$47</span>
             </a>
             <a
-              href="/complete-archive"
+              href="/portal"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-pink-500/30 bg-pink-500/5 rounded-xl text-white hover:bg-pink-500/10 hover:border-pink-500/50 transition-all"
             >
-              Complete Archive
+              The Complete Archive
               <span className="text-pink-400 font-bold">$197</span>
             </a>
           </div>

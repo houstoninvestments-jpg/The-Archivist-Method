@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. The application offers two products: a Pattern Recognition Session ($47) and a Complete Pattern Archive ($97). The site features a landing page with product offerings, a thank-you page for post-purchase upsells, and a member portal with video content, downloadable materials, and an AI chatbot interface ("The Archivist").
+The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. The application offers three tiers: The Crash Course (free), The Field Guide ($47), and The Complete Archive ($197). The site features a landing page with product offerings, a 10-question Pattern Identification Quiz with email capture, pattern-specific result pages, and a members-only portal with AI chatbot interface ("The Archivist").
+
+Brand positioning: "Pattern Archaeology, NOT Therapy" with Four Doors Protocol (FEIR) framework. The system supports 9 patterns: Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, and Rage.
 
 The application uses a full-stack TypeScript architecture with React on the frontend and Express on the backend, designed to run on Replit with integrated database and authentication capabilities.
 
@@ -10,116 +12,108 @@ The application uses a full-stack TypeScript architecture with React on the fron
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (February 2026)
+
+- Major codebase cleanup: removed 17 unused pages and 8 unused components
+- Consolidated routes from 27 to 9 clean routes
+- Renamed products: "Quick-Start System" → "The Field Guide", "7-Day Crash Course" → "The Crash Course"
+- Fixed Stripe success URLs to redirect to /portal instead of broken static HTML pages
+- Removed old PDF workbook system (public/pdfs/), keeping only Field Guide PDFs in public/downloads/
+- Quiz results route changed from /quiz/result/:pattern to /results
+- Portal route simplified from /portal/dashboard to /portal
+- Removed orphaned components: ContentTab, PortalSidebar, AccountTab, ArchivistChatbot (floating widget), Navbar, PDFViewer, PremiumPDFViewer, PDFReader
+
+## Important Brand Rules
+
+- Pink (#EC4899) ONLY on "NOT" in tagline
+- NEVER use emoji - use Lucide icons styled with theme colors
+- NEVER use "healing/heal/thrive" or "beta/early/founding" language
+- Always "Pattern Archaeology, NOT Therapy"
+- AI persona: Direct, not harsh; warm, not soft; clinical when needed
+
 ## System Architecture
+
+### Routes (Final)
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| / | Landing.tsx | Main landing page |
+| /quiz | Quiz.tsx | 10-question Pattern Identification Quiz |
+| /results | QuizResult.tsx | Pattern-specific result page with email capture |
+| /portal | PortalDashboard.tsx | Members portal (auth required) |
+| /admin | AdminLogin.tsx | Admin login |
+| /admin/dashboard | AdminDashboard.tsx | Admin dashboard |
+| /terms | Terms.tsx | Terms of service |
+| /privacy | Privacy.tsx | Privacy policy |
+| /contact | Contact.tsx | Contact page |
+
+### Product Tiers
+
+| Tier | Price | Product ID | PDF |
+|------|-------|------------|-----|
+| The Crash Course | Free | crash-course | THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf |
+| The Field Guide | $47 | quick-start | THE-ARCHIVIST-METHOD-FIELD-GUIDE-{PATTERN}.pdf |
+| The Complete Archive | $197 | complete-archive | (all Field Guide PDFs + complete-archive.pdf) |
 
 ### Frontend Architecture
 
 **Framework**: React 18 with TypeScript using Vite as the build tool and development server
 
-**Routing**: Wouter for client-side routing, providing a lightweight alternative to React Router
+**Routing**: Wouter for client-side routing
 
-**UI Component Library**: Shadcn/ui components built on Radix UI primitives, providing accessible, customizable components following the "New York" style variant
+**UI Component Library**: Shadcn/ui components built on Radix UI primitives
 
 **Styling System**: 
 - Tailwind CSS for utility-first styling
 - CSS variables for theming (dark mode by default)
-- Custom design system with specific color palette: black background (#000000), off-white text (#FAFAFA), teal primary accent (#00FFC8), pink secondary accent (#FF0094)
-- Component styling uses class-variance-authority for variant management
+- Custom design system: black background (#000000), off-white text (#FAFAFA), teal primary accent (#14B8A6), pink secondary accent (#EC4899)
 
 **State Management**: 
 - TanStack Query (React Query) for server state management
 - Local component state with React hooks
-- No global state management library (Redux, Zustand, etc.)
-
-**Key Pages**:
-- Landing page (/) - Minimal 7-section design: Hero (with Archival Reveal animation), Pattern Cards (7 patterns), Origin (The Original Room), Method (3 steps), Founding Member Offer, Final CTA, Minimal Footer. All CTAs link to /quiz
-- Quiz (/quiz) - 10-question Pattern Identification Quiz with multi-select scoring algorithm
-- Quiz Results (/quiz/result/:pattern) - 7 pattern-specific result pages with email capture
-- Quiz Fallback (/quiz/result/select) - Manual pattern selection for users with no clear result
-- Thank you pages (/thank-you, /thank-you-quick-start, /thank-you-complete) - Post-purchase confirmation with upsells
-- Member portal (/portal/dashboard) - Two-panel desktop layout (left navigation + right AI chat), mobile tab navigation, persistent AI chat with tier-gated system prompts, streak tracking, locked product modals, first-login personalized greeting
-- Portal tiers (/portal/tiers) - Tier comparison page (Crash Course free, Field Guide $47, Complete Archive $197)
 
 ### Backend Architecture
 
 **Server Framework**: Express.js running on Node.js with TypeScript
 
-**Server-Side Rendering**: Vite middleware in development for HMR and SSR capabilities
-
 **API Design**: RESTful API structure with routes prefixed with `/api`
 
-**Session Management**: Planned integration with express-session and session storage (connect-pg-simple for PostgreSQL-backed sessions)
+**Payment Processing**: Stripe integration for checkout flows. Success URLs redirect to /portal.
 
-**Build Process**: esbuild for server bundling with selective dependency bundling to optimize cold start times
+**AI Integration**: Anthropic Claude API for the AI chatbot ("The Archivist") in the member portal
 
-**Middleware Stack**:
-- JSON body parsing with raw body preservation for webhook verification
-- URL-encoded body parsing
-- Request logging with timestamp formatting
-- Static file serving for production builds
+**Build Process**: esbuild for server bundling
 
 ### Data Storage
 
 **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
 
-**Schema Design**: 
-- Users table with UUID primary keys, username, and password fields
-- Schema defined in shared directory for isomorphic access
+**Migrations**: Drizzle Kit for schema migrations stored in `/migrations` directory
 
-**Database Client**: node-postgres (pg) connection pool
+**PDF Downloads**: All PDFs served from `public/downloads/` via authenticated API routes
 
-**Migrations**: Drizzle Kit for schema migrations with migrations stored in `/migrations` directory
+### Authentication
 
-**Storage Interface**: Abstracted storage layer with IStorage interface allowing for different implementations (currently has MemStorage for in-memory operations during development)
+**Portal Auth**: Cookie-based auth tokens issued after quiz email submission
 
-### Authentication & Authorization
+**Admin Auth**: Password-based admin authentication
 
-**Authentication Strategy**: Designed for Replit Auth integration (implementation pending)
-
-**Session Storage**: PostgreSQL-backed sessions using connect-pg-simple
-
-**Password Handling**: Planned integration with password hashing libraries (bcrypt/argon2)
-
-**Protected Routes**: Member portal requires authentication, with LoginPrompt component for unauthenticated users
-
-### External Dependencies
-
-**AI Integration**: Anthropic Claude API (@anthropic-ai/sdk) for the AI chatbot ("The Archivist") feature in the member portal
-
-**Payment Processing**: Stripe integration planned for checkout flows (both initial purchases and upsells)
-
-**Email Delivery**: Nodemailer dependency included for transactional emails (access credentials, purchase confirmations)
-
-**Form Validation**: 
-- Zod for runtime type validation and schema definition
-- React Hook Form with @hookform/resolvers for form state management
-- Drizzle-Zod for generating Zod schemas from database schemas
-
-**Development Tools**:
-- Replit-specific plugins for development experience (vite-plugin-runtime-error-modal, vite-plugin-cartographer, vite-plugin-dev-banner)
-- TypeScript for type safety across the stack
-
-**UI Dependencies**:
-- Radix UI primitives for accessible component foundations
-- Lucide React for iconography
-- date-fns for date manipulation
-- cmdk for command palette functionality
-- vaul for drawer components
-- embla-carousel-react for carousels
-- react-day-picker for calendar components
-- recharts for data visualization (if needed)
-
-### Design System Implementation
+### Design System
 
 **Theme**: Dark mode enforced throughout with brutalist minimalism aesthetic
 
 **Typography**: Bebas Neue (display/headlines) + Inter (body text) from Google Fonts
 
-**Component Patterns**:
-- Card-based layouts with consistent border radius and spacing
-- High contrast color schemes for accessibility
-- Smooth animations and transitions
-- Mobile-first responsive design
-- Consistent spacing using Tailwind's spacing scale (4, 8, 12, 16, 24)
+**Path Aliases**: @/ for client/src, @shared for shared code, @assets for static assets
 
-**Path Aliases**: Configured for clean imports (@/ for client/src, @shared for shared code, @assets for static assets)
+### 9 Supported Patterns
+
+1. Disappearing
+2. Apology Loop
+3. Testing
+4. Attraction to Harm
+5. Compliment Deflection
+6. Draining Bond
+7. Success Sabotage
+8. Perfectionism
+9. Rage

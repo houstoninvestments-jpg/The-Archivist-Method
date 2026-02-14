@@ -21,7 +21,6 @@ export default function Header() {
       }`}
       data-testid="header"
     >
-      {/* Logo */}
       <Link href="/" className="flex items-center gap-3 no-underline group">
         <img
           src="/archivist-icon.png"
@@ -33,15 +32,7 @@ export default function Header() {
         </span>
       </Link>
 
-      {/* Navigation */}
       <nav className="flex items-center gap-4 md:gap-6">
-        <Link 
-          href="/four-doors"
-          className="hidden md:inline-block text-slate-300 hover:text-teal-400 no-underline text-sm font-medium transition-colors"
-          data-testid="link-four-doors-nav"
-        >
-          The Method
-        </Link>
         <Link 
           href="/quiz"
           className="hidden md:inline-block text-slate-300 hover:text-teal-400 no-underline text-sm font-medium transition-colors"
@@ -50,7 +41,7 @@ export default function Header() {
           Take the Quiz
         </Link>
         <Link 
-          href="/portal/login"
+          href="/portal"
           className="text-teal-500 no-underline text-sm font-semibold px-4 py-2 border border-teal-500 rounded-md transition-all duration-200 hover:bg-teal-500 hover:text-white"
           data-testid="button-portal-login"
         >

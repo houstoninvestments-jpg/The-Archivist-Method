@@ -94,11 +94,7 @@ export default function Quiz() {
       
       // Redirect to result page with encoded data
       const resultData = encodeURIComponent(JSON.stringify(quizResult));
-      if (quizResult.type === "fallback" || !quizResult.primaryPattern) {
-        setLocation(`/quiz/result/select?data=${resultData}`);
-      } else {
-        setLocation(`/quiz/result/${quizResult.primaryPattern}?data=${resultData}`);
-      }
+      setLocation(`/results?data=${resultData}`);
     } catch (error) {
       console.error('Error submitting email:', error);
       setIsSubmitting(false);
@@ -249,7 +245,7 @@ export default function Quiz() {
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Analyzing Your Patterns</h2>
           <p className="text-slate-400 max-w-md">
-            Cross-referencing your responses against 7 core survival patterns...
+            Cross-referencing your responses against 9 core survival patterns...
           </p>
         </motion.div>
       </div>
@@ -297,7 +293,7 @@ export default function Quiz() {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />
-                <span className="text-slate-300">7-Day Crash Course specific to <span className="text-pink-400 font-medium">{patternName}</span></span>
+                <span className="text-slate-300">The Crash Course specific to <span className="text-pink-400 font-medium">{patternName}</span></span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-teal-400 mt-0.5 flex-shrink-0" />

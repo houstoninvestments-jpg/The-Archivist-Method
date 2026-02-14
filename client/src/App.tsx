@@ -8,40 +8,19 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GodModeBadge from "@/components/GodModeBadge";
 
-// Eagerly loaded - Landing page for fast initial load
 import Landing from "@/pages/Landing";
 import NotFound from "@/pages/not-found";
 
-// Lazy loaded pages for code splitting
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
-const QuizFallback = lazy(() => import("@/pages/QuizFallback"));
-const ThankYou = lazy(() => import("@/pages/ThankYou"));
-const ThankYouQuickStart = lazy(() => import("@/pages/ThankYouQuickStart"));
-const ThankYouComplete = lazy(() => import("@/pages/ThankYouComplete"));
-const Portal = lazy(() => import("@/pages/Portal"));
-const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
-const PortalDashboardPreview = lazy(() => import("@/pages/PortalDashboardPreview"));
-const PortalReader = lazy(() => import("@/pages/PortalReader"));
-const PortalTiers = lazy(() => import("@/pages/PortalTiers"));
-const PortalDownloads = lazy(() => import("@/pages/PortalDownloads"));
-const PortalWorkbook = lazy(() => import("@/pages/PortalWorkbook"));
-const FreeDownload = lazy(() => import("@/pages/FreeDownload"));
-const QuickStart = lazy(() => import("@/pages/QuickStart"));
-const CompleteArchive = lazy(() => import("@/pages/CompleteArchive"));
-const Members47 = lazy(() => import("@/pages/Members47"));
-const Members197 = lazy(() => import("@/pages/Members197"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
-const FourDoors = lazy(() => import("@/pages/FourDoors"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
-const ArchivistChatbot = lazy(() => import("@/components/ArchivistChatbot"));
 const TestingPanel = lazy(() => import("@/components/TestingPanel"));
 
-// Loading fallback component
 function PageLoader() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
@@ -55,30 +34,13 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/quiz" component={Quiz} />
-      <Route path="/quiz/result/select" component={QuizFallback} />
-      <Route path="/quiz/result/:pattern" component={QuizResult} />
-      <Route path="/thank-you" component={ThankYou} />
-      <Route path="/thank-you-quick-start" component={ThankYouQuickStart} />
-      <Route path="/thank-you-complete" component={ThankYouComplete} />
-      <Route path="/portal/login" component={PortalLogin} />
-      <Route path="/portal/dashboard" component={PortalDashboard} />
-      <Route path="/portal/preview" component={PortalDashboardPreview} />
-      <Route path="/portal/reader/:documentId" component={PortalReader} />
-      <Route path="/portal/tiers" component={PortalTiers} />
-      <Route path="/portal/downloads" component={PortalDownloads} />
-      <Route path="/portal/workbook/:slug" component={PortalWorkbook} />
-      <Route path="/portal" component={Portal} />
-      <Route path="/free" component={FreeDownload} />
-      <Route path="/quick-start" component={QuickStart} />
-      <Route path="/complete-archive" component={CompleteArchive} />
-      <Route path="/members-47" component={Members47} />
-      <Route path="/members-197" component={Members197} />
+      <Route path="/results" component={QuizResult} />
+      <Route path="/portal" component={PortalDashboard} />
+      <Route path="/admin" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
-      <Route path="/four-doors" component={FourDoors} />
-      <Route path="/admin" component={AdminLogin} />
-      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -87,12 +49,10 @@ function Router() {
 function AppContent() {
   const [location] = useLocation();
   
-  // Check for godmode URL parameter
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('godmode') === 'true') {
       localStorage.setItem('godMode', 'true');
-      // Clean up URL
       params.delete('godmode');
       const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
       window.history.replaceState({}, '', newUrl);
@@ -107,15 +67,12 @@ function AppContent() {
   }, []);
   
   const isLanding = location === "/";
-  const isPortalDashboard = location.startsWith("/portal/dashboard") || location.startsWith("/members");
-  const isPortalReader = location.startsWith("/portal/reader");
-  const isPortalDownloads = location.startsWith("/portal/downloads");
-  const isPortalWorkbook = location.startsWith("/portal/workbook");
+  const isPortal = location.startsWith("/portal");
   const isQuiz = location.startsWith("/quiz");
+  const isResults = location.startsWith("/results");
   const isAdmin = location.startsWith("/admin");
-  const hideHeaderFooter = isPortalDashboard || isQuiz || isLanding || isPortalReader || isAdmin || isPortalDownloads || isPortalWorkbook;
-  const showPremiumChatbot = isPortalDashboard;
-  const showTestingPanel = isPortalDashboard || isPortalDownloads || isPortalWorkbook || isAdmin;
+  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin;
+  const showTestingPanel = isPortal || isAdmin;
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -127,7 +84,6 @@ function AppContent() {
       </main>
       {!hideHeaderFooter && <Footer />}
       <Suspense fallback={null}>
-        {showPremiumChatbot && <ArchivistChatbot />}
         {showTestingPanel && <TestingPanel />}
       </Suspense>
       <GodModeBadge />
