@@ -869,6 +869,73 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ==========================================
+   RESULTS PAGE ANIMATIONS
+   ========================================== */
+
+.results-typewriter {
+  border-right: none;
+}
+
+.results-cursor {
+  color: #14B8A6;
+  animation: results-blink 600ms step-end infinite;
+  font-weight: 300;
+}
+
+@keyframes results-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.results-fade-in {
+  animation: results-fade-in 350ms ease-out both;
+}
+
+@keyframes results-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-confirm-btn {
+  transition: box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+
+.results-confirm-btn:hover {
+  box-shadow: 0 0 16px rgba(20, 184, 166, 0.2);
+  border-color: rgba(20, 184, 166, 0.6);
+}
+
+.results-cta-btn {
+  transition: box-shadow 200ms ease;
+}
+
+.results-cta-btn:not(:disabled):hover {
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.results-email-capture {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+
+.results-email-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.results-pattern-card {
+  opacity: 0;
+  animation: results-card-appear 300ms ease-out forwards;
+  cursor: pointer;
+}
+
+@keyframes results-card-appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .hero-fade-1,
@@ -909,5 +976,30 @@
 
   .quiz-progress-bar {
     transition: none;
+  }
+
+  .results-typewriter {
+    animation: none;
+  }
+
+  .results-cursor {
+    animation: none;
+    display: none;
+  }
+
+  .results-fade-in,
+  .results-pattern-card {
+    animation: none;
+    opacity: 1;
+  }
+
+  .results-email-capture {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .results-confirm-btn:hover {
+    box-shadow: none;
   }
 }
