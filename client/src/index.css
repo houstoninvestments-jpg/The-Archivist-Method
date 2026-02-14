@@ -853,15 +853,15 @@
 }
 
 .quiz-intro-content {
-  animation: quiz-fade-up 600ms ease-out;
+  animation: quiz-fade-up 350ms ease-out;
 }
 
 .quiz-analyzing-content {
-  animation: quiz-fade-up 400ms ease-out;
+  animation: quiz-fade-up 300ms ease-out;
 }
 
 .quiz-email-content {
-  animation: quiz-fade-up 500ms ease-out;
+  animation: quiz-fade-up 350ms ease-out;
 }
 
 @keyframes quiz-fade-up {

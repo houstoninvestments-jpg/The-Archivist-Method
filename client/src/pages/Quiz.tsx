@@ -1,7 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import { Check } from 'lucide-react';
 import { quizQuestions, calculatePatternScores, determineQuizResult, patternDisplayNames, type PatternKey } from '@/lib/quizData';
+
+function useParticles(count: number) {
+  return useMemo(() =>
+    Array.from({ length: count }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 12}s`,
+      duration: `${10 + Math.random() * 15}s`,
+    })), [count]);
+}
 
 export default function Quiz() {
   const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing' | 'emailCapture'>('intro');
@@ -15,6 +25,9 @@ export default function Quiz() {
   const [slideState, setSlideState] = useState<'enter' | 'visible' | 'exit'>('visible');
   const [isAdvancing, setIsAdvancing] = useState(false);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const introParticles = useParticles(20);
+  const quizParticles = useParticles(15);
+  const finalParticles = useParticles(30);
 
   const question = quizQuestions[currentQuestion];
   const progress = ((currentQuestion) / quizQuestions.length) * 100;
@@ -133,12 +146,11 @@ export default function Quiz() {
       <div className="quiz-screen min-h-screen bg-black flex flex-col items-center justify-center px-6">
         <div className="quiz-fog" />
         <div className="quiz-particles" aria-hidden="true">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {introParticles.map((p, i) => (
             <span key={i} className="quiz-particle" style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 12}s`,
-              animationDuration: `${10 + Math.random() * 15}s`,
+              left: p.left, top: p.top,
+              animationDelay: p.delay,
+              animationDuration: p.duration,
             }} />
           ))}
         </div>
@@ -303,12 +315,11 @@ export default function Quiz() {
     <div className={`quiz-screen min-h-screen bg-black flex flex-col ${isFinalQuestion ? 'quiz-final-question' : ''}`}>
       <div className="quiz-fog" />
       <div className="quiz-particles" aria-hidden="true">
-        {Array.from({ length: isFinalQuestion ? 30 : 15 }).map((_, i) => (
+        {(isFinalQuestion ? finalParticles : quizParticles).map((p, i) => (
           <span key={i} className="quiz-particle" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 12}s`,
-            animationDuration: `${isFinalQuestion ? (6 + Math.random() * 8) : (10 + Math.random() * 15)}s`,
+            left: p.left, top: p.top,
+            animationDelay: p.delay,
+            animationDuration: isFinalQuestion ? `${6 + parseFloat(p.duration) * 0.3}s` : p.duration,
           }} />
         ))}
       </div>
