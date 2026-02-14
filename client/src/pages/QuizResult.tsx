@@ -11,6 +11,8 @@ const memoryAnchors: Record<PatternKey, string> = {
   complimentDeflection: "You're not being humble. You're being loyal to the story you tell yourself.",
   drainingBond: "You're not helping them. You're hiding from yourself.",
   successSabotage: "You're not afraid of failure. You're afraid of having no excuse left.",
+  perfectionism: "You're not pursuing excellence. You're avoiding the vulnerability of being seen as less than flawless.",
+  rage: "You're not angry at them. You're drowning in feelings you were never allowed to have.",
 };
 
 const whyTherapyDoesntFix: Record<PatternKey, { reasons: string[]; bodySignal: string; interrupt: string; redirect?: string; closing: string }> = {
@@ -61,6 +63,20 @@ const whyTherapyDoesntFix: Record<PatternKey, { reasons: string[]; bodySignal: s
     interrupt: "And interrupt it before you kill another dream.",
     redirect: "Then redirect: What's one small step forward on THIS project?",
     closing: "That's not therapy.\nThat's completion through interruption.",
+  },
+  perfectionism: {
+    reasons: ["Conditional love.", "Performance-based worth.", "Fear of being seen as less than."],
+    bodySignal: "That paralysis before starting, that dread when it's almost done, that voice saying \"it's not ready yet\"—",
+    interrupt: "And interrupt it before you spend another year polishing something no one will see.",
+    redirect: "Then redirect: Ship it. Done is better than perfect.",
+    closing: "That's not therapy.\nThat's completion through interruption.",
+  },
+  rage: {
+    reasons: ["Suppressed emotions.", "Invisible boundaries.", "Powerlessness in childhood."],
+    bodySignal: "That heat rising from your chest to your face, the jaw clenching, the pressure building—",
+    interrupt: "And interrupt it before you say something you can't take back.",
+    redirect: "Then redirect: 10 seconds of silence. Breathe. Choose your words.",
+    closing: "That's not therapy.\nThat's real-time de-escalation.",
   },
 };
 
@@ -225,6 +241,50 @@ const fourDoorsProtocol: Record<PatternKey, {
       action: "I can explore new ideas AFTER I finish this.",
       result: "Set a date to revisit the new idea. Then do ONE small task on the current project. Complete instead of abandon."
     }
+  },
+  perfectionism: {
+    feel: {
+      whatToFeel: [
+        "Paralysis before starting",
+        "Dread when approaching completion",
+        "Gap between the vision in your head and reality",
+        "Thought: \"It's not ready yet\""
+      ],
+      context: "This activates before deadlines, before sharing work, and before anything that could be judged."
+    },
+    engage: "This is the Perfectionism Pattern. I'm about to not-start or not-finish.",
+    interrupt: [
+      "Do NOT revise it one more time.",
+      "Do NOT wait until it's perfect.",
+      "Do NOT compare to an impossible standard.",
+      "Set a timer for 10 minutes. Work on it. Then ship it."
+    ],
+    redirect: {
+      action: "Done is better than perfect. I'm shipping this now.",
+      result: "Imperfect and finished beats perfect and invisible. Every time."
+    }
+  },
+  rage: {
+    feel: {
+      whatToFeel: [
+        "Heat rising from chest to face",
+        "Jaw clenching tight",
+        "Pressure building behind your eyes",
+        "Words forming that you know will cause damage"
+      ],
+      context: "This happens when you feel dismissed, contradicted, or when you lose control of a situation."
+    },
+    engage: "This is the Rage Pattern. I'm about to say something I can't take back.",
+    interrupt: [
+      "Do NOT speak for 10 seconds.",
+      "Do NOT send the text.",
+      "Do NOT escalate.",
+      "Breathe. Let the pressure peak and start to drop."
+    ],
+    redirect: {
+      action: "I need a minute before I respond.",
+      result: "Same emotion. Different delivery. The anger is valid. The destruction isn't."
+    }
   }
 };
 
@@ -263,6 +323,16 @@ const patternTeasers: Record<PatternKey, { recognition: string; insight: string;
     recognition: "You destroy things right before they succeed. Quit jobs before the promotion. Create crises in relationships that are going well. Abandon projects at 90% completion. The closer you get to breakthrough, the more you want to burn it down. You watch yourself sabotaging your own success. You know it doesn't make sense. You do it anyway.",
     insight: "Here's what's actually happening: You are not \"self-destructive.\" You are not \"afraid of success.\" You are running a survival program that was installed when success was dangerous. Somewhere in your history, achievement led to punishment. Or success threatened your belonging. Or you were assigned the role of failure. Your nervous system learned: success is unsafe. Now it runs the program automatically.",
     cost: "You've quit before the finish line more times than you can count. You've created chaos when things were finally stable. You've proven the world wrong by being the one who stopped yourself.",
+  },
+  perfectionism: {
+    recognition: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. You have a graveyard of almost-finished projects, ideas that died in your head, years spent polishing things no one ever sees. You revise endlessly. You delay indefinitely. You watch yourself refusing to ship anything less than flawless. You know it's paralyzing you. You do it anyway.",
+    insight: "Here's what's actually happening: You are not \"detail-oriented.\" You are not \"just thorough.\" You are running a survival program that was installed when love or safety was conditional on performance. Somewhere in your history, good enough wasn't. Mistakes were punished. Your worth was measured by output. Your nervous system learned: imperfection is rejection. Now it runs the program automatically.",
+    cost: "You've never finished the things that matter most. You've watched less talented people succeed because they could tolerate imperfection. You've spent years perfecting things that nobody asked for.",
+  },
+  rage: {
+    recognition: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back. The anger is disproportionate. You know it while it's happening. You can feel yourself crossing lines. Afterward, shame. Apologies. Promises it won't happen again. Until it does. You watch yourself exploding at people you love. You know it's destroying trust. You do it anyway.",
+    insight: "Here's what's actually happening: You are not \"angry.\" You are not \"out of control.\" You are running a survival program that was installed when your boundaries were invisible. Somewhere in your history, the only way to be heard was to scream. Or anger was the only emotion that felt powerful instead of vulnerable. Your nervous system learned: rage is protection. Now it runs the program automatically.",
+    cost: "Damaged relationships. Trust that takes years to rebuild. A version of yourself you're ashamed of. People walking on eggshells around you.",
   },
 };
 

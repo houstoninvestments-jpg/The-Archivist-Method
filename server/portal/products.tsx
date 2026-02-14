@@ -48,9 +48,9 @@ export const PRODUCTS: Record<string, Product> = {
     price: 197,
     stripeProductId: "prod_complete_archive",
     stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $197
-    description: "Full 90-day transformation system with all 7 patterns",
+    description: "Full 90-day transformation system with all 9 patterns",
     features: [
-      "All 7 destructive patterns fully mapped",
+      "All 9 destructive patterns fully mapped",
       "Complete 90-day rewrite protocol",
       "Advanced pattern archaeology techniques",
       "Lifetime pattern tracking system",

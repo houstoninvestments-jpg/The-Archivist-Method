@@ -51,6 +51,8 @@ export default function CompleteArchive() {
     "Compliment Deflection",
     "Draining Bond",
     "Success Sabotage",
+    "Perfectionism",
+    "Rage",
   ];
 
   return (
@@ -91,7 +93,7 @@ export default function CompleteArchive() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">
-                  All 7 Core Patterns:
+                  All 9 Core Patterns:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {patterns.map((pattern, i) => (

@@ -57,14 +57,14 @@ export default function ThankYouQuickStart() {
           <div className="text-left bg-archivist-dark/50 border border-gray-800 rounded-lg p-6 mb-8">
             <h3 className="text-xl font-bold mb-4 text-archivist-teal">What Is Inside:</h3>
             <ul className="space-y-3 text-gray-300">
-              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-teal mt-0.5 shrink-0" /><span>All 7 destructive patterns</span></li>
+              <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-teal mt-0.5 shrink-0" /><span>All 9 destructive patterns</span></li>
               <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-teal mt-0.5 shrink-0" /><span>90-day protocol</span></li>
               <li className="flex items-start gap-3"><Check className="w-5 h-5 text-archivist-teal mt-0.5 shrink-0" /><span>Circuit break library</span></li>
             </ul>
           </div>
           <div className="bg-gradient-to-br from-archivist-pink/10 to-archivist-teal/10 border border-archivist-pink/30 rounded-lg p-8">
             <h3 className="text-2xl font-bold mb-4">Want the Complete Archive?</h3>
-            <p className="text-gray-300 mb-6">Upgrade for all 7 Core Patterns mapped with advanced combinations.</p>
+            <p className="text-gray-300 mb-6">Upgrade for all 9 Core Patterns mapped with advanced combinations.</p>
             <button 
               onClick={handleUpgrade}
               disabled={isLoading}

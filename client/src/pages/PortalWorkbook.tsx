@@ -29,7 +29,7 @@ const workbookData: Record<string, { title: string; pdfPath: string; tier: strin
     title: 'Complete Archive Workbook',
     pdfPath: '/pdfs/complete-archive-workbook.pdf',
     tier: 'archive',
-    description: 'All 7 patterns + advanced protocols'
+    description: 'All 9 patterns + advanced protocols'
   },
   'disappearing': {
     title: 'The Disappearing Pattern',

@@ -63,6 +63,20 @@ const patternDetails: Record<PatternKey, {
     origin: "Success may have meant danger, attention, or the removal of something precious. Your system learned: don't succeed.",
     bodySignature: ["Anxiety increases as success approaches", "Sudden urge to 'blow it up'", "Sleep disruption near achievements"],
     interruption: ["Name it: 'Success Sabotage is running'", "Complete 1 small task toward the goal", "Say: 'I am allowed to succeed'"]
+  },
+  perfectionism: {
+    triggers: ["Deadlines approaching", "Sharing work with others", "Any situation that could be judged"],
+    behaviors: ["Endless revision cycles", "Refusing to ship or publish", "Starting over instead of finishing"],
+    origin: "Love or safety was conditional on flawless performance. Mistakes were punished. Your worth became your output.",
+    bodySignature: ["Paralysis before starting", "Dread when approaching 'done'", "Physical tension in hands and shoulders"],
+    interruption: ["Name it: 'The Perfectionism Pattern is running'", "Set a 10-minute timer and work, then stop", "Say: 'Done is better than perfect'"]
+  },
+  rage: {
+    triggers: ["Feeling dismissed or unheard", "Losing control of a situation", "Boundaries being crossed"],
+    behaviors: ["Disproportionate anger eruptions", "Saying things you can't take back", "Explosive reactions followed by shame"],
+    origin: "When your boundaries were invisible, the only way to be heard was to scream. Rage became the only emotion that felt powerful.",
+    bodySignature: ["Heat rising from chest to face", "Jaw clenching tight", "Pressure behind the eyes"],
+    interruption: ["Name it: 'The Rage Pattern is running'", "Do NOT speak for 10 seconds", "Say: 'I need a minute before I respond'"]
   }
 };
 
@@ -80,7 +94,7 @@ const onboardingScreens = [
   {
     title: "Want The Complete System?",
     subtitle: "Unlock the full Four Doors Protocol.",
-    content: "Quick-Start ($47): All four doors for your pattern with 90 days of exercises + AI. Archive ($197): All four doors for all 7 patterns with lifetime access."
+    content: "Quick-Start ($47): All four doors for your pattern with 90 days of exercises + AI. Archive ($197): All four doors for all 9 patterns with lifetime access."
   }
 ];
 
@@ -726,7 +740,7 @@ export default function Portal() {
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-teal-400">•</span>
-                  All 7 core patterns (you'll recognize yours)
+                  All 9 core patterns (you'll recognize yours)
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-teal-400">•</span>

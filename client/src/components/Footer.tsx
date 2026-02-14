@@ -3,7 +3,7 @@ import { Link } from "wouter";
 const footerLinks = {
   method: [
     { label: "Pattern Archaeology", href: "/#origin" },
-    { label: "The 7 Patterns", href: "/#patterns" },
+    { label: "The 9 Patterns", href: "/#patterns" },
     { label: "FEIR Framework", href: "/#method" },
     { label: "The Original Room", href: "/#origin" }
   ],

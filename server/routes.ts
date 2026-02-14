@@ -242,7 +242,7 @@ export async function registerRoutes(
           id: 'quickstart',
           name: 'Quick-Start System',
           price: 47,
-          description: '90-day protocol, all 7 patterns, crisis protocols',
+          description: '90-day protocol, all 9 patterns, crisis protocols',
         });
       }
       if (user.accessLevel !== 'archive') {

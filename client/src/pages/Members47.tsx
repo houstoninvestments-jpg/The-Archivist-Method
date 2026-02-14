@@ -150,7 +150,7 @@ export default function Members47() {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Want the Complete Archive?</h3>
-                  <p className="text-muted-foreground">All 7 Core Patterns mapped with advanced combinations</p>
+                  <p className="text-muted-foreground">All 9 Core Patterns mapped with advanced combinations</p>
                   <p className="text-archivist-pink font-semibold">Upgrade for only $150 (you save $47)</p>
                 </div>
                 <Button

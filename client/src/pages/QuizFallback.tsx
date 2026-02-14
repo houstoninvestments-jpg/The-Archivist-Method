@@ -11,6 +11,8 @@ const patternKeys: PatternKey[] = [
   'complimentDeflection',
   'drainingBond',
   'successSabotage',
+  'perfectionism',
+  'rage',
 ];
 
 export default function QuizFallback() {
@@ -63,7 +65,7 @@ export default function QuizFallback() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-teal-400 mt-1">•</span>
-                <span>None of the 7 core patterns match your experience</span>
+                <span>None of the 9 core patterns match your experience</span>
               </li>
             </ul>
           </div>
@@ -71,7 +73,7 @@ export default function QuizFallback() {
 
         <div className="mb-8">
           <h2 className="text-xl font-bold text-white text-center mb-2">
-            Let me show you all 7
+            Let me show you all 9
           </h2>
           <p className="text-gray-400 text-center mb-8">
             Read through them and pick the one that makes your stomach drop.

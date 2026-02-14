@@ -122,7 +122,7 @@ export default function ThankYou() {
   };
 
   const benefits = [
-    "Interrupt all 7 destructive patterns",
+    "Interrupt all 9 destructive patterns",
     "90-day circuit break protocol",
     "Unlimited Archivist AI chat",
     "Emergency interruption cards",

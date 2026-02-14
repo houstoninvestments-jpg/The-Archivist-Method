@@ -12,7 +12,7 @@ const previewData = {
     {
       productId: 'complete-archive',
       productName: 'The Complete Archive',
-      description: 'All 7 Core Patterns mapped in detail with advanced pattern combinations and lifetime updates',
+      description: 'All 9 Core Patterns mapped in detail with advanced pattern combinations and lifetime updates',
       price: 197,
       purchasedAt: new Date().toISOString(),
       pdfUrl: '/downloads/paid-197/THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf',

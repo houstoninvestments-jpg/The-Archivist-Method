@@ -443,9 +443,9 @@ export default function FourDoors() {
           </h2>
           
           <p className="text-slate-300 mb-8">
-            The Four Doors Protocol works on all seven patterns:<br />
+            The Four Doors Protocol works on all nine patterns:<br />
             <span className="text-slate-400 text-sm">
-              The Disappearing Act • The Apology Loop • The Testing Pattern • Attraction to Harm • Compliment Deflection • The Draining Bond • Success Sabotage
+              The Disappearing Act • The Apology Loop • The Testing Pattern • Attraction to Harm • Compliment Deflection • The Draining Bond • Success Sabotage • The Perfectionism Pattern • The Rage Pattern
             </span>
           </p>
           

@@ -83,6 +83,16 @@ const patterns = Object.freeze([
     number: 7,
     name: "SUCCESS SABOTAGE",
     description: "You destroy things right before they succeed. Three weeks from launch, you quit. One week from promotion, you blow it up. Sustained success triggers panic—so you destroy it first."
+  },
+  {
+    number: 8,
+    name: "PERFECTIONISM",
+    description: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. Years of almost-finished projects, ideas that died in your head, polishing things no one ever sees."
+  },
+  {
+    number: 9,
+    name: "RAGE",
+    description: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back. The anger is disproportionate. Afterward: shame, apologies, promises it won't happen again."
   }
 ]);
 
@@ -519,7 +529,7 @@ export default function Landing() {
           <div className="scroll-reveal text-center">
             <p className="text-slate-400 italic mb-6">
               This isn't theory. This is real-time pattern interruption.<br />
-              And it works on all 7 patterns.
+              And it works on all 9 patterns.
             </p>
             <Link 
               href="/four-doors"
@@ -532,7 +542,7 @@ export default function Landing() {
         </div>
       </section>
       
-      {/* SECTION 4: THE 7 PATTERNS */}
+      {/* SECTION 4: THE 9 PATTERNS */}
       <section 
         id="patterns"
         ref={patternsRef}
@@ -541,10 +551,10 @@ export default function Landing() {
         <div className="max-w-[1400px] mx-auto">
           <h2 
             className="scroll-reveal glitch-header text-4xl md:text-5xl font-black text-white text-center mb-6"
-            data-text="THE 7 DESTRUCTIVE PATTERNS"
+            data-text="THE 9 DESTRUCTIVE PATTERNS"
             data-testid="text-patterns-headline"
           >
-            THE 7 DESTRUCTIVE PATTERNS
+            THE 9 DESTRUCTIVE PATTERNS
           </h2>
           <p className="scroll-reveal text-lg md:text-xl text-gray-400 text-center mb-16">
             One (or more) of these is running your life:
@@ -983,7 +993,7 @@ export default function Landing() {
                   <span className="text-slate-500 text-sm">one-time</span>
                 </div>
                 <h3 className="text-xl font-bold text-white mt-2">COMPLETE PATTERN ARCHIVE</h3>
-                <p className="text-pink-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL For All 7 Patterns</p>
+                <p className="text-pink-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL For All 9 Patterns</p>
               </div>
               
               <ul className="space-y-3 mb-8 text-sm text-slate-300">
@@ -993,7 +1003,7 @@ export default function Landing() {
                 </li>
                 <li className="flex items-start gap-2 pt-2 border-t border-slate-700/50">
                   <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>All 7 patterns mapped</span>
+                  <span>All 9 patterns mapped</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />

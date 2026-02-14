@@ -446,7 +446,7 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
             currency: "usd",
             product_data: {
               name: "Complete Archive Upgrade",
-              description: "Upgrade from Quick-Start to Complete Archive - All 7 Core Patterns",
+              description: "Upgrade from Quick-Start to Complete Archive - All 9 Core Patterns",
             },
             unit_amount: 15000, // $150 in cents
           },
@@ -968,7 +968,7 @@ router.post("/chat", async (req: Request, res: Response) => {
 - If they ask about advanced topics (combinations, relationships, workplace): "That's covered in the Complete Archive. Want me to give you the basics for now?"`;
     } else if (userTier === "quick-start") {
       tierAccess = `If user_tier == "field_guide":
-- You know ALL 7 patterns fully
+- You know ALL 9 patterns fully
 - You can help with implementation, circuit breaks, 90-day protocol
 - If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive—want the short version?"`;
     } else {
@@ -1003,7 +1003,7 @@ YOU NEVER SAY:
 - "Let's explore your feelings"
 - Therapy-speak, fluff, empty validation
 
-THE 7 PATTERNS:
+THE 9 PATTERNS:
 1. Disappearing Pattern - Pulls away when intimacy increases
 2. Apology Loop - Apologizes for existing, pre-emptive apologies
 3. Testing Pattern - Pushes people away to test if they'll stay
@@ -1011,6 +1011,8 @@ THE 7 PATTERNS:
 5. Compliment Deflection - Cannot accept praise or acknowledgment
 6. Draining Bond - Stays in relationships that deplete them
 7. Success Sabotage - Destroys progress right before breakthrough
+8. Perfectionism Pattern - If it's not perfect, it's garbage, so they don't finish or don't start
+9. Rage Pattern - Explosive anger that comes out of nowhere, says things they can't take back
 
 ${tierAccess}
 

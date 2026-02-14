@@ -42,7 +42,7 @@ const downloads: DownloadItem[] = [
     slug: 'archive',
     pdfPath: '/pdfs/complete-archive-workbook.pdf',
     tier: 'archive',
-    description: 'All 7 patterns + advanced protocols',
+    description: 'All 9 patterns + advanced protocols',
     category: 'main'
   },
   {

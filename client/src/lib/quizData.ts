@@ -5,7 +5,9 @@ export type PatternKey =
   | "attractionToHarm" 
   | "complimentDeflection" 
   | "drainingBond" 
-  | "successSabotage";
+  | "successSabotage"
+  | "perfectionism"
+  | "rage";
 
 export interface QuizOption {
   id: string;
@@ -29,6 +31,8 @@ export const patternDisplayNames: Record<PatternKey, string> = {
   complimentDeflection: "Compliment Deflection",
   drainingBond: "The Draining Bond",
   successSabotage: "Success Sabotage",
+  perfectionism: "The Perfectionism Pattern",
+  rage: "The Rage Pattern",
 };
 
 export const patternDescriptions: Record<PatternKey, string> = {
@@ -39,6 +43,8 @@ export const patternDescriptions: Record<PatternKey, string> = {
   complimentDeflection: "You can't accept positive acknowledgment. Praise makes you squirm, deflect, or disappear.",
   drainingBond: "You stay bonded to harmful people or situations long past when you should leave.",
   successSabotage: "You destroy things right before they succeed. Good things feel dangerous.",
+  perfectionism: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. Years of almost-finished projects.",
+  rage: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back.",
 };
 
 export const quizQuestions: QuizQuestion[] = [
@@ -65,6 +71,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "2c", text: "I shut down emotionally and disappear", scores: { disappearing: 3 } },
       { id: "2d", text: "I stay and argue but feel drained for days after", scores: { drainingBond: 2, testing: 1 } },
       { id: "2e", text: "I assume this means they're going to leave me", scores: { testing: 2, disappearing: 1 } },
+      { id: "2g", text: "I explode - say things I can't take back, then feel ashamed", scores: { rage: 3 } },
       { id: "2f", text: "None of these fit", scores: {}, isNone: true },
     ],
   },
@@ -76,7 +83,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "3a", text: "Sudden dread - something bad is coming, I should stop now", scores: { successSabotage: 3 } },
       { id: "3b", text: "Anxious that people will see it and judge me", scores: { complimentDeflection: 2, apologyLoop: 1 } },
       { id: "3c", text: "Like I should quit before I fail publicly", scores: { successSabotage: 2, complimentDeflection: 1 } },
-      { id: "3d", text: "I keep finding reasons to delay the launch", scores: { successSabotage: 2 } },
+      { id: "3d", text: "I keep finding reasons to delay - it's not perfect yet", scores: { perfectionism: 3 } },
       { id: "3e", text: "Urge to blow it up or create a crisis", scores: { successSabotage: 3 } },
       { id: "3f", text: "None of these - I feel ready and excited", scores: {}, isNone: true },
     ],
@@ -89,7 +96,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "4a", text: "Physically uncomfortable - I want to disappear or leave", scores: { complimentDeflection: 3 } },
       { id: "4b", text: "\"It was nothing\" or \"Anyone could have done it\"", scores: { complimentDeflection: 3, apologyLoop: 1 } },
       { id: "4c", text: "I assume they're setting me up for more work or harder tasks", scores: { testing: 2, apologyLoop: 1 } },
-      { id: "4d", text: "I immediately point out everything I did wrong", scores: { complimentDeflection: 2, successSabotage: 1 } },
+      { id: "4d", text: "I immediately point out everything I did wrong", scores: { complimentDeflection: 2, perfectionism: 1 } },
       { id: "4e", text: "I apologize or minimize it somehow", scores: { apologyLoop: 2, complimentDeflection: 2 } },
       { id: "4f", text: "None of these - I say thank you and accept it", scores: {}, isNone: true },
     ],
@@ -143,6 +150,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "8c", text: "I feel guilty, like I don't deserve it", scores: { apologyLoop: 2, complimentDeflection: 2 } },
       { id: "8d", text: "I get uncomfortable with sustained happiness and create problems", scores: { successSabotage: 3 } },
       { id: "8e", text: "I minimize the success or redirect credit to others", scores: { complimentDeflection: 2, apologyLoop: 1 } },
+      { id: "8g", text: "I focus on what's still not perfect - the success feels incomplete", scores: { perfectionism: 3 } },
       { id: "8f", text: "Good things continue - I don't sabotage them", scores: {}, isNone: true },
     ],
   },
@@ -156,6 +164,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "9c", text: "State it but then test if they'll respect it", scores: { testing: 2, apologyLoop: 1 } },
       { id: "9d", text: "Pull away completely rather than have the conversation", scores: { disappearing: 3 } },
       { id: "9e", text: "I feel guilty for setting the boundary", scores: { apologyLoop: 2, drainingBond: 1 } },
+      { id: "9g", text: "I snap - the anger comes out fast and disproportionate", scores: { rage: 3 } },
       { id: "9f", text: "I state the boundary clearly and hold it", scores: {}, isNone: true },
     ],
   },
@@ -183,6 +192,8 @@ export function calculatePatternScores(answers: Record<number, string[]>): Recor
     complimentDeflection: 0,
     drainingBond: 0,
     successSabotage: 0,
+    perfectionism: 0,
+    rage: 0,
   };
 
   for (const question of quizQuestions) {

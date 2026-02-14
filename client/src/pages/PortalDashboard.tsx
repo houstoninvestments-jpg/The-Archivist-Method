@@ -95,6 +95,20 @@ const patternDetails: Record<PatternKey, {
     origin: "Success may have meant danger, attention, or the removal of something precious. Your system learned: don't succeed.",
     bodySignature: "Anxiety increasing as deadline approaches, sudden urge to destroy what you've built, feeling like a fraud.",
     interrupt: "When the urge to sabotage hits, finish one more step. Just one. Don't evaluate—execute. That's the interrupt."
+  },
+  perfectionism: {
+    triggers: ["Deadline approaching", "About to share work", "Receiving feedback"],
+    behaviors: ["Endless revision cycles", "Not finishing or not starting", "Treating 'good enough' as failure"],
+    origin: "When love or safety was conditional on performance, your system learned that anything less than perfect means rejection.",
+    bodySignature: "Paralysis. Dread. A widening gap between the vision in your head and reality on the page.",
+    interrupt: "Perfectionism is telling you it's not ready. Done is better than perfect. Ship it. That's the interrupt."
+  },
+  rage: {
+    triggers: ["Feeling dismissed", "Being contradicted", "Losing control of a situation"],
+    behaviors: ["Explosive anger out of nowhere", "Saying things you can't take back", "Disproportionate reactions"],
+    origin: "When your boundaries were invisible, rage became the only signal loud enough to be heard.",
+    bodySignature: "Heat rising from chest to face. Jaw tight. Pressure building behind your eyes like a dam about to break.",
+    interrupt: "You feel the anger rising. This is the Rage Pattern. Don't say anything for 10 seconds. Breathe. That's the interrupt."
   }
 };
 
@@ -154,12 +168,12 @@ function LockedModal({
         <ul className="space-y-3 mb-6">
           {(isFieldGuide ? [
             "Full 90-day protocol for YOUR pattern",
-            "All 7 patterns explained",
+            "All 9 patterns explained",
             "Circuit break scripts for every trigger",
             "The Archivist AI — unlimited access",
             "Crisis protocols for when it hits hard"
           ] : [
-            "All 7 patterns — full depth",
+            "All 9 patterns — full depth",
             "Pattern combination analysis",
             "Relationship protocols",
             "Workplace applications",
@@ -455,7 +469,7 @@ export default function PortalDashboard() {
           {!hasCompleteArchive && <Lock className="w-3.5 h-3.5 text-slate-500" />}
         </button>
 
-        {/* All 7 Patterns */}
+        {/* All 9 Patterns */}
         <button
           onClick={() => setActiveContent("all-patterns")}
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
@@ -464,7 +478,7 @@ export default function PortalDashboard() {
           data-testid="nav-all-patterns"
         >
           <Layers className="w-4 h-4 flex-shrink-0" />
-          <span className="text-sm font-medium">All 7 Patterns</span>
+          <span className="text-sm font-medium">All 9 Patterns</span>
         </button>
 
         {/* Streak Tracker */}
@@ -703,11 +717,11 @@ export default function PortalDashboard() {
                 <h2 className="text-2xl font-bold text-white">The Field Guide</h2>
                 <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
               </div>
-              <p className="text-slate-400">Full 90-day protocol. Deep pattern analysis. All 7 patterns explained.</p>
+              <p className="text-slate-400">Full 90-day protocol. Deep pattern analysis. All 9 patterns explained.</p>
               
               <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-6 space-y-3">
                 <h3 className="text-lg font-bold text-white">What's Included</h3>
-                {["Full pattern deep dive for YOUR pattern", "90-day interruption protocol", "All 7 patterns overview", "Circuit break scripts", "Crisis protocols"].map((f, i) => (
+                {["Full pattern deep dive for YOUR pattern", "90-day interruption protocol", "All 9 patterns overview", "Circuit break scripts", "Crisis protocols"].map((f, i) => (
                   <div key={i} className="flex items-center gap-3 text-slate-300 text-sm">
                     <Check className="w-4 h-4 text-teal-400 flex-shrink-0" />
                     {f}
@@ -736,7 +750,7 @@ export default function PortalDashboard() {
               
               <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-6 space-y-3">
                 <h3 className="text-lg font-bold text-white">Full Library</h3>
-                {["All 7 patterns — full depth", "Pattern combination analysis", "Relationship protocols", "Workplace applications", "Parenting patterns", "Lifetime updates"].map((f, i) => (
+                {["All 9 patterns — full depth", "Pattern combination analysis", "Relationship protocols", "Workplace applications", "Parenting patterns", "Lifetime updates"].map((f, i) => (
                   <div key={i} className="flex items-center gap-3 text-slate-300 text-sm">
                     <Check className="w-4 h-4 text-teal-400 flex-shrink-0" />
                     {f}
@@ -758,7 +772,7 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">All 7 Patterns</h2>
+                <h2 className="text-2xl font-bold text-white">All 9 Patterns</h2>
                 <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
               </div>
               <div className="space-y-3">
