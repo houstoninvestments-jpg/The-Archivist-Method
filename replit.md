@@ -53,7 +53,7 @@ Preferred communication style: Simple, everyday language.
 |------|-------|------------|-----|
 | The Crash Course | Free | crash-course | THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf |
 | The Field Guide | $47 | quick-start | THE-ARCHIVIST-METHOD-FIELD-GUIDE-{PATTERN}.pdf |
-| The Complete Archive | $197 | complete-archive | (all Field Guide PDFs + complete-archive.pdf) |
+| The Complete Archive | $197 | complete-archive | (all Field Guide PDFs + THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf) |
 
 ### Frontend Architecture
 

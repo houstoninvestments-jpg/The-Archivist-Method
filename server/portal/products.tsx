@@ -59,7 +59,7 @@ export const PRODUCTS: Record<string, Product> = {
       "Custom rewrite frameworks",
       "Everything from The Field Guide",
     ],
-    pdfFileName: "complete-archive.pdf",
+    pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf",
   },
 };
 
