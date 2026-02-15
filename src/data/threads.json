@@ -1,0 +1,148 @@
+{
+  "threads": [
+    {
+      "conceptId": "circuit-break",
+      "conceptName": "The Circuit Break",
+      "appearsIn": [
+        { "artifactId": "module-0-emergency", "artifactTitle": "Emergency Protocol" },
+        { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
+        { "artifactId": "pattern-1-disappearing", "artifactTitle": "The Disappearing Pattern" },
+        { "artifactId": "pattern-2-apology-loop", "artifactTitle": "The Apology Loop" },
+        { "artifactId": "pattern-9-rage", "artifactTitle": "The Rage Pattern" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "body-signature", "conceptName": "Body Signature" },
+        { "conceptId": "the-gap", "conceptName": "The Gap" },
+        { "conceptId": "override", "conceptName": "The Override" }
+      ]
+    },
+    {
+      "conceptId": "body-signature",
+      "conceptName": "Body Signature",
+      "appearsIn": [
+        { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
+        { "artifactId": "module-2-four-doors", "artifactTitle": "The Four Doors" },
+        { "artifactId": "pattern-1-disappearing", "artifactTitle": "The Disappearing Pattern" },
+        { "artifactId": "pattern-6-compliment-deflection", "artifactTitle": "Compliment Deflection" },
+        { "artifactId": "pattern-9-rage", "artifactTitle": "The Rage Pattern" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "circuit-break", "conceptName": "The Circuit Break" },
+        { "conceptId": "the-gap", "conceptName": "The Gap" },
+        { "conceptId": "pattern-markers", "conceptName": "Pattern Markers" }
+      ]
+    },
+    {
+      "conceptId": "the-gap",
+      "conceptName": "The Gap",
+      "appearsIn": [
+        { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
+        { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
+        { "artifactId": "pattern-3-testing", "artifactTitle": "The Testing Pattern" },
+        { "artifactId": "pattern-8-success-sabotage", "artifactTitle": "Success Sabotage" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "circuit-break", "conceptName": "The Circuit Break" },
+        { "conceptId": "body-signature", "conceptName": "Body Signature" }
+      ]
+    },
+    {
+      "conceptId": "original-room",
+      "conceptName": "The Original Room",
+      "appearsIn": [
+        { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
+        { "artifactId": "module-6-context", "artifactTitle": "Context" },
+        { "artifactId": "pattern-4-attraction-to-harm", "artifactTitle": "Attraction to Harm" },
+        { "artifactId": "pattern-5-draining-bond", "artifactTitle": "The Draining Bond" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "survival-code", "conceptName": "Survival Code" },
+        { "conceptId": "pattern-archaeology", "conceptName": "Pattern Archaeology" }
+      ]
+    },
+    {
+      "conceptId": "survival-code",
+      "conceptName": "Survival Code",
+      "appearsIn": [
+        { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
+        { "artifactId": "module-2-four-doors", "artifactTitle": "The Four Doors" },
+        { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "original-room", "conceptName": "The Original Room" },
+        { "conceptId": "pattern-archaeology", "conceptName": "Pattern Archaeology" },
+        { "conceptId": "override", "conceptName": "The Override" }
+      ]
+    },
+    {
+      "conceptId": "pattern-archaeology",
+      "conceptName": "Pattern Archaeology",
+      "appearsIn": [
+        { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
+        { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" },
+        { "artifactId": "pattern-3-testing", "artifactTitle": "The Testing Pattern" },
+        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Pattern" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "original-room", "conceptName": "The Original Room" },
+        { "conceptId": "survival-code", "conceptName": "Survival Code" },
+        { "conceptId": "execution-log", "conceptName": "Execution Log" }
+      ]
+    },
+    {
+      "conceptId": "override",
+      "conceptName": "The Override",
+      "appearsIn": [
+        { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
+        { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" },
+        { "artifactId": "pattern-2-apology-loop", "artifactTitle": "The Apology Loop" },
+        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Pattern" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "circuit-break", "conceptName": "The Circuit Break" },
+        { "conceptId": "survival-code", "conceptName": "Survival Code" }
+      ]
+    },
+    {
+      "conceptId": "pattern-markers",
+      "conceptName": "Pattern Markers",
+      "appearsIn": [
+        { "artifactId": "module-2-four-doors", "artifactTitle": "The Four Doors" },
+        { "artifactId": "pattern-1-disappearing", "artifactTitle": "The Disappearing Pattern" },
+        { "artifactId": "pattern-4-attraction-to-harm", "artifactTitle": "Attraction to Harm" },
+        { "artifactId": "pattern-9-rage", "artifactTitle": "The Rage Pattern" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "body-signature", "conceptName": "Body Signature" },
+        { "conceptId": "the-gap", "conceptName": "The Gap" }
+      ]
+    },
+    {
+      "conceptId": "execution-log",
+      "conceptName": "Execution Log",
+      "appearsIn": [
+        { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
+        { "artifactId": "module-7-field-notes", "artifactTitle": "Field Notes" },
+        { "artifactId": "pattern-5-draining-bond", "artifactTitle": "The Draining Bond" },
+        { "artifactId": "pattern-8-success-sabotage", "artifactTitle": "Success Sabotage" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "pattern-archaeology", "conceptName": "Pattern Archaeology" },
+        { "conceptId": "field-notes", "conceptName": "Field Notes" }
+      ]
+    },
+    {
+      "conceptId": "field-notes",
+      "conceptName": "Field Notes",
+      "appearsIn": [
+        { "artifactId": "module-7-field-notes", "artifactTitle": "Field Notes" },
+        { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
+        { "artifactId": "module-8-resources", "artifactTitle": "Resources" }
+      ],
+      "relatedThreads": [
+        { "conceptId": "execution-log", "conceptName": "Execution Log" },
+        { "conceptId": "pattern-archaeology", "conceptName": "Pattern Archaeology" }
+      ]
+    }
+  ]
+}
