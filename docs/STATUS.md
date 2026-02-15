@@ -74,8 +74,28 @@
 
 ---
 
+## Recent Progress (February 15, 2026)
+
+- Landing page fully redesigned (cinematic, editorial, Playfair Display typography)
+- Founder section rewritten with authentic origin story
+- Vault V2 integrated (Workbench + Archive routes, Supabase schema)
+- 16 documentation files created in docs/
+- Portal redesign in progress
+- Terms of Service rewritten
+- Privacy Policy rewritten
+- AI chatbot system prompt overhauled
+- Interactive content reader being built
+- Thread animation being built
+- Git sync between Replit and GitHub restored
+- Root directory cleaned up (removed duplicate PDFs, stale handoff files)
+
+---
+
 ## What's In Progress
 
+- Portal redesign
+- Interactive content reader
+- Thread animation
 - Wiring up email delivery (Resend) for magic links — currently logs to console
 - End-to-end payment flow testing
 
@@ -133,6 +153,5 @@
 - Progress tracking in portal
 - Testimonial collection automation
 - Advanced analytics
-- Vault V2 (Workbench + Archive integrated into portal)
 - SORA AI video content
 - Content automation pipeline
