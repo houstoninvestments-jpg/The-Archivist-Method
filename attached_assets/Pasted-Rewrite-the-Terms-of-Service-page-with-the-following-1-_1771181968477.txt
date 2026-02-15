@@ -1,0 +1,77 @@
+Rewrite the Terms of Service page with the following:
+
+1. Match the same dark cinematic design as the landing page and portal (background #0A0A0A, text #F5F5F5, muted #737373, teal #14B8A6)
+2. Use Playfair Display for the page title, Source Sans 3 for body text, JetBrains Mono for section labels
+3. Max-width 800px, centered, generous padding
+
+Replace all existing terms copy with this:
+
+---
+
+[JetBrains Mono, muted, small, uppercase]
+LEGAL
+
+[Playfair Display, large]
+Terms of Service
+
+[muted]
+Last updated: February 15, 2026
+
+By using The Archivist Method™ (thearchivistmethod.com), you agree to the following terms.
+
+[JetBrains Mono section label, teal]
+WHAT THIS IS
+
+The Archivist Method is a pattern interruption education system. It provides behavioral pattern recognition training, self-directed exercises, and digital tools for personal development.
+
+This is not therapy. This is not medical advice. This is not a substitute for professional mental health treatment. If you are in crisis, contact a licensed professional or call 988 (Suicide & Crisis Lifeline).
+
+[section label]
+YOUR ACCOUNT
+
+You are responsible for maintaining the security of your account credentials. One account per person. Don't share your login or purchased materials with others.
+
+[section label]
+PURCHASES & REFUNDS
+
+All purchases are one-time payments. No subscriptions. No recurring charges.
+
+- The Crash Course ($0) — Free forever. No payment required.
+- The Field Guide ($47) — One-time purchase. Includes your pattern-specific field guide, body signature mapping, interrupt scripts, and AI access.
+- The Complete Archive ($197) — One-time purchase. Includes all 9 patterns fully documented, all four doors, cross-pattern analysis, advanced protocols, and full Vault access.
+
+Refund requests are handled on a case-by-case basis within 30 days of purchase. Contact us at support@thearchivistmethod.com.
+
+[section label]
+YOUR CONTENT
+
+Anything you enter into the AI chat, brain dumps, or activation logs belongs to you. We don't sell your data. We don't share it. We don't use it for advertising.
+
+[section label]
+INTELLECTUAL PROPERTY
+
+The Archivist Method™, all written content, the FEIR framework, the Four Doors Protocol, pattern descriptions, field guides, and the Complete Archive are protected intellectual property. You may not redistribute, resell, or republish any materials without written permission.
+
+[section label]
+THE AI
+
+The Archivist AI is a pattern recognition assistant. It is not a therapist. It does not provide medical, legal, or financial advice. Use your judgment. If something doesn't feel right, trust yourself over the AI.
+
+[section label]
+LIABILITY
+
+The Archivist Method is provided as-is. We make no guarantees about specific outcomes. Pattern interruption is a practice — results depend on your engagement with the method. We are not liable for decisions you make based on the content or tools provided.
+
+[section label]
+CHANGES
+
+We may update these terms. If we do, we'll update the date at the top. Continued use means you accept the updated terms.
+
+[section label]
+CONTACT
+
+Questions about these terms: support@thearchivistmethod.com
+
+---
+
+Footer should match the landing page footer style.
