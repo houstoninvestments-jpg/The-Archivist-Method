@@ -1,1453 +1,772 @@
 import { Link } from "wouter";
-import { Check, Zap, Heart, MessageCircle, RefreshCw, ArrowRight, ArrowUp, Eye, Search, Sparkles } from "lucide-react";
-import { useEffect, useState, useRef, lazy, Suspense } from "react";
-import heroBackground from "@assets/archivist-hero-background-optimized.jpg";
+import { Check, X, ArrowRight, ChevronRight } from "lucide-react";
+import { useEffect, useRef, lazy, Suspense } from "react";
+import { apiRequest } from "@/lib/queryClient";
 
-// Lazy load ParticleField - non-critical visual effect
 const ParticleField = lazy(() => import("@/components/ParticleField"));
 
-// Hero headline component - matching older version with two lines
-function HeroHeadline() {
-  return (
-    <h1
-      className="hero-title-premium mb-8 text-center"
-      data-testid="text-brand-title"
-    >
-      <span className="block">THE ARCHIVIST</span>
-      <span className="block">METHOD™</span>
-    </h1>
-  );
-}
+const patterns = [
+  { number: 1, name: "DISAPPEARING", description: "You ghost when relationships get close. Three months in, they say \"I love you\" — your chest gets tight. Every time." },
+  { number: 2, name: "APOLOGY LOOP", description: "You apologize for existing. \"Sorry to bother you.\" Twenty times a day for things that need no apology." },
+  { number: 3, name: "TESTING", description: "You push people away to see if they'll stay. They pass? You create a bigger test. You don't trust \"I'm not leaving\" until you've tested it 47 ways." },
+  { number: 4, name: "ATTRACTION TO HARM", description: "Safe people feel boring. Chaos feels like chemistry. Red flags don't register as warnings — they register as attraction." },
+  { number: 5, name: "COMPLIMENT DEFLECTION", description: "You can't accept praise. Someone says \"great work\" — you deflect, minimize, redirect. Visibility makes you squirm." },
+  { number: 6, name: "DRAINING BOND", description: "You can't leave. Toxic job, harmful relationship, depleting friendship. You know you should go. Everyone tells you to leave. You stay." },
+  { number: 7, name: "SUCCESS SABOTAGE", description: "You destroy things right before they succeed. Three weeks from launch, you quit. One week from promotion, you blow it up." },
+  { number: 8, name: "PERFECTIONISM", description: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. Years of almost-finished projects, ideas that died in your head." },
+  { number: 9, name: "RAGE", description: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back. Afterward: shame, apologies, promises." },
+];
 
-// Geometric accent elements
-function GeometricAccents() {
-  return (
-    <div className="geometric-accents">
-      {/* Top-left accent */}
-      <div className="geo-shape geo-tl">
-        <div className="geo-line geo-line-h" />
-        <div className="geo-line geo-line-v" />
-        <div className="geo-corner" />
-      </div>
-      
-      {/* Bottom-right accent */}
-      <div className="geo-shape geo-br">
-        <div className="geo-line geo-line-h" />
-        <div className="geo-line geo-line-v" />
-        <div className="geo-corner" />
-      </div>
-      
-      {/* Center grid marker */}
-      <div className="geo-center">
-        <div className="geo-circle" />
-        <div className="geo-crosshair-h" />
-        <div className="geo-crosshair-v" />
-      </div>
-    </div>
-  );
-}
-
-// Memoized static data to prevent re-renders
-const patterns = Object.freeze([
-  {
-    number: 1,
-    name: "DISAPPEARING",
-    description: "You ghost when relationships get close. Three months in, they say \"I love you\"—your chest gets tight. Every time."
-  },
-  {
-    number: 2,
-    name: "APOLOGY LOOP",
-    description: "You apologize for existing. \"Sorry to bother you.\" \"Sorry, quick question.\" Twenty times a day for things that need no apology."
-  },
-  {
-    number: 3,
-    name: "TESTING",
-    description: "You push people away to see if they'll stay. They pass the test? You create a bigger one. You don't trust \"I'm not leaving\" until you've tested it 47 ways."
-  },
-  {
-    number: 4,
-    name: "ATTRACTION TO HARM",
-    description: "Safe people feel boring. Chaos feels like chemistry. Red flags don't register as warnings—they register as attraction. Harm feels like home."
-  },
-  {
-    number: 5,
-    name: "COMPLIMENT DEFLECTION",
-    description: "You can't accept praise. Someone says \"great work\"—you deflect, minimize, redirect. Visibility makes you squirm. Recognition makes you want to disappear."
-  },
-  {
-    number: 6,
-    name: "DRAINING BOND",
-    description: "You can't leave. Toxic job, harmful relationship, depleting friendship. You know you should go. Everyone tells you to leave. You stay."
-  },
-  {
-    number: 7,
-    name: "SUCCESS SABOTAGE",
-    description: "You destroy things right before they succeed. Three weeks from launch, you quit. One week from promotion, you blow it up. Sustained success triggers panic—so you destroy it first."
-  },
-  {
-    number: 8,
-    name: "PERFECTIONISM",
-    description: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. Years of almost-finished projects, ideas that died in your head, polishing things no one ever sees."
-  },
-  {
-    number: 9,
-    name: "RAGE",
-    description: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back. The anger is disproportionate. Afterward: shame, apologies, promises it won't happen again."
-  }
-]);
-
-const steps = Object.freeze([
-  {
-    number: 1,
-    title: "IDENTIFY YOUR PATTERN",
-    description: "Take the 2-minute assessment. Get your pattern analysis and the specific survival code running your life."
-  },
-  {
-    number: 2,
-    title: "LEARN YOUR BODY SIGNATURE",
-    description: "Your body signals the pattern 3-7 seconds before it runs. That chest tightness. That sudden urge to flee. That crushing guilt. Learn to recognize your warning."
-  },
-  {
-    number: 3,
-    title: "INTERRUPT & TRACK",
-    description: "When you feel your body signature, speak your circuit break statement. Out loud or internal. Track attempts. Refine approach. You get better every time."
-  }
-]);
-
-function PrimaryCTA({ text = "Take the Pattern Assessment", className = "", dataTestId = "button-cta" }: { text?: string; className?: string; dataTestId?: string }) {
-  return (
-    <Link 
-      href="/quiz"
-      data-testid={dataTestId}
-      className={`inline-block bg-teal-500 text-white font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5 px-10 py-5 text-lg shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.4),0_6px_40px_rgba(236,72,153,0.3)] hover:bg-gradient-to-r hover:from-teal-500 hover:to-pink-500 ${className}`}
-    >
-      {text} →
-    </Link>
-  );
-}
+const therapyComparison = [
+  ["Asks \"Why do you do this?\"", "Asks \"What pattern is running right now?\""],
+  ["Explores your past", "Interrupts your present"],
+  ["Builds understanding", "Builds pattern recognition"],
+  ["Weekly sessions over months/years", "7-day protocol with daily practice"],
+  ["Focuses on emotions", "Focuses on body signatures"],
+  ["Therapist-guided insight", "Self-directed interruption"],
+];
 
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add("revealed");
           }
         });
       },
-      { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }
+      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
     );
-    
     if (ref.current) {
-      const elements = ref.current.querySelectorAll('.scroll-reveal');
-      elements.forEach((el) => observer.observe(el));
+      ref.current.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     }
-    
     return () => observer.disconnect();
   }, []);
-  
   return ref;
 }
 
-export default function Landing() {
-  const patternsRef = useScrollReveal();
-  const originRef = useScrollReveal();
-  const methodRef = useScrollReveal();
-  const founderRef = useScrollReveal();
-  const finalCtaRef = useScrollReveal();
-  const whoIsThisForRef = useScrollReveal();
-  const notTherapyRef = useScrollReveal();
-  const fourDoorsRef = useScrollReveal();
-  const therapyComparisonRef = useScrollReveal();
-  const pricingRef = useScrollReveal();
-  const faqRef = useScrollReveal();
-  
+function CTAButton({ text, className = "" }: { text: string; className?: string }) {
   return (
-    <div className="min-h-screen bg-black text-white font-['Inter',sans-serif]">
-      {/* Floating Particles - All Pages (lazy loaded) */}
+    <Link
+      href="/quiz"
+      data-testid="button-cta"
+      className={`inline-block border border-white/80 text-white font-medium tracking-[0.2em] uppercase text-sm px-10 py-4 transition-all duration-300 hover:bg-white hover:text-black font-mono ${className}`}
+      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+    >
+      {text} <ArrowRight className="inline w-4 h-4 ml-1" />
+    </Link>
+  );
+}
+
+function handleCheckout(product: string) {
+  const endpoint = product === "quick-start"
+    ? "/api/portal/checkout/quick-start"
+    : "/api/portal/checkout/complete-archive";
+  apiRequest("POST", endpoint)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.url) window.location.href = data.url;
+    })
+    .catch(() => {});
+}
+
+export default function Landing() {
+  const sectionRefs = {
+    gutCheck: useScrollReveal(),
+    whoFor: useScrollReveal(),
+    patterns: useScrollReveal(),
+    window: useScrollReveal(),
+    notTherapy: useScrollReveal(),
+    howItWorks: useScrollReveal(),
+    pricing: useScrollReveal(),
+    founder: useScrollReveal(),
+    finalCta: useScrollReveal(),
+  };
+
+  return (
+    <div className="min-h-screen" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
       <Suspense fallback={null}>
         <ParticleField />
       </Suspense>
-      
-      {/* SECTION 1: HERO - Premium Design */}
-      <section 
-        id="hero"
-        className="hero-premium flex items-center justify-center"
-        style={{
-          backgroundImage: `url(${heroBackground})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.8)] z-[4]" />
-        
-        {/* Geometric accents */}
-        <GeometricAccents />
-        
-        <div className="hero-content-premium text-center relative z-10">
-          {/* Main headline */}
-          <HeroHeadline />
-          
-          {/* Tagline */}
-          <p 
-            className="hero-tagline-premium mb-10"
+
+      <style>{`
+        .reveal {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.revealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+        .reveal-delay-7 { transition-delay: 0.7s; }
+        .reveal-delay-8 { transition-delay: 0.8s; }
+        .ticker-track {
+          display: flex;
+          animation: ticker-scroll 30s linear infinite;
+          width: max-content;
+        }
+        @keyframes ticker-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes pulse-subtle {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        .interrupt-pulse {
+          animation: pulse-subtle 2s ease-in-out infinite;
+        }
+        @media (max-width: 768px) {
+          .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
+          .ticker-track { animation: none !important; }
+          .interrupt-pulse { animation: none !important; opacity: 1 !important; }
+        }
+      `}</style>
+
+      {/* SECTION 1: HERO */}
+      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
+        <div className="text-center max-w-3xl mx-auto relative z-10">
+          <p
+            className="text-xs tracking-[0.35em] uppercase mb-12"
+            style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}
             data-testid="text-brand-tagline"
           >
-            Pattern Archaeology, Not Therapy
+            PATTERN ARCHAEOLOGY, <span style={{ color: "#EC4899" }}>NOT</span> THERAPY
           </p>
-          
-          {/* Problem/Agitate/Solution Copy */}
-          <div className="max-w-[700px] mx-auto mb-10">
-            {/* Problem - you recognize it */}
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-              You watch yourself do it. You know it's happening.
-            </p>
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-4">
-              You do it anyway.
-            </p>
-            
-            {/* Agitate - the pattern list (PINK) */}
-            <p className="hero-pink-accent my-4" data-testid="text-pattern-list">
-              Disappear. Apologize. Test. Sabotage. Repeat.
-            </p>
-            
-            {/* Solution - the promise */}
-            <p className="hero-solution-line mt-4" data-testid="text-solution">
-              Interrupt the code in 7-90 days.
-            </p>
-          </div>
-          
-          {/* CTA */}
-          <PrimaryCTA 
-            text="Discover Your Pattern" 
-            dataTestId="button-hero-cta" 
-            className="px-10 py-4 text-lg"
-          />
-          
-          {/* Trust Indicators */}
-          <p className="mt-6 text-sm text-gray-500" data-testid="text-trust-indicators">
-            Free • 2 Minutes • Instant Results
+
+          <h1
+            className="font-bold leading-[1.1] mb-8"
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6rem)" }}
+            data-testid="text-brand-title"
+          >
+            You already know<br />what you're doing.
+          </h1>
+
+          <p className="text-lg md:text-xl leading-relaxed mb-3 max-w-[500px] mx-auto" style={{ color: "#737373" }}>
+            You watch yourself do it. You know it's happening.<br />
+            You do it anyway.
+          </p>
+
+          <p className="text-lg mb-12 tracking-wide" style={{ color: "#14B8A6", letterSpacing: "0.05em" }}>
+            This method teaches you to interrupt it.
+          </p>
+
+          <CTAButton text="DISCOVER YOUR PATTERN" />
+
+          <p className="mt-6 text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+            Free  ·  2 Minutes  ·  Instant Results
           </p>
         </div>
       </section>
-      
-      {/* SECTION: WHO IS THIS FOR */}
-      <section 
-        id="who-is-this-for"
-        ref={whoIsThisForRef}
-        className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
-        data-testid="section-who-is-this-for"
-      >
-        <div className="max-w-4xl mx-auto">
-          <h2 
-            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-8 text-center"
-            style={{ color: '#14B8A6' }}
-            data-testid="text-who-is-this-for-headline"
-          >
-            WHO IS THIS FOR?
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {/* This IS for... */}
-            <div className="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6">
-              <h3 className="text-teal-400 font-bold text-lg mb-4 flex items-center gap-2">
-                <Check className="w-5 h-5" /> This IS for you if:
-              </h3>
-              <ul className="space-y-3 text-slate-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-1">•</span>
-                  <span>You watch yourself do destructive things and can't stop</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-1">•</span>
-                  <span>You've been in therapy for years but still run the same patterns</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-1">•</span>
-                  <span>You understand WHY you do it but can't stop DOING it</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-1">•</span>
-                  <span>You sabotage relationships, success, or stability</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-1">•</span>
-                  <span>You're tired of insight and ready for interruption</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* This is NOT for... */}
-            <div className="bg-pink-500/10 border border-pink-500/30 rounded-xl p-6">
-              <h3 className="text-pink-400 font-bold text-lg mb-4 flex items-center gap-2">
-                <span className="text-xl">✕</span> This is NOT for you if:
-              </h3>
-              <ul className="space-y-3 text-slate-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-pink-400 mt-1">•</span>
-                  <span>You're in crisis and need immediate professional help</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-pink-400 mt-1">•</span>
-                  <span>You want someone else to fix you</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-pink-400 mt-1">•</span>
-                  <span>You're looking for a quick fix with no effort</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-pink-400 mt-1">•</span>
-                  <span>You want to understand your childhood (get therapy)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-pink-400 mt-1">•</span>
-                  <span>You're not ready to see your patterns clearly</span>
-                </li>
-              </ul>
+
+      {/* SECTION 2: GUT CHECK */}
+      <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="reveal text-lg mb-10" style={{ color: "#737373" }}>
+            One of these is running your life right now:
+          </p>
+
+          <div className="reveal reveal-delay-1 overflow-hidden mb-10">
+            <div className="ticker-track">
+              {[...patterns, ...patterns].map((p, i) => (
+                <span
+                  key={i}
+                  className="text-2xl md:text-4xl font-bold mx-4 md:mx-6 whitespace-nowrap"
+                  style={{ fontFamily: "'Playfair Display', serif", color: "#EC4899" }}
+                >
+                  {p.name}
+                  {i < patterns.length * 2 - 1 && (
+                    <span className="mx-4 md:mx-6" style={{ color: "#737373" }}>·</span>
+                  )}
+                </span>
+              ))}
             </div>
           </div>
-          
-          <p className="scroll-reveal text-center text-slate-400 text-lg">
-            This method requires you to <span className="text-white font-semibold">watch yourself</span>, 
-            <span className="text-white font-semibold"> name what you see</span>, and 
-            <span className="text-white font-semibold"> interrupt it in real-time</span>.
-            <br />
-            <span className="text-teal-400">That's the work. That's all of it.</span>
+
+          <p className="reveal reveal-delay-2 text-xl" style={{ color: "#14B8A6" }}>
+            Which one made your stomach drop?
           </p>
         </div>
       </section>
-      
-      {/* SECTION 2: ABOUT THE ARCHIVIST METHOD */}
-      <section 
-        id="about"
-        ref={founderRef}
-        className="bg-slate-950 border-t border-slate-700 border-b border-slate-700 py-12 md:py-16 px-5"
-      >
-        <div className="max-w-[800px] mx-auto text-center">
-          <h2 
-            className="scroll-reveal text-2xl font-bold tracking-widest uppercase mb-8"
-            style={{ color: '#14B8A6' }}
-            data-testid="text-about-headline"
-          >
-            ABOUT THE ARCHIVIST METHOD
-          </h2>
-          
-          <div className="scroll-reveal space-y-4 text-slate-300 leading-relaxed">
-            <p>
-              The archive was built over years.
-              <br />
-              <span className="font-semibold" style={{ color: '#EC4899' }}>December 2025</span> made it a system.
-            </p>
-            
-            <p>
-              Not theory. Not academic research.
-              <br />
-              Pattern archaeology performed in real time.
-            </p>
-            
-            <p>
-              Built while running the code it documents.
-              <br />
-              Field research. Real conditions. Active patterns.
-            </p>
-            
-            <p className="italic text-slate-400 mt-4">
-              When you're inside the pattern, you see the architecture.
-            </p>
-            
-            <p className="italic text-slate-400">
-              The method works because it was tested where it matters.
-            </p>
-          </div>
-          
-          <p className="scroll-reveal text-sm italic text-slate-500 mt-6">
-            — The Archivist
-          </p>
-        </div>
-      </section>
-      
-      {/* SECTION: WHY THIS ISN'T THERAPY */}
-      <section 
-        id="not-therapy"
-        ref={notTherapyRef}
-        className="bg-black py-12 md:py-16 px-5 border-t border-zinc-800"
-      >
-        <div className="max-w-[800px] mx-auto">
-          <h2 
-            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-10 text-center"
-            style={{ color: '#14B8A6' }}
-            data-testid="text-not-therapy-headline"
-          >
-            Why This Isn't Therapy<br /><span className="text-lg md:text-xl text-slate-400">(And Why That Matters)</span>
-          </h2>
-          
-          <div className="scroll-reveal text-slate-300 leading-relaxed space-y-6">
-            <p>
-              I'm not a therapist.<br />
-              I'm not a psychologist.<br />
-              I'm not a licensed anything.
-            </p>
-            
-            <p>
-              I'm a bartender who spent 19 years watching people run the same patterns over and over, and then realized I was running them too.
-            </p>
-            
-            <p>
-              This method didn't come from a textbook.<br />
-              It came from 19 years of pattern recognition in the most honest laboratory on earth: a bar at 1 AM.
-            </p>
-            
-            <p>
-              People don't lie to their bartender.<br />
-              People don't perform for their bartender.
-            </p>
-            
-            <p>They just... run their patterns.</p>
-            
-            <p>And after 19 years, I could see them coming three drinks before they activated.</p>
-            
-            <p className="font-semibold text-white">
-              The Disappearing Act.<br />
-              The Apology Loop.<br />
-              The Testing Pattern.
-            </p>
-            
-            <p>I could call them like a fight prediction.</p>
-            
-            <p>And then I realized: <span className="text-white font-semibold">I was running all seven.</span></p>
-            
-            <p>
-              So I developed a method to interrupt them.<br />
-              Not heal them.<br />
-              Not understand them.<br />
-              <span className="text-white font-semibold">Interrupt them.</span>
-            </p>
-            
-            <p>
-              That's what The Archivist Method is:<br />
-              <span className="text-white">Pattern interruption for people who are tired of understanding and ready to stop running.</span>
-            </p>
-            
-            <p className="pt-4 border-t border-zinc-800">
-              This is <span style={{ color: '#EC4899' }}>not</span> therapy.<br />
-              This is pattern archaeology.
-            </p>
-            
-            <p className="text-white font-semibold text-lg">And it works.</p>
-          </div>
-        </div>
-      </section>
-      
-      {/* SECTION 3: THE FOUR DOORS PROTOCOL */}
-      <section 
-        id="four-doors"
-        ref={fourDoorsRef}
-        className="py-12 md:py-16 px-5 bg-slate-950"
-      >
-        <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-8">
-            <h2 
-              className="scroll-reveal text-3xl md:text-4xl font-black tracking-widest uppercase mb-4"
-              style={{ color: '#14B8A6' }}
-              data-testid="text-four-doors-headline"
+
+      {/* SECTION 3: WHO THIS IS FOR */}
+      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div
+              className="reveal p-8 rounded-md"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "3px solid #14B8A6" }}
             >
-              THE FOUR DOORS PROTOCOL
+              <h3 className="text-lg font-semibold mb-6 flex items-center gap-2" style={{ color: "#14B8A6" }}>
+                <Check className="w-5 h-5" /> THIS IS FOR YOU IF:
+              </h3>
+              <ul className="space-y-4 text-base" style={{ color: "#A3A3A3" }}>
+                <li>You watch yourself do destructive things and can't stop</li>
+                <li>You've been in therapy for years but still run the same patterns</li>
+                <li>You understand WHY you do it but can't stop DOING it</li>
+                <li>You sabotage relationships, success, or stability</li>
+                <li>You're tired of insight and ready for interruption</li>
+              </ul>
+            </div>
+
+            <div
+              className="reveal reveal-delay-1 p-8 rounded-md"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "3px solid #EC4899" }}
+            >
+              <h3 className="text-lg font-semibold mb-6 flex items-center gap-2" style={{ color: "#EC4899" }}>
+                <X className="w-5 h-5" /> THIS IS NOT FOR YOU IF:
+              </h3>
+              <ul className="space-y-4 text-base" style={{ color: "#A3A3A3" }}>
+                <li>You're in crisis and need immediate professional help</li>
+                <li>You want someone else to fix you</li>
+                <li>You're looking for a quick fix with no effort</li>
+                <li>You want to understand your childhood (get therapy)</li>
+                <li>You're not ready to see your patterns clearly</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="reveal reveal-delay-2 text-center">
+            <p className="text-lg" style={{ color: "#A3A3A3" }}>
+              This method requires you to <span className="font-semibold" style={{ color: "#F5F5F5" }}>watch yourself</span>,{" "}
+              <span className="font-semibold" style={{ color: "#F5F5F5" }}>name what you see</span>, and{" "}
+              <span className="font-semibold" style={{ color: "#F5F5F5" }}>interrupt it in real-time</span>.
+            </p>
+            <p className="mt-2 italic" style={{ color: "#14B8A6" }}>
+              That's the work. That's all of it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: THE 9 DESTRUCTIVE PATTERNS */}
+      <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+              CLASSIFIED — 9 IDENTIFIED PATTERNS
+            </p>
+            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-patterns-headline">
+              The 9 Destructive Patterns
             </h2>
-            <p className="scroll-reveal text-xl md:text-2xl text-white font-semibold mb-6">
-              HOW TO STOP RUNNING PATTERNS IN REAL-TIME
-            </p>
           </div>
-          
-          <div className="scroll-reveal max-w-[700px] mx-auto text-center mb-12">
-            <p className="text-slate-300 leading-relaxed mb-4">
-              Most people try to stop patterns through willpower.<br />
-              <span className="text-pink-400 font-semibold">It doesn't work.</span>
-            </p>
-            <p className="text-slate-400 mb-4">
-              Patterns run faster than conscious thought.<br />
-              By the time you realize you're doing it, you've already done it.
-            </p>
-            <p className="text-white font-semibold">
-              The Four Doors Protocol teaches you to interrupt patterns BEFORE they become actions.
-            </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {patterns.map((p, i) => (
+              <div
+                key={p.number}
+                className={`reveal reveal-delay-${Math.min(i + 1, 8)} p-6 rounded-md transition-colors duration-300 group`}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+                data-testid={`card-pattern-${p.number}`}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#14B8A6")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)")}
+              >
+                <span
+                  className="text-3xl font-bold block mb-2"
+                  style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
+                >
+                  {String(p.number).padStart(2, "0")}
+                </span>
+                <h3 className="text-lg font-bold mb-3 tracking-wide" style={{ color: "#F5F5F5" }}>
+                  {p.name}
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
+                  {p.description}
+                </p>
+              </div>
+            ))}
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            {/* Door 1: FEEL */}
-            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-teal-400" />
-                </div>
-                <span className="text-xl font-bold text-white">DOOR 1: FEEL</span>
-              </div>
-              <p className="text-white font-medium mb-2">Recognize the pattern activating in your body before it becomes action.</p>
-              <p className="text-slate-400 text-sm">Every pattern has a signature feeling—a tightness in your chest, an urge, a thought that triggers the sequence. Door 1 teaches you to catch the feeling first.</p>
-            </div>
-            
-            {/* Door 2: ENGAGE */}
-            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
-                  <Eye className="w-5 h-5 text-teal-400" />
-                </div>
-                <span className="text-xl font-bold text-white">DOOR 2: ENGAGE</span>
-              </div>
-              <p className="text-white font-medium mb-2">Name the pattern in real-time: "This is [Pattern Name] activating."</p>
-              <p className="text-slate-400 text-sm">Naming breaks the automaticity. The pattern loses power when you see it clearly. This isn't analysis. This is recognition.</p>
-            </div>
-            
-            {/* Door 3: INTERRUPT */}
-            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-teal-400" />
-                </div>
-                <span className="text-xl font-bold text-white">DOOR 3: INTERRUPT</span>
-              </div>
-              <p className="text-white font-medium mb-2">Stop the action before it happens. Pause. Breathe. Wait.</p>
-              <p className="text-slate-400 text-sm">If you can pause for 60-90 seconds without feeding the pattern, the urge will pass. Every successful interruption weakens the pattern's grip.</p>
-            </div>
-            
-            {/* Door 4: REDIRECT */}
-            <div className="scroll-reveal bg-slate-900 border-l-4 border-teal-500 p-8 rounded-lg hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(20,184,166,0.15)] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center">
-                  <RefreshCw className="w-5 h-5 text-teal-400" />
-                </div>
-                <span className="text-xl font-bold text-white">DOOR 4: REDIRECT</span>
-              </div>
-              <p className="text-white font-medium mb-2">Channel the energy into something that actually serves you.</p>
-              <p className="text-slate-400 text-sm">Instead of ghosting, you communicate. Instead of apologizing for existing, you express gratitude. Redirect gives you something TO DO instead of something NOT TO DO.</p>
-            </div>
-          </div>
-          
-          <div className="scroll-reveal text-center">
-            <p className="text-slate-400 italic mb-6">
-              This isn't theory. This is real-time pattern interruption.<br />
-              And it works on all 9 patterns.
-            </p>
-            <Link 
+
+          <div className="reveal text-center mt-12">
+            <Link
               href="/quiz"
-              className="inline-block text-teal-400 hover:text-teal-300 font-semibold transition-colors"
-              data-testid="link-take-quiz"
+              className="inline-flex items-center gap-2 text-base font-medium transition-colors"
+              style={{ color: "#14B8A6" }}
+              data-testid="link-discover-pattern"
             >
-              Discover your pattern →
+              Discover your pattern <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
-      
-      {/* SECTION 4: THE 9 PATTERNS */}
-      <section 
-        id="patterns"
-        ref={patternsRef}
-        className="bg-black py-12 md:py-16 px-5"
-      >
-        <div className="max-w-[1400px] mx-auto">
-          <h2 
-            className="scroll-reveal glitch-header text-4xl md:text-5xl font-black text-white text-center mb-6"
-            data-text="THE 9 DESTRUCTIVE PATTERNS"
-            data-testid="text-patterns-headline"
-          >
-            THE 9 DESTRUCTIVE PATTERNS
-          </h2>
-          <p className="scroll-reveal text-lg md:text-xl text-gray-400 text-center mb-16">
-            One (or more) of these is running your life:
+
+      {/* SECTION 5: THE 3-7 SECOND WINDOW */}
+      <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+              THE SCIENCE
+            </p>
+            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-window-headline">
+              You have 3-7 seconds.
+            </h2>
+          </div>
+
+          <p className="reveal reveal-delay-2 text-center text-lg mb-16 max-w-2xl mx-auto" style={{ color: "#A3A3A3" }}>
+            Right now, your patterns run in a 3-7 second window:
           </p>
-          
-          {/* Pattern Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {patterns.map((pattern, index) => (
-              <div 
-                key={pattern.number}
-                className={`scroll-reveal stagger-${index + 1} bg-[#1a1a1a] border border-[#333333] p-8 rounded-lg transition-all duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4),0_0_30px_rgba(20,184,166,0.15)]`}
-                data-testid={`card-pattern-${pattern.number}`}
-              >
-                <div className="mb-3">
-                  <span className="text-pink-500 text-3xl font-black">{pattern.number}.</span>
-                  <span className="text-white text-xl font-bold ml-2">{pattern.name}</span>
+
+          {/* Flow diagram */}
+          <div className="reveal reveal-delay-3">
+            {/* Desktop: horizontal */}
+            <div className="hidden md:flex items-center justify-center gap-0 mb-6">
+              {[
+                { label: "TRIGGER", sub: "Event occurs", highlight: false },
+                { label: "BODY SIGNATURE", sub: "Physical sensation", highlight: true },
+                { label: "THOUGHT", sub: "Story activates", highlight: false },
+                { label: "PATTERN EXECUTES", sub: "Behavior runs", highlight: false },
+              ].map((step, i) => (
+                <div key={i} className="flex items-center">
+                  <div
+                    className="px-6 py-5 rounded-md text-center min-w-[180px]"
+                    style={{
+                      background: step.highlight ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.03)",
+                      border: step.highlight ? "2px solid #14B8A6" : "1px solid rgba(255,255,255,0.06)",
+                      boxShadow: step.highlight ? "0 0 30px rgba(20,184,166,0.15)" : "none",
+                    }}
+                  >
+                    <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
+                      {step.label}
+                    </p>
+                    <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
+                  </div>
+                  {i < 3 && (
+                    <div className="flex flex-col items-center mx-2 relative">
+                      {i === 1 && (
+                        <span
+                          className="interrupt-pulse absolute -top-8 text-xs font-bold tracking-wider whitespace-nowrap"
+                          style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          INTERRUPT HERE
+                        </span>
+                      )}
+                      <ArrowRight className="w-5 h-5" style={{ color: i === 1 ? "#EC4899" : "#737373" }} />
+                    </div>
+                  )}
                 </div>
-                <p className="text-gray-300 text-base leading-relaxed">
-                  {pattern.description}
+              ))}
+            </div>
+
+            {/* Mobile: vertical */}
+            <div className="md:hidden flex flex-col items-center gap-0 mb-6">
+              {[
+                { label: "TRIGGER", sub: "Event occurs", highlight: false },
+                { label: "BODY SIGNATURE", sub: "Physical sensation", highlight: true },
+                { label: "THOUGHT", sub: "Story activates", highlight: false },
+                { label: "PATTERN EXECUTES", sub: "Behavior runs", highlight: false },
+              ].map((step, i) => (
+                <div key={i} className="flex flex-col items-center">
+                  <div
+                    className="px-6 py-5 rounded-md text-center w-full max-w-[280px]"
+                    style={{
+                      background: step.highlight ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.03)",
+                      border: step.highlight ? "2px solid #14B8A6" : "1px solid rgba(255,255,255,0.06)",
+                      boxShadow: step.highlight ? "0 0 30px rgba(20,184,166,0.15)" : "none",
+                    }}
+                  >
+                    <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
+                      {step.label}
+                    </p>
+                    <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
+                  </div>
+                  {i < 3 && (
+                    <div className="flex flex-col items-center my-2 relative">
+                      {i === 1 && (
+                        <span
+                          className="interrupt-pulse text-xs font-bold tracking-wider mb-1"
+                          style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          INTERRUPT HERE
+                        </span>
+                      )}
+                      <ArrowRight className="w-5 h-5 rotate-90" style={{ color: i === 1 ? "#EC4899" : "#737373" }} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Window badge */}
+            <div className="flex justify-center mb-12">
+              <span
+                className="px-4 py-2 text-xs tracking-[0.2em] uppercase rounded-sm"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "#F5F5F5",
+                  background: "rgba(236,72,153,0.15)",
+                  border: "1px solid rgba(236,72,153,0.3)",
+                }}
+              >
+                3-7 SECOND WINDOW
+              </span>
+            </div>
+          </div>
+
+          <div className="reveal reveal-delay-4 max-w-2xl mx-auto text-center">
+            <p className="text-lg leading-relaxed" style={{ color: "#A3A3A3" }}>
+              Pattern archaeology teaches you to recognize the pattern BEFORE it runs.
+              In that 3-7 second window. In that recognition, you create a gap.
+            </p>
+            <p className="mt-2 text-lg" style={{ color: "#F5F5F5" }}>
+              In that gap, you can interrupt the code.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: THIS IS NOT THERAPY */}
+      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif", color: "#14B8A6" }} data-testid="text-not-therapy-headline">
+              This is not therapy.
+            </h2>
+            <p className="reveal reveal-delay-1 mt-4 text-lg" style={{ color: "#737373" }}>
+              Here's the difference.
+            </p>
+          </div>
+
+          <div className="reveal reveal-delay-2">
+            <div className="grid grid-cols-2 gap-0" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              <div className="px-4 py-3 text-xs tracking-[0.2em] uppercase" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                THERAPY
+              </div>
+              <div className="px-4 py-3 text-xs tracking-[0.2em] uppercase" style={{ color: "#F5F5F5", fontFamily: "'JetBrains Mono', monospace", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                THE ARCHIVIST METHOD
+              </div>
+              {therapyComparison.map(([therapy, method], i) => (
+                <div key={i} className="contents">
+                  <div className="px-4 py-4 text-sm" style={{ color: "#737373", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                    {therapy}
+                  </div>
+                  <div className="px-4 py-4 text-sm font-semibold" style={{ color: "#F5F5F5", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                    {method}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="reveal reveal-delay-3 text-center mt-12">
+            <p className="text-base" style={{ color: "#A3A3A3" }}>
+              Both have value. They solve different problems.
+            </p>
+            <p className="mt-2 font-semibold" style={{ color: "#F5F5F5" }}>
+              If you need to understand your past, get therapy.
+            </p>
+            <p className="mt-1" style={{ color: "#14B8A6" }}>
+              If you need to interrupt your present, get this.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: HOW IT WORKS */}
+      <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+              THE PROTOCOL
+            </p>
+            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-how-it-works-headline">
+              How Pattern Interruption Works
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {[
+              { num: "01", title: "IDENTIFY YOUR PATTERN", desc: "Take the 2-minute assessment. Get the specific survival code running your life." },
+              { num: "02", title: "LEARN YOUR BODY SIGNATURE", desc: "Your body signals the pattern 3-7 seconds before it runs. Learn to recognize your warning." },
+              { num: "03", title: "INTERRUPT & TRACK", desc: "When you feel it activate, speak your circuit break statement. Track attempts. You get better every time." },
+            ].map((step, i) => (
+              <div
+                key={i}
+                className={`reveal reveal-delay-${i + 2} p-8 rounded-md`}
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <span
+                  className="text-4xl font-bold block mb-4"
+                  style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace" }}
+                >
+                  {step.num}
+                </span>
+                <h3 className="text-base font-bold mb-3 tracking-wide" style={{ color: "#F5F5F5" }}>
+                  {step.title}
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
+                  {step.desc}
                 </p>
               </div>
             ))}
           </div>
-          
-          {/* Post-cards CTA */}
-          <div className="text-center">
-            <p className="text-xl md:text-2xl text-gray-300 mb-8">
-              Which one made your stomach drop?
-            </p>
-            <PrimaryCTA text="Find Your Pattern - Take Assessment" dataTestId="button-patterns-cta" />
-          </div>
-        </div>
-      </section>
-      
-      {/* SECTION 3: THE ORIGIN */}
-      <section 
-        id="origin"
-        ref={originRef}
-        className="bg-[#0d0d0d] py-12 md:py-16 px-5"
-      >
-        <div className="max-w-[900px] mx-auto">
-          <h2 
-            className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white mb-10 leading-snug"
-            data-text="THESE AREN'T PERSONALITY TRAITS. THEY'RE SURVIVAL CODE."
-            data-testid="text-origin-headline"
-          >
-            THESE AREN'T PERSONALITY TRAITS. THEY'RE <span className="text-pink-500">SURVIVAL CODE</span>.
-          </h2>
-          
-          <div className="space-y-6">
-            <p className="scroll-reveal stagger-1 text-lg text-gray-300 leading-relaxed">
-              Your childhood. Before you had language for what was happening. Before you understood why closeness felt dangerous or why success triggered panic.
-            </p>
-            
-            <p className="scroll-reveal stagger-2 text-lg text-gray-300 leading-relaxed">
-              You weren't broken then. <span className="text-teal-500 font-semibold">You were adapting.</span>
-            </p>
-            
-            <p className="scroll-reveal stagger-3 text-lg text-gray-300 leading-relaxed">
-              Your nervous system learned what kept you safe:
-            </p>
-            
-            <div className="scroll-reveal stagger-4 text-xl text-teal-500 leading-loose pl-5 my-8 border-l-2 border-teal-500/30">
-              <p>Disappear before they leave you.</p>
-              <p>Apologize before they get angry.</p>
-              <p>Test them before you trust them.</p>
-              <p>Destroy it before it destroys you.</p>
-            </div>
-            
-            <p className="scroll-reveal stagger-5 text-lg text-gray-300 leading-relaxed">
-              Twenty years later, those patterns are still running.
-            </p>
-            
-            <p className="scroll-reveal stagger-6 text-lg text-gray-300 leading-relaxed">
-              Right now, your patterns run in a <span className="text-teal-500 font-semibold">3-7 second window</span>:
-            </p>
-            
-            {/* Pattern Window - Visual Timeline */}
-            <div className="scroll-reveal stagger-7 my-12 p-6 md:p-8 bg-[rgba(20,184,166,0.05)] border-2 border-teal-500/20 rounded-xl">
-              {/* Timeline */}
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-2">
-                {/* Trigger */}
-                <div className="flex-1 text-center">
-                  <Zap className="w-8 h-8 mx-auto mb-2 text-teal-500" />
-                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">TRIGGER</div>
-                  <div className="text-gray-500 text-xs">External event</div>
-                </div>
-                
-                {/* Arrow */}
-                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
-                
-                {/* Body Signature - HIGHLIGHTED */}
-                <div className="flex-1 text-center relative bg-pink-500/10 border-2 border-pink-500 rounded-lg p-4">
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-500 text-white text-[11px] font-bold px-3 py-1 rounded whitespace-nowrap">
-                    3-7 SECOND WINDOW
-                  </div>
-                  <Heart className="w-8 h-8 mx-auto mb-2 text-pink-500" />
-                  <div className="text-pink-500 text-sm font-bold tracking-wider mb-1">BODY SIGNATURE</div>
-                  <div className="text-gray-500 text-xs">Physical response</div>
-                </div>
-                
-                {/* Arrow */}
-                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
-                
-                {/* Thought */}
-                <div className="flex-1 text-center">
-                  <MessageCircle className="w-8 h-8 mx-auto mb-2 text-teal-500" />
-                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">THOUGHT</div>
-                  <div className="text-gray-500 text-xs">Justification</div>
-                </div>
-                
-                {/* Arrow */}
-                <ArrowRight className="w-6 h-6 text-teal-500 md:rotate-0 rotate-90 flex-shrink-0" />
-                
-                {/* Behavior */}
-                <div className="flex-1 text-center">
-                  <RefreshCw className="w-8 h-8 mx-auto mb-2 text-teal-500" />
-                  <div className="text-teal-500 text-sm font-bold tracking-wider mb-1">PATTERN EXECUTES</div>
-                  <div className="text-gray-500 text-xs">Automatic behavior</div>
-                </div>
-              </div>
-              
-              {/* Interrupt Indicator */}
-              <div className="text-center mt-6 text-pink-500 font-bold">
-                <ArrowUp className="w-6 h-6 mx-auto" />
-                <div className="text-sm tracking-wider">INTERRUPT HERE</div>
-              </div>
-            </div>
-            
-            <p className="scroll-reveal text-lg text-gray-300 leading-relaxed">
-              You don't catch the pattern until after it's already executed.
-            </p>
-            
-            <p className="scroll-reveal text-lg text-gray-300 leading-relaxed">
-              <span className="text-teal-500 font-semibold">Pattern archaeology</span> teaches you to recognize the pattern BEFORE it runs. In that 3-7 second window. In that recognition, you create a gap. In that gap, you can interrupt the code.
-            </p>
-          </div>
-          
-          <div className="scroll-reveal mt-12 text-center">
-            <PrimaryCTA text="Learn Your Pattern - Take Assessment" dataTestId="button-origin-cta" />
-          </div>
-        </div>
-      </section>
-      
-      {/* SECTION 4: THE METHOD */}
-      <section 
-        id="method"
-        ref={methodRef}
-        className="bg-black py-12 md:py-16 px-5"
-      >
-        <div className="max-w-[1000px] mx-auto">
-          <h2 
-            className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white text-center mb-16"
-            data-text="HOW PATTERN INTERRUPTION WORKS"
-            data-testid="text-method-headline"
-          >
-            HOW PATTERN <span className="text-pink-500">INTERRUPTION</span> WORKS
-          </h2>
-          
-          {/* Steps */}
-          <div className="space-y-12 mb-12">
-            {steps.map((step, index) => (
-              <div 
-                key={step.number}
-                className={`scroll-reveal stagger-${index + 1} flex flex-col md:flex-row gap-4 md:gap-8 items-start`}
-                data-testid={`step-${step.number}`}
-              >
-                <div className="step-number-circle flex-shrink-0 w-[70px] h-[70px] md:w-[80px] md:h-[80px] rounded-full border-[3px] border-teal-500 flex items-center justify-center text-3xl md:text-4xl font-black text-teal-500">
-                  {step.number}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-teal-500 text-xl md:text-2xl font-bold mb-2">
-                    STEP {step.number}: {step.title}
-                  </h3>
-                  <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Closing */}
-          <p className="scroll-reveal text-lg md:text-xl text-gray-300 text-center leading-relaxed mb-10">
-            The 7-day protocol gives you proof of concept. One successful interrupt = the method works for you. Then decide.
+
+          <p className="reveal text-center text-base" style={{ color: "#A3A3A3" }}>
+            The 7-day protocol gives you proof of concept.<br />
+            <span className="font-semibold" style={{ color: "#F5F5F5" }}>One successful interrupt = the method works for you.</span>
           </p>
-          
-          <div className="scroll-reveal text-center">
-            <PrimaryCTA text="Start Your Free Protocol" dataTestId="button-method-cta" />
-          </div>
         </div>
       </section>
-      
-      {/* SECTION 5: THERAPY COMPARISON */}
-      <section 
-        id="therapy-comparison"
-        ref={therapyComparisonRef}
-        className="bg-zinc-950 py-12 md:py-16 px-5 border-t border-zinc-800"
-      >
-        <div className="max-w-4xl mx-auto">
-          <h2 
-            className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-12 text-center"
-            style={{ color: '#14B8A6' }}
-            data-testid="text-therapy-comparison-headline"
-          >
-            This Is Not Therapy.<br /><span className="text-lg md:text-xl text-slate-400">Here's The Difference.</span>
-          </h2>
-          
-          {/* Desktop Table */}
-          <div className="scroll-reveal hidden md:block overflow-hidden rounded-xl border border-zinc-700">
-            <table className="w-full" data-testid="table-therapy-comparison">
-              <thead>
-                <tr>
-                  <th className="bg-slate-800 text-slate-300 font-semibold uppercase tracking-wider text-sm py-4 px-6 text-left w-1/2">
-                    Therapy
-                  </th>
-                  <th className="bg-teal-900/40 text-teal-400 font-semibold uppercase tracking-wider text-sm py-4 px-6 text-left w-1/2">
-                    The Archivist Method
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Explores your past", "Works in your present"],
-                  ["Asks \"Why do I do this?\"", "Asks \"What pattern am I running?\""],
-                  ["Processes emotions", "Interrupts actions"],
-                  ["Builds understanding", "Builds recognition"],
-                  ["Healing-focused", "Interruption-focused"],
-                  ["Long-term process", "Immediate application"],
-                  ["Licensed professionals", "Lived experience"],
-                  ["Weekly sessions", "Real-time practice"],
-                ].map(([therapy, archivist], index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-zinc-900/50' : 'bg-zinc-900/30'}>
-                    <td className="py-4 px-6 text-slate-400 border-t border-zinc-800">{therapy}</td>
-                    <td className="py-4 px-6 text-white font-medium border-t border-zinc-800">{archivist}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          {/* Mobile Stacked Cards */}
-          <div className="scroll-reveal md:hidden space-y-4">
-            {[
-              ["Explores your past", "Works in your present"],
-              ["Asks \"Why do I do this?\"", "Asks \"What pattern am I running?\""],
-              ["Processes emotions", "Interrupts actions"],
-              ["Builds understanding", "Builds recognition"],
-              ["Healing-focused", "Interruption-focused"],
-              ["Long-term process", "Immediate application"],
-              ["Licensed professionals", "Lived experience"],
-              ["Weekly sessions", "Real-time practice"],
-            ].map(([therapy, archivist], index) => (
-              <div key={index} className="bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
-                <div className="bg-slate-800/50 py-3 px-4">
-                  <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Therapy</p>
-                  <p className="text-slate-400">{therapy}</p>
-                </div>
-                <div className="bg-teal-900/20 py-3 px-4 border-t border-zinc-700">
-                  <p className="text-xs uppercase tracking-wider text-teal-500 mb-1">The Archivist Method</p>
-                  <p className="text-white font-medium">{archivist}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Closing Text */}
-          <div className="scroll-reveal text-center mt-12 space-y-4">
-            <p className="text-slate-300 text-lg leading-relaxed">
-              Both have value.<br />
-              They solve different problems.
-            </p>
-            <p className="text-white text-xl font-semibold leading-relaxed">
-              If you need to heal, get therapy.<br />
-              If you need to interrupt, <span style={{ color: '#14B8A6' }}>get this.</span>
-            </p>
-          </div>
-        </div>
-      </section>
-      
-      {/* SECTION 6: FINAL CTA */}
-      <section 
-        id="final-cta"
-        ref={finalCtaRef}
-        className="bg-black py-12 md:py-16 px-5 text-center"
-      >
-        <h2 
-          className="scroll-reveal glitch-header text-3xl md:text-[42px] font-black text-white mb-8"
-          data-text="STOP RUNNING THE PATTERN"
-          data-testid="text-final-headline"
-        >
-          STOP RUNNING THE PATTERN
-        </h2>
-        
-        <div className="scroll-reveal text-lg md:text-xl text-gray-300 leading-relaxed mb-10">
-          <p>Take the 2-minute assessment.</p>
-          <p>Get your 7-day protocol.</p>
-          <p>Start breaking the cycle today.</p>
-        </div>
-        
-        <div className="scroll-reveal">
-          <Link
-            href="/quiz"
-            className="cta-shimmer inline-block bg-gradient-to-r from-teal-500 to-teal-600 text-white text-xl font-bold px-12 py-5 rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_60px_rgba(20,184,166,0.5),0_6px_50px_rgba(236,72,153,0.2)]"
-            data-testid="button-final-cta"
-          >
-            Take the Free Assessment
-          </Link>
-        </div>
-        
-        <p className="scroll-reveal text-gray-500 text-sm mt-4">
-          Free • Private • No Email Required • Instant Results
-        </p>
-      </section>
-      
-      {/* SECTION 7: PRICING CARDS */}
-      <section 
-        id="pricing"
-        ref={pricingRef}
-        className="py-12 md:py-16 px-5 bg-black"
-      >
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 
-              className="scroll-reveal text-2xl md:text-3xl font-bold tracking-widest uppercase mb-4 text-white"
-              data-testid="text-pricing-headline"
-            >
-              CHOOSE YOUR PATH
+
+      {/* SECTION 8: CHOOSE YOUR PATH */}
+      <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-pricing-headline">
+              Choose Your Path
             </h2>
-            <p className="text-slate-400">
+            <p className="reveal reveal-delay-1 mt-4 text-lg" style={{ color: "#737373" }}>
               Pattern interruption at every level
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Free Tier */}
-            <div className="scroll-reveal bg-slate-900/50 border border-slate-700 rounded-xl p-6 hover:border-teal-500/30 transition-all">
-              <div className="mb-6">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Free</span>
-                <h3 className="text-xl font-bold text-white mt-2">7-DAY CRASH COURSE</h3>
-                <p className="text-teal-400 text-sm font-semibold mt-1 flex items-center gap-1.5">
-                  <Eye className="w-3.5 h-3.5" /> DOOR 1: FOCUS
-                </p>
-              </div>
-              
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Pattern recognition training</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Body signature identification</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>7 days of observation protocols</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Your pattern breakdown</span>
-                </li>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Free */}
+            <div
+              className="reveal reveal-delay-1 p-8 rounded-md flex flex-col"
+              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              data-testid="card-pricing-free"
+            >
+              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+                THE CRASH COURSE
+              </p>
+              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Free</p>
+              <p className="text-sm mb-8" style={{ color: "#737373" }}>Start here. See if you recognize yourself.</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  "2-minute pattern assessment",
+                  "Your primary pattern identified",
+                  "7-day Crash Course protocol",
+                  "Body signature guide",
+                  "Circuit break statement",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
+                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
+                    {item}
+                  </li>
+                ))}
               </ul>
-              
-              <p className="text-xs text-slate-500 text-center mb-4">Start here. Free forever.</p>
-              
-              <Link 
+              <Link
                 href="/quiz"
-                className="block w-full text-center py-3 bg-teal-500 text-black rounded-lg hover:bg-teal-600 transition-colors font-bold"
+                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors"
+                style={{
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "#F5F5F5",
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
                 data-testid="button-pricing-free"
               >
-                Discover Your Pattern →
+                START FREE
               </Link>
             </div>
-            
-            {/* The Field Guide ($47) */}
-            <div className="scroll-reveal bg-gradient-to-b from-teal-500/10 to-slate-900/50 border-2 border-teal-500 rounded-xl p-6 relative" style={{animationDelay: '0.1s'}}>
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-500 text-black text-xs font-bold px-4 py-1 rounded-full">
-                MOST POPULAR
-              </div>
-              
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-white">$47</span>
-                  <span className="text-slate-500 text-sm">one-time</span>
-                </div>
-                <h3 className="text-xl font-bold text-white mt-2">THE FIELD GUIDE</h3>
-                <p className="text-teal-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL</p>
-              </div>
-              
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex items-start gap-2">
-                  <Eye className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span>DOOR 1: FOCUS (Days 1-7)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Search className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span>DOOR 2: EXCAVATION (Days 8-21)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Zap className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span>DOOR 3: INTERRUPTION (Days 22-60)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <RefreshCw className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span>DOOR 4: REWRITE (Days 61-90)</span>
-                </li>
-                <li className="flex items-start gap-2 pt-2 border-t border-slate-700/50">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Complete interruption system</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Daily exercises (90 days)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Archivist AI access</span>
-                </li>
-              </ul>
-              
-              <Link 
-                href="/quiz"
-                className="block w-full text-center py-3 bg-teal-500 text-black rounded-lg hover:bg-teal-600 transition-colors font-bold shadow-lg shadow-teal-500/20"
-                data-testid="button-pricing-quickstart"
+
+            {/* Field Guide $47 */}
+            <div
+              className="reveal reveal-delay-2 p-8 rounded-md flex flex-col relative"
+              style={{
+                background: "rgba(20,184,166,0.05)",
+                border: "2px solid #14B8A6",
+                backdropFilter: "blur(10px)",
+              }}
+              data-testid="card-pricing-field-guide"
+            >
+              <span
+                className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs tracking-widest uppercase rounded-sm"
+                style={{
+                  background: "#14B8A6",
+                  color: "#0A0A0A",
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
               >
-                Get The Field Guide →
-              </Link>
-            </div>
-            
-            {/* Complete Archive ($197) */}
-            <div className="scroll-reveal bg-slate-900/50 border border-pink-500/30 rounded-xl p-6 hover:border-pink-500/50 transition-all" style={{animationDelay: '0.2s'}}>
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-white">$197</span>
-                  <span className="text-slate-500 text-sm">one-time</span>
-                </div>
-                <h3 className="text-xl font-bold text-white mt-2">COMPLETE PATTERN ARCHIVE</h3>
-                <p className="text-pink-400 text-sm font-semibold mt-1">THE FOUR DOORS PROTOCOL For All 9 Patterns</p>
-              </div>
-              
-              <ul className="space-y-3 mb-8 text-sm text-slate-300">
-                <li className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
-                  <span className="font-semibold">All Four Doors, Fully Documented</span>
-                </li>
-                <li className="flex items-start gap-2 pt-2 border-t border-slate-700/50">
-                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>All 9 patterns mapped</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>Cross-pattern analysis</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>Advanced protocols</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>Lifetime access</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-pink-500 mt-0.5 flex-shrink-0" />
-                  <span>Archivist AI access</span>
-                </li>
+                MOST POPULAR
+              </span>
+              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace" }}>
+                THE FIELD GUIDE
+              </p>
+              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>$47</p>
+              <p className="text-sm mb-8" style={{ color: "#A3A3A3" }}>Go deeper. Get your pattern-specific field guide.</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  "Everything in Crash Course",
+                  "Your pattern's complete field guide (PDF)",
+                  "Detailed body signature mapping",
+                  "Pattern-specific interrupt scripts",
+                  "Relationship pattern analysis",
+                  "The Archivist AI access",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
+                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
+                    {item}
+                  </li>
+                ))}
               </ul>
-              
-              <Link 
-                href="/quiz"
-                className="block w-full text-center py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold shadow-lg shadow-pink-500/20"
+              <button
+                onClick={() => handleCheckout("quick-start")}
+                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors cursor-pointer"
+                style={{
+                  background: "#14B8A6",
+                  color: "#0A0A0A",
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
+                data-testid="button-pricing-field-guide"
+              >
+                GET THE FIELD GUIDE
+              </button>
+            </div>
+
+            {/* Complete Archive $197 */}
+            <div
+              className="reveal reveal-delay-3 p-8 rounded-md flex flex-col"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                backdropFilter: "blur(10px)",
+              }}
+              data-testid="card-pricing-archive"
+            >
+              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}>
+                THE COMPLETE ARCHIVE
+              </p>
+              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>$197</p>
+              <p className="text-sm mb-8" style={{ color: "#A3A3A3" }}>All 9 patterns. Full documentation. Total access.</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  "Everything in Field Guide",
+                  "All Four Doors, fully documented",
+                  "All 9 patterns mapped",
+                  "Cross-pattern analysis",
+                  "Advanced protocols",
+                  "Lifetime access",
+                  "Archivist AI access",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
+                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#EC4899" }} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => handleCheckout("complete-archive")}
+                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors cursor-pointer"
+                style={{
+                  background: "#EC4899",
+                  color: "#F5F5F5",
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
                 data-testid="button-pricing-archive"
               >
-                Enter The Archive →
-              </Link>
+                ENTER THE ARCHIVE
+              </button>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* SECTION: FAQ */}
-      <section 
-        id="faq"
-        ref={faqRef}
-        className="bg-zinc-950 py-12 md:py-16 px-5"
-      >
+
+      {/* SECTION 9: ABOUT THE ARCHIVIST */}
+      <section ref={sectionRefs.founder} className="py-24 md:py-32 px-6" data-testid="section-founder">
         <div className="max-w-3xl mx-auto">
-          <h2 
-            className="text-2xl font-bold tracking-widest uppercase mb-12 text-center"
-            style={{ color: '#14B8A6' }}
-            data-testid="text-faq-headline"
-          >
-            Frequently Asked Questions
-          </h2>
-          
-          <div className="space-y-12">
-            {/* FAQ 1 */}
-            <div className="space-y-4" data-testid="faq-item-1">
-              <h3 className="text-xl md:text-2xl font-bold text-white">
-                Is this therapy?
-              </h3>
-              <div className="text-slate-300 leading-relaxed space-y-4">
-                <p><span className="font-semibold text-white">No.</span> This is pattern archaeology.</p>
-                
-                <p>
-                  Therapy asks: "Why do I do this?"<br />
-                  The Archivist Method asks: "What pattern am I running right now?"
-                </p>
-                
-                <p>
-                  Therapy is designed to help you understand your past.<br />
-                  This is designed to help you interrupt your present.
-                </p>
-                
-                <p>
-                  We're not healing trauma.<br />
-                  We're not processing emotions.<br />
-                  We're not building coping strategies.
-                </p>
-                
-                <p>
-                  We're teaching you to recognize patterns in real-time and interrupt them before they run.
-                </p>
-                
-                <p>
-                  That's not therapy.<br />
-                  That's pattern recognition training.
-                </p>
-                
-                <p>
-                  Think of it like this:<br />
-                  Therapy is archaeology of the past.<br />
-                  This is archaeology of the present.
-                </p>
-                
-                <p>
-                  Both have value.<br />
-                  They're just solving different problems.
-                </p>
-              </div>
-            </div>
-            
-            {/* FAQ 2 */}
-            <div className="space-y-4 pt-8 border-t border-slate-800" data-testid="faq-item-2">
-              <h3 className="text-xl md:text-2xl font-bold text-white">
-                Can I do this instead of therapy?
-              </h3>
-              <div className="text-slate-300 leading-relaxed space-y-4">
-                <p>That's not for me to say.</p>
-                
-                <p>If you're in therapy and it's working, keep going.</p>
-                
-                <p>This method works alongside therapy, not against it.</p>
-                
-                <p>
-                  The difference:<br />
-                  Therapy helps you understand WHY you run patterns.<br />
-                  This helps you INTERRUPT them when they activate.
-                </p>
-                
-                <p className="font-semibold text-white">Understanding why ≠ stopping what.</p>
-                
-                <p>
-                  You can have both.<br />
-                  You can have one.<br />
-                  You can have neither.
-                </p>
-                
-                <p>
-                  But if you're tired of understanding your patterns and ready to actually interrupt them—this is the method.
-                </p>
-              </div>
-            </div>
-            
-            {/* FAQ 3 */}
-            <div className="space-y-4 pt-8 border-t border-slate-800" data-testid="faq-item-3">
-              <h3 className="text-xl md:text-2xl font-bold text-white">
-                Do I need to talk about my trauma?
-              </h3>
-              <div className="text-slate-300 leading-relaxed space-y-4">
-                <p><span className="font-semibold text-white">No.</span></p>
-                
-                <p>The Archivist Method doesn't require you to:</p>
-                <ul className="space-y-1 pl-4">
-                  <li>• Revisit your past</li>
-                  <li>• Process your trauma</li>
-                  <li>• Share your story</li>
-                  <li>• Understand your childhood</li>
-                </ul>
-                
-                <p>All you need to do is:</p>
-                <ul className="space-y-1 pl-4">
-                  <li>• Recognize which pattern you're running</li>
-                  <li>• Feel it activating in your body</li>
-                  <li>• Interrupt it before the action</li>
-                  <li>• Redirect the energy</li>
-                </ul>
-                
-                <p>
-                  Your past created the pattern.<br />
-                  But your present is where you break it.
-                </p>
-                
-                <p className="font-semibold text-white">We stay in your present.</p>
-              </div>
-            </div>
+          <div className="text-center mb-16">
+            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+              FIELD NOTES
+            </p>
+            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-founder-headline">
+              About The Archivist
+            </h2>
           </div>
-        </div>
-      </section>
-      
-      {/* SECTION 10: MINIMAL FOOTER */}
-      <footer className="border-t border-slate-800 py-12">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
-          <p className="text-slate-400 text-sm leading-relaxed">
-            Built in the fire. Years of observation. Systematized December 2025.
-          </p>
-          <p className="text-slate-500 text-xs italic">— The Archivist</p>
-          <div className="pt-4 border-t border-slate-800/50">
-            <p className="text-slate-600 text-xs">
-              © 2025 The Archivist Method™. Pattern archaeology, not therapy.
+
+          <div className="reveal reveal-delay-2 space-y-6 text-base leading-relaxed" style={{ color: "#A3A3A3" }}>
+            <p>
+              I've been an entrepreneur since I was 11 years old.
+              I've raised 8 kids. Started businesses. Failed at most of them.
+              Worked 19 years behind a bar — not because it was my identity,
+              but because it gave me the flexibility to chase what mattered.
+            </p>
+            <p>
+              What I didn't expect was that the bar would become a laboratory.
+            </p>
+            <p>
+              Thousands of people. Thousands of patterns. Same loops, different faces.
+              The person who blows up every relationship three months in.
+              The one who apologizes for breathing.
+              The one who destroys everything right before it works.
+            </p>
+            <p style={{ color: "#F5F5F5" }}>
+              Then I realized: I was running them too. All of them.
+            </p>
+            <p>
+              So I stopped trying to understand why.<br />
+              I started learning to interrupt.
+            </p>
+            <p>
+              The Archivist Method is what came out of that.
+              Not theory. Not textbook psychology.
+              Field research — performed while running the patterns it documents.
+            </p>
+            <p className="italic" style={{ color: "#737373" }}>
+              — The Archivist
             </p>
           </div>
         </div>
+      </section>
+
+      {/* SECTION 10: FINAL CTA */}
+      <section ref={sectionRefs.finalCta} className="py-32 md:py-40 px-6" data-testid="section-final-cta">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="reveal text-3xl md:text-5xl font-bold mb-8" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-final-cta-headline">
+            Stop running the pattern.
+          </h2>
+
+          <p className="reveal reveal-delay-1 text-lg leading-relaxed mb-12" style={{ color: "#737373" }}>
+            Take the 2-minute assessment.<br />
+            Get your 7-day protocol.<br />
+            Start breaking the cycle today.
+          </p>
+
+          <div className="reveal reveal-delay-2">
+            <CTAButton text="TAKE THE FREE ASSESSMENT" />
+          </div>
+
+          <p className="reveal reveal-delay-3 mt-6 text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+            Free  ·  Private  ·  No Email Required  ·  Instant Results
+          </p>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
+            Built in the fire. Years of observation. Systematized December 2025.
+          </p>
+          <p className="text-xs italic" style={{ color: "#525252" }}>
+            — The Archivist
+          </p>
+          <div className="pt-6">
+            <p className="text-xs" style={{ color: "#525252" }}>
+              &copy; 2025 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
+            </p>
+          </div>
+          <div className="flex justify-center gap-6 pt-2">
+            <Link href="/terms" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-terms">Terms</Link>
+            <Link href="/privacy" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-privacy">Privacy</Link>
+            <Link href="/contact" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-contact">Contact</Link>
+          </div>
+        </div>
       </footer>
-      
-      {/* CSS Animations - Complete System */}
-      <style>{`
-        /* ===== BASE KEYFRAMES ===== */
-        @keyframes archival-reveal {
-          from { transform: translateY(100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes fade-in-delay {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fade-in-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slide-in-left {
-          from { opacity: 0; transform: translateX(-40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes slide-in-right {
-          from { opacity: 0; transform: translateX(40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
-        /* ===== GLITCH EFFECT ===== */
-        @keyframes glitch-in {
-          0% { opacity: 0; transform: translateX(-20px); filter: blur(4px); }
-          20% { opacity: 1; transform: translateX(5px) skew(-2deg); }
-          40% { transform: translateX(-3px) skew(1deg); }
-          60% { transform: translateX(2px); }
-          100% { opacity: 1; transform: translateX(0) skew(0deg); filter: blur(0); }
-        }
-        
-        .glitch-header {
-          animation: glitch-in 0.8s ease-out forwards;
-          position: relative;
-        }
-        
-        .glitch-header::before,
-        .glitch-header::after {
-          content: attr(data-text);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          opacity: 0;
-          pointer-events: none;
-        }
-        
-        .glitch-header::before {
-          animation: rgb-split-pink 0.3s ease-in-out 3;
-          color: #EC4899;
-          z-index: -1;
-        }
-        
-        .glitch-header::after {
-          animation: rgb-split-teal 0.3s ease-in-out 3;
-          color: #14B8A6;
-          z-index: -1;
-        }
-        
-        @keyframes rgb-split-pink {
-          0%, 100% { opacity: 0; transform: translateX(0); }
-          50% { opacity: 0.4; transform: translateX(-3px); }
-        }
-        
-        @keyframes rgb-split-teal {
-          0%, 100% { opacity: 0; transform: translateX(0); }
-          50% { opacity: 0.4; transform: translateX(3px); }
-        }
-        
-        /* ===== PULSE GLOW ===== */
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
-          50% { box-shadow: 0 0 0 15px rgba(20, 184, 166, 0); }
-        }
-        
-        @keyframes featured-pulse {
-          0%, 100% { box-shadow: 0 0 30px rgba(20, 184, 166, 0.2); }
-          50% { box-shadow: 0 0 50px rgba(20, 184, 166, 0.4); }
-        }
-        
-        /* ===== CTA SHIMMER ===== */
-        @keyframes cta-pulse {
-          0%, 100% { box-shadow: 0 0 30px rgba(20, 184, 166, 0.3); }
-          50% { box-shadow: 0 0 50px rgba(20, 184, 166, 0.5); }
-        }
-        
-        @keyframes shimmer {
-          from { left: -100%; }
-          to { left: 100%; }
-        }
-        
-        .cta-shimmer {
-          position: relative;
-          overflow: hidden;
-          animation: cta-pulse 3s ease-in-out infinite;
-        }
-        
-        .cta-shimmer::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          animation: shimmer 3s infinite;
-        }
-        
-        /* ===== CHECKBOX TICK ===== */
-        @keyframes check-pop {
-          from { transform: translate(-50%, -50%) scale(0); }
-          to { transform: translate(-50%, -50%) scale(1); }
-        }
-        
-        @keyframes slide-in-check {
-          from { opacity: 0; transform: translateX(-20px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
-        /* ===== SCRAMBLE STYLES ===== */
-        .scramble-text {
-          font-family: 'Inter', sans-serif;
-          letter-spacing: 0.5px;
-        }
-        
-        .scramble-dud {
-          color: #14B8A6;
-          opacity: 0.8;
-        }
-        
-        /* ===== SCROLL REVEAL SYSTEM ===== */
-        .scroll-reveal {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .scroll-reveal.visible {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-        
-        /* Stagger delays for cards */
-        .scroll-reveal.stagger-1 { transition-delay: 0s; }
-        .scroll-reveal.stagger-2 { transition-delay: 0.1s; }
-        .scroll-reveal.stagger-3 { transition-delay: 0.2s; }
-        .scroll-reveal.stagger-4 { transition-delay: 0.3s; }
-        .scroll-reveal.stagger-5 { transition-delay: 0.4s; }
-        .scroll-reveal.stagger-6 { transition-delay: 0.5s; }
-        .scroll-reveal.stagger-7 { transition-delay: 0.6s; }
-        
-        /* ===== STEP NUMBER PULSE ===== */
-        .step-number-circle {
-          position: relative;
-        }
-        
-        .step-number-circle.visible {
-          animation: pulse-glow 2s ease-out;
-        }
-        
-        /* ===== PERK CHECKBOX ===== */
-        .perk-checkbox {
-          position: relative;
-        }
-        
-        .perk-checkbox::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%) scale(0);
-          width: 12px;
-          height: 12px;
-          background: #14B8A6;
-          border-radius: 2px;
-        }
-        
-        .perk-item.visible .perk-checkbox::after {
-          animation: check-pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
-        }
-        
-        .perk-item {
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        
-        .perk-item.visible {
-          animation: slide-in-check 0.5s ease-out forwards;
-        }
-        
-        .perk-item:nth-child(1).visible { animation-delay: 0s; }
-        .perk-item:nth-child(2).visible { animation-delay: 0.1s; }
-        .perk-item:nth-child(3).visible { animation-delay: 0.2s; }
-        .perk-item:nth-child(4).visible { animation-delay: 0.3s; }
-        
-        /* ===== ARCHIVAL REVEAL ===== */
-        .animate-archival-reveal {
-          animation: archival-reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards;
-          transform: translateY(100%);
-          opacity: 0;
-        }
-        
-        .animate-fade-in-delay {
-          animation: fade-in-delay 0.8s ease-out 1.0s forwards;
-        }
-        
-        /* ===== MOBILE OPTIMIZATIONS ===== */
-        @media (max-width: 768px) {
-          @keyframes mobile-fade-in {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-          }
-          
-          .animate-archival-reveal {
-            animation: mobile-fade-in 0.6s ease-out 0.3s forwards;
-            transform: none;
-          }
-          
-          .animate-fade-in-delay {
-            animation: mobile-fade-in 0.6s ease-out 0.5s forwards;
-          }
-          
-          .scroll-reveal {
-            transition-duration: 0.4s;
-            transition-delay: 0s !important;
-          }
-          
-          .glitch-header::before,
-          .glitch-header::after {
-            display: none;
-          }
-          
-          .perk-item.visible {
-            animation-delay: 0s !important;
-          }
-        }
-        
-        /* ===== REDUCED MOTION ===== */
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
-          
-          .animate-archival-reveal,
-          .animate-fade-in-delay,
-          .scroll-reveal,
-          .glitch-header,
-          .perk-item {
-            animation: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-          }
-          
-          .cta-shimmer::before {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }
