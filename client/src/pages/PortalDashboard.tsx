@@ -7,7 +7,17 @@ import {
   FolderOpen, ChevronRight, ArrowRight
 } from 'lucide-react';
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
-import { Badge } from '@/components/ui/badge';
+
+const FONT_PLAYFAIR = "'Playfair Display', serif";
+const FONT_BODY = "'Source Sans 3', sans-serif";
+const FONT_MONO = "'JetBrains Mono', monospace";
+const CARD_BG = "rgba(255,255,255,0.03)";
+const CARD_BORDER = "rgba(255,255,255,0.06)";
+const COLOR_BG = "#0A0A0A";
+const COLOR_TEXT = "#F5F5F5";
+const COLOR_MUTED = "#737373";
+const COLOR_TEAL = "#14B8A6";
+const COLOR_PINK = "#EC4899";
 
 interface UserData {
   email: string;
@@ -118,15 +128,6 @@ function getTierLabel(hasQuickStart: boolean, hasCompleteArchive: boolean): stri
   return "CRASH COURSE";
 }
 
-function getTierBadgeColor(hasQuickStart: boolean, hasCompleteArchive: boolean): string {
-  if (hasCompleteArchive) return "bg-amber-500/20 text-amber-400 border-amber-500/30";
-  if (hasQuickStart) return "bg-teal-500/20 text-teal-400 border-teal-500/30";
-  return "bg-slate-700/50 text-slate-300 border-slate-600/30";
-}
-
-// ============================================
-// LOCKED PRODUCT MODAL
-// ============================================
 function LockedModal({ 
   product, 
   onClose, 
@@ -136,29 +137,30 @@ function LockedModal({
   onClose: () => void;
   onCheckout: (id: string) => void;
 }) {
-  const [, setLocation] = useLocation();
   const isFieldGuide = product === "quick-start";
   
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }} onClick={onClose}>
       <div 
-        className="bg-[#1E1E1E] border border-slate-700/50 rounded-2xl max-w-md w-full p-8 relative"
+        className="max-w-md w-full p-8 relative rounded-md animate-fade-in"
+        style={{ background: COLOR_BG, border: `1px solid ${CARD_BORDER}` }}
         onClick={(e) => e.stopPropagation()}
         data-testid="modal-locked-product"
       >
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors p-1"
+          className="absolute top-4 right-4 transition-colors p-1"
+          style={{ color: COLOR_MUTED }}
           data-testid="button-close-modal"
         >
           <span className="text-xl">&times;</span>
         </button>
         
-        <h3 className="text-2xl font-bold text-white text-center mb-3">
+        <h3 className="text-2xl font-bold text-center mb-3" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>
           {isFieldGuide ? "THE FIELD GUIDE" : "THE COMPLETE ARCHIVE"} — ${isFieldGuide ? "47" : "197"}
         </h3>
         
-        <p className="text-slate-400 text-center mb-6">
+        <p className="text-center mb-6 text-sm" style={{ color: COLOR_MUTED }}>
           {isFieldGuide 
             ? "Your pattern isn't a mystery anymore. Now make the interrupt permanent."
             : "Every pattern. Every protocol. Every tool. The full excavation."
@@ -180,20 +182,21 @@ function LockedModal({
             "Lifetime updates",
             "Priority AI access — everything unlocked"
           ]).map((feature, i) => (
-            <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
-              <span className="text-teal-400 mt-0.5"><Check className="w-4 h-4" /></span>
+            <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
+              <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: COLOR_TEAL }} />
               {feature}
             </li>
           ))}
         </ul>
         
-        <p className="text-slate-500 text-center text-sm mb-6 italic">
+        <p className="text-center text-sm mb-6 italic" style={{ color: COLOR_MUTED }}>
           {isFieldGuide ? "You proved it works. This makes it stick." : "The full system. No gates. No limits."}
         </p>
         
         <button
           onClick={() => onCheckout(product)}
-          className="w-full py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold transition-colors"
+          className="w-full py-3 rounded-md font-medium tracking-wider uppercase text-sm transition-all cursor-pointer"
+          style={{ background: COLOR_TEAL, color: COLOR_BG, fontFamily: FONT_MONO }}
           data-testid={`button-unlock-${product}`}
         >
           Unlock {isFieldGuide ? "The Field Guide" : "The Complete Archive"} <ArrowRight className="w-4 h-4 inline ml-1" />
@@ -201,7 +204,8 @@ function LockedModal({
         
         <button
           onClick={() => onClose()}
-          className="w-full text-center text-slate-500 hover:text-slate-300 text-sm mt-3 py-2 transition-colors"
+          className="w-full text-center text-sm mt-3 py-2 transition-colors cursor-pointer"
+          style={{ color: COLOR_MUTED }}
           data-testid="button-dismiss-modal"
         >
           Maybe later
@@ -211,9 +215,6 @@ function LockedModal({
   );
 }
 
-// ============================================
-// MAIN PORTAL DASHBOARD
-// ============================================
 export default function PortalDashboard() {
   const [, setLocation] = useLocation();
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -222,18 +223,14 @@ export default function PortalDashboard() {
   const [activeTab, setActiveTab] = useState<"content" | "chat">("content");
   const [lockedModal, setLockedModal] = useState<"quick-start" | "complete-archive" | null>(null);
   
-  // Chat state
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
   const [chatHistoryLoaded, setChatHistoryLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Streak state
   const [streakData, setStreakData] = useState<StreakData>({ streakCount: 0, checkedToday: false, totalInterrupts: 0 });
   const [interruptLoading, setInterruptLoading] = useState(false);
-
-  // Content view state
   const [activeContent, setActiveContent] = useState<string | null>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -244,7 +241,6 @@ export default function PortalDashboard() {
     scrollToBottom();
   }, [chatMessages, scrollToBottom]);
 
-  // Load user data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -253,34 +249,17 @@ export default function PortalDashboard() {
           fetch("/api/portal/user-pattern", { credentials: "include" }),
           fetch("/api/portal/streak", { credentials: "include" }),
         ]);
-
-        if (!userRes.ok) {
-          setLocation("/quiz");
-          return;
-        }
-
+        if (!userRes.ok) { setLocation("/quiz"); return; }
         const user = await userRes.json();
         setUserData(user);
-
-        if (patternRes.ok) {
-          const pData = await patternRes.json();
-          setPatternData(pData);
-        }
-
-        if (streakRes.ok) {
-          const sData = await streakRes.json();
-          setStreakData(sData);
-        }
-      } catch {
-        setLocation("/quiz");
-      } finally {
-        setLoading(false);
-      }
+        if (patternRes.ok) setPatternData(await patternRes.json());
+        if (streakRes.ok) setStreakData(await streakRes.json());
+      } catch { setLocation("/quiz"); }
+      finally { setLoading(false); }
     };
     fetchData();
   }, [setLocation]);
 
-  // Load chat history
   useEffect(() => {
     if (!userData || chatHistoryLoaded) return;
     const loadChat = async () => {
@@ -290,9 +269,7 @@ export default function PortalDashboard() {
           const history = await res.json();
           setChatMessages(history.map((h: any) => ({ role: h.role, message: h.message })));
         }
-      } catch {
-        // silently fail
-      }
+      } catch {}
       setChatHistoryLoaded(true);
     };
     loadChat();
@@ -305,62 +282,38 @@ export default function PortalDashboard() {
 
   const handleCheckout = async (productId: string) => {
     try {
-      const res = await fetch(`/api/portal/checkout/${productId}`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const res = await fetch(`/api/portal/checkout/${productId}`, { method: "POST", credentials: "include" });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch {
-      console.error("Checkout failed");
-    }
+      if (data.url) window.location.href = data.url;
+    } catch { console.error("Checkout failed"); }
   };
 
   const handleInterrupt = async () => {
     if (streakData.checkedToday || interruptLoading) return;
     setInterruptLoading(true);
     try {
-      const res = await fetch("/api/portal/interrupt", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await fetch("/api/portal/interrupt", { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" } });
       if (res.ok) {
         const streakRes = await fetch("/api/portal/streak", { credentials: "include" });
-        if (streakRes.ok) {
-          setStreakData(await streakRes.json());
-        }
+        if (streakRes.ok) setStreakData(await streakRes.json());
       }
-    } catch {
-      // silently fail
-    }
+    } catch {}
     setInterruptLoading(false);
   };
 
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || chatLoading) return;
-    
     const userMsg: ChatMessage = { role: "user", message: text };
     setChatMessages(prev => [...prev, userMsg]);
     setChatInput("");
     setChatLoading(true);
-
     try {
       const tier = userData?.hasCompleteArchive ? "archive" : userData?.hasQuickStart ? "quick-start" : "free";
       const res = await fetch("/api/portal/chat", {
-        method: "POST",
-        credentials: "include",
+        method: "POST", credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: text,
-          pattern: patternData.pattern,
-          tier,
-          streak: streakData.streakCount,
-        }),
+        body: JSON.stringify({ message: text, pattern: patternData.pattern, tier, streak: streakData.streakCount }),
       });
-
       if (res.ok) {
         const data = await res.json();
         setChatMessages(prev => [...prev, { role: "assistant", message: data.message }]);
@@ -379,8 +332,8 @@ export default function PortalDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-teal-400" />
+      <div className="min-h-screen flex items-center justify-center" style={{ background: COLOR_BG }}>
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: COLOR_TEAL }} />
       </div>
     );
   }
@@ -392,7 +345,6 @@ export default function PortalDashboard() {
   const hasQuickStart = userData.hasQuickStart;
   const hasCompleteArchive = userData.hasCompleteArchive;
   const tierLabel = getTierLabel(hasQuickStart, hasCompleteArchive);
-  const tierBadgeColor = getTierBadgeColor(hasQuickStart, hasCompleteArchive);
   const isFirstVisit = chatMessages.length === 0;
 
   const starterPrompts = hasCompleteArchive ? [
@@ -415,215 +367,171 @@ export default function PortalDashboard() {
     ? `You have ${patternName}.\n\n${patternDetails[pattern].origin}\n\nBut you're here now. That's the first interrupt.\n\nYour Crash Course is ready. Ask me anything about your pattern, or start with one of the prompts below.`
     : "Welcome to the archive. I'm The Archivist. Tell me what pattern brought you here, and we'll start the excavation.";
 
-  // ============================================
-  // LEFT PANEL CONTENT
-  // ============================================
+  const SidebarLabel = ({ children }: { children: string }) => (
+    <p
+      className="text-[10px] uppercase tracking-[0.2em] px-3 mb-2 mt-1"
+      style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}
+    >
+      {children}
+    </p>
+  );
+
+  const NavButton = ({ active, locked, onClick, icon: Icon, label, testId, external }: {
+    active?: boolean; locked?: boolean; onClick: () => void;
+    icon: any; label: string; testId: string; external?: boolean;
+  }) => (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors"
+      style={{
+        fontFamily: FONT_BODY,
+        color: active ? COLOR_TEAL : "#A3A3A3",
+        background: active ? "rgba(20,184,166,0.08)" : "transparent",
+        borderLeft: active ? `2px solid ${COLOR_TEAL}` : "2px solid transparent",
+      }}
+      data-testid={testId}
+    >
+      <Icon className="w-4 h-4 flex-shrink-0" style={{ color: active ? COLOR_TEAL : COLOR_MUTED }} />
+      <span className="text-sm flex-1">{label}</span>
+      {locked && <Lock className="w-3.5 h-3.5" style={{ color: "rgba(115,115,115,0.5)" }} />}
+      {external && <ArrowRight className="w-3.5 h-3.5" style={{ color: COLOR_MUTED }} />}
+    </button>
+  );
+
   const LeftPanel = () => (
-    <div className="flex flex-col h-full bg-[#111111] border-r border-slate-800/50">
-      {/* Pattern Display */}
-      <div className="p-5 border-b border-slate-800/50">
-        <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-1">Your Pattern</p>
-        <h3 className="text-lg font-bold text-white leading-tight" data-testid="text-pattern-name">{patternName}</h3>
-        <Badge className={`mt-2 text-[10px] uppercase tracking-wider border ${tierBadgeColor}`} data-testid="badge-tier">
+    <div className="flex flex-col h-full" style={{ background: COLOR_BG, borderRight: `1px solid ${CARD_BORDER}` }}>
+      <div className="p-5" style={{ borderBottom: `1px solid ${CARD_BORDER}` }}>
+        <SidebarLabel>YOUR PATTERN</SidebarLabel>
+        <h3
+          className="text-lg font-bold leading-tight mt-1"
+          style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}
+          data-testid="text-pattern-name"
+        >
+          {patternName}
+        </h3>
+        <span
+          className="inline-block mt-2 px-2.5 py-1 text-[10px] uppercase tracking-[0.15em] rounded-sm"
+          style={{
+            fontFamily: FONT_MONO,
+            color: COLOR_TEAL,
+            background: "transparent",
+            border: `1px solid rgba(20,184,166,0.3)`,
+          }}
+          data-testid="badge-tier"
+        >
           {tierLabel}
-        </Badge>
+        </span>
       </div>
 
-      {/* Navigation */}
       <div className="flex-1 overflow-y-auto p-3 space-y-1">
-        {/* Crash Course - always unlocked */}
-        <button
-          onClick={() => setActiveContent("crash-course")}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-            activeContent === "crash-course" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-          }`}
-          data-testid="nav-crash-course"
-        >
-          <FolderOpen className="w-4 h-4 text-teal-400 flex-shrink-0" />
-          <span className="text-sm font-medium">The Crash Course</span>
-        </button>
+        <NavButton active={activeContent === "crash-course"} onClick={() => setActiveContent("crash-course")} icon={FolderOpen} label="The Crash Course" testId="nav-crash-course" />
+        <NavButton active={activeContent === "field-guide"} locked={!hasQuickStart && !hasCompleteArchive} onClick={() => hasQuickStart || hasCompleteArchive ? setActiveContent("field-guide") : setLockedModal("quick-start")} icon={FolderOpen} label="The Field Guide" testId="nav-field-guide" />
+        <NavButton active={activeContent === "complete-archive"} locked={!hasCompleteArchive} onClick={() => hasCompleteArchive ? setActiveContent("complete-archive") : setLockedModal("complete-archive")} icon={FolderOpen} label="The Complete Archive" testId="nav-complete-archive" />
+        <NavButton active={activeContent === "all-patterns"} onClick={() => setActiveContent("all-patterns")} icon={Layers} label="All 9 Patterns" testId="nav-all-patterns" />
 
-        {/* Field Guide */}
-        <button
-          onClick={() => hasQuickStart || hasCompleteArchive ? setActiveContent("field-guide") : setLockedModal("quick-start")}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-            activeContent === "field-guide" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-          }`}
-          data-testid="nav-field-guide"
-        >
-          <FolderOpen className="w-4 h-4 flex-shrink-0" />
-          <span className="text-sm font-medium flex-1">The Field Guide</span>
-          {!hasQuickStart && !hasCompleteArchive && <Lock className="w-3.5 h-3.5 text-slate-500" />}
-        </button>
-
-        {/* Complete Archive */}
-        <button
-          onClick={() => hasCompleteArchive ? setActiveContent("complete-archive") : setLockedModal("complete-archive")}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-            activeContent === "complete-archive" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-          }`}
-          data-testid="nav-complete-archive"
-        >
-          <FolderOpen className="w-4 h-4 flex-shrink-0" />
-          <span className="text-sm font-medium flex-1">The Complete Archive</span>
-          {!hasCompleteArchive && <Lock className="w-3.5 h-3.5 text-slate-500" />}
-        </button>
-
-        {/* All 9 Patterns */}
-        <button
-          onClick={() => setActiveContent("all-patterns")}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-            activeContent === "all-patterns" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-          }`}
-          data-testid="nav-all-patterns"
-        >
-          <Layers className="w-4 h-4 flex-shrink-0" />
-          <span className="text-sm font-medium">All 9 Patterns</span>
-        </button>
-
-        {/* Vault Links */}
-        <div className="mt-4 pt-4 border-t border-slate-800/50">
-          <p className="text-xs text-slate-500 uppercase tracking-wider font-bold px-3 mb-2">The Vault</p>
-          <a
-            href="/vault/workbench"
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors text-slate-300 hover:bg-slate-800/50"
-            data-testid="nav-workbench"
-          >
-            <Target className="w-4 h-4 text-teal-400 flex-shrink-0" />
-            <span className="text-sm font-medium">The Workbench</span>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-500 ml-auto" />
+        <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
+          <SidebarLabel>THE VAULT</SidebarLabel>
+          <a href="/vault/workbench" className="block" data-testid="nav-workbench">
+            <NavButton onClick={() => {}} icon={Target} label="The Workbench" testId="nav-workbench-btn" external />
           </a>
-          <a
-            href="/vault/archive"
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors text-slate-300 hover:bg-slate-800/50"
-            data-testid="nav-archive"
-          >
-            <FolderOpen className="w-4 h-4 text-teal-400 flex-shrink-0" />
-            <span className="text-sm font-medium">The Archive</span>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-500 ml-auto" />
+          <a href="/vault/archive" className="block" data-testid="nav-archive">
+            <NavButton onClick={() => {}} icon={FolderOpen} label="The Archive" testId="nav-archive-btn" external />
           </a>
         </div>
 
-        {/* Streak Tracker */}
-        <div className="mt-4 pt-4 border-t border-slate-800/50">
-          <p className="text-xs text-slate-500 uppercase tracking-wider font-bold px-3 mb-2">Today</p>
+        <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
+          <SidebarLabel>TODAY</SidebarLabel>
           <button
             onClick={handleInterrupt}
             disabled={streakData.checkedToday || interruptLoading}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-              streakData.checkedToday 
-                ? "bg-teal-500/10 text-teal-400" 
-                : "text-slate-300 hover:bg-slate-800/50"
-            }`}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors"
+            style={{ fontFamily: FONT_BODY, color: streakData.checkedToday ? COLOR_TEAL : "#A3A3A3" }}
             data-testid="button-interrupt"
           >
-            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-              streakData.checkedToday ? "border-teal-400 bg-teal-500/20" : "border-slate-600"
-            }`}>
-              {streakData.checkedToday && <Check className="w-3 h-3 text-teal-400" />}
-              {interruptLoading && <Loader2 className="w-3 h-3 animate-spin text-teal-400" />}
+            <div
+              className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
+              style={{
+                border: streakData.checkedToday ? `2px solid ${COLOR_TEAL}` : "2px solid rgba(115,115,115,0.4)",
+                background: streakData.checkedToday ? "rgba(20,184,166,0.15)" : "transparent",
+              }}
+            >
+              {streakData.checkedToday && <Check className="w-3 h-3" style={{ color: COLOR_TEAL }} />}
+              {interruptLoading && <Loader2 className="w-3 h-3 animate-spin" style={{ color: COLOR_TEAL }} />}
             </div>
-            <span className="text-sm">I interrupted my pattern</span>
+            <span className="text-sm" style={{ fontFamily: FONT_BODY }}>I interrupted my pattern</span>
           </button>
           
           {streakData.streakCount > 0 && (
             <div className="flex items-center gap-2 px-3 mt-2" data-testid="text-streak">
-              <Flame className="w-4 h-4 text-orange-400" />
-              <span className="text-sm text-orange-400 font-bold">{streakData.streakCount} day streak</span>
+              <Flame className="w-4 h-4" style={{ color: COLOR_TEAL }} />
+              <span className="text-sm font-bold" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>
+                {streakData.streakCount} day streak
+              </span>
             </div>
           )}
         </div>
 
-        {/* Downloads & Settings */}
-        <div className="mt-4 pt-4 border-t border-slate-800/50 space-y-1">
-          <button
-            onClick={() => setActiveContent("downloads")}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-              activeContent === "downloads" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-            }`}
-            data-testid="nav-downloads"
-          >
-            <Download className="w-4 h-4 flex-shrink-0" />
-            <span className="text-sm font-medium">My Downloads</span>
-          </button>
-          
-          <button
-            onClick={() => setActiveContent("settings")}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-              activeContent === "settings" ? "bg-teal-500/10 text-teal-400" : "text-slate-300 hover:bg-slate-800/50"
-            }`}
-            data-testid="nav-settings"
-          >
-            <Settings className="w-4 h-4 flex-shrink-0" />
-            <span className="text-sm font-medium">Settings</span>
-          </button>
+        <div className="mt-4 pt-4 space-y-1" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
+          <NavButton active={activeContent === "downloads"} onClick={() => setActiveContent("downloads")} icon={Download} label="My Downloads" testId="nav-downloads" />
+          <NavButton active={activeContent === "settings"} onClick={() => setActiveContent("settings")} icon={Settings} label="Settings" testId="nav-settings" />
         </div>
       </div>
     </div>
   );
 
-  // ============================================
-  // RIGHT PANEL - AI CHAT
-  // ============================================
   const RightPanel = () => (
-    <div className="flex flex-col h-full bg-[#0A0A0A]">
-      {/* Chat Header */}
-      <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800/50 bg-[#111111]">
+    <div className="flex flex-col h-full" style={{ background: COLOR_BG }}>
+      <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full overflow-hidden border border-teal-500/50">
+          <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: `1px solid rgba(20,184,166,0.3)` }}>
             <img src="/archivist-icon.png" alt="The Archivist" className="w-full h-full object-cover" />
           </div>
-          <h3 className="text-sm font-bold text-white">THE ARCHIVIST</h3>
+          <h3 className="text-sm font-bold tracking-wider uppercase" style={{ fontFamily: FONT_MONO, color: COLOR_TEXT }}>THE ARCHIVIST</h3>
         </div>
-        <Badge className={`text-[10px] uppercase tracking-wider border ${tierBadgeColor}`}>
+        <span className="text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm" style={{ fontFamily: FONT_MONO, color: COLOR_TEAL, border: `1px solid rgba(20,184,166,0.3)` }}>
           {tierLabel}
-        </Badge>
+        </span>
       </div>
 
-      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4" data-testid="chat-messages">
-        {/* First Login Greeting */}
         {isFirstVisit && (
-          <div className="flex justify-start">
-            <div className="max-w-[85%] px-4 py-3 rounded-xl bg-[#1A1A1A] border border-slate-700/50 text-slate-200 text-sm leading-relaxed whitespace-pre-line">
+          <div className="flex justify-start animate-fade-in">
+            <div className="max-w-[85%] px-4 py-3 rounded-md text-sm leading-relaxed whitespace-pre-line" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, color: "#A3A3A3", fontFamily: FONT_BODY }}>
               {firstLoginGreeting}
             </div>
           </div>
         )}
-
-        {/* Message History */}
         {chatMessages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[85%] px-4 py-3 rounded-xl text-sm leading-relaxed whitespace-pre-line ${
-              msg.role === "user"
-                ? "bg-slate-700/50 text-white"
-                : "bg-[#1A1A1A] border border-slate-700/50 text-slate-200"
-            }`}>
+            <div className="max-w-[85%] px-4 py-3 rounded-md text-sm leading-relaxed whitespace-pre-line" style={{
+              fontFamily: FONT_BODY,
+              background: msg.role === "user" ? "rgba(255,255,255,0.06)" : CARD_BG,
+              border: `1px solid ${CARD_BORDER}`,
+              color: msg.role === "user" ? COLOR_TEXT : "#A3A3A3",
+            }}>
               {msg.message}
             </div>
           </div>
         ))}
-
         {chatLoading && (
           <div className="flex justify-start">
-            <div className="px-4 py-3 rounded-xl bg-[#1A1A1A] border border-slate-700/50 flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-teal-400" />
-              <span className="text-sm text-slate-400">Analyzing...</span>
+            <div className="px-4 py-3 rounded-md flex items-center gap-2" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+              <Loader2 className="w-4 h-4 animate-spin" style={{ color: COLOR_TEAL }} />
+              <span className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "12px" }}>Analyzing...</span>
             </div>
           </div>
         )}
-
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Starter Prompts */}
       {(isFirstVisit || chatMessages.length < 2) && (
         <div className="px-5 pb-2 flex flex-wrap gap-2">
           {starterPrompts.map((prompt, i) => (
             <button
               key={i}
               onClick={() => handleSendMessage(prompt)}
-              className="px-3 py-1.5 rounded-full border border-teal-500/30 text-teal-400 text-xs hover:bg-teal-500/10 transition-colors"
+              className="px-3 py-1.5 rounded-md text-xs transition-colors cursor-pointer"
+              style={{ border: `1px solid rgba(20,184,166,0.25)`, color: COLOR_TEAL, fontFamily: FONT_BODY, background: "transparent" }}
               data-testid={`button-starter-prompt-${i}`}
             >
               {prompt}
@@ -632,192 +540,190 @@ export default function PortalDashboard() {
         </div>
       )}
 
-      {/* Input Area */}
-      <div className="px-5 py-4 border-t border-slate-800/50 bg-[#111111]">
+      <div className="px-5 py-4" style={{ borderTop: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
         <div className="flex gap-3">
           <input
             type="text"
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage(chatInput);
-              }
-            }}
+            onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSendMessage(chatInput); } }}
             placeholder="Ask me anything about your pattern..."
-            className="flex-1 px-4 py-3 rounded-xl bg-[#1A1A1A] border border-slate-700/50 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-teal-500/50 transition-colors"
+            className="flex-1 px-4 py-3 rounded-md text-sm focus:outline-none transition-colors"
+            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, color: COLOR_TEXT, fontFamily: FONT_BODY }}
             disabled={chatLoading}
             data-testid="input-chat"
           />
           <button
             onClick={() => handleSendMessage(chatInput)}
             disabled={chatLoading || !chatInput.trim()}
-            className="px-4 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 disabled:opacity-40 disabled:cursor-not-allowed text-white transition-colors"
+            className="px-4 py-3 rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            style={{ background: COLOR_TEAL, color: COLOR_BG }}
             data-testid="button-send-chat"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[10px] text-slate-600 text-center mt-2 font-bold tracking-widest uppercase">
-          Pattern Archaeology, <span className="text-pink-500">NOT</span> Therapy
+        <p className="text-center mt-2" style={{ fontSize: "10px", color: COLOR_MUTED, fontFamily: FONT_MONO, letterSpacing: "0.15em", textTransform: "uppercase" as const }}>
+          Pattern Archaeology, <span style={{ color: COLOR_PINK }}>NOT</span> Therapy
         </p>
       </div>
     </div>
   );
 
-  // ============================================
-  // CONTENT VIEWS (when left panel item is selected)
-  // ============================================
+  const SectionLabel = ({ children }: { children: string }) => (
+    <h4 className="text-xs uppercase tracking-[0.15em] font-bold mb-2" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>{children}</h4>
+  );
+
   const ContentView = () => {
     if (!activeContent) return <RightPanel />;
+
+    const BackLink = () => (
+      <button onClick={() => setActiveContent(null)} className="text-xs transition-colors cursor-pointer" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }} data-testid="button-back-to-chat">
+        Back to Chat
+      </button>
+    );
+
+    const DownloadButton = ({ productId, testId }: { productId: string; testId: string }) => (
+      <button
+        onClick={() => handleDownload(productId)}
+        className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm tracking-wider uppercase transition-all cursor-pointer"
+        style={{ border: "1px solid rgba(255,255,255,0.3)", color: COLOR_TEXT, fontFamily: FONT_MONO, background: "transparent" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#000"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLOR_TEXT; }}
+        data-testid={testId}
+      >
+        <Download className="w-4 h-4" /> DOWNLOAD PDF
+      </button>
+    );
 
     const renderContent = () => {
       switch (activeContent) {
         case "crash-course":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">The Crash Course</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Crash Course</h2>
+                <BackLink />
               </div>
-              <p className="text-slate-400">Your 7-day pattern interruption crash course. Free for all members.</p>
+              <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Your 7-day pattern interruption crash course. Free for all members.</p>
               
               {pattern && patternDetails[pattern] && (
-                <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-6 space-y-4">
-                  <h3 className="text-lg font-bold text-white">Your Pattern: {patternName}</h3>
+                <div className="p-6 space-y-5 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                  <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
                   <div>
-                    <h4 className="text-teal-400 font-bold text-sm mb-2">Triggers</h4>
-                    <ul className="space-y-1">
+                    <SectionLabel>Triggers</SectionLabel>
+                    <ul className="space-y-1.5">
                       {patternDetails[pattern].triggers.map((t, i) => (
-                        <li key={i} className="text-slate-300 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-3 h-3 text-teal-400 mt-1 flex-shrink-0" />
+                        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+                          <ChevronRight className="w-3 h-3 mt-1 flex-shrink-0" style={{ color: COLOR_TEAL }} />
                           {t}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-teal-400 font-bold text-sm mb-2">Behaviors</h4>
-                    <ul className="space-y-1">
+                    <SectionLabel>Behaviors</SectionLabel>
+                    <ul className="space-y-1.5">
                       {patternDetails[pattern].behaviors.map((b, i) => (
-                        <li key={i} className="text-slate-300 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-3 h-3 text-teal-400 mt-1 flex-shrink-0" />
+                        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+                          <ChevronRight className="w-3 h-3 mt-1 flex-shrink-0" style={{ color: COLOR_TEAL }} />
                           {b}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-teal-400 font-bold text-sm mb-2">Origin</h4>
-                    <p className="text-slate-300 text-sm">{patternDetails[pattern].origin}</p>
+                    <SectionLabel>Origin</SectionLabel>
+                    <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].origin}</p>
                   </div>
                   <div>
-                    <h4 className="text-teal-400 font-bold text-sm mb-2">Body Signature</h4>
-                    <p className="text-slate-300 text-sm">{patternDetails[pattern].bodySignature}</p>
+                    <SectionLabel>Body Signature</SectionLabel>
+                    <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].bodySignature}</p>
                   </div>
                   <div>
-                    <h4 className="text-teal-400 font-bold text-sm mb-2">The Interrupt</h4>
-                    <p className="text-slate-300 text-sm">{patternDetails[pattern].interrupt}</p>
+                    <SectionLabel>The Interrupt</SectionLabel>
+                    <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].interrupt}</p>
                   </div>
                 </div>
               )}
               
-              <button
-                onClick={() => handleDownload("crash-course")}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 transition-colors text-sm"
-                data-testid="button-download-crash-course"
-              >
-                <Download className="w-4 h-4" /> Download PDF
-              </button>
+              <DownloadButton productId="crash-course" testId="button-download-crash-course" />
             </div>
           );
           
         case "field-guide":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">The Field Guide</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Field Guide</h2>
+                <BackLink />
               </div>
-              <p className="text-slate-400">Full 90-day protocol. Deep pattern analysis. All 9 patterns explained.</p>
+              <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Full 90-day protocol. Deep pattern analysis. All 9 patterns explained.</p>
               
-              <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-6 space-y-3">
-                <h3 className="text-lg font-bold text-white">What's Included</h3>
+              <div className="p-6 space-y-3 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>What's Included</h3>
                 {["Full pattern deep dive for YOUR pattern", "90-day interruption protocol", "All 9 patterns overview", "Circuit break scripts", "Crisis protocols"].map((f, i) => (
-                  <div key={i} className="flex items-center gap-3 text-slate-300 text-sm">
-                    <Check className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                  <div key={i} className="flex items-center gap-3 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+                    <Check className="w-4 h-4 flex-shrink-0" style={{ color: COLOR_TEAL }} />
                     {f}
                   </div>
                 ))}
               </div>
               
-              <button
-                onClick={() => handleDownload("quick-start")}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 transition-colors text-sm"
-                data-testid="button-download-field-guide"
-              >
-                <Download className="w-4 h-4" /> Download PDF
-              </button>
+              <DownloadButton productId="quick-start" testId="button-download-field-guide" />
             </div>
           );
 
         case "complete-archive":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">The Complete Archive</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Complete Archive</h2>
+                <BackLink />
               </div>
-              <p className="text-slate-400">Every pattern. Every protocol. Every tool. The full excavation.</p>
+              <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Every pattern. Every protocol. Every tool. The full excavation.</p>
               
-              <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-6 space-y-3">
-                <h3 className="text-lg font-bold text-white">Full Library</h3>
+              <div className="p-6 space-y-3 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Full Library</h3>
                 {["All 9 patterns — full depth", "Pattern combination analysis", "Relationship protocols", "Workplace applications", "Parenting patterns", "Lifetime updates"].map((f, i) => (
-                  <div key={i} className="flex items-center gap-3 text-slate-300 text-sm">
-                    <Check className="w-4 h-4 text-teal-400 flex-shrink-0" />
+                  <div key={i} className="flex items-center gap-3 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+                    <Check className="w-4 h-4 flex-shrink-0" style={{ color: COLOR_TEAL }} />
                     {f}
                   </div>
                 ))}
               </div>
               
-              <button
-                onClick={() => handleDownload("complete-archive")}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 transition-colors text-sm"
-                data-testid="button-download-complete-archive"
-              >
-                <Download className="w-4 h-4" /> Download PDF
-              </button>
+              <DownloadButton productId="complete-archive" testId="button-download-complete-archive" />
             </div>
           );
 
         case "all-patterns":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">All 9 Patterns</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>All 9 Patterns</h2>
+                <BackLink />
               </div>
               <div className="space-y-3">
                 {(Object.entries(patternDetails) as [PatternKey, typeof patternDetails[PatternKey]][]).map(([key, details]) => {
                   const isUserPattern = key === pattern;
-                  const canExpand = hasCompleteArchive || (hasQuickStart) || isUserPattern;
+                  const canExpand = hasCompleteArchive || hasQuickStart || isUserPattern;
                   return (
-                    <div key={key} className={`bg-[#1A1A1A] border rounded-xl p-4 ${isUserPattern ? "border-teal-500/50" : "border-slate-700/50"}`}>
+                    <div key={key} className="p-4 rounded-md" style={{ background: CARD_BG, border: isUserPattern ? `1px solid rgba(20,184,166,0.4)` : `1px solid ${CARD_BORDER}` }}>
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="font-bold text-white text-sm">
+                        <h3 className="font-bold text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>
                           {patternDisplayNames[key]}
-                          {isUserPattern && <span className="text-teal-400 text-xs ml-2">(yours)</span>}
+                          {isUserPattern && <span className="text-xs ml-2" style={{ color: COLOR_TEAL }}>(yours)</span>}
                         </h3>
-                        {!canExpand && <Lock className="w-3.5 h-3.5 text-slate-500" />}
+                        {!canExpand && <Lock className="w-3.5 h-3.5" style={{ color: "rgba(115,115,115,0.5)" }} />}
                       </div>
                       {canExpand ? (
                         <div className="mt-2 space-y-2">
-                          <p className="text-slate-400 text-xs">{details.origin}</p>
-                          <p className="text-teal-400 text-xs italic">{details.interrupt}</p>
+                          <p className="text-xs" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>{details.origin}</p>
+                          <p className="text-xs italic" style={{ color: COLOR_TEAL, fontFamily: FONT_BODY }}>{details.interrupt}</p>
                         </div>
                       ) : (
-                        <p className="text-slate-500 text-xs mt-1">Unlock the Field Guide for full details</p>
+                        <p className="text-xs mt-1" style={{ color: COLOR_MUTED }}>Unlock the Field Guide for full details</p>
                       )}
                     </div>
                   );
@@ -828,50 +734,50 @@ export default function PortalDashboard() {
 
         case "downloads":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">My Downloads</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>My Downloads</h2>
+                <BackLink />
               </div>
               <div className="space-y-3">
-                <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-4 flex items-center justify-between">
+                <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
                   <div className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-teal-400" />
+                    <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                     <div>
-                      <p className="text-white text-sm font-medium">Pattern Crash Course</p>
-                      <p className="text-slate-500 text-xs">Free - Always available</p>
+                      <p className="text-sm font-medium" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>Pattern Crash Course</p>
+                      <p className="text-xs" style={{ color: COLOR_MUTED }}>Free - Always available</p>
                     </div>
                   </div>
-                  <button onClick={() => handleDownload("crash-course")} className="text-teal-400 hover:text-teal-300 text-sm" data-testid="button-dl-crash-course">
+                  <button onClick={() => handleDownload("crash-course")} className="transition-colors cursor-pointer" style={{ color: COLOR_TEAL }} data-testid="button-dl-crash-course">
                     <Download className="w-4 h-4" />
                   </button>
                 </div>
                 
                 {hasQuickStart && (
-                  <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-4 flex items-center justify-between">
+                  <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
                     <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-teal-400" />
+                      <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                       <div>
-                        <p className="text-white text-sm font-medium">The Field Guide</p>
-                        <p className="text-slate-500 text-xs">$47 - Purchased</p>
+                        <p className="text-sm font-medium" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>The Field Guide</p>
+                        <p className="text-xs" style={{ color: COLOR_MUTED }}>$47 - Purchased</p>
                       </div>
                     </div>
-                    <button onClick={() => handleDownload("quick-start")} className="text-teal-400 hover:text-teal-300 text-sm" data-testid="button-dl-field-guide">
+                    <button onClick={() => handleDownload("quick-start")} className="transition-colors cursor-pointer" style={{ color: COLOR_TEAL }} data-testid="button-dl-field-guide">
                       <Download className="w-4 h-4" />
                     </button>
                   </div>
                 )}
                 
                 {hasCompleteArchive && (
-                  <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-4 flex items-center justify-between">
+                  <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
                     <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-teal-400" />
+                      <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                       <div>
-                        <p className="text-white text-sm font-medium">The Complete Archive</p>
-                        <p className="text-slate-500 text-xs">$197 - Purchased</p>
+                        <p className="text-sm font-medium" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>The Complete Archive</p>
+                        <p className="text-xs" style={{ color: COLOR_MUTED }}>$197 - Purchased</p>
                       </div>
                     </div>
-                    <button onClick={() => handleDownload("complete-archive")} className="text-teal-400 hover:text-teal-300 text-sm" data-testid="button-dl-archive">
+                    <button onClick={() => handleDownload("complete-archive")} className="transition-colors cursor-pointer" style={{ color: COLOR_TEAL }} data-testid="button-dl-archive">
                       <Download className="w-4 h-4" />
                     </button>
                   </div>
@@ -882,34 +788,35 @@ export default function PortalDashboard() {
 
         case "settings":
           return (
-            <div className="p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">Settings</h2>
-                <button onClick={() => setActiveContent(null)} className="text-slate-500 hover:text-white text-sm" data-testid="button-back-to-chat">Back to Chat</button>
+            <div className="p-6 space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Settings</h2>
+                <BackLink />
               </div>
               
-              <div className="bg-[#1A1A1A] border border-slate-700/50 rounded-xl p-5 space-y-4">
+              <div className="p-5 space-y-4 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
                 <div>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Email</p>
-                  <p className="text-white text-sm" data-testid="text-user-email">{userData.email}</p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Email</p>
+                  <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }} data-testid="text-user-email">{userData.email}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Name</p>
-                  <p className="text-white text-sm">{userData.name || "Not set"}</p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Name</p>
+                  <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{userData.name || "Not set"}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Tier</p>
-                  <p className="text-white text-sm">{tierLabel}</p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Tier</p>
+                  <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{tierLabel}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Pattern Interrupts</p>
-                  <p className="text-white text-sm">{streakData.totalInterrupts} total</p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Pattern Interrupts</p>
+                  <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{streakData.totalInterrupts} total</p>
                 </div>
               </div>
               
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-md text-sm transition-colors cursor-pointer"
+                style={{ border: "1px solid rgba(239,68,68,0.3)", color: "#EF4444", fontFamily: FONT_BODY }}
                 data-testid="button-logout"
               >
                 <LogOut className="w-4 h-4" /> Log Out
@@ -923,7 +830,7 @@ export default function PortalDashboard() {
     };
 
     return (
-      <div className="flex flex-col h-full bg-[#0A0A0A] overflow-y-auto">
+      <div className="flex flex-col h-full overflow-y-auto" style={{ background: COLOR_BG }}>
         {renderContent()}
       </div>
     );
@@ -931,28 +838,43 @@ export default function PortalDashboard() {
 
   return (
     <>
-      <div className="h-screen flex flex-col bg-[#0A0A0A]">
-        {/* Header */}
-        <header className="flex items-center justify-between px-4 h-14 border-b border-slate-800/50 bg-[#111111] flex-shrink-0">
+      <style>{`
+        @keyframes portal-fade-in {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: portal-fade-in 0.4s ease-out;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-fade-in { animation: none; }
+        }
+      `}</style>
+      <div className="h-screen flex flex-col" style={{ background: COLOR_BG, fontFamily: FONT_BODY }}>
+        <header className="flex items-center justify-between px-5 h-14 flex-shrink-0" style={{ borderBottom: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
           <div className="flex items-center gap-3">
-            <img src="/archivist-icon.png" alt="The Archivist" className="w-8 h-8 rounded-full" />
             <div>
-              <h1 className="text-sm font-bold text-white leading-none">Pattern Archive</h1>
-              <p className="text-[10px] text-slate-500">The Archivist Method</p>
+              <h1 className="text-sm leading-none" style={{ color: COLOR_TEXT }}>
+                <span style={{ fontFamily: FONT_PLAYFAIR, fontWeight: 700 }}>Pattern Archive</span>
+                <span className="mx-2" style={{ color: COLOR_MUTED }}>/</span>
+                <span className="text-xs" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>The Archivist Method</span>
+              </h1>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-500 hidden sm:block" data-testid="text-header-email">{userData.email}</span>
+            <span className="text-xs hidden sm:block" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }} data-testid="text-header-email">{userData.email}</span>
             <button 
               onClick={() => setActiveContent("settings")} 
-              className="p-2 text-slate-500 hover:text-white transition-colors"
+              className="p-2 transition-colors cursor-pointer"
+              style={{ color: COLOR_MUTED }}
               data-testid="button-header-settings"
             >
               <Settings className="w-4 h-4" />
             </button>
             <button 
               onClick={handleLogout} 
-              className="p-2 text-slate-500 hover:text-white transition-colors"
+              className="p-2 transition-colors cursor-pointer"
+              style={{ color: COLOR_MUTED }}
               data-testid="button-header-logout"
             >
               <LogOut className="w-4 h-4" />
@@ -960,7 +882,6 @@ export default function PortalDashboard() {
           </div>
         </header>
 
-        {/* Desktop Layout - Two Panel */}
         <div className="hidden md:flex flex-1 overflow-hidden">
           <div className="w-[300px] flex-shrink-0 overflow-hidden">
             <LeftPanel />
@@ -970,14 +891,11 @@ export default function PortalDashboard() {
           </div>
         </div>
 
-        {/* Mobile Layout - Tabs */}
         <div className="flex md:hidden flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-hidden">
             {activeTab === "content" ? (
               activeContent ? (
-                <div className="h-full overflow-y-auto">
-                  <ContentView />
-                </div>
+                <div className="h-full overflow-y-auto"><ContentView /></div>
               ) : (
                 <LeftPanel />
               )
@@ -986,13 +904,11 @@ export default function PortalDashboard() {
             )}
           </div>
           
-          {/* Mobile Tab Bar */}
-          <div className="flex border-t border-slate-800/50 bg-[#111111] flex-shrink-0">
+          <div className="flex flex-shrink-0" style={{ borderTop: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
             <button
               onClick={() => { setActiveTab("content"); setActiveContent(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${
-                activeTab === "content" ? "text-teal-400 border-t-2 border-teal-400" : "text-slate-500"
-              }`}
+              className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors cursor-pointer"
+              style={{ color: activeTab === "content" ? COLOR_TEAL : COLOR_MUTED, borderTop: activeTab === "content" ? `2px solid ${COLOR_TEAL}` : "2px solid transparent" }}
               data-testid="tab-content"
             >
               <FolderOpen className="w-4 h-4" />
@@ -1000,9 +916,8 @@ export default function PortalDashboard() {
             </button>
             <button
               onClick={() => setActiveTab("chat")}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${
-                activeTab === "chat" ? "text-teal-400 border-t-2 border-teal-400" : "text-slate-500"
-              }`}
+              className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors cursor-pointer"
+              style={{ color: activeTab === "chat" ? COLOR_TEAL : COLOR_MUTED, borderTop: activeTab === "chat" ? `2px solid ${COLOR_TEAL}` : "2px solid transparent" }}
               data-testid="tab-archivist"
             >
               <MessageCircle className="w-4 h-4" />
@@ -1012,7 +927,6 @@ export default function PortalDashboard() {
         </div>
       </div>
 
-      {/* Locked Product Modal */}
       {lockedModal && (
         <LockedModal 
           product={lockedModal} 
