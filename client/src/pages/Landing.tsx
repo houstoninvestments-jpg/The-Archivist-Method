@@ -684,40 +684,37 @@ export default function Landing() {
               FIELD NOTES
             </p>
             <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-founder-headline">
-              About The Archivist
+              About The Founder
             </h2>
           </div>
 
           <div className="reveal reveal-delay-2 space-y-6 text-base leading-relaxed" style={{ color: "#A3A3A3" }}>
             <p>
-              I've been an entrepreneur since I was 11 years old.
-              I've raised 8 kids. Started businesses. Failed at most of them.
-              Worked 19 years behind a bar — not because it was my identity,
-              but because it gave me the flexibility to chase what mattered.
+              I built this because I was watching patterns<br />
+              destroy something I cared about deeply.<br />
+              Someone I love was running the same loops I was —<br />
+              and neither of us knew how to stop.<br />
+              We could see it happening. We could name it.<br />
+              We just couldn't interrupt it.
             </p>
             <p>
-              What I didn't expect was that the bar would become a laboratory.
+              So I started researching. Obsessively.<br />
+              Tearing apart every framework I could find.<br />
+              Looking for the one thing underneath all of it<br />
+              that actually worked.<br />
+              Not in six months. Not in theory. Right now.<br />
+              In the middle of the fight. In the middle of the flood.
             </p>
             <p>
-              Thousands of people. Thousands of patterns. Same loops, different faces.
-              The person who blows up every relationship three months in.
-              The one who apologizes for breathing.
-              The one who destroys everything right before it works.
+              This method is what I found.<br />
+              I built it for us. I'm sharing it because<br />
+              I know we're not the only ones.
             </p>
-            <p style={{ color: "#F5F5F5" }}>
-              Then I realized: I was running them too. All of them.
-            </p>
-            <p>
-              So I stopped trying to understand why.<br />
-              I started learning to interrupt.
-            </p>
-            <p>
-              The Archivist Method is what came out of that.
-              Not theory. Not textbook psychology.
-              Field research — performed while running the patterns it documents.
+            <p className="italic" style={{ color: "#F5F5F5" }}>
+              For her.
             </p>
             <p className="italic" style={{ color: "#737373" }}>
-              — The Archivist
+              — Aaron
             </p>
           </div>
         </div>
