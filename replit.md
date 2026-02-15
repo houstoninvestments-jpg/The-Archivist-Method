@@ -38,9 +38,11 @@ Preferred communication style: Simple, everyday language.
 | Route | Page | Purpose |
 |-------|------|---------|
 | / | Landing.tsx | Main landing page |
-| /quiz | Quiz.tsx | 10-question Pattern Identification Quiz |
+| /quiz | Quiz.tsx | 15-question Pattern Identification Quiz |
 | /results | QuizResult.tsx | Pattern-specific result page with email capture |
 | /portal | PortalDashboard.tsx | Members portal (auth required) |
+| /vault/workbench | VaultWorkbench.tsx | Vault Workbench - activation tracking (auth required) |
+| /vault/archive | VaultArchive.tsx | Vault Archive - artifact library (auth required) |
 | /admin | AdminLogin.tsx | Admin login |
 | /admin/dashboard | AdminDashboard.tsx | Admin dashboard |
 | /terms | Terms.tsx | Terms of service |
