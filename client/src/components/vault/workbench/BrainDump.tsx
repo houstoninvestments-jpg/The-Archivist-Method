@@ -6,7 +6,7 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Archive, Zap } from 'lucide-react';
-import { patterns } from '../../../data/patterns';
+import { patterns } from '@/data/patterns';
 import type { BrainDumpProps, PatternId } from '@/types/vault';
 
 type DumpPhase = 'writing' | 'captured' | 'stored';
@@ -73,7 +73,7 @@ export const BrainDump: React.FC<BrainDumpProps> = ({
       const detected = analyzeForPattern(content);
       setSuggestedPattern(detected);
 
-      const { supabase } = await import('../../../lib/supabase');
+      const { supabase } = await import('@/lib/supabase');
       const patternNumber = detected
         ? patterns.find((p) => p.id === detected)?.number ?? null
         : null;

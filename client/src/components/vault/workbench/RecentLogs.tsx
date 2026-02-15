@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Clock } from 'lucide-react';
-import { patterns, patternNumberToId } from '../../../data/patterns';
+import { patterns, patternNumberToId } from '@/data/patterns';
 import type { ActivationLog } from '@/types/vault';
 
 interface RecentLogsProps {
@@ -50,7 +50,7 @@ export const RecentLogs: React.FC<RecentLogsProps> = ({ userId, limit = 10 }) =>
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const { supabase } = await import('../../../lib/supabase');
+        const { supabase } = await import('@/lib/supabase');
         const { data, error } = await supabase
           .from('activation_logs')
           .select('*')

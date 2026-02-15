@@ -7,8 +7,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lightbulb, RefreshCw } from 'lucide-react';
-import { patternNumberToId } from '../../../data/patterns';
-import { patterns } from '../../../data/patterns';
+import { patternNumberToId } from '@/data/patterns';
+import { patterns } from '@/data/patterns';
 
 interface WorkbenchInsightsProps {
   userId: string;
@@ -111,7 +111,7 @@ export const WorkbenchInsights: React.FC<WorkbenchInsightsProps> = ({ userId }) 
 
   const fetchAndGenerate = async () => {
     try {
-      const { supabase } = await import('../../../lib/supabase');
+      const { supabase } = await import('@/lib/supabase');
       const { data, error } = await supabase
         .from('activation_logs')
         .select('pattern_id, intensity, interrupted, timestamp')

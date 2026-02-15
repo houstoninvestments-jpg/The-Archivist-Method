@@ -41,7 +41,7 @@ export const WorkbenchStats: React.FC<WorkbenchStatsProps> = ({ userId }) => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { supabase } = await import('../../../lib/supabase');
+        const { supabase } = await import('@/lib/supabase');
         const now = new Date();
         const startOfWeek = new Date(now);
         startOfWeek.setDate(now.getDate() - now.getDay());

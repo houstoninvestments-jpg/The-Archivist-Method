@@ -135,7 +135,7 @@ export const ArchiveHome: React.FC<ArchiveHomeProps> = ({
 
       // Log activity
       try {
-        const { supabase } = await import('../../../lib/supabase');
+        const { supabase } = await import('@/lib/supabase');
         await supabase.from('user_activity').insert({
           user_id: userId,
           artifact_id: artifactId,

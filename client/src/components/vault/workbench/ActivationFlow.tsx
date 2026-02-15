@@ -7,8 +7,8 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, Check, AlertTriangle } from 'lucide-react';
-import { patterns } from '../../../data/patterns';
-import { interruptScripts } from '../../../data/interrupts';
+import { patterns } from '@/data/patterns';
+import { interruptScripts } from '@/data/interrupts';
 import type { ActivationFlowProps, ActivationStep, PatternId } from '@/types/vault';
 
 const STEPS: ActivationStep[] = ['pattern-select', 'intensity', 'context', 'interrupt'];
@@ -73,7 +73,7 @@ export const ActivationFlow: React.FC<ActivationFlowProps> = ({
 
     try {
       // Log to Supabase
-      const { supabase } = await import('../../../lib/supabase');
+      const { supabase } = await import('@/lib/supabase');
       const patternNumber = patterns.find((p) => p.id === selectedPattern)?.number ?? 0;
 
       await supabase.from('activation_logs').insert({

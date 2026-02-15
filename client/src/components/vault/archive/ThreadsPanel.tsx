@@ -6,7 +6,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { GitBranch, FileText, ArrowRight } from 'lucide-react';
-import threadsData from '../../../data/threads.json';
+import threadsData from '@/data/threads.json';
 
 interface ThreadsPanelProps {
   currentArtifactId: string;

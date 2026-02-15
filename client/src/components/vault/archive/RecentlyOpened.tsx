@@ -58,7 +58,7 @@ export const RecentlyOpened: React.FC<RecentlyOpenedProps> = ({ userId, onOpenAr
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const { supabase } = await import('../../../lib/supabase');
+        const { supabase } = await import('@/lib/supabase');
 
         // Get the most recent 'opened' actions, deduplicated by artifact
         const { data, error } = await supabase
