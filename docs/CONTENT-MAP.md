@@ -149,6 +149,9 @@ All 9 pattern definitions: id, number, name, shortName, description, bodySignal,
 ### `src/data/interrupts.ts`
 Full interrupt scripts for all 9 patterns: circuitBreak (full script), shortCircuitBreak, nextTenMinutes (action items), bodySignal (detailed), gapDescription.
 
+### `src/data/threads.json`
+Concept linking and navigation data for the Archive wing's ThreadsPanel.
+
 ### `src/types/vault.ts`
 TypeScript type definitions for all Vault entities: Pattern, InterruptScript, ActivationLog, BrainDumpRecord, UserActivity, UserStreak, Artifact, ThreadLink, SearchResult.
 
