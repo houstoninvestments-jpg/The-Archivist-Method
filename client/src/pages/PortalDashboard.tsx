@@ -4,7 +4,8 @@ import {
   Download, BookOpen, MessageCircle, Lock, Loader2, 
   Settings, LogOut, FileText, Send, 
   Check, Target, Layers, Flame, 
-  FolderOpen, ChevronRight, ArrowRight
+  FolderOpen, ChevronRight, ArrowRight,
+  Zap, PenLine
 } from 'lucide-react';
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
 
@@ -128,6 +129,15 @@ function getTierLabel(hasQuickStart: boolean, hasCompleteArchive: boolean): stri
   return "CRASH COURSE";
 }
 
+function Tooltip({ text, children }: { text: string; children: React.ReactNode }) {
+  return (
+    <span className="portal-tooltip-trigger">
+      {children}
+      <span className="portal-tooltip">{text}</span>
+    </span>
+  );
+}
+
 function LockedModal({ 
   product, 
   onClose, 
@@ -249,9 +259,9 @@ export default function PortalDashboard() {
           fetch("/api/portal/user-pattern", { credentials: "include" }),
           fetch("/api/portal/streak", { credentials: "include" }),
         ]);
+
         if (!userRes.ok) { setLocation("/quiz"); return; }
-        const user = await userRes.json();
-        setUserData(user);
+        setUserData(await userRes.json());
         if (patternRes.ok) setPatternData(await patternRes.json());
         if (streakRes.ok) setStreakData(await streakRes.json());
       } catch { setLocation("/quiz"); }
@@ -261,68 +271,56 @@ export default function PortalDashboard() {
   }, [setLocation]);
 
   useEffect(() => {
-    if (!userData || chatHistoryLoaded) return;
-    const loadChat = async () => {
+    if (chatHistoryLoaded) return;
+    const loadHistory = async () => {
       try {
         const res = await fetch("/api/portal/chat/history", { credentials: "include" });
         if (res.ok) {
-          const history = await res.json();
-          setChatMessages(history.map((h: any) => ({ role: h.role, message: h.message })));
+          const data = await res.json();
+          setChatMessages(data.messages || []);
         }
       } catch {}
       setChatHistoryLoaded(true);
     };
-    loadChat();
-  }, [userData, chatHistoryLoaded]);
+    loadHistory();
+  }, [chatHistoryLoaded]);
 
   const handleLogout = async () => {
-    document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setLocation("/");
-  };
-
-  const handleCheckout = async (productId: string) => {
     try {
-      const res = await fetch(`/api/portal/checkout/${productId}`, { method: "POST", credentials: "include" });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch { console.error("Checkout failed"); }
+      await fetch("/api/portal/logout", { method: "POST", credentials: "include" });
+    } catch {}
+    setLocation("/quiz");
   };
 
   const handleInterrupt = async () => {
     if (streakData.checkedToday || interruptLoading) return;
     setInterruptLoading(true);
     try {
-      const res = await fetch("/api/portal/interrupt", { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" } });
-      if (res.ok) {
-        const streakRes = await fetch("/api/portal/streak", { credentials: "include" });
-        if (streakRes.ok) setStreakData(await streakRes.json());
-      }
+      await fetch("/api/portal/streak/check-in", { method: "POST", credentials: "include" });
+      const streakRes = await fetch("/api/portal/streak", { credentials: "include" });
+      if (streakRes.ok) setStreakData(await streakRes.json());
     } catch {}
     setInterruptLoading(false);
   };
 
   const handleSendMessage = async (text: string) => {
     if (!text.trim() || chatLoading) return;
-    const userMsg: ChatMessage = { role: "user", message: text };
-    setChatMessages(prev => [...prev, userMsg]);
     setChatInput("");
+    setChatMessages((prev) => [...prev, { role: "user", message: text }]);
     setChatLoading(true);
     try {
       const tier = userData?.hasCompleteArchive ? "archive" : userData?.hasQuickStart ? "quick-start" : "free";
       const res = await fetch("/api/portal/chat", {
-        method: "POST", credentials: "include",
+        method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, pattern: patternData.pattern, tier, streak: streakData.streakCount }),
       });
       if (res.ok) {
         const data = await res.json();
-        setChatMessages(prev => [...prev, { role: "assistant", message: data.message }]);
-      } else {
-        setChatMessages(prev => [...prev, { role: "assistant", message: "Connection disrupted. Try again." }]);
+        setChatMessages((prev) => [...prev, { role: "assistant", message: data.message }]);
       }
-    } catch {
-      setChatMessages(prev => [...prev, { role: "assistant", message: "Connection error. Try again." }]);
-    }
+    } catch {}
     setChatLoading(false);
   };
 
@@ -330,10 +328,21 @@ export default function PortalDashboard() {
     window.open(`/api/portal/download/${productId}`, '_blank');
   };
 
+  const handleCheckout = async (productId: string) => {
+    try {
+      const endpoint = productId === "quick-start" ? "/api/portal/checkout/quick-start" : "/api/portal/checkout/complete-archive";
+      const res = await fetch(endpoint, { method: "POST", credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.url) window.location.href = data.url;
+      }
+    } catch {}
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: COLOR_BG }}>
-        <Loader2 className="w-8 h-8 animate-spin" style={{ color: COLOR_TEAL }} />
+      <div className="h-screen flex items-center justify-center" style={{ background: COLOR_BG }}>
+        <Loader2 className="w-6 h-6 animate-spin" style={{ color: COLOR_TEAL }} />
       </div>
     );
   }
@@ -376,26 +385,76 @@ export default function PortalDashboard() {
     </p>
   );
 
-  const NavButton = ({ active, locked, onClick, icon: Icon, label, testId, external }: {
+  const NavButton = ({ active, locked, onClick, icon: Icon, label, testId, external, tooltipText }: {
     active?: boolean; locked?: boolean; onClick: () => void;
-    icon: any; label: string; testId: string; external?: boolean;
-  }) => (
-    <button
-      onClick={onClick}
-      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors"
-      style={{
-        fontFamily: FONT_BODY,
-        color: active ? COLOR_TEAL : "#A3A3A3",
-        background: active ? "rgba(20,184,166,0.08)" : "transparent",
-        borderLeft: active ? `2px solid ${COLOR_TEAL}` : "2px solid transparent",
-      }}
-      data-testid={testId}
-    >
-      <Icon className="w-4 h-4 flex-shrink-0" style={{ color: active ? COLOR_TEAL : COLOR_MUTED }} />
-      <span className="text-sm flex-1">{label}</span>
-      {locked && <Lock className="w-3.5 h-3.5" style={{ color: "rgba(115,115,115,0.5)" }} />}
-      {external && <ArrowRight className="w-3.5 h-3.5" style={{ color: COLOR_MUTED }} />}
-    </button>
+    icon: any; label: string; testId: string; external?: boolean; tooltipText?: string;
+  }) => {
+    const btn = (
+      <button
+        onClick={onClick}
+        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors"
+        style={{
+          fontFamily: FONT_BODY,
+          color: active ? COLOR_TEAL : "#A3A3A3",
+          background: active ? "rgba(20,184,166,0.08)" : "transparent",
+          borderLeft: active ? `2px solid ${COLOR_TEAL}` : "2px solid transparent",
+        }}
+        data-testid={testId}
+      >
+        <Icon className="w-4 h-4 flex-shrink-0" style={{ color: active ? COLOR_TEAL : COLOR_MUTED }} />
+        <span className="text-sm flex-1">{label}</span>
+        {locked && <Lock className="w-3.5 h-3.5" style={{ color: "rgba(115,115,115,0.5)" }} />}
+        {external && <ArrowRight className="w-3.5 h-3.5" style={{ color: COLOR_MUTED }} />}
+      </button>
+    );
+
+    if (tooltipText) {
+      return <Tooltip text={tooltipText}>{btn}</Tooltip>;
+    }
+    return btn;
+  };
+
+  const EmergencyInterruptCards = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <a
+        href="/vault/workbench"
+        className="block p-6 rounded-md transition-all group"
+        style={{
+          background: "rgba(20,184,166,0.04)",
+          border: `2px solid ${COLOR_TEAL}`,
+        }}
+        data-testid="card-im-activated"
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ background: "rgba(20,184,166,0.15)" }}>
+            <Zap className="w-5 h-5" style={{ color: COLOR_TEAL }} />
+          </div>
+          <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>I'm Activated</h3>
+        </div>
+        <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>
+          Pattern running right now? Start your interrupt here.
+        </p>
+      </a>
+      <a
+        href="/vault/workbench#braindump"
+        className="block p-6 rounded-md transition-all group"
+        style={{
+          background: "rgba(236,72,153,0.04)",
+          border: `2px solid ${COLOR_PINK}`,
+        }}
+        data-testid="card-brain-dump"
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ background: "rgba(236,72,153,0.15)" }}>
+            <PenLine className="w-5 h-5" style={{ color: COLOR_PINK }} />
+          </div>
+          <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Brain Dump</h3>
+        </div>
+        <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>
+          Get it out of your head. No filter. No judgment.
+        </p>
+      </a>
+    </div>
   );
 
   const LeftPanel = () => (
@@ -425,18 +484,45 @@ export default function PortalDashboard() {
 
       <div className="flex-1 overflow-y-auto p-3 space-y-1">
         <NavButton active={activeContent === "crash-course"} onClick={() => setActiveContent("crash-course")} icon={FolderOpen} label="The Crash Course" testId="nav-crash-course" />
-        <NavButton active={activeContent === "field-guide"} locked={!hasQuickStart && !hasCompleteArchive} onClick={() => hasQuickStart || hasCompleteArchive ? setActiveContent("field-guide") : setLockedModal("quick-start")} icon={FolderOpen} label="The Field Guide" testId="nav-field-guide" />
-        <NavButton active={activeContent === "complete-archive"} locked={!hasCompleteArchive} onClick={() => hasCompleteArchive ? setActiveContent("complete-archive") : setLockedModal("complete-archive")} icon={FolderOpen} label="The Complete Archive" testId="nav-complete-archive" />
+        <NavButton
+          active={activeContent === "field-guide"}
+          locked={!hasQuickStart && !hasCompleteArchive}
+          onClick={() => hasQuickStart || hasCompleteArchive ? setActiveContent("field-guide") : setLockedModal("quick-start")}
+          icon={FolderOpen}
+          label="The Field Guide"
+          testId="nav-field-guide"
+          tooltipText={!hasQuickStart && !hasCompleteArchive ? "Your pattern-specific deep dive. Includes body signature mapping, interrupt scripts, and relationship analysis. $47 one-time." : undefined}
+        />
+        <NavButton
+          active={activeContent === "complete-archive"}
+          locked={!hasCompleteArchive}
+          onClick={() => hasCompleteArchive ? setActiveContent("complete-archive") : setLockedModal("complete-archive")}
+          icon={FolderOpen}
+          label="The Complete Archive"
+          testId="nav-complete-archive"
+          tooltipText={!hasCompleteArchive ? "All 9 patterns fully documented. The entire system. $197 one-time." : undefined}
+        />
         <NavButton active={activeContent === "all-patterns"} onClick={() => setActiveContent("all-patterns")} icon={Layers} label="All 9 Patterns" testId="nav-all-patterns" />
 
         <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
           <SidebarLabel>THE VAULT</SidebarLabel>
           <a href="/vault/workbench" className="block" data-testid="nav-workbench">
-            <NavButton onClick={() => {}} icon={Target} label="The Workbench" testId="nav-workbench-btn" external />
+            <NavButton onClick={() => {}} icon={Target} label="The Workbench" testId="nav-workbench-btn" external tooltipText="Your real-time pattern interruption toolkit. Use when a pattern is activating." />
           </a>
           <a href="/vault/archive" className="block" data-testid="nav-archive">
-            <NavButton onClick={() => {}} icon={FolderOpen} label="The Archive" testId="nav-archive-btn" external />
+            <NavButton onClick={() => {}} icon={FolderOpen} label="The Archive" testId="nav-archive-btn" external tooltipText="Your complete pattern library. Browse all content, research, and protocols." />
           </a>
+        </div>
+
+        <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
+          <SidebarLabel>AI ASSISTANT</SidebarLabel>
+          <NavButton
+            active={activeContent === "chat"}
+            onClick={() => setActiveContent("chat")}
+            icon={MessageCircle}
+            label="Talk to The Archivist"
+            testId="nav-talk-archivist"
+          />
         </div>
 
         <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
@@ -462,12 +548,14 @@ export default function PortalDashboard() {
           </button>
           
           {streakData.streakCount > 0 && (
-            <div className="flex items-center gap-2 px-3 mt-2" data-testid="text-streak">
-              <Flame className="w-4 h-4" style={{ color: COLOR_TEAL }} />
-              <span className="text-sm font-bold" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>
-                {streakData.streakCount} day streak
-              </span>
-            </div>
+            <Tooltip text="How many consecutive days you've logged an interrupt. Keep it going.">
+              <div className="flex items-center gap-2 px-3 mt-2" data-testid="text-streak">
+                <Flame className="w-4 h-4" style={{ color: COLOR_TEAL }} />
+                <span className="text-sm font-bold" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>
+                  {streakData.streakCount} day streak
+                </span>
+              </div>
+            </Tooltip>
           )}
         </div>
 
@@ -479,7 +567,7 @@ export default function PortalDashboard() {
     </div>
   );
 
-  const RightPanel = () => (
+  const ChatPanel = () => (
     <div className="flex flex-col h-full" style={{ background: COLOR_BG }}>
       <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
         <div className="flex items-center gap-3">
@@ -575,11 +663,9 @@ export default function PortalDashboard() {
   );
 
   const ContentView = () => {
-    if (!activeContent) return <RightPanel />;
-
     const BackLink = () => (
-      <button onClick={() => setActiveContent(null)} className="text-xs transition-colors cursor-pointer" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }} data-testid="button-back-to-chat">
-        Back to Chat
+      <button onClick={() => setActiveContent(null)} className="text-xs transition-colors cursor-pointer" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }} data-testid="button-back-to-home">
+        Back
       </button>
     );
 
@@ -637,11 +723,15 @@ export default function PortalDashboard() {
                     <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].origin}</p>
                   </div>
                   <div>
-                    <SectionLabel>Body Signature</SectionLabel>
+                    <Tooltip text="The physical sensation your body produces 3-7 seconds before a pattern runs. Learning yours is how you catch it.">
+                      <SectionLabel>Body Signature</SectionLabel>
+                    </Tooltip>
                     <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].bodySignature}</p>
                   </div>
                   <div>
-                    <SectionLabel>The Interrupt</SectionLabel>
+                    <Tooltip text="The moment you catch the pattern and choose not to let it finish running.">
+                      <SectionLabel>The Interrupt</SectionLabel>
+                    </Tooltip>
                     <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].interrupt}</p>
                   </div>
                 </div>
@@ -824,8 +914,11 @@ export default function PortalDashboard() {
             </div>
           );
 
+        case "chat":
+          return null;
+
         default:
-          return <RightPanel />;
+          return null;
       }
     };
 
@@ -834,6 +927,76 @@ export default function PortalDashboard() {
         {renderContent()}
       </div>
     );
+  };
+
+  const HomeView = () => (
+    <div className="flex flex-col h-full overflow-y-auto" style={{ background: COLOR_BG }}>
+      <div className="p-6 space-y-6 animate-fade-in">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] mb-2" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>EMERGENCY INTERRUPT</p>
+          <EmergencyInterruptCards />
+        </div>
+
+        {pattern && patternDetails[pattern] && (
+          <div className="p-6 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
+              <button
+                onClick={() => setActiveContent("crash-course")}
+                className="text-xs transition-colors cursor-pointer flex items-center gap-1"
+                style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}
+                data-testid="link-view-crash-course"
+              >
+                View Crash Course <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <Tooltip text="The physical sensation your body produces 3-7 seconds before a pattern runs. Learning yours is how you catch it.">
+                  <p className="text-[10px] uppercase tracking-[0.15em] font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>Body Signature</p>
+                </Tooltip>
+                <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].bodySignature}</p>
+              </div>
+              <div>
+                <Tooltip text="A specific statement you say out loud or internally to interrupt a pattern mid-activation.">
+                  <p className="text-[10px] uppercase tracking-[0.15em] font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>Circuit Break</p>
+                </Tooltip>
+                <p className="text-sm italic" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{patternDetails[pattern].interrupt}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <button
+            onClick={() => setActiveContent("crash-course")}
+            className="p-5 rounded-md text-left transition-all cursor-pointer"
+            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}
+            data-testid="card-crash-course-home"
+          >
+            <FolderOpen className="w-5 h-5 mb-2" style={{ color: COLOR_TEAL }} />
+            <h4 className="text-sm font-bold mb-1" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>The Crash Course</h4>
+            <p className="text-xs" style={{ color: COLOR_MUTED }}>Your 7-day protocol</p>
+          </button>
+          <button
+            onClick={() => setActiveContent("chat")}
+            className="p-5 rounded-md text-left transition-all cursor-pointer"
+            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}
+            data-testid="card-chat-home"
+          >
+            <MessageCircle className="w-5 h-5 mb-2" style={{ color: COLOR_TEAL }} />
+            <h4 className="text-sm font-bold mb-1" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>Talk to The Archivist</h4>
+            <p className="text-xs" style={{ color: COLOR_MUTED }}>AI pattern recognition assistant</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const resolveMainContent = () => {
+    if (activeContent === "chat") return <ChatPanel />;
+    if (activeContent && activeContent !== "chat") return <ContentView />;
+    return <HomeView />;
   };
 
   return (
@@ -848,6 +1011,39 @@ export default function PortalDashboard() {
         }
         @media (prefers-reduced-motion: reduce) {
           .animate-fade-in { animation: none; }
+        }
+
+        .portal-tooltip-trigger {
+          position: relative;
+          display: inline-block;
+        }
+        .portal-tooltip {
+          visibility: hidden;
+          opacity: 0;
+          position: absolute;
+          left: 50%;
+          bottom: calc(100% + 8px);
+          transform: translateX(-50%);
+          z-index: 50;
+          max-width: 250px;
+          min-width: 180px;
+          padding: 10px 12px;
+          border-radius: 4px;
+          background: #1a1a1a;
+          border-left: 3px solid ${COLOR_TEAL};
+          color: ${COLOR_TEXT};
+          font-family: ${FONT_BODY};
+          font-size: 13px;
+          line-height: 1.5;
+          white-space: normal;
+          pointer-events: none;
+          transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+          transition-delay: 0.3s;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .portal-tooltip-trigger:hover .portal-tooltip {
+          visibility: visible;
+          opacity: 1;
         }
       `}</style>
       <div className="h-screen flex flex-col" style={{ background: COLOR_BG, fontFamily: FONT_BODY }}>
@@ -887,7 +1083,7 @@ export default function PortalDashboard() {
             <LeftPanel />
           </div>
           <div className="flex-1 overflow-hidden">
-            {activeContent ? <ContentView /> : <RightPanel />}
+            {resolveMainContent()}
           </div>
         </div>
 
@@ -895,12 +1091,24 @@ export default function PortalDashboard() {
           <div className="flex-1 overflow-hidden">
             {activeTab === "content" ? (
               activeContent ? (
-                <div className="h-full overflow-y-auto"><ContentView /></div>
+                activeContent === "chat" ? (
+                  <ChatPanel />
+                ) : (
+                  <div className="h-full overflow-y-auto"><ContentView /></div>
+                )
               ) : (
-                <LeftPanel />
+                <div className="h-full overflow-y-auto">
+                  <div className="p-4">
+                    <div className="mb-4">
+                      <p className="text-xs uppercase tracking-[0.2em] mb-2" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>EMERGENCY INTERRUPT</p>
+                      <EmergencyInterruptCards />
+                    </div>
+                  </div>
+                  <LeftPanel />
+                </div>
               )
             ) : (
-              <RightPanel />
+              <ChatPanel />
             )}
           </div>
           

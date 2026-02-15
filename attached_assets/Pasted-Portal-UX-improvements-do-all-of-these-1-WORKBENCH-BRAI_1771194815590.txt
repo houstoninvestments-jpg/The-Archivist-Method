@@ -1,0 +1,39 @@
+Portal UX improvements — do all of these:
+
+1. WORKBENCH & BRAIN DUMP PROMINENCE:
+- Add a prominent "Emergency Interrupt" section at the TOP of the main portal content area, above the Crash Course content
+- This section should have two large cards side by side:
+  - "I'm Activated" card: teal border, large button that links to /vault/workbench. Icon: lightning bolt. Subtitle: "Pattern running right now? Start your interrupt here."
+  - "Brain Dump" card: pink border, large button that links to /vault/workbench#braindump. Icon: pen/notepad. Subtitle: "Get it out of your head. No filter. No judgment."
+- These cards should be visually prominent — bigger than the content cards below them. They're the most important action a user can take.
+
+2. HOVER TOOLTIPS — Add subtle tooltip explanations on hover for these elements:
+- "Body Signature" → "The physical sensation your body produces 3-7 seconds before a pattern runs. Learning yours is how you catch it."
+- "Circuit Break" → "A specific statement you say out loud or internally to interrupt a pattern mid-activation."
+- "The Interrupt" → "The moment you catch the pattern and choose not to let it finish running."
+- "Field Guide" (locked) → "Your pattern-specific deep dive. Includes body signature mapping, interrupt scripts, and relationship analysis. $47 one-time."
+- "Complete Archive" (locked) → "All 9 patterns fully documented. The entire system. $197 one-time."
+- "The Workbench" → "Your real-time pattern interruption toolkit. Use when a pattern is activating."
+- "The Archive" → "Your complete pattern library. Browse all content, research, and protocols."
+- "Streak" → "How many consecutive days you've logged an interrupt. Keep it going."
+- Style tooltips: dark background (#1a1a1a), white text, teal left border, small text (Source Sans 3, 13px), max-width 250px, fade in on hover, slight delay (0.3s)
+
+3. LINK & BUTTON AUDIT — Make sure all of these work correctly:
+- "The Crash Course" sidebar link → shows crash course content in main area
+- "The Field Guide" sidebar link → if not purchased, show upgrade prompt with link to Stripe checkout. If purchased, show field guide content.
+- "The Complete Archive" sidebar link → same logic, link to Stripe checkout or show content
+- "All 9 Patterns" sidebar link → shows pattern overview grid
+- "The Workbench" sidebar link → navigates to /vault/workbench
+- "The Archive" sidebar link → navigates to /vault/archive
+- "I interrupted my pattern" checkbox → logs an interrupt, updates streak count
+- "Download PDF" button → downloads the correct PDF for the user's identified pattern
+- "Back to Chat" link → navigates to the AI chatbot view
+- "My Downloads" sidebar link → shows all available downloads for user's purchase level
+- "Settings" sidebar link → shows account settings
+
+4. BACK TO CHAT BUTTON:
+- Rename "Back to Chat" to "Talk to The Archivist"
+- Move it into the sidebar under a new section called "AI ASSISTANT" (JetBrains Mono, muted, uppercase)
+- Icon: message bubble
+
+Keep all existing functionality and auth logic. Don't break any routes or data flow.
