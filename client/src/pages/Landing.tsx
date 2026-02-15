@@ -72,6 +72,10 @@ function handleCheckout(product: string) {
     .catch(() => {});
 }
 
+function ThreadWord({ children }: { children: string }) {
+  return <span className="thread-word">{children}</span>;
+}
+
 export default function Landing() {
   const sectionRefs = {
     gutCheck: useScrollReveal(),
@@ -85,8 +89,64 @@ export default function Landing() {
     finalCta: useScrollReveal(),
   };
 
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+        document.documentElement.style.setProperty("--scroll-progress", String(progress));
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const nodeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("thread-node-visible");
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    const wordObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("thread-word-visible");
+            wordObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
+
+    const page = pageRef.current;
+    if (page) {
+      page.querySelectorAll(".thread-node").forEach((el) => nodeObserver.observe(el));
+      page.querySelectorAll(".thread-word").forEach((el) => wordObserver.observe(el));
+    }
+
+    return () => {
+      nodeObserver.disconnect();
+      wordObserver.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
+    <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
       <Suspense fallback={null}>
         <ParticleField />
       </Suspense>
@@ -125,18 +185,113 @@ export default function Landing() {
         .interrupt-pulse {
           animation: pulse-subtle 2s ease-in-out infinite;
         }
+
+        /* ================================
+           THREAD SYSTEM
+           ================================ */
+
+        /* Vertical thread line */
+        .thread-page::before {
+          content: '';
+          position: fixed;
+          left: 60px;
+          top: 0;
+          width: 2px;
+          height: 100vh;
+          background: #14B8A6;
+          box-shadow: 0 0 8px rgba(20, 184, 166, 0.3);
+          transform-origin: top;
+          transform: scaleY(var(--scroll-progress, 0));
+          opacity: clamp(0, calc((var(--scroll-progress, 0) - 0.05) * 6.67), 1);
+          z-index: 40;
+          pointer-events: none;
+          transition: none;
+        }
+
+        /* Fade out thread in last 10% */
+        @supports (opacity: 1) {
+          .thread-page::before {
+            opacity: calc(
+              clamp(0, (var(--scroll-progress, 0) - 0.05) * 6.67, 1) *
+              clamp(0, (1 - var(--scroll-progress, 0)) * 10, 1)
+            );
+          }
+        }
+
+        /* Thread nodes */
+        .thread-node {
+          position: absolute;
+          left: 60px;
+          top: 0;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 2px solid #14B8A6;
+          background: #0A0A0A;
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+          transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+          z-index: 41;
+          pointer-events: none;
+        }
+
+        .thread-node.thread-node-visible {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+          animation: thread-node-pulse 2s ease-out infinite 0.4s;
+        }
+
+        @keyframes thread-node-pulse {
+          0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
+          100% { box-shadow: 0 0 0 8px rgba(20, 184, 166, 0); }
+        }
+
+        /* Thread word underlines */
+        .thread-word {
+          position: relative;
+          display: inline;
+        }
+
+        .thread-word::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          height: 2px;
+          width: 0%;
+          background: #14B8A6;
+          box-shadow: 0 1px 6px rgba(20, 184, 166, 0.3);
+          transition: width 0.6s ease-out;
+        }
+
+        .thread-word.thread-word-visible::after {
+          width: 100%;
+        }
+
+        /* Mobile: hide thread line and nodes */
         @media (max-width: 768px) {
+          .thread-page::before {
+            display: none !important;
+          }
+          .thread-node {
+            display: none !important;
+          }
           .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
         }
+
         @media (prefers-reduced-motion: reduce) {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .ticker-track { animation: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
+          .thread-page::before { transition: none !important; }
+          .thread-node { transition: none !important; animation: none !important; }
+          .thread-word::after { transition: none !important; }
+          .thread-node.thread-node-visible { animation: none !important; }
         }
       `}</style>
 
       {/* SECTION 1: HERO */}
-      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
+      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero" style={{ position: "relative" }}>
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="text-xs tracking-[0.35em] uppercase mb-12"
@@ -160,7 +315,7 @@ export default function Landing() {
           </p>
 
           <p className="text-lg mb-12 tracking-wide" style={{ color: "#14B8A6", letterSpacing: "0.05em" }}>
-            This method teaches you to interrupt it.
+            This method teaches you to <ThreadWord>interrupt it</ThreadWord>.
           </p>
 
           <CTAButton text="DISCOVER YOUR PATTERN" />
@@ -169,10 +324,12 @@ export default function Landing() {
             Free  ·  2 Minutes  ·  Instant Results
           </p>
         </div>
+        {/* Thread node: hero bottom */}
+        <div className="thread-node" style={{ top: "100%", bottom: "auto" }} />
       </section>
 
       {/* SECTION 2: GUT CHECK */}
-      <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check">
+      <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <div className="max-w-5xl mx-auto text-center">
           <p className="reveal text-lg mb-10" style={{ color: "#737373" }}>
             One of these is running your life right now:
@@ -196,7 +353,7 @@ export default function Landing() {
           </div>
 
           <p className="reveal reveal-delay-2 text-xl" style={{ color: "#14B8A6" }}>
-            Which one made your stomach drop?
+            Which one made your <ThreadWord>stomach drop</ThreadWord>?
           </p>
         </div>
       </section>
@@ -252,7 +409,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 4: THE 9 DESTRUCTIVE PATTERNS */}
-      <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns">
+      <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
+        {/* Thread node: patterns top */}
+        <div className="thread-node" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -306,7 +465,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 5: THE 3-7 SECOND WINDOW */}
-      <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window">
+      <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window" style={{ position: "relative" }}>
+        {/* Thread node: window top */}
+        <div className="thread-node" />
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -341,7 +502,7 @@ export default function Landing() {
                     }}
                   >
                     <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
-                      {step.label}
+                      {step.label === "BODY SIGNATURE" ? <><ThreadWord>Body Signature</ThreadWord></> : step.label}
                     </p>
                     <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
                   </div>
@@ -380,7 +541,7 @@ export default function Landing() {
                     }}
                   >
                     <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
-                      {step.label}
+                      {step.label === "BODY SIGNATURE" ? <><ThreadWord>Body Signature</ThreadWord></> : step.label}
                     </p>
                     <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
                   </div>
@@ -523,7 +684,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 8: CHOOSE YOUR PATH */}
-      <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing">
+      <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
+        {/* Thread node: pricing top */}
+        <div className="thread-node" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-pricing-headline">
@@ -677,7 +840,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 9: ABOUT THE ARCHIVIST */}
-      <section ref={sectionRefs.founder} className="py-24 md:py-32 px-6" data-testid="section-founder">
+      <section ref={sectionRefs.founder} className="py-24 md:py-32 px-6" data-testid="section-founder" style={{ position: "relative" }}>
+        {/* Thread node: founder top */}
+        <div className="thread-node" />
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -711,7 +876,7 @@ export default function Landing() {
               I know we're not the only ones.
             </p>
             <p className="italic" style={{ color: "#F5F5F5" }}>
-              For her.
+              <ThreadWord>For her.</ThreadWord>
             </p>
             <p className="italic" style={{ color: "#737373" }}>
               — Aaron
