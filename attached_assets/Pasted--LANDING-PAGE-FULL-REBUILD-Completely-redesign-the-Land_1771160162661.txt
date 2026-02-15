@@ -1,0 +1,329 @@
+# LANDING PAGE FULL REBUILD
+
+Completely redesign the Landing.tsx page. Keep the same route (/), same CTA destinations (/quiz), same brand colors. Replace ALL current content and layout with this new design.
+
+## DESIGN DIRECTION
+
+Cinematic. Editorial. Dark. Like opening a classified file, not browsing a website. Think: documentary title sequence meets premium editorial magazine. Every scroll should feel like turning a page in something dangerous.
+
+## BRAND SYSTEM
+
+Colors:
+- Background: #0A0A0A (near black, NOT #1A1A1A — darker)
+- Primary text: #F5F5F5 (warm white)
+- Muted text: #737373
+- Teal accent: #14B8A6 (use sparingly — highlights, not decoration)
+- Pink accent: #EC4899 (danger moments only — pattern names, warnings)
+- Card backgrounds: rgba(255,255,255,0.03) with 1px border rgba(255,255,255,0.06)
+
+Typography (import from Google Fonts):
+- Headlines: "Playfair Display" — serif, editorial weight
+- Body: "Source Sans 3" — clean, readable
+- Accent/labels: "JetBrains Mono" — monospace, technical feel (for things like "PATTERN #1", "DOOR 1", "3-7 SECONDS")
+
+Effects:
+- Keep the existing particle/floating dot animation — do NOT remove it
+- Add subtle fade-in-up animations on scroll (use framer-motion or intersection observer)
+- Sections should animate in as user scrolls, staggered
+- No hover glow effects on cards — use subtle border brightening only
+
+## PAGE STRUCTURE (in exact order)
+
+### SECTION 1: HERO (full viewport height)
+
+No background image. No wizard. Pure black with particles.
+
+Layout: centered, generous whitespace
+
+```
+[small monospace text, muted, tracking-widest]
+PATTERN ARCHAEOLOGY, NOT THERAPY
+
+[massive Playfair Display headline, 5-7rem, bold]
+You already know
+what you're doing.
+
+[body text, muted, 1.2rem, max-width 500px, centered]
+You watch yourself do it. You know it's happening.
+You do it anyway.
+
+[teal text, 1.1rem, letter-spaced]
+This method teaches you to interrupt it.
+
+[CTA button — NOT teal background. White text, white border, transparent bg. On hover: white bg, black text. Uppercase, letter-spaced, monospace font]
+DISCOVER YOUR PATTERN →
+
+[tiny muted text below button]
+Free · 2 Minutes · Instant Results
+```
+
+The hero should breathe. Massive padding. Let the words sit in darkness.
+
+---
+
+### SECTION 2: THE GUT CHECK (pattern names as impact)
+
+No header. Just a single line:
+
+```
+[muted text]
+One of these is running your life right now:
+
+[Then a horizontal scrolling ticker or a staggered grid of pattern names in pink, large, bold, Playfair Display — each one slightly offset, like a police evidence board]
+
+Disappearing · Apology Loop · Testing · Attraction to Harm · Compliment Deflection · Draining Bond · Success Sabotage · Perfectionism · Rage
+
+[below, centered, teal]
+Which one made your stomach drop?
+```
+
+This section should feel like getting called out. Not informational — visceral.
+
+---
+
+### SECTION 3: WHO THIS IS FOR / NOT FOR
+
+Two-column layout (stack on mobile):
+
+Left card: "THIS IS FOR YOU IF:" with teal left border
+- You watch yourself do destructive things and can't stop
+- You've been in therapy for years but still run the same patterns
+- You understand WHY you do it but can't stop DOING it
+- You sabotage relationships, success, or stability
+- You're tired of insight and ready for interruption
+
+Right card: "THIS IS NOT FOR YOU IF:" with pink left border
+- You're in crisis and need immediate professional help
+- You want someone else to fix you
+- You're looking for a quick fix with no effort
+- You want to understand your childhood (get therapy)
+- You're not ready to see your patterns clearly
+
+Below cards:
+```
+[bold white]
+This method requires you to watch yourself, name what you see, and interrupt it in real-time.
+[teal italic]
+That's the work. That's all of it.
+```
+
+---
+
+### SECTION 4: THE 9 DESTRUCTIVE PATTERNS
+
+```
+[monospace, muted, small]
+CLASSIFIED — 9 IDENTIFIED PATTERNS
+
+[large Playfair headline]
+The 9 Destructive Patterns
+```
+
+Grid: 3 columns desktop, 1 mobile. Each card:
+- Pattern number in pink (large, monospace)
+- Pattern name in white (bold)
+- One-line description in muted text
+- Subtle border, dark card bg
+- On hover: border goes teal, slight lift
+
+Use the exact same pattern descriptions from the current site — they're perfect.
+
+After the grid:
+```
+[centered, teal link]
+Discover your pattern →  (links to /quiz)
+```
+
+---
+
+### SECTION 5: THE 3-7 SECOND WINDOW
+
+This is your most powerful visual. Rebuild it bigger and bolder.
+
+```
+[monospace, muted]
+THE SCIENCE
+
+[Playfair headline]
+You have 3-7 seconds.
+
+[body text]
+Right now, your patterns run in a 3-7 second window:
+```
+
+Then the flow diagram — keep the same concept (TRIGGER → BODY SIGNATURE → THOUGHT → PATTERN EXECUTES) but make it more cinematic:
+- Horizontal on desktop, vertical on mobile
+- The "BODY SIGNATURE" step should have a glowing teal border/highlight
+- "INTERRUPT HERE" arrow in pink, pulsing subtly
+- The "3-7 SECOND WINDOW" label should feel like a warning badge
+
+```
+[below diagram]
+Pattern archaeology teaches you to recognize the pattern BEFORE it runs.
+In that 3-7 second window. In that recognition, you create a gap.
+In that gap, you can interrupt the code.
+```
+
+---
+
+### SECTION 6: THIS IS NOT THERAPY (comparison table only)
+
+```
+[Playfair headline, teal]
+This is not therapy.
+[subtitle, muted]
+Here's the difference.
+```
+
+Clean comparison table — two columns:
+- Left: THERAPY (muted text)
+- Right: THE ARCHIVIST METHOD (white text, bold)
+
+Same rows as current site. Clean lines, no heavy borders. Subtle row separators.
+
+After table:
+```
+Both have value. They solve different problems.
+[bold] If you need to heal, get therapy.
+[teal] If you need to interrupt, get this.
+```
+
+---
+
+### SECTION 7: HOW IT WORKS (3 steps — condensed)
+
+```
+[monospace, muted]
+THE PROTOCOL
+
+[Playfair headline]
+How Pattern Interruption Works
+```
+
+Three steps — horizontal on desktop, vertical on mobile. Each step is a card with:
+- Large number (teal, monospace)
+- Step name (bold white)
+- 2 sentences max
+
+Step 1: IDENTIFY YOUR PATTERN — Take the 2-minute assessment. Get the specific survival code running your life.
+Step 2: LEARN YOUR BODY SIGNATURE — Your body signals the pattern 3-7 seconds before it runs. Learn to recognize your warning.
+Step 3: INTERRUPT & TRACK — When you feel it activate, speak your circuit break statement. Track attempts. You get better every time.
+
+```
+[centered]
+The 7-day protocol gives you proof of concept.
+One successful interrupt = the method works for you.
+```
+
+---
+
+### SECTION 8: CHOOSE YOUR PATH (pricing)
+
+```
+[Playfair headline]
+Choose Your Path
+[muted subtitle]
+Pattern interruption at every level
+```
+
+Three pricing cards — same content as current but redesigned:
+- Cards have subtle glass-morphism effect (backdrop-blur, slight transparency)
+- Middle card ($47 Field Guide) has teal border and "MOST POPULAR" badge
+- Right card ($197 Complete Archive) has pink "Enter The Archive →" button
+- Left card (Free) is understated — no heavy border
+
+Keep all current pricing copy, feature lists, and button destinations exactly the same.
+
+---
+
+### SECTION 9: ABOUT THE ARCHIVIST (founder section)
+
+```
+[monospace, muted]
+FIELD NOTES
+
+[Playfair headline]
+About The Archivist
+```
+
+```
+I've been an entrepreneur since I was 11 years old.
+I've raised 8 kids. Started businesses. Failed at most of them.
+Worked 19 years behind a bar — not because it was my identity,
+but because it gave me the flexibility to chase what mattered.
+
+What I didn't expect was that the bar would become a laboratory.
+
+Thousands of people. Thousands of patterns. Same loops, different faces.
+The person who blows up every relationship three months in.
+The one who apologizes for breathing.
+The one who destroys everything right before it works.
+
+Then I realized: I was running them too. All of them.
+
+So I stopped trying to understand why.
+I started learning to interrupt.
+
+The Archivist Method is what came out of that.
+Not theory. Not textbook psychology.
+Field research — performed while running the patterns it documents.
+
+— The Archivist
+```
+
+---
+
+### SECTION 10: FINAL CTA
+
+Full-width, minimal, centered. Maximum whitespace.
+
+```
+[large Playfair headline]
+Stop running the pattern.
+
+[body, muted]
+Take the 2-minute assessment.
+Get your 7-day protocol.
+Start breaking the cycle today.
+
+[same white-border CTA button as hero]
+TAKE THE FREE ASSESSMENT →
+
+[tiny muted]
+Free · Private · No Email Required · Instant Results
+```
+
+---
+
+### FOOTER
+
+Minimal:
+```
+Built in the fire. Years of observation. Systematized December 2025.
+— The Archivist
+
+© 2025 The Archivist Method™. Pattern archaeology, not therapy.
+
+[tiny links: Terms · Privacy · Contact]
+```
+
+---
+
+## CRITICAL IMPLEMENTATION NOTES
+
+1. Remove the current hero background image (wizard). Pure dark background with particles only.
+2. Remove ALL old section images (the small preview images floating on the right side of current page)
+3. Keep the existing particle animation system — do not remove or modify it
+4. Every section should fade in on scroll (use intersection observer or framer-motion)
+5. Page should feel SHORTER than current — no redundant therapy explanations
+6. No FAQ section on this page (we'll add a separate /faq route later if needed)
+7. Mobile responsive — all grids become single column, hero text scales down
+8. Import Google Fonts: Playfair Display (700), Source Sans 3 (400, 600), JetBrains Mono (400)
+9. All CTA buttons link to /quiz
+10. Pricing buttons: Free → /quiz, Field Guide → Stripe checkout, Complete Archive → Stripe checkout (keep existing Stripe integration)
+11. Smooth scroll behavior on the page
+12. Delete the old Landing.tsx content completely — this is a full replacement
+13. No "Four Doors" section as a separate block — it's covered by the 3-7 second window and the 3-step process
+14. Total sections: 10 (hero, gut check, who it's for, 9 patterns, 3-7 second window, not therapy table, how it works, pricing, founder, final CTA) + footer
+
+Build this now. Make it cinematic. Make it premium. This is a $250k brand.
