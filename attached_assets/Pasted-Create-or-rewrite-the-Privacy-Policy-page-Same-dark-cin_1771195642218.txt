@@ -1,0 +1,89 @@
+Create or rewrite the Privacy Policy page. Same dark cinematic design as Terms page (background #0A0A0A, text #F5F5F5, muted #737373, teal #14B8A6). Playfair Display title, Source Sans 3 body, JetBrains Mono section labels. Max-width 800px centered.
+
+Replace all existing privacy copy with:
+
+[JetBrains Mono, muted, small, uppercase]
+LEGAL
+
+[Playfair Display, large]
+Privacy Policy
+
+[muted]
+Last updated: February 15, 2026
+
+Your privacy matters. Here's exactly what we collect, why, and what we do with it. No legalese.
+
+[JetBrains Mono section label, teal]
+WHAT WE COLLECT
+
+- Email address (when you create an account)
+- Your quiz responses (to identify your pattern)
+- Your AI chat conversations (to provide personalized pattern guidance)
+- Your activation logs, brain dumps, and notes (features you choose to use)
+- Basic usage data (pages visited, features used)
+- Payment information is processed by Stripe — we never see or store your card number
+
+[section label]
+WHAT WE DO WITH IT
+
+- Deliver your pattern results and personalized content
+- Power The Archivist AI with context about your pattern
+- Track your streaks and progress
+- Improve the method based on aggregate usage patterns
+- That's it
+
+[section label]
+WHAT WE NEVER DO
+
+- Sell your data to anyone. Ever.
+- Share your personal information with advertisers
+- Use your chat conversations or brain dumps for marketing
+- Display ads of any kind
+- Let third parties access your account data
+- Email you without permission
+
+[section label]
+YOUR AI CONVERSATIONS
+
+Everything you share with The Archivist AI is between you and the system. Your conversations are stored to provide continuity in your pattern work. They are not reviewed by humans unless you specifically report a technical issue.
+
+[section label]
+YOUR BRAIN DUMPS & NOTES
+
+These are private. Only you can see them. They are stored encrypted and are never used for any purpose other than showing them back to you.
+
+[section label]
+COOKIES
+
+We use essential cookies to keep you logged in and remember your preferences. No tracking cookies. No third-party cookies. No advertising cookies.
+
+[section label]
+DATA DELETION
+
+Want everything deleted? Email support@thearchivistmethod.com and we'll wipe your account and all associated data within 30 days. No questions asked.
+
+[section label]
+THIRD PARTY SERVICES
+
+- Supabase (database and authentication)
+- Stripe (payment processing)
+- Anthropic Claude API (AI conversations)
+
+Each has their own privacy policy. We chose them because they take privacy seriously.
+
+[section label]
+CHILDREN
+
+The Archivist Method is designed for adults 18 and over. We do not knowingly collect data from minors.
+
+[section label]
+CHANGES
+
+If we update this policy, we'll update the date at the top. We won't make sneaky changes.
+
+[section label]
+CONTACT
+
+Privacy questions: support@thearchivistmethod.com
+
+Footer matches landing page footer style.

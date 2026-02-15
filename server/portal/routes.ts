@@ -1230,4 +1230,318 @@ router.get("/user-pattern", async (req: Request, res: Response) => {
   }
 });
 
+// ==========================================
+// CONTENT READER ROUTES
+// ==========================================
+
+import {
+  getTocForTier,
+  getCompleteArchiveToc,
+  canAccessSection,
+  getSectionContent,
+  findSectionById,
+  getAdjacentSections,
+  getFirstSectionId,
+} from "./content";
+import { readerNotes, readingProgress } from "@shared/schema";
+
+function getAuthToken(req: Request): string | null {
+  return req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '') || null;
+}
+
+async function resolveUserTier(authData: { userId: string; email: string }): Promise<{
+  tier: "free" | "quick-start" | "archive";
+  primaryPattern: string | null;
+  userId: string;
+}> {
+  const userId = authData.userId;
+
+  if (userId.startsWith("test_")) {
+    const testUserId = userId.replace("test_", "");
+    const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
+    if (testUser) {
+      const tier = testUser.accessLevel === "archive" ? "archive" : testUser.accessLevel === "quick-start" ? "quick-start" : "free";
+      const { quizUsers } = await import("@shared/schema");
+      const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+      return { tier: tier as "free" | "quick-start" | "archive", primaryPattern: qu?.primaryPattern || null, userId };
+    }
+  }
+
+  let hasQuickStart = false;
+  let hasCompleteArchive = false;
+  try {
+    const purchases = await getUserPurchases(userId);
+    const access = calculateUserAccess(purchases);
+    hasQuickStart = access.hasQuickStart;
+    hasCompleteArchive = access.hasCompleteArchive;
+  } catch {}
+
+  const tier = hasCompleteArchive ? "archive" : hasQuickStart ? "quick-start" : "free";
+
+  const { quizUsers } = await import("@shared/schema");
+  const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+
+  return { tier: tier as "free" | "quick-start" | "archive", primaryPattern: qu?.primaryPattern || null, userId };
+}
+
+router.get("/reader/toc", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { tier, primaryPattern, userId } = await resolveUserTier(authData);
+    const toc = getTocForTier(tier, primaryPattern || undefined);
+
+    const fullToc = getCompleteArchiveToc(primaryPattern || undefined);
+
+    const accessibleIds = new Set<string>();
+    for (const g of toc.groups) {
+      for (const s of g.sections) {
+        accessibleIds.add(s.id);
+      }
+    }
+
+    const allSectionIds: string[] = [];
+    const annotatedGroups = fullToc.groups.map((g) => ({
+      ...g,
+      sections: g.sections.map((s) => {
+        allSectionIds.push(s.id);
+        return { ...s, locked: !accessibleIds.has(s.id) };
+      }),
+    }));
+
+    const progressRows = await db
+      .select()
+      .from(readingProgress)
+      .where(eq(readingProgress.userId, userId));
+
+    const progressMap: Record<string, { completed: boolean; lastPosition: number }> = {};
+    for (const row of progressRows) {
+      progressMap[row.sectionId] = {
+        completed: row.completed || false,
+        lastPosition: row.lastPosition || 0,
+      };
+    }
+
+    const completedCount = progressRows.filter((r) => r.completed).length;
+    const totalAccessible = accessibleIds.size;
+
+    res.json({
+      tier,
+      primaryPattern,
+      groups: annotatedGroups,
+      progress: progressMap,
+      stats: {
+        completedSections: completedCount,
+        totalSections: totalAccessible,
+        percentComplete: totalAccessible > 0 ? Math.round((completedCount / totalAccessible) * 100) : 0,
+      },
+      firstSectionId: getFirstSectionId(tier, primaryPattern || undefined),
+    });
+  } catch (error) {
+    console.error("Reader TOC error:", error);
+    res.status(500).json({ error: "Failed to load table of contents" });
+  }
+});
+
+router.get("/reader/section/:sectionId", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { tier, primaryPattern, userId } = await resolveUserTier(authData);
+    const { sectionId } = req.params;
+
+    const section = findSectionById(sectionId);
+    if (!section) return res.status(404).json({ error: "Section not found" });
+
+    const hasAccess = canAccessSection(sectionId, tier, primaryPattern || undefined);
+
+    if (!hasAccess) {
+      return res.json({
+        sectionId,
+        title: section.title,
+        content: `# ${section.title}\n\nThis section requires a higher access tier to read.`,
+        readMinutes: 0,
+        locked: true,
+        prev: null,
+        next: null,
+      });
+    }
+
+    const result = await getSectionContent(sectionId);
+    if (!result) return res.status(404).json({ error: "Content not found" });
+
+    const adjacent = getAdjacentSections(sectionId, tier, primaryPattern || undefined);
+
+    res.json({
+      sectionId,
+      title: section.title,
+      content: result.content,
+      readMinutes: result.readMinutes,
+      locked: false,
+      prev: adjacent.prev,
+      next: adjacent.next,
+    });
+  } catch (error) {
+    console.error("Reader section error:", error);
+    res.status(500).json({ error: "Failed to load section" });
+  }
+});
+
+router.get("/reader/notes/:sectionId", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { tier, primaryPattern, userId } = await resolveUserTier(authData);
+    const { sectionId } = req.params;
+
+    if (!canAccessSection(sectionId, tier, primaryPattern || undefined)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    const notes = await db
+      .select()
+      .from(readerNotes)
+      .where(and(eq(readerNotes.userId, userId), eq(readerNotes.sectionId, sectionId)))
+      .orderBy(desc(readerNotes.createdAt));
+
+    res.json({ notes });
+  } catch (error) {
+    console.error("Reader notes error:", error);
+    res.status(500).json({ error: "Failed to load notes" });
+  }
+});
+
+router.post("/reader/notes", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { sectionId, content, highlightText } = req.body;
+    if (!sectionId) return res.status(400).json({ error: "sectionId required" });
+    if (!content && !highlightText) return res.status(400).json({ error: "content or highlightText required" });
+
+    const { tier, primaryPattern } = await resolveUserTier(authData);
+    if (!canAccessSection(sectionId, tier, primaryPattern || undefined)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    const [note] = await db
+      .insert(readerNotes)
+      .values({
+        userId: authData.userId,
+        sectionId,
+        content: content || null,
+        highlightText: highlightText || null,
+      })
+      .returning();
+
+    res.json({ note });
+  } catch (error) {
+    console.error("Create note error:", error);
+    res.status(500).json({ error: "Failed to create note" });
+  }
+});
+
+router.delete("/reader/notes/:noteId", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { noteId } = req.params;
+    await db
+      .delete(readerNotes)
+      .where(and(eq(readerNotes.id, noteId), eq(readerNotes.userId, authData.userId)));
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete note error:", error);
+    res.status(500).json({ error: "Failed to delete note" });
+  }
+});
+
+router.post("/reader/progress", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { sectionId, completed, lastPosition } = req.body;
+    if (!sectionId) return res.status(400).json({ error: "sectionId required" });
+
+    const { tier, primaryPattern } = await resolveUserTier(authData);
+    if (!canAccessSection(sectionId, tier, primaryPattern || undefined)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    const existing = await db
+      .select()
+      .from(readingProgress)
+      .where(and(eq(readingProgress.userId, authData.userId), eq(readingProgress.sectionId, sectionId)));
+
+    if (existing.length > 0) {
+      const updates: Record<string, any> = { updatedAt: new Date() };
+      if (typeof completed === "boolean") updates.completed = completed;
+      if (typeof lastPosition === "number") updates.lastPosition = lastPosition;
+
+      await db
+        .update(readingProgress)
+        .set(updates)
+        .where(and(eq(readingProgress.userId, authData.userId), eq(readingProgress.sectionId, sectionId)));
+    } else {
+      await db.insert(readingProgress).values({
+        userId: authData.userId,
+        sectionId,
+        completed: completed || false,
+        lastPosition: lastPosition || 0,
+      });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Save progress error:", error);
+    res.status(500).json({ error: "Failed to save progress" });
+  }
+});
+
+router.get("/reader/progress", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const rows = await db
+      .select()
+      .from(readingProgress)
+      .where(eq(readingProgress.userId, authData.userId));
+
+    const progressMap: Record<string, { completed: boolean; lastPosition: number }> = {};
+    for (const row of rows) {
+      progressMap[row.sectionId] = {
+        completed: row.completed || false,
+        lastPosition: row.lastPosition || 0,
+      };
+    }
+
+    res.json({ progress: progressMap });
+  } catch (error) {
+    console.error("Get progress error:", error);
+    res.status(500).json({ error: "Failed to load progress" });
+  }
+});
+
 export default router;

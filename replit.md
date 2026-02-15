@@ -41,6 +41,7 @@ Preferred communication style: Simple, everyday language.
 | /quiz | Quiz.tsx | 15-question Pattern Identification Quiz |
 | /results | QuizResult.tsx | Pattern-specific result page with email capture |
 | /portal | PortalDashboard.tsx | Members portal (auth required) |
+| /portal/reader | ContentReader.tsx | Interactive content reader with notes, progress tracking (auth required) |
 | /vault/workbench | VaultWorkbench.tsx | Vault Workbench - activation tracking (auth required) |
 | /vault/archive | VaultArchive.tsx | Vault Archive - artifact library (auth required) |
 | /admin | AdminLogin.tsx | Admin login |

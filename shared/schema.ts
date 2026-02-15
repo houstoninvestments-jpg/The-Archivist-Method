@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, integer, json, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, json, boolean, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -197,6 +197,40 @@ export const insertInterruptLogSchema = createInsertSchema(interruptLog).omit({
 });
 export type InsertInterruptLog = z.infer<typeof insertInterruptLogSchema>;
 export type InterruptLog = typeof interruptLog.$inferSelect;
+
+// Reader Notes (content reader highlights/notes)
+export const readerNotes = pgTable("reader_notes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sectionId: text("section_id").notNull(),
+  content: text("content"),
+  highlightText: text("highlight_text"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertReaderNoteSchema = createInsertSchema(readerNotes).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertReaderNote = z.infer<typeof insertReaderNoteSchema>;
+export type ReaderNote = typeof readerNotes.$inferSelect;
+
+// Reading Progress (content reader section tracking)
+export const readingProgress = pgTable("reading_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sectionId: text("section_id").notNull(),
+  completed: boolean("completed").default(false),
+  lastPosition: real("last_position").default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReadingProgressSchema = createInsertSchema(readingProgress).omit({
+  id: true,
+  updatedAt: true,
+});
+export type InsertReadingProgress = z.infer<typeof insertReadingProgressSchema>;
+export type ReadingProgress = typeof readingProgress.$inferSelect;
 
 export const AccessLevel = {
   CRASH_COURSE: "crash-course",

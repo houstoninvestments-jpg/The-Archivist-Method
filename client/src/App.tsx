@@ -22,6 +22,7 @@ const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const TestingPanel = lazy(() => import("@/components/TestingPanel"));
 const VaultWorkbench = lazy(() => import("@/pages/VaultWorkbench"));
 const VaultArchive = lazy(() => import("@/pages/VaultArchive"));
+const ContentReader = lazy(() => import("@/pages/ContentReader"));
 
 function PageLoader() {
   return (
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/quiz" component={Quiz} />
       <Route path="/results" component={QuizResult} />
+      <Route path="/portal/reader" component={ContentReader} />
       <Route path="/portal" component={PortalDashboard} />
       <Route path="/vault/workbench" component={VaultWorkbench} />
       <Route path="/vault/archive" component={VaultArchive} />

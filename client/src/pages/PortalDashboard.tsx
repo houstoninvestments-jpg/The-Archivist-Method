@@ -506,6 +506,9 @@ export default function PortalDashboard() {
 
         <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${CARD_BORDER}` }}>
           <SidebarLabel>THE VAULT</SidebarLabel>
+          <a href="/portal/reader" className="block" data-testid="nav-reader">
+            <NavButton onClick={() => {}} icon={BookOpen} label="Content Reader" testId="nav-reader-btn" external tooltipText="Read all your unlocked content with notes, highlights, and progress tracking." />
+          </a>
           <a href="/vault/workbench" className="block" data-testid="nav-workbench">
             <NavButton onClick={() => {}} icon={Target} label="The Workbench" testId="nav-workbench-btn" external tooltipText="Your real-time pattern interruption toolkit. Use when a pattern is activating." />
           </a>
