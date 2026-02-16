@@ -339,41 +339,57 @@ export default function Landing() {
       <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero" style={{ position: "relative" }}>
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
-            className="text-sm md:text-base tracking-[0.3em] uppercase mb-4"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}
+            className="tracking-[0.3em] uppercase"
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px" }}
             data-testid="text-brand-name"
           >
             THE ARCHIVIST METHOD&trade;
           </p>
+
+          <h1
+            className="font-bold"
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15, color: "#F5F5F5" }}
+            data-testid="text-brand-title"
+          >
+            You know exactly what you're doing.<br />
+            You just can't stop.
+          </h1>
+
           <p
-            className="text-xs tracking-[0.35em] uppercase mb-12"
-            style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}
+            className="leading-relaxed mx-auto"
+            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px" }}
+            data-testid="text-hero-positioning"
+          >
+            The first pattern interruption system that works in real-time — not in retrospect.
+          </p>
+
+          <p
+            className="leading-relaxed mx-auto"
+            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px" }}
+            data-testid="text-hero-mechanism"
+          >
+            Your body warns you 3–7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
+          </p>
+
+          <Link
+            href="/quiz"
+            data-testid="button-cta"
+            className="inline-block border border-white/80 text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black w-full md:w-auto mx-4 md:mx-0"
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
+          >
+            FIND YOUR PATTERN <ArrowRight className="inline w-4 h-4 ml-1" />
+          </Link>
+
+          <p className="text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace", marginTop: "16px" }}>
+            Free  ·  2 Minutes  ·  Instant Results
+          </p>
+
+          <p
+            className="tracking-[0.2em] uppercase"
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", marginTop: "48px", opacity: 0.7 }}
             data-testid="text-brand-tagline"
           >
             PATTERN ARCHAEOLOGY, <span style={{ color: "#EC4899" }}>NOT</span> THERAPY
-          </p>
-
-          <h1
-            className="font-bold leading-[1.1] mb-8"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.8rem, 8vw, 5.5rem)" }}
-            data-testid="text-brand-title"
-          >
-            You already know<br />what you're doing.<br />
-            <span style={{ color: "#14B8A6" }}>This teaches you how to stop.</span>
-          </h1>
-
-          <p className="text-lg md:text-xl leading-relaxed mb-3 max-w-[600px] mx-auto" style={{ color: "#737373" }}>
-            A pattern interruption system for people who understand their destructive patterns but can't stop running them.
-          </p>
-
-          <p className="text-lg mb-12 tracking-wide" style={{ color: "#14B8A6", letterSpacing: "0.05em" }}>
-            Discover your pattern. <ThreadWord>Interrupt it</ThreadWord> in 7–90 days.
-          </p>
-
-          <CTAButton text="DISCOVER YOUR PATTERN" />
-
-          <p className="mt-6 text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-            Free  ·  2 Minutes  ·  Instant Results
           </p>
         </div>
       </section>

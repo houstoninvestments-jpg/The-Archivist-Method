@@ -1,0 +1,103 @@
+# THE ARCHIVIST METHOD — DEFINITIVE HERO COPY
+
+## THE ANALYSIS
+
+**Who lands on this page:**
+Someone who just blew up a relationship, ghosted someone they love, sabotaged something that was working, or apologized for existing for the 50th time today. They’re coming from a short-form video that called out their exact behavior. They’re curious, scared, and tired. They’ve probably done therapy. They understand WHY they do it. They just can’t stop DOING it.
+
+**What they need to feel in 5 seconds:**
+“Holy shit, this person sees me. This is different from everything else I’ve tried. There might actually be a way to stop.”
+
+**What they need to understand in 10 seconds:**
+This isn’t therapy. This isn’t self-help. This is a specific system that interrupts destructive patterns in real-time using your body’s own warning signals.
+
+**The core problem TAM solves:**
+Understanding why you do something destructive doesn’t stop you from doing it. Therapy gives you the why. TAM gives you the interrupt.
+
+**The mechanism that makes it credible:**
+The 3-7 second window. Your body signals the pattern before it runs. Learn the signal, catch the window, interrupt the behavior. That’s the whole method.
+
+-----
+
+## THE HERO — PASTE THIS INTO REPLIT:
+
+```
+Completely rewrite the hero section of the landing page with this exact copy and structure. Keep the same dark cinematic design, Playfair Display headlines, Source Sans 3 body, JetBrains Mono monospace accents. Keep the particle animation. Keep the white-border CTA button style.
+
+LAYOUT (top to bottom, all centered, generous vertical spacing):
+
+LINE 1 — Brand name
+THE ARCHIVIST METHOD™
+Style: JetBrains Mono, uppercase, letter-spacing 0.3em, teal (#14B8A6), font-size 14px
+
+LINE 2 — The hook (main headline)
+You know exactly what you're doing.
+You just can't stop.
+Style: Playfair Display, white (#F5F5F5), font-size: 4.5rem desktop / 2.5rem mobile, font-weight 700, line-height 1.15
+
+LINE 3 — The positioning statement
+The first pattern interruption system that works in real-time — not in retrospect.
+Style: Source Sans 3, muted (#999), font-size 1.15rem, max-width 580px, margin-top 32px
+
+LINE 4 — The mechanism (what makes it different)
+Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
+Style: Source Sans 3, white (#F5F5F5), font-size 1.05rem, max-width 540px, margin-top 24px
+
+LINE 5 — CTA Button
+FIND YOUR PATTERN →
+Style: JetBrains Mono, uppercase, letter-spacing 0.15em, white border, transparent background, padding 18px 48px, font-size 15px. Hover: white background, black text. Links to /quiz
+
+LINE 6 — Trust line
+Free · 2 Minutes · Instant Results
+Style: Source Sans 3, muted (#737373), font-size 13px, margin-top 16px
+
+LINE 7 — Tagline
+Pattern archaeology, not therapy.
+Style: JetBrains Mono, teal (#14B8A6), font-size 12px, uppercase, letter-spacing 0.2em, margin-top 48px, opacity 0.7
+
+SPACING:
+- Hero section should be full viewport height (100vh)
+- Content vertically centered
+- Generous padding on all sides
+- The headline should dominate — everything else supports it
+- Let the darkness breathe around the text
+
+MOBILE:
+- Headline scales to 2.5rem
+- All text remains centered
+- CTA button goes full-width with 16px horizontal margin
+- Maintain the same vertical rhythm but with tighter spacing
+
+DO NOT add any images, icons, or decorative elements. The typography IS the design. The darkness IS the aesthetic. Let the words sit in space.
+```
+
+-----
+
+## WHY THIS WORKS:
+
+**Line 1 (Brand):** Establishes what this is. First-time visitors now see the name.
+
+**Line 2 (Hook):** “You know exactly what you’re doing. You just can’t stop.” — This is the EXACT internal dialogue of the target customer. It’s not clever. It’s not poetic. It’s the truth they’ve never seen on a website before. It creates instant recognition: “this person understands my problem.”
+
+**Line 3 (Positioning):** “The first pattern interruption system that works in real-time — not in retrospect.” — This positions TAM as a new category. Not therapy (retrospect). Not self-help (vague). A SYSTEM that works in REAL-TIME. This is the differentiator. Nobody else says this.
+
+**Line 4 (Mechanism):** “Your body warns you 3-7 seconds before every destructive pattern runs.” — This is the credibility line. It’s specific (3-7 seconds). It’s biological (your body). It names what therapy missed (never taught you to listen). And it promises what TAM delivers (This does). A cold visitor now understands HOW this works.
+
+**Line 5 (CTA):** “FIND YOUR PATTERN” — Not “take a quiz.” Not “learn more.” FIND YOUR PATTERN. It implies there’s something to discover about yourself. That’s curiosity-driven, not sales-driven.
+
+**Line 6 (Trust):** Removes friction. Free, fast, immediate.
+
+**Line 7 (Tagline):** Reinforces the category. “Pattern archaeology, not therapy” is the brand line that sticks in someone’s head after they leave.
+
+-----
+
+## THE CONVERSION LOGIC:
+
+Second 1-3: “You know exactly what you’re doing. You just can’t stop.” → RECOGNITION (they feel seen)
+Second 3-5: “The first pattern interruption system that works in real-time” → CURIOSITY (what is this?)
+Second 5-8: “Your body warns you 3-7 seconds before…” → CREDIBILITY (this is specific and scientific)
+Second 8-10: “FIND YOUR PATTERN →” → ACTION (I need to know mine)
+
+Total time from landing to clicking: under 15 seconds.
+
+That’s a converting hero.
