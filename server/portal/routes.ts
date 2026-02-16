@@ -105,6 +105,12 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
     let user;
     try {
       user = await getUserByEmail(email);
+      if (!user) {
+        return res.status(404).json({
+          error:
+            "No account found with this email. Please purchase a product first.",
+        });
+      }
     } catch (error) {
       return res.status(404).json({
         error:
@@ -541,9 +547,12 @@ router.post(
         let user;
         try {
           user = await getUserByEmail(customerEmail);
-          if (customerName && !user.name) {
+          if (!user) {
+            user = await createUser(customerEmail, stripeCustomerId, customerName || undefined);
+            console.log(`Created new user: ${user.id} (${customerName || 'no name'})`);
+          } else if (customerName && !user.name) {
             user = await updateUserName(user.id, customerName);
-            console.log(`Updated user name: ${customerName}`);
+            if (user) console.log(`Updated user name: ${customerName}`);
           }
         } catch (error) {
           user = await createUser(customerEmail, stripeCustomerId, customerName || undefined);

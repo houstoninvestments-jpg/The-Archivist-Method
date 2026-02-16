@@ -956,7 +956,7 @@ export default function Landing() {
           </div>
 
           <p className="reveal reveal-delay-3 mt-6 text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-            Free  ·  Private  ·  No Email Required  ·  Instant Results
+            Free  ·  2 Minutes  ·  Instant Results
           </p>
         </div>
       </section>
@@ -972,7 +972,7 @@ export default function Landing() {
           </p>
           <div className="pt-6">
             <p className="text-xs" style={{ color: "#525252" }}>
-              &copy; 2025 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
+              &copy; 2026 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
             </p>
           </div>
           <div className="flex justify-center gap-6 pt-2">

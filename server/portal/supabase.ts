@@ -1,15 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "";
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Database types
 export interface User {
   id: string;
   email: string;
@@ -28,61 +16,45 @@ export interface Purchase {
   stripe_payment_intent_id: string;
 }
 
-// Helper functions
-export async function getUserByEmail(email: string) {
-  const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("email", email)
-    .single();
+const users = new Map<string, User>();
+const purchases: Purchase[] = [];
 
-  if (error) throw error;
-  return data as User;
+export async function getUserByEmail(email: string): Promise<User | null> {
+  for (const u of users.values()) {
+    if (u.email === email) return u;
+  }
+  return null;
 }
 
-export async function createUser(email: string, stripeCustomerId?: string, name?: string) {
-  const { data, error } = await supabase
-    .from("users")
-    .insert([{ email, stripe_customer_id: stripeCustomerId, name }])
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data as User;
+export async function createUser(email: string, stripeCustomerId?: string, name?: string): Promise<User> {
+  const id = crypto.randomUUID();
+  const user: User = {
+    id,
+    email,
+    name,
+    created_at: new Date().toISOString(),
+    stripe_customer_id: stripeCustomerId,
+  };
+  users.set(id, user);
+  return user;
 }
 
-export async function updateUserName(userId: string, name: string) {
-  const { data, error } = await supabase
-    .from("users")
-    .update({ name })
-    .eq("id", userId)
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data as User;
+export async function updateUserName(userId: string, name: string): Promise<User | null> {
+  const user = users.get(userId);
+  if (!user) return null;
+  user.name = name;
+  users.set(userId, user);
+  return user;
 }
 
-export async function getUserById(userId: string) {
-  const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", userId)
-    .single();
-
-  if (error) throw error;
-  return data as User;
+export async function getUserById(userId: string): Promise<User | null> {
+  return users.get(userId) ?? null;
 }
 
-export async function getUserPurchases(userId: string) {
-  const { data, error } = await supabase
-    .from("purchases")
-    .select("*")
-    .eq("user_id", userId)
-    .order("purchased_at", { ascending: false });
-
-  if (error) throw error;
-  return data as Purchase[];
+export async function getUserPurchases(userId: string): Promise<Purchase[]> {
+  return purchases
+    .filter(p => p.user_id === userId)
+    .sort((a, b) => b.purchased_at.localeCompare(a.purchased_at));
 }
 
 export async function createPurchase(
@@ -91,21 +63,16 @@ export async function createPurchase(
   productName: string,
   amountPaid: number,
   stripePaymentIntentId: string,
-) {
-  const { data, error } = await supabase
-    .from("purchases")
-    .insert([
-      {
-        user_id: userId,
-        product_id: productId,
-        product_name: productName,
-        amount_paid: amountPaid,
-        stripe_payment_intent_id: stripePaymentIntentId,
-      },
-    ])
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data as Purchase;
+): Promise<Purchase> {
+  const purchase: Purchase = {
+    id: crypto.randomUUID(),
+    user_id: userId,
+    product_id: productId,
+    product_name: productName,
+    amount_paid: amountPaid,
+    purchased_at: new Date().toISOString(),
+    stripe_payment_intent_id: stripePaymentIntentId,
+  };
+  purchases.push(purchase);
+  return purchase;
 }

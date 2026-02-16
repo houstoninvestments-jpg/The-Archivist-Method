@@ -1,4 +1,5 @@
 import { Link } from 'wouter';
+import ArchivistIcon from '@/components/ArchivistIcon';
 
 const FONT_PLAYFAIR = "'Playfair Display', serif";
 const FONT_BODY = "'Source Sans 3', sans-serif";
@@ -39,7 +40,7 @@ export default function Privacy() {
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm" style={{ background: "rgba(10,10,10,0.95)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-[800px] mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <img src="/archivist-icon.png" alt="The Archivist" className="w-10 h-10 rounded-full" />
+            <ArchivistIcon size={36} />
             <span className="font-bold text-lg" style={{ color: COLOR_TEXT, fontFamily: FONT_PLAYFAIR }}>
               The Archivist Method
             </span>
@@ -178,7 +179,7 @@ export default function Privacy() {
           </p>
           <div className="pt-6">
             <p className="text-xs" style={{ color: "#525252" }}>
-              &copy; 2025 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: COLOR_PINK }}>not</span> therapy.
+              &copy; 2026 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: COLOR_PINK }}>not</span> therapy.
             </p>
           </div>
           <div className="flex justify-center gap-6 pt-2">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
+import ArchivistIcon from "@/components/ArchivistIcon";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,11 +23,7 @@ export default function Header() {
       data-testid="header"
     >
       <Link href="/" className="flex items-center gap-3 no-underline group">
-        <img
-          src="/archivist-icon.png"
-          alt="The Archivist Method"
-          className="w-8 h-8 md:w-10 md:h-10 object-contain"
-        />
+        <ArchivistIcon size={36} />
         <span className="font-['Bebas_Neue',Oswald,sans-serif] text-base md:text-xl font-bold tracking-wide text-white uppercase">
           THE ARCHIVIST METHOD™
         </span>

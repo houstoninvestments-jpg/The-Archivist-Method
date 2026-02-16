@@ -129,7 +129,7 @@ export default function Footer() {
                 THE ARCHIVIST METHOD<span className="text-teal-400">™</span>
               </h3>
               <p className="text-sm mb-4" data-testid="text-footer-tagline">
-                Pattern Archaeology, <span className="text-pink-500">Not</span> Therapy
+                Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
               </p>
               <p className="text-gray-600 text-sm" data-testid="text-footer-copyright">
                 © {currentYear} The Archivist Method. All rights reserved.

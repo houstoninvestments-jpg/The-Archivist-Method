@@ -8,6 +8,7 @@ import {
   Zap, PenLine
 } from 'lucide-react';
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
+import ArchivistIcon from '@/components/ArchivistIcon';
 
 const FONT_PLAYFAIR = "'Playfair Display', serif";
 const FONT_BODY = "'Source Sans 3', sans-serif";
@@ -589,7 +590,7 @@ export default function PortalDashboard() {
       <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: `1px solid ${CARD_BORDER}`, background: COLOR_BG }}>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: `1px solid rgba(20,184,166,0.3)` }}>
-            <img src="/archivist-icon.png" alt="The Archivist" className="w-full h-full object-cover" />
+            <ArchivistIcon size={32} />
           </div>
           <h3 className="text-sm font-bold tracking-wider uppercase" style={{ fontFamily: FONT_MONO, color: COLOR_TEXT }}>THE ARCHIVIST</h3>
         </div>
