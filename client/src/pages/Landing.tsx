@@ -686,8 +686,10 @@ export default function Landing() {
               </p>
               <button
                 onClick={() => handleCheckout("quick-start")}
-                className="block w-full text-center py-3 border-2 border-teal-500 text-white tracking-wider uppercase transition-all duration-300 hover:bg-teal-500 hover:text-black cursor-pointer"
-                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                className="block w-full text-center py-3 text-white tracking-wider uppercase transition-all duration-300 cursor-pointer"
+                style={{ border: "2px solid #14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", background: "transparent" }}
+                onMouseEnter={(e) => { const el = e.currentTarget; el.style.background = "#14B8A6"; el.style.color = "#0A0A0A"; }}
+                onMouseLeave={(e) => { const el = e.currentTarget; el.style.background = "transparent"; el.style.color = "white"; }}
                 data-testid="button-pricing-field-guide"
               >
                 GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
