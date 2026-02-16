@@ -415,44 +415,58 @@ export default function PortalDashboard() {
   };
 
   const EmergencyInterruptCards = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
       <a
         href="/vault/workbench"
-        className="block p-6 rounded-md transition-all group"
+        className="block p-7 rounded-md transition-all group emergency-card-teal"
         style={{
-          background: "rgba(20,184,166,0.04)",
+          background: "linear-gradient(135deg, rgba(20,184,166,0.08) 0%, rgba(20,184,166,0.02) 100%)",
           border: `2px solid ${COLOR_TEAL}`,
+          boxShadow: "0 0 20px rgba(20,184,166,0.08), inset 0 1px 0 rgba(20,184,166,0.1)",
         }}
         data-testid="card-im-activated"
       >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ background: "rgba(20,184,166,0.15)" }}>
-            <Zap className="w-5 h-5" style={{ color: COLOR_TEAL }} />
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 rounded-md flex items-center justify-center emergency-icon-teal" style={{ background: "rgba(20,184,166,0.15)", boxShadow: "0 0 12px rgba(20,184,166,0.2)" }}>
+            <Zap className="w-6 h-6" style={{ color: COLOR_TEAL }} />
           </div>
-          <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>I'm Activated</h3>
+          <div>
+            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>I'm Activated</h3>
+            <p className="text-[10px] uppercase tracking-[0.2em] mt-0.5" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>WORKBENCH</p>
+          </div>
         </div>
-        <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>
-          Pattern running right now? Start your interrupt here.
+        <p className="text-sm leading-relaxed mb-3" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+          Pattern running right now? Open the Workbench to start your interrupt sequence.
         </p>
+        <span className="inline-flex items-center gap-1 text-xs tracking-wider uppercase" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>
+          Start interrupt <ArrowRight className="w-3.5 h-3.5" />
+        </span>
       </a>
       <a
         href="/vault/workbench#braindump"
-        className="block p-6 rounded-md transition-all group"
+        className="block p-7 rounded-md transition-all group emergency-card-pink"
         style={{
-          background: "rgba(236,72,153,0.04)",
+          background: "linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(236,72,153,0.02) 100%)",
           border: `2px solid ${COLOR_PINK}`,
+          boxShadow: "0 0 20px rgba(236,72,153,0.08), inset 0 1px 0 rgba(236,72,153,0.1)",
         }}
         data-testid="card-brain-dump"
       >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ background: "rgba(236,72,153,0.15)" }}>
-            <PenLine className="w-5 h-5" style={{ color: COLOR_PINK }} />
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 rounded-md flex items-center justify-center emergency-icon-pink" style={{ background: "rgba(236,72,153,0.15)", boxShadow: "0 0 12px rgba(236,72,153,0.2)" }}>
+            <PenLine className="w-6 h-6" style={{ color: COLOR_PINK }} />
           </div>
-          <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Brain Dump</h3>
+          <div>
+            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Brain Dump</h3>
+            <p className="text-[10px] uppercase tracking-[0.2em] mt-0.5" style={{ color: COLOR_PINK, fontFamily: FONT_MONO }}>UNLOAD</p>
+          </div>
         </div>
-        <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>
-          Get it out of your head. No filter. No judgment.
+        <p className="text-sm leading-relaxed mb-3" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
+          Get it out of your head. No filter. No judgment. Just write.
         </p>
+        <span className="inline-flex items-center gap-1 text-xs tracking-wider uppercase" style={{ color: COLOR_PINK, fontFamily: FONT_MONO }}>
+          Start writing <ArrowRight className="w-3.5 h-3.5" />
+        </span>
       </a>
     </div>
   );
@@ -1014,6 +1028,33 @@ export default function PortalDashboard() {
         }
         @media (prefers-reduced-motion: reduce) {
           .animate-fade-in { animation: none; }
+          .emergency-icon-teal, .emergency-icon-pink { animation: none !important; }
+        }
+
+        @keyframes subtle-pulse-teal {
+          0%, 100% { box-shadow: 0 0 12px rgba(20,184,166,0.2); }
+          50% { box-shadow: 0 0 18px rgba(20,184,166,0.35); }
+        }
+        @keyframes subtle-pulse-pink {
+          0%, 100% { box-shadow: 0 0 12px rgba(236,72,153,0.2); }
+          50% { box-shadow: 0 0 18px rgba(236,72,153,0.35); }
+        }
+        .emergency-icon-teal {
+          animation: subtle-pulse-teal 3s ease-in-out infinite;
+        }
+        .emergency-icon-pink {
+          animation: subtle-pulse-pink 3s ease-in-out infinite;
+          animation-delay: 1.5s;
+        }
+        .emergency-card-teal:hover {
+          box-shadow: 0 0 30px rgba(20,184,166,0.15), inset 0 1px 0 rgba(20,184,166,0.15) !important;
+          border-color: rgba(20,184,166,0.8) !important;
+          transform: translateY(-1px);
+        }
+        .emergency-card-pink:hover {
+          box-shadow: 0 0 30px rgba(236,72,153,0.15), inset 0 1px 0 rgba(236,72,153,0.15) !important;
+          border-color: rgba(236,72,153,0.8) !important;
+          transform: translateY(-1px);
         }
 
         .portal-tooltip-trigger {
