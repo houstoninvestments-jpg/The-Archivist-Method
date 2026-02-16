@@ -1,29 +1,56 @@
 import { Link } from "wouter";
-import { Check, X, ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, lazy, Suspense } from "react";
 import { apiRequest } from "@/lib/queryClient";
 
 const ParticleField = lazy(() => import("@/components/ParticleField"));
 
-const patterns = [
-  { number: 1, name: "DISAPPEARING", description: "You ghost when relationships get close. Three months in, they say \"I love you\" — your chest gets tight. Every time." },
-  { number: 2, name: "APOLOGY LOOP", description: "You apologize for existing. \"Sorry to bother you.\" Twenty times a day for things that need no apology." },
-  { number: 3, name: "TESTING", description: "You push people away to see if they'll stay. They pass? You create a bigger test. You don't trust \"I'm not leaving\" until you've tested it 47 ways." },
-  { number: 4, name: "ATTRACTION TO HARM", description: "Safe people feel boring. Chaos feels like chemistry. Red flags don't register as warnings — they register as attraction." },
-  { number: 5, name: "COMPLIMENT DEFLECTION", description: "You can't accept praise. Someone says \"great work\" — you deflect, minimize, redirect. Visibility makes you squirm." },
-  { number: 6, name: "DRAINING BOND", description: "You can't leave. Toxic job, harmful relationship, depleting friendship. You know you should go. Everyone tells you to leave. You stay." },
-  { number: 7, name: "SUCCESS SABOTAGE", description: "You destroy things right before they succeed. Three weeks from launch, you quit. One week from promotion, you blow it up." },
-  { number: 8, name: "PERFECTIONISM", description: "If it's not perfect, it's garbage. So you don't finish. Or you don't start. Years of almost-finished projects, ideas that died in your head." },
-  { number: 9, name: "RAGE", description: "It comes out of nowhere. One second you're fine, the next you're saying things you can't take back. Afterward: shame, apologies, promises." },
+const patternCards = [
+  { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger." },
+  { num: "02", name: "APOLOGY LOOP", desc: "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal." },
+  { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave." },
+  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and situations that hurt you. Not because you're broken. Because chaos feels like home." },
+  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your entire body rejects it. You literally cannot let it in." },
+  { num: "06", name: "DRAINING BOND", desc: "You stay connected to people who drain you. You know you should leave. You physically can't." },
+  { num: "07", name: "SUCCESS SABOTAGE", desc: "You destroy things right before they work. Promotions, relationships, projects. The closer you get, the harder you burn it down." },
+  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather abandon it than release it imperfect." },
+  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and disproportionate. Afterward you wonder who that was. It was the pattern." },
 ];
 
-const therapyComparison = [
-  ["Asks \"Why do you do this?\"", "Asks \"What pattern is running right now?\""],
-  ["Explores your past", "Interrupts your present"],
-  ["Builds understanding", "Builds pattern recognition"],
-  ["Weekly sessions over months/years", "7-day protocol with daily practice"],
-  ["Focuses on emotions", "Focuses on body signatures"],
-  ["Therapist-guided insight", "Self-directed interruption"],
+const gutCheckPatterns = [
+  { name: "THE DISAPPEARING PATTERN", color: "#14B8A6" },
+  { name: "THE APOLOGY LOOP", color: "#EC4899" },
+  { name: "THE TESTING PATTERN", color: "#14B8A6" },
+  { name: "ATTRACTION TO HARM", color: "#EC4899" },
+  { name: "COMPLIMENT DEFLECTION", color: "#14B8A6" },
+  { name: "THE DRAINING BOND", color: "#EC4899" },
+  { name: "SUCCESS SABOTAGE", color: "#14B8A6" },
+  { name: "THE PERFECTIONISM TRAP", color: "#EC4899" },
+  { name: "THE RAGE PATTERN", color: "#14B8A6" },
+];
+
+const therapyRows = [
+  ["Asks why you do it", "Teaches you to catch it happening"],
+  ["Processes the past", "Interrupts the present"],
+  ["Weekly sessions for months", "Works in 3-7 seconds"],
+  ["Talks about feelings", "Reads body signatures"],
+  ["Explores your childhood", "Interrupts your Tuesday"],
+  ["Builds understanding", "Builds muscle memory"],
+];
+
+const forYou = [
+  "You watch yourself repeat the same destructive behavior and can't figure out how to stop",
+  "You've done therapy and understand WHY but nothing changes",
+  "You're smart enough to see the pattern but stuck enough to keep running it",
+  "You're tired of \"just try harder\" advice that ignores how your nervous system actually works",
+  "You want something that works in the moment, not after six months of processing",
+];
+
+const notForYou = [
+  "You're looking for a therapist (we're not that)",
+  "You want someone to tell you you're fine (you already know you're not)",
+  "You're not ready to look at your own patterns honestly",
+  "You need crisis intervention (call 988)",
 ];
 
 function useScrollReveal() {
@@ -37,7 +64,7 @@ function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
     );
     if (ref.current) {
       ref.current.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
@@ -45,19 +72,6 @@ function useScrollReveal() {
     return () => observer.disconnect();
   }, []);
   return ref;
-}
-
-function CTAButton({ text, className = "" }: { text: string; className?: string }) {
-  return (
-    <Link
-      href="/quiz"
-      data-testid="button-cta"
-      className={`inline-block border border-white/80 text-white font-medium tracking-[0.2em] uppercase text-sm px-10 py-4 transition-all duration-300 hover:bg-white hover:text-black font-mono ${className}`}
-      style={{ fontFamily: "'JetBrains Mono', monospace" }}
-    >
-      {text} <ArrowRight className="inline w-4 h-4 ml-1" />
-    </Link>
-  );
 }
 
 function handleCheckout(product: string) {
@@ -72,19 +86,38 @@ function handleCheckout(product: string) {
     .catch(() => {});
 }
 
-function ThreadWord({ children }: { children: string }) {
-  return <span className="thread-word">{children}</span>;
+function CTAButton({ text }: { text: string }) {
+  return (
+    <Link
+      href="/quiz"
+      data-testid="button-cta"
+      className="inline-block border border-white/80 text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black"
+      style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
+    >
+      {text} <ArrowRight className="inline w-4 h-4 ml-1" />
+    </Link>
+  );
+}
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+      {children}
+    </p>
+  );
 }
 
 export default function Landing() {
   const sectionRefs = {
     gutCheck: useScrollReveal(),
-    whoFor: useScrollReveal(),
     patterns: useScrollReveal(),
+    ctaBreak: useScrollReveal(),
     window: useScrollReveal(),
-    notTherapy: useScrollReveal(),
+    whoFor: useScrollReveal(),
     howItWorks: useScrollReveal(),
+    notTherapy: useScrollReveal(),
     pricing: useScrollReveal(),
+    credibility: useScrollReveal(),
     founder: useScrollReveal(),
     finalCta: useScrollReveal(),
   };
@@ -132,29 +165,15 @@ export default function Landing() {
       { threshold: 0.5 }
     );
 
-    const wordObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("thread-word-visible");
-            wordObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.8 }
-    );
-
     const page = pageRef.current;
     if (page) {
       page.querySelectorAll(".thread-node").forEach((el) => nodeObserver.observe(el));
       page.querySelectorAll(".thread-node-label").forEach((el) => labelObserver.observe(el));
-      page.querySelectorAll(".thread-word").forEach((el) => wordObserver.observe(el));
     }
 
     return () => {
       nodeObserver.disconnect();
       labelObserver.disconnect();
-      wordObserver.disconnect();
     };
   }, []);
 
@@ -165,10 +184,12 @@ export default function Landing() {
       </Suspense>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+
         .reveal {
           opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transform: translateY(20px);
+          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         .reveal.revealed {
           opacity: 1;
@@ -182,28 +203,25 @@ export default function Landing() {
         .reveal-delay-6 { transition-delay: 0.6s; }
         .reveal-delay-7 { transition-delay: 0.7s; }
         .reveal-delay-8 { transition-delay: 0.8s; }
-        .ticker-track {
-          display: flex;
-          animation: ticker-scroll 30s linear infinite;
-          width: max-content;
+
+        .gut-pattern {
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-        @keyframes ticker-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        .gut-pattern.revealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .interrupt-pulse {
+          animation: pulse-subtle 2s ease-in-out infinite;
         }
         @keyframes pulse-subtle {
           0%, 100% { opacity: 0.6; }
           50% { opacity: 1; }
         }
-        .interrupt-pulse {
-          animation: pulse-subtle 2s ease-in-out infinite;
-        }
 
-        /* ================================
-           THREAD SYSTEM
-           ================================ */
-
-        /* Vertical thread line */
         .thread-page::before {
           content: '';
           position: fixed;
@@ -223,7 +241,6 @@ export default function Landing() {
           pointer-events: none;
         }
 
-        /* Active thread overlay that grows with scroll */
         .thread-page::after {
           content: '';
           position: fixed;
@@ -244,7 +261,6 @@ export default function Landing() {
           transition: none;
         }
 
-        /* Thread nodes */
         .thread-node {
           position: absolute;
           left: 40px;
@@ -269,7 +285,6 @@ export default function Landing() {
           box-shadow: 0 0 8px rgba(20, 184, 166, 0.5);
         }
 
-        /* Thread node label */
         .thread-node-label {
           position: absolute;
           left: 40px;
@@ -289,29 +304,6 @@ export default function Landing() {
           color: rgba(20, 184, 166, 0.35);
         }
 
-        /* Thread word underlines */
-        .thread-word {
-          position: relative;
-          display: inline;
-        }
-
-        .thread-word::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -2px;
-          height: 1.5px;
-          width: 0%;
-          background: #14B8A6;
-          box-shadow: 0 1px 4px rgba(20, 184, 166, 0.2);
-          transition: width 0.6s ease-out;
-        }
-
-        .thread-word.thread-word-visible::after {
-          width: 100%;
-        }
-
-        /* Mobile: hide thread line and nodes */
         @media (max-width: 1024px) {
           .thread-page::before,
           .thread-page::after {
@@ -326,17 +318,16 @@ export default function Landing() {
 
         @media (prefers-reduced-motion: reduce) {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
-          .ticker-track { animation: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
           .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
           .thread-node { transition: none !important; display: none !important; }
           .thread-node-label { transition: none !important; display: none !important; }
-          .thread-word::after { transition: none !important; }
+          .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
         }
       `}</style>
 
-      {/* SECTION 1: HERO */}
-      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero" style={{ position: "relative" }}>
+      {/* ========== SECTION 1: HERO ========== */}
+      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="tracking-[0.3em] uppercase"
@@ -368,20 +359,13 @@ export default function Landing() {
             style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px" }}
             data-testid="text-hero-mechanism"
           >
-            Your body warns you 3–7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
+            Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
           </p>
 
-          <Link
-            href="/quiz"
-            data-testid="button-cta"
-            className="inline-block border border-white/80 text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black w-full md:w-auto mx-4 md:mx-0"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
-          >
-            FIND YOUR PATTERN <ArrowRight className="inline w-4 h-4 ml-1" />
-          </Link>
+          <CTAButton text="FIND YOUR PATTERN" />
 
-          <p className="text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace", marginTop: "16px" }}>
-            Free  ·  2 Minutes  ·  Instant Results
+          <p style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px" }}>
+            Free · 2 Minutes · Instant Results
           </p>
 
           <p
@@ -389,620 +373,436 @@ export default function Landing() {
             style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", marginTop: "48px", opacity: 0.7 }}
             data-testid="text-brand-tagline"
           >
-            PATTERN ARCHAEOLOGY, <span style={{ color: "#EC4899" }}>NOT</span> THERAPY
+            Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
         </div>
       </section>
 
-      {/* SECTION 2: GUT CHECK */}
+      {/* ========== SECTION 2: GUT CHECK ========== */}
       <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Recognition</div>
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="reveal text-lg mb-10" style={{ color: "#737373" }}>
-            One of these is running your life right now:
-          </p>
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
+            Which one makes your stomach drop?
+          </h2>
 
-          <div className="reveal reveal-delay-1 overflow-hidden mb-10">
-            <div className="ticker-track">
-              {[...patterns, ...patterns].map((p, i) => (
-                <span
-                  key={i}
-                  className="text-2xl md:text-4xl font-bold mx-4 md:mx-6 whitespace-nowrap"
-                  style={{ fontFamily: "'Playfair Display', serif", color: "#EC4899" }}
-                >
-                  {p.name}
-                  {i < patterns.length * 2 - 1 && (
-                    <span className="mx-4 md:mx-6" style={{ color: "#737373" }}>·</span>
-                  )}
-                </span>
-              ))}
-            </div>
+          <div className="space-y-4" style={{ marginBottom: "48px" }}>
+            {gutCheckPatterns.map((p, i) => (
+              <p
+                key={p.name}
+                className="reveal gut-pattern"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "1.1rem",
+                  textTransform: "uppercase",
+                  color: p.color,
+                  opacity: 0.5,
+                  cursor: "default",
+                  transition: "opacity 0.3s, text-shadow 0.3s",
+                  transitionDelay: `${i * 0.3}s`,
+                }}
+                data-testid={`text-gut-pattern-${i}`}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.opacity = "1";
+                  (e.target as HTMLElement).style.textShadow = `0 0 20px ${p.color}60`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.opacity = "0.5";
+                  (e.target as HTMLElement).style.textShadow = "none";
+                }}
+              >
+                {p.name}
+              </p>
+            ))}
           </div>
 
-          <p className="reveal reveal-delay-2 text-xl" style={{ color: "#14B8A6" }}>
-            Which one made your <ThreadWord>stomach drop</ThreadWord>?
+          <p className="reveal" style={{ color: "#999", fontStyle: "italic", fontSize: "1rem", maxWidth: "500px", margin: "0 auto" }}>
+            "If you felt something reading one of those — that's your body signature. That's the thread."
           </p>
         </div>
       </section>
 
-      {/* SECTION 3: WHO THIS IS FOR */}
-      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Qualification</div>
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div
-              className="reveal p-8 rounded-md"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "3px solid #14B8A6" }}
-            >
-              <h3 className="text-lg font-semibold mb-6 flex items-center gap-2" style={{ color: "#14B8A6" }}>
-                <Check className="w-5 h-5" /> THIS IS FOR YOU IF:
-              </h3>
-              <ul className="space-y-4 text-base" style={{ color: "#A3A3A3" }}>
-                <li>You watch yourself do destructive things and can't stop</li>
-                <li>You've been in therapy for years but still run the same patterns</li>
-                <li>You understand WHY you do it but can't stop DOING it</li>
-                <li>You sabotage relationships, success, or stability</li>
-                <li>You're tired of insight and ready for interruption</li>
-              </ul>
-            </div>
-
-            <div
-              className="reveal reveal-delay-1 p-8 rounded-md"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "3px solid #EC4899" }}
-            >
-              <h3 className="text-lg font-semibold mb-6 flex items-center gap-2" style={{ color: "#EC4899" }}>
-                <X className="w-5 h-5" /> THIS IS NOT FOR YOU IF:
-              </h3>
-              <ul className="space-y-4 text-base" style={{ color: "#A3A3A3" }}>
-                <li>You're in crisis and need immediate professional help</li>
-                <li>You want someone else to fix you</li>
-                <li>You're looking for a quick fix with no effort</li>
-                <li>You want to understand your childhood (get therapy)</li>
-                <li>You're not ready to see your patterns clearly</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="reveal reveal-delay-2 text-center">
-            <p className="text-lg" style={{ color: "#A3A3A3" }}>
-              This method requires you to <span className="font-semibold" style={{ color: "#F5F5F5" }}>watch yourself</span>,{" "}
-              <span className="font-semibold" style={{ color: "#F5F5F5" }}>name what you see</span>, and{" "}
-              <span className="font-semibold" style={{ color: "#F5F5F5" }}>interrupt it in real-time</span>.
-            </p>
-            <p className="mt-2 italic" style={{ color: "#14B8A6" }}>
-              That's the work. That's all of it.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: THE 9 DESTRUCTIVE PATTERNS */}
+      {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
       <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
         <div className="thread-node" />
-        <div className="thread-node-label">Identification</div>
+        <div className="thread-node-label">Patterns</div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-              CLASSIFIED — 9 IDENTIFIED PATTERNS
-            </p>
-            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-patterns-headline">
-              The 9 Destructive Patterns
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>THE PATTERNS</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
+              9 Destructive Patterns. You're Running at Least One.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {patterns.map((p, i) => (
+            {patternCards.map((p, i) => (
               <div
-                key={p.number}
-                className={`reveal reveal-delay-${Math.min(i + 1, 8)} p-6 rounded-md transition-colors duration-300 group`}
+                key={p.num}
+                className="reveal"
                 style={{
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.06)",
+                  padding: "32px",
+                  transition: "border-color 0.3s",
+                  transitionDelay: `${(i % 3) * 0.1}s`,
                 }}
-                data-testid={`card-pattern-${p.number}`}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#14B8A6")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)")}
+                data-testid={`card-pattern-${p.num}`}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).closest("div")!.style.borderColor = i % 2 === 0 ? "#14B8A6" : "#EC4899";
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).closest("div")!.style.borderColor = "rgba(255,255,255,0.06)";
+                }}
               >
-                <span
-                  className="text-3xl font-bold block mb-2"
-                  style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
-                >
-                  {String(p.number).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-bold mb-3 tracking-wide" style={{ color: "#F5F5F5" }}>
-                  {p.name}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
-                  {p.description}
-                </p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "2rem", color: "#EC4899", marginBottom: "12px" }}>{p.num}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{p.name}</p>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{p.desc}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="reveal text-center mt-12">
-            <Link
-              href="/quiz"
-              className="inline-flex items-center gap-2 text-base font-medium transition-colors"
-              style={{ color: "#14B8A6" }}
-              data-testid="link-discover-pattern"
-            >
-              Discover your pattern <ChevronRight className="w-4 h-4" />
-            </Link>
+      {/* ========== SECTION 4: CTA BREAK ========== */}
+      <section ref={sectionRefs.ctaBreak} className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", color: "white", marginBottom: "32px" }}>
+            Recognize yourself?
+          </h2>
+          <div className="reveal reveal-delay-1">
+            <CTAButton text="FIND YOUR PATTERN" />
           </div>
         </div>
       </section>
 
-      {/* SECTION 5: THE 3-7 SECOND WINDOW */}
+      {/* ========== SECTION 5: THE 3-7 SECOND WINDOW ========== */}
       <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window" style={{ position: "relative" }}>
         <div className="thread-node" />
-        <div className="thread-node-label">The Window</div>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-              THE SCIENCE
-            </p>
-            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-window-headline">
-              You have 3-7 seconds.
-            </h2>
-          </div>
-
-          <p className="reveal reveal-delay-2 text-center text-lg mb-16 max-w-2xl mx-auto" style={{ color: "#A3A3A3" }}>
-            Right now, your patterns run in a 3-7 second window:
-          </p>
-
-          {/* Flow diagram */}
-          <div className="reveal reveal-delay-3">
-            {/* Desktop: horizontal */}
-            <div className="hidden md:flex items-center justify-center gap-0 mb-6">
-              {[
-                { label: "TRIGGER", sub: "Event occurs", highlight: false },
-                { label: "BODY SIGNATURE", sub: "Physical sensation", highlight: true },
-                { label: "THOUGHT", sub: "Story activates", highlight: false },
-                { label: "PATTERN EXECUTES", sub: "Behavior runs", highlight: false },
-              ].map((step, i) => (
-                <div key={i} className="flex items-center">
-                  <div
-                    className="px-6 py-5 rounded-md text-center min-w-[180px]"
-                    style={{
-                      background: step.highlight ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.03)",
-                      border: step.highlight ? "2px solid #14B8A6" : "1px solid rgba(255,255,255,0.06)",
-                      boxShadow: step.highlight ? "0 0 30px rgba(20,184,166,0.15)" : "none",
-                    }}
-                  >
-                    <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
-                      {step.label === "BODY SIGNATURE" ? <><ThreadWord>Body Signature</ThreadWord></> : step.label}
-                    </p>
-                    <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
-                  </div>
-                  {i < 3 && (
-                    <div className="flex flex-col items-center mx-2 relative">
-                      {i === 1 && (
-                        <span
-                          className="interrupt-pulse absolute -top-8 text-xs font-bold tracking-wider whitespace-nowrap"
-                          style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
-                        >
-                          INTERRUPT HERE
-                        </span>
-                      )}
-                      <ArrowRight className="w-5 h-5" style={{ color: i === 1 ? "#EC4899" : "#737373" }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Mobile: vertical */}
-            <div className="md:hidden flex flex-col items-center gap-0 mb-6">
-              {[
-                { label: "TRIGGER", sub: "Event occurs", highlight: false },
-                { label: "BODY SIGNATURE", sub: "Physical sensation", highlight: true },
-                { label: "THOUGHT", sub: "Story activates", highlight: false },
-                { label: "PATTERN EXECUTES", sub: "Behavior runs", highlight: false },
-              ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <div
-                    className="px-6 py-5 rounded-md text-center w-full max-w-[280px]"
-                    style={{
-                      background: step.highlight ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.03)",
-                      border: step.highlight ? "2px solid #14B8A6" : "1px solid rgba(255,255,255,0.06)",
-                      boxShadow: step.highlight ? "0 0 30px rgba(20,184,166,0.15)" : "none",
-                    }}
-                  >
-                    <p className="text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.highlight ? "#14B8A6" : "#737373" }}>
-                      {step.label === "BODY SIGNATURE" ? <><ThreadWord>Body Signature</ThreadWord></> : step.label}
-                    </p>
-                    <p className="text-sm" style={{ color: "#A3A3A3" }}>{step.sub}</p>
-                  </div>
-                  {i < 3 && (
-                    <div className="flex flex-col items-center my-2 relative">
-                      {i === 1 && (
-                        <span
-                          className="interrupt-pulse text-xs font-bold tracking-wider mb-1"
-                          style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}
-                        >
-                          INTERRUPT HERE
-                        </span>
-                      )}
-                      <ArrowRight className="w-5 h-5 rotate-90" style={{ color: i === 1 ? "#EC4899" : "#737373" }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Window badge */}
-            <div className="flex justify-center mb-12">
-              <span
-                className="px-4 py-2 text-xs tracking-[0.2em] uppercase rounded-sm"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  color: "#F5F5F5",
-                  background: "rgba(236,72,153,0.15)",
-                  border: "1px solid rgba(236,72,153,0.3)",
-                }}
-              >
-                3-7 SECOND WINDOW
-              </span>
-            </div>
-          </div>
-
-          <div className="reveal reveal-delay-4 max-w-2xl mx-auto text-center">
-            <p className="text-lg leading-relaxed" style={{ color: "#A3A3A3" }}>
-              Pattern archaeology teaches you to recognize the pattern BEFORE it runs.
-              In that 3-7 second window. In that recognition, you create a gap.
-            </p>
-            <p className="mt-2 text-lg" style={{ color: "#F5F5F5" }}>
-              In that gap, you can interrupt the code.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 6: THIS IS NOT THERAPY */}
-      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Distinction</div>
+        <div className="thread-node-label">Mechanism</div>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif", color: "#14B8A6" }} data-testid="text-not-therapy-headline">
-              This is not therapy.
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>THE MECHANISM</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-window-headline">
+              You Have a 3-7 Second Window
             </h2>
-            <p className="reveal reveal-delay-1 mt-4 text-lg" style={{ color: "#737373" }}>
-              Here's the difference.
+            <p className="reveal reveal-delay-2 mx-auto" style={{ color: "#999", fontSize: "1.1rem", maxWidth: "600px", marginTop: "24px", lineHeight: 1.7 }}>
+              Every destructive pattern follows the same sequence. There's a moment between the trigger and the behavior where your body is screaming at you. That moment is where everything changes.
             </p>
           </div>
 
-          <div className="reveal reveal-delay-2">
-            <div className="grid grid-cols-2 gap-0" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-              <div className="px-4 py-3 text-xs tracking-[0.2em] uppercase" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                THERAPY
-              </div>
-              <div className="px-4 py-3 text-xs tracking-[0.2em] uppercase" style={{ color: "#F5F5F5", fontFamily: "'JetBrains Mono', monospace", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                THE ARCHIVIST METHOD
-              </div>
-              {therapyComparison.map(([therapy, method], i) => (
-                <div key={i} className="contents">
-                  <div className="px-4 py-4 text-sm" style={{ color: "#737373", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    {therapy}
-                  </div>
-                  <div className="px-4 py-4 text-sm font-semibold" style={{ color: "#F5F5F5", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    {method}
-                  </div>
-                </div>
-              ))}
+          {/* Flow diagram - desktop horizontal, mobile vertical */}
+          <div className="reveal reveal-delay-3 hidden md:flex items-center justify-center gap-0" style={{ marginBottom: "48px" }}>
+            {/* Box 1: Trigger */}
+            <div className="text-center" style={{ border: "1px solid #737373", padding: "20px 32px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.9rem" }}>TRIGGER</p>
+            </div>
+            {/* Arrow 1 */}
+            <div style={{ color: "#737373", padding: "0 12px", fontSize: "1.2rem" }}>&rarr;</div>
+            {/* Box 2: Body Signature */}
+            <div className="text-center" style={{ border: "2px solid #14B8A6", padding: "20px 32px", boxShadow: "0 0 15px rgba(20, 184, 166, 0.3), 0 0 30px rgba(20, 184, 166, 0.1)" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.9rem" }}>BODY SIGNATURE</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#14B8A6", fontSize: "0.7rem", marginTop: "8px" }}>3-7 SECONDS</p>
+            </div>
+            {/* Arrow 2 with interrupt label */}
+            <div className="text-center" style={{ padding: "0 12px" }}>
+              <p className="interrupt-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#EC4899", fontSize: "0.65rem", marginBottom: "4px", letterSpacing: "0.1em" }}>INTERRUPT HERE</p>
+              <span style={{ color: "#EC4899", fontSize: "1.2rem" }}>&rarr;</span>
+            </div>
+            {/* Box 3: Pattern Runs */}
+            <div className="text-center" style={{ border: "1px solid #737373", padding: "20px 32px", opacity: 0.5 }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.9rem", textDecoration: "line-through" }}>PATTERN RUNS</p>
             </div>
           </div>
 
-          <div className="reveal reveal-delay-3 text-center mt-12">
-            <p className="text-base" style={{ color: "#A3A3A3" }}>
-              Both have value. They solve different problems.
-            </p>
-            <p className="mt-2 font-semibold" style={{ color: "#F5F5F5" }}>
-              If you need to understand your past, get therapy.
-            </p>
-            <p className="mt-1" style={{ color: "#14B8A6" }}>
-              If you need to interrupt your present, get this.
-            </p>
+          {/* Flow diagram - mobile vertical */}
+          <div className="reveal reveal-delay-3 flex md:hidden flex-col items-center gap-0" style={{ marginBottom: "48px" }}>
+            <div className="text-center" style={{ border: "1px solid #737373", padding: "16px 32px", width: "200px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem" }}>TRIGGER</p>
+            </div>
+            <div style={{ color: "#737373", padding: "8px 0", fontSize: "1.2rem" }}>&darr;</div>
+            <div className="text-center" style={{ border: "2px solid #14B8A6", padding: "16px 32px", width: "200px", boxShadow: "0 0 15px rgba(20, 184, 166, 0.3)" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.85rem" }}>BODY SIGNATURE</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#14B8A6", fontSize: "0.7rem", marginTop: "6px" }}>3-7 SECONDS</p>
+            </div>
+            <div className="text-center" style={{ padding: "8px 0" }}>
+              <p className="interrupt-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#EC4899", fontSize: "0.6rem", marginBottom: "2px", letterSpacing: "0.1em" }}>INTERRUPT HERE</p>
+              <span style={{ color: "#EC4899", fontSize: "1.2rem" }}>&darr;</span>
+            </div>
+            <div className="text-center" style={{ border: "1px solid #737373", padding: "16px 32px", width: "200px", opacity: 0.5 }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem", textDecoration: "line-through" }}>PATTERN RUNS</p>
+            </div>
+          </div>
+
+          <p className="reveal reveal-delay-4 text-center mx-auto" style={{ color: "white", fontSize: "1rem", maxWidth: "500px", lineHeight: 1.8 }}>
+            "Your chest tightens. Your stomach drops. Your jaw clenches. That's not anxiety — that's information. That's your body telling you the pattern is about to run. Learn to catch it, and you can interrupt it before it finishes."
+          </p>
+        </div>
+      </section>
+
+      {/* ========== SECTION 6: THIS IS FOR YOU / NOT FOR YOU ========== */}
+      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Validation</div>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>WHO THIS IS FOR</SectionLabel>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* For You */}
+            <div className="reveal" style={{ borderLeft: "3px solid #14B8A6", padding: "32px" }}>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+                This Is For You If:
+              </h3>
+              <div className="space-y-4">
+                {forYou.map((item, i) => (
+                  <p key={i} style={{ color: "#ccc", fontSize: "1rem", lineHeight: 1.6 }}>
+                    <span style={{ color: "#14B8A6", marginRight: "8px" }}>&mdash;</span>
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* Not For You */}
+            <div className="reveal reveal-delay-2" style={{ borderLeft: "3px solid #EC4899", padding: "32px" }}>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+                This Is Not For You If:
+              </h3>
+              <div className="space-y-4">
+                {notForYou.map((item, i) => (
+                  <p key={i} style={{ color: "#999", fontSize: "1rem", lineHeight: 1.6 }}>
+                    <span style={{ color: "#EC4899", marginRight: "8px" }}>&mdash;</span>
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 7: HOW IT WORKS */}
+      {/* ========== SECTION 7: HOW IT WORKS ========== */}
       <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
         <div className="thread-node" />
-        <div className="thread-node-label">Protocol</div>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-              THE PROTOCOL
-            </p>
-            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-how-it-works-headline">
+        <div className="thread-node-label">Method</div>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>THE METHOD</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
               How Pattern Interruption Works
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "01", title: "IDENTIFY YOUR PATTERN", desc: "Take the 2-minute assessment. Get the specific survival code running your life." },
-              { num: "02", title: "LEARN YOUR BODY SIGNATURE", desc: "Your body signals the pattern 3-7 seconds before it runs. Learn to recognize your warning." },
-              { num: "03", title: "INTERRUPT & TRACK", desc: "When you feel it activate, speak your circuit break statement. Track attempts. You get better every time." },
+              { num: "1", name: "IDENTIFY", desc: "Take the free assessment. Discover which of the 9 patterns is running your behavior. See your specific triggers, body signatures, and the origin of the pattern." },
+              { num: "2", name: "INTERRUPT", desc: "Learn your 3-7 second window. Recognize the body signature. Apply the circuit break before the pattern finishes executing. One successful interrupt changes everything." },
+              { num: "3", name: "REWRITE", desc: "Repetition weakens the pattern. Each interrupt builds a new neural pathway. The pattern doesn't disappear — it loses its grip. You get your choices back." },
             ].map((step, i) => (
               <div
-                key={i}
-                className={`reveal reveal-delay-${i + 2} p-8 rounded-md`}
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                key={step.num}
+                className={`reveal reveal-delay-${i + 1}`}
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}
+                data-testid={`card-step-${step.num}`}
               >
-                <span
-                  className="text-4xl font-bold block mb-4"
-                  style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace" }}
-                >
-                  {step.num}
-                </span>
-                <h3 className="text-base font-bold mb-3 tracking-wide" style={{ color: "#F5F5F5" }}>
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
-                  {step.desc}
-                </p>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{step.name}</p>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{step.desc}</p>
               </div>
             ))}
           </div>
-
-          <p className="reveal text-center text-base" style={{ color: "#A3A3A3" }}>
-            The 7-day protocol gives you proof of concept.<br />
-            <span className="font-semibold" style={{ color: "#F5F5F5" }}>One successful interrupt = the method works for you.</span>
-          </p>
         </div>
       </section>
 
-      {/* SECTION 8: CHOOSE YOUR PATH */}
+      {/* ========== SECTION 8: NOT THERAPY ========== */}
+      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Difference</div>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>THE DIFFERENCE</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
+              Pattern Archaeology vs. Traditional Therapy
+            </h2>
+          </div>
+
+          <div className="reveal reveal-delay-2">
+            {/* Table header */}
+            <div className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "16px", marginBottom: "8px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#737373", textTransform: "uppercase", letterSpacing: "0.1em" }}>THERAPY</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>THE ARCHIVIST METHOD</p>
+            </div>
+            {/* Table rows */}
+            {therapyRows.map((row, i) => (
+              <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "16px 0" }}>
+                <p style={{ color: "#737373", fontSize: "0.95rem" }}>{row[0]}</p>
+                <p style={{ color: "white", fontSize: "0.95rem", borderLeft: "2px solid rgba(20, 184, 166, 0.3)", paddingLeft: "16px" }}>{row[1]}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SECTION 9: PRICING ========== */}
       <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Access</div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-pricing-headline">
-              Choose Your Path
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
+              Start Free. Go Deeper When You're Ready.
             </h2>
-            <p className="reveal reveal-delay-1 mt-4 text-lg" style={{ color: "#737373" }}>
-              Pattern interruption at every level
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Free */}
-            <div
-              className="reveal reveal-delay-1 p-8 rounded-md flex flex-col"
-              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-              data-testid="card-pricing-free"
-            >
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-                THE CRASH COURSE
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {/* Crash Course */}
+            <div className="reveal flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-crash-course">
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
+              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break.
               </p>
-              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Free</p>
-              <p className="text-sm mb-8" style={{ color: "#737373" }}>Start here. See if you recognize yourself.</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  "2-minute pattern assessment",
-                  "Your primary pattern identified",
-                  "7-day Crash Course protocol",
-                  "Body signature guide",
-                  "Circuit break statement",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
-                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
               <Link
                 href="/quiz"
-                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors"
-                style={{
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  color: "#F5F5F5",
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
+                className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
                 data-testid="button-pricing-free"
               >
-                START FREE
+                START FREE <ArrowRight className="inline w-3 h-3 ml-1" />
               </Link>
             </div>
 
-            {/* Field Guide $47 */}
-            <div
-              className="reveal reveal-delay-2 p-8 rounded-md flex flex-col relative"
-              style={{
-                background: "rgba(20,184,166,0.05)",
-                border: "2px solid #14B8A6",
-                backdropFilter: "blur(10px)",
-              }}
-              data-testid="card-pricing-field-guide"
-            >
-              <span
-                className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs tracking-widest uppercase rounded-sm"
-                style={{
-                  background: "#14B8A6",
-                  color: "#0A0A0A",
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
-              >
-                MOST POPULAR
-              </span>
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace" }}>
-                THE FIELD GUIDE
+            {/* Field Guide - emphasized */}
+            <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "2px solid #14B8A6", padding: "40px 32px", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
+              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access.
               </p>
-              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>$47</p>
-              <p className="text-sm mb-8" style={{ color: "#A3A3A3" }}>Go deeper. Get your pattern-specific field guide.</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  "Everything in Crash Course",
-                  "Your pattern's complete field guide (PDF)",
-                  "Detailed body signature mapping",
-                  "Pattern-specific interrupt scripts",
-                  "Relationship pattern analysis",
-                  "The Archivist AI access",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
-                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
               <button
                 onClick={() => handleCheckout("quick-start")}
-                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors cursor-pointer"
-                style={{
-                  background: "#14B8A6",
-                  color: "#0A0A0A",
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
+                className="block w-full text-center py-3 border-2 border-teal-500 text-white tracking-wider uppercase transition-all duration-300 hover:bg-teal-500 hover:text-black cursor-pointer"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
                 data-testid="button-pricing-field-guide"
               >
-                GET THE FIELD GUIDE
+                GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
               </button>
             </div>
 
-            {/* Complete Archive $197 */}
-            <div
-              className="reveal reveal-delay-3 p-8 rounded-md flex flex-col"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                backdropFilter: "blur(10px)",
-              }}
-              data-testid="card-pricing-archive"
-            >
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "#EC4899", fontFamily: "'JetBrains Mono', monospace" }}>
-                THE COMPLETE ARCHIVE
+            {/* Complete Archive */}
+            <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-archive">
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
+              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages.
               </p>
-              <p className="text-4xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>$197</p>
-              <p className="text-sm mb-8" style={{ color: "#A3A3A3" }}>All 9 patterns. Full documentation. Total access.</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  "Everything in Field Guide",
-                  "All Four Doors, fully documented",
-                  "All 9 patterns mapped",
-                  "Cross-pattern analysis",
-                  "Advanced protocols",
-                  "Lifetime access",
-                  "Archivist AI access",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "#A3A3A3" }}>
-                    <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#EC4899" }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
               <button
                 onClick={() => handleCheckout("complete-archive")}
-                className="block w-full text-center py-3 rounded-md text-sm font-medium tracking-wider uppercase transition-colors cursor-pointer"
-                style={{
-                  background: "#EC4899",
-                  color: "#F5F5F5",
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
+                className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
                 data-testid="button-pricing-archive"
               >
-                ENTER THE ARCHIVE
+                GET THE COMPLETE ARCHIVE <ArrowRight className="inline w-3 h-3 ml-1" />
               </button>
             </div>
+          </div>
+
+          <p className="reveal reveal-delay-3 text-center" style={{ color: "#737373", fontSize: "13px", marginTop: "32px" }}>
+            One-time purchase. No subscriptions. No recurring charges. Yours forever.
+          </p>
+        </div>
+      </section>
+
+      {/* ========== SECTION 10: CREDIBILITY BAR ========== */}
+      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { stat: "685+", label: "Pages of Research" },
+              { stat: "9", label: "Documented Patterns" },
+              { stat: "3-7", label: "Second Window" },
+              { stat: "24/7", label: "AI Pattern Coach" },
+            ].map((item) => (
+              <div key={item.label}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.5rem", color: "#14B8A6", marginBottom: "4px" }}>{item.stat}</p>
+                <p style={{ color: "#999", fontSize: "0.85rem" }}>{item.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 9: ABOUT THE ARCHIVIST */}
-      <section ref={sectionRefs.founder} className="py-24 md:py-32 px-6" data-testid="section-founder" style={{ position: "relative" }}>
+      {/* ========== SECTION 11: FOUNDER ========== */}
+      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Origin</div>
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
-            <h2 className="reveal reveal-delay-1 text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-founder-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
               About The Founder
             </h2>
           </div>
 
-          <div className="reveal reveal-delay-2 space-y-6 text-base leading-relaxed" style={{ color: "#A3A3A3" }}>
-            <p>
-              I built this because I was watching patterns<br />
-              destroy something I cared about deeply.<br />
-              Someone I love was running the same loops I was —<br />
-              and neither of us knew how to stop.<br />
-              We could see it happening. We could name it.<br />
-              We just couldn't interrupt it.
+          <div className="reveal reveal-delay-2 text-center" style={{ lineHeight: 1.8 }}>
+            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
+              I built this because I was watching patterns destroy something I cared about deeply. Someone I love was running the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't interrupt it.
             </p>
-            <p>
-              So I started researching. Obsessively.<br />
-              Tearing apart every framework I could find.<br />
-              Looking for the one thing underneath all of it<br />
-              that actually worked.<br />
-              Not in six months. Not in theory. Right now.<br />
-              In the middle of the fight. In the middle of the flood.
+            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
+              So I started researching. Obsessively. Tearing apart every framework I could find. Looking for the one thing underneath all of it that actually worked. Not in six months. Not in theory. Right now. In the middle of the fight. In the middle of the flood.
             </p>
-            <p>
-              This method is what I found.<br />
-              I built it for us. I'm sharing it because<br />
-              I know we're not the only ones.
+            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
+              This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p className="italic" style={{ color: "#F5F5F5" }}>
-              <ThreadWord>For her.</ThreadWord>
+            <p style={{ color: "#F5F5F5", fontSize: "1.1rem", fontStyle: "italic", marginBottom: "16px" }}>
+              For her.
             </p>
-            <p className="italic" style={{ color: "#737373" }}>
+            <p style={{ color: "#999", fontSize: "1rem" }}>
               — Aaron
             </p>
           </div>
         </div>
       </section>
 
-      {/* SECTION 10: FINAL CTA */}
-      <section ref={sectionRefs.finalCta} className="py-32 md:py-40 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
+      {/* ========== SECTION 12: FINAL CTA ========== */}
+      <section ref={sectionRefs.finalCta} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Interrupt</div>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal text-3xl md:text-5xl font-bold mb-8" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-final-cta-headline">
-            Stop running the pattern.
+          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "32px" }} data-testid="text-final-cta-headline">
+            You found the thread. Now pull it.
           </h2>
-
-          <p className="reveal reveal-delay-1 text-lg leading-relaxed mb-12" style={{ color: "#737373" }}>
-            Take the 2-minute assessment.<br />
-            Get your 7-day protocol.<br />
-            Start breaking the cycle today.
-          </p>
-
-          <div className="reveal reveal-delay-2">
-            <CTAButton text="TAKE THE FREE ASSESSMENT" />
+          <div className="reveal reveal-delay-1">
+            <CTAButton text="FIND YOUR PATTERN" />
           </div>
-
-          <p className="reveal reveal-delay-3 mt-6 text-xs" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
-            Free  ·  2 Minutes  ·  Instant Results
+          <p className="reveal reveal-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
+            Free · 2 Minutes · Instant Results
           </p>
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ========== SECTION 13: FOOTER ========== */}
       <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <p className="text-sm leading-relaxed" style={{ color: "#737373" }}>
-            Built in the fire. Years of observation. Systematized December 2025.
+          <p style={{ color: "#737373", fontSize: "13px" }}>
+            &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
-          <p className="text-xs italic" style={{ color: "#525252" }}>
-            — The Archivist
+          <div className="flex justify-center gap-6">
+            <Link href="/terms" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
+            <Link href="/privacy" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
+            <Link href="/contact" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
+          </div>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#444" }}>
+            Built in the fire. Systematized December 2025.
           </p>
-          <div className="pt-6">
-            <p className="text-xs" style={{ color: "#525252" }}>
-              &copy; 2026 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
-            </p>
-          </div>
-          <div className="flex justify-center gap-6 pt-2">
-            <Link href="/terms" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-terms">Terms</Link>
-            <Link href="/privacy" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-privacy">Privacy</Link>
-            <Link href="/contact" className="text-xs transition-colors" style={{ color: "#525252" }} data-testid="link-contact">Contact</Link>
-          </div>
         </div>
       </footer>
     </div>
