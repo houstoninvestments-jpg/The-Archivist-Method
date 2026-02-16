@@ -270,7 +270,7 @@ export default function QuizResult() {
             <ul className="space-y-3">
               {[
                 'Complete pattern analysis',
-                'Your body signature (the 2.7 second warning)',
+                'Your body signature (the 3-7 second warning)',
                 'The Four Doors Protocol for your pattern',
                 'AI Pattern Coach (24/7)',
                 'The Crash Course (free)',
