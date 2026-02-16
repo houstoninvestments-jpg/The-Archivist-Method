@@ -355,19 +355,19 @@ export default function Landing() {
 
           <h1
             className="font-bold leading-[1.1] mb-8"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6rem)" }}
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.8rem, 8vw, 5.5rem)" }}
             data-testid="text-brand-title"
           >
-            You already know<br />what you're doing.
+            You already know<br />what you're doing.<br />
+            <span style={{ color: "#14B8A6" }}>This teaches you how to stop.</span>
           </h1>
 
-          <p className="text-lg md:text-xl leading-relaxed mb-3 max-w-[500px] mx-auto" style={{ color: "#737373" }}>
-            You watch yourself do it. You know it's happening.<br />
-            You do it anyway.
+          <p className="text-lg md:text-xl leading-relaxed mb-3 max-w-[600px] mx-auto" style={{ color: "#737373" }}>
+            A pattern interruption system for people who understand their destructive patterns but can't stop running them.
           </p>
 
           <p className="text-lg mb-12 tracking-wide" style={{ color: "#14B8A6", letterSpacing: "0.05em" }}>
-            This method teaches you to <ThreadWord>interrupt it</ThreadWord>.
+            Discover your pattern. <ThreadWord>Interrupt it</ThreadWord> in 7–90 days.
           </p>
 
           <CTAButton text="DISCOVER YOUR PATTERN" />
