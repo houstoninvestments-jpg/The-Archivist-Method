@@ -339,6 +339,13 @@ export default function Landing() {
       <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero" style={{ position: "relative" }}>
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
+            className="text-sm md:text-base tracking-[0.3em] uppercase mb-4"
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}
+            data-testid="text-brand-name"
+          >
+            THE ARCHIVIST METHOD&trade;
+          </p>
+          <p
             className="text-xs tracking-[0.35em] uppercase mb-12"
             style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}
             data-testid="text-brand-tagline"
