@@ -121,6 +121,17 @@ export default function Landing() {
       { threshold: 0.5 }
     );
 
+    const labelObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("thread-node-visible");
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
     const wordObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -136,11 +147,13 @@ export default function Landing() {
     const page = pageRef.current;
     if (page) {
       page.querySelectorAll(".thread-node").forEach((el) => nodeObserver.observe(el));
+      page.querySelectorAll(".thread-node-label").forEach((el) => labelObserver.observe(el));
       page.querySelectorAll(".thread-word").forEach((el) => wordObserver.observe(el));
     }
 
     return () => {
       nodeObserver.disconnect();
+      labelObserver.disconnect();
       wordObserver.disconnect();
     };
   }, []);
@@ -194,43 +207,56 @@ export default function Landing() {
         .thread-page::before {
           content: '';
           position: fixed;
-          left: 60px;
+          left: 40px;
           top: 0;
-          width: 2px;
+          width: 1px;
+          height: 100vh;
+          background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(20, 184, 166, 0.15) 10%,
+            rgba(20, 184, 166, 0.4) 50%,
+            rgba(20, 184, 166, 0.15) 90%,
+            transparent 100%
+          );
+          z-index: 40;
+          pointer-events: none;
+        }
+
+        /* Active thread overlay that grows with scroll */
+        .thread-page::after {
+          content: '';
+          position: fixed;
+          left: 40px;
+          top: 0;
+          width: 1px;
           height: 100vh;
           background: #14B8A6;
-          box-shadow: 0 0 8px rgba(20, 184, 166, 0.3);
+          box-shadow: 0 0 6px rgba(20, 184, 166, 0.4), 0 0 20px rgba(20, 184, 166, 0.1);
           transform-origin: top;
           transform: scaleY(var(--scroll-progress, 0));
-          opacity: clamp(0, calc((var(--scroll-progress, 0) - 0.05) * 6.67), 1);
+          opacity: calc(
+            clamp(0, (var(--scroll-progress, 0) - 0.02) * 10, 1) *
+            clamp(0, (1 - var(--scroll-progress, 0)) * 10, 1)
+          );
           z-index: 40;
           pointer-events: none;
           transition: none;
         }
 
-        /* Fade out thread in last 10% */
-        @supports (opacity: 1) {
-          .thread-page::before {
-            opacity: calc(
-              clamp(0, (var(--scroll-progress, 0) - 0.05) * 6.67, 1) *
-              clamp(0, (1 - var(--scroll-progress, 0)) * 10, 1)
-            );
-          }
-        }
-
         /* Thread nodes */
         .thread-node {
           position: absolute;
-          left: 60px;
+          left: 40px;
           top: 0;
-          width: 12px;
-          height: 12px;
+          width: 9px;
+          height: 9px;
           border-radius: 50%;
-          border: 2px solid #14B8A6;
           background: #0A0A0A;
+          border: 1.5px solid rgba(20, 184, 166, 0.4);
           transform: translate(-50%, -50%) scale(0);
           opacity: 0;
-          transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+          transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
           z-index: 41;
           pointer-events: none;
         }
@@ -238,12 +264,29 @@ export default function Landing() {
         .thread-node.thread-node-visible {
           opacity: 1;
           transform: translate(-50%, -50%) scale(1);
-          animation: thread-node-pulse 2s ease-out infinite 0.4s;
+          background: #14B8A6;
+          border-color: #14B8A6;
+          box-shadow: 0 0 8px rgba(20, 184, 166, 0.5);
         }
 
-        @keyframes thread-node-pulse {
-          0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
-          100% { box-shadow: 0 0 0 8px rgba(20, 184, 166, 0); }
+        /* Thread node label */
+        .thread-node-label {
+          position: absolute;
+          left: 40px;
+          transform: translate(14px, -50%);
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 9px;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: rgba(20, 184, 166, 0);
+          white-space: nowrap;
+          z-index: 41;
+          pointer-events: none;
+          transition: color 0.6s ease-out 0.2s;
+        }
+
+        .thread-node-label.thread-node-visible {
+          color: rgba(20, 184, 166, 0.35);
         }
 
         /* Thread word underlines */
@@ -257,10 +300,10 @@ export default function Landing() {
           position: absolute;
           left: 0;
           bottom: -2px;
-          height: 2px;
+          height: 1.5px;
           width: 0%;
           background: #14B8A6;
-          box-shadow: 0 1px 6px rgba(20, 184, 166, 0.3);
+          box-shadow: 0 1px 4px rgba(20, 184, 166, 0.2);
           transition: width 0.6s ease-out;
         }
 
@@ -269,11 +312,13 @@ export default function Landing() {
         }
 
         /* Mobile: hide thread line and nodes */
-        @media (max-width: 768px) {
-          .thread-page::before {
+        @media (max-width: 1024px) {
+          .thread-page::before,
+          .thread-page::after {
             display: none !important;
           }
-          .thread-node {
+          .thread-node,
+          .thread-node-label {
             display: none !important;
           }
           .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
@@ -283,10 +328,10 @@ export default function Landing() {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .ticker-track { animation: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
-          .thread-page::before { transition: none !important; }
-          .thread-node { transition: none !important; animation: none !important; }
+          .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
+          .thread-node { transition: none !important; display: none !important; }
+          .thread-node-label { transition: none !important; display: none !important; }
           .thread-word::after { transition: none !important; }
-          .thread-node.thread-node-visible { animation: none !important; }
         }
       `}</style>
 
@@ -324,12 +369,12 @@ export default function Landing() {
             Free  ·  2 Minutes  ·  Instant Results
           </p>
         </div>
-        {/* Thread node: hero bottom */}
-        <div className="thread-node" style={{ top: "100%", bottom: "auto" }} />
       </section>
 
       {/* SECTION 2: GUT CHECK */}
       <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Recognition</div>
         <div className="max-w-5xl mx-auto text-center">
           <p className="reveal text-lg mb-10" style={{ color: "#737373" }}>
             One of these is running your life right now:
@@ -359,7 +404,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 3: WHO THIS IS FOR */}
-      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for">
+      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Qualification</div>
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div
@@ -410,8 +457,8 @@ export default function Landing() {
 
       {/* SECTION 4: THE 9 DESTRUCTIVE PATTERNS */}
       <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
-        {/* Thread node: patterns top */}
         <div className="thread-node" />
+        <div className="thread-node-label">Identification</div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -466,8 +513,8 @@ export default function Landing() {
 
       {/* SECTION 5: THE 3-7 SECOND WINDOW */}
       <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window" style={{ position: "relative" }}>
-        {/* Thread node: window top */}
         <div className="thread-node" />
+        <div className="thread-node-label">The Window</div>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -591,7 +638,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 6: THIS IS NOT THERAPY */}
-      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy">
+      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Distinction</div>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif", color: "#14B8A6" }} data-testid="text-not-therapy-headline">
@@ -638,7 +687,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 7: HOW IT WORKS */}
-      <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works">
+      <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Protocol</div>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -685,8 +736,8 @@ export default function Landing() {
 
       {/* SECTION 8: CHOOSE YOUR PATH */}
       <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
-        {/* Thread node: pricing top */}
         <div className="thread-node" />
+        <div className="thread-node-label">Access</div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="reveal text-3xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-pricing-headline">
@@ -841,8 +892,8 @@ export default function Landing() {
 
       {/* SECTION 9: ABOUT THE ARCHIVIST */}
       <section ref={sectionRefs.founder} className="py-24 md:py-32 px-6" data-testid="section-founder" style={{ position: "relative" }}>
-        {/* Thread node: founder top */}
         <div className="thread-node" />
+        <div className="thread-node-label">Origin</div>
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
             <p className="reveal text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "#737373", fontFamily: "'JetBrains Mono', monospace" }}>
@@ -886,7 +937,9 @@ export default function Landing() {
       </section>
 
       {/* SECTION 10: FINAL CTA */}
-      <section ref={sectionRefs.finalCta} className="py-32 md:py-40 px-6" data-testid="section-final-cta">
+      <section ref={sectionRefs.finalCta} className="py-32 md:py-40 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Interrupt</div>
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="reveal text-3xl md:text-5xl font-bold mb-8" style={{ fontFamily: "'Playfair Display', serif" }} data-testid="text-final-cta-headline">
             Stop running the pattern.
