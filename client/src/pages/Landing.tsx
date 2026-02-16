@@ -4,6 +4,7 @@ import { useEffect, useRef, lazy, Suspense } from "react";
 import { apiRequest } from "@/lib/queryClient";
 
 const ParticleField = lazy(() => import("@/components/ParticleField"));
+const ThreeSevenSecondAnimation = lazy(() => import("@/components/ThreeSevenSecondAnimation"));
 
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger." },
@@ -491,47 +492,10 @@ export default function Landing() {
             </p>
           </div>
 
-          {/* Flow diagram - desktop horizontal, mobile vertical */}
-          <div className="reveal reveal-delay-3 hidden md:flex items-center justify-center gap-0" style={{ marginBottom: "48px" }}>
-            {/* Box 1: Trigger */}
-            <div className="text-center" style={{ border: "1px solid #737373", padding: "20px 32px" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.9rem" }}>TRIGGER</p>
-            </div>
-            {/* Arrow 1 */}
-            <div style={{ color: "#737373", padding: "0 12px", fontSize: "1.2rem" }}>&rarr;</div>
-            {/* Box 2: Body Signature */}
-            <div className="text-center" style={{ border: "2px solid #14B8A6", padding: "20px 32px", boxShadow: "0 0 15px rgba(20, 184, 166, 0.3), 0 0 30px rgba(20, 184, 166, 0.1)" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.9rem" }}>BODY SIGNATURE</p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#14B8A6", fontSize: "0.7rem", marginTop: "8px" }}>3-7 SECONDS</p>
-            </div>
-            {/* Arrow 2 with interrupt label */}
-            <div className="text-center" style={{ padding: "0 12px" }}>
-              <p className="interrupt-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#EC4899", fontSize: "0.65rem", marginBottom: "4px", letterSpacing: "0.1em" }}>INTERRUPT HERE</p>
-              <span style={{ color: "#EC4899", fontSize: "1.2rem" }}>&rarr;</span>
-            </div>
-            {/* Box 3: Pattern Runs */}
-            <div className="text-center" style={{ border: "1px solid #737373", padding: "20px 32px", opacity: 0.5 }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.9rem", textDecoration: "line-through" }}>PATTERN RUNS</p>
-            </div>
-          </div>
-
-          {/* Flow diagram - mobile vertical */}
-          <div className="reveal reveal-delay-3 flex md:hidden flex-col items-center gap-0" style={{ marginBottom: "48px" }}>
-            <div className="text-center" style={{ border: "1px solid #737373", padding: "16px 32px", width: "200px" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem" }}>TRIGGER</p>
-            </div>
-            <div style={{ color: "#737373", padding: "8px 0", fontSize: "1.2rem" }}>&darr;</div>
-            <div className="text-center" style={{ border: "2px solid #14B8A6", padding: "16px 32px", width: "200px", boxShadow: "0 0 15px rgba(20, 184, 166, 0.3)" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.85rem" }}>BODY SIGNATURE</p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#14B8A6", fontSize: "0.7rem", marginTop: "6px" }}>3-7 SECONDS</p>
-            </div>
-            <div className="text-center" style={{ padding: "8px 0" }}>
-              <p className="interrupt-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#EC4899", fontSize: "0.6rem", marginBottom: "2px", letterSpacing: "0.1em" }}>INTERRUPT HERE</p>
-              <span style={{ color: "#EC4899", fontSize: "1.2rem" }}>&darr;</span>
-            </div>
-            <div className="text-center" style={{ border: "1px solid #737373", padding: "16px 32px", width: "200px", opacity: 0.5 }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem", textDecoration: "line-through" }}>PATTERN RUNS</p>
-            </div>
+          <div className="reveal reveal-delay-3" style={{ marginBottom: "48px" }}>
+            <Suspense fallback={null}>
+              <ThreeSevenSecondAnimation />
+            </Suspense>
           </div>
 
           <p className="reveal reveal-delay-4 text-center mx-auto" style={{ color: "white", fontSize: "1rem", maxWidth: "500px", lineHeight: 1.8 }}>
