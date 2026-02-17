@@ -1,6 +1,6 @@
 # THE ARCHIVIST METHOD — PROJECT STATUS
 
-> Last updated: February 15, 2026
+> Last updated: February 17, 2026
 
 ---
 
@@ -37,6 +37,25 @@
 - Framer Motion scroll animations
 - 3-tier pricing section (Free / $47 / $197)
 - Chatbot widget (UI only, not wired to Claude API)
+
+### Landing Page Overhaul (Feb 17, 2026)
+- **Hero rewritten** — new headline, positioning, and mechanism copy
+- **Quiz intro page** redesigned to match cinematic dark aesthetic
+- **Admin panel** completely rebuilt: clean dashboard, proper role-based god mode (no more dev toggles)
+- **Timed sequence** — 3-7 second static window replaced with experiential timed sequence
+- **Pattern card hover-to-reveal** — hovering pattern cards surfaces triggering thought samples
+- **"From The Archives" section** — case file documents added to landing page
+- **Redacted hover-reveal** — classified text reveals on hover across case files
+- **Bento box dashboard preview** — visual preview of the portal experience added
+- **Live system log footer** — animated log entries give the UI a living-system feel
+- **Micro-coordinates** — section labels with coordinate notation (`LAT/LON`, `REF:`) throughout
+- **Background scroll evolution** — grain texture → grid → clean dark as user scrolls
+- **Quiz results glitch effect** — distortion transition on result reveal
+- **Skeleton blueprint loading** — loading states styled as technical blueprints
+- **Results page pattern probability %** — percentage display added to pattern results
+- **Footer line updated** — copy refreshed to match current brand voice
+- **Multiple CTA touchpoints** — CTAs distributed throughout page, not just bottom
+- **Full comprehensive audit** — all orphaned refs, dead imports, and UI inconsistencies resolved
 
 ### Backend
 - Express server running on Replit
