@@ -1341,6 +1341,9 @@ export default function Landing() {
       <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-4xl mx-auto text-center space-y-4">
           <LiveSystemLog />
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6, margin: "24px 0" }}>
+            The archive is open. Don't close the door.
+          </p>
           <p style={{ color: "#737373", fontSize: "13px" }}>
             &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
