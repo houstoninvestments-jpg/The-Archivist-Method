@@ -202,6 +202,114 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
   );
 }
 
+const systemLogEntries = [
+  { msg: "Pattern identified: THE DISAPPEARING PATTERN", detail: "Case #4,271" },
+  { msg: "Circuit break applied. Interrupt confirmed", detail: "User #8,821" },
+  { msg: "Archive synced.", detail: "12,847 loops interrupted to date" },
+  { msg: "Body signature detected: chest tightness", detail: "Pattern: APOLOGY LOOP" },
+  { msg: "Field Guide accessed", detail: "Case #3,092 — Day 34 of 90" },
+  { msg: "Successful interrupt logged — TESTING PATTERN", detail: "3.2 second window" },
+  { msg: "New pattern identified: SUCCESS SABOTAGE", detail: "Case #5,118" },
+  { msg: "Circuit break: 'I don't need to destroy this.'", detail: "Interrupt held" },
+  { msg: "Workbench activated — Brain dump in progress", detail: "User #6,440" },
+  { msg: "Pattern weakening detected — DRAINING BOND", detail: "Week 6 of protocol" },
+  { msg: "Archive entry created — COMPLIMENT DEFLECTION", detail: "Body signature: throat closing" },
+  { msg: "3-7 second window caught — RAGE PATTERN", detail: "Interrupt applied at 2.8s" },
+  { msg: "Crash Course completed — PERFECTIONISM TRAP", detail: "Case #7,203" },
+  { msg: "Cross-pattern analysis: DISAPPEARING + TESTING", detail: "correlation 0.84" },
+  { msg: "Streak update: 31 consecutive days — ATTRACTION TO HARM", detail: "User #2,119" },
+  { msg: "New circuit break registered — APOLOGY LOOP", detail: "User #4,507" },
+  { msg: "Body signature mapped: jaw clenching", detail: "Pattern: TESTING — Case #1,882" },
+  { msg: "Archive access: COMPLETE ARCHIVE tier", detail: "User #3,291 — Session 47" },
+];
+
+function formatTimestamp() {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`;
+}
+
+function LiveSystemLog() {
+  const [lines, setLines] = useState<{ id: number; ts: string; entry: typeof systemLogEntries[0] }[]>([]);
+  const pool = useRef(Array.from({ length: systemLogEntries.length }, (_, i) => i));
+  const counter = useRef(0);
+
+  const pickNext = useCallback(() => {
+    if (pool.current.length === 0) pool.current = Array.from({ length: systemLogEntries.length }, (_, i) => i);
+    const idx = Math.floor(Math.random() * pool.current.length);
+    const picked = pool.current.splice(idx, 1)[0];
+    return systemLogEntries[picked];
+  }, []);
+
+  useEffect(() => {
+    const addLine = () => {
+      const entry = pickNext();
+      const id = ++counter.current;
+      setLines((prev) => [...prev.slice(-2), { id, ts: formatTimestamp(), entry }]);
+    };
+    addLine();
+    const interval = setInterval(addLine, 3000);
+    return () => clearInterval(interval);
+  }, [pickNext]);
+
+  const highlightLine = (text: string) => {
+    return text.replace(/(THE \w[\w\s]*PATTERN|DISAPPEARING|APOLOGY LOOP|TESTING|SUCCESS SABOTAGE|DRAINING BOND|COMPLIMENT DEFLECTION|RAGE PATTERN|PERFECTIONISM TRAP|ATTRACTION TO HARM|COMPLETE ARCHIVE)/g, "%%TEAL%%$1%%END%%")
+      .replace(/(#[\d,]+|[\d,]+(?:\.\d+)?(?:\s*(?:second|loops|days|consecutive))?)/g, "%%PINK%%$1%%END%%")
+      .split(/(%%TEAL%%|%%PINK%%|%%END%%)/)
+      .reduce<{ parts: JSX.Element[]; mode: string }>((acc, chunk, i) => {
+        if (chunk === "%%TEAL%%") return { ...acc, mode: "teal" };
+        if (chunk === "%%PINK%%") return { ...acc, mode: "pink" };
+        if (chunk === "%%END%%") return { ...acc, mode: "" };
+        if (chunk) {
+          const color = acc.mode === "teal" ? "#14B8A6" : acc.mode === "pink" ? "#EC4899" : "#444";
+          acc.parts.push(<span key={i} style={{ color }}>{chunk}</span>);
+        }
+        return acc;
+      }, { parts: [], mode: "" }).parts;
+  };
+
+  return (
+    <div data-testid="live-system-log" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "16px 0 12px", minHeight: "60px", overflow: "hidden" }}>
+      {lines.map((line, i) => (
+        <p
+          key={line.id}
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "11px",
+            color: "#444",
+            lineHeight: 1.8,
+            animation: "logFadeIn 0.5s ease-out forwards",
+            opacity: i === lines.length - 1 ? 1 : 0.4,
+            transition: "opacity 0.3s",
+          }}
+        >
+          <span style={{ color: "#555" }}>[{line.ts}]</span> {highlightLine(`${line.entry.msg} — ${line.entry.detail}`)}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function SectorLabel({ text }: { text: string }) {
+  return (
+    <span
+      className="hidden md:block"
+      style={{
+        position: "absolute",
+        top: "16px",
+        right: "24px",
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: "9px",
+        color: "rgba(255,255,255,0.12)",
+        letterSpacing: "0.05em",
+        pointerEvents: "none",
+        zIndex: 1,
+      }}
+    >
+      {text}
+    </span>
+  );
+}
+
 function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; index: number }) {
   const [declassified, setDeclassified] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -351,6 +459,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
     >
       <div className="thread-node" />
       <div className="thread-node-label">Mechanism</div>
+      <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
       <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
         <p
           style={{
@@ -462,6 +571,15 @@ export default function Landing() {
       <Suspense fallback={null}>
         <ParticleField />
       </Suspense>
+
+      <div className="bg-grain" />
+      <div className="bg-grid" />
+
+      <div className="skeleton-overlay" data-testid="skeleton-loading">
+        <div style={{ position: "relative", width: "clamp(200px, 50vw, 400px)", height: "24px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+        <div style={{ position: "relative", width: "clamp(140px, 35vw, 260px)", height: "14px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+        <div style={{ position: "relative", width: "clamp(100px, 20vw, 160px)", height: "40px", marginTop: "8px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+      </div>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
@@ -596,6 +714,73 @@ export default function Landing() {
           .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
         }
 
+        @keyframes logFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bg-grain {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+          background-repeat: repeat;
+          background-size: 200px 200px;
+          opacity: calc(1 - var(--scroll-progress, 0) * 3);
+          transition: opacity 0.1s linear;
+        }
+
+        .bg-grid {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background-image:
+            linear-gradient(rgba(20,184,166,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20,184,166,0.025) 1px, transparent 1px);
+          background-size: 80px 80px;
+          opacity: calc(
+            clamp(0, (var(--scroll-progress, 0) - 0.15) * 4, 1) *
+            clamp(0, (0.7 - var(--scroll-progress, 0)) * 4, 1)
+          );
+        }
+
+        .skeleton-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: #0A0A0A;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          animation: skeletonFadeOut 0.4s ease-out 0.8s forwards;
+          pointer-events: none;
+        }
+        .skeleton-bar {
+          background: rgba(255,255,255,0.03);
+          animation: skeletonPulse 1s ease-in-out infinite;
+        }
+        .skeleton-bar-outline {
+          position: absolute;
+          inset: 0;
+          border: 1px solid transparent;
+          animation: skeletonTrace 0.8s ease-out forwards;
+        }
+        @keyframes skeletonPulse {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.8; }
+        }
+        @keyframes skeletonTrace {
+          0% { border-color: transparent; clip-path: inset(0 100% 0 0); }
+          100% { border-color: rgba(20,184,166,0.15); clip-path: inset(0 0 0 0); }
+        }
+        @keyframes skeletonFadeOut {
+          to { opacity: 0; visibility: hidden; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
@@ -603,6 +788,8 @@ export default function Landing() {
           .thread-node { transition: none !important; display: none !important; }
           .thread-node-label { transition: none !important; display: none !important; }
           .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
+          .skeleton-overlay { display: none !important; }
+          .bg-grain, .bg-grid { display: none !important; }
         }
       `}</style>
 
@@ -662,6 +849,7 @@ export default function Landing() {
       <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Recognition</div>
+        <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
             Which one makes your stomach drop?
@@ -707,6 +895,7 @@ export default function Landing() {
       <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Patterns</div>
+        <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE PATTERNS</SectionLabel>
@@ -785,6 +974,7 @@ export default function Landing() {
       <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Method</div>
+        <SectorLabel text="PROTOCOL: FEIR-4 // CLEARANCE: STANDARD" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
@@ -864,7 +1054,8 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
-      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
+        <SectorLabel text="DATASET: 685 PAGES // PATTERNS: 9 // CONFIDENCE: 0.97" />
         <div className="max-w-5xl mx-auto">
           <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -1149,6 +1340,7 @@ export default function Landing() {
       {/* ========== SECTION 13: FOOTER ========== */}
       <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-4xl mx-auto text-center space-y-4">
+          <LiveSystemLog />
           <p style={{ color: "#737373", fontSize: "13px" }}>
             &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
@@ -1157,9 +1349,6 @@ export default function Landing() {
             <Link href="/privacy" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
             <Link href="/contact" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
           </div>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
-            The archive is open. Don't close the door.
-          </p>
         </div>
       </footer>
     </div>

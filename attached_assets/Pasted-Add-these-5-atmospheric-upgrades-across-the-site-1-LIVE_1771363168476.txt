@@ -1,0 +1,85 @@
+Add these 5 atmospheric upgrades across the site:
+
+1. LIVE SYSTEM LOG FOOTER:
+Replace the static footer closing line with a live-updating system log. Create 15-20 fake log entries that cycle through randomly, showing one new line every 3 seconds. Each line fades in, pushes the previous line up, and the oldest line fades out. Max 3 visible lines at a time.
+
+Style: JetBrains Mono, 11px, #444. Timestamps in #555. Pattern names in teal. Numbers in pink.
+
+Example entries (create 15-20 variations mixing these formats):
+"[14:22:01] Pattern identified: THE DISAPPEARING PATTERN — Case #4,271"
+"[14:22:05] Circuit break applied. Interrupt confirmed — User #8,821"
+"[14:22:11] Archive synced. 12,847 loops interrupted to date."
+"[14:22:14] Body signature detected: chest tightness — Pattern: APOLOGY LOOP"
+"[14:22:19] Field Guide accessed — Case #3,092 — Day 34 of 90"
+"[14:22:23] Successful interrupt logged — TESTING PATTERN — 3.2 second window"
+"[14:22:28] New pattern identified: SUCCESS SABOTAGE — Case #5,118"
+"[14:22:31] Circuit break: 'I don't need to destroy this.' — Interrupt held."
+"[14:22:35] Workbench activated — Brain dump in progress — User #6,440"
+"[14:22:39] Pattern weakening detected — DRAINING BOND — Week 6 of protocol"
+"[14:22:42] Archive entry created — COMPLIMENT DEFLECTION — Body signature: throat closing"
+"[14:22:46] 3-7 second window caught — RAGE PATTERN — Interrupt applied at 2.8 seconds"
+"[14:22:50] Crash Course completed — Pattern: PERFECTIONISM TRAP — Case #7,203"
+"[14:22:54] Cross-pattern analysis: DISAPPEARING + TESTING — correlation 0.84"
+"[14:22:58] Streak update: 31 consecutive days — ATTRACTION TO HARM — User #2,119"
+
+The timestamps should use the user's actual current time (new Date()), incrementing by random 2-5 seconds. The log entries cycle randomly with no repeats until all have shown.
+
+Place this above the copyright line and footer links. Give it a subtle top border: 1px solid rgba(255,255,255,0.05).
+
+The overall effect should feel like you're watching a live intelligence system processing pattern data globally.
+
+2. MICRO-COORDINATES ON SECTIONS:
+Add small "dossier metadata" strings in the top-right corner of sections 2, 3, 5, 7, and 10 (gut check, patterns, 3-7 window, how it works, credibility bar).
+
+Style: JetBrains Mono, 9px, rgba(255,255,255,0.12), position absolute, top 16px, right 24px.
+
+Each section gets a unique string:
+- Gut check: "SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE"
+- 9 Patterns: "ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY"
+- 3-7 Window: "TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE"
+- How it works: "PROTOCOL: FEIR-4 // CLEARANCE: STANDARD"
+- Credibility bar: "DATASET: 685 PAGES // PATTERNS: 9 // CONFIDENCE: 0.97"
+
+These should be barely noticeable — discovered, not displayed. Someone who notices them thinks "wow, the attention to detail." Someone who doesn't notice isn't distracted.
+
+On mobile: hide these completely (display: none under 768px). They're a desktop detail.
+
+3. BACKGROUND EVOLUTION ON SCROLL:
+Add a subtle background texture that evolves as the user scrolls down the page.
+
+Top of page (hero through gut check): Add a very subtle CSS noise/grain overlay. Use a repeating tiny SVG pattern or CSS background-image noise at 3-5% opacity. This creates a "raw, unprocessed" feel.
+
+Middle of page (patterns through comparison table): The grain fades out. A very subtle teal grid pattern fades IN at 2-3% opacity. Thin lines, 80px spacing. This suggests "the system is organizing the chaos."
+
+Bottom of page (pricing through footer): Both grain and grid fade out completely. Pure clean #0A0A0A. Maximum whitespace. The archive is organized. The method is clear.
+
+Implementation: Use CSS background-image layers with opacity transitions tied to scroll position (use the same --scroll-progress CSS variable from the thread animation). The transitions should be very gradual — the user shouldn't consciously notice the shift, just feel it.
+
+4. QUIZ RESULTS GLITCH EFFECT:
+When the quiz finishes calculating the pattern result, add a 0.3 second "digital glitch" effect before revealing the result.
+
+The effect: For 0.3 seconds, the screen shows:
+- 2-3 horizontal "scanlines" (thin white lines at random Y positions, 1px height, full width, 20% opacity)
+- The result text scrambles through random characters rapidly (like a slot machine resolving) — cycle through random letters for 0.3s then resolve to the actual pattern name
+- A very brief screen flash (the background goes to #111 for 50ms then back to #0A0A0A)
+
+After the 0.3s glitch, the result appears cleanly with the pattern name and match percentage.
+
+The effect should feel mechanical and intentional — like the system just processed something heavy. NOT like the site is broken. Keep it very brief and controlled.
+
+Use CSS keyframes for the scanlines and a simple JavaScript string scramble for the text. No external libraries.
+
+5. SKELETON BLUEPRINT LOADING:
+When the landing page first loads, instead of a blank screen or flash of unstyled content, show a skeleton loading state for 0.5-1 seconds that looks like a wireframe blueprint.
+
+The skeleton shows:
+- Rectangles where text will be (rgba(255,255,255,0.03) background, subtle pulse animation)
+- The rectangles are sized to match the actual content (wide rectangle for headline, narrower for subtext, button-shaped rectangle for CTA)
+- A very subtle teal line traces the outline of the layout (like watching a blueprint being drawn)
+- After 0.5-1s, the skeleton fades out and the real content fades in
+
+This should only show on initial page load, not on scroll or navigation. Use CSS animations only, no JavaScript timers for the skeleton itself.
+
+The effect: It looks like you're watching the archive construct itself before your eyes. It adds "weight" to the experience.
+
+All 5 upgrades should be implemented without breaking any existing content, layout, routing, or functionality.

@@ -56,7 +56,7 @@ const feelSeenCopy: Record<PatternKey, string[]> = {
 
 export default function QuizResult() {
   const [location, setLocation] = useLocation();
-  const [phase, setPhase] = useState<'reveal' | 'confirm' | 'secondPattern' | 'manualSelect' | 'emailCapture'>('reveal');
+  const [phase, setPhase] = useState<'glitch' | 'reveal' | 'confirm' | 'secondPattern' | 'manualSelect' | 'emailCapture'>('glitch');
   const [confirmedPattern, setConfirmedPattern] = useState<PatternKey | null>(null);
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -65,6 +65,9 @@ export default function QuizResult() {
   const [copyVisible, setCopyVisible] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(false);
   const [emailSlideUp, setEmailSlideUp] = useState(false);
+  const [glitchText, setGlitchText] = useState('');
+  const [showScanlines, setShowScanlines] = useState(false);
+  const [screenFlash, setScreenFlash] = useState(false);
   const typewriterRef = useRef<HTMLSpanElement>(null);
 
   const searchParams = new URLSearchParams(location.split('?')[1] || '');
@@ -98,6 +101,32 @@ export default function QuizResult() {
   const currentPattern = phase === 'secondPattern' && secondPattern ? secondPattern : primaryPattern;
   const currentName = patternDisplayNames[currentPattern] || '';
   const currentCopy = feelSeenCopy[currentPattern] || [];
+
+  useEffect(() => {
+    if (phase === 'glitch') {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&";
+      const targetLen = currentName.length || 12;
+      setShowScanlines(true);
+
+      const scrambleInterval = setInterval(() => {
+        let s = "";
+        for (let j = 0; j < targetLen; j++) s += chars[Math.floor(Math.random() * chars.length)];
+        setGlitchText(s);
+      }, 30);
+
+      setTimeout(() => setScreenFlash(true), 100);
+      setTimeout(() => setScreenFlash(false), 150);
+
+      setTimeout(() => {
+        clearInterval(scrambleInterval);
+        setShowScanlines(false);
+        setGlitchText('');
+        setPhase('reveal');
+      }, 300);
+
+      return () => clearInterval(scrambleInterval);
+    }
+  }, [phase, currentName]);
 
   useEffect(() => {
     if (phase === 'reveal' || phase === 'secondPattern') {
@@ -325,15 +354,37 @@ export default function QuizResult() {
   const matchPct = patternMatchPercent[currentPattern] || 85;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#0A0A0A' }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: screenFlash ? '#111' : '#0A0A0A', transition: 'background 50ms' }}>
+      {showScanlines && (
+        <>
+          <div style={{ position: "fixed", left: 0, right: 0, top: `${20 + Math.random() * 20}%`, height: "1px", background: "rgba(255,255,255,0.2)", zIndex: 50, pointerEvents: "none" }} />
+          <div style={{ position: "fixed", left: 0, right: 0, top: `${50 + Math.random() * 15}%`, height: "1px", background: "rgba(255,255,255,0.15)", zIndex: 50, pointerEvents: "none" }} />
+          <div style={{ position: "fixed", left: 0, right: 0, top: `${75 + Math.random() * 10}%`, height: "1px", background: "rgba(255,255,255,0.1)", zIndex: 50, pointerEvents: "none" }} />
+        </>
+      )}
       <div className="max-w-xl w-full relative z-10">
         <div className="text-center">
+          {phase === 'glitch' && glitchText && (
+            <p
+              data-testid="text-glitch"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+                color: "rgba(255,255,255,0.3)",
+                letterSpacing: "0.15em",
+              }}
+            >
+              {glitchText}
+            </p>
+          )}
+          {phase !== 'glitch' && (
           <p
             className="results-fade-in"
             style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px" }}
           >
             Pattern Identified
           </p>
+          )}
 
           <div className={`transition-all duration-500 ${typewriterDone ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
             <p
