@@ -49,15 +49,15 @@ const archivesCaseFiles = [
 ];
 
 const gutCheckPatterns = [
-  { name: "THE DISAPPEARING PATTERN", color: "#14B8A6" },
-  { name: "THE APOLOGY LOOP", color: "#EC4899" },
-  { name: "THE TESTING PATTERN", color: "#14B8A6" },
-  { name: "ATTRACTION TO HARM", color: "#EC4899" },
-  { name: "COMPLIMENT DEFLECTION", color: "#14B8A6" },
-  { name: "THE DRAINING BOND", color: "#EC4899" },
-  { name: "SUCCESS SABOTAGE", color: "#14B8A6" },
-  { name: "THE PERFECTIONISM TRAP", color: "#EC4899" },
-  { name: "THE RAGE PATTERN", color: "#14B8A6" },
+  { name: "THE DISAPPEARING PATTERN", color: "#14B8A6", desc: "You pull away the moment someone gets close." },
+  { name: "THE APOLOGY LOOP", color: "#EC4899", desc: "You apologize for existing." },
+  { name: "THE TESTING PATTERN", color: "#14B8A6", desc: "You push until they break." },
+  { name: "ATTRACTION TO HARM", color: "#EC4899", desc: "Chaos feels like home." },
+  { name: "COMPLIMENT DEFLECTION", color: "#14B8A6", desc: "You can't let anything good in." },
+  { name: "THE DRAINING BOND", color: "#EC4899", desc: "You stay when you know you should leave." },
+  { name: "SUCCESS SABOTAGE", color: "#14B8A6", desc: "You destroy it before it works." },
+  { name: "THE PERFECTIONISM TRAP", color: "#EC4899", desc: "Nothing is ever good enough to finish." },
+  { name: "THE RAGE PATTERN", color: "#14B8A6", desc: "The anger comes fast and disproportionate." },
 ];
 
 const therapyRows = [
@@ -229,7 +229,8 @@ function formatTimestamp() {
 }
 
 function LiveSystemLog() {
-  const [lines, setLines] = useState<{ id: number; ts: string; entry: typeof systemLogEntries[0] }[]>([]);
+  const [current, setCurrent] = useState<{ id: number; ts: string; entry: typeof systemLogEntries[0] } | null>(null);
+  const [visible, setVisible] = useState(false);
   const pool = useRef(Array.from({ length: systemLogEntries.length }, (_, i) => i));
   const counter = useRef(0);
 
@@ -241,50 +242,48 @@ function LiveSystemLog() {
   }, []);
 
   useEffect(() => {
-    const addLine = () => {
-      const entry = pickNext();
-      const id = ++counter.current;
-      setLines((prev) => [...prev.slice(-2), { id, ts: formatTimestamp(), entry }]);
+    let fadeTimeout: ReturnType<typeof setTimeout>;
+    let swapTimeout: ReturnType<typeof setTimeout>;
+
+    const cycle = () => {
+      setVisible(false);
+      swapTimeout = setTimeout(() => {
+        const entry = pickNext();
+        const id = ++counter.current;
+        setCurrent({ id, ts: formatTimestamp(), entry });
+        setVisible(true);
+      }, 400);
     };
-    addLine();
-    const interval = setInterval(addLine, 3000);
-    return () => clearInterval(interval);
+    cycle();
+    const interval = setInterval(() => {
+      fadeTimeout = setTimeout(() => cycle(), 0);
+    }, 4000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(fadeTimeout);
+      clearTimeout(swapTimeout);
+    };
   }, [pickNext]);
 
-  const highlightLine = (text: string) => {
-    return text.replace(/(THE \w[\w\s]*PATTERN|DISAPPEARING|APOLOGY LOOP|TESTING|SUCCESS SABOTAGE|DRAINING BOND|COMPLIMENT DEFLECTION|RAGE PATTERN|PERFECTIONISM TRAP|ATTRACTION TO HARM|COMPLETE ARCHIVE)/g, "%%TEAL%%$1%%END%%")
-      .replace(/(#[\d,]+|[\d,]+(?:\.\d+)?(?:\s*(?:second|loops|days|consecutive))?)/g, "%%PINK%%$1%%END%%")
-      .split(/(%%TEAL%%|%%PINK%%|%%END%%)/)
-      .reduce<{ parts: JSX.Element[]; mode: string }>((acc, chunk, i) => {
-        if (chunk === "%%TEAL%%") return { ...acc, mode: "teal" };
-        if (chunk === "%%PINK%%") return { ...acc, mode: "pink" };
-        if (chunk === "%%END%%") return { ...acc, mode: "" };
-        if (chunk) {
-          const color = acc.mode === "teal" ? "#14B8A6" : acc.mode === "pink" ? "#EC4899" : "#444";
-          acc.parts.push(<span key={i} style={{ color }}>{chunk}</span>);
-        }
-        return acc;
-      }, { parts: [], mode: "" }).parts;
-  };
-
   return (
-    <div data-testid="live-system-log" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "16px 0 12px", minHeight: "60px", overflow: "hidden" }}>
-      {lines.map((line, i) => (
+    <div data-testid="live-system-log" style={{ maxHeight: "40px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {current && (
         <p
-          key={line.id}
+          key={current.id}
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "11px",
-            color: "#444",
-            lineHeight: 1.8,
-            animation: "logFadeIn 0.5s ease-out forwards",
-            opacity: i === lines.length - 1 ? 1 : 0.4,
-            transition: "opacity 0.3s",
+            fontSize: "10px",
+            color: "#333",
+            lineHeight: 1,
+            textAlign: "center",
+            opacity: visible ? 1 : 0,
+            transition: "opacity 0.4s ease",
+            margin: 0,
           }}
         >
-          <span style={{ color: "#555" }}>[{line.ts}]</span> {highlightLine(`${line.entry.msg} — ${line.entry.detail}`)}
+          [{current.ts}] {current.entry.msg} — {current.entry.detail}
         </p>
-      ))}
+      )}
     </div>
   );
 }
@@ -307,6 +306,65 @@ function SectorLabel({ text }: { text: string }) {
     >
       {text}
     </span>
+  );
+}
+
+function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatterns[0]; index: number; isLast: boolean }) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <div className="reveal gut-pattern" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
+      <div
+        style={{ cursor: "pointer", padding: "8px 0" }}
+        data-testid={`text-gut-pattern-${index}`}
+        onMouseEnter={() => setActive(true)}
+        onMouseLeave={() => setActive(false)}
+        onClick={() => setActive(prev => !prev)}
+      >
+        <p
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "1.1rem",
+            textTransform: "uppercase",
+            color: pattern.color,
+            transition: "transform 0.3s ease, text-shadow 0.3s ease",
+            transform: active ? "scale(1.05)" : "scale(1)",
+            textShadow: active ? `0 0 20px ${pattern.color}60` : "none",
+            margin: 0,
+          }}
+        >
+          {pattern.name}
+        </p>
+        <p
+          data-testid={`text-gut-desc-${index}`}
+          style={{
+            fontFamily: "'Source Sans 3', sans-serif",
+            fontSize: "13px",
+            color: "#666",
+            fontStyle: "italic",
+            opacity: active ? 1 : 0,
+            height: active ? "20px" : "0",
+            overflow: "hidden",
+            transition: "opacity 0.3s ease, height 0.3s ease, margin 0.3s ease",
+            marginTop: active ? "4px" : "0",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {pattern.desc}
+        </p>
+      </div>
+      {!isLast && (
+        <div
+          style={{
+            width: "60px",
+            height: "1px",
+            background: "#14B8A6",
+            opacity: 0.2,
+            margin: "12px auto",
+          }}
+        />
+      )}
+    </div>
   );
 }
 
@@ -878,33 +936,9 @@ export default function Landing() {
             Which one makes your stomach drop?
           </h2>
 
-          <div className="space-y-4" style={{ marginBottom: "48px" }}>
+          <div style={{ marginBottom: "48px" }}>
             {gutCheckPatterns.map((p, i) => (
-              <p
-                key={p.name}
-                className="reveal gut-pattern"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "1.1rem",
-                  textTransform: "uppercase",
-                  color: p.color,
-                  opacity: 0.5,
-                  cursor: "default",
-                  transition: "opacity 0.3s, text-shadow 0.3s",
-                  transitionDelay: `${i * 0.3}s`,
-                }}
-                data-testid={`text-gut-pattern-${i}`}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.opacity = "1";
-                  (e.target as HTMLElement).style.textShadow = `0 0 20px ${p.color}60`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.opacity = "0.5";
-                  (e.target as HTMLElement).style.textShadow = "none";
-                }}
-              >
-                {p.name}
-              </p>
+              <GutCheckItem key={p.name} pattern={p} index={i} isLast={i === gutCheckPatterns.length - 1} />
             ))}
           </div>
 
@@ -1360,20 +1394,30 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 13: FOOTER ========== */}
-      <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-4xl mx-auto text-center space-y-4">
+      {/* ========== SYSTEM LOG STRIP ========== */}
+      <div className="px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", padding: "12px 0" }}>
+        <div className="max-w-4xl mx-auto">
           <LiveSystemLog />
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6, margin: "24px 0" }}>
+        </div>
+      </div>
+
+      {/* ========== SECTION 13: FOOTER ========== */}
+      <footer style={{ padding: "80px 24px 60px" }}>
+        <div className="max-w-4xl mx-auto text-center">
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
             The archive is open. Don't close the door.
           </p>
-          <p style={{ color: "#737373", fontSize: "13px" }}>
+
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#555", marginTop: "40px" }}>
             &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
-          <div className="flex justify-center gap-6">
-            <Link href="/terms" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
-            <Link href="/privacy" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
-            <Link href="/contact" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
+
+          <div className="flex justify-center gap-4" style={{ marginTop: "16px" }}>
+            <Link href="/terms" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
+            <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
+            <Link href="/privacy" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
+            <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
+            <Link href="/contact" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
           </div>
         </div>
       </footer>
