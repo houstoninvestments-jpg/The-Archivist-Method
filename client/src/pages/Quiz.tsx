@@ -1,16 +1,8 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react';
 import { useLocation } from 'wouter';
 import { quizQuestions, calculatePatternScores, determineQuizResult } from '@/lib/quizData';
 
-function useParticles(count: number) {
-  return useMemo(() =>
-    Array.from({ length: count }).map(() => ({
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 12}s`,
-      duration: `${10 + Math.random() * 15}s`,
-    })), [count]);
-}
+const ParticleField = lazy(() => import("@/components/ParticleField"));
 
 export default function Quiz() {
   const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing'>('intro');
@@ -21,9 +13,6 @@ export default function Quiz() {
   const [slideState, setSlideState] = useState<'enter' | 'visible' | 'exit'>('visible');
   const [isAdvancing, setIsAdvancing] = useState(false);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const introParticles = useParticles(20);
-  const quizParticles = useParticles(15);
-  const finalParticles = useParticles(30);
 
   const question = quizQuestions[currentQuestion];
   const progress = ((currentQuestion) / quizQuestions.length) * 100;
@@ -93,7 +82,6 @@ export default function Quiz() {
     }
   }, [currentQuestion, isAdvancing]);
 
-
   useEffect(() => {
     if (screen !== 'quiz') return;
 
@@ -122,64 +110,80 @@ export default function Quiz() {
 
   if (screen === 'intro') {
     return (
-      <div className="quiz-screen min-h-screen bg-black flex flex-col items-center justify-center px-6">
-        <div className="quiz-fog" />
-        <div className="quiz-particles" aria-hidden="true">
-          {introParticles.map((p, i) => (
-            <span key={i} className="quiz-particle" style={{
-              left: p.left, top: p.top,
-              animationDelay: p.delay,
-              animationDuration: p.duration,
-            }} />
-          ))}
-        </div>
+      <div
+        className="quiz-screen min-h-screen flex flex-col items-center justify-center px-6"
+        style={{ background: '#0A0A0A' }}
+      >
+        <Suspense fallback={null}>
+          <ParticleField />
+        </Suspense>
 
-        <div className="quiz-intro-content text-center max-w-2xl relative z-10">
-          <h2 className="text-2xl font-bold text-white tracking-widest mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            THE ARCHIVIST METHOD™
-          </h2>
-
-          <div className="h-0.5 w-24 bg-pink-500 mx-auto mb-8" />
-
-          <h1
-            className="text-4xl md:text-5xl font-black mb-6 tracking-tight"
+        <div className="quiz-intro-content text-center relative z-10" style={{ maxWidth: '600px' }}>
+          <p
+            data-testid="text-quiz-brand"
             style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '12px',
               color: '#14B8A6',
-              textShadow: '0 0 30px rgba(20, 184, 166, 0.3)'
+              textTransform: 'uppercase',
+              letterSpacing: '0.3em',
             }}
           >
-            DISCOVER YOUR PATTERN
+            THE ARCHIVIST METHOD&trade;
+          </p>
+
+          <h1
+            data-testid="text-quiz-headline"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(2.8rem, 5vw, 3.5rem)',
+              color: 'white',
+              fontWeight: 700,
+              lineHeight: 1.15,
+              marginTop: '32px',
+            }}
+          >
+            Discover Your Pattern
           </h1>
 
-          <div className="text-lg text-slate-300 leading-relaxed mb-8 max-w-xl mx-auto">
-            <p className="mb-4">
-              You watch yourself do it. You know it's happening.
-              <br />
-              <span
-                className="font-bold"
-                style={{
-                  color: '#EC4899',
-                  textShadow: '0 0 20px rgba(236, 72, 153, 0.4)'
-                }}
-              >
-                You do it anyway.
-              </span>
-            </p>
-            <p
-              className="mb-4 font-bold"
-              style={{
-                color: '#EC4899',
-                textShadow: '0 0 15px rgba(236, 72, 153, 0.3)'
-              }}
-            >
-              Disappear. Apologize. Test. Sabotage. Repeat.
-            </p>
-            <p className="text-white">
-              15 questions. 2 minutes.
-              <br />
-              Pattern archaeology, <span style={{ color: '#EC4899' }}>NOT</span> therapy.
-            </p>
-          </div>
+          <p
+            data-testid="text-quiz-subhead-1"
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: '1.1rem',
+              color: '#999',
+              marginTop: '24px',
+              maxWidth: '480px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            You watch yourself do it. You know it's happening.
+          </p>
+
+          <p
+            data-testid="text-quiz-subhead-2"
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: '1.1rem',
+              color: 'white',
+              marginTop: '8px',
+            }}
+          >
+            You do it anyway.
+          </p>
+
+          <p
+            data-testid="text-quiz-meta"
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: '1rem',
+              color: '#737373',
+              marginTop: '32px',
+            }}
+          >
+            15 questions. 2 minutes.
+          </p>
 
           <button
             data-testid="quiz-start-btn"
@@ -192,13 +196,56 @@ export default function Quiz() {
                 });
               });
             }}
-            className="quiz-cta-btn px-10 py-4 bg-teal-500 text-black font-bold text-lg rounded-md transition-all"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '15px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              background: 'transparent',
+              color: 'white',
+              padding: '18px 48px',
+              marginTop: '32px',
+              cursor: 'pointer',
+              transition: 'all 300ms ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'white';
+              e.currentTarget.style.color = 'black';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = 'white';
+            }}
           >
-            Discover Your Pattern
+            BEGIN &rarr;
           </button>
 
-          <p className="mt-6 text-slate-500 text-sm">
-            {"Free \u2022 2 Minutes \u2022 Instant Results"}
+          <p
+            data-testid="text-quiz-privacy"
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: '13px',
+              color: '#737373',
+              marginTop: '16px',
+            }}
+          >
+            Free &middot; Private &middot; Instant Results
+          </p>
+
+          <p
+            data-testid="text-quiz-tagline"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '12px',
+              color: '#14B8A6',
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              marginTop: '48px',
+              opacity: 0.7,
+            }}
+          >
+            Pattern archaeology, not therapy.
           </p>
         </div>
       </div>
@@ -207,16 +254,17 @@ export default function Quiz() {
 
   if (screen === 'analyzing') {
     return (
-      <div className="quiz-screen min-h-screen bg-black flex items-center justify-center">
-        <div className="quiz-fog" />
+      <div className="quiz-screen min-h-screen flex items-center justify-center" style={{ background: '#0A0A0A' }}>
         <div className="quiz-analyzing-content text-center px-6 relative z-10">
           <div className="relative w-20 h-20 mx-auto mb-8">
-            <div className="absolute inset-0 border-4 border-teal-500/20 rounded-full" />
-            <div className="absolute inset-0 border-4 border-transparent border-t-teal-500 rounded-full quiz-spin" />
-            <div className="absolute inset-2 border-4 border-transparent border-t-pink-500 rounded-full quiz-spin-reverse" />
+            <div className="absolute inset-0 border-4 rounded-full" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }} />
+            <div className="absolute inset-0 border-4 border-transparent rounded-full quiz-spin" style={{ borderTopColor: '#14B8A6' }} />
+            <div className="absolute inset-2 border-4 border-transparent rounded-full quiz-spin-reverse" style={{ borderTopColor: '#737373' }} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Analyzing Your Patterns</h2>
-          <p className="text-slate-400 max-w-md mx-auto">
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', color: 'white', marginBottom: '12px' }}>
+            Analyzing Your Patterns
+          </h2>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#737373', maxWidth: '400px', margin: '0 auto' }}>
             Cross-referencing your responses against 9 core survival patterns...
           </p>
         </div>
@@ -225,20 +273,12 @@ export default function Quiz() {
   }
 
   return (
-    <div className={`quiz-screen min-h-screen bg-black flex flex-col ${isFinalQuestion ? 'quiz-final-question' : ''}`}>
-      <div className="quiz-fog" />
-      <div className="quiz-particles" aria-hidden="true">
-        {(isFinalQuestion ? finalParticles : quizParticles).map((p, i) => (
-          <span key={i} className="quiz-particle" style={{
-            left: p.left, top: p.top,
-            animationDelay: p.delay,
-            animationDuration: isFinalQuestion ? `${6 + parseFloat(p.duration) * 0.3}s` : p.duration,
-          }} />
-        ))}
-      </div>
-
+    <div
+      className={`quiz-screen min-h-screen flex flex-col ${isFinalQuestion ? 'quiz-final-question' : ''}`}
+      style={{ background: '#0A0A0A' }}
+    >
       <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="h-[3px] bg-slate-800/80">
+        <div className="h-[3px]" style={{ background: 'rgba(255, 255, 255, 0.06)' }}>
           <div
             className="quiz-progress-bar h-full"
             style={{
@@ -253,29 +293,42 @@ export default function Quiz() {
           <div
             className={`w-full max-w-xl quiz-slide quiz-slide-${slideState}`}
           >
-            <div
-              className={`bg-slate-900/70 backdrop-blur-sm border rounded-md p-5 md:p-7 ${isFinalQuestion ? 'quiz-final-card border-teal-500/30' : 'border-slate-700/40'}`}
-            >
-              <div className="flex items-center gap-3 mb-3">
+            <div className="p-5 md:p-7">
+              <div className="flex items-center gap-3 mb-5">
                 <span
-                  className="text-xs font-bold px-3 py-1 rounded-full"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(20, 184, 166, 0.15))',
-                    border: '1px solid rgba(236, 72, 153, 0.25)',
-                    color: '#EC4899'
-                  }}
                   data-testid={`quiz-question-badge-${currentQuestion + 1}`}
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '11px',
+                    color: '#14B8A6',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                  }}
                 >
-                  Q{currentQuestion + 1}
+                  {currentQuestion + 1} / {quizQuestions.length}
                 </span>
                 {isFinalQuestion && (
-                  <span className="text-xs text-teal-400/70 uppercase tracking-widest">counts 2x</span>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: 'rgba(20, 184, 166, 0.5)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                    counts 2x
+                  </span>
                 )}
               </div>
 
-              <h2 className="text-xl md:text-2xl font-bold text-white mb-5 leading-snug" data-testid="quiz-question-title">{question.title}</h2>
+              <h2
+                data-testid="quiz-question-title"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: 'clamp(1.15rem, 2.5vw, 1.35rem)',
+                  color: 'white',
+                  fontWeight: 400,
+                  lineHeight: 1.5,
+                  marginBottom: '28px',
+                }}
+              >
+                {question.title}
+              </h2>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {question.options.map((option) => {
                   const isSelected = currentAnswer === option.id;
                   const isFlashing = selectedFlash === option.id;
@@ -285,15 +338,17 @@ export default function Quiz() {
                       data-testid={`quiz-option-${option.id}`}
                       onClick={() => handleSelect(option.id)}
                       disabled={isAdvancing}
-                      className={`quiz-option w-full text-left px-4 py-3 rounded-md border transition-all duration-200 ${
-                        isSelected
-                          ? 'quiz-option-selected border-teal-500/80 bg-teal-500/10'
-                          : 'border-slate-700/40 bg-slate-800/40'
-                      } ${isFlashing ? 'quiz-option-flash' : ''} ${isAdvancing && !isSelected ? 'opacity-50' : ''}`}
+                      className={`quiz-option w-full text-left px-4 py-3.5 transition-all duration-200 ${isFlashing ? 'quiz-option-flash' : ''} ${isAdvancing && !isSelected ? 'opacity-50' : ''}`}
+                      style={{
+                        border: isSelected ? '1px solid #14B8A6' : '1px solid rgba(255, 255, 255, 0.12)',
+                        background: isSelected ? 'rgba(20, 184, 166, 0.08)' : 'transparent',
+                        fontFamily: "'Source Sans 3', sans-serif",
+                        fontSize: '0.95rem',
+                        color: isSelected ? 'white' : '#ccc',
+                        lineHeight: 1.5,
+                      }}
                     >
-                      <span className={`text-sm leading-relaxed ${isSelected ? 'text-white font-medium' : 'text-slate-300'}`}>
-                        {option.text}
-                      </span>
+                      {option.text}
                     </button>
                   );
                 })}
@@ -304,7 +359,21 @@ export default function Quiz() {
               <button
                 data-testid="quiz-back-btn"
                 onClick={handleBack}
-                className="mt-4 text-sm text-slate-500 hover:text-slate-300 transition-colors mx-auto block"
+                style={{
+                  display: 'block',
+                  margin: '8px auto 0',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '12px',
+                  color: '#737373',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textTransform: 'lowercase',
+                  letterSpacing: '0.1em',
+                  transition: 'color 200ms ease',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = '#999'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = '#737373'; }}
               >
                 back
               </button>
