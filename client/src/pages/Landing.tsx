@@ -457,18 +457,43 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
   );
 }
 
-const windowLines = [
-  { delay: 1000, text: "Someone gets close.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "#999" } as const, mobileSize: "1.1rem" },
-  { delay: 2000, text: "Your chest tightens.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "white" } as const, mobileSize: "1.1rem" },
-  { delay: 3000, text: "Your hands go cold.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "white" } as const, mobileSize: "1.1rem" },
-  { delay: 4000, text: "You're about to pull away.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "#eee" } as const, mobileSize: "1.1rem" },
-  { delay: 7000, text: "That pause you just felt?", style: { fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" } as const, mobileSize: "1.8rem" },
-  { delay: 8500, text: "That's the window.", style: { fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "#14B8A6", fontWeight: "bold" } as const, mobileSize: "2rem" },
-  { delay: 10000, text: "This method teaches you what to do inside it.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#999" } as const, mobileSize: "1rem" },
+const patternCycles = [
+  {
+    trigger: "Someone says I love you.",
+    signature: "Your chest tightens. Your hands go cold.",
+    pull: "You're already planning how to leave.",
+  },
+  {
+    trigger: "You ask a question in a meeting.",
+    signature: "Your throat closes. Stomach drops.",
+    pull: "You're already apologizing for speaking.",
+  },
+  {
+    trigger: "The project is almost finished.",
+    signature: "Your hands start shaking. Restless heat.",
+    pull: "You're about to delete six months of work.",
+  },
+  {
+    trigger: "Things are going well with them.",
+    signature: "Jaw clenches. Pulse quickens.",
+    pull: "You're about to start a fight to see if they'll stay.",
+  },
+  {
+    trigger: "They hurt you again.",
+    signature: "Numbness spreads. Familiar warmth.",
+    pull: "You're going back. You already know you are.",
+  },
 ];
 
+type WindowPhase =
+  | { type: "idle" }
+  | { type: "intro"; step: number }
+  | { type: "cycle"; index: number; lineStep: number; fading: boolean }
+  | { type: "payoff"; step: number };
+
 function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const [visibleLines, setVisibleLines] = useState<number[]>([]);
+  const [phase, setPhase] = useState<WindowPhase>({ type: "idle" });
+  const [introFaded, setIntroFaded] = useState(false);
   const hasPlayed = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const localRef = useRef<HTMLElement | null>(null);
@@ -480,6 +505,12 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
     }
   }, [sectionRef]);
 
+  const schedule = useCallback((fn: () => void, ms: number) => {
+    const t = setTimeout(fn, ms);
+    timersRef.current.push(t);
+    return t;
+  }, []);
+
   useEffect(() => {
     const el = localRef.current;
     if (!el) return;
@@ -488,15 +519,30 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
       ([entry]) => {
         if (entry.isIntersecting && !hasPlayed.current) {
           hasPlayed.current = true;
-          windowLines.forEach((line, i) => {
-            const timer = setTimeout(() => {
-              setVisibleLines(prev => [...prev, i]);
-            }, line.delay);
-            timersRef.current.push(timer);
+
+          schedule(() => setPhase({ type: "intro", step: 0 }), 500);
+          schedule(() => setPhase({ type: "intro", step: 1 }), 1500);
+          schedule(() => setPhase({ type: "intro", step: 2 }), 3000);
+          schedule(() => setIntroFaded(true), 4500);
+
+          const cycleStart = 5000;
+          const cycleDuration = 4000;
+
+          patternCycles.forEach((_, ci) => {
+            const base = cycleStart + ci * cycleDuration;
+            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 0, fading: false }), base);
+            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 1, fading: false }), base + 800);
+            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 2, fading: false }), base + 1600);
+            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 2, fading: true }), base + 3200);
           });
+
+          const payoffStart = cycleStart + patternCycles.length * cycleDuration + 1000;
+          schedule(() => setPhase({ type: "payoff", step: 0 }), payoffStart);
+          schedule(() => setPhase({ type: "payoff", step: 1 }), payoffStart + 1500);
+          schedule(() => setPhase({ type: "payoff", step: 2 }), payoffStart + 3000);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
 
     observer.observe(el);
@@ -504,51 +550,175 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
       observer.disconnect();
       timersRef.current.forEach(clearTimeout);
     };
-  }, []);
+  }, [schedule]);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const introVisible = phase.type === "intro" || phase.type === "cycle" || phase.type === "payoff";
+  const introOpacity = introFaded ? 0.4 : 1;
+
+  const currentCycle = phase.type === "cycle" ? patternCycles[phase.index] : null;
+  const cycleLineStep = phase.type === "cycle" ? phase.lineStep : -1;
+  const cycleFading = phase.type === "cycle" && phase.fading;
+
+  const payoffStep = phase.type === "payoff" ? phase.step : -1;
 
   return (
     <section
       ref={setRefs}
       className="px-6"
       data-testid="section-window"
-      style={{ position: "relative", background: "#0A0A0A", paddingTop: "100px", paddingBottom: "100px" }}
+      style={{ position: "relative", background: "#0A0A0A", paddingTop: "120px", paddingBottom: "120px" }}
     >
       <div className="thread-node" />
       <div className="thread-node-label">Mechanism</div>
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
-      <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-        <p
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "12px",
-            color: "#14B8A6",
-            textTransform: "uppercase",
-            letterSpacing: "0.2em",
-            marginBottom: "48px",
-          }}
-        >
-          THE WINDOW
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: "28px", alignItems: "center" }}>
-          {windowLines.map((line, i) => (
-            <p
-              key={i}
-              data-testid={`text-window-line-${i}`}
-              style={{
-                ...line.style,
-                fontSize: isMobile ? line.mobileSize : line.style.fontSize,
-                opacity: visibleLines.includes(i) ? 1 : 0,
-                transition: "opacity 0.4s ease",
-                margin: 0,
-                lineHeight: 1.4,
-              }}
-            >
-              {line.text}
-            </p>
-          ))}
+      <div style={{ maxWidth: "500px", margin: "0 auto", textAlign: "center" }}>
+
+        <div style={{ opacity: introVisible ? introOpacity : 0, transition: "opacity 0.4s ease", marginBottom: "48px" }}>
+          <p
+            data-testid="text-window-label"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "12px",
+              color: "#14B8A6",
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              marginBottom: "32px",
+              opacity: introVisible && (phase.type !== "intro" || phase.step >= 0) ? 1 : 0,
+              transition: "opacity 0.4s ease",
+            }}
+          >
+            THE WINDOW
+          </p>
+          <p
+            data-testid="text-window-intro-1"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: isMobile ? "1.8rem" : "2.2rem",
+              color: "white",
+              margin: 0,
+              marginBottom: "20px",
+              lineHeight: 1.3,
+              opacity: phase.type !== "intro" || phase.step >= 1 ? (introVisible ? 1 : 0) : 0,
+              transition: "opacity 0.4s ease",
+            }}
+          >
+            "Every pattern has a signature."
+          </p>
+          <p
+            data-testid="text-window-intro-2"
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: isMobile ? "1rem" : "1.1rem",
+              color: "#999",
+              margin: 0,
+              lineHeight: 1.5,
+              opacity: phase.type !== "intro" || phase.step >= 2 ? (introVisible ? 1 : 0) : 0,
+              transition: "opacity 0.4s ease",
+            }}
+          >
+            "Your body sends it 3-7 seconds before the behavior runs."
+          </p>
         </div>
+
+        <div style={{ minHeight: "120px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }}>
+          {currentCycle && (
+            <>
+              <p
+                data-testid="text-cycle-trigger"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: isMobile ? "1rem" : "1.15rem",
+                  color: "#777",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  opacity: cycleFading ? 0 : (cycleLineStep >= 0 ? 1 : 0),
+                  transition: "opacity 0.4s ease",
+                }}
+              >
+                {currentCycle.trigger}
+              </p>
+              <p
+                data-testid="text-cycle-signature"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: isMobile ? "1rem" : "1.15rem",
+                  color: "white",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  opacity: cycleFading ? 0 : (cycleLineStep >= 1 ? 1 : 0),
+                  transition: "opacity 0.4s ease",
+                }}
+              >
+                {currentCycle.signature}
+              </p>
+              <p
+                data-testid="text-cycle-pull"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: isMobile ? "1rem" : "1.15rem",
+                  color: "#eee",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  opacity: cycleFading ? 0 : (cycleLineStep >= 2 ? 1 : 0),
+                  transition: "opacity 0.4s ease",
+                }}
+              >
+                {currentCycle.pull}
+              </p>
+            </>
+          )}
+
+          {phase.type === "payoff" && (
+            <>
+              <p
+                data-testid="text-payoff-hit"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: isMobile ? "1.8rem" : "2rem",
+                  color: "white",
+                  margin: 0,
+                  lineHeight: 1.3,
+                  opacity: payoffStep >= 0 ? 1 : 0,
+                  transition: "opacity 0.8s ease",
+                }}
+              >
+                "Did one of those hit?"
+              </p>
+              <p
+                data-testid="text-payoff-window"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: isMobile ? "2rem" : "2.5rem",
+                  color: "#14B8A6",
+                  fontWeight: "bold",
+                  margin: 0,
+                  lineHeight: 1.3,
+                  opacity: payoffStep >= 1 ? 1 : 0,
+                  transition: "opacity 0.8s ease",
+                }}
+              >
+                "That was your window."
+              </p>
+              <p
+                data-testid="text-payoff-method"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: isMobile ? "1rem" : "1.1rem",
+                  color: "#999",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  opacity: payoffStep >= 2 ? 1 : 0,
+                  transition: "opacity 0.6s ease",
+                }}
+              >
+                "This method teaches you what to do inside it."
+              </p>
+            </>
+          )}
+        </div>
+
       </div>
     </section>
   );
