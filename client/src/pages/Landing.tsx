@@ -575,11 +575,13 @@ export default function Landing() {
       <div className="bg-grain" />
       <div className="bg-grid" />
 
-      <div className="skeleton-overlay" data-testid="skeleton-loading">
-        <div style={{ position: "relative", width: "clamp(200px, 50vw, 400px)", height: "24px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
-        <div style={{ position: "relative", width: "clamp(140px, 35vw, 260px)", height: "14px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
-        <div style={{ position: "relative", width: "clamp(100px, 20vw, 160px)", height: "40px", marginTop: "8px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
-      </div>
+      {!sessionStorage.getItem('archivistLoaded') && (
+        <div className="skeleton-overlay" data-testid="skeleton-loading" ref={(el) => { if (el) setTimeout(() => sessionStorage.setItem('archivistLoaded', '1'), 800); }}>
+          <div style={{ position: "relative", width: "clamp(200px, 50vw, 400px)", height: "24px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+          <div style={{ position: "relative", width: "clamp(140px, 35vw, 260px)", height: "14px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+          <div style={{ position: "relative", width: "clamp(100px, 20vw, 160px)", height: "40px", marginTop: "8px" }} className="skeleton-bar"><div className="skeleton-bar-outline" /></div>
+        </div>
+      )}
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
