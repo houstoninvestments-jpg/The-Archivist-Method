@@ -14,6 +14,10 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (February 2026)
 
+- Admin system rebuilt: removed GodModeBadge, TestingPanel, URL godmode param; replaced with clean 4-tab admin dashboard (Overview, Users, Content, Settings)
+- God mode now works server-side: testUser.godMode=true grants archive tier access in resolveUserTier()
+- God mode only activatable from admin dashboard per-user toggle
+- Added admin API endpoints: /api/admin/content-audit, /api/admin/test-users/all (DELETE), /api/admin/env-check
 - Major codebase cleanup: removed 17 unused pages and 8 unused components
 - Consolidated routes from 27 to 9 clean routes
 - Renamed products: "Quick-Start System" → "The Field Guide", "7-Day Crash Course" → "The Crash Course"

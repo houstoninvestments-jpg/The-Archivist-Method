@@ -1269,7 +1269,7 @@ async function resolveUserTier(authData: { userId: string; email: string }): Pro
     const testUserId = userId.replace("test_", "");
     const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
     if (testUser) {
-      const tier = testUser.accessLevel === "archive" ? "archive" : testUser.accessLevel === "quick-start" ? "quick-start" : "free";
+      const tier = testUser.godMode ? "archive" : testUser.accessLevel === "archive" ? "archive" : testUser.accessLevel === "quick-start" ? "quick-start" : "free";
       const { quizUsers } = await import("@shared/schema");
       const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
       return { tier: tier as "free" | "quick-start" | "archive", primaryPattern: qu?.primaryPattern || null, userId };

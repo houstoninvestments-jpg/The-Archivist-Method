@@ -4,6 +4,9 @@ import { testUsers } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import crypto from "crypto";
+import { stat, readFile } from "fs/promises";
+import { join } from "path";
+import { getCompleteArchiveToc } from "../portal/content";
 
 const router = express.Router();
 
@@ -162,6 +165,61 @@ router.patch("/test-user/:id/god-mode", adminAuth, async (req: Request, res: Res
     console.error("Toggle god mode error:", error);
     res.status(500).json({ error: "Failed to update god mode" });
   }
+});
+
+router.get("/content-audit", adminAuth, async (_req: Request, res: Response) => {
+  try {
+    const CONTENT_ROOT = join(process.cwd(), "the-archivist-method");
+    const toc = getCompleteArchiveToc();
+    const result: { group: string; groupTitle: string; sections: { id: string; title: string; filePath: string; exists: boolean; wordCount: number; lastModified: string | null }[] }[] = [];
+
+    for (const group of toc.groups) {
+      const sections: typeof result[0]["sections"] = [];
+      for (const section of group.sections) {
+        const fullPath = join(CONTENT_ROOT, section.filePath);
+        let exists = false;
+        let wordCount = 0;
+        let lastModified: string | null = null;
+        try {
+          const st = await stat(fullPath);
+          exists = true;
+          lastModified = st.mtime.toISOString();
+          const content = await readFile(fullPath, "utf-8");
+          wordCount = content.split(/\s+/).filter(Boolean).length;
+        } catch {}
+        sections.push({ id: section.id, title: section.title, filePath: section.filePath, exists, wordCount, lastModified });
+      }
+      result.push({ group: group.id, groupTitle: group.title, sections });
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error("Content audit error:", error);
+    res.status(500).json({ error: "Failed to audit content" });
+  }
+});
+
+router.delete("/test-users/all", adminAuth, async (_req: Request, res: Response) => {
+  try {
+    const deleted = await db.delete(testUsers).returning();
+    res.json({ message: `Deleted ${deleted.length} users`, count: deleted.length });
+  } catch (error) {
+    console.error("Delete all test users error:", error);
+    res.status(500).json({ error: "Failed to delete users" });
+  }
+});
+
+router.get("/env-check", adminAuth, (_req: Request, res: Response) => {
+  const vars = [
+    "DATABASE_URL",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "ANTHROPIC_API_KEY",
+    "ADMIN_PASSWORD",
+    "SESSION_SECRET",
+  ];
+  const result = vars.map(key => ({ key, set: !!process.env[key] }));
+  res.json(result);
 });
 
 export default router;
