@@ -783,6 +783,16 @@ export default function Landing() {
           to { opacity: 0; visibility: hidden; }
         }
 
+        @keyframes heroFadeIn {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-stagger {
+          opacity: 0;
+          animation-fill-mode: forwards;
+          animation-timing-function: ease-out;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
@@ -792,6 +802,7 @@ export default function Landing() {
           .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .skeleton-overlay { display: none !important; }
           .bg-grain, .bg-grid { display: none !important; }
+          .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
         }
       `}</style>
 
@@ -799,51 +810,61 @@ export default function Landing() {
       <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
-            className="tracking-[0.3em] uppercase"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px" }}
+            className="hero-stagger tracking-[0.3em] uppercase"
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "0.3s" }}
             data-testid="text-brand-name"
           >
             THE ARCHIVIST METHOD&trade;
           </p>
 
-          <h1
-            className="font-bold"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15, color: "#F5F5F5" }}
+          <p
+            className="hero-stagger font-bold"
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15, color: "#F5F5F5", marginBottom: "0", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "0.9s" }}
             data-testid="text-brand-title"
           >
-            You know exactly what you're doing.<br />
+            You know exactly what you're doing.
+          </p>
+          <p
+            className="hero-stagger font-bold"
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15, color: "#F5F5F5", animationName: "heroFadeIn", animationDuration: "0.8s", animationDelay: "1.5s" }}
+            data-testid="text-brand-title-2"
+          >
             You just can't stop.
-          </h1>
+          </p>
 
           <p
-            className="leading-relaxed mx-auto"
-            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px" }}
+            className="hero-stagger leading-relaxed mx-auto"
+            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "2.3s" }}
             data-testid="text-hero-positioning"
           >
             The first pattern interruption system that works in real-time — not in retrospect.
           </p>
 
           <p
-            className="leading-relaxed mx-auto"
-            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px" }}
+            className="hero-stagger leading-relaxed mx-auto"
+            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "3.0s" }}
             data-testid="text-hero-mechanism"
           >
             Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
           </p>
 
-          <CTAButton text="FIND YOUR PATTERN" />
+          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "3.8s" }}>
+            <CTAButton text="FIND YOUR PATTERN" />
+          </div>
 
-          <p style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px" }}>
+          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "4.3s" }}>
             Free · 2 Minutes · Instant Results
           </p>
 
-          <p
-            className="tracking-[0.2em] uppercase"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", marginTop: "48px", opacity: 0.7 }}
-            data-testid="text-brand-tagline"
-          >
-            Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
-          </p>
+          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "4.8s" }}>
+            <p
+              className="tracking-[0.2em] uppercase"
+              style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", opacity: 0.7 }}
+              data-testid="text-brand-tagline"
+            >
+              Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
+            </p>
+          </div>
         </div>
       </section>
 
