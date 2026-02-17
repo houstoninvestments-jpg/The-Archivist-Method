@@ -1,0 +1,53 @@
+Replace the 3-7 second window section on the landing page with an experiential timed text sequence. No diagrams, no boxes, no animations beyond timed text reveals. The section itself makes the user FEEL the 3-7 second window by using real time.
+
+SECTION LABEL:
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+THE WINDOW
+
+IMPLEMENTATION:
+When this section scrolls into view (intersection observer, threshold 0.5), trigger a timed text sequence. Each line appears one at a time, fading in (opacity 0 to 1, 0.4s ease). The lines are centered, stacked vertically, with generous spacing between each.
+
+THE SEQUENCE:
+
+[After 1.0 second]
+"Someone gets close."
+Style: Source Sans 3, 1.3rem, #999
+
+[After 2.0 seconds]
+"Your chest tightens."
+Style: Source Sans 3, 1.3rem, white
+
+[After 3.0 seconds]
+"Your hands go cold."
+Style: Source Sans 3, 1.3rem, white
+
+[After 4.0 seconds]
+"You're about to pull away."
+Style: Source Sans 3, 1.3rem, white, slightly brighter than the others
+
+[After 7.0 seconds — THIS IS THE KEY. A full 3 second gap of nothing. Uncomfortable silence.]
+
+[After 7.0 seconds]
+"That pause you just felt?"
+Style: Playfair Display, 2rem, white
+
+[After 8.5 seconds]
+"That's the window."
+Style: Playfair Display, 2.5rem, teal (#14B8A6), bold
+
+[After 10.0 seconds]
+"This method teaches you what to do inside it."
+Style: Source Sans 3, 1.1rem, #999
+
+CRITICAL DETAILS:
+- The 3 second gap between "You're about to pull away" and "That pause you just felt?" is the entire point. Do NOT shorten it. The discomfort IS the demonstration.
+- All text stays on screen after appearing. Nothing fades out. By the end, all lines are visible stacked vertically.
+- Center everything. Max-width 600px.
+- Background stays #0A0A0A. No special backgrounds, no glows, no colors beyond what's specified.
+- The section should have generous padding top and bottom (at least 100px).
+- The sequence only plays ONCE per page load. If the user scrolls away and back, the text should remain visible in its final state (all lines showing). Do not replay the animation.
+- On mobile: same timing, same sequence, slightly smaller text (1.1rem body, 1.8rem for Playfair lines).
+
+DO NOT add any diagrams, boxes, arrows, circles, red glows, looping animations, or decorative elements. The power of this section is the silence between the lines. Let the time do the work. Let the whitespace breathe.
+
+This section replaces any existing 3-7 second window content. Keep the section in its correct position in the page flow.

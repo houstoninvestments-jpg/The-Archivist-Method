@@ -1,10 +1,9 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, lazy, Suspense } from "react";
+import { useEffect, useRef, useState, useCallback, lazy, Suspense } from "react";
 import { apiRequest } from "@/lib/queryClient";
 
 const ParticleField = lazy(() => import("@/components/ParticleField"));
-const ThreeSevenSecondAnimation = lazy(() => import("@/components/ThreeSevenSecondAnimation"));
 
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger." },
@@ -105,6 +104,102 @@ function SectionLabel({ children }: { children: string }) {
     <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
+  );
+}
+
+const windowLines = [
+  { delay: 1000, text: "Someone gets close.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "#999" } as const, mobileSize: "1.1rem" },
+  { delay: 2000, text: "Your chest tightens.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "white" } as const, mobileSize: "1.1rem" },
+  { delay: 3000, text: "Your hands go cold.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "white" } as const, mobileSize: "1.1rem" },
+  { delay: 4000, text: "You're about to pull away.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.3rem", color: "#eee" } as const, mobileSize: "1.1rem" },
+  { delay: 7000, text: "That pause you just felt?", style: { fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" } as const, mobileSize: "1.8rem" },
+  { delay: 8500, text: "That's the window.", style: { fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "#14B8A6", fontWeight: "bold" } as const, mobileSize: "2rem" },
+  { delay: 10000, text: "This method teaches you what to do inside it.", style: { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#999" } as const, mobileSize: "1rem" },
+];
+
+function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+  const [visibleLines, setVisibleLines] = useState<number[]>([]);
+  const hasPlayed = useRef(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const localRef = useRef<HTMLElement | null>(null);
+
+  const setRefs = useCallback((el: HTMLElement | null) => {
+    localRef.current = el;
+    if (sectionRef && "current" in sectionRef) {
+      (sectionRef as React.MutableRefObject<HTMLElement | null>).current = el;
+    }
+  }, [sectionRef]);
+
+  useEffect(() => {
+    const el = localRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPlayed.current) {
+          hasPlayed.current = true;
+          windowLines.forEach((line, i) => {
+            const timer = setTimeout(() => {
+              setVisibleLines(prev => [...prev, i]);
+            }, line.delay);
+            timersRef.current.push(timer);
+          });
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      timersRef.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  return (
+    <section
+      ref={setRefs}
+      className="px-6"
+      data-testid="section-window"
+      style={{ position: "relative", background: "#0A0A0A", paddingTop: "100px", paddingBottom: "100px" }}
+    >
+      <div className="thread-node" />
+      <div className="thread-node-label">Mechanism</div>
+      <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
+        <p
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "12px",
+            color: "#14B8A6",
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            marginBottom: "48px",
+          }}
+        >
+          THE WINDOW
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "28px", alignItems: "center" }}>
+          {windowLines.map((line, i) => (
+            <p
+              key={i}
+              data-testid={`text-window-line-${i}`}
+              style={{
+                ...line.style,
+                fontSize: isMobile ? line.mobileSize : line.style.fontSize,
+                opacity: visibleLines.includes(i) ? 1 : 0,
+                transition: "opacity 0.4s ease",
+                margin: 0,
+                lineHeight: 1.4,
+              }}
+            >
+              {line.text}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -477,32 +572,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 5: THE 3-7 SECOND WINDOW ========== */}
-      <section ref={sectionRefs.window} className="py-24 md:py-32 px-6" data-testid="section-window" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Mechanism</div>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center" style={{ marginBottom: "48px" }}>
-            <SectionLabel>THE MECHANISM</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-window-headline">
-              You Have a 3-7 Second Window
-            </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ color: "#999", fontSize: "1.1rem", maxWidth: "600px", marginTop: "24px", lineHeight: 1.7 }}>
-              Every destructive pattern follows the same sequence. There's a moment between the trigger and the behavior where your body is screaming at you. That moment is where everything changes.
-            </p>
-          </div>
-
-          <div className="reveal reveal-delay-3" style={{ marginBottom: "48px" }}>
-            <Suspense fallback={null}>
-              <ThreeSevenSecondAnimation />
-            </Suspense>
-          </div>
-
-          <p className="reveal reveal-delay-4 text-center mx-auto" style={{ color: "white", fontSize: "1rem", maxWidth: "500px", lineHeight: 1.8 }}>
-            "Your chest tightens. Your stomach drops. Your jaw clenches. That's not anxiety — that's information. That's your body telling you the pattern is about to run. Learn to catch it, and you can interrupt it before it finishes."
-          </p>
-        </div>
-      </section>
+      {/* ========== SECTION 5: THE WINDOW (Timed Text Sequence) ========== */}
+      <TheWindowSection sectionRef={sectionRefs.window} />
 
       {/* ========== SECTION 6: THIS IS FOR YOU / NOT FOR YOU ========== */}
       <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
