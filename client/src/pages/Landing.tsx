@@ -21,25 +21,29 @@ const archivesCaseFiles = [
   {
     num: "0041",
     pattern: "DISAPPEARING",
-    report: "Subject identified pattern on Day 3 of Crash Course. First body signature recognition: chest tightness before urge to ghost. First successful interrupt: Day 11. Subject stayed in the conversation. First time in 14 years.",
+    reportBody: "Subject identified pattern on Day 3 of Crash Course. First body signature recognition: chest tightness before urge to ghost. First successful interrupt: Day 11.",
+    breakthrough: "Subject stayed in the conversation. First time in 14 years.",
     status: "PATTERN WEAKENING",
   },
   {
     num: "0087",
     pattern: "SUCCESS SABOTAGE",
-    report: "Subject recognized pre-sabotage body signature (hands shaking, impulse to delete project) 4 seconds before pattern executed. Applied circuit break. Did not destroy 6 months of work. Reports: 'I just didn't do it this time.'",
+    reportBody: "Subject recognized pre-sabotage body signature (hands shaking, impulse to delete project) 4 seconds before pattern executed. Applied circuit break.",
+    breakthrough: "Did not destroy 6 months of work.",
     status: "INTERRUPT CONFIRMED",
   },
   {
     num: "0113",
     pattern: "APOLOGY LOOP",
-    report: "Subject caught herself mid-apology for asking a question at work. Recognized throat tightening as body signature. Used circuit break: 'I don't need to apologize for this.' Reports reduced unnecessary apologies by 60% in 3 weeks.",
+    reportBody: "Subject caught herself mid-apology for asking a question at work. Recognized throat tightening as body signature. Used circuit break: 'I don't need to apologize for this.'",
+    breakthrough: "Reports reduced unnecessary apologies by 60% in 3 weeks.",
     status: "PATTERN DISRUPTED",
   },
   {
     num: "0156",
     pattern: "TESTING",
-    report: "Subject recognized testing behavior mid-argument with partner. Body signature: jaw clenching, urge to escalate. Applied interrupt. Chose to communicate need directly instead of testing. Partner responded. Relationship intact.",
+    reportBody: "Subject recognized testing behavior mid-argument with partner. Body signature: jaw clenching, urge to escalate. Applied interrupt. Chose to communicate need directly instead of testing.",
+    breakthrough: "Partner responded. Relationship intact.",
     status: "ACTIVE INTERRUPTION",
   },
 ];
@@ -194,6 +198,95 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
           "{card.trigger}"
         </p>
       </div>
+    </div>
+  );
+}
+
+function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; index: number }) {
+  const [declassified, setDeclassified] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const handleDeclassify = () => {
+    if (!declassified) setDeclassified(true);
+  };
+
+  return (
+    <div
+      className="reveal"
+      style={{
+        background: "rgba(255,255,255,0.02)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        padding: "28px",
+        transitionDelay: `${(index % 2) * 0.15}s`,
+      }}
+      data-testid={`card-case-file-${file.num}`}
+      onMouseEnter={!isMobile ? handleDeclassify : undefined}
+      onClick={isMobile ? handleDeclassify : undefined}
+    >
+      <div style={{ marginBottom: "16px" }}>
+        <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+            CASE FILE {file.num}
+          </span>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373" }}>|</span>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+            PATTERN: {file.pattern}
+          </span>
+        </div>
+        <div style={{ background: "#000", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
+      </div>
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999", lineHeight: 1.7, marginBottom: "12px" }}>
+        "{file.reportBody}"
+      </p>
+      <div style={{ position: "relative", marginBottom: "8px", overflow: "hidden" }}>
+        <p
+          data-testid={`text-breakthrough-${file.num}`}
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "12px",
+            color: "#14B8A6",
+            lineHeight: 1.7,
+            fontWeight: 600,
+          }}
+        >
+          "{file.breakthrough}"
+        </p>
+        <div
+          data-testid={`redaction-bar-${file.num}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "#000",
+            transform: declassified ? "translateX(101%)" : "translateX(0)",
+            transition: "transform 0.6s ease",
+          }}
+        />
+      </div>
+      <p
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "10px",
+          color: "#555",
+          marginBottom: "16px",
+          transition: "opacity 0.3s",
+          opacity: declassified ? 0 : 1,
+        }}
+      >
+        {isMobile ? "[ TAP TO DECLASSIFY ]" : "[ HOVER TO DECLASSIFY ]"}
+      </p>
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+        STATUS: {file.status}
+      </p>
     </div>
   );
 }
@@ -764,37 +857,164 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {archivesCaseFiles.map((file, i) => (
-              <div
-                key={file.num}
-                className="reveal"
-                style={{
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  padding: "28px",
-                  transitionDelay: `${(i % 2) * 0.15}s`,
-                }}
-                data-testid={`card-case-file-${file.num}`}
-              >
-                <div style={{ marginBottom: "16px" }}>
-                  <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                      CASE FILE {file.num}
-                    </span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373" }}>|</span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                      PATTERN: {file.pattern}
-                    </span>
-                  </div>
-                  <div style={{ background: "#000", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
-                </div>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999", lineHeight: 1.7, marginBottom: "16px" }}>
-                  "{file.report}"
-                </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                  STATUS: {file.status}
-                </p>
+              <CaseFileCard key={file.num} file={file} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
+      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { stat: "685+", label: "Pages of Research" },
+              { stat: "9", label: "Documented Patterns" },
+              { stat: "3-7", label: "Second Window" },
+              { stat: "24/7", label: "AI Pattern Coach" },
+            ].map((item) => (
+              <div key={item.label}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.5rem", color: "#14B8A6", marginBottom: "4px" }}>{item.stat}</p>
+                <p style={{ color: "#999", fontSize: "0.85rem" }}>{item.label}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SECTION 8.7: BENTO DASHBOARD PREVIEW ========== */}
+      <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">System</div>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>INSIDE THE SYSTEM</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
+              This Is What You Get
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* PANEL 1: Pattern Dashboard */}
+            <div
+              className="reveal md:col-span-1"
+              data-testid="panel-dashboard"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                padding: "24px",
+                transition: "border-color 0.3s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            >
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Your Pattern Dashboard</p>
+              <div style={{ background: "rgba(0,0,0,0.4)", padding: "16px", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "14px", color: "white", marginBottom: "12px" }}>THE DISAPPEARING PATTERN</p>
+                <div className="flex items-center gap-2 flex-wrap" style={{ marginBottom: "8px" }}>
+                  <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#EC4899", display: "inline-block" }} />
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999" }}>Chest tightness — active</span>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" strokeWidth="2"><path d="M12 2c.5 3.5 3 6 6 6.5-3 .5-5.5 3-6 6.5-.5-3.5-3-6-6-6.5 3-.5 5.5-3 6-6.5z"/></svg>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>12 day streak</span>
+                </div>
+              </div>
+            </div>
+
+            {/* PANEL 2: AI Pattern Coach */}
+            <div
+              className="reveal"
+              data-testid="panel-ai-coach"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                padding: "24px",
+                transition: "border-color 0.3s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            >
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>AI Pattern Coach</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ alignSelf: "flex-end", background: "rgba(255,255,255,0.06)", padding: "10px 14px", maxWidth: "85%" }}>
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc" }}>I just ghosted her again</p>
+                </div>
+                <div style={{ alignSelf: "flex-start", borderLeft: "2px solid #14B8A6", padding: "10px 14px", maxWidth: "85%", background: "rgba(20,184,166,0.04)" }}>
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc" }}>Disappearing pattern. What did you feel in your chest right before you pulled away?</p>
+                </div>
+              </div>
+            </div>
+
+            {/* PANEL 3: Body Signature Map */}
+            <div
+              className="reveal"
+              data-testid="panel-body-map"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                padding: "24px",
+                transition: "border-color 0.3s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            >
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Body Signature Map</p>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
+                <svg viewBox="0 0 60 140" width="50" height="120" style={{ flexShrink: 0 }}>
+                  <ellipse cx="30" cy="14" rx="10" ry="12" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <line x1="30" y1="26" x2="30" y2="80" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <line x1="30" y1="40" x2="8" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <line x1="30" y1="40" x2="52" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <line x1="30" y1="80" x2="15" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <line x1="30" y1="80" x2="45" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
+                  <circle cx="30" cy="42" r="3" fill="#14B8A6" opacity="0.8"/>
+                  <circle cx="30" cy="62" r="3" fill="#14B8A6" opacity="0.8"/>
+                  <circle cx="8" cy="65" r="2.5" fill="#14B8A6" opacity="0.8"/>
+                </svg>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {[{ label: "Tightness", area: "Chest" }, { label: "Drop", area: "Stomach" }, { label: "Cold", area: "Hands" }].map((sig) => (
+                    <div key={sig.area} className="flex items-center gap-2">
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#14B8A6", display: "inline-block" }} />
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "white" }}>{sig.label}</span>
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#555" }}>({sig.area})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#666", marginTop: "14px", textAlign: "center" }}>Your pattern has a physical signature. Learn to read it.</p>
+            </div>
+
+            {/* PANEL 4: Interrupt Protocol */}
+            <div
+              className="reveal"
+              data-testid="panel-interrupt"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                padding: "24px",
+                transition: "border-color 0.3s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            >
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>The Interrupt Protocol</p>
+              <div style={{ background: "rgba(0,0,0,0.4)", padding: "14px", border: "1px solid rgba(255,255,255,0.04)", marginBottom: "12px" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>CIRCUIT BREAK — Disappearing Pattern</p>
+                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc", fontStyle: "italic", lineHeight: 1.6 }}>
+                  "The pattern is running. I feel the tightness. I'm choosing to stay."
+                </p>
+              </div>
+              <div>
+                <div className="flex items-center justify-between gap-2 flex-wrap" style={{ marginBottom: "4px" }}>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#999" }}>Progress</span>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6" }}>Day 11 of 90</span>
+                </div>
+                <div style={{ height: "3px", background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                  <div style={{ width: "12%", height: "100%", background: "#14B8A6" }} />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -872,25 +1092,6 @@ export default function Landing() {
           <p className="reveal reveal-delay-3 text-center" style={{ color: "#737373", fontSize: "13px", marginTop: "32px" }}>
             One-time purchase. No subscriptions. No recurring charges. Yours forever.
           </p>
-        </div>
-      </section>
-
-      {/* ========== SECTION 10: CREDIBILITY BAR ========== */}
-      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { stat: "685+", label: "Pages of Research" },
-              { stat: "9", label: "Documented Patterns" },
-              { stat: "3-7", label: "Second Window" },
-              { stat: "24/7", label: "AI Pattern Coach" },
-            ].map((item) => (
-              <div key={item.label}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.5rem", color: "#14B8A6", marginBottom: "4px" }}>{item.stat}</p>
-                <p style={{ color: "#999", fontSize: "0.85rem" }}>{item.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
