@@ -3,6 +3,18 @@ import { useLocation } from 'wouter';
 import { Check } from 'lucide-react';
 import { PatternKey, patternDisplayNames, QuizResult as QuizResultType } from '@/lib/quizData';
 
+const patternMatchPercent: Record<PatternKey, number> = {
+  disappearing: 91,
+  apologyLoop: 87,
+  testing: 83,
+  attractionToHarm: 89,
+  complimentDeflection: 85,
+  drainingBond: 88,
+  successSabotage: 92,
+  perfectionism: 86,
+  rage: 84,
+};
+
 const feelSeenCopy: Record<PatternKey, string[]> = {
   disappearing: [
     "You leave before they can leave you. Three months in and your chest gets tight. You feel the walls closing. You're already planning your exit before they even know something's wrong.",
@@ -211,7 +223,6 @@ export default function QuizResult() {
 
     return (
       <div className="min-h-screen bg-black">
-        <div className="quiz-fog" />
         <div className="relative max-w-3xl mx-auto px-4 py-12 md:py-16 z-10">
           <div className="results-fade-in text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
@@ -251,7 +262,6 @@ export default function QuizResult() {
 
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <div className="quiz-fog" />
         <div className={`results-email-capture max-w-md w-full relative z-10 ${emailSlideUp ? 'results-email-visible' : ''}`}>
           <div className="text-center mb-8">
             <p className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold mb-3">
@@ -312,32 +322,56 @@ export default function QuizResult() {
     );
   }
 
+  const matchPct = patternMatchPercent[currentPattern] || 85;
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      <div className="quiz-fog" />
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#0A0A0A' }}>
       <div className="max-w-xl w-full relative z-10">
         <div className="text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-6 results-fade-in">
+          <p
+            className="results-fade-in"
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px" }}
+          >
             Pattern Identified
           </p>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2" data-testid="text-pattern-name">
+          <div className={`transition-all duration-500 ${typewriterDone ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+            <p
+              data-testid="text-match-percent"
+              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "#14B8A6", fontWeight: 700, marginBottom: "12px" }}
+            >
+              {matchPct}% MATCH
+            </p>
+            <div style={{ maxWidth: "400px", margin: "0 auto 24px", height: "4px", background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+              <div
+                data-testid="bar-match-percent"
+                style={{
+                  width: `${matchPct}%`,
+                  height: "100%",
+                  background: "#14B8A6",
+                  transition: "width 1s ease-out",
+                }}
+              />
+            </div>
+          </div>
+
+          <h1 data-testid="text-pattern-name" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white", fontWeight: 700, marginBottom: "8px" }}>
             <span ref={typewriterRef} className="results-typewriter" />
             {!typewriterDone && <span className="results-cursor">|</span>}
           </h1>
 
-          <div className={`h-0.5 w-20 bg-teal-500 mx-auto mb-8 transition-all duration-300 ${typewriterDone ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
+          <div className={`h-0.5 w-20 mx-auto mb-8 transition-all duration-300 ${typewriterDone ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} style={{ background: '#14B8A6' }} />
 
           <div className={`space-y-4 mb-10 transition-all duration-300 ${copyVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
             {currentCopy.map((paragraph, i) => (
-              <p key={i} className="text-slate-300 text-lg leading-relaxed max-w-lg mx-auto">
+              <p key={i} style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#ccc", lineHeight: 1.7, maxWidth: "500px", margin: "0 auto" }}>
                 {paragraph}
               </p>
             ))}
           </div>
 
           <div className={`transition-all duration-300 ${buttonsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-            <p className="text-white font-medium mb-5" data-testid="text-confirmation">
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: "white", fontWeight: 500, marginBottom: "20px" }} data-testid="text-confirmation">
               Does this sound like you?
             </p>
 
@@ -345,14 +379,40 @@ export default function QuizResult() {
               <button
                 data-testid="button-yes"
                 onClick={() => handleConfirm(currentPattern)}
-                className="results-confirm-btn px-8 py-3 border border-teal-500/50 text-white rounded-md font-medium transition-all"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "14px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  border: "1px solid rgba(20, 184, 166, 0.5)",
+                  background: "transparent",
+                  color: "white",
+                  padding: "12px 32px",
+                  cursor: "pointer",
+                  transition: "all 200ms ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; e.currentTarget.style.background = "rgba(20, 184, 166, 0.08)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(20, 184, 166, 0.5)"; e.currentTarget.style.background = "transparent"; }}
               >
                 Yes, that's me
               </button>
               <button
                 data-testid="button-not-quite"
                 onClick={handleNotQuite}
-                className="results-confirm-btn px-8 py-3 border border-slate-600 text-slate-300 rounded-md font-medium transition-all"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "14px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  background: "transparent",
+                  color: "#999",
+                  padding: "12px 32px",
+                  cursor: "pointer",
+                  transition: "all 200ms ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.color = "white"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "#999"; }}
               >
                 Not quite
               </button>

@@ -6,15 +6,42 @@ import { apiRequest } from "@/lib/queryClient";
 const ParticleField = lazy(() => import("@/components/ParticleField"));
 
 const patternCards = [
-  { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger." },
-  { num: "02", name: "APOLOGY LOOP", desc: "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal." },
-  { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave." },
-  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and situations that hurt you. Not because you're broken. Because chaos feels like home." },
-  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your entire body rejects it. You literally cannot let it in." },
-  { num: "06", name: "DRAINING BOND", desc: "You stay connected to people who drain you. You know you should leave. You physically can't." },
-  { num: "07", name: "SUCCESS SABOTAGE", desc: "You destroy things right before they work. Promotions, relationships, projects. The closer you get, the harder you burn it down." },
-  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather abandon it than release it imperfect." },
-  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and disproportionate. Afterward you wonder who that was. It was the pattern." },
+  { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me." },
+  { num: "02", name: "APOLOGY LOOP", desc: "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry." },
+  { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave.", trigger: "If they really loved me, they'd stay no matter what I do." },
+  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and situations that hurt you. Not because you're broken. Because chaos feels like home.", trigger: "I know this person is bad for me. I can't stop going back." },
+  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your entire body rejects it. You literally cannot let it in.", trigger: "They don't mean it. And if they do, they're wrong." },
+  { num: "06", name: "DRAINING BOND", desc: "You stay connected to people who drain you. You know you should leave. You physically can't.", trigger: "I should leave. I know I should leave. I'll leave tomorrow." },
+  { num: "07", name: "SUCCESS SABOTAGE", desc: "You destroy things right before they work. Promotions, relationships, projects. The closer you get, the harder you burn it down.", trigger: "It's actually going well. Something's about to go wrong. I'll just end it myself." },
+  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather abandon it than release it imperfect.", trigger: "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong." },
+  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and disproportionate. Afterward you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me." },
+];
+
+const archivesCaseFiles = [
+  {
+    num: "0041",
+    pattern: "DISAPPEARING",
+    report: "Subject identified pattern on Day 3 of Crash Course. First body signature recognition: chest tightness before urge to ghost. First successful interrupt: Day 11. Subject stayed in the conversation. First time in 14 years.",
+    status: "PATTERN WEAKENING",
+  },
+  {
+    num: "0087",
+    pattern: "SUCCESS SABOTAGE",
+    report: "Subject recognized pre-sabotage body signature (hands shaking, impulse to delete project) 4 seconds before pattern executed. Applied circuit break. Did not destroy 6 months of work. Reports: 'I just didn't do it this time.'",
+    status: "INTERRUPT CONFIRMED",
+  },
+  {
+    num: "0113",
+    pattern: "APOLOGY LOOP",
+    report: "Subject caught herself mid-apology for asking a question at work. Recognized throat tightening as body signature. Used circuit break: 'I don't need to apologize for this.' Reports reduced unnecessary apologies by 60% in 3 weeks.",
+    status: "PATTERN DISRUPTED",
+  },
+  {
+    num: "0156",
+    pattern: "TESTING",
+    report: "Subject recognized testing behavior mid-argument with partner. Body signature: jaw clenching, urge to escalate. Applied interrupt. Chose to communicate need directly instead of testing. Partner responded. Relationship intact.",
+    status: "ACTIVE INTERRUPTION",
+  },
 ];
 
 const gutCheckPatterns = [
@@ -104,6 +131,70 @@ function SectionLabel({ children }: { children: string }) {
     <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
+  );
+}
+
+function PatternCard({ card, index }: { card: typeof patternCards[0]; index: number }) {
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      ref={cardRef}
+      className="reveal"
+      style={{
+        background: "rgba(255,255,255,0.03)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        padding: "32px",
+        transition: "border-color 0.3s",
+        transitionDelay: `${(index % 3) * 0.1}s`,
+        cursor: "pointer",
+      }}
+      data-testid={`card-pattern-${card.num}`}
+      onMouseEnter={() => {
+        setHovered(true);
+        if (cardRef.current) cardRef.current.style.borderColor = index % 2 === 0 ? "#14B8A6" : "#EC4899";
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+        if (cardRef.current) cardRef.current.style.borderColor = "rgba(255,255,255,0.06)";
+      }}
+      onClick={() => setHovered(prev => !prev)}
+    >
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "2rem", color: "#EC4899", marginBottom: "12px" }}>{card.num}</p>
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{card.name}</p>
+      <div style={{ position: "relative", minHeight: "4.5em" }}>
+        <p
+          style={{
+            color: "#999",
+            fontSize: "0.95rem",
+            lineHeight: 1.6,
+            transition: "opacity 0.3s ease",
+            opacity: hovered ? 0 : 1,
+            position: hovered ? "absolute" : "relative",
+            inset: hovered ? 0 : undefined,
+          }}
+        >
+          {card.desc}
+        </p>
+        <p
+          data-testid={`text-trigger-${card.num}`}
+          style={{
+            fontFamily: "'Source Sans 3', sans-serif",
+            fontStyle: "italic",
+            color: "white",
+            fontSize: "0.95rem",
+            lineHeight: 1.6,
+            transition: "opacity 0.3s ease",
+            opacity: hovered ? 1 : 0,
+            position: hovered ? "relative" : "absolute",
+            inset: hovered ? undefined : 0,
+          }}
+        >
+          "{card.trigger}"
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -533,28 +624,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {patternCards.map((p, i) => (
-              <div
-                key={p.num}
-                className="reveal"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  padding: "32px",
-                  transition: "border-color 0.3s",
-                  transitionDelay: `${(i % 3) * 0.1}s`,
-                }}
-                data-testid={`card-pattern-${p.num}`}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).closest("div")!.style.borderColor = i % 2 === 0 ? "#14B8A6" : "#EC4899";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).closest("div")!.style.borderColor = "rgba(255,255,255,0.06)";
-                }}
-              >
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "2rem", color: "#EC4899", marginBottom: "12px" }}>{p.num}</p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{p.name}</p>
-                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{p.desc}</p>
-              </div>
+              <PatternCard key={p.num} card={p} index={i} />
             ))}
           </div>
         </div>
@@ -674,6 +744,55 @@ export default function Landing() {
               <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "16px 0" }}>
                 <p style={{ color: "#737373", fontSize: "0.95rem" }}>{row[0]}</p>
                 <p style={{ color: "white", fontSize: "0.95rem", borderLeft: "2px solid rgba(20, 184, 166, 0.3)", paddingLeft: "16px" }}>{row[1]}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SECTION 8.5: FROM THE ARCHIVES ========== */}
+      <section className="py-24 md:py-32 px-6" data-testid="section-archives" style={{ position: "relative" }}>
+        <div className="thread-node" />
+        <div className="thread-node-label">Evidence</div>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center" style={{ marginBottom: "48px" }}>
+            <SectionLabel>FROM THE ARCHIVES</SectionLabel>
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-archives-headline">
+              Field Reports
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {archivesCaseFiles.map((file, i) => (
+              <div
+                key={file.num}
+                className="reveal"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  padding: "28px",
+                  transitionDelay: `${(i % 2) * 0.15}s`,
+                }}
+                data-testid={`card-case-file-${file.num}`}
+              >
+                <div style={{ marginBottom: "16px" }}>
+                  <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      CASE FILE {file.num}
+                    </span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373" }}>|</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      PATTERN: {file.pattern}
+                    </span>
+                  </div>
+                  <div style={{ background: "#000", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
+                </div>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999", lineHeight: 1.7, marginBottom: "16px" }}>
+                  "{file.report}"
+                </p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                  STATUS: {file.status}
+                </p>
               </div>
             ))}
           </div>
@@ -837,8 +956,8 @@ export default function Landing() {
             <Link href="/privacy" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
             <Link href="/contact" className="transition-colors hover:text-white" style={{ color: "#555", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
           </div>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#444" }}>
-            Built in the fire. Systematized December 2025.
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
+            The archive is open. Don't close the door.
           </p>
         </div>
       </footer>
