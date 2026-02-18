@@ -120,11 +120,7 @@ function handleCheckout(product: string) {
 function CTAButton({ text }: { text: string }) {
   return (
     <div className="cta-glow-wrap" data-testid="button-cta-wrap">
-      <div className="cta-glow-dot" />
-      <div className="cta-trail-top" />
-      <div className="cta-trail-right" />
-      <div className="cta-trail-bottom" />
-      <div className="cta-trail-left" />
+      <div className="cta-glow-border" />
       <Link
         href="/quiz"
         data-testid="button-cta"
@@ -1047,84 +1043,48 @@ export default function Landing() {
           from { opacity: 0; transform: translateY(15px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes ctaTrace {
-          0% { left: 0%; top: 0%; }
-          25% { left: calc(100% - 8px); top: 0%; }
-          50% { left: calc(100% - 8px); top: calc(100% - 8px); }
-          75% { left: 0%; top: calc(100% - 8px); }
-          100% { left: 0%; top: 0%; }
-        }
-        @keyframes ctaTrailTop {
-          0% { opacity: 0.85; left: 0%; top: 0; width: 60px; height: 2px; }
-          25% { opacity: 0.85; left: calc(100% - 60px); top: 0; width: 60px; height: 2px; }
-          25.01% { opacity: 0; }
-          100% { opacity: 0; }
-        }
-        @keyframes ctaTrailRight {
-          0%, 25% { opacity: 0; }
-          25.01% { opacity: 0.85; right: 0; top: 0%; width: 2px; height: 60px; }
-          50% { opacity: 0.85; right: 0; top: calc(100% - 60px); width: 2px; height: 60px; }
-          50.01% { opacity: 0; }
-          100% { opacity: 0; }
-        }
-        @keyframes ctaTrailBottom {
-          0%, 50% { opacity: 0; }
-          50.01% { opacity: 0.85; right: 0; bottom: 0; width: 60px; height: 2px; }
-          75% { opacity: 0.85; right: calc(100% - 60px); bottom: 0; width: 60px; height: 2px; }
-          75.01% { opacity: 0; }
-          100% { opacity: 0; }
-        }
-        @keyframes ctaTrailLeft {
-          0%, 75% { opacity: 0; }
-          75.01% { opacity: 0.85; left: 0; bottom: 0; width: 2px; height: 60px; }
-          100% { opacity: 0.85; left: 0; bottom: calc(100% - 60px); width: 2px; height: 60px; }
+        @keyframes ctaSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
         .cta-glow-wrap {
           position: relative;
           display: inline-block;
         }
-        .cta-glow-dot {
+        .cta-glow-border {
           position: absolute;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(236, 72, 153, 0.85);
-          box-shadow: 0 0 12px rgba(236, 72, 153, 0.6), 0 0 24px rgba(236, 72, 153, 0.3);
-          animation: ctaTrace 3s linear infinite;
+          inset: -2px;
+          border-radius: 2px;
+          overflow: hidden;
           pointer-events: none;
-          z-index: 2;
+          z-index: 0;
         }
-        .cta-trail-top, .cta-trail-right, .cta-trail-bottom, .cta-trail-left {
+        .cta-glow-border::before {
+          content: '';
           position: absolute;
-          pointer-events: none;
-          z-index: 2;
+          inset: -50%;
+          background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 340deg,
+            rgba(236, 72, 153, 0.9) 350deg,
+            rgba(236, 72, 153, 1) 355deg,
+            rgba(236, 72, 153, 0.9) 360deg
+          );
+          animation: ctaSpin 3s linear infinite;
+        }
+        .cta-glow-border::after {
+          content: '';
+          position: absolute;
+          inset: 2px;
+          background: #000;
           border-radius: 1px;
-        }
-        .cta-trail-top {
-          background: linear-gradient(to right, transparent, rgba(236, 72, 153, 0.85));
-          animation: ctaTrailTop 3s linear infinite;
-          box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
-        }
-        .cta-trail-right {
-          background: linear-gradient(to bottom, transparent, rgba(236, 72, 153, 0.85));
-          animation: ctaTrailRight 3s linear infinite;
-          box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
-        }
-        .cta-trail-bottom {
-          background: linear-gradient(to left, transparent, rgba(236, 72, 153, 0.85));
-          animation: ctaTrailBottom 3s linear infinite;
-          box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
-        }
-        .cta-trail-left {
-          background: linear-gradient(to top, transparent, rgba(236, 72, 153, 0.85));
-          animation: ctaTrailLeft 3s linear infinite;
-          box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
         }
         .cta-glow-inner {
           position: relative;
           z-index: 1;
           background: #000;
-          border: 1px solid rgba(255,255,255,0.3);
+          border: 1px solid rgba(255,255,255,0.15);
         }
 
         @keyframes heroWordReveal {
@@ -1158,7 +1118,7 @@ export default function Landing() {
           .bg-grain, .bg-grid { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
           .hero-word { opacity: 1 !important; animation: none !important; color: #F5F5F5 !important; }
-          .cta-glow-dot, .cta-trail-top, .cta-trail-right, .cta-trail-bottom, .cta-trail-left { animation: none !important; display: none !important; }
+          .cta-glow-border::before { animation: none !important; }
         }
       `}</style>
 
