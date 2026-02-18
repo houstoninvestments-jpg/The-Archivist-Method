@@ -119,14 +119,17 @@ function handleCheckout(product: string) {
 
 function CTAButton({ text }: { text: string }) {
   return (
-    <Link
-      href="/quiz"
-      data-testid="button-cta"
-      className="inline-block border border-white/80 text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black"
-      style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
-    >
-      {text} <ArrowRight className="inline w-4 h-4 ml-1" />
-    </Link>
+    <div className="cta-glow-wrap" data-testid="button-cta-wrap">
+      <div className="cta-glow-border" />
+      <Link
+        href="/quiz"
+        data-testid="button-cta"
+        className="cta-glow-inner inline-block text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black"
+        style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
+      >
+        {text} <ArrowRight className="inline w-4 h-4 ml-1" />
+      </Link>
+    </div>
   );
 }
 
@@ -930,6 +933,39 @@ export default function Landing() {
           from { opacity: 0; transform: translateY(15px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes ctaGlowSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .cta-glow-wrap {
+          position: relative;
+          display: inline-block;
+          padding: 1px;
+          overflow: hidden;
+        }
+        .cta-glow-border {
+          position: absolute;
+          inset: -50%;
+          background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 340deg,
+            rgba(236, 72, 153, 0.6) 350deg,
+            #EC4899 355deg,
+            rgba(236, 72, 153, 0.6) 358deg,
+            transparent 360deg
+          );
+          animation: ctaGlowSpin 3s linear infinite;
+          filter: blur(1px);
+          pointer-events: none;
+        }
+        .cta-glow-inner {
+          position: relative;
+          z-index: 1;
+          background: #000;
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+
         @keyframes heroWordReveal {
           0% { opacity: 0; color: #14B8A6; }
           20% { opacity: 1; color: #14B8A6; }
@@ -960,6 +996,7 @@ export default function Landing() {
           .bg-grain, .bg-grid { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
           .hero-word { opacity: 1 !important; animation: none !important; color: #F5F5F5 !important; }
+          .cta-glow-border { animation: none !important; display: none !important; }
         }
       `}</style>
 
