@@ -379,46 +379,15 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
   );
 }
 
-const patternCycles = [
-  {
-    trigger: "Someone says I love you.",
-    signature: "Your chest tightens. Your hands go cold.",
-    pull: "You're already planning how to leave.",
-  },
-  {
-    trigger: "You ask a question in a meeting.",
-    signature: "Your throat closes. Stomach drops.",
-    pull: "You're already apologizing for speaking.",
-  },
-  {
-    trigger: "The project is almost finished.",
-    signature: "Your hands start shaking. Restless heat.",
-    pull: "You're about to delete six months of work.",
-  },
-  {
-    trigger: "Things are going well with them.",
-    signature: "Jaw clenches. Pulse quickens.",
-    pull: "You're about to start a fight to see if they'll stay.",
-  },
-  {
-    trigger: "They hurt you again.",
-    signature: "Numbness spreads. Familiar warmth.",
-    pull: "You're going back. You already know you are.",
-  },
-];
-
-type WindowPhase =
-  | { type: "idle" }
-  | { type: "preIntro" }
-  | { type: "intro"; step: number }
-  | { type: "cycle"; index: number; lineStep: number; fading: boolean }
-  | { type: "payoff"; step: number };
+type WindowPhase = "idle" | "preIntro" | "circuit" | "barTrigger" | "barSignature" | "barGap" | "barGapText1" | "barGapText2" | "aftermath1" | "aftermath2" | "threeSecTest" | "done";
 
 function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const [phase, setPhase] = useState<WindowPhase>({ type: "idle" });
-  const [introFaded, setIntroFaded] = useState(false);
+  const [phase, setPhase] = useState<WindowPhase>("idle");
+  const [counter, setCounter] = useState(0);
+  const [desat, setDesat] = useState(false);
   const hasPlayed = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const rafRef = useRef<number>(0);
   const localRef = useRef<HTMLElement | null>(null);
 
   const setRefs = useCallback((el: HTMLElement | null) => {
@@ -443,27 +412,36 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         if (entry.isIntersecting && !hasPlayed.current) {
           hasPlayed.current = true;
 
-          schedule(() => setPhase({ type: "preIntro" }), 300);
-          schedule(() => setPhase({ type: "intro", step: 0 }), 3500);
-          schedule(() => setPhase({ type: "intro", step: 1 }), 4500);
-          schedule(() => setPhase({ type: "intro", step: 2 }), 6000);
-          schedule(() => setIntroFaded(true), 7500);
+          const introDelay = 0;
+          const circuitDelay = 1500;
+          const barStart = 3500;
 
-          const cycleStart = 8000;
-          const cycleDuration = 4000;
-
-          patternCycles.forEach((_, ci) => {
-            const base = cycleStart + ci * cycleDuration;
-            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 0, fading: false }), base);
-            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 1, fading: false }), base + 800);
-            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 2, fading: false }), base + 1600);
-            schedule(() => setPhase({ type: "cycle", index: ci, lineStep: 2, fading: true }), base + 3200);
-          });
-
-          const payoffStart = cycleStart + patternCycles.length * cycleDuration + 1000;
-          schedule(() => setPhase({ type: "payoff", step: 0 }), payoffStart);
-          schedule(() => setPhase({ type: "payoff", step: 1 }), payoffStart + 1500);
-          schedule(() => setPhase({ type: "payoff", step: 2 }), payoffStart + 3000);
+          schedule(() => setPhase("preIntro"), introDelay);
+          schedule(() => setPhase("circuit"), circuitDelay);
+          schedule(() => {
+            setPhase("barTrigger");
+            const countStart = performance.now();
+            const tick = () => {
+              const elapsed = Math.min((performance.now() - countStart) / 1000, 7.0);
+              setCounter(elapsed);
+              if (elapsed < 4.0) {
+                rafRef.current = requestAnimationFrame(tick);
+              }
+            };
+            rafRef.current = requestAnimationFrame(tick);
+          }, barStart);
+          schedule(() => setPhase("barSignature"), barStart + 2000);
+          schedule(() => {
+            setPhase("barGap");
+            setDesat(true);
+            schedule(() => setDesat(false), 200);
+          }, barStart + 4000);
+          schedule(() => setPhase("barGapText1"), barStart + 5000);
+          schedule(() => setPhase("barGapText2"), barStart + 6000);
+          schedule(() => setPhase("aftermath1"), barStart + 9000);
+          schedule(() => setPhase("aftermath2"), barStart + 10500);
+          schedule(() => setPhase("threeSecTest"), barStart + 12500);
+          schedule(() => setPhase("done"), barStart + 13000);
         }
       },
       { threshold: 0.4 }
@@ -473,32 +451,66 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
     return () => {
       observer.disconnect();
       timersRef.current.forEach(clearTimeout);
+      cancelAnimationFrame(rafRef.current);
     };
   }, [schedule]);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-  const preIntroVisible = phase.type === "preIntro" || phase.type === "intro" || phase.type === "cycle" || phase.type === "payoff";
-  const introVisible = phase.type === "intro" || phase.type === "cycle" || phase.type === "payoff";
-  const introOpacity = introFaded ? 0.4 : 1;
+  const phaseOrder: WindowPhase[] = ["idle", "preIntro", "circuit", "barTrigger", "barSignature", "barGap", "barGapText1", "barGapText2", "aftermath1", "aftermath2", "threeSecTest", "done"];
+  const phaseIdx = phaseOrder.indexOf(phase);
+  const past = (p: WindowPhase) => phaseIdx >= phaseOrder.indexOf(p);
 
-  const currentCycle = phase.type === "cycle" ? patternCycles[phase.index] : null;
-  const cycleLineStep = phase.type === "cycle" ? phase.lineStep : -1;
-  const cycleFading = phase.type === "cycle" && phase.fading;
+  const barPercent = !past("barTrigger") ? 0
+    : past("barGap") ? 57
+    : past("barSignature") ? 57
+    : 28;
 
-  const payoffStep = phase.type === "payoff" ? phase.step : -1;
+  const barColor = past("barGap") ? "#14B8A6" : past("barSignature") ? "#F59E0B" : "#EC4899";
+
+  const barLabel = past("barGap") ? "THE GAP" : past("barSignature") ? "BODY SIGNATURE DETECTED" : past("barTrigger") ? "SYSTEM TRIGGERED" : "";
+  const labelColor = past("barGap") ? "#14B8A6" : past("barSignature") ? "#F59E0B" : "#EC4899";
+  const labelSize = past("barGap") ? "15px" : "13px";
+
+  const counterDisplay = past("barGap") ? "4.0" : counter.toFixed(1);
+  const counterBlink = past("barGap") && !past("aftermath1");
+
+  const barFaded = past("aftermath1");
 
   return (
     <section
       ref={setRefs}
       className="px-6"
       data-testid="section-window"
-      style={{ position: "relative", background: "#0A0A0A", paddingTop: "120px", paddingBottom: "120px" }}
+      style={{
+        position: "relative",
+        background: "#0A0A0A",
+        paddingTop: "120px",
+        paddingBottom: "120px",
+        filter: desat ? "saturate(0.3)" : "saturate(1)",
+        transition: "filter 0.2s ease",
+      }}
     >
       <div className="thread-node" />
       <div className="thread-node-label">Mechanism</div>
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
-      <div style={{ maxWidth: "500px", margin: "0 auto", textAlign: "center" }}>
+      <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
+
+        <p
+          data-testid="text-window-label"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "12px",
+            color: "#14B8A6",
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            marginBottom: "32px",
+            opacity: past("preIntro") ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          THE WINDOW
+        </p>
 
         <p
           data-testid="text-window-preintro"
@@ -506,158 +518,217 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             fontFamily: "'Source Sans 3', sans-serif",
             fontSize: isMobile ? "0.9rem" : "1rem",
             color: "#777",
-            margin: "0 0 48px 0",
+            margin: "0 0 32px 0",
             lineHeight: 1.5,
-            opacity: preIntroVisible && !introVisible ? 1 : (introVisible ? 0.3 : 0),
+            opacity: past("preIntro") ? 1 : 0,
             transition: "opacity 0.4s ease",
           }}
         >
           "Willpower is a prefrontal cortex function. Your pattern runs subcortical. That's why knowing better never worked."
         </p>
 
-        <div style={{ opacity: introVisible ? introOpacity : 0, transition: "opacity 0.4s ease", marginBottom: "48px" }}>
+        <p
+          data-testid="text-window-circuit"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: isMobile ? "1.8rem" : "2.2rem",
+            color: "white",
+            margin: "0 0 48px 0",
+            lineHeight: 1.3,
+            opacity: past("circuit") ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          "Every pattern follows the same circuit."
+        </p>
+
+        <div style={{ marginBottom: "48px", opacity: !past("barTrigger") ? 0 : (barFaded ? 0.2 : 1), transition: "opacity 1s ease", pointerEvents: past("barTrigger") ? "auto" : "none" }}>
           <p
-            data-testid="text-window-label"
+            data-testid="text-bar-label"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "12px",
-              color: "#14B8A6",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              marginBottom: "32px",
-              opacity: introVisible && (phase.type !== "intro" || phase.step >= 0) ? 1 : 0,
-              transition: "opacity 0.4s ease",
+              fontSize: labelSize,
+              color: labelColor,
+              fontWeight: past("barGap") ? "bold" : "normal",
+              marginBottom: "12px",
+              transition: "color 0.3s ease",
+              minHeight: "20px",
             }}
           >
-            THE WINDOW
+            {barLabel}
           </p>
-          <p
-            data-testid="text-window-intro-1"
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: isMobile ? "1.8rem" : "2.2rem",
-              color: "white",
-              margin: 0,
-              marginBottom: "20px",
-              lineHeight: 1.3,
-              opacity: phase.type !== "intro" || phase.step >= 1 ? (introVisible ? 1 : 0) : 0,
-              transition: "opacity 0.4s ease",
-            }}
-          >
-            "Every pattern has a signature."
-          </p>
-          <p
-            data-testid="text-window-intro-2"
-            style={{
-              fontFamily: "'Source Sans 3', sans-serif",
-              fontSize: isMobile ? "1rem" : "1.1rem",
-              color: "#999",
-              margin: 0,
-              lineHeight: 1.5,
-              opacity: phase.type !== "intro" || phase.step >= 2 ? (introVisible ? 1 : 0) : 0,
-              transition: "opacity 0.4s ease",
-            }}
-          >
-            "Your body sends it 3-7 seconds before the behavior runs."
-          </p>
-        </div>
 
-        <div style={{ minHeight: "120px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "16px" }}>
-          {currentCycle && (
-            <>
+          <div
+            data-testid="bar-container"
+            style={{
+              height: "4px",
+              background: "rgba(255,255,255,0.1)",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <div
+              data-testid="bar-fill"
+              className={phase === "barSignature" ? "bar-vibrate" : ""}
+              style={{
+                height: "4px",
+                borderRadius: "2px",
+                width: `${barPercent}%`,
+                background: barColor,
+                transition: past("barGap") ? "background 0.3s ease" : "width 2s linear, background 0.5s ease",
+                animation: past("barGap") && !barFaded ? "barPulse 1s ease-in-out infinite" : (phase === "barTrigger" ? "barTriggerPulse 0.5s ease-in-out infinite" : "none"),
+              }}
+            />
+          </div>
+
+          <p
+            data-testid="text-bar-counter"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "11px",
+              color: "#555",
+              marginTop: "8px",
+              animation: counterBlink ? "counterBlink 0.5s step-end infinite" : "none",
+              visibility: past("barTrigger") ? "visible" : "hidden",
+            }}
+          >
+            {counterDisplay}s
+          </p>
+
+          <div style={{ minHeight: "80px" }}>
+            {past("barTrigger") && !past("barSignature") && (
               <p
-                data-testid="text-cycle-trigger"
+                data-testid="text-phase1-desc"
                 style={{
                   fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "1rem" : "1.15rem",
+                  fontSize: isMobile ? "0.9rem" : "1rem",
                   color: "#777",
-                  margin: 0,
-                  lineHeight: 1.5,
-                  opacity: cycleFading ? 0 : (cycleLineStep >= 0 ? 1 : 0),
+                  marginTop: "20px",
+                  opacity: 1,
                   transition: "opacity 0.4s ease",
                 }}
               >
-                {currentCycle.trigger}
+                "Something happens. A text. A compliment. Closeness."
               </p>
-              <p
-                data-testid="text-cycle-signature"
-                style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "1rem" : "1.15rem",
-                  color: "white",
-                  margin: 0,
-                  lineHeight: 1.5,
-                  opacity: cycleFading ? 0 : (cycleLineStep >= 1 ? 1 : 0),
-                  transition: "opacity 0.4s ease",
-                }}
-              >
-                {currentCycle.signature}
-              </p>
-              <p
-                data-testid="text-cycle-pull"
-                style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "1rem" : "1.15rem",
-                  color: "#eee",
-                  margin: 0,
-                  lineHeight: 1.5,
-                  opacity: cycleFading ? 0 : (cycleLineStep >= 2 ? 1 : 0),
-                  transition: "opacity 0.4s ease",
-                }}
-              >
-                {currentCycle.pull}
-              </p>
-            </>
-          )}
+            )}
 
-          {phase.type === "payoff" && (
-            <>
+            {past("barSignature") && !past("barGap") && (
               <p
-                data-testid="text-payoff-hit"
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: isMobile ? "1.8rem" : "2rem",
-                  color: "white",
-                  margin: 0,
-                  lineHeight: 1.3,
-                  opacity: payoffStep >= 0 ? 1 : 0,
-                  transition: "opacity 0.8s ease",
-                }}
-              >
-                "Did one of those hit?"
-              </p>
-              <p
-                data-testid="text-payoff-window"
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: isMobile ? "2rem" : "2.5rem",
-                  color: "#14B8A6",
-                  fontWeight: "bold",
-                  margin: 0,
-                  lineHeight: 1.3,
-                  opacity: payoffStep >= 1 ? 1 : 0,
-                  transition: "opacity 0.8s ease",
-                }}
-              >
-                "That was your window."
-              </p>
-              <p
-                data-testid="text-payoff-method"
+                data-testid="text-phase2-desc"
                 style={{
                   fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "1rem" : "1.1rem",
-                  color: "#999",
-                  margin: 0,
-                  lineHeight: 1.5,
-                  opacity: payoffStep >= 2 ? 1 : 0,
-                  transition: "opacity 0.6s ease",
+                  fontSize: isMobile ? "0.9rem" : "1rem",
+                  color: "white",
+                  marginTop: "20px",
+                  opacity: 1,
+                  transition: "opacity 0.4s ease",
                 }}
               >
-                "This method teaches you what to do inside it."
+                "Chest tightens. Stomach drops. Hands go cold. Your body is screaming."
               </p>
-            </>
-          )}
+            )}
+
+            {past("barGapText1") && (
+              <p
+                data-testid="text-gap-choose"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: isMobile ? "1.5rem" : "1.8rem",
+                  color: "white",
+                  marginTop: "24px",
+                  opacity: 1,
+                  transition: "opacity 0.4s ease",
+                  lineHeight: 1.3,
+                }}
+              >
+                "Right here. Right now. You can still choose."
+              </p>
+            )}
+
+            {past("barGapText2") && (
+              <p
+                data-testid="text-gap-interrupt"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: isMobile ? "0.9rem" : "1rem",
+                  color: "#14B8A6",
+                  marginTop: "12px",
+                  opacity: 1,
+                  transition: "opacity 0.4s ease",
+                }}
+              >
+                "This is the window. This is where the interrupt happens."
+              </p>
+            )}
+          </div>
         </div>
+
+        {past("aftermath1") && (
+          <div style={{ marginBottom: "48px" }}>
+            <p
+              data-testid="text-aftermath-bet"
+              style={{
+                fontFamily: "'Source Sans 3', sans-serif",
+                fontSize: isMobile ? "1rem" : "1.1rem",
+                color: "#777",
+                margin: 0,
+                lineHeight: 1.5,
+                opacity: past("aftermath1") ? 1 : 0,
+                transition: "opacity 0.6s ease",
+              }}
+            >
+              "The pattern bets everything on you letting that bar finish."
+            </p>
+
+            <p
+              data-testid="text-aftermath-plug"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: isMobile ? "1.6rem" : "2rem",
+                color: "white",
+                margin: 0,
+                marginTop: "24px",
+                lineHeight: 1.3,
+                opacity: past("aftermath2") ? 1 : 0,
+                transition: "opacity 0.8s ease",
+              }}
+            >
+              "The Archivist Method is what happens when you pull the plug."
+            </p>
+          </div>
+        )}
+
+        {past("threeSecTest") && (
+          <div data-testid="three-sec-test" style={{ opacity: past("threeSecTest") ? 1 : 0, transition: "opacity 0.8s ease" }}>
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "12px",
+                color: "#14B8A6",
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                marginBottom: "20px",
+              }}
+            >
+              THE 3-SECOND TEST
+            </p>
+            <p
+              data-testid="text-three-sec-body"
+              style={{
+                fontFamily: "'Source Sans 3', sans-serif",
+                fontSize: isMobile ? "1rem" : "1.1rem",
+                color: "#ccc",
+                maxWidth: "500px",
+                margin: "0 auto 32px",
+                lineHeight: 1.7,
+              }}
+            >
+              "Think of the last time you did the thing. The thing you swore you'd stop doing. Remember the heat in your face. The tightness in your chest. That was the alarm. You had 3-7 seconds to respond. Did you have the words?"
+            </p>
+            <CTAButton text="GET THE CIRCUIT BREAK SCRIPTS" />
+          </div>
+        )}
 
       </div>
     </section>
@@ -949,6 +1020,27 @@ export default function Landing() {
         }
         @keyframes skeletonFadeOut {
           to { opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes barTriggerPulse {
+          0%, 100% { opacity: 0.8; }
+          50% { opacity: 1; }
+        }
+        @keyframes barPulse {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        @keyframes barVibrate {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-1px); }
+          75% { transform: translateX(1px); }
+        }
+        .bar-vibrate {
+          animation: barVibrate 50ms linear infinite !important;
+        }
+        @keyframes counterBlink {
+          0%, 49% { opacity: 1; }
+          50%, 100% { opacity: 0; }
         }
 
         @keyframes heroFadeIn {
