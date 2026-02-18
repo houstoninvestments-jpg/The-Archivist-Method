@@ -409,6 +409,7 @@ const patternCycles = [
 
 type WindowPhase =
   | { type: "idle" }
+  | { type: "preIntro" }
   | { type: "intro"; step: number }
   | { type: "cycle"; index: number; lineStep: number; fading: boolean }
   | { type: "payoff"; step: number };
@@ -442,12 +443,13 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         if (entry.isIntersecting && !hasPlayed.current) {
           hasPlayed.current = true;
 
-          schedule(() => setPhase({ type: "intro", step: 0 }), 500);
-          schedule(() => setPhase({ type: "intro", step: 1 }), 1500);
-          schedule(() => setPhase({ type: "intro", step: 2 }), 3000);
-          schedule(() => setIntroFaded(true), 4500);
+          schedule(() => setPhase({ type: "preIntro" }), 300);
+          schedule(() => setPhase({ type: "intro", step: 0 }), 3500);
+          schedule(() => setPhase({ type: "intro", step: 1 }), 4500);
+          schedule(() => setPhase({ type: "intro", step: 2 }), 6000);
+          schedule(() => setIntroFaded(true), 7500);
 
-          const cycleStart = 5000;
+          const cycleStart = 8000;
           const cycleDuration = 4000;
 
           patternCycles.forEach((_, ci) => {
@@ -476,6 +478,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
+  const preIntroVisible = phase.type === "preIntro" || phase.type === "intro" || phase.type === "cycle" || phase.type === "payoff";
   const introVisible = phase.type === "intro" || phase.type === "cycle" || phase.type === "payoff";
   const introOpacity = introFaded ? 0.4 : 1;
 
@@ -496,6 +499,21 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
       <div className="thread-node-label">Mechanism</div>
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
       <div style={{ maxWidth: "500px", margin: "0 auto", textAlign: "center" }}>
+
+        <p
+          data-testid="text-window-preintro"
+          style={{
+            fontFamily: "'Source Sans 3', sans-serif",
+            fontSize: isMobile ? "0.9rem" : "1rem",
+            color: "#777",
+            margin: "0 0 48px 0",
+            lineHeight: 1.5,
+            opacity: preIntroVisible && !introVisible ? 1 : (introVisible ? 0.3 : 0),
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          "Willpower is a prefrontal cortex function. Your pattern runs subcortical. That's why knowing better never worked."
+        </p>
 
         <div style={{ opacity: introVisible ? introOpacity : 0, transition: "opacity 0.4s ease", marginBottom: "48px" }}>
           <p
@@ -1151,6 +1169,9 @@ export default function Landing() {
             <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
               9 Destructive Patterns. You're Running at Least One.
             </h2>
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#999", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
+              "The pattern is not you. It is a program that runs through you. It was installed to protect a child. You are no longer that child."
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1164,8 +1185,8 @@ export default function Landing() {
       {/* ========== SECTION 4: CTA BREAK ========== */}
       <section ref={sectionRefs.ctaBreak} className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", color: "white", marginBottom: "32px" }}>
-            Recognize yourself?
+          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
+            One interrupt changes everything.
           </h2>
           <div className="reveal reveal-delay-1">
             <CTAButton text="FIND YOUR PATTERN" />
@@ -1263,6 +1284,9 @@ export default function Landing() {
             <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
               Pattern Archaeology vs. Traditional Therapy
             </h2>
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#999", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
+              "Inspiration is not a mechanism. Understanding is not interruption. This is the difference."
+            </p>
           </div>
 
           <div className="reveal reveal-delay-2">
