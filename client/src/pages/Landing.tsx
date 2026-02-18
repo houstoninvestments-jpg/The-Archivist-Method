@@ -968,7 +968,8 @@ export default function Landing() {
 
         @keyframes heroWordReveal {
           0% { opacity: 0; color: #14B8A6; }
-          20% { opacity: 1; color: #14B8A6; }
+          15% { opacity: 1; color: #14B8A6; }
+          40% { color: #14B8A6; }
           100% { opacity: 1; color: #F5F5F5; }
         }
         .hero-stagger {
@@ -979,7 +980,7 @@ export default function Landing() {
         .hero-word {
           opacity: 0;
           animation-name: heroWordReveal;
-          animation-duration: 0.8s;
+          animation-duration: 1.2s;
           animation-fill-mode: forwards;
           animation-timing-function: ease-out;
           display: inline-block;
@@ -1005,7 +1006,7 @@ export default function Landing() {
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="hero-stagger tracking-[0.3em] uppercase"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "0.3s" }}
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "1.2s" }}
             data-testid="text-brand-name"
           >
             THE ARCHIVIST METHOD&trade;
@@ -1017,7 +1018,7 @@ export default function Landing() {
             data-testid="text-brand-title"
           >
             {["You", "know", "exactly", "what", "you're", "doing."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationDelay: `${0.5 + i * 0.12}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
           <p
@@ -1026,13 +1027,13 @@ export default function Landing() {
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationDelay: `${1.62 + i * 0.12}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationDelay: `${4.3 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
 
           <p
             className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "3.0s" }}
+            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.0s" }}
             data-testid="text-hero-positioning"
           >
             The first pattern interruption system that works in real-time — not in retrospect.
@@ -1040,21 +1041,21 @@ export default function Landing() {
 
           <p
             className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "3.6s" }}
+            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.6s" }}
             data-testid="text-hero-mechanism"
           >
             Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
           </p>
 
-          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "4.2s" }}>
+          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.2s" }}>
             <CTAButton text="FIND YOUR PATTERN" />
           </div>
 
-          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "4.7s" }}>
+          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.7s" }}>
             Free · 2 Minutes · Instant Results
           </p>
 
-          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "5.2s" }}>
+          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.2s" }}>
             <p
               className="tracking-[0.2em] uppercase"
               style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", opacity: 0.7 }}
