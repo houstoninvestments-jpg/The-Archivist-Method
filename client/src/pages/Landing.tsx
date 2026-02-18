@@ -202,91 +202,6 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
   );
 }
 
-const systemLogEntries = [
-  { msg: "Pattern identified: THE DISAPPEARING PATTERN", detail: "Case #4,271" },
-  { msg: "Circuit break applied. Interrupt confirmed", detail: "User #8,821" },
-  { msg: "Archive synced.", detail: "12,847 loops interrupted to date" },
-  { msg: "Body signature detected: chest tightness", detail: "Pattern: APOLOGY LOOP" },
-  { msg: "Field Guide accessed", detail: "Case #3,092 — Day 34 of 90" },
-  { msg: "Successful interrupt logged — TESTING PATTERN", detail: "3.2 second window" },
-  { msg: "New pattern identified: SUCCESS SABOTAGE", detail: "Case #5,118" },
-  { msg: "Circuit break: 'I don't need to destroy this.'", detail: "Interrupt held" },
-  { msg: "Workbench activated — Brain dump in progress", detail: "User #6,440" },
-  { msg: "Pattern weakening detected — DRAINING BOND", detail: "Week 6 of protocol" },
-  { msg: "Archive entry created — COMPLIMENT DEFLECTION", detail: "Body signature: throat closing" },
-  { msg: "3-7 second window caught — RAGE PATTERN", detail: "Interrupt applied at 2.8s" },
-  { msg: "Crash Course completed — PERFECTIONISM TRAP", detail: "Case #7,203" },
-  { msg: "Cross-pattern analysis: DISAPPEARING + TESTING", detail: "correlation 0.84" },
-  { msg: "Streak update: 31 consecutive days — ATTRACTION TO HARM", detail: "User #2,119" },
-  { msg: "New circuit break registered — APOLOGY LOOP", detail: "User #4,507" },
-  { msg: "Body signature mapped: jaw clenching", detail: "Pattern: TESTING — Case #1,882" },
-  { msg: "Archive access: COMPLETE ARCHIVE tier", detail: "User #3,291 — Session 47" },
-];
-
-function formatTimestamp() {
-  const d = new Date();
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`;
-}
-
-function LiveSystemLog() {
-  const [current, setCurrent] = useState<{ id: number; ts: string; entry: typeof systemLogEntries[0] } | null>(null);
-  const [visible, setVisible] = useState(false);
-  const pool = useRef(Array.from({ length: systemLogEntries.length }, (_, i) => i));
-  const counter = useRef(0);
-
-  const pickNext = useCallback(() => {
-    if (pool.current.length === 0) pool.current = Array.from({ length: systemLogEntries.length }, (_, i) => i);
-    const idx = Math.floor(Math.random() * pool.current.length);
-    const picked = pool.current.splice(idx, 1)[0];
-    return systemLogEntries[picked];
-  }, []);
-
-  useEffect(() => {
-    let fadeTimeout: ReturnType<typeof setTimeout>;
-    let swapTimeout: ReturnType<typeof setTimeout>;
-
-    const cycle = () => {
-      setVisible(false);
-      swapTimeout = setTimeout(() => {
-        const entry = pickNext();
-        const id = ++counter.current;
-        setCurrent({ id, ts: formatTimestamp(), entry });
-        setVisible(true);
-      }, 400);
-    };
-    cycle();
-    const interval = setInterval(() => {
-      fadeTimeout = setTimeout(() => cycle(), 0);
-    }, 4000);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(fadeTimeout);
-      clearTimeout(swapTimeout);
-    };
-  }, [pickNext]);
-
-  return (
-    <div data-testid="live-system-log" style={{ maxHeight: "40px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {current && (
-        <p
-          key={current.id}
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "10px",
-            color: "#333",
-            lineHeight: 1,
-            textAlign: "center",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.4s ease",
-            margin: 0,
-          }}
-        >
-          [{current.ts}] {current.entry.msg} — {current.entry.detail}
-        </p>
-      )}
-    </div>
-  );
-}
 
 function SectorLabel({ text }: { text: string }) {
   return (
@@ -1564,21 +1479,14 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SYSTEM LOG STRIP ========== */}
-      <div className="px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", padding: "12px 0" }}>
-        <div className="max-w-4xl mx-auto">
-          <LiveSystemLog />
-        </div>
-      </div>
-
-      {/* ========== SECTION 13: FOOTER ========== */}
-      <footer style={{ padding: "80px 24px 60px" }}>
+      {/* ========== FOOTER ========== */}
+      <footer style={{ padding: "48px 24px" }}>
         <div className="max-w-4xl mx-auto text-center">
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
-            The archive is open. Don't close the door.
+            "The archive is open. Don't close the door."
           </p>
 
-          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#555", marginTop: "40px" }}>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#555", marginTop: "32px" }}>
             &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
 
