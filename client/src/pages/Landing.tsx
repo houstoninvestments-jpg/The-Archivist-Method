@@ -37,6 +37,8 @@ const StarField = ({ count = 200 }: { count?: number }) => {
   );
 };
 
+const PARTICLE_COLORS = ["#ffffff", "#ffffff", "#14B8A6", "#14B8A6", "#EC4899"];
+
 const FloatingParticles = ({ count = 40 }: { count?: number }) => {
   const particles = Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -46,13 +48,13 @@ const FloatingParticles = ({ count = 40 }: { count?: number }) => {
     duration: Math.random() * 18 + 22,
     delay: Math.random() * -30,
     drift: Math.random() * 30 - 15,
+    color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
   }));
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
       {particles.map((p) => (
         <div
           key={p.id}
-          className="floating-particle"
           style={{
             position: "absolute",
             left: `${p.x}%`,
@@ -60,7 +62,7 @@ const FloatingParticles = ({ count = 40 }: { count?: number }) => {
             width: p.size,
             height: p.size,
             borderRadius: "50%",
-            background: "#fff",
+            background: p.color,
             opacity: p.opacity,
             animation: `particleFloat ${p.duration}s linear ${p.delay}s infinite`,
             ["--drift" as string]: `${p.drift}px`,
