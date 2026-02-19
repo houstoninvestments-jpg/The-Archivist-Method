@@ -1138,7 +1138,7 @@ export default function Landing() {
             backgroundRepeat: "no-repeat",
           }}
         />
-        <div className="absolute inset-0 z-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.80) 60%, rgba(0,0,0,0.95) 100%)" }} />
+        <div className="absolute inset-0 z-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%)" }} />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="hero-stagger tracking-[0.3em] uppercase"
