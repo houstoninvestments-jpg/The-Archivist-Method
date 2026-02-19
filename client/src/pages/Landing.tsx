@@ -1156,7 +1156,7 @@ export default function Landing() {
         }
         .cta-glow-border {
           position: absolute;
-          inset: -2px;
+          inset: -1px;
           border-radius: 2px;
           overflow: hidden;
           pointer-events: none;
@@ -1169,17 +1169,17 @@ export default function Landing() {
           background: conic-gradient(
             from 0deg,
             transparent 0deg,
-            transparent 340deg,
-            rgba(236, 72, 153, 0.9) 350deg,
-            rgba(236, 72, 153, 1) 355deg,
-            rgba(236, 72, 153, 0.9) 360deg
+            transparent 350deg,
+            rgba(236, 72, 153, 0.8) 355deg,
+            rgba(236, 72, 153, 1) 357.5deg,
+            rgba(236, 72, 153, 0.8) 360deg
           );
-          animation: ctaSpin 3s linear infinite;
+          animation: ctaSpin 3.75s linear infinite;
         }
         .cta-glow-border::after {
           content: '';
           position: absolute;
-          inset: 2px;
+          inset: 1px;
           background: #000;
           border-radius: 1px;
         }
