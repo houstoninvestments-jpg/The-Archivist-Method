@@ -40,15 +40,19 @@ const StarField = ({ count = 200 }: { count?: number }) => {
 const PARTICLE_COLORS = ["#ffffff", "#ffffff", "#14B8A6", "#14B8A6", "#EC4899"];
 
 const FloatingParticles = ({ count = 40 }: { count?: number }) => {
+  const rnd = (min: number, max: number) => Math.random() * (max - min) + min;
   const particles = Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: Math.random() * 100,
-    size: Math.random() * 2.5 + 1,
-    opacity: Math.random() * 0.35 + 0.1,
-    duration: Math.random() * 18 + 22,
-    delay: Math.random() * -30,
-    drift: Math.random() * 30 - 15,
+    x: rnd(5, 95),
+    y: rnd(5, 95),
+    size: rnd(1, 3),
+    opacity: rnd(0.1, 0.4),
+    duration: rnd(15, 25),
+    delay: rnd(-25, 0),
     color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
+    x1: rnd(-30, 30), y1: rnd(-30, 30),
+    x2: rnd(-30, 30), y2: rnd(-30, 30),
+    x3: rnd(-30, 30), y3: rnd(-30, 30),
   }));
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
@@ -58,14 +62,19 @@ const FloatingParticles = ({ count = 40 }: { count?: number }) => {
           style={{
             position: "absolute",
             left: `${p.x}%`,
-            bottom: "-2%",
+            top: `${p.y}%`,
             width: p.size,
             height: p.size,
             borderRadius: "50%",
             background: p.color,
             opacity: p.opacity,
-            animation: `particleFloat ${p.duration}s linear ${p.delay}s infinite`,
-            ["--drift" as string]: `${p.drift}px`,
+            animation: `particleDrift ${p.duration}s ease-in-out ${p.delay}s infinite`,
+            ["--x1" as string]: `${p.x1}px`,
+            ["--y1" as string]: `${p.y1}px`,
+            ["--x2" as string]: `${p.x2}px`,
+            ["--y2" as string]: `${p.y2}px`,
+            ["--x3" as string]: `${p.x3}px`,
+            ["--y3" as string]: `${p.y3}px`,
           }}
         />
       ))}
@@ -1023,11 +1032,12 @@ export default function Landing() {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes particleFloat {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          5% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(-110vh) translateX(var(--drift, 0px)); opacity: 0; }
+        @keyframes particleDrift {
+          0% { transform: translate(0, 0); }
+          25% { transform: translate(var(--x1), var(--y1)); }
+          50% { transform: translate(var(--x2), var(--y2)); }
+          75% { transform: translate(var(--x3), var(--y3)); }
+          100% { transform: translate(0, 0); }
         }
 
         .bg-grain {
