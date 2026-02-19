@@ -37,6 +37,40 @@ const StarField = ({ count = 200 }: { count?: number }) => {
   );
 };
 
+const FloatingParticles = ({ count = 40 }: { count?: number }) => {
+  const particles = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    size: Math.random() * 2.5 + 1,
+    opacity: Math.random() * 0.35 + 0.1,
+    duration: Math.random() * 18 + 22,
+    delay: Math.random() * -30,
+    drift: Math.random() * 30 - 15,
+  }));
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="floating-particle"
+          style={{
+            position: "absolute",
+            left: `${p.x}%`,
+            bottom: "-2%",
+            width: p.size,
+            height: p.size,
+            borderRadius: "50%",
+            background: "#fff",
+            opacity: p.opacity,
+            animation: `particleFloat ${p.duration}s linear ${p.delay}s infinite`,
+            ["--drift" as string]: `${p.drift}px`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me." },
   { num: "02", name: "APOLOGY LOOP", desc: "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry." },
@@ -836,6 +870,7 @@ export default function Landing() {
   return (
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
       <StarField />
+      <FloatingParticles />
       <div className="bg-fog" />
       <div className="bg-grain" />
       <div className="bg-grid" />
@@ -984,6 +1019,13 @@ export default function Landing() {
         @keyframes logFadeIn {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes particleFloat {
+          0% { transform: translateY(0) translateX(0); opacity: 0; }
+          5% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(-110vh) translateX(var(--drift, 0px)); opacity: 0; }
         }
 
         .bg-grain {
