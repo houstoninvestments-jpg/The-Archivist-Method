@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState, useCallback, lazy, Suspense } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import heroSeatedImg from "@assets/hero-archivist-seated.png";
 import productCrashCourse from "@assets/product-crash-course.jpg";
@@ -8,7 +8,34 @@ import productFieldGuide from "@assets/product-field-guide.png";
 import productCompleteArchive from "@assets/product-complete-archive.png";
 import archivistPortrait from "@assets/archivist-portrait.jpg";
 
-const ParticleField = lazy(() => import("@/components/ParticleField"));
+const StarField = ({ count = 200 }: { count?: number }) => {
+  const stars = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 1.8 + 0.5,
+    opacity: Math.random() * 0.6 + 0.15,
+  }));
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
+      {stars.map((s) => (
+        <div
+          key={s.id}
+          style={{
+            position: "absolute",
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            width: s.size,
+            height: s.size,
+            borderRadius: "50%",
+            background: "#fff",
+            opacity: s.opacity,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me." },
@@ -808,10 +835,8 @@ export default function Landing() {
 
   return (
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
-      <Suspense fallback={null}>
-        <ParticleField />
-      </Suspense>
-
+      <StarField />
+      <div className="bg-fog" />
       <div className="bg-grain" />
       <div className="bg-grid" />
 
@@ -965,12 +990,41 @@ export default function Landing() {
           position: fixed;
           inset: 0;
           pointer-events: none;
-          z-index: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+          z-index: 2;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
           background-repeat: repeat;
-          background-size: 200px 200px;
+          background-size: 256px 256px;
           opacity: calc(1 - var(--scroll-progress, 0) * 3);
           transition: opacity 0.1s linear;
+        }
+
+        @keyframes fogDrift {
+          0% {
+            background-position: 0% 50%, 100% 50%;
+          }
+          33% {
+            background-position: 15% 40%, 85% 60%;
+          }
+          66% {
+            background-position: 5% 55%, 95% 45%;
+          }
+          100% {
+            background-position: 0% 50%, 100% 50%;
+          }
+        }
+
+        .bg-fog {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          background-image:
+            radial-gradient(ellipse 60% 50% at 0% 50%, rgba(20,184,166,0.06) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 50% at 100% 50%, rgba(236,72,153,0.05) 0%, transparent 70%);
+          background-size: 100% 100%;
+          animation: fogDrift 35s ease-in-out infinite;
+          opacity: calc(1 - var(--scroll-progress, 0) * 2);
+          transition: opacity 0.3s linear;
         }
 
         .bg-grid {
@@ -1120,7 +1174,7 @@ export default function Landing() {
           .thread-node-label { transition: none !important; display: none !important; }
           .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .skeleton-overlay { display: none !important; }
-          .bg-grain, .bg-grid { display: none !important; }
+          .bg-grain, .bg-grid, .bg-fog { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
           .hero-word { opacity: 1 !important; animation: none !important; color: #F5F5F5 !important; }
           .cta-glow-border::before { animation: none !important; }
