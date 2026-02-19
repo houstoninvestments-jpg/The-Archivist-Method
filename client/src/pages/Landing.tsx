@@ -227,9 +227,11 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
       ref={cardRef}
       className="reveal"
       style={{
+        position: "relative",
         background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        padding: "32px",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "2px solid rgba(255,255,255,0.15)",
+        padding: "36px 32px 32px",
         transition: "border-color 0.3s",
         transitionDelay: `${(index % 3) * 0.1}s`,
         cursor: "pointer",
@@ -241,11 +243,30 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
       }}
       onMouseLeave={() => {
         setHovered(false);
-        if (cardRef.current) cardRef.current.style.borderColor = "rgba(255,255,255,0.06)";
+        if (cardRef.current) cardRef.current.style.borderColor = "rgba(255,255,255,0.08)";
       }}
       onClick={() => setHovered(prev => !prev)}
     >
-      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "2rem", color: "#EC4899", marginBottom: "12px" }}>{card.num}</p>
+      <div style={{
+        position: "absolute",
+        top: "-1px",
+        left: "20px",
+        width: "60px",
+        height: "10px",
+        background: "rgba(255,255,255,0.06)",
+        borderLeft: "1px solid rgba(255,255,255,0.12)",
+        borderRight: "1px solid rgba(255,255,255,0.12)",
+        borderTop: "1px solid rgba(255,255,255,0.12)",
+      }} />
+      <p style={{
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: "2rem",
+        color: "#EC4899",
+        marginBottom: "12px",
+        filter: "blur(0.4px)",
+        textShadow: "0 0 8px rgba(236,72,153,0.4)",
+        letterSpacing: "0.05em",
+      }}>{card.num}</p>
       <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{card.name}</p>
       <div style={{ position: "relative", minHeight: "4.5em" }}>
         <p
@@ -1349,6 +1370,10 @@ export default function Landing() {
               <PatternCard key={p.num} card={p} index={i} />
             ))}
           </div>
+
+          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", color: "#737373", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
+            If you felt something reading one of those — that's your body signature activating right now.
+          </p>
         </div>
       </section>
 
