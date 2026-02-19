@@ -1649,10 +1649,7 @@ export default function Landing() {
             </h2>
           </div>
 
-          <div className="reveal reveal-delay-2 flex flex-col items-center" style={{ lineHeight: 1.8 }}>
-            <div style={{ width: "140px", height: "140px", borderRadius: "50%", overflow: "hidden", marginBottom: "32px", border: "2px solid rgba(20,184,166,0.3)" }}>
-              <img src={archivistPortrait} alt="The Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} data-testid="img-founder-portrait" />
-            </div>
+          <div className="reveal reveal-delay-2 text-center" style={{ lineHeight: 1.8 }}>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
               I built this because I was watching patterns destroy something I cared about deeply. Someone I love was running the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't interrupt it.
             </p>
