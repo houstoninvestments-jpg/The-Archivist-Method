@@ -308,7 +308,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
   const [active, setActive] = useState(false);
 
   return (
-    <div className="reveal gut-pattern" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
+    <div className="gut-pattern-slide reveal" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
       <div
         style={{ cursor: "pointer", padding: "8px 0" }}
         data-testid={`text-gut-pattern-${index}`}
@@ -335,13 +335,13 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
           style={{
             fontFamily: "'Source Sans 3', sans-serif",
             fontSize: "13px",
-            color: "#666",
+            color: "#888",
             fontStyle: "italic",
             opacity: active ? 1 : 0,
-            height: active ? "20px" : "0",
+            maxHeight: active ? "30px" : "0",
             overflow: "hidden",
-            transition: "opacity 0.3s ease, height 0.3s ease, margin 0.3s ease",
-            marginTop: active ? "4px" : "0",
+            transition: "opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease",
+            marginTop: active ? "6px" : "0",
             whiteSpace: "nowrap",
           }}
         >
@@ -349,15 +349,10 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
         </p>
       </div>
       {!isLast && (
-        <div
-          style={{
-            width: "60px",
-            height: "1px",
-            background: "#14B8A6",
-            opacity: 0.2,
-            margin: "12px auto",
-          }}
-        />
+        <div style={{ position: "relative", margin: "14px auto", width: "120px", height: "1px" }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(20,184,166,0.15)" }} />
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "5px", height: "5px", borderRadius: "50%", background: "#14B8A6", opacity: 0.5 }} />
+        </div>
       )}
     </div>
   );
