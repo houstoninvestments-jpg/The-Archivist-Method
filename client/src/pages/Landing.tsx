@@ -2,6 +2,11 @@ import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback, lazy, Suspense } from "react";
 import { apiRequest } from "@/lib/queryClient";
+import heroSeatedImg from "@assets/hero-archivist-seated.png";
+import productCrashCourse from "@assets/product-crash-course.jpg";
+import productFieldGuide from "@assets/product-field-guide.png";
+import productCompleteArchive from "@assets/product-complete-archive.png";
+import archivistPortrait from "@assets/archivist-portrait.jpg";
 
 const ParticleField = lazy(() => import("@/components/ParticleField"));
 
@@ -1124,6 +1129,16 @@ export default function Landing() {
 
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${heroSeatedImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        <div className="absolute inset-0 z-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.80) 60%, rgba(0,0,0,0.95) 100%)" }} />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="hero-stagger tracking-[0.3em] uppercase"
@@ -1550,6 +1565,9 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {/* Crash Course */}
             <div className="reveal flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-crash-course">
+              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
+                <img src={productCrashCourse} alt="The Crash Course" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-crash-course" />
+              </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
@@ -1568,6 +1586,9 @@ export default function Landing() {
 
             {/* Field Guide - emphasized */}
             <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "2px solid #14B8A6", padding: "40px 32px", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
+              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
+                <img src={productFieldGuide} alt="The Field Guide" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-field-guide" />
+              </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
@@ -1588,6 +1609,9 @@ export default function Landing() {
 
             {/* Complete Archive */}
             <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-archive">
+              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
+                <img src={productCompleteArchive} alt="The Complete Archive" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-complete-archive" />
+              </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
@@ -1625,7 +1649,10 @@ export default function Landing() {
             </h2>
           </div>
 
-          <div className="reveal reveal-delay-2 text-center" style={{ lineHeight: 1.8 }}>
+          <div className="reveal reveal-delay-2 flex flex-col items-center" style={{ lineHeight: 1.8 }}>
+            <div style={{ width: "140px", height: "140px", borderRadius: "50%", overflow: "hidden", marginBottom: "32px", border: "2px solid rgba(20,184,166,0.3)" }}>
+              <img src={archivistPortrait} alt="The Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} data-testid="img-founder-portrait" />
+            </div>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
               I built this because I was watching patterns destroy something I cared about deeply. Someone I love was running the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't interrupt it.
             </p>
