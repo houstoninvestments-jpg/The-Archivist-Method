@@ -211,8 +211,28 @@ function CTAButton({ text }: { text: string }) {
 }
 
 function SectionLabel({ children }: { children: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const glitched = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !glitched.current) {
+          glitched.current = true;
+          el.classList.add("scanline-glitch");
+          setTimeout(() => el.classList.remove("scanline-glitch"), 300);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+    <p ref={ref} className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
   );
@@ -1603,6 +1623,42 @@ export default function Landing() {
           border: 1px solid rgba(255,255,255,0.15);
         }
 
+        @keyframes scanlineGlitch {
+          0% { transform: translateX(0); }
+          20% { transform: translateX(-3px); }
+          40% { transform: translateX(3px); }
+          60% { transform: translateX(-2px); }
+          80% { transform: translateX(2px); }
+          100% { transform: translateX(0); }
+        }
+        .scanline-glitch {
+          animation: scanlineGlitch 0.3s ease-out;
+        }
+
+        @keyframes myelinStreak {
+          0%, 80% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .myelin-pulse {
+          background-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 40%,
+            rgba(255,255,255,0.6) 48%,
+            rgba(255,255,255,0.9) 50%,
+            rgba(255,255,255,0.6) 52%,
+            transparent 60%,
+            transparent 100%
+          );
+          background-size: 200% 100%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          animation: myelinStreak 6s ease-in-out 8s infinite;
+        }
+        .myelin-pulse .hero-word {
+          -webkit-text-fill-color: currentColor;
+        }
+
         @keyframes heroWordReveal {
           0% { opacity: 0; color: #14B8A6; }
           15% { opacity: 1; color: #14B8A6; }
@@ -1641,6 +1697,8 @@ export default function Landing() {
           [data-testid="text-brand-title"] .hero-word { color: #14B8A6 !important; }
           [data-testid="text-brand-title-2"] .hero-word { color: #F5F5F5 !important; }
           .cta-glow-border::before { animation: none !important; }
+          .scanline-glitch { animation: none !important; }
+          .myelin-pulse { animation: none !important; }
         }
       `}</style>
 
@@ -1666,6 +1724,7 @@ export default function Landing() {
           </p>
 
           <p
+            className="myelin-pulse"
             style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.15, marginBottom: "0" }}
             data-testid="text-brand-title"
           >
@@ -1674,7 +1733,7 @@ export default function Landing() {
             ))}
           </p>
           <p
-            className="font-bold"
+            className="font-bold myelin-pulse"
             style={{ fontFamily: "'Playfair Display', serif", fontStyle: "normal", fontSize: "clamp(2.8rem, 7.5vw, 5rem)", lineHeight: 1.15 }}
             data-testid="text-brand-title-2"
           >
