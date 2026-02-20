@@ -1709,8 +1709,9 @@ export default function Landing() {
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
           background-repeat: repeat;
           background-size: 50px 50px;
-          opacity: 0.035;
+          opacity: calc(0.035 * clamp(0, (0.45 - var(--scroll-progress, 0)) * 3, 1));
           animation: grainFlicker 0.3s steps(3) infinite;
+          transition: opacity 0.3s linear;
         }
         @keyframes grainFlicker {
           0% { background-position: 0 0; }
@@ -1754,13 +1755,14 @@ export default function Landing() {
           pointer-events: none;
           z-index: 0;
           background-image:
-            linear-gradient(rgba(20,184,166,0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(20,184,166,0.025) 1px, transparent 1px);
+            linear-gradient(rgba(20,184,166,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20,184,166,0.03) 1px, transparent 1px);
           background-size: 80px 80px;
           opacity: calc(
-            clamp(0, (var(--scroll-progress, 0) - 0.15) * 4, 1) *
-            clamp(0, (0.7 - var(--scroll-progress, 0)) * 4, 1)
+            clamp(0, (var(--scroll-progress, 0) - 0.2) * 4, 1) *
+            clamp(0, (0.7 - var(--scroll-progress, 0)) * 3, 1)
           );
+          transition: opacity 0.3s linear;
         }
 
         .skeleton-overlay {
