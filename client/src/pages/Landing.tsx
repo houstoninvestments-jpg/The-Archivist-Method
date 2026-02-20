@@ -147,18 +147,15 @@ const therapyRows = [
 ];
 
 const forYouProse = [
-  "Subject reports awareness of the pattern. Can name it. Can describe it in detail. Still runs it every time. This is not a knowledge problem.",
-  "Previous interventions include talk therapy, journaling, meditation, self-help literature. Understanding increased. Behavior unchanged. The circuit fires faster than insight.",
-  "Subject demonstrates high pattern recognition in others. Blind spot is internal. Can map everyone else's loops but cannot interrupt their own.",
-  "Nervous system activation precedes conscious choice by 3-7 seconds. Subject has been fighting at the wrong altitude. Willpower was never the mechanism.",
-  "Subject is not looking for comfort. Subject is looking for something that works in the middle of the flood. Right now. Not in six months.",
+  "You've named it. Analyzed it. Promised to stop. You did it again anyway.",
+  "You're not looking for insight. You're looking for something that works in the middle of the flood.",
 ];
 
 const notForYou = [
-  "You're looking for a therapist (we're not that)",
-  "You want someone to tell you you're fine (you already know you're not)",
-  "You're not ready to look at your own patterns honestly",
-  "You need crisis intervention (call 988)",
+  "You want a therapist.",
+  "You want someone to tell you you're fine.",
+  "You're not ready to look honestly.",
+  "You need crisis support (call 988).",
 ];
 
 function useScrollReveal() {
@@ -2062,68 +2059,78 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {/* Crash Course */}
-            <div className="reveal flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-crash-course">
-              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
-                <img src={productCrashCourse} alt="The Crash Course" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-crash-course" />
+            <div className="reveal flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
+              <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
+                <img src={productCrashCourse} alt="The Crash Course" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-crash-course" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
-              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break.
-              </p>
-              <Link
-                href="/quiz"
-                className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black"
-                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
-                data-testid="button-pricing-free"
-              >
-                START FREE <ArrowRight className="inline w-3 h-3 ml-1" />
-              </Link>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                  Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break.
+                </p>
+                <Link
+                  href="/quiz"
+                  className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                  data-testid="button-pricing-free"
+                >
+                  START FREE <ArrowRight className="inline w-3 h-3 ml-1" />
+                </Link>
+              </div>
             </div>
 
             {/* Field Guide - emphasized */}
-            <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "2px solid #14B8A6", padding: "40px 32px", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
-              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
-                <img src={productFieldGuide} alt="The Field Guide" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-field-guide" />
+            <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
+              <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
+                <img src={productFieldGuide} alt="The Field Guide" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75 }} data-testid="img-product-field-guide" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
+                <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none" }} />
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
-              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access.
-              </p>
-              <button
-                onClick={() => handleCheckout("quick-start")}
-                className="block w-full text-center py-3 text-white tracking-wider uppercase transition-all duration-300 cursor-pointer"
-                style={{ border: "2px solid #14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", background: "transparent" }}
-                onMouseEnter={(e) => { const el = e.currentTarget; el.style.background = "#14B8A6"; el.style.color = "#0A0A0A"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget; el.style.background = "transparent"; el.style.color = "white"; }}
-                data-testid="button-pricing-field-guide"
-              >
-                GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
-              </button>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                  Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access.
+                </p>
+                <button
+                  onClick={() => handleCheckout("quick-start")}
+                  className="block w-full text-center py-3 text-white tracking-wider uppercase transition-all duration-300 cursor-pointer"
+                  style={{ border: "2px solid #14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", background: "transparent" }}
+                  onMouseEnter={(e) => { const el = e.currentTarget; el.style.background = "#14B8A6"; el.style.color = "#0A0A0A"; }}
+                  onMouseLeave={(e) => { const el = e.currentTarget; el.style.background = "transparent"; el.style.color = "white"; }}
+                  data-testid="button-pricing-field-guide"
+                >
+                  GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
+                </button>
+              </div>
             </div>
 
             {/* Complete Archive */}
-            <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "40px 32px" }} data-testid="card-pricing-archive">
-              <div style={{ marginBottom: "24px", overflow: "hidden" }}>
-                <img src={productCompleteArchive} alt="The Complete Archive" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-complete-archive" />
+            <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
+              <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
+                <img src={productCompleteArchive} alt="The Complete Archive" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-complete-archive" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
-              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
-              <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages.
-              </p>
-              <button
-                onClick={() => handleCheckout("complete-archive")}
-                className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
-                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
-                data-testid="button-pricing-archive"
-              >
-                GET THE COMPLETE ARCHIVE <ArrowRight className="inline w-3 h-3 ml-1" />
-              </button>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                  The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages.
+                </p>
+                <button
+                  onClick={() => handleCheckout("complete-archive")}
+                  className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                  data-testid="button-pricing-archive"
+                >
+                  GET THE COMPLETE ARCHIVE <ArrowRight className="inline w-3 h-3 ml-1" />
+                </button>
+              </div>
             </div>
           </div>
 
