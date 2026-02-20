@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
+import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
+import { Check } from 'lucide-react';
 import heroSeatedImg from "@assets/hero-archivist-seated.png";
 import productCrashCourse from "@assets/product-crash-course.jpg";
 import productFieldGuide from "@assets/product-field-guide.png";
@@ -207,205 +209,567 @@ function CTAButton({ text }: { text: string }) {
   );
 }
 
-function InlineQuizStarter() {
-  const [step, setStep] = useState(0);
-  const [selectedSignature, setSelectedSignature] = useState("");
-  const [redirecting, setRedirecting] = useState(false);
-  const step2Ref = useRef<HTMLParagraphElement>(null);
+const feelSeenCopy: Record<PatternKey, string[]> = {
+  disappearing: [
+    "You leave before they can leave you. Three months in and your chest gets tight. You feel the walls closing. You're already planning your exit before they even know something's wrong.",
+    "It's not that you don't care. You care so much it terrifies you. So you run. Every time."
+  ],
+  apologyLoop: [
+    "Sorry. Sorry. Sorry. You apologize for asking. For needing. For taking up space. You make yourself small before anyone can tell you you're too much.",
+    "You've turned \"sorry\" into a reflex. It leaves your mouth before you even know why. And every time, you shrink a little more."
+  ],
+  testing: [
+    "You don't ask if they love you. You make them prove it. You pick fights at midnight. You push them away to see if they'll fight to stay.",
+    "You already know how it ends. They leave. And part of you is relieved\u2014because at least you were right."
+  ],
+  attractionToHarm: [
+    "The safe ones bore you. The red flags feel like chemistry. You know they're bad for you\u2014that's what makes it exciting.",
+    "You've confused danger with desire so many times you don't know the difference anymore. Calm feels suspicious. Chaos feels like home."
+  ],
+  complimentDeflection: [
+    "\"You're so talented.\" You flinch. You deflect. You explain why it wasn't that good. Visibility feels dangerous. Being seen feels like being a target.",
+    "You've gotten so good at disappearing in plain sight that people don't even notice when you leave the room."
+  ],
+  drainingBond: [
+    "You know you should leave. Everyone tells you to leave. Your body tells you to leave. You stay. The guilt of going feels worse than the pain of staying.",
+    "You've forgotten what it feels like to have energy for yourself. Everything goes to them. Everything."
+  ],
+  successSabotage: [
+    "You get close. Then you blow it up. Right before the win, something in you pulls the pin. You're not afraid of failure\u2014you're afraid of what happens if you actually succeed.",
+    "You've snatched defeat from victory so many times it almost feels intentional. Because it is. You just don't know why yet."
+  ],
+  perfectionism: [
+    "If it's not perfect, it's garbage. So you tweak endlessly. Or you don't start at all. You're not lazy\u2014you're terrified of the gap between your vision and your output.",
+    "You have a graveyard of almost-finished things. Years of work no one has ever seen. Not because it isn't good\u2014because it isn't perfect."
+  ],
+  rage: [
+    "It comes fast. One second you're fine, the next you're saying things you can't take back. The anger takes over. Afterward, you barely recognize who that was.",
+    "The shame hits harder than the anger ever did. You promise it won't happen again. Until it does."
+  ],
+};
 
-  const bodySignatures = [
-    "Throat tightening",
-    "Chest dropping",
-    "Jaw clenching",
-    "Stomach falling",
-    "Shoulders rising",
-    "Hands going cold",
-  ];
+const bodyHighlightRegions: Record<string, { cx: number; cy: number; rx: number; ry: number }> = {
+  "15a": { cx: 12, cy: 14, rx: 4, ry: 3 },
+  "15b": { cx: 12, cy: 10, rx: 3, ry: 2 },
+  "15c": { cx: 12, cy: 14, rx: 4, ry: 3 },
+  "15d": { cx: 12, cy: 5, rx: 4, ry: 4 },
+  "15e": { cx: 12, cy: 22, rx: 6, ry: 12 },
+  "15f": { cx: 12, cy: 20, rx: 4, ry: 3 },
+  "15g": { cx: 12, cy: 26, rx: 5, ry: 4 },
+  "15h": { cx: 12, cy: 14, rx: 4, ry: 3 },
+  "15i": { cx: 12, cy: 22, rx: 8, ry: 16 },
+};
 
-  const durations = [
-    "Months",
-    "Years",
-    "Most of my life",
-    "I don't know — it just keeps happening",
-  ];
-
-  const handleSignatureClick = (sig: string) => {
-    setSelectedSignature(sig);
-    setStep(1);
-    setTimeout(() => step2Ref.current?.focus(), 350);
-  };
-
-  const handleDurationClick = (dur: string) => {
-    setRedirecting(true);
-    setTimeout(() => {
-      const sigParam = encodeURIComponent(selectedSignature);
-      const durParam = encodeURIComponent(dur);
-      window.location.href = `/quiz?sig=${sigParam}&dur=${durParam}`;
-    }, 400);
-  };
-
+function BodySilhouette({ optionId, hovered }: { optionId: string; hovered: boolean }) {
+  const region = bodyHighlightRegions[optionId];
+  const isFullBody = optionId === "15e" || optionId === "15i";
   return (
-    <div className="reveal" style={{ marginBottom: "40px" }}>
-      <p
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "11px",
-          color: "#999",
-          textAlign: "center",
-          marginBottom: "16px",
-        }}
-        data-testid="text-quiz-starter-note"
-      >
-        Takes 2 minutes. No email required.
-      </p>
+    <svg width="24" height="40" viewBox="0 0 24 40" fill="none" style={{ flexShrink: 0 }}>
+      <path
+        d="M12 2 C14 2 15.5 3.5 15.5 5.5 C15.5 7.5 14 9 12 9 C10 9 8.5 7.5 8.5 5.5 C8.5 3.5 10 2 12 2 Z M12 9.5 C14.5 9.5 17 11 17 13.5 L17 22 C17 22.5 16.5 23 16 23 L15.5 23 L15.5 33 C15.5 34 14.5 35 13.5 35 L10.5 35 C9.5 35 8.5 34 8.5 33 L8.5 23 L8 23 C7.5 23 7 22.5 7 22 L7 13.5 C7 11 9.5 9.5 12 9.5 Z"
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth="0.5"
+        fill="none"
+      />
+      {hovered && region && (
+        <ellipse
+          cx={region.cx}
+          cy={region.cy}
+          rx={region.rx}
+          ry={region.ry}
+          fill="#14B8A6"
+          opacity={isFullBody ? 0.15 : 0.4}
+        />
+      )}
+    </svg>
+  );
+}
 
-      <div
-        data-testid="inline-quiz-starter"
-        style={{
-          background: "#0D0D0D",
-          border: "1px solid #14B8A6",
-          padding: "32px",
-          maxWidth: "520px",
-          margin: "0 auto",
-          overflow: "hidden",
-          position: "relative",
-          opacity: redirecting ? 0.5 : 1,
-          transition: "opacity 0.3s ease",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: "200%",
-            transform: step === 0 ? "translateX(0)" : "translateX(-50%)",
-            transition: "transform 300ms ease",
-          }}
-        >
-          <div style={{ width: "50%", flexShrink: 0, paddingRight: "16px", pointerEvents: step === 0 ? "auto" : "none" }}>
-            <p
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "10px",
-                color: "#EC4899",
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                marginBottom: "16px",
-              }}
-              data-testid="text-quiz-starter-label"
-            >
-              PATTERN DETECTION — INITIATE
+function EmbeddedQuiz() {
+  const [phase, setPhase] = useState<'quiz' | 'analyzing' | 'glitch' | 'reveal' | 'emailCapture'>('quiz');
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [primaryPattern, setPrimaryPattern] = useState<PatternKey | null>(null);
+  const [scores, setScores] = useState<Record<PatternKey, number> | null>(null);
+  const [glitchText, setGlitchText] = useState('');
+  const [typewriterDone, setTypewriterDone] = useState(false);
+  const [copyVisible, setCopyVisible] = useState(false);
+  const [slideDir, setSlideDir] = useState<'left' | 'right'>('left');
+  const [sliding, setSliding] = useState(false);
+  const [showManualSelect, setShowManualSelect] = useState(false);
+  const [confirmedPattern, setConfirmedPattern] = useState<PatternKey | null>(null);
+  const [buttonsVisible, setButtonsVisible] = useState(false);
+  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const typewriterRef = useRef<HTMLSpanElement>(null);
+
+  const question = quizQuestions[currentQuestion];
+  const isLastQuestion = currentQuestion === 14;
+  const progressPct = ((currentQuestion + 1) / 15) * 100;
+
+  const handleAnswer = useCallback((optionId: string) => {
+    const newAnswers = { ...answers, [question.id]: optionId };
+    setAnswers(newAnswers);
+
+    setTimeout(() => {
+      if (isLastQuestion) {
+        setPhase('analyzing');
+      } else {
+        setSlideDir('left');
+        setSliding(true);
+        setTimeout(() => {
+          setCurrentQuestion(prev => prev + 1);
+          setSliding(false);
+        }, 200);
+      }
+    }, 400);
+  }, [answers, question, isLastQuestion]);
+
+  const handleBack = useCallback(() => {
+    if (currentQuestion > 0) {
+      setSlideDir('right');
+      setSliding(true);
+      setTimeout(() => {
+        setCurrentQuestion(prev => prev - 1);
+        setSliding(false);
+      }, 200);
+    }
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    if (phase === 'analyzing') {
+      const timer = setTimeout(() => {
+        const calcScores = calculatePatternScores(answers);
+        const result = determineQuizResult(calcScores);
+        setScores(calcScores);
+        setPrimaryPattern(result.primaryPattern);
+        setPhase('glitch');
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [phase, answers]);
+
+  useEffect(() => {
+    if (phase === 'glitch' && primaryPattern) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&";
+      const targetLen = patternDisplayNames[primaryPattern]?.length || 12;
+
+      const scrambleInterval = setInterval(() => {
+        let s = "";
+        for (let j = 0; j < targetLen; j++) s += chars[Math.floor(Math.random() * chars.length)];
+        setGlitchText(s);
+      }, 30);
+
+      const timer = setTimeout(() => {
+        clearInterval(scrambleInterval);
+        setGlitchText('');
+        setPhase('reveal');
+      }, 300);
+
+      return () => { clearInterval(scrambleInterval); clearTimeout(timer); };
+    }
+  }, [phase, primaryPattern]);
+
+  useEffect(() => {
+    if (phase === 'reveal' && primaryPattern) {
+      setTypewriterDone(false);
+      setCopyVisible(false);
+      setButtonsVisible(false);
+
+      const el = typewriterRef.current;
+      if (el) {
+        el.textContent = '';
+        let i = 0;
+        const text = patternDisplayNames[primaryPattern];
+        const speed = Math.max(30, 200 / text.length);
+        const interval = setInterval(() => {
+          if (i < text.length) {
+            el.textContent += text[i];
+            i++;
+          } else {
+            clearInterval(interval);
+            setTypewriterDone(true);
+            setTimeout(() => setCopyVisible(true), 200);
+            setTimeout(() => setButtonsVisible(true), 600);
+          }
+        }, speed);
+        return () => clearInterval(interval);
+      }
+    }
+  }, [phase, primaryPattern]);
+
+  const handleConfirmYes = useCallback(() => {
+    setConfirmedPattern(primaryPattern);
+    setPhase('emailCapture');
+  }, [primaryPattern]);
+
+  const handleNotQuite = useCallback(() => {
+    setShowManualSelect(true);
+  }, []);
+
+  const handleManualSelect = useCallback((pattern: PatternKey) => {
+    setConfirmedPattern(pattern);
+    setPrimaryPattern(pattern);
+    setShowManualSelect(false);
+    setPhase('emailCapture');
+  }, []);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    const finalPattern = confirmedPattern || primaryPattern;
+    setSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/quiz/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          email,
+          primaryPattern: finalPattern,
+          secondaryPatterns: [],
+          patternScores: scores || {},
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to save results');
+      }
+
+      localStorage.setItem('quizResultPattern', finalPattern || '');
+      localStorage.setItem('userEmail', email);
+      if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
+
+      window.location.href = '/portal';
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setSubmitting(false);
+    }
+  }, [email, confirmedPattern, primaryPattern, scores]);
+
+  const containerStyle: React.CSSProperties = {
+    background: "#0D0D0D",
+    border: "1px solid #14B8A6",
+    padding: "32px",
+    maxWidth: "580px",
+    margin: "0 auto",
+    position: "relative",
+    overflow: "hidden",
+  };
+
+  if (phase === 'analyzing') {
+    return (
+      <div style={containerStyle} data-testid="embedded-quiz-analyzing">
+        <div style={{ textAlign: "center", padding: "48px 0" }}>
+          <div style={{
+            width: "32px", height: "32px", border: "2px solid rgba(20,184,166,0.3)",
+            borderTopColor: "#14B8A6", borderRadius: "50%", margin: "0 auto 24px",
+            animation: "spin 1s linear infinite",
+          }} />
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em" }}>
+            Analyzing Your Patterns...
+          </p>
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  if (phase === 'glitch') {
+    return (
+      <div style={containerStyle} data-testid="embedded-quiz-glitch">
+        <div style={{ position: "absolute", left: 0, right: 0, top: "30%", height: "1px", background: "rgba(255,255,255,0.2)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", left: 0, right: 0, top: "60%", height: "1px", background: "rgba(255,255,255,0.15)", pointerEvents: "none" }} />
+        <div style={{ textAlign: "center", padding: "48px 0" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "rgba(255,255,255,0.3)", letterSpacing: "0.15em" }} data-testid="text-embedded-glitch">
+            {glitchText}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (phase === 'reveal' && primaryPattern) {
+    const currentCopy = feelSeenCopy[primaryPattern] || [];
+    const patternScore = (scores?.[primaryPattern] as number) || 0;
+    const totalAnswered = scores ? (Object.values(scores) as number[]).reduce((a, b) => a + b, 0) : 0;
+    const matchPct = calculateMatchPercent(patternScore, totalAnswered);
+
+    if (showManualSelect) {
+      const allPatterns: PatternKey[] = [
+        'disappearing', 'apologyLoop', 'testing', 'attractionToHarm',
+        'complimentDeflection', 'drainingBond', 'successSabotage', 'perfectionism', 'rage'
+      ];
+      return (
+        <div style={containerStyle} data-testid="embedded-quiz-manual-select">
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1.3rem", color: "white", marginBottom: "8px" }}>
+              Which pattern do you recognize?
             </p>
-            <p
-              style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
-                fontWeight: 900,
-                fontSize: "1.3rem",
-                color: "white",
-                textTransform: "uppercase",
-                marginBottom: "24px",
-                lineHeight: 1.2,
-              }}
-              data-testid="text-quiz-starter-q1"
-            >
-              Which of these have you felt in your body?
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.9rem", color: "#999" }}>
+              Select the one that lives in your body.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {bodySignatures.map((sig) => (
-                <button
-                  key={sig}
-                  onClick={() => handleSignatureClick(sig)}
-                  className="transition-all duration-200 cursor-pointer"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(20,184,166,0.3)",
-                    color: "white",
-                    padding: "12px 16px",
-                    fontFamily: "'Source Sans 3', sans-serif",
-                    fontSize: "0.9rem",
-                    textAlign: "left",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.borderColor = "#14B8A6";
-                    e.currentTarget.style.boxShadow = "0 0 12px rgba(20,184,166,0.3)";
-                    e.currentTarget.style.color = "#14B8A6";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)";
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.color = "white";
-                  }}
-                  data-testid={`button-sig-${sig.toLowerCase().replace(/\s+/g, "-")}`}
-                >
-                  {sig}
-                </button>
-              ))}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+            {allPatterns.map((pattern) => (
+              <button
+                key={pattern}
+                data-testid={`embedded-pattern-card-${pattern}`}
+                onClick={() => handleManualSelect(pattern)}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(20,184,166,0.3)",
+                  padding: "12px 8px",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  transition: "all 200ms ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; e.currentTarget.style.background = "rgba(20,184,166,0.08)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)"; e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
+              >
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "white", marginBottom: "4px" }}>
+                  {patternDisplayNames[pattern]}
+                </p>
+                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#777", lineHeight: 1.4 }}>
+                  {patternDescriptions[pattern].slice(0, 60)}...
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div style={containerStyle} data-testid="embedded-quiz-reveal">
+        <div style={{ textAlign: "center" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+            Pattern Identified
+          </p>
+
+          <div style={{ transition: "all 500ms", opacity: typewriterDone ? 1 : 0, transform: typewriterDone ? "translateY(0)" : "translateY(8px)" }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#14B8A6", fontWeight: 700, marginBottom: "12px" }} data-testid="text-embedded-match-pct">
+              {matchPct}% MATCH
+            </p>
+            <div style={{ maxWidth: "360px", margin: "0 auto 20px", height: "4px", background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+              <div style={{ width: `${matchPct}%`, height: "100%", background: "#14B8A6", transition: "width 1s ease-out" }} data-testid="bar-embedded-match" />
             </div>
           </div>
 
-          <div style={{ width: "50%", flexShrink: 0, paddingLeft: "16px", pointerEvents: step === 1 ? "auto" : "none" }}>
-            <p
-              ref={step2Ref}
-              tabIndex={-1}
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "10px",
-                color: "#EC4899",
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                marginBottom: "16px",
-                outline: "none",
-              }}
-            >
-              PATTERN DETECTION — STEP 2
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.6rem, 3.5vw, 2.2rem)", color: "white", fontWeight: 700, marginBottom: "8px" }} data-testid="text-embedded-pattern-name">
+            <span ref={typewriterRef} />
+            {!typewriterDone && <span style={{ color: "#14B8A6", animation: "blink 0.8s step-end infinite" }}>|</span>}
+          </h3>
+
+          <div style={{ height: "2px", width: "64px", background: "#14B8A6", margin: "0 auto 24px", opacity: typewriterDone ? 1 : 0, transition: "opacity 300ms" }} />
+
+          <div style={{ opacity: copyVisible ? 1 : 0, transform: copyVisible ? "translateY(0)" : "translateY(12px)", transition: "all 300ms", marginBottom: "32px" }}>
+            {currentCopy.map((paragraph, i) => (
+              <p key={i} style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, maxWidth: "460px", margin: "0 auto 12px" }}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          <div style={{ opacity: buttonsVisible ? 1 : 0, transform: buttonsVisible ? "translateY(0)" : "translateY(12px)", transition: "all 300ms" }}>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: "white", fontWeight: 500, marginBottom: "16px" }} data-testid="text-embedded-confirmation">
+              Does this sound like you?
             </p>
-            <p
-              style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
-                fontWeight: 900,
-                fontSize: "1.3rem",
-                color: "white",
-                textTransform: "uppercase",
-                marginBottom: "24px",
-                lineHeight: 1.2,
-              }}
-              data-testid="text-quiz-starter-q2"
-            >
-              How long has this pattern been running?
-            </p>
-            <div className="flex flex-col gap-3">
-              {durations.map((dur) => (
-                <button
-                  key={dur}
-                  onClick={() => handleDurationClick(dur)}
-                  className="transition-all duration-200 cursor-pointer"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(20,184,166,0.3)",
-                    color: "white",
-                    padding: "12px 16px",
-                    fontFamily: "'Source Sans 3', sans-serif",
-                    fontSize: "0.9rem",
-                    textAlign: "left",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.borderColor = "#14B8A6";
-                    e.currentTarget.style.boxShadow = "0 0 12px rgba(20,184,166,0.3)";
-                    e.currentTarget.style.color = "#14B8A6";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)";
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.color = "white";
-                  }}
-                  data-testid={`button-dur-${dur.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
-                >
-                  {dur}
-                </button>
-              ))}
+            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+              <button
+                data-testid="button-embedded-yes"
+                onClick={handleConfirmYes}
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", textTransform: "uppercase",
+                  letterSpacing: "0.1em", border: "1px solid rgba(20,184,166,0.5)", background: "transparent",
+                  color: "white", padding: "12px 28px", cursor: "pointer", transition: "all 200ms ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; e.currentTarget.style.background = "rgba(20,184,166,0.08)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(20,184,166,0.5)"; e.currentTarget.style.background = "transparent"; }}
+              >
+                Yes, that's me
+              </button>
+              <button
+                data-testid="button-embedded-not-quite"
+                onClick={handleNotQuite}
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", textTransform: "uppercase",
+                  letterSpacing: "0.1em", border: "1px solid rgba(255,255,255,0.15)", background: "transparent",
+                  color: "#999", padding: "12px 28px", cursor: "pointer", transition: "all 200ms ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.color = "white"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "#999"; }}
+              >
+                Not quite
+              </button>
             </div>
           </div>
         </div>
+        <style>{`@keyframes blink { 50% { opacity: 0; } }`}</style>
       </div>
+    );
+  }
+
+  if (phase === 'emailCapture') {
+    const finalPattern = confirmedPattern || primaryPattern;
+    const finalName = finalPattern ? patternDisplayNames[finalPattern] : '';
+
+    return (
+      <div style={containerStyle} data-testid="embedded-quiz-email">
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#14B8A6", fontWeight: 600, marginBottom: "12px" }}>
+            Pattern Confirmed
+          </p>
+          <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "white", marginBottom: "8px" }}>
+            {finalName}
+          </h3>
+          <div style={{ height: "2px", width: "48px", background: "#14B8A6", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.9rem", color: "#999" }}>
+            Your full breakdown is waiting in your personal portal.
+          </p>
+        </div>
+
+        <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "16px", marginBottom: "20px" }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {[
+              'Complete pattern analysis',
+              'Your body signature (the 3-7 second warning)',
+              'The Four Doors Protocol for your pattern',
+              'AI Pattern Coach (24/7)',
+              'The Crash Course (free)',
+            ].map((item, i) => (
+              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: i < 4 ? "10px" : 0 }}>
+                <Check style={{ width: "14px", height: "14px", color: "#14B8A6", marginTop: "2px", flexShrink: 0 }} />
+                <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#ccc" }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+            data-testid="input-embedded-email"
+            style={{
+              width: "100%", padding: "14px 16px", background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.15)", color: "white", fontSize: "0.95rem",
+              fontFamily: "'Source Sans 3', sans-serif", marginBottom: "12px", outline: "none",
+              boxSizing: "border-box",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
+          />
+          <button
+            type="submit"
+            disabled={submitting}
+            data-testid="button-embedded-submit"
+            style={{
+              width: "100%", padding: "14px", background: "#14B8A6", color: "#000",
+              fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", fontWeight: 700,
+              textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer",
+              opacity: submitting ? 0.5 : 1, transition: "opacity 200ms",
+            }}
+          >
+            {submitting ? 'Opening Archive...' : 'Send Magic Link'}
+          </button>
+          {error && <p style={{ color: "#EF4444", fontSize: "0.85rem", textAlign: "center", marginTop: "8px" }} role="alert">{error}</p>}
+        </form>
+
+        <p style={{ textAlign: "center", fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", marginTop: "16px" }}>
+          {"Free access \u00b7 No spam \u00b7 Instant portal entry"}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={containerStyle} data-testid="embedded-quiz">
+      <div style={{ height: "3px", background: "rgba(255,255,255,0.06)", marginBottom: "24px", overflow: "hidden" }}>
+        <div style={{ width: `${progressPct}%`, height: "100%", background: "#14B8A6", transition: "width 300ms ease" }} data-testid="bar-quiz-progress" />
+      </div>
+
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "12px" }} data-testid="text-question-counter">
+        QUESTION {currentQuestion + 1} OF 15
+      </p>
+
+      <div style={{ overflow: "hidden" }}>
+        <div style={{
+          transform: sliding ? (slideDir === 'left' ? 'translateX(-100%)' : 'translateX(100%)') : 'translateX(0)',
+          transition: sliding ? 'transform 200ms ease' : 'none',
+          opacity: sliding ? 0 : 1,
+        }}>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.15rem", color: "white", marginBottom: "8px", lineHeight: 1.4 }} data-testid="text-question-title">
+            {question.title}
+          </p>
+
+          {question.weight === 2 && (
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", marginBottom: "12px" }}>
+              counts 2x
+            </p>
+          )}
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "16px" }}>
+            {question.options.map((option) => {
+              const isQ15 = question.id === 15;
+              const isHovered = hoveredOption === option.id;
+              return (
+                <button
+                  key={option.id}
+                  data-testid={`button-option-${option.id}`}
+                  onClick={() => handleAnswer(option.id)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: isQ15 ? "12px" : "0",
+                    background: answers[question.id] === option.id ? "rgba(20,184,166,0.2)" : isHovered ? "rgba(20,184,166,0.15)" : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${isHovered ? "#14B8A6" : "rgba(20,184,166,0.3)"}`,
+                    color: isHovered ? "#14B8A6" : "white",
+                    padding: "12px 16px",
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontSize: "0.9rem",
+                    textAlign: "left",
+                    cursor: "pointer",
+                    transition: "all 200ms ease",
+                    width: "100%",
+                  }}
+                  onMouseEnter={() => setHoveredOption(option.id)}
+                  onMouseLeave={() => setHoveredOption(null)}
+                >
+                  {isQ15 && <BodySilhouette optionId={option.id} hovered={isHovered} />}
+                  <span>{option.text}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {currentQuestion > 0 && (
+        <button
+          onClick={handleBack}
+          data-testid="button-quiz-back"
+          style={{
+            background: "none", border: "none", color: "#666", fontSize: "12px",
+            fontFamily: "'JetBrains Mono', monospace", cursor: "pointer", marginTop: "16px",
+            padding: "4px 0", transition: "color 200ms",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "#999"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "#666"; }}
+        >
+          &larr; Back
+        </button>
+      )}
     </div>
   );
 }
@@ -2178,10 +2542,8 @@ export default function Landing() {
           <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
             One interrupt changes everything.
           </h2>
-          <InlineQuizStarter />
-          <div className="reveal reveal-delay-1">
-            <CTAButton text="FIND YOUR PATTERN" />
-          </div>
+          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
+          <EmbeddedQuiz />
         </div>
       </section>
 

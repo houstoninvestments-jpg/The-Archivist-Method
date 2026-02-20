@@ -1,19 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { Check } from 'lucide-react';
-import { PatternKey, patternDisplayNames, QuizResult as QuizResultType } from '@/lib/quizData';
-
-const patternMatchPercent: Record<PatternKey, number> = {
-  disappearing: 91,
-  apologyLoop: 87,
-  testing: 83,
-  attractionToHarm: 89,
-  complimentDeflection: 85,
-  drainingBond: 88,
-  successSabotage: 92,
-  perfectionism: 86,
-  rage: 84,
-};
+import { PatternKey, patternDisplayNames, QuizResult as QuizResultType, calculateMatchPercent } from '@/lib/quizData';
 
 const feelSeenCopy: Record<PatternKey, string[]> = {
   disappearing: [
@@ -351,7 +339,9 @@ export default function QuizResult() {
     );
   }
 
-  const matchPct = patternMatchPercent[currentPattern] || 85;
+  const patternScore = (scores?.[currentPattern] as number) || 0;
+  const totalAnswered = scores ? (Object.values(scores) as number[]).reduce((a, b) => a + b, 0) : 0;
+  const matchPct = calculateMatchPercent(patternScore, totalAnswered);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: screenFlash ? '#111' : '#0A0A0A', transition: 'background 50ms' }}>

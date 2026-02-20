@@ -55,7 +55,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "1b", text: "Suspicious. What's the trap?", pattern: "testing" },
       { id: "1c", text: "Guilt. You don't get to have this.", pattern: "apologyLoop" },
       { id: "1d", text: "Walls going up. Exit located.", pattern: "disappearing" },
-      { id: "1e", text: "Nothing. You stopped feeling years ago.", pattern: "drainingBond" },
+      { id: "1e", text: "Nothing. You stopped feeling years ago.", pattern: "attractionToHarm" },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "2b", text: "Wonder what they're really after", pattern: "testing" },
       { id: "2c", text: "Apologize for taking up space", pattern: "apologyLoop" },
       { id: "2d", text: "Feel the pressure to never fail now", pattern: "perfectionism" },
-      { id: "2e", text: "Don't believe them. Can't.", pattern: "drainingBond" },
+      { id: "2e", text: "Don't believe them. Can't.", pattern: "attractionToHarm" },
     ],
   },
   {
@@ -99,7 +99,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "5b", text: "Drop hints. See if they care enough to notice.", pattern: "testing" },
       { id: "5c", text: "Say nothing. Need nothing. Want nothing.", pattern: "complimentDeflection" },
       { id: "5d", text: "Get angry when they don't just know", pattern: "rage" },
-      { id: "5e", text: "Convince yourself you never needed it anyway", pattern: "drainingBond" },
+      { id: "5e", text: "Convince yourself you never needed it anyway", pattern: "perfectionism" },
     ],
   },
   {
@@ -109,7 +109,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "6a", text: "You stop. Walk away. Can't finish.", pattern: "successSabotage" },
       { id: "6b", text: "You tweak it forever. Never ships.", pattern: "perfectionism" },
       { id: "6c", text: "You finish but tell no one", pattern: "complimentDeflection" },
-      { id: "6d", text: "You finish but feel nothing", pattern: "drainingBond" },
+      { id: "6d", text: "You finish but feel nothing", pattern: "attractionToHarm" },
       { id: "6e", text: "You're already onto the next thing", pattern: "disappearing" },
     ],
   },
@@ -143,7 +143,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "9b", text: "Fraud. They'll find out.", pattern: "perfectionism" },
       { id: "9c", text: "Guilt. Who are you to have this?", pattern: "apologyLoop" },
       { id: "9d", text: "Exposed. Too visible.", pattern: "complimentDeflection" },
-      { id: "9e", text: "Empty. What now?", pattern: "drainingBond" },
+      { id: "9e", text: "Empty. What now?", pattern: "perfectionism" },
     ],
   },
   {
@@ -165,7 +165,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "11b", text: "They'll leave now. Watch.", pattern: "testing" },
       { id: "11c", text: "You're too much. You're not enough. Both.", pattern: "apologyLoop" },
       { id: "11d", text: "Rage. At them. At yourself.", pattern: "rage" },
-      { id: "11e", text: "Whatever. Add it to the pile.", pattern: "drainingBond" },
+      { id: "11e", text: "Whatever. Add it to the pile.", pattern: "complimentDeflection" },
     ],
   },
   {
@@ -176,7 +176,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "12b", text: "Suspicious. Why are they looking?", pattern: "testing" },
       { id: "12c", text: "Sorry for being seen", pattern: "apologyLoop" },
       { id: "12d", text: "Need to run", pattern: "disappearing" },
-      { id: "12e", text: "Feel nothing. You're already gone inside.", pattern: "drainingBond" },
+      { id: "12e", text: "Feel nothing. You're already gone inside.", pattern: "perfectionism" },
     ],
   },
   {
@@ -219,6 +219,12 @@ export const quizQuestions: QuizQuestion[] = [
     ],
   },
 ];
+
+export function calculateMatchPercent(patternScore: number, totalAnswered: number): number {
+  if (totalAnswered === 0) return 61;
+  const raw = Math.round((patternScore / totalAnswered) * 100);
+  return Math.max(61, Math.min(94, raw));
+}
 
 export function calculatePatternScores(answers: Record<number, string>): Record<PatternKey, number> {
   const scores: Record<PatternKey, number> = {
