@@ -1,0 +1,64 @@
+Replace the current Investigation Board section with a full detective board experience. Apply now.
+
+OVERALL FEEL:
+Dark near-black background (#0A0A0A). Subtle cork/linen texture overlay at 4% opacity. Teal thread connects all cards like a detective evidence board. TAM brand colors throughout — teal thread, pink accents, white text.
+
+THE THREAD:
+- SVG curved path running vertically down center, teal (#14B8A6), 1.5px stroke
+- Dashed line style: stroke-dasharray 6 4 — like string on a board
+- Small teal pin/dot at each card connection point (8px circle)
+- Glowing dot travels the thread tied to scroll position using Intersection Observer
+- Dot: 12px, teal, soft radial glow, moves between pins as user scrolls
+
+CARDS (6 total, staggered left and right, slightly rotated randomly -2deg to +2deg like pinned to a board):
+- Size: 280px wide
+- Background: aged paper texture using CSS (#1a1510 with noise)
+- Border: 1px solid rgba(255,255,255,0.1)
+- Corner: small teal "CASE FILE" stamp in JetBrains Mono
+- Pin: small teal circle at top center suggesting it's pinned to the board
+- On scroll into view: fade in + slight rotate to 0 + teal border glow
+- On hover: lifts (translateY -6px), pink glow, slight shadow
+
+CARD CONTENT:
+Card 1 (left, rotate -1.5deg):
+Stamp: "TRIGGER — CASE FILE 01"
+Headline: "Something happens."
+Body: "A look. A tone. A silence. Your nervous system flags it as danger before you hear a word."
+
+Card 2 (right, rotate +2deg):
+Stamp: "AMYGDALA FIRE — CASE FILE 02"
+Headline: "Your survival brain takes over."
+Body: "80,000x faster than thought. The pattern is already loading. Your CEO hasn't even been notified yet."
+
+Card 3 (left, rotate -1deg):
+Stamp: "BODY SIGNATURE — CASE FILE 03"
+Headline: "Your body knows before you do."
+Body: "Jaw tightens. Chest drops. Stomach clenches. That sensation is not anxiety. It's data."
+
+Card 4 (right, rotate +1.5deg):
+Stamp: "THE WINDOW — CASE FILE 04"
+Headline: "3 to 7 seconds."
+Body: "This is the only moment interruption is biologically possible. Most people live their entire lives never knowing it exists."
+
+Card 5 (left, rotate -2deg):
+Stamp: "PATTERN EXECUTES — CASE FILE 05"
+Headline: "Without the method — it runs."
+Body: "The message gets sent. The fight starts. The opportunity collapses. The loop tightens. Again."
+
+Card 6 (right, rotate +1deg):
+Stamp: "THE INTERRUPT — CASE FILE 06"
+Headline: "With the method — you choose."
+Body: "You recognize the signature. You apply the circuit break. For the first time — the pattern does not complete."
+
+SECTION HEADER:
+Title: "THE PATTERN FILE" in Schibsted Grotesk 900, white, large
+Subtitle: "How a destructive pattern runs — and the one moment it can be stopped." in Cormorant Garamond italic, teal
+Small label above: "CLASSIFIED RESEARCH" in JetBrains Mono, pink, spaced caps
+
+BOTTOM OF SECTION:
+After card 6, thread ends at a final node with text:
+"The Archivist Method was built for this window."
+Teal CTA button: "FIND YOUR PATTERN →"
+
+MOBILE:
+Stack cards vertically, no rotation, hide thread SVG, keep all scroll animations and glow effects.

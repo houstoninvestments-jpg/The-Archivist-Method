@@ -872,6 +872,235 @@ function SevenSecondSanctuary() {
   );
 }
 
+const patternFileCards = [
+  { stamp: "TRIGGER", caseNum: "01", headline: "Something happens.", body: "A look. A tone. A silence. Your nervous system flags it as danger before you hear a word.", side: "left" as const, rotate: -1.5 },
+  { stamp: "AMYGDALA FIRE", caseNum: "02", headline: "Your survival brain takes over.", body: "80,000x faster than thought. The pattern is already loading. Your CEO hasn't even been notified yet.", side: "right" as const, rotate: 2 },
+  { stamp: "BODY SIGNATURE", caseNum: "03", headline: "Your body knows before you do.", body: "Jaw tightens. Chest drops. Stomach clenches. That sensation is not anxiety. It's data.", side: "left" as const, rotate: -1 },
+  { stamp: "THE WINDOW", caseNum: "04", headline: "3 to 7 seconds.", body: "This is the only moment interruption is biologically possible. Most people live their entire lives never knowing it exists.", side: "right" as const, rotate: 1.5 },
+  { stamp: "PATTERN EXECUTES", caseNum: "05", headline: "Without the method \u2014 it runs.", body: "The message gets sent. The fight starts. The opportunity collapses. The loop tightens. Again.", side: "left" as const, rotate: -2 },
+  { stamp: "THE INTERRUPT", caseNum: "06", headline: "With the method \u2014 you choose.", body: "You recognize the signature. You apply the circuit break. For the first time \u2014 the pattern does not complete.", side: "right" as const, rotate: 1 },
+];
+
+function PatternFileSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
+  const [activePin, setActivePin] = useState(0);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 768);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    cardRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set([...prev, i]));
+            setActivePin(i);
+          }
+        },
+        { threshold: 0.3 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  const pinPositions = [
+    { y: 80 }, { y: 240 }, { y: 400 }, { y: 560 }, { y: 720 }, { y: 880 }
+  ];
+  const threadHeight = 960;
+
+  return (
+    <section
+      ref={sectionRef}
+      className="px-6"
+      data-testid="section-pattern-file"
+      style={{
+        position: "relative",
+        background: "#0A0A0A",
+        paddingTop: "100px",
+        paddingBottom: "100px",
+        backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"200\" height=\"200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"n\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23n)\" opacity=\"0.04\"/%3E%3C/svg%3E')",
+      }}
+    >
+      <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center", marginBottom: "80px" }}>
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "11px",
+          color: "#EC4899",
+          textTransform: "uppercase",
+          letterSpacing: "0.2em",
+          marginBottom: "16px",
+        }}>
+          CLASSIFIED RESEARCH
+        </p>
+        <h2 style={{
+          fontFamily: "'Schibsted Grotesk', sans-serif",
+          fontWeight: 900,
+          textTransform: "uppercase",
+          fontSize: "clamp(2rem, 5vw, 3.5rem)",
+          color: "white",
+          marginBottom: "20px",
+          lineHeight: 1.1,
+        }}>
+          THE PATTERN FILE
+        </h2>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: "italic",
+          fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
+          color: "#14B8A6",
+          maxWidth: "600px",
+          margin: "0 auto",
+          lineHeight: 1.5,
+        }}>
+          How a destructive pattern runs &mdash; and the one moment it can be stopped.
+        </p>
+      </div>
+
+      <div style={{ position: "relative", maxWidth: "700px", margin: "0 auto" }}>
+        {!isMobile && (
+          <svg
+            style={{ position: "absolute", left: "50%", top: 0, transform: "translateX(-50%)", width: "4px", height: threadHeight, zIndex: 1, overflow: "visible" }}
+            viewBox={`0 0 4 ${threadHeight}`}
+          >
+            <line
+              x1="2" y1="0" x2="2" y2={threadHeight}
+              stroke="#14B8A6"
+              strokeWidth="1.5"
+              strokeDasharray="6 4"
+              opacity="0.5"
+            />
+            {pinPositions.map((pin, i) => (
+              <circle
+                key={i}
+                cx="2"
+                cy={pin.y}
+                r="4"
+                fill={i <= activePin ? "#14B8A6" : "#1a1a1a"}
+                stroke="#14B8A6"
+                strokeWidth="1"
+              />
+            ))}
+            <circle
+              cx="2"
+              cy={pinPositions[Math.min(activePin, 5)]?.y || 80}
+              r="6"
+              fill="#14B8A6"
+              opacity="0.8"
+              style={{ transition: "cy 0.6s ease" }}
+            >
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle
+              cx="2"
+              cy={pinPositions[Math.min(activePin, 5)]?.y || 80}
+              r="12"
+              fill="none"
+              stroke="#14B8A6"
+              strokeWidth="0.5"
+              opacity="0.3"
+              style={{ transition: "cy 0.6s ease" }}
+            >
+              <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+        )}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "24px" : "40px", position: "relative", zIndex: 2 }}>
+          {patternFileCards.map((card, i) => {
+            const isVisible = visibleCards.has(i);
+            const isLeft = card.side === "left";
+            return (
+              <div
+                key={i}
+                ref={(el) => { cardRefs.current[i] = el; }}
+                data-testid={`pattern-file-card-${i}`}
+                className={`case-file-card${isVisible ? " case-file-visible" : " case-file-hidden"}`}
+                style={{
+                  width: isMobile ? "100%" : "280px",
+                  alignSelf: isMobile ? "center" : isLeft ? "flex-start" : "flex-end",
+                  "--init-rotate": `${card.rotate}deg`,
+                } as React.CSSProperties}
+              >
+                <div style={{
+                  position: "absolute",
+                  top: "-6px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "12px",
+                  height: "12px",
+                  borderRadius: "50%",
+                  background: "#14B8A6",
+                  border: "2px solid #0A0A0A",
+                  display: isMobile ? "none" : "block",
+                }} />
+
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "9px",
+                  color: "#14B8A6",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.15em",
+                  marginBottom: "12px",
+                  opacity: 0.9,
+                }}>
+                  {card.stamp} &mdash; CASE FILE {card.caseNum}
+                </p>
+
+                <h3 style={{
+                  fontFamily: "'Schibsted Grotesk', sans-serif",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  fontSize: "1rem",
+                  color: "white",
+                  marginBottom: "10px",
+                  lineHeight: 1.3,
+                }}>
+                  {card.headline}
+                </h3>
+
+                <p style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: "0.85rem",
+                  color: "rgba(255,255,255,0.7)",
+                  lineHeight: 1.6,
+                  margin: 0,
+                }}>
+                  {card.body}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "500px", margin: "80px auto 0", textAlign: "center" }}>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: "italic",
+          fontSize: "1.2rem",
+          color: "#14B8A6",
+          marginBottom: "32px",
+          lineHeight: 1.5,
+        }}>
+          The Archivist Method was built for this window.
+        </p>
+        <CTAButton text="FIND YOUR PATTERN" />
+      </div>
+    </section>
+  );
+}
+
 function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const [phase, setPhase] = useState<WindowPhase>("idle");
   const [counter, setCounter] = useState(0);
@@ -1022,9 +1251,10 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         <p
           data-testid="text-window-circuit"
           style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
             fontSize: isMobile ? "1.8rem" : "2.2rem",
-            color: "white",
+            color: "#14B8A6",
             margin: "0 0 48px 0",
             lineHeight: 1.3,
             opacity: past("circuit") ? 1 : 0,
@@ -1125,7 +1355,9 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
               <p
                 data-testid="text-gap-choose"
                 style={{
-                  fontFamily: "'Playfair Display', serif",
+                  fontFamily: "'Schibsted Grotesk', sans-serif",
+                  fontWeight: 900,
+                  textTransform: "uppercase" as const,
                   fontSize: isMobile ? "1.5rem" : "1.8rem",
                   color: "white",
                   marginTop: "24px",
@@ -1176,9 +1408,10 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             <p
               data-testid="text-aftermath-plug"
               style={{
-                fontFamily: "'Playfair Display', serif",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontStyle: "italic",
                 fontSize: isMobile ? "1.6rem" : "2rem",
-                color: "white",
+                color: "#14B8A6",
                 margin: 0,
                 marginTop: "24px",
                 lineHeight: 1.3,
@@ -1318,7 +1551,7 @@ export default function Landing() {
       )}
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
 
         .reveal {
           opacity: 0;
@@ -1635,6 +1868,35 @@ export default function Landing() {
           animation: scanlineGlitch 0.3s ease-out;
         }
 
+        .case-file-card {
+          transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+          background: #1a1510;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 2px;
+          padding: 24px 20px;
+          position: relative;
+          cursor: default;
+          box-shadow: none;
+          opacity: 1;
+          transform: rotate(0deg) translateY(0);
+          background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.06"/%3E%3C/svg%3E');
+        }
+        .case-file-hidden {
+          opacity: 0;
+          transform: rotate(var(--init-rotate, 0deg)) translateY(30px);
+        }
+        .case-file-visible {
+          opacity: 1;
+          transform: rotate(0deg) translateY(0);
+          border-color: rgba(20, 184, 166, 0.3);
+          box-shadow: 0 0 20px rgba(20, 184, 166, 0.08);
+        }
+        .case-file-visible:hover {
+          transform: rotate(0deg) translateY(-6px);
+          box-shadow: 0 8px 30px rgba(236, 72, 153, 0.15);
+          border-color: rgba(236, 72, 153, 0.4);
+        }
+
         @keyframes myelinStreak {
           0%, 80% { background-position: -200% center; }
           100% { background-position: 200% center; }
@@ -1784,7 +2046,7 @@ export default function Landing() {
         <div className="thread-node-label">Recognition</div>
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
+          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
             Which one makes your stomach drop?
           </h2>
 
@@ -1794,7 +2056,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal" style={{ color: "#999", fontStyle: "italic", fontSize: "1rem", maxWidth: "500px", margin: "0 auto" }}>
+          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1rem", maxWidth: "500px", margin: "0 auto" }}>
             "If you felt something reading one of those — that's your body signature. That's the thread."
           </p>
         </div>
@@ -1808,10 +2070,10 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE PATTERNS</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
               9 Destructive Patterns. You're Running at Least One.
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#999", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.05rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
               "The pattern is not you. It is a program that runs through you. It was installed to protect a child. You are no longer that child."
             </p>
           </div>
@@ -1822,7 +2084,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", color: "#737373", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
+          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
             If you felt something reading one of those — that's your body signature activating right now.
           </p>
         </div>
@@ -1831,7 +2093,7 @@ export default function Landing() {
       {/* ========== SECTION 4: CTA BREAK ========== */}
       <section ref={sectionRefs.ctaBreak} className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
+          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
             One interrupt changes everything.
           </h2>
           <div className="reveal reveal-delay-1">
@@ -1839,6 +2101,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* ========== SECTION 4.5: THE PATTERN FILE (Detective Board) ========== */}
+      <PatternFileSection />
 
       {/* ========== SECTION 5: THE WINDOW (Timed Text Sequence) ========== */}
       <TheWindowSection sectionRef={sectionRefs.window} />
@@ -1855,7 +2120,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* For You */}
             <div className="reveal" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+              <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is For You If:
               </h3>
               <div className="space-y-5">
@@ -1872,7 +2137,7 @@ export default function Landing() {
 
             {/* Not For You */}
             <div className="reveal reveal-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+              <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is Not For You If:
               </h3>
               <div className="space-y-4">
@@ -1896,7 +2161,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
               The Method
             </h2>
           </div>
@@ -1913,7 +2178,7 @@ export default function Landing() {
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}
                 data-testid={`card-step-${step.num}`}
               >
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{step.name}</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{step.desc}</p>
               </div>
@@ -1929,10 +2194,10 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE DIFFERENCE</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
               Pattern Archaeology vs. Traditional Therapy
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#999", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
               "Inspiration is not a mechanism. Understanding is not interruption. This is the difference."
             </p>
           </div>
@@ -1961,7 +2226,7 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>FROM THE ARCHIVES</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-archives-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-archives-headline">
               Field Reports
             </h2>
           </div>
@@ -2001,7 +2266,7 @@ export default function Landing() {
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>INSIDE THE SYSTEM</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
               This Is What You Get
             </h2>
           </div>
@@ -2022,7 +2287,7 @@ export default function Landing() {
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Your Pattern Dashboard</p>
               <div style={{ background: "rgba(0,0,0,0.4)", padding: "16px", border: "1px solid rgba(255,255,255,0.04)" }}>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "14px", color: "white", marginBottom: "12px" }}>THE DISAPPEARING PATTERN</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "14px", color: "white", marginBottom: "12px" }}>THE DISAPPEARING PATTERN</p>
                 <div className="flex items-center gap-2 flex-wrap" style={{ marginBottom: "8px" }}>
                   <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#EC4899", display: "inline-block" }} />
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999" }}>Chest tightness — active</span>
@@ -2138,7 +2403,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
               Start Free. Go Deeper When You're Ready.
             </h2>
           </div>
@@ -2150,8 +2415,8 @@ export default function Landing() {
                 <img src={productCrashCourse} alt="The Crash Course" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-crash-course" />
               </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
               <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
                 Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break.
               </p>
@@ -2171,8 +2436,8 @@ export default function Landing() {
                 <img src={productFieldGuide} alt="The Field Guide" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-field-guide" />
               </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
               <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
                 Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access.
               </p>
@@ -2194,8 +2459,8 @@ export default function Landing() {
                 <img src={productCompleteArchive} alt="The Complete Archive" style={{ width: "100%", height: "200px", objectFit: "cover", opacity: 0.9 }} data-testid="img-product-complete-archive" />
               </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
               <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
                 The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages.
               </p>
@@ -2225,7 +2490,7 @@ export default function Landing() {
             <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
+            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
               About The Founder
             </h2>
           </div>
@@ -2240,10 +2505,10 @@ export default function Landing() {
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
           </div>
@@ -2255,7 +2520,7 @@ export default function Landing() {
         <div className="thread-node" />
         <div className="thread-node-label">Interrupt</div>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", color: "white", marginBottom: "32px" }} data-testid="text-final-cta-headline">
+          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }} data-testid="text-final-cta-headline">
             You found the thread. Now pull it.
           </h2>
           <div className="reveal reveal-delay-1">
@@ -2270,7 +2535,7 @@ export default function Landing() {
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
         <div className="max-w-4xl mx-auto text-center">
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
             "The archive is open. Don't close the door."
           </p>
 
