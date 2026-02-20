@@ -26,6 +26,7 @@ const TypeTest = lazy(() => import("@/pages/TypeTest"));
 const TypeTest2 = lazy(() => import("@/pages/TypeTest2"));
 const TypeTest3 = lazy(() => import("@/pages/TypeTest3"));
 const TypeTest4 = lazy(() => import("@/pages/TypeTest4"));
+const TypeTest5 = lazy(() => import("@/pages/TypeTest5"));
 
 function PageLoader() {
   return (
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/type-test-2" component={TypeTest2} />
       <Route path="/type-test-3" component={TypeTest3} />
       <Route path="/type-test-4" component={TypeTest4} />
+      <Route path="/type-test-5" component={TypeTest5} />
       <Route component={NotFound} />
     </Switch>
   );
