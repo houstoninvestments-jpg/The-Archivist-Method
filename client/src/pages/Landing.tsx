@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import heroSeatedImg from "@assets/hero-archivist-seated.png";
 import productCrashCourse from "@assets/product-crash-course.jpg";
@@ -589,6 +589,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
 function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; index: number }) {
   const [declassified, setDeclassified] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const archiveRef = useMemo(() => String(Math.floor(100000 + Math.random() * 900000)), []);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -606,14 +607,10 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
       className="reveal"
       style={{
         position: "relative",
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        borderTop: "1px solid rgba(255,255,255,0.10)",
-        borderBottom: "1px solid rgba(255,255,255,0.04)",
+        background: "#1a1510",
         padding: "28px",
         transitionDelay: `${(index % 2) * 0.15}s`,
-        backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
-        backgroundSize: "100px 100px",
+        boxShadow: "3px 2px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(255,255,255,0.03), inset 0 0 30px rgba(0,0,0,0.3)",
       }}
       data-testid={`card-case-file-${file.num}`}
       onMouseEnter={!isMobile ? handleDeclassify : undefined}
@@ -628,35 +625,35 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
         color: "#EC4899",
         textTransform: "uppercase",
         letterSpacing: "0.1em",
-        opacity: 0.5,
+        opacity: 0.7,
         transform: "rotate(-2deg)",
       }}>
-        ARCHIVE REF: {file.num}-{file.pattern.substring(0, 3).toUpperCase()}
+        ARCHIVE REF: {archiveRef}
       </div>
       <div style={{ marginBottom: "16px" }}>
         <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.05em" }}>
             CASE FILE {file.num}
           </span>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373" }}>|</span>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#737373" }}>|</span>
+          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.05em" }}>
             PATTERN: {file.pattern}
           </span>
         </div>
-        <div style={{ background: "#000", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
+        <div style={{ background: "#0D0D0D", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
       </div>
-      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999", lineHeight: 1.7, marginBottom: "12px" }}>
+      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "14px", color: "#b0a890", lineHeight: 1.8, marginBottom: "12px" }}>
         "{file.reportBody}"
       </p>
       <div style={{ position: "relative", marginBottom: "8px", overflow: "hidden" }}>
         <p
           data-testid={`text-breakthrough-${file.num}`}
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "12px",
+            fontFamily: "'Special Elite', cursive",
+            fontSize: "14px",
             color: "#14B8A6",
-            lineHeight: 1.7,
-            fontWeight: 600,
+            lineHeight: 1.8,
+            fontWeight: 400,
           }}
         >
           "{file.breakthrough}"
@@ -669,7 +666,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
             left: 0,
             right: 0,
             bottom: 0,
-            background: "#000",
+            background: "#1a1510",
             transform: declassified ? "translateX(101%)" : "translateX(0)",
             transition: "transform 0.6s ease",
           }}
@@ -687,7 +684,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
       >
         {isMobile ? "[ TAP TO DECLASSIFY ]" : "[ HOVER TO DECLASSIFY ]"}
       </p>
-      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em" }}>
         STATUS: {file.status}
       </p>
     </div>
@@ -920,6 +917,88 @@ function PatternFileSection() {
           The Archivist Method was built for this window.
         </p>
         <CTAButton text="FIND YOUR PATTERN" />
+      </div>
+    </section>
+  );
+}
+
+function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+  const [countdown, setCountdown] = useState(7);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const sectionObserverRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = sectionObserverRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCountdown(7);
+            if (timerRef.current) clearInterval(timerRef.current);
+            timerRef.current = setInterval(() => {
+              setCountdown((prev) => {
+                if (prev <= 0) {
+                  if (timerRef.current) clearInterval(timerRef.current);
+                  return 0;
+                }
+                return prev - 1;
+              });
+            }, 1000);
+          } else {
+            if (timerRef.current) clearInterval(timerRef.current);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const setRefs = useCallback((node: HTMLElement | null) => {
+    sectionObserverRef.current = node;
+    if (sectionRef && "current" in sectionRef) {
+      (sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
+  }, [sectionRef]);
+
+  return (
+    <section ref={setRefs} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
+      <div className="thread-node" />
+      <div className="thread-node-label">Interrupt</div>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
+          The window is closing.
+        </h2>
+        <p className="reveal reveal-delay-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
+          You have 7 seconds before your brain convinces you to stay exactly as you are.
+        </p>
+        <div className="reveal reveal-delay-1" style={{ marginBottom: "32px" }}>
+          <span
+            data-testid="text-countdown"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "3rem",
+              color: countdown <= 2 ? "#EC4899" : "#14B8A6",
+              transition: "color 0.3s ease",
+              letterSpacing: "0.1em",
+            }}
+          >
+            {countdown}
+          </span>
+        </div>
+        <div className="reveal reveal-delay-2">
+          <CTAButton text="INTERRUPT THE CYCLE NOW" />
+        </div>
+        <p className="reveal reveal-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
+          Free · 2 Minutes · Instant Results
+        </p>
       </div>
     </section>
   );
@@ -1905,6 +1984,22 @@ export default function Landing() {
             Free · 2 Minutes · Instant Results
           </p>
 
+          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
+            <a
+              href="#section-window"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('[data-testid="section-window"]')?.scrollIntoView({ behavior: "smooth" });
+              }}
+              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", cursor: "pointer", textDecoration: "none", opacity: 0.8, transition: "opacity 0.3s" }}
+              onMouseOver={(e) => { e.currentTarget.style.opacity = "1"; }}
+              onMouseOut={(e) => { e.currentTarget.style.opacity = "0.8"; }}
+              data-testid="link-science-first"
+            >
+              I want to understand the science first <ArrowRight className="inline w-3 h-3 ml-1" style={{ verticalAlign: "middle" }} />
+            </a>
+          </p>
+
           <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.2s" }}>
             <p
               className="tracking-[0.2em] uppercase"
@@ -2080,17 +2175,19 @@ export default function Landing() {
             </p>
           </div>
 
+          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.1rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
+            Inspiration is not a mechanism. Understanding is not interruption. This is the difference.
+          </p>
+
           <div className="reveal reveal-delay-2">
-            {/* Table header */}
-            <div className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "16px", marginBottom: "8px" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#737373", textTransform: "uppercase", letterSpacing: "0.1em" }}>THERAPY</p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>THE ARCHIVIST METHOD</p>
+            <div className="grid grid-cols-2 gap-0" style={{ background: "rgba(20,184,166,0.15)", borderBottom: "2px solid #14B8A6", padding: "14px 16px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THERAPY</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THE ARCHIVIST METHOD</p>
             </div>
-            {/* Table rows */}
             {therapyRows.map((row, i) => (
-              <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "16px 0" }}>
-                <p style={{ color: "#737373", fontSize: "0.95rem" }}>{row[0]}</p>
-                <p style={{ color: "white", fontSize: "0.95rem", borderLeft: "2px solid rgba(20, 184, 166, 0.3)", paddingLeft: "16px" }}>{row[1]}</p>
+              <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "14px 16px", background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem" }}>{row[0]}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.85rem" }}>{row[1]}</p>
               </div>
             ))}
           </div>
@@ -2366,6 +2463,9 @@ export default function Landing() {
           <p className="reveal reveal-delay-3 text-center" style={{ color: "#737373", fontSize: "13px", marginTop: "32px" }}>
             One-time purchase. No subscriptions. No recurring charges. Yours forever.
           </p>
+          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
+            If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
+          </p>
         </div>
       </section>
 
@@ -2403,22 +2503,15 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 12: FINAL CTA ========== */}
-      <section ref={sectionRefs.finalCta} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Interrupt</div>
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }} data-testid="text-final-cta-headline">
-            You found the thread. Now pull it.
-          </h2>
-          <div className="reveal reveal-delay-1">
-            <CTAButton text="FIND YOUR PATTERN" />
-          </div>
-          <p className="reveal reveal-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
-            Free · 2 Minutes · Instant Results
-          </p>
-        </div>
-      </section>
+      {/* ========== SECTION 12: FINAL CTA - EXIT INTERVIEW ========== */}
+      <ExitInterviewSection sectionRef={sectionRefs.finalCta} />
+
+      {/* ========== RESEARCH CITATIONS ========== */}
+      <div style={{ padding: "32px 24px 0", borderTop: "1px solid rgba(255,255,255,0.04)" }} data-testid="section-citations">
+        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666", textAlign: "center", maxWidth: "700px", margin: "0 auto", lineHeight: 1.8 }}>
+          Research Foundation: Libet, B. (1983). Time of conscious intention to act. <em>Brain</em>. · LeDoux, J. (1996). <em>The Emotional Brain</em>. · van der Kolk, B. (2014). <em>The Body Keeps the Score</em>. · Porges, S. (2011). <em>The Polyvagal Theory</em>. · Duhigg, C. (2012). <em>The Power of Habit</em>.
+        </p>
+      </div>
 
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
