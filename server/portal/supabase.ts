@@ -1,9 +1,13 @@
+import { db } from "../db";
+import { portalUsers, purchases } from "@shared/schema";
+import { eq, desc } from "drizzle-orm";
+
 export interface User {
   id: string;
   email: string;
-  name?: string;
+  name?: string | null;
   created_at: string;
-  stripe_customer_id?: string;
+  stripe_customer_id?: string | null;
 }
 
 export interface Purchase {
@@ -16,45 +20,60 @@ export interface Purchase {
   stripe_payment_intent_id: string;
 }
 
-const users = new Map<string, User>();
-const purchases: Purchase[] = [];
+function toUser(row: typeof portalUsers.$inferSelect): User {
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    created_at: row.createdAt?.toISOString() || new Date().toISOString(),
+    stripe_customer_id: row.stripeCustomerId,
+  };
+}
+
+function toPurchase(row: typeof purchases.$inferSelect): Purchase {
+  return {
+    id: row.id,
+    user_id: row.userId,
+    product_id: row.productId,
+    product_name: row.productName,
+    amount_paid: row.amountPaid,
+    purchased_at: row.purchasedAt?.toISOString() || new Date().toISOString(),
+    stripe_payment_intent_id: row.stripePaymentIntentId,
+  };
+}
 
 export async function getUserByEmail(email: string): Promise<User | null> {
-  for (const u of users.values()) {
-    if (u.email === email) return u;
-  }
-  return null;
+  const [row] = await db.select().from(portalUsers).where(eq(portalUsers.email, email));
+  return row ? toUser(row) : null;
 }
 
 export async function createUser(email: string, stripeCustomerId?: string, name?: string): Promise<User> {
-  const id = crypto.randomUUID();
-  const user: User = {
-    id,
+  const [row] = await db.insert(portalUsers).values({
     email,
-    name,
-    created_at: new Date().toISOString(),
-    stripe_customer_id: stripeCustomerId,
-  };
-  users.set(id, user);
-  return user;
+    name: name || null,
+    stripeCustomerId: stripeCustomerId || null,
+  }).returning();
+  return toUser(row);
 }
 
 export async function updateUserName(userId: string, name: string): Promise<User | null> {
-  const user = users.get(userId);
-  if (!user) return null;
-  user.name = name;
-  users.set(userId, user);
-  return user;
+  const [row] = await db.update(portalUsers)
+    .set({ name })
+    .where(eq(portalUsers.id, userId))
+    .returning();
+  return row ? toUser(row) : null;
 }
 
 export async function getUserById(userId: string): Promise<User | null> {
-  return users.get(userId) ?? null;
+  const [row] = await db.select().from(portalUsers).where(eq(portalUsers.id, userId));
+  return row ? toUser(row) : null;
 }
 
 export async function getUserPurchases(userId: string): Promise<Purchase[]> {
-  return purchases
-    .filter(p => p.user_id === userId)
-    .sort((a, b) => b.purchased_at.localeCompare(a.purchased_at));
+  const rows = await db.select().from(purchases)
+    .where(eq(purchases.userId, userId))
+    .orderBy(desc(purchases.purchasedAt));
+  return rows.map(toPurchase);
 }
 
 export async function createPurchase(
@@ -64,15 +83,12 @@ export async function createPurchase(
   amountPaid: number,
   stripePaymentIntentId: string,
 ): Promise<Purchase> {
-  const purchase: Purchase = {
-    id: crypto.randomUUID(),
-    user_id: userId,
-    product_id: productId,
-    product_name: productName,
-    amount_paid: amountPaid,
-    purchased_at: new Date().toISOString(),
-    stripe_payment_intent_id: stripePaymentIntentId,
-  };
-  purchases.push(purchase);
-  return purchase;
+  const [row] = await db.insert(purchases).values({
+    userId,
+    productId,
+    productName,
+    amountPaid,
+    stripePaymentIntentId,
+  }).returning();
+  return toPurchase(row);
 }

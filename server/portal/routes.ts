@@ -21,6 +21,7 @@ import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, test
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { sendPurchaseConfirmationEmail } from "./email";
 
 // Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
@@ -500,6 +501,72 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
   }
 });
 
+// Test purchase endpoint (development only)
+router.post("/test-purchase", async (req: Request, res: Response) => {
+  if (process.env.NODE_ENV !== "development") {
+    return res.status(403).json({ error: "Test purchases are only available in development mode" });
+  }
+
+  try {
+    const { email, productId, productName, amount } = req.body;
+
+    if (!email || !productId) {
+      return res.status(400).json({ error: "Email and productId are required" });
+    }
+
+    let user = await getUserByEmail(email);
+    if (!user) {
+      user = await createUser(email, `test_cus_${Date.now()}`, undefined);
+    }
+
+    await createPurchase(
+      user.id,
+      productId,
+      productName || "Test Purchase",
+      amount || 0,
+      `test_pi_${Date.now()}`,
+    );
+
+    const sessionToken = generateAuthToken(user.id, email);
+
+    res.cookie("auth_token", sessionToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    console.log(`[TEST] Purchase simulated: ${productId} for ${email} ($${amount || 0})`);
+
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : "http://localhost:5000";
+
+    const magicLink = await generateMagicLink(email, user.id, baseUrl);
+
+    const { quizUsers } = await import("@shared/schema");
+    const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, email));
+
+    await sendPurchaseConfirmationEmail({
+      email,
+      firstName: user.name?.split(" ")[0] || undefined,
+      patternName: quizUser?.primaryPattern || null,
+      productName: productName || productId,
+      portalLink: magicLink,
+    });
+
+    res.json({
+      success: true,
+      message: `Test purchase of ${productName || productId} completed`,
+      userId: user.id,
+      redirectTo: "/portal",
+    });
+  } catch (error) {
+    console.error("Test purchase error:", error);
+    res.status(500).json({ error: "Test purchase failed" });
+  }
+});
+
 // Stripe webhook handler
 router.post(
   "/webhooks/stripe",
@@ -580,7 +647,16 @@ router.post(
         );
         console.log(`Magic link for ${customerEmail}: ${magicLink}`);
 
-        // TODO: Send welcome email with magic link
+        const { quizUsers } = await import("@shared/schema");
+        const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, customerEmail));
+
+        await sendPurchaseConfirmationEmail({
+          email: customerEmail,
+          firstName: customerName?.split(" ")[0] || undefined,
+          patternName: quizUser?.primaryPattern || null,
+          productName: productName,
+          portalLink: magicLink,
+        });
       }
 
       res.json({ received: true });
@@ -952,8 +1028,17 @@ router.get("/chat/history", async (req: Request, res: Response) => {
 
 router.post("/chat", async (req: Request, res: Response) => {
   try {
-    const userId = getAuthUserId(req);
-    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+
+    const { tier } = await resolveUserTier(authData);
+    if (tier === "free") {
+      return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase." });
+    }
+
+    const userId = authData.userId;
 
     if (!anthropic) {
       return res.status(503).json({ error: "AI service unavailable" });
@@ -988,9 +1073,9 @@ router.post("/chat", async (req: Request, res: Response) => {
       messages.push({ role: "user" as const, content: message });
     }
 
-    const { pattern, tier, streak } = req.body;
+    const { pattern, tier: clientTier, streak } = req.body;
     const patternName = pattern || "unknown";
-    const userTier = tier || "free";
+    const userTier = tier || clientTier || "free";
     const streakCount = streak || 0;
 
     let tierAccess = "";

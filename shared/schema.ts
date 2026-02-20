@@ -232,6 +232,38 @@ export const insertReadingProgressSchema = createInsertSchema(readingProgress).o
 export type InsertReadingProgress = z.infer<typeof insertReadingProgressSchema>;
 export type ReadingProgress = typeof readingProgress.$inferSelect;
 
+export const portalUsers = pgTable("portal_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  name: text("name"),
+  stripeCustomerId: text("stripe_customer_id"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertPortalUserSchema = createInsertSchema(portalUsers).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertPortalUser = z.infer<typeof insertPortalUserSchema>;
+export type PortalUser = typeof portalUsers.$inferSelect;
+
+export const purchases = pgTable("purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: text("product_id").notNull(),
+  productName: text("product_name").notNull(),
+  amountPaid: real("amount_paid").notNull(),
+  stripePaymentIntentId: text("stripe_payment_intent_id").notNull(),
+  purchasedAt: timestamp("purchased_at").defaultNow(),
+});
+
+export const insertPurchaseSchema = createInsertSchema(purchases).omit({
+  id: true,
+  purchasedAt: true,
+});
+export type InsertPurchase = z.infer<typeof insertPurchaseSchema>;
+export type Purchase = typeof purchases.$inferSelect;
+
 export const AccessLevel = {
   CRASH_COURSE: "crash-course",
   QUICK_START: "quick-start",

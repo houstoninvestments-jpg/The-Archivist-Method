@@ -14,6 +14,8 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (February 2026)
 
+- **Stripe/Purchase Flow**: Migrated user & purchase storage from in-memory Maps to PostgreSQL (portal_users, purchases tables). Added test-purchase endpoint (dev only). Confirmation email system built (logs to console in dev, ready for SendGrid/Resend). Pocket Archivist (chat) now tier-gated: free users blocked, requires Field Guide or Archive purchase.
+- **IMPORTANT**: STRIPE_SECRET_KEY is currently a LIVE key (sk_live_) that is EXPIRED. Must be replaced with sk_test_ key before any real Stripe testing.
 - Admin system rebuilt: removed GodModeBadge, TestingPanel, URL godmode param; replaced with clean 4-tab admin dashboard (Overview, Users, Content, Settings)
 - God mode now works server-side: testUser.godMode=true grants archive tier access in resolveUserTier()
 - God mode only activatable from admin dashboard per-user toggle

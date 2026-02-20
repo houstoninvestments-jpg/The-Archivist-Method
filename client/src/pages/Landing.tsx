@@ -2782,6 +2782,67 @@ export default function Landing() {
           <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
             If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
           </p>
+
+          {import.meta.env.DEV && (
+            <div style={{ marginTop: "48px", padding: "24px", border: "2px dashed #EC4899", background: "rgba(236,72,153,0.05)" }} data-testid="test-purchase-panel">
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px", textAlign: "center" }}>
+                DEV MODE: Test Purchase Simulator
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373", textAlign: "center", marginBottom: "16px" }}>
+                Card: 4242 4242 4242 4242 | Exp: 12/34 | CVC: 123
+              </p>
+              <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                {([
+                  { id: "crash-course", name: "The Crash Course", amount: 0, label: "FREE" },
+                  { id: "quick-start", name: "The Field Guide", amount: 47, label: "$47" },
+                  { id: "complete-archive", name: "The Complete Archive", amount: 197, label: "$197" },
+                ] as const).map((product) => (
+                  <button
+                    key={product.id}
+                    data-testid={`test-purchase-${product.id}`}
+                    onClick={async () => {
+                      const email = prompt("Enter test email for purchase:");
+                      if (!email) return;
+                      try {
+                        const res = await fetch("/api/portal/test-purchase", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            email,
+                            productId: product.id,
+                            productName: product.name,
+                            amount: product.amount,
+                          }),
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                          alert(`Test purchase successful: ${product.name}\nRedirecting to portal...`);
+                          window.location.href = "/portal";
+                        } else {
+                          alert(`Error: ${data.error}`);
+                        }
+                      } catch (err) {
+                        alert("Test purchase failed");
+                      }
+                    }}
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "12px",
+                      padding: "10px 20px",
+                      background: "transparent",
+                      border: "1px solid #EC4899",
+                      color: "#EC4899",
+                      cursor: "pointer",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    TEST {product.label} Purchase
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
