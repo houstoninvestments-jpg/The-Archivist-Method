@@ -198,7 +198,7 @@ function CTAButton({ text }: { text: string }) {
       <Link
         href="/quiz"
         data-testid="button-cta"
-        className="cta-glow-inner inline-block text-white tracking-[0.15em] uppercase transition-all duration-300 hover:bg-white hover:text-black"
+        className="cta-glow-inner block text-center text-white tracking-[0.15em] uppercase"
         style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
       >
         {text} <ArrowRight className="inline w-4 h-4 ml-1" />
@@ -309,7 +309,7 @@ function InlineQuizStarter() {
             >
               Which of these have you felt in your body?
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {bodySignatures.map((sig) => (
                 <button
                   key={sig}
@@ -604,13 +604,15 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
 
   return (
     <div
-      className="reveal"
+      className="reveal candle-flicker"
       style={{
         position: "relative",
         background: "#1a1510",
         padding: "28px",
         transitionDelay: `${(index % 2) * 0.15}s`,
         boxShadow: "3px 2px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(255,255,255,0.03), inset 0 0 30px rgba(0,0,0,0.3)",
+        animationName: `candleFlicker${(index % 3) + 1}`,
+        animationDuration: `${3 + (index * 0.7)}s`,
       }}
       data-testid={`card-case-file-${file.num}`}
       onMouseEnter={!isMobile ? handleDeclassify : undefined}
@@ -1576,7 +1578,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif" }}>
+    <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif", overflowX: "hidden" }}>
       <StarField />
       <FloatingParticles />
       <div className="bg-fog" />
@@ -1847,7 +1849,14 @@ export default function Landing() {
         }
         .cta-glow-wrap {
           position: relative;
-          display: inline-block;
+          display: block;
+          width: 100%;
+        }
+        @media (min-width: 768px) {
+          .cta-glow-wrap {
+            display: inline-block;
+            width: auto;
+          }
         }
         .cta-glow-border {
           position: absolute;
@@ -1960,6 +1969,26 @@ export default function Landing() {
         .myelin-pulse .hero-word {
           -webkit-text-fill-color: currentColor;
         }
+
+        @keyframes candleFlicker1 {
+          0%, 100% { opacity: 0.88; }
+          20% { opacity: 0.95; }
+          40% { opacity: 0.85; }
+          60% { opacity: 1; }
+          80% { opacity: 0.9; }
+        }
+        @keyframes candleFlicker2 {
+          0%, 100% { opacity: 0.92; }
+          25% { opacity: 0.87; }
+          50% { opacity: 1; }
+          75% { opacity: 0.9; }
+        }
+        @keyframes candleFlicker3 {
+          0%, 100% { opacity: 0.9; }
+          33% { opacity: 1; }
+          66% { opacity: 0.86; }
+        }
+        .candle-flicker { animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
 
         @keyframes heroWordReveal {
           0% { opacity: 0; color: #14B8A6; }
@@ -2537,7 +2566,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 11: FOUNDER ========== */}
-      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
+      <section ref={sectionRefs.founder} className="px-6 candle-flicker" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)", animationName: "candleFlicker2", animationDuration: "5s" }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
