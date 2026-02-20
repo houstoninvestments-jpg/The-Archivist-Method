@@ -146,12 +146,12 @@ const therapyRows = [
   ["Builds understanding", "Builds muscle memory"],
 ];
 
-const forYou = [
-  "You watch yourself repeat the same destructive behavior and can't figure out how to stop",
-  "You've done therapy and understand WHY but nothing changes",
-  "You're smart enough to see the pattern but stuck enough to keep running it",
-  "You're tired of \"just try harder\" advice that ignores how your nervous system actually works",
-  "You want something that works in the moment, not after six months of processing",
+const forYouProse = [
+  "Subject reports awareness of the pattern. Can name it. Can describe it in detail. Still runs it every time. This is not a knowledge problem.",
+  "Previous interventions include talk therapy, journaling, meditation, self-help literature. Understanding increased. Behavior unchanged. The circuit fires faster than insight.",
+  "Subject demonstrates high pattern recognition in others. Blind spot is internal. Can map everyone else's loops but cannot interrupt their own.",
+  "Nervous system activation precedes conscious choice by 3-7 seconds. Subject has been fighting at the wrong altitude. Willpower was never the mechanism.",
+  "Subject is not looking for comfort. Subject is looking for something that works in the middle of the flood. Right now. Not in six months.",
 ];
 
 const notForYou = [
@@ -385,15 +385,34 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
     <div
       className="reveal"
       style={{
+        position: "relative",
         background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderTop: "1px solid rgba(255,255,255,0.10)",
+        borderBottom: "1px solid rgba(255,255,255,0.04)",
         padding: "28px",
         transitionDelay: `${(index % 2) * 0.15}s`,
+        backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
+        backgroundSize: "100px 100px",
       }}
       data-testid={`card-case-file-${file.num}`}
       onMouseEnter={!isMobile ? handleDeclassify : undefined}
       onClick={isMobile ? handleDeclassify : undefined}
     >
+      <div style={{
+        position: "absolute",
+        top: "12px",
+        right: "16px",
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: "9px",
+        color: "#EC4899",
+        textTransform: "uppercase",
+        letterSpacing: "0.1em",
+        opacity: 0.5,
+        transform: "rotate(-2deg)",
+      }}>
+        ARCHIVE REF: {file.num}-{file.pattern.substring(0, 3).toUpperCase()}
+      </div>
       <div style={{ marginBottom: "16px" }}>
         <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em" }}>
@@ -565,6 +584,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         paddingBottom: "120px",
         filter: desat ? "saturate(0.3)" : "saturate(1)",
         transition: "filter 0.2s ease",
+        backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.06) 0%, transparent 70%)",
       }}
     >
       <div className="thread-node" />
@@ -600,7 +620,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             transition: "opacity 0.4s ease",
           }}
         >
-          "Willpower is a prefrontal cortex function. Your pattern runs subcortical. That's why knowing better never worked."
+          "Willpower is a prefrontal cortex function. Your pattern fires from the amygdala. You are bringing a spreadsheet to a knife fight."
         </p>
 
         <p
@@ -734,7 +754,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
                   transition: "opacity 0.4s ease",
                 }}
               >
-                "This is the window. This is where the interrupt happens."
+                "This is where your pattern already won."
               </p>
             )}
           </div>
@@ -800,9 +820,9 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
                 lineHeight: 1.7,
               }}
             >
-              "Think of the last time you did the thing. The thing you swore you'd stop doing. Remember the heat in your face. The tightness in your chest. That was the alarm. You had 3-7 seconds to respond. Did you have the words?"
+              "You had 3 seconds. Now you know."
             </p>
-            <CTAButton text="GET THE CIRCUIT BREAK SCRIPTS" />
+            <CTAButton text="SHOW ME HOW TO USE THEM" />
           </div>
         )}
 
@@ -1390,22 +1410,24 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* For You */}
-            <div className="reveal" style={{ borderLeft: "3px solid #14B8A6", padding: "32px" }}>
+            <div className="reveal" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
               <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is For You If:
               </h3>
-              <div className="space-y-4">
-                {forYou.map((item, i) => (
-                  <p key={i} style={{ color: "#ccc", fontSize: "1rem", lineHeight: 1.6 }}>
-                    <span style={{ color: "#14B8A6", marginRight: "8px" }}>&mdash;</span>
+              <div className="space-y-5">
+                {forYouProse.map((item, i) => (
+                  <p key={i} style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#bbb", fontSize: "0.95rem", lineHeight: 1.7 }}>
                     {item}
                   </p>
                 ))}
               </div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "32px", opacity: 0.7 }}>
+                — Field Notes, The Archivist
+              </p>
             </div>
 
             {/* Not For You */}
-            <div className="reveal reveal-delay-2" style={{ borderLeft: "3px solid #EC4899", padding: "32px" }}>
+            <div className="reveal reveal-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
               <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is Not For You If:
               </h3>
@@ -1431,15 +1453,15 @@ export default function Landing() {
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
             <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
-              How Pattern Interruption Works
+              The Method
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "1", name: "IDENTIFY", desc: "Take the free assessment. Discover which of the 9 patterns is running your behavior. See your specific triggers, body signatures, and the origin of the pattern." },
-              { num: "2", name: "INTERRUPT", desc: "Learn your 3-7 second window. Recognize the body signature. Apply the circuit break before the pattern finishes executing. One successful interrupt changes everything." },
-              { num: "3", name: "REWRITE", desc: "Repetition weakens the pattern. Each interrupt builds a new neural pathway. The pattern doesn't disappear — it loses its grip. You get your choices back." },
+              { num: "1", name: "MAP THE PATTERN", desc: "Take the free assessment. Discover which of the 9 patterns is running your behavior. See your specific triggers, body signatures, and the origin of the pattern." },
+              { num: "2", name: "CATCH THE SIGNATURE", desc: "Learn your 3-7 second window. Recognize the body signature. Apply the circuit break before the pattern finishes executing. One successful interrupt changes everything." },
+              { num: "3", name: "INSTALL THE OVERRIDE", desc: "Repetition weakens the pattern. Each interrupt builds a new neural pathway. The pattern doesn't disappear — it loses its grip. You get your choices back." },
             ].map((step, i) => (
               <div
                 key={step.num}
@@ -1751,7 +1773,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 11: FOUNDER ========== */}
-      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px" }}>
+      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div className="thread-node" />
         <div className="thread-node-label">Origin</div>
         <div className="max-w-3xl mx-auto">
@@ -1774,10 +1796,10 @@ export default function Landing() {
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p style={{ color: "#F5F5F5", fontSize: "1.1rem", fontStyle: "italic", marginBottom: "16px" }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ color: "#999", fontSize: "1rem" }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
           </div>
