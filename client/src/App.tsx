@@ -21,6 +21,7 @@ const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const VaultWorkbench = lazy(() => import("@/pages/VaultWorkbench"));
 const VaultArchive = lazy(() => import("@/pages/VaultArchive"));
 const ContentReader = lazy(() => import("@/pages/ContentReader"));
+const FontTest = lazy(() => import("@/pages/FontTest"));
 
 function PageLoader() {
   return (
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
+      <Route path="/font-test" component={FontTest} />
       <Route component={NotFound} />
     </Switch>
   );
