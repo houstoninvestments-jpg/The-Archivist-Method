@@ -1059,7 +1059,6 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
   );
 }
 
-type WindowPhase = "idle" | "preIntro" | "circuit" | "barTrigger" | "barSignature" | "barGap" | "barGapText1" | "barGapText2" | "aftermath1" | "aftermath2" | "threeSecTest" | "done";
 
 const patternFileCards = [
   { stamp: "TRIGGER", caseNum: "01", headline: "Something happens.", body: "A look. A tone. A silence. Your nervous system flags it as danger before you hear a word.", side: "left" as const, rotate: -1.5 },
@@ -1371,371 +1370,125 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
 }
 
 function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const [phase, setPhase] = useState<WindowPhase>("idle");
-  const [counter, setCounter] = useState(0);
-  const [desat, setDesat] = useState(false);
-  const hasPlayed = useRef(false);
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const rafRef = useRef<number>(0);
-  const localRef = useRef<HTMLElement | null>(null);
-
-  const setRefs = useCallback((el: HTMLElement | null) => {
-    localRef.current = el;
-    if (sectionRef && "current" in sectionRef) {
-      (sectionRef as React.MutableRefObject<HTMLElement | null>).current = el;
-    }
-  }, [sectionRef]);
-
-  const schedule = useCallback((fn: () => void, ms: number) => {
-    const t = setTimeout(fn, ms);
-    timersRef.current.push(t);
-    return t;
-  }, []);
-
-  useEffect(() => {
-    const el = localRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasPlayed.current) {
-          hasPlayed.current = true;
-
-          const introDelay = 0;
-          const circuitDelay = 1500;
-          const barStart = 3500;
-
-          schedule(() => setPhase("preIntro"), introDelay);
-          schedule(() => setPhase("circuit"), circuitDelay);
-          schedule(() => {
-            setPhase("barTrigger");
-            const countStart = performance.now();
-            const tick = () => {
-              const elapsed = Math.min((performance.now() - countStart) / 1000, 7.0);
-              setCounter(elapsed);
-              if (elapsed < 4.0) {
-                rafRef.current = requestAnimationFrame(tick);
-              }
-            };
-            rafRef.current = requestAnimationFrame(tick);
-          }, barStart);
-          schedule(() => setPhase("barSignature"), barStart + 2000);
-          schedule(() => {
-            setPhase("barGap");
-            setDesat(true);
-            schedule(() => setDesat(false), 200);
-          }, barStart + 4000);
-          schedule(() => setPhase("barGapText1"), barStart + 5000);
-          schedule(() => setPhase("barGapText2"), barStart + 6000);
-          schedule(() => setPhase("aftermath1"), barStart + 9000);
-          schedule(() => setPhase("aftermath2"), barStart + 10500);
-          schedule(() => setPhase("threeSecTest"), barStart + 12500);
-          schedule(() => setPhase("done"), barStart + 13000);
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      timersRef.current.forEach(clearTimeout);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [schedule]);
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-  const phaseOrder: WindowPhase[] = ["idle", "preIntro", "circuit", "barTrigger", "barSignature", "barGap", "barGapText1", "barGapText2", "aftermath1", "aftermath2", "threeSecTest", "done"];
-  const phaseIdx = phaseOrder.indexOf(phase);
-  const past = (p: WindowPhase) => phaseIdx >= phaseOrder.indexOf(p);
-
-  const barPercent = !past("barTrigger") ? 0
-    : past("barGap") ? 57
-    : past("barSignature") ? 57
-    : 28;
-
-  const barColor = past("barGap") ? "#14B8A6" : past("barSignature") ? "#F59E0B" : "#EC4899";
-
-  const barLabel = past("barGap") ? "THE GAP" : past("barSignature") ? "BODY SIGNATURE DETECTED" : past("barTrigger") ? "SYSTEM TRIGGERED" : "";
-  const labelColor = past("barGap") ? "#EC4899" : past("barSignature") ? "#F59E0B" : "#EC4899";
-  const labelSize = past("barGap") ? "10px" : "13px";
-
-  const counterDisplay = past("barGap") ? "4.0" : counter.toFixed(1);
-  const counterBlink = past("barGap") && !past("aftermath1");
-
-  const barFaded = past("aftermath1");
-
   return (
     <section
-      ref={setRefs}
+      ref={sectionRef as React.RefObject<HTMLElement>}
       className="px-6"
       data-testid="section-window"
       style={{
         position: "relative",
         background: "#0A0A0A",
-        paddingTop: "120px",
-        paddingBottom: "120px",
-        filter: desat ? "saturate(0.3)" : "saturate(1)",
-        transition: "filter 0.2s ease",
+        paddingTop: "80px",
+        paddingBottom: "80px",
         backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.06) 0%, transparent 70%)",
       }}
     >
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
-      <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-
-        <p
-          data-testid="text-window-label"
+      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+        
+        <div
+          data-testid="circuit-animation"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "10px",
-            color: "#EC4899",
-            textTransform: "uppercase",
-            letterSpacing: "0.2em",
-            marginBottom: "32px",
-            opacity: past("preIntro") ? 1 : 0,
-            transition: "opacity 0.4s ease",
+            position: "relative",
+            width: "100%",
+            height: "200px",
+            maxHeight: "200px",
+            overflow: "hidden",
+            marginBottom: "48px",
           }}
         >
-          THE WINDOW
-        </p>
-
-        <p
-          data-testid="text-window-circuit"
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontSize: isMobile ? "2rem" : "clamp(2.2rem, 4vw, 3rem)",
-            color: "#14B8A6",
-            margin: "0 0 32px 0",
-            lineHeight: 1.2,
-            opacity: past("preIntro") ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          Every pattern follows the same circuit.
-        </p>
-
-        <p
-          data-testid="text-window-willpower"
-          style={{
-            fontFamily: "'Schibsted Grotesk', sans-serif",
-            fontWeight: 900,
-            fontSize: isMobile ? "1.2rem" : "1.5rem",
-            color: "white",
-            textTransform: "uppercase",
-            margin: "0 0 20px 0",
-            lineHeight: 1.3,
-            opacity: past("preIntro") ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
-        </p>
-
-        <p
-          data-testid="text-window-survival"
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontSize: isMobile ? "1.3rem" : "1.6rem",
-            color: "#14B8A6",
-            margin: "0 0 20px 0",
-            lineHeight: 1.3,
-            opacity: past("circuit") ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          Your pattern fires from the survival part.
-        </p>
-
-        <p
-          data-testid="text-window-spreadsheet"
-          style={{
-            fontFamily: "'Schibsted Grotesk', sans-serif",
-            fontWeight: 900,
-            fontSize: isMobile ? "1.2rem" : "1.5rem",
-            color: "white",
-            textTransform: "uppercase",
-            margin: "0 0 48px 0",
-            lineHeight: 1.3,
-            opacity: past("circuit") ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          YOU'RE BRINGING A SPREADSHEET TO A KNIFE FIGHT.
-        </p>
-
-        <div style={{ marginBottom: "48px", opacity: !past("barTrigger") ? 0 : (barFaded ? 0.2 : 1), transition: "opacity 1s ease", pointerEvents: past("barTrigger") ? "auto" : "none" }}>
-          <p
-            data-testid="text-bar-label"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: labelSize,
-              color: labelColor,
-              fontWeight: past("barGap") ? "bold" : "normal",
-              marginBottom: "12px",
-              transition: "color 0.3s ease",
-              minHeight: "20px",
-            }}
+          <svg
+            viewBox="0 0 700 200"
+            preserveAspectRatio="xMidYMid meet"
+            style={{ width: "100%", height: "100%" }}
+            data-testid="svg-circuit"
           >
-            {barLabel}
-          </p>
+            <defs>
+              <filter id="glow-pink" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <filter id="glow-teal" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#EC4899" stopOpacity="0" />
+                <stop offset="40%" stopColor="#EC4899" stopOpacity="1" />
+                <stop offset="100%" stopColor="#EC4899" stopOpacity="1" />
+              </linearGradient>
+            </defs>
 
-          <div
-            data-testid="bar-container"
-            style={{
-              height: "4px",
-              background: "rgba(255,255,255,0.1)",
-              borderRadius: "2px",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <div
-              data-testid="bar-fill"
-              className={phase === "barSignature" ? "bar-vibrate" : ""}
-              style={{
-                height: "4px",
-                borderRadius: "2px",
-                width: `${barPercent}%`,
-                background: barColor,
-                transition: past("barGap") ? "background 0.3s ease" : "width 2s linear, background 0.5s ease",
-                animation: past("barGap") && !barFaded ? "barPulse 1s ease-in-out infinite" : (phase === "barTrigger" ? "barTriggerPulse 0.5s ease-in-out infinite" : "none"),
-              }}
+            <line x1="60" y1="100" x2="640" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+
+            <rect
+              x="250" y="60" width="200" height="80" rx="4"
+              fill="rgba(20,184,166,0.08)"
+              stroke="rgba(20,184,166,0.25)"
+              strokeWidth="1"
+              className="circuit-window-zone"
             />
-          </div>
 
-          <p
-            data-testid="text-bar-counter"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "11px",
-              color: "#555",
-              marginTop: "8px",
-              animation: counterBlink ? "counterBlink 0.5s step-end infinite" : "none",
-              visibility: past("barTrigger") ? "visible" : "hidden",
-            }}
-          >
-            {counterDisplay}s
-          </p>
+            <text x="350" y="92" textAnchor="middle" fill="#14B8A6" fontFamily="'JetBrains Mono', monospace" fontSize="13" fontWeight="bold" className="circuit-window-label">3-7 SECONDS</text>
+            <text x="350" y="128" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="0.05em">THIS IS WHERE YOU CAN CHOOSE.</text>
 
-          <div style={{ minHeight: "80px" }}>
-            {past("barTrigger") && !past("barSignature") && (
-              <p
-                data-testid="text-phase1-desc"
-                style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "0.9rem" : "1rem",
-                  color: "#777",
-                  marginTop: "20px",
-                  opacity: 1,
-                  transition: "opacity 0.4s ease",
-                }}
-              >
-                "Something happens. A text. A compliment. Closeness."
-              </p>
-            )}
+            <circle cx="60" cy="100" r="6" fill="#EC4899" className="circuit-trigger-dot" filter="url(#glow-pink)" />
+            <text x="60" y="80" textAnchor="middle" fill="#EC4899" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="0.1em" className="circuit-trigger-label">TRIGGER</text>
 
-            {past("barSignature") && !past("barGap") && (
-              <p
-                data-testid="text-phase2-desc"
-                style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "0.9rem" : "1rem",
-                  color: "white",
-                  marginTop: "20px",
-                  opacity: 1,
-                  transition: "opacity 0.4s ease",
-                }}
-              >
-                "Chest tightens. Stomach drops. Hands go cold. Your body is screaming."
-              </p>
-            )}
+            <text x="170" y="85" textAnchor="middle" fill="rgba(236,72,153,0.7)" fontFamily="'JetBrains Mono', monospace" fontSize="8" className="circuit-speed-label">AMYGDALA — 80,000x FASTER</text>
 
-            {past("barGapText1") && (
-              <p
-                data-testid="text-gap-choose"
-                style={{
-                  fontFamily: "'Schibsted Grotesk', sans-serif",
-                  fontWeight: 900,
-                  textTransform: "uppercase" as const,
-                  fontSize: isMobile ? "1.5rem" : "1.8rem",
-                  color: "white",
-                  marginTop: "24px",
-                  opacity: 1,
-                  transition: "opacity 0.4s ease",
-                  lineHeight: 1.3,
-                  textShadow: "0 0 20px rgba(20,184,166,0.3), 0 0 40px rgba(20,184,166,0.15)",
-                }}
-              >
-                RIGHT HERE. RIGHT NOW. YOU CAN STILL CHOOSE.
-              </p>
-            )}
+            <line x1="60" y1="100" x2="640" y2="100" stroke="url(#line-grad)" strokeWidth="2" className="circuit-shooting-line" filter="url(#glow-pink)" />
 
-            {past("barGapText2") && (
-              <p
-                data-testid="text-gap-interrupt"
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: "italic",
-                  fontSize: isMobile ? "1.1rem" : "1.3rem",
-                  color: "#14B8A6",
-                  marginTop: "16px",
-                  opacity: 1,
-                  transition: "opacity 0.4s ease",
-                }}
-              >
-                This is where your pattern already won.
-              </p>
-            )}
-          </div>
+            <circle cx="640" cy="100" r="8" fill="#EC4899" className="circuit-execute-dot" filter="url(#glow-pink)" />
+            <text x="640" y="80" textAnchor="middle" fill="#EC4899" fontFamily="'JetBrains Mono', monospace" fontSize="8" letterSpacing="0.05em" className="circuit-execute-label">PATTERN EXECUTES</text>
+          </svg>
+
+          <div className="circuit-desat-flash" style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", pointerEvents: "none" }} />
         </div>
 
-        {past("aftermath1") && (
-          <div style={{ marginBottom: "48px" }}>
-            <p
-              data-testid="text-aftermath-bet"
-              style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
-                fontWeight: 900,
-                fontSize: isMobile ? "1.3rem" : "1.6rem",
-                color: "white",
-                textTransform: "uppercase",
-                margin: 0,
-                lineHeight: 1.3,
-                opacity: past("aftermath1") ? 1 : 0,
-                transition: "opacity 0.6s ease",
-              }}
-            >
-              3 seconds. Every time. Without fail.
-            </p>
-
-            <p
-              data-testid="text-aftermath-plug"
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                fontSize: isMobile ? "1.6rem" : "clamp(1.8rem, 3.5vw, 2.4rem)",
-                color: "#14B8A6",
-                margin: 0,
-                marginTop: "24px",
-                lineHeight: 1.3,
-                opacity: past("aftermath2") ? 1 : 0,
-                transition: "opacity 0.8s ease",
-              }}
-            >
-              The Archivist Method is what happens when you pull the plug.
-            </p>
-          </div>
-        )}
-
-        {past("threeSecTest") && (
-          <div data-testid="three-sec-test" style={{ opacity: past("threeSecTest") ? 1 : 0, transition: "opacity 0.8s ease" }}>
-            <CTAButton text="SHOW ME HOW TO USE THEM" />
-          </div>
-        )}
-
+        <div style={{ textAlign: "center" }}>
+          <p
+            data-testid="text-window-label"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "10px",
+              color: "#EC4899",
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              marginBottom: "16px",
+            }}
+          >
+            THE WINDOW
+          </p>
+          <p
+            data-testid="text-window-headline"
+            style={{
+              fontFamily: "'Schibsted Grotesk', sans-serif",
+              fontWeight: 900,
+              fontSize: "clamp(1.4rem, 3.5vw, 2rem)",
+              color: "white",
+              textTransform: "uppercase",
+              marginBottom: "16px",
+              lineHeight: 1.3,
+            }}
+          >
+            3 seconds. Every time. Without fail.
+          </p>
+          <p
+            data-testid="text-window-closing"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: "italic",
+              fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
+              color: "#14B8A6",
+              lineHeight: 1.4,
+              maxWidth: "500px",
+              margin: "0 auto",
+            }}
+          >
+            The Archivist Method teaches you what to do inside it.
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -1746,10 +1499,12 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
     { key: "hero", label: "Hero" },
     { key: "gutCheck", label: "Gut Check" },
     { key: "patterns", label: "Patterns" },
+    { key: "ctaBreak", label: "Pattern File" },
     { key: "window", label: "The Window" },
     { key: "whoFor", label: "For You" },
     { key: "howItWorks", label: "The Method" },
     { key: "notTherapy", label: "Not Therapy" },
+    { key: "credibility", label: "The Archives" },
     { key: "pricing", label: "Pricing" },
     { key: "founder", label: "Founder" },
     { key: "finalCta", label: "Exit" },
@@ -2068,6 +1823,12 @@ export default function Landing() {
           .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
         }
 
+        @media (max-width: 767px) {
+          [data-testid="card-pricing-field-guide"] {
+            transform: scale(1) !important;
+          }
+        }
+
         @keyframes logFadeIn {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
@@ -2180,25 +1941,92 @@ export default function Landing() {
           to { opacity: 0; visibility: hidden; }
         }
 
-        @keyframes barTriggerPulse {
-          0%, 100% { opacity: 0.8; }
-          50% { opacity: 1; }
+        @keyframes circuitTriggerPulse {
+          0%, 12% { opacity: 1; r: 6; }
+          12.5% { opacity: 0; r: 3; }
+          100% { opacity: 0; r: 3; }
         }
-        @keyframes barPulse {
-          0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; }
+        .circuit-trigger-dot {
+          animation: circuitTriggerPulse 8s ease-in-out infinite;
         }
-        @keyframes barVibrate {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-1px); }
-          75% { transform: translateX(1px); }
+        @keyframes circuitTriggerLabel {
+          0%, 12% { opacity: 1; }
+          15% { opacity: 0; }
+          95% { opacity: 0; }
+          100% { opacity: 1; }
         }
-        .bar-vibrate {
-          animation: barVibrate 50ms linear infinite !important;
+        .circuit-trigger-label {
+          animation: circuitTriggerLabel 8s ease-in-out infinite;
         }
-        @keyframes counterBlink {
-          0%, 49% { opacity: 1; }
-          50%, 100% { opacity: 0; }
+        @keyframes circuitSpeedLabel {
+          0%, 12% { opacity: 0; }
+          14% { opacity: 0.7; }
+          24% { opacity: 0.7; }
+          26% { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        .circuit-speed-label {
+          animation: circuitSpeedLabel 8s ease-in-out infinite;
+        }
+        @keyframes circuitShootLine {
+          0%, 12% { clip-path: inset(0 100% 0 0); }
+          12%, 16% { clip-path: inset(0 0% 0 0); }
+          62% { clip-path: inset(0 0% 0 0); }
+          66% { clip-path: inset(0 0% 0 0); opacity: 1; }
+          75% { opacity: 0; }
+          100% { opacity: 0; clip-path: inset(0 100% 0 0); }
+        }
+        .circuit-shooting-line {
+          animation: circuitShootLine 8s ease-in-out infinite;
+        }
+        @keyframes circuitWindowZone {
+          0%, 24% { fill: rgba(20,184,166,0.08); stroke: rgba(20,184,166,0.25); }
+          26% { fill: rgba(20,184,166,0.15); stroke: rgba(20,184,166,0.5); }
+          60% { fill: rgba(20,184,166,0.15); stroke: rgba(20,184,166,0.5); }
+          64% { fill: rgba(20,184,166,0.08); stroke: rgba(20,184,166,0.25); }
+          100% { fill: rgba(20,184,166,0.08); stroke: rgba(20,184,166,0.25); }
+        }
+        .circuit-window-zone {
+          animation: circuitWindowZone 8s ease-in-out infinite;
+        }
+        @keyframes circuitWindowLabel {
+          0%, 24% { opacity: 0.6; }
+          26% { opacity: 1; }
+          60% { opacity: 1; }
+          64% { opacity: 0.6; }
+          100% { opacity: 0.6; }
+        }
+        .circuit-window-label {
+          animation: circuitWindowLabel 8s ease-in-out infinite;
+        }
+        @keyframes circuitExecuteDot {
+          0%, 62% { opacity: 0; r: 4; }
+          64% { opacity: 1; r: 10; }
+          68% { opacity: 1; r: 8; }
+          74% { opacity: 0; r: 4; }
+          100% { opacity: 0; r: 4; }
+        }
+        .circuit-execute-dot {
+          animation: circuitExecuteDot 8s ease-in-out infinite;
+        }
+        @keyframes circuitExecuteLabel {
+          0%, 62% { opacity: 0; }
+          64% { opacity: 1; }
+          74% { opacity: 1; }
+          76% { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        .circuit-execute-label {
+          animation: circuitExecuteLabel 8s ease-in-out infinite;
+        }
+        @keyframes circuitDesatFlash {
+          0%, 63% { opacity: 0; }
+          64% { opacity: 0.3; }
+          68% { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        .circuit-desat-flash {
+          animation: circuitDesatFlash 8s ease-in-out infinite;
         }
 
         @keyframes heroSectionFadeIn {
@@ -2948,8 +2776,8 @@ export default function Landing() {
             </div>
           </div>
 
-          <p className="reveal reveal-delay-3 text-center" style={{ color: "#737373", fontSize: "13px", marginTop: "32px" }}>
-            One-time purchase. No subscriptions. No recurring charges. Yours forever.
+          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "0.05em" }} data-testid="text-one-time">
+            One-time purchase. No subscriptions. Yours forever.
           </p>
           <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
             If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
