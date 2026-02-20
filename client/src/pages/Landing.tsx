@@ -1694,8 +1694,8 @@ export default function Landing() {
           .bg-grain, .bg-grid, .bg-fog { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
           .hero-word { opacity: 1 !important; animation: none !important; }
-          [data-testid="text-brand-title"] .hero-word { color: #14B8A6 !important; }
-          [data-testid="text-brand-title-2"] .hero-word { color: #F5F5F5 !important; }
+          [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
+          [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
           .cta-glow-border::before { animation: none !important; }
           .scanline-glitch { animation: none !important; }
           .myelin-pulse { animation: none !important; }
@@ -1725,20 +1725,20 @@ export default function Landing() {
 
           <p
             className="myelin-pulse"
-            style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.15, marginBottom: "0" }}
+            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase" }}
             data-testid="text-brand-title"
           >
-            {["You", "know", "exactly", "what", "you're", "doing."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationName: "heroWordRevealTeal", animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
+            {["YOU", "KNOW", "EXACTLY", "WHAT", "YOU'RE", "DOING."].map((word, i) => (
+              <span key={i} className="hero-word" style={{ animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
           <p
-            className="font-bold myelin-pulse"
-            style={{ fontFamily: "'Playfair Display', serif", fontStyle: "normal", fontSize: "clamp(2.8rem, 7.5vw, 5rem)", lineHeight: 1.15 }}
+            className="myelin-pulse"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15 }}
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationDelay: `${4.3 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationName: "heroWordRevealTeal", animationDelay: `${4.3 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
 
