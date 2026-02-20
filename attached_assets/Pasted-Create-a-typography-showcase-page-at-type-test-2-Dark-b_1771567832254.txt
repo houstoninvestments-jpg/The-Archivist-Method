@@ -1,0 +1,128 @@
+Create a typography showcase page at /type-test-2. Dark background (#0A0A0A). Show all 20 pairings below. For each pairing show:
+
+Label: pairing number + name in JetBrains Mono, teal, tiny, top left
+Line 1: the headline copy in Font A, white, bold, large
+Line 2: the italic copy in Font B, teal (#14B8A6), italic
+Thin pink (#EC4899) divider between each pairing
+
+Import all fonts from Google Fonts. Apply now.
+
+PAIRING 1 - Basal Ganglia Lockup
+Font A: Anton (bold, uppercase)
+Font B: Libre Baskerville (italic)
+Line 1: "HARDWARE, NOT SOFTWARE."
+Line 2: "The program was installed to protect you."
+
+PAIRING 2 - 80,000x Velocity
+Font A: Syncopate (bold)
+Font B: Cormorant Infant (light italic)
+Line 1: "80,000X FASTER."
+Line 2: "You said the thing before you knew you were going to say it."
+
+PAIRING 3 - Body Signature Heat
+Font A: Schibsted Grotesk (black)
+Font B: Pinyon Script
+Line 1: "BODY SIGNATURE DETECTED."
+Line 2: "A micro-surge of heat up the neck."
+
+PAIRING 4 - Veto Window
+Font A: Barlow Condensed (extra bold italic)
+Font B: Spectral (extra light)
+Line 1: "INTERRUPT AT THE SIGNAL."
+Line 2: "Because the behavior has not happened yet."
+
+PAIRING 5 - Childhood Adaptation
+Font A: Public Sans (thin)
+Font B: BioRhyme (bold)
+Line 1: "THE SECURITY GUARD FIRES."
+Line 2: "While the CEO is still loading."
+
+PAIRING 6 - Hardware vs Software
+Font A: JetBrains Mono
+Font B: Playfair Display (black italic)
+Line 1: "READINESS POTENTIAL: 300MS."
+Line 2: "The body announces the pattern before it executes."
+
+PAIRING 7 - Circuit Break
+Font A: Outfit (black)
+Font B: Instrument Serif (italic)
+Line 1: "CALM CHEST. OPEN ATTENTION."
+Line 2: "The earliest available indicator."
+
+PAIRING 8 - Polyvagal Shift
+Font A: Space Grotesk (bold)
+Font B: Lora (italic)
+Line 1: "THE BASAL GANGLIA PROBLEM."
+Line 2: "You are bringing a spreadsheet to a knife fight."
+
+PAIRING 9 - CEO and Security Guard
+Font A: Rubik Mono One
+Font B: Bodoni Moda
+Line 1: "MYELINATED NEURAL HIGHWAY."
+Line 2: "The gap is where everything changes."
+
+PAIRING 10 - Readiness Potential
+Font A: League Spartan (extra bold)
+Font B: Nanum Myeongjo
+Line 1: "300 MILLISECONDS."
+Line 2: "You cannot stop the initiation. But you can veto the completion."
+
+PAIRING 11 - Declassified Document
+Font A: Special Elite
+Font B: Pinyon Script
+Line 1: "HARDWARE, NOT SOFTWARE."
+Line 2: "The program was installed to protect you."
+
+PAIRING 12 - Anatomical Atlas
+Font A: Space Grotesk (bold)
+Font B: Instrument Serif (light italic)
+Line 1: "80,000X FASTER."
+Line 2: "You said the thing before you knew you were going to say it."
+
+PAIRING 13 - Library Index Card
+Font A: JetBrains Mono
+Font B: EB Garamond (semi-bold)
+Line 1: "READINESS POTENTIAL: 300MS."
+Line 2: "The body announces the pattern before it executes."
+
+PAIRING 14 - Somatic Field Notes
+Font A: Syncopate
+Font B: Nanum Pen Script
+Line 1: "BODY SIGNATURE DETECTED."
+Line 2: "A micro-surge of heat up the neck."
+
+PAIRING 15 - Veto Protocol
+Font A: Bebas Neue
+Font B: Playfair Display (black italic)
+Line 1: "INTERRUPT AT THE SIGNAL."
+Line 2: "Because the behavior has not happened yet."
+
+PAIRING 16 - Neural Blueprint
+Font A: Major Mono Display
+Font B: Bodoni Moda
+Line 1: "THE BASAL GANGLIA PROBLEM."
+Line 2: "You are bringing a spreadsheet to a knife fight."
+
+PAIRING 17 - Ventral Vagal
+Font A: Outfit (thin)
+Font B: Lora (medium italic)
+Line 1: "CALM CHEST. OPEN ATTENTION."
+Line 2: "The earliest available indicator."
+
+PAIRING 18 - Archive Spine
+Font A: Antonio (bold)
+Font B: La Belle Aurore
+Line 1: "MYELINATED NEURAL HIGHWAY."
+Line 2: "The gap is where everything changes."
+
+PAIRING 19 - CEO vs Security Guard
+Font A: Public Sans (black)
+Font B: Cormorant Garamond (light italic)
+Line 1: "THE SECURITY GUARD FIRES."
+Line 2: "While the CEO is still loading."
+
+PAIRING 20 - Readiness Potential
+Font A: Inter (extra light)
+Font B: Fraunces (black)
+Line 1: "300 MILLISECONDS."
+Line 2: "You cannot stop the initiation. But you can veto the completion."
