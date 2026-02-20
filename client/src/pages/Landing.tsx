@@ -207,6 +207,209 @@ function CTAButton({ text }: { text: string }) {
   );
 }
 
+function InlineQuizStarter() {
+  const [step, setStep] = useState(0);
+  const [selectedSignature, setSelectedSignature] = useState("");
+  const [redirecting, setRedirecting] = useState(false);
+  const step2Ref = useRef<HTMLParagraphElement>(null);
+
+  const bodySignatures = [
+    "Throat tightening",
+    "Chest dropping",
+    "Jaw clenching",
+    "Stomach falling",
+    "Shoulders rising",
+    "Hands going cold",
+  ];
+
+  const durations = [
+    "Months",
+    "Years",
+    "Most of my life",
+    "I don't know — it just keeps happening",
+  ];
+
+  const handleSignatureClick = (sig: string) => {
+    setSelectedSignature(sig);
+    setStep(1);
+    setTimeout(() => step2Ref.current?.focus(), 350);
+  };
+
+  const handleDurationClick = (dur: string) => {
+    setRedirecting(true);
+    setTimeout(() => {
+      const sigParam = encodeURIComponent(selectedSignature);
+      const durParam = encodeURIComponent(dur);
+      window.location.href = `/quiz?sig=${sigParam}&dur=${durParam}`;
+    }, 400);
+  };
+
+  return (
+    <div className="reveal" style={{ marginBottom: "40px" }}>
+      <p
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "11px",
+          color: "#999",
+          textAlign: "center",
+          marginBottom: "16px",
+        }}
+        data-testid="text-quiz-starter-note"
+      >
+        Takes 2 minutes. No email required.
+      </p>
+
+      <div
+        data-testid="inline-quiz-starter"
+        style={{
+          background: "#0D0D0D",
+          border: "1px solid #14B8A6",
+          padding: "32px",
+          maxWidth: "520px",
+          margin: "0 auto",
+          overflow: "hidden",
+          position: "relative",
+          opacity: redirecting ? 0.5 : 1,
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            width: "200%",
+            transform: step === 0 ? "translateX(0)" : "translateX(-50%)",
+            transition: "transform 300ms ease",
+          }}
+        >
+          <div style={{ width: "50%", flexShrink: 0, paddingRight: "16px", pointerEvents: step === 0 ? "auto" : "none" }}>
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "10px",
+                color: "#EC4899",
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                marginBottom: "16px",
+              }}
+              data-testid="text-quiz-starter-label"
+            >
+              PATTERN DETECTION — INITIATE
+            </p>
+            <p
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                fontSize: "1.3rem",
+                color: "white",
+                textTransform: "uppercase",
+                marginBottom: "24px",
+                lineHeight: 1.2,
+              }}
+              data-testid="text-quiz-starter-q1"
+            >
+              Which of these have you felt in your body?
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {bodySignatures.map((sig) => (
+                <button
+                  key={sig}
+                  onClick={() => handleSignatureClick(sig)}
+                  className="transition-all duration-200 cursor-pointer"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(20,184,166,0.3)",
+                    color: "white",
+                    padding: "12px 16px",
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontSize: "0.9rem",
+                    textAlign: "left",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = "#14B8A6";
+                    e.currentTarget.style.boxShadow = "0 0 12px rgba(20,184,166,0.3)";
+                    e.currentTarget.style.color = "#14B8A6";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)";
+                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.color = "white";
+                  }}
+                  data-testid={`button-sig-${sig.toLowerCase().replace(/\s+/g, "-")}`}
+                >
+                  {sig}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ width: "50%", flexShrink: 0, paddingLeft: "16px", pointerEvents: step === 1 ? "auto" : "none" }}>
+            <p
+              ref={step2Ref}
+              tabIndex={-1}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "10px",
+                color: "#EC4899",
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                marginBottom: "16px",
+                outline: "none",
+              }}
+            >
+              PATTERN DETECTION — STEP 2
+            </p>
+            <p
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                fontSize: "1.3rem",
+                color: "white",
+                textTransform: "uppercase",
+                marginBottom: "24px",
+                lineHeight: 1.2,
+              }}
+              data-testid="text-quiz-starter-q2"
+            >
+              How long has this pattern been running?
+            </p>
+            <div className="flex flex-col gap-3">
+              {durations.map((dur) => (
+                <button
+                  key={dur}
+                  onClick={() => handleDurationClick(dur)}
+                  className="transition-all duration-200 cursor-pointer"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(20,184,166,0.3)",
+                    color: "white",
+                    padding: "12px 16px",
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontSize: "0.9rem",
+                    textAlign: "left",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = "#14B8A6";
+                    e.currentTarget.style.boxShadow = "0 0 12px rgba(20,184,166,0.3)";
+                    e.currentTarget.style.color = "#14B8A6";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)";
+                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.color = "white";
+                  }}
+                  data-testid={`button-dur-${dur.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                >
+                  {dur}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SectionLabel({ children }: { children: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const glitched = useRef(false);
@@ -1770,6 +1973,7 @@ export default function Landing() {
           <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
             One interrupt changes everything.
           </h2>
+          <InlineQuizStarter />
           <div className="reveal reveal-delay-1">
             <CTAButton text="FIND YOUR PATTERN" />
           </div>
