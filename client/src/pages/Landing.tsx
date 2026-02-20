@@ -476,6 +476,382 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
 
 type WindowPhase = "idle" | "preIntro" | "circuit" | "barTrigger" | "barSignature" | "barGap" | "barGapText1" | "barGapText2" | "aftermath1" | "aftermath2" | "threeSecTest" | "done";
 
+function SomaticHeatmap() {
+  const [active, setActive] = useState<string | null>(null);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const spots = [
+    { id: "jaw", x: 50, y: 11.5, label: "Tension. Held rage. The Rage Pattern." },
+    { id: "throat", x: 50, y: 16, label: "Constriction. Words you swallowed. The Apology Loop." },
+    { id: "shoulders", x: 50, y: 22, label: "Rising. Preparing to disappear. The Disappearing Pattern." },
+    { id: "chest", x: 50, y: 32, label: "Tightening. Bracing for loss. The Draining Bond." },
+    { id: "stomach", x: 50, y: 44, label: "Dropping. Danger signal. The Testing Pattern." },
+    { id: "hands", x: 50, y: 56, label: "Restless. Sabotage loading. The Success Sabotage Pattern." },
+  ];
+
+  const shoulderOffset = 14;
+  const handOffset = 18;
+
+  const adjustedSpots = spots.map(s => {
+    if (s.id === "shoulders") return [
+      { ...s, x: 50 - shoulderOffset, key: "shoulders-l" },
+      { ...s, x: 50 + shoulderOffset, key: "shoulders-r" },
+    ];
+    if (s.id === "hands") return [
+      { ...s, x: 50 - handOffset, key: "hands-l" },
+      { ...s, x: 50 + handOffset, key: "hands-r" },
+    ];
+    return [{ ...s, key: s.id }];
+  }).flat();
+
+  return (
+    <div
+      data-testid="somatic-heatmap"
+      style={{
+        margin: "64px auto 0",
+        maxWidth: "400px",
+        position: "relative",
+        opacity: 1,
+        animation: "fadeInUp 0.8s ease both",
+      }}
+    >
+      <p
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "11px",
+          color: "#14B8A6",
+          textTransform: "uppercase",
+          letterSpacing: "0.2em",
+          textAlign: "center",
+          marginBottom: "24px",
+        }}
+      >
+        SOMATIC HEATMAP
+      </p>
+
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          paddingBottom: "160%",
+          background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(20,184,166,0.04) 0%, transparent 70%)",
+          border: "1px solid rgba(255,255,255,0.06)",
+          borderRadius: "2px",
+        }}
+      >
+        <svg
+          viewBox="0 0 100 160"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <defs>
+            <filter id="heatmap-glow">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="heatmap-active-glow">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <ellipse cx="50" cy="6" rx="5" ry="5.5" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" />
+          <line x1="50" y1="11.5" x2="50" y2="50" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
+          <line x1="50" y1="22" x2="30" y2="40" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+          <line x1="50" y1="22" x2="70" y2="40" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+          <line x1="30" y1="40" x2="26" y2="58" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+          <line x1="70" y1="40" x2="74" y2="58" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+          <line x1="50" y1="50" x2="38" y2="80" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+          <line x1="50" y1="50" x2="62" y2="80" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+          <line x1="38" y1="80" x2="36" y2="105" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+          <line x1="62" y1="80" x2="64" y2="105" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+
+          {adjustedSpots.map((spot) => {
+            const isActive = active === spot.id;
+            return (
+              <g
+                key={spot.key}
+                onClick={() => setActive(isActive ? null : spot.id)}
+                style={{ cursor: "pointer" }}
+                data-testid={`hotspot-${spot.key}`}
+              >
+                {isActive && (
+                  <circle cx={spot.x} cy={spot.y} r="5" fill="rgba(236,72,153,0.3)" filter="url(#heatmap-active-glow)">
+                    <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                )}
+                <circle cx={spot.x} cy={spot.y} r={isActive ? "2.5" : "1.8"} fill={isActive ? "#EC4899" : "#14B8A6"} filter="url(#heatmap-glow)">
+                  {!isActive && <animate attributeName="r" values="1.5;2.2;1.5" dur="3s" repeatCount="indefinite" />}
+                  {!isActive && <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite" />}
+                </circle>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+
+      {active && (
+        <div
+          data-testid="heatmap-tooltip"
+          style={{
+            marginTop: "24px",
+            padding: "20px",
+            border: "1px solid rgba(236,72,153,0.3)",
+            borderRadius: "2px",
+            background: "rgba(236,72,153,0.05)",
+            animation: "fadeInUp 0.3s ease both",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Source Sans 3', sans-serif",
+              fontSize: isMobile ? "0.95rem" : "1.05rem",
+              color: "#EC4899",
+              margin: "0 0 16px 0",
+              lineHeight: 1.6,
+              fontWeight: 600,
+            }}
+          >
+            {spots.find(s => s.id === active)?.label}
+          </p>
+          <p
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "11px",
+              color: "#888",
+              margin: 0,
+              lineHeight: 1.6,
+            }}
+          >
+            This is your body signature. It fires 3-7 seconds before the pattern runs.
+          </p>
+        </div>
+      )}
+
+      <div style={{ textAlign: "center", marginTop: "32px" }}>
+        <Link
+          href="/quiz"
+          data-testid="button-heatmap-cta"
+          style={{
+            display: "inline-block",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "13px",
+            color: "#000",
+            background: "#14B8A6",
+            padding: "14px 36px",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            textDecoration: "none",
+            border: "none",
+            borderRadius: "2px",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+        >
+          FIND YOUR PATTERN <ArrowRight className="inline w-4 h-4 ml-1" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function SevenSecondSanctuary() {
+  const [state, setState] = useState<"idle" | "running" | "complete">("idle");
+  const [countdown, setCountdown] = useState(7);
+  const [ringScale, setRingScale] = useState(1);
+  const rafRef = useRef<number>(0);
+  const startRef = useRef(0);
+
+  const activate = useCallback(() => {
+    if (state === "running") return;
+    setState("running");
+    setCountdown(7);
+    startRef.current = performance.now();
+
+    const tick = () => {
+      const elapsed = (performance.now() - startRef.current) / 1000;
+      const remaining = Math.max(0, 7 - elapsed);
+      setCountdown(remaining);
+
+      const progress = elapsed / 7;
+      const breathCycle = Math.sin(progress * Math.PI * 2) * 0.3;
+      setRingScale(1 + breathCycle * (1 - progress) + progress * 0.15);
+
+      if (remaining > 0) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        setRingScale(1);
+        setState("complete");
+      }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  }, [state]);
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  return (
+    <div
+      data-testid="seven-second-sanctuary"
+      style={{
+        margin: "80px auto 64px",
+        maxWidth: "400px",
+        textAlign: "center",
+        animation: "fadeInUp 0.8s ease both",
+        animationDelay: "0.2s",
+      }}
+    >
+      <p
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "11px",
+          color: "#14B8A6",
+          textTransform: "uppercase",
+          letterSpacing: "0.2em",
+          marginBottom: "32px",
+        }}
+      >
+        7-SECOND SANCTUARY
+      </p>
+
+      <div style={{ position: "relative", width: isMobile ? "160px" : "200px", height: isMobile ? "160px" : "200px", margin: "0 auto 32px" }}>
+        <svg
+          viewBox="0 0 200 200"
+          style={{ width: "100%", height: "100%", overflow: "visible" }}
+        >
+          <defs>
+            <filter id="sanctuary-glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <circle
+            cx="100"
+            cy="100"
+            r="70"
+            fill="none"
+            stroke={state === "complete" ? "#14B8A6" : state === "running" ? "#14B8A6" : "rgba(20,184,166,0.4)"}
+            strokeWidth={state === "running" ? "2" : "1.5"}
+            filter={state === "running" ? "url(#sanctuary-glow)" : "none"}
+            style={{
+              transform: `scale(${ringScale})`,
+              transformOrigin: "100px 100px",
+              transition: state === "complete" ? "all 0.5s ease" : "none",
+              opacity: state === "complete" ? 0.6 : 1,
+            }}
+          />
+          {state === "running" && (
+            <circle
+              cx="100"
+              cy="100"
+              r="70"
+              fill="none"
+              stroke="rgba(20,184,166,0.15)"
+              strokeWidth="1"
+              style={{
+                transform: `scale(${ringScale * 1.15})`,
+                transformOrigin: "100px 100px",
+              }}
+            />
+          )}
+        </svg>
+
+        {state === "running" && (
+          <div
+            data-testid="text-sanctuary-countdown"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: isMobile ? "36px" : "44px",
+              color: "#14B8A6",
+              fontWeight: "bold",
+              letterSpacing: "0.05em",
+            }}
+          >
+            {Math.ceil(countdown)}
+          </div>
+        )}
+
+        {state === "complete" && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              background: "#14B8A6",
+              opacity: 0.5,
+            }}
+          />
+        )}
+      </div>
+
+      {state === "idle" && (
+        <button
+          onClick={activate}
+          data-testid="button-activate-sanctuary"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "12px",
+            color: "#14B8A6",
+            background: "transparent",
+            border: "1px solid rgba(20,184,166,0.4)",
+            padding: "12px 32px",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            cursor: "pointer",
+            borderRadius: "2px",
+            transition: "all 0.3s ease",
+          }}
+        >
+          ACTIVATE CIRCUIT BREAK
+        </button>
+      )}
+
+      {state === "complete" && (
+        <p
+          data-testid="text-sanctuary-complete"
+          style={{
+            fontFamily: "'Source Sans 3', sans-serif",
+            fontSize: isMobile ? "0.95rem" : "1.05rem",
+            color: "#ccc",
+            lineHeight: 1.7,
+            maxWidth: "360px",
+            margin: "0 auto",
+            animation: "fadeInUp 0.6s ease both",
+          }}
+        >
+          That was your window. The Archivist Method teaches you what to do inside it.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const [phase, setPhase] = useState<WindowPhase>("idle");
   const [counter, setCounter] = useState(0);
@@ -794,6 +1170,10 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             </p>
           </div>
         )}
+
+        {past("done") && <SomaticHeatmap />}
+
+        {past("done") && <SevenSecondSanctuary />}
 
         {past("threeSecTest") && (
           <div data-testid="three-sec-test" style={{ opacity: past("threeSecTest") ? 1 : 0, transition: "opacity 0.8s ease" }}>
