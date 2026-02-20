@@ -84,42 +84,42 @@ const FloatingParticles = ({ count = 40 }: { count?: number }) => {
 
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me." },
-  { num: "02", name: "APOLOGY LOOP", desc: "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry." },
+  { num: "02", name: "APOLOGY LOOP", desc: "You say sorry for being alive. For having needs. For taking up space. You've done it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry." },
   { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave.", trigger: "If they really loved me, they'd stay no matter what I do." },
-  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and situations that hurt you. Not because you're broken. Because chaos feels like home.", trigger: "I know this person is bad for me. I can't stop going back." },
-  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your entire body rejects it. You literally cannot let it in.", trigger: "They don't mean it. And if they do, they're wrong." },
-  { num: "06", name: "DRAINING BOND", desc: "You stay connected to people who drain you. You know you should leave. You physically can't.", trigger: "I should leave. I know I should leave. I'll leave tomorrow." },
-  { num: "07", name: "SUCCESS SABOTAGE", desc: "You destroy things right before they work. Promotions, relationships, projects. The closer you get, the harder you burn it down.", trigger: "It's actually going well. Something's about to go wrong. I'll just end it myself." },
-  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather abandon it than release it imperfect.", trigger: "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong." },
-  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and disproportionate. Afterward you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me." },
+  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and things that hurt you. Not because you're broken. Because chaos feels like home.", trigger: "I know this person is bad for me. I can't stop going back." },
+  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your whole body fights it. You can't let it in.", trigger: "They don't mean it. And if they do, they're wrong." },
+  { num: "06", name: "DRAINING BOND", desc: "You stay tied to people who drain you. You know you should leave. You can't make yourself go.", trigger: "I should leave. I know I should leave. I'll leave tomorrow." },
+  { num: "07", name: "SUCCESS SABOTAGE", desc: "You wreck things right before they work. Jobs, love, projects. The closer you get, the harder you burn it down.", trigger: "It's actually going well. Something's about to go wrong. I'll just end it myself." },
+  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather scrap it than put it out there flawed.", trigger: "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong." },
+  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and way too big. After, you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me." },
 ];
 
 const archivesCaseFiles = [
   {
     num: "0041",
     pattern: "DISAPPEARING",
-    reportBody: "Subject identified pattern on Day 3 of Crash Course. First body signature recognition: chest tightness before urge to ghost. First successful interrupt: Day 11.",
-    breakthrough: "Subject stayed in the conversation. First time in 14 years.",
+    reportBody: "Subject found pattern on Day 3 of Crash Course. First body signal caught: chest tightness before urge to ghost. First clean interrupt: Day 11.",
+    breakthrough: "Subject stayed in the talk. First time in 14 years.",
     status: "PATTERN WEAKENING",
   },
   {
     num: "0087",
     pattern: "SUCCESS SABOTAGE",
-    reportBody: "Subject recognized pre-sabotage body signature (hands shaking, impulse to delete project) 4 seconds before pattern executed. Applied circuit break.",
+    reportBody: "Subject caught pre-sabotage body signal (hands shaking, urge to delete project) 4 seconds before pattern fired. Applied circuit break.",
     breakthrough: "Did not destroy 6 months of work.",
     status: "INTERRUPT CONFIRMED",
   },
   {
     num: "0113",
     pattern: "APOLOGY LOOP",
-    reportBody: "Subject caught herself mid-apology for asking a question at work. Recognized throat tightening as body signature. Used circuit break: 'I don't need to apologize for this.'",
-    breakthrough: "Reports reduced unnecessary apologies by 60% in 3 weeks.",
+    reportBody: "Subject caught herself mid-apology for asking a question at work. Felt throat tighten — body signal. Used circuit break: 'I don't need to say sorry for this.'",
+    breakthrough: "Cut needless apologies by 60% in 3 weeks.",
     status: "PATTERN DISRUPTED",
   },
   {
     num: "0156",
     pattern: "TESTING",
-    reportBody: "Subject recognized testing behavior mid-argument with partner. Body signature: jaw clenching, urge to escalate. Applied interrupt. Chose to communicate need directly instead of testing.",
+    reportBody: "Subject caught testing behavior mid-fight with partner. Body signal: jaw clenching, urge to push harder. Applied interrupt. Chose to say what she needed instead of testing.",
     breakthrough: "Partner responded. Relationship intact.",
     status: "ACTIVE INTERRUPTION",
   },
@@ -134,7 +134,7 @@ const gutCheckPatterns = [
   { name: "THE DRAINING BOND", color: "#EC4899", desc: "You stay when you know you should leave." },
   { name: "SUCCESS SABOTAGE", color: "#14B8A6", desc: "You destroy it before it works." },
   { name: "THE PERFECTIONISM TRAP", color: "#EC4899", desc: "Nothing is ever good enough to finish." },
-  { name: "THE RAGE PATTERN", color: "#14B8A6", desc: "The anger comes fast and disproportionate." },
+  { name: "THE RAGE PATTERN", color: "#14B8A6", desc: "The anger comes fast and way too big." },
 ];
 
 const therapyRows = [
@@ -147,8 +147,8 @@ const therapyRows = [
 ];
 
 const forYouProse = [
-  "You've named it. Analyzed it. Promised to stop. You did it again anyway.",
-  "You're not looking for insight. You're looking for something that works in the middle of the flood.",
+  "You've named it. Picked it apart. Swore you'd stop. You did it again anyway.",
+  "You're not looking for more insight. You're looking for something that works in the middle of the flood.",
 ];
 
 const notForYou = [
@@ -866,7 +866,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             transition: "opacity 0.4s ease",
           }}
         >
-          "Willpower is a prefrontal cortex function. Your pattern fires from the amygdala. You are bringing a spreadsheet to a knife fight."
+          "Willpower lives in the thinking part of your brain. Your pattern fires from the survival part. You're bringing a spreadsheet to a knife fight."
         </p>
 
         <p
@@ -1097,6 +1097,11 @@ export default function Landing() {
   };
 
   const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = heroSeatedImg;
+  }, []);
 
   useEffect(() => {
     let ticking = false;
@@ -1446,6 +1451,26 @@ export default function Landing() {
           50%, 100% { opacity: 0; }
         }
 
+        @keyframes heroSectionFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .hero-section-fade {
+          animation: heroSectionFadeIn 1.2s ease-out forwards;
+        }
+        .hero-bg-image {
+          opacity: 0;
+          animation: heroSectionFadeIn 1.2s ease-out 0.1s forwards;
+        }
+        .hero-overlay {
+          background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.95) 100%);
+          animation: heroOverlayLighten 1.2s ease-out 0.1s forwards;
+        }
+        @keyframes heroOverlayLighten {
+          from { background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.98) 100%); }
+          to { background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%); }
+        }
+
         @keyframes heroFadeIn {
           from { opacity: 0; transform: translateY(15px); }
           to { opacity: 1; transform: translateY(0); }
@@ -1614,9 +1639,9 @@ export default function Landing() {
       `}</style>
 
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="min-h-screen flex items-center justify-center relative px-6" data-testid="section-hero">
+      <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
         <div
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 hero-bg-image"
           style={{
             backgroundImage: `url(${heroSeatedImg})`,
             backgroundSize: "cover",
@@ -1624,7 +1649,7 @@ export default function Landing() {
             backgroundRepeat: "no-repeat",
           }}
         />
-        <div className="absolute inset-0 z-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%)" }} />
+        <div className="absolute inset-0 z-0 hero-overlay" />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="hero-stagger tracking-[0.3em] uppercase"
@@ -1658,7 +1683,7 @@ export default function Landing() {
             style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.0s" }}
             data-testid="text-hero-positioning"
           >
-            The first pattern interruption system that works in real-time — not in retrospect.
+            You keep doing the thing you hate doing. You know what it is. You've tried to stop. This shows you how to catch it before it happens.
           </p>
 
           <p
@@ -1666,7 +1691,7 @@ export default function Landing() {
             style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.6s" }}
             data-testid="text-hero-mechanism"
           >
-            Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
+            Your body gives you a 3-second warning every single time. Nobody taught you to use it. Until now.
           </p>
 
           <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.2s" }}>
@@ -1706,7 +1731,7 @@ export default function Landing() {
           </div>
 
           <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1rem", maxWidth: "500px", margin: "0 auto" }}>
-            "If you felt something reading one of those — that's your body signature. That's the thread."
+            "If you felt something reading one of those — that's your body signal. That's the thread."
           </p>
         </div>
       </section>
@@ -1734,7 +1759,7 @@ export default function Landing() {
           </div>
 
           <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
-            If you felt something reading one of those — that's your body signature activating right now.
+            If you felt something reading one of those — that's your body signal firing right now.
           </p>
         </div>
       </section>
@@ -1817,9 +1842,9 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "1", name: "MAP THE PATTERN", desc: "Take the free assessment. Discover which of the 9 patterns is running your behavior. See your specific triggers, body signatures, and the origin of the pattern." },
-              { num: "2", name: "CATCH THE SIGNATURE", desc: "Learn your 3-7 second window. Recognize the body signature. Apply the circuit break before the pattern finishes executing. One successful interrupt changes everything." },
-              { num: "3", name: "INSTALL THE OVERRIDE", desc: "Repetition weakens the pattern. Each interrupt builds a new neural pathway. The pattern doesn't disappear — it loses its grip. You get your choices back." },
+              { num: "1", name: "MAP THE PATTERN", desc: "Take the free quiz. Find out which of the 9 patterns is running your life. See your triggers, your body signals, and where the pattern started." },
+              { num: "2", name: "CATCH THE SIGNATURE", desc: "Learn your 3-second window. Spot the body signal. Apply the circuit break before the pattern runs. One clean interrupt changes everything." },
+              { num: "3", name: "INSTALL THE OVERRIDE", desc: "Each interrupt weakens the pattern. Every one builds a new path in your brain. The pattern doesn't vanish — it loses its grip. You get your choices back." },
             ].map((step, i) => (
               <div
                 key={step.num}
@@ -1847,7 +1872,7 @@ export default function Landing() {
               Pattern Archaeology vs. Traditional Therapy
             </h2>
             <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
-              "Inspiration is not a mechanism. Understanding is not interruption. This is the difference."
+              "Knowing why you do it doesn't stop you from doing it. This does."
             </p>
           </div>
 
@@ -2008,7 +2033,7 @@ export default function Landing() {
                   ))}
                 </div>
               </div>
-              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#666", marginTop: "14px", textAlign: "center" }}>Your pattern has a physical signature. Learn to read it.</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#666", marginTop: "14px", textAlign: "center" }}>Your pattern has a physical signal. Learn to read it.</p>
             </div>
 
             {/* PANEL 4: Interrupt Protocol */}
@@ -2069,7 +2094,7 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                  Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break.
+                  Your pattern found. 7-day intro to pattern breaking. Body signal basics. Your first circuit break.
                 </p>
                 <Link
                   href="/quiz"
@@ -2094,7 +2119,7 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                  Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access.
+                  Everything about YOUR pattern. Full body signal mapping. Custom interrupt steps. How your pattern shows up in love. 90+ pages. AI pattern coach access.
                 </p>
                 <button
                   onClick={() => handleCheckout("quick-start")}
@@ -2120,7 +2145,7 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                  The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages.
+                  The full Archivist Method. All 9 patterns mapped out. How patterns feed each other. Advanced tools. The Four Doors system. Full Vault access. 600+ pages.
                 </p>
                 <button
                   onClick={() => handleCheckout("complete-archive")}
@@ -2156,10 +2181,10 @@ export default function Landing() {
 
           <div className="reveal reveal-delay-2 text-center" style={{ lineHeight: 1.8 }}>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
-              I built this because I was watching patterns destroy something I cared about deeply. Someone I love was running the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't interrupt it.
+              I built this because I was watching patterns tear apart something I cared about deeply. Someone I love was stuck in the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't break the cycle.
             </p>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
-              So I started researching. Obsessively. Tearing apart every framework I could find. Looking for the one thing underneath all of it that actually worked. Not in six months. Not in theory. Right now. In the middle of the fight. In the middle of the flood.
+              So I started digging. Hard. Pulling apart every system I could find. Looking for the one thing under all of it that actually worked. Not in six months. Not in theory. Right now. In the middle of the fight. In the middle of the flood.
             </p>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
