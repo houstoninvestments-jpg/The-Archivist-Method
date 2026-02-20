@@ -1649,6 +1649,10 @@ export default function Landing() {
           40% { color: #14B8A6; }
           100% { opacity: 1; color: #F5F5F5; }
         }
+        @keyframes heroWordRevealTeal {
+          0% { opacity: 0; color: #14B8A6; }
+          100% { opacity: 1; color: #14B8A6; }
+        }
         .hero-stagger {
           opacity: 0;
           animation-fill-mode: forwards;
@@ -1673,7 +1677,9 @@ export default function Landing() {
           .skeleton-overlay { display: none !important; }
           .bg-grain, .bg-grid, .bg-fog { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
-          .hero-word { opacity: 1 !important; animation: none !important; color: #F5F5F5 !important; }
+          .hero-word { opacity: 1 !important; animation: none !important; }
+          [data-testid="text-brand-title"] .hero-word { color: #14B8A6 !important; }
+          [data-testid="text-brand-title-2"] .hero-word { color: #F5F5F5 !important; }
           .cta-glow-border::before { animation: none !important; }
         }
       `}</style>
@@ -1700,17 +1706,16 @@ export default function Landing() {
           </p>
 
           <p
-            className="font-bold"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15, marginBottom: "0" }}
+            style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.15, marginBottom: "0" }}
             data-testid="text-brand-title"
           >
             {["You", "know", "exactly", "what", "you're", "doing."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationName: "heroWordRevealTeal", animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
           <p
             className="font-bold"
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", lineHeight: 1.15 }}
+            style={{ fontFamily: "'Playfair Display', serif", fontStyle: "normal", fontSize: "clamp(2.8rem, 7.5vw, 5rem)", lineHeight: 1.15 }}
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
