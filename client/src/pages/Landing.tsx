@@ -8,6 +8,424 @@ import productFieldGuide from "@assets/product-field-guide.png";
 import productCompleteArchive from "@assets/product-complete-archive.png";
 import archivistPortrait from "@assets/archivist-portrait.jpg";
 
+declare global {
+  interface Window {
+    p5: any;
+  }
+}
+
+function AmygdalaCanvas() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const p5Ref = useRef<any>(null);
+  const hasStarted = useRef(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const waitForP5 = () => {
+      if (!window.p5) {
+        setTimeout(waitForP5, 200);
+        return;
+      }
+      initSketch();
+    };
+
+    const initSketch = () => {
+      if (p5Ref.current) return;
+
+      const sketch = (p: any) => {
+        let w = 0, h = 0;
+        let state: "idle" | "firing" | "countdown" | "interrupted" | "failed" = "idle";
+        let stateTimer = 0;
+        let idleTimer = 0;
+        const IDLE_INTERVAL = 4000;
+        let sparkPoints: {x: number, y: number, alpha: number}[] = [];
+        let sparkProgress = 0;
+        let sparkTargetX = 0;
+        let sparkStartX = 0;
+        let sparkY = 0;
+        let tealWaves: {x: number, y: number, r: number, alpha: number}[] = [];
+        let particles: {x: number, y: number, vx: number, vy: number, alpha: number, size: number, color: string}[] = [];
+        let countdownStart = 0;
+        let countdownRemaining = 7;
+        let textAlpha = 0;
+        let resultTextAlpha = 0;
+        let canInteract = false;
+        let isVisible = false;
+        let sparkSegments: {x1: number, y1: number, x2: number, y2: number}[] = [];
+
+        p.setup = () => {
+          const canvas = p.createCanvas(el.clientWidth, Math.min(300, el.clientWidth * 0.45));
+          canvas.parent(el);
+          canvas.style("display", "block");
+          w = p.width;
+          h = p.height;
+          p.frameRate(60);
+          p.noLoop();
+          p.textFont("JetBrains Mono, monospace");
+        };
+
+        const generateSparkPath = () => {
+          sparkSegments = [];
+          const dir = Math.random() > 0.5 ? 1 : -1;
+          sparkStartX = dir > 0 ? -10 : w + 10;
+          sparkTargetX = dir > 0 ? w + 10 : -10;
+          sparkY = h * 0.3 + Math.random() * h * 0.4;
+          const steps = 12 + Math.floor(Math.random() * 8);
+          let cx = sparkStartX, cy = sparkY;
+          for (let i = 0; i < steps; i++) {
+            const nx = cx + (sparkTargetX - sparkStartX) / steps;
+            const ny = cy + (Math.random() - 0.5) * h * 0.35;
+            sparkSegments.push({ x1: cx, y1: cy, x2: nx, y2: Math.max(20, Math.min(h - 20, ny)) });
+            cx = nx;
+            cy = Math.max(20, Math.min(h - 20, ny));
+          }
+        };
+
+        const startFiring = () => {
+          state = "firing";
+          stateTimer = p.millis();
+          sparkProgress = 0;
+          sparkPoints = [];
+          textAlpha = 0;
+          generateSparkPath();
+          if (!p.isLooping()) p.loop();
+        };
+
+        const startCountdown = () => {
+          state = "countdown";
+          countdownStart = p.millis();
+          countdownRemaining = 7;
+          canInteract = true;
+          textAlpha = 255;
+        };
+
+        const doInterrupt = () => {
+          if (!canInteract) return;
+          canInteract = false;
+          state = "interrupted";
+          stateTimer = p.millis();
+          const cx = w / 2, cy = h / 2;
+          tealWaves = [{ x: cx, y: cy, r: 0, alpha: 200 }];
+          for (let i = 0; i < 20; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 1 + Math.random() * 3;
+            particles.push({
+              x: cx, y: cy,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              alpha: 255,
+              size: 2 + Math.random() * 3,
+              color: i < 14 ? "#14B8A6" : "#ffffff",
+            });
+          }
+          sparkPoints = [];
+          sparkSegments = [];
+          resultTextAlpha = 0;
+        };
+
+        const doFail = () => {
+          canInteract = false;
+          state = "failed";
+          stateTimer = p.millis();
+          resultTextAlpha = 0;
+        };
+
+        const resetToIdle = () => {
+          state = "idle";
+          idleTimer = p.millis();
+          sparkPoints = [];
+          sparkSegments = [];
+          tealWaves = [];
+          particles = [];
+          textAlpha = 0;
+          resultTextAlpha = 0;
+          canInteract = false;
+        };
+
+        p.mousePressed = () => {
+          if (state === "countdown" && canInteract) {
+            const mx = p.mouseX, my = p.mouseY;
+            if (mx >= 0 && mx <= w && my >= 0 && my <= h) {
+              doInterrupt();
+            }
+          }
+        };
+
+        p.touchStarted = () => {
+          if (state === "countdown" && canInteract) {
+            if (p.touches.length > 0) {
+              const t = p.touches[0] as any;
+              const rect = (p.canvas as HTMLCanvasElement).getBoundingClientRect();
+              const tx = t.x - rect.left, ty = t.y - rect.top;
+              if (tx >= 0 && tx <= w && ty >= 0 && ty <= h) {
+                doInterrupt();
+                return false;
+              }
+            }
+          }
+        };
+
+        p.windowResized = () => {
+          if (!el) return;
+          w = el.clientWidth;
+          h = Math.min(300, w * 0.45);
+          p.resizeCanvas(w, h);
+        };
+
+        p.draw = () => {
+          if (!isVisible) { p.noLoop(); return; }
+          p.clear();
+          p.background(0, 0, 0, 0);
+
+          const now = p.millis();
+
+          if (state === "idle") {
+            if (now - idleTimer > IDLE_INTERVAL) {
+              startFiring();
+            } else {
+              p.noLoop();
+            }
+            return;
+          }
+
+          if (state === "firing") {
+            const elapsed = now - stateTimer;
+            sparkProgress = Math.min(elapsed / 1200, 1);
+            const segIdx = Math.floor(sparkProgress * sparkSegments.length);
+
+            p.strokeWeight(2.5);
+            p.stroke(220, 50, 50, 220);
+            for (let i = 0; i < Math.min(segIdx, sparkSegments.length); i++) {
+              const s = sparkSegments[i];
+              p.line(s.x1, s.y1, s.x2, s.y2);
+            }
+            if (segIdx < sparkSegments.length && segIdx > 0) {
+              const frac = (sparkProgress * sparkSegments.length) - segIdx;
+              const s = sparkSegments[segIdx];
+              const ix = p.lerp(s.x1, s.x2, frac);
+              const iy = p.lerp(s.y1, s.y2, frac);
+              p.line(s.x1, s.y1, ix, iy);
+
+              p.noStroke();
+              p.fill(255, 80, 80, 120);
+              p.ellipse(ix, iy, 8, 8);
+              p.fill(255, 120, 120, 60);
+              p.ellipse(ix, iy, 16, 16);
+            }
+
+            for (let i = 0; i < sparkPoints.length; i++) {
+              const sp = sparkPoints[i];
+              sp.alpha *= 0.92;
+              if (sp.alpha > 5) {
+                p.noStroke();
+                p.fill(220, 50, 50, sp.alpha);
+                p.ellipse(sp.x, sp.y, 3, 3);
+              }
+            }
+            sparkPoints = sparkPoints.filter(sp => sp.alpha > 5);
+            if (sparkPoints.length < 30 && segIdx > 0 && segIdx < sparkSegments.length) {
+              const s = sparkSegments[Math.min(segIdx, sparkSegments.length - 1)];
+              sparkPoints.push({
+                x: s.x2 + (Math.random() - 0.5) * 20,
+                y: s.y2 + (Math.random() - 0.5) * 20,
+                alpha: 150 + Math.random() * 100,
+              });
+            }
+
+            textAlpha = Math.min(255, textAlpha + 6);
+            p.noStroke();
+            p.fill(220, 50, 50, textAlpha);
+            p.textSize(w < 500 ? 10 : 13);
+            p.textAlign(p.CENTER, p.TOP);
+            p.text("BODY SIGNATURE DETECTED", w / 2, 16);
+
+            if (sparkProgress >= 1) {
+              startCountdown();
+            }
+          }
+
+          if (state === "countdown") {
+            const elapsed = now - countdownStart;
+            countdownRemaining = Math.max(0, 7 - elapsed / 1000);
+
+            p.strokeWeight(1.5);
+            p.stroke(220, 50, 50, 100 + Math.sin(now * 0.005) * 50);
+            for (const s of sparkSegments) {
+              p.line(s.x1, s.y1, s.x2, s.y2);
+            }
+
+            p.noStroke();
+            p.fill(220, 50, 50, 180);
+            p.textSize(w < 500 ? 10 : 13);
+            p.textAlign(p.CENTER, p.TOP);
+            p.text("BODY SIGNATURE DETECTED", w / 2, 16);
+
+            const barW = w * 0.5;
+            const barH = 4;
+            const barX = (w - barW) / 2;
+            const barY = h / 2 + 20;
+            p.fill(255, 255, 255, 30);
+            p.rect(barX, barY, barW, barH);
+            const fillFrac = countdownRemaining / 7;
+            const r = p.lerp(20, 220, 1 - fillFrac);
+            const g = p.lerp(184, 50, 1 - fillFrac);
+            const b = p.lerp(166, 50, 1 - fillFrac);
+            p.fill(r, g, b, 220);
+            p.rect(barX, barY, barW * fillFrac, barH);
+
+            p.fill(255, 255, 255, 200);
+            p.textSize(w < 500 ? 28 : 40);
+            p.textAlign(p.CENTER, p.CENTER);
+            p.text(countdownRemaining.toFixed(1) + "s", w / 2, h / 2 - 10);
+
+            p.fill(255, 255, 255, 100 + Math.sin(now * 0.008) * 50);
+            p.textSize(w < 500 ? 9 : 11);
+            p.textAlign(p.CENTER, p.BOTTOM);
+            p.text("CLICK / TAP TO INTERRUPT", w / 2, h - 16);
+
+            if (countdownRemaining <= 0) {
+              doFail();
+            }
+          }
+
+          if (state === "interrupted") {
+            const elapsed = now - stateTimer;
+
+            for (const wave of tealWaves) {
+              wave.r += 4;
+              wave.alpha = Math.max(0, wave.alpha - 2);
+              p.noFill();
+              p.strokeWeight(2);
+              p.stroke(20, 184, 166, wave.alpha);
+              p.ellipse(wave.x, wave.y, wave.r * 2, wave.r * 2);
+              if (wave.r < w * 0.6) {
+                p.stroke(20, 184, 166, wave.alpha * 0.3);
+                p.ellipse(wave.x, wave.y, wave.r * 1.5, wave.r * 1.5);
+              }
+            }
+            tealWaves = tealWaves.filter(tw => tw.alpha > 2);
+
+            const bgAlpha = Math.min(40, elapsed / 50);
+            p.noStroke();
+            p.fill(20, 184, 166, bgAlpha);
+            p.rect(0, 0, w, h);
+
+            for (const pt of particles) {
+              pt.x += pt.vx;
+              pt.y += pt.vy;
+              pt.alpha *= 0.97;
+              p.noStroke();
+              if (pt.color === "#14B8A6") {
+                p.fill(20, 184, 166, pt.alpha);
+              } else {
+                p.fill(255, 255, 255, pt.alpha);
+              }
+              p.ellipse(pt.x, pt.y, pt.size, pt.size);
+            }
+            particles = particles.filter(pt => pt.alpha > 3);
+
+            resultTextAlpha = Math.min(255, resultTextAlpha + 4);
+            p.fill(20, 184, 166, resultTextAlpha);
+            p.textSize(w < 500 ? 11 : 14);
+            p.textAlign(p.CENTER, p.CENTER);
+            p.text("PATTERN INTERRUPTED.", w / 2, h / 2);
+
+            if (elapsed > 5000) {
+              resetToIdle();
+            }
+          }
+
+          if (state === "failed") {
+            const elapsed = now - stateTimer;
+
+            p.strokeWeight(1);
+            p.stroke(220, 50, 50, Math.max(0, 150 - elapsed / 20));
+            for (const s of sparkSegments) {
+              p.line(s.x1, s.y1, s.x2, s.y2);
+            }
+
+            resultTextAlpha = Math.min(255, resultTextAlpha + 3);
+            p.noStroke();
+            p.fill(150, 50, 50, resultTextAlpha);
+            p.textSize(w < 500 ? 10 : 13);
+            p.textAlign(p.CENTER, p.CENTER);
+            p.text("Pattern executed. Window closed.", w / 2, h / 2);
+
+            if (elapsed > 5000) {
+              resetToIdle();
+            }
+          }
+        };
+
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              if (!hasStarted.current) {
+                hasStarted.current = true;
+                idleTimer = p.millis() - IDLE_INTERVAL + 800;
+              }
+              p.loop();
+            } else {
+              p.noLoop();
+            }
+          },
+          { threshold: 0.2 }
+        );
+        observer.observe(el);
+        (p as any)._observer = observer;
+      };
+
+      p5Ref.current = new window.p5(sketch);
+    };
+
+    waitForP5();
+
+    return () => {
+      if (p5Ref.current) {
+        if (p5Ref.current._observer) {
+          p5Ref.current._observer.disconnect();
+        }
+        p5Ref.current.remove();
+        p5Ref.current = null;
+      }
+      hasStarted.current = false;
+    };
+  }, []);
+
+  return (
+    <div style={{ margin: "48px 0" }}>
+      <div
+        ref={containerRef}
+        data-testid="canvas-amygdala"
+        style={{
+          width: "100%",
+          borderRadius: "2px",
+          border: "1px solid rgba(255,255,255,0.06)",
+          overflow: "hidden",
+          background: "#000",
+          cursor: "crosshair",
+        }}
+      />
+      <p
+        data-testid="text-canvas-caption"
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "11px",
+          color: "#555",
+          textAlign: "center",
+          marginTop: "16px",
+          lineHeight: 1.6,
+        }}
+      >
+        This is what 3 seconds feels like. Now imagine knowing what to do with them.
+      </p>
+    </div>
+  );
+}
+
 const StarField = ({ count = 200 }: { count?: number }) => {
   const stars = Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -622,6 +1040,8 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         >
           "Willpower is a prefrontal cortex function. Your pattern fires from the amygdala. You are bringing a spreadsheet to a knife fight."
         </p>
+
+        <AmygdalaCanvas />
 
         <p
           data-testid="text-window-circuit"
