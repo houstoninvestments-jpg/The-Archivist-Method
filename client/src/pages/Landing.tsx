@@ -2515,8 +2515,14 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
-                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   Everything about YOUR pattern. Full body signal mapping. Custom interrupt steps. How your pattern shows up in love. 90+ pages. AI pattern coach access.
+                </p>
+                <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
+                  The Pocket Archivist — included free during the founding period. ($27/month value when it launches publicly.) Pull it out when the pattern fires. It responds in seconds.
+                </p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
+                  FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
                 <button
                   onClick={() => handleCheckout("quick-start")}
@@ -2541,8 +2547,14 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
-                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   The full Archivist Method. All 9 patterns mapped out. How patterns feed each other. Advanced tools. The Four Doors system. Full Vault access. 600+ pages.
+                </p>
+                <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
+                  Full Pocket Archivist access across all 9 patterns. Every scenario. Every trigger. Every circuit break. Available 24 hours a day. ($27/month value — included permanently with your purchase.)
+                </p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
+                  FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
                 <button
                   onClick={() => handleCheckout("complete-archive")}
