@@ -17,6 +17,11 @@ const googleFontsUrl = "https://fonts.googleapis.com/css2?" + [
   "Italiana",
   "IM+Fell+English:ital,wght@0,400;1,400",
   "Crimson+Text:wght@400;600;700",
+  "Space+Grotesk:wght@400;700",
+  "Plus+Jakarta+Sans:wght@300;400;600",
+  "Syne:wght@400;800",
+  "Instrument+Serif:ital,wght@0,400;1,400",
+  "Archivo:wght@400;500;600",
 ].map(f => `family=${f}`).join("&") + "&display=swap";
 
 const pairings = [
@@ -25,6 +30,7 @@ const pairings = [
     headline: "'Bebas Neue', sans-serif",
     subheadline: "'Cormorant Garamond', serif",
     body: "'Source Sans 3', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 400,
     subWeight: 400,
     bodyWeight: 300,
@@ -34,6 +40,7 @@ const pairings = [
     headline: "'Playfair Display', serif",
     subheadline: "'Playfair Display', serif",
     body: "'Inter', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 900,
     subWeight: 400,
     bodyWeight: 300,
@@ -43,6 +50,7 @@ const pairings = [
     headline: "'Inknut Antiqua', serif",
     subheadline: "'Spectral', serif",
     body: "'Source Sans 3', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 700,
     subWeight: 400,
     bodyWeight: 300,
@@ -52,6 +60,7 @@ const pairings = [
     headline: "'Libre Baskerville', serif",
     subheadline: "'Libre Baskerville', serif",
     body: "'JetBrains Mono', monospace",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 700,
     subWeight: 400,
     bodyWeight: 300,
@@ -61,6 +70,7 @@ const pairings = [
     headline: "'Yeseva One', serif",
     subheadline: "'Rufina', serif",
     body: "'Lato', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 400,
     subWeight: 400,
     bodyWeight: 300,
@@ -70,6 +80,7 @@ const pairings = [
     headline: "'Fraunces', serif",
     subheadline: "'Fraunces', serif",
     body: "'DM Sans', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 900,
     subWeight: 400,
     bodyWeight: 300,
@@ -79,6 +90,7 @@ const pairings = [
     headline: "'Bodoni Moda', serif",
     subheadline: "'Italiana', serif",
     body: "'Source Sans 3', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 900,
     subWeight: 400,
     bodyWeight: 300,
@@ -88,6 +100,47 @@ const pairings = [
     headline: "'IM Fell English', serif",
     subheadline: "'IM Fell English', serif",
     body: "'Crimson Text', serif",
+    label: "'JetBrains Mono', monospace",
+    headlineWeight: 400,
+    subWeight: 400,
+    bodyWeight: 400,
+  },
+  {
+    name: "Precision Lab",
+    headline: "'Space Grotesk', sans-serif",
+    subheadline: "'Space Grotesk', sans-serif",
+    body: "'Inter', sans-serif",
+    label: "'JetBrains Mono', monospace",
+    headlineWeight: 700,
+    subWeight: 400,
+    bodyWeight: 400,
+  },
+  {
+    name: "Somatic Narrative",
+    headline: "'Fraunces', serif",
+    subheadline: "'Fraunces', serif",
+    body: "'Plus Jakarta Sans', sans-serif",
+    label: "'JetBrains Mono', monospace",
+    headlineWeight: 900,
+    subWeight: 400,
+    bodyWeight: 300,
+  },
+  {
+    name: "Archivist Terminal",
+    headline: "'Syne', sans-serif",
+    subheadline: "'Syne', sans-serif",
+    body: "'JetBrains Mono', monospace",
+    label: "'JetBrains Mono', monospace",
+    headlineWeight: 800,
+    subWeight: 400,
+    bodyWeight: 400,
+  },
+  {
+    name: "Biological High-End",
+    headline: "'Instrument Serif', serif",
+    subheadline: "'Instrument Serif', serif",
+    body: "'Archivo', sans-serif",
+    label: "'JetBrains Mono', monospace",
     headlineWeight: 400,
     subWeight: 400,
     bodyWeight: 400,
@@ -102,10 +155,13 @@ export default function TypeTest() {
         <h1 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", margin: 0 }}>
           TYPOGRAPHY PAIRING SHOWCASE
         </h1>
+        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "rgba(255,255,255,0.3)", marginTop: "8px" }}>
+          {pairings.length} SYSTEMS // SCROLL TO COMPARE
+        </p>
       </div>
 
       {pairings.map((p, i) => (
-        <div key={p.name}>
+        <div key={p.name + i}>
           <section style={{ padding: "80px 24px", position: "relative" }}>
             <p style={{
               fontFamily: "'JetBrains Mono', monospace",
@@ -123,7 +179,7 @@ export default function TypeTest() {
 
             <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
               <p style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: p.label,
                 fontSize: "9px",
                 color: "#EC4899",
                 textTransform: "uppercase",
