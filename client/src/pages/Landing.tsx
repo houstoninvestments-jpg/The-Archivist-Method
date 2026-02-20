@@ -838,12 +838,14 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
         textShadow: "0 0 6px rgba(236,72,153,0.3)",
         letterSpacing: "0.05em",
       }}>{card.num}</p>
-      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{card.name}</p>
+      <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "1rem", color: "white", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>{card.name}</p>
       <div style={{ position: "relative", minHeight: "4.5em" }}>
         <p
           style={{
-            color: "#999",
-            fontSize: "0.95rem",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
+            color: "#14B8A6",
+            fontSize: "1rem",
             lineHeight: 1.6,
             transition: "opacity 0.3s ease",
             opacity: hovered ? 0 : 1,
@@ -856,10 +858,10 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
         <p
           data-testid={`text-trigger-${card.num}`}
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "'Cormorant Garamond', serif",
             fontStyle: "italic",
-            color: "white",
-            fontSize: "0.95rem",
+            color: "#14B8A6",
+            fontSize: "1rem",
             lineHeight: 1.6,
             transition: "opacity 0.3s ease",
             opacity: hovered ? 1 : 0,
@@ -910,10 +912,11 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
       >
         <p
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "1.1rem",
+            fontFamily: "'Schibsted Grotesk', sans-serif",
+            fontWeight: 900,
+            fontSize: "1.2rem",
             textTransform: "uppercase",
-            color: pattern.color,
+            color: "white",
             transition: "transform 0.3s ease, text-shadow 0.3s ease",
             transform: active ? "scale(1.05)" : "scale(1)",
             textShadow: active ? `0 0 20px ${pattern.color}60` : "none",
@@ -925,16 +928,15 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
         <p
           data-testid={`text-gut-desc-${index}`}
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
-            fontSize: "13px",
-            color: "#888",
+            fontFamily: "'Cormorant Garamond', serif",
             fontStyle: "italic",
+            fontSize: "1rem",
+            color: "#14B8A6",
             opacity: active ? 1 : 0,
-            maxHeight: active ? "30px" : "0",
+            maxHeight: active ? "40px" : "0",
             overflow: "hidden",
             transition: "opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease",
             marginTop: active ? "6px" : "0",
-            whiteSpace: "nowrap",
           }}
         >
           {pattern.desc}
@@ -1456,8 +1458,8 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   const barColor = past("barGap") ? "#14B8A6" : past("barSignature") ? "#F59E0B" : "#EC4899";
 
   const barLabel = past("barGap") ? "THE GAP" : past("barSignature") ? "BODY SIGNATURE DETECTED" : past("barTrigger") ? "SYSTEM TRIGGERED" : "";
-  const labelColor = past("barGap") ? "#14B8A6" : past("barSignature") ? "#F59E0B" : "#EC4899";
-  const labelSize = past("barGap") ? "15px" : "13px";
+  const labelColor = past("barGap") ? "#EC4899" : past("barSignature") ? "#F59E0B" : "#EC4899";
+  const labelSize = past("barGap") ? "10px" : "13px";
 
   const counterDisplay = past("barGap") ? "4.0" : counter.toFixed(1);
   const counterBlink = past("barGap") && !past("aftermath1");
@@ -1486,8 +1488,8 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
           data-testid="text-window-label"
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "12px",
-            color: "#14B8A6",
+            fontSize: "10px",
+            color: "#EC4899",
             textTransform: "uppercase",
             letterSpacing: "0.2em",
             marginBottom: "32px",
@@ -1499,34 +1501,69 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         </p>
 
         <p
-          data-testid="text-window-preintro"
-          style={{
-            fontFamily: "'Source Sans 3', sans-serif",
-            fontSize: isMobile ? "0.9rem" : "1rem",
-            color: "#777",
-            margin: "0 0 32px 0",
-            lineHeight: 1.5,
-            opacity: past("preIntro") ? 1 : 0,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          "Willpower lives in the thinking part of your brain. Your pattern fires from the survival part. You're bringing a spreadsheet to a knife fight."
-        </p>
-
-        <p
           data-testid="text-window-circuit"
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: "italic",
-            fontSize: isMobile ? "1.8rem" : "2.2rem",
+            fontSize: isMobile ? "2rem" : "clamp(2.2rem, 4vw, 3rem)",
             color: "#14B8A6",
+            margin: "0 0 32px 0",
+            lineHeight: 1.2,
+            opacity: past("preIntro") ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          Every pattern follows the same circuit.
+        </p>
+
+        <p
+          data-testid="text-window-willpower"
+          style={{
+            fontFamily: "'Schibsted Grotesk', sans-serif",
+            fontWeight: 900,
+            fontSize: isMobile ? "1.2rem" : "1.5rem",
+            color: "white",
+            textTransform: "uppercase",
+            margin: "0 0 20px 0",
+            lineHeight: 1.3,
+            opacity: past("preIntro") ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
+        </p>
+
+        <p
+          data-testid="text-window-survival"
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
+            fontSize: isMobile ? "1.3rem" : "1.6rem",
+            color: "#14B8A6",
+            margin: "0 0 20px 0",
+            lineHeight: 1.3,
+            opacity: past("circuit") ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        >
+          Your pattern fires from the survival part.
+        </p>
+
+        <p
+          data-testid="text-window-spreadsheet"
+          style={{
+            fontFamily: "'Schibsted Grotesk', sans-serif",
+            fontWeight: 900,
+            fontSize: isMobile ? "1.2rem" : "1.5rem",
+            color: "white",
+            textTransform: "uppercase",
             margin: "0 0 48px 0",
             lineHeight: 1.3,
             opacity: past("circuit") ? 1 : 0,
             transition: "opacity 0.4s ease",
           }}
         >
-          "Every pattern follows the same circuit."
+          YOU'RE BRINGING A SPREADSHEET TO A KNIFE FIGHT.
         </p>
 
         <div style={{ marginBottom: "48px", opacity: !past("barTrigger") ? 0 : (barFaded ? 0.2 : 1), transition: "opacity 1s ease", pointerEvents: past("barTrigger") ? "auto" : "none" }}>
@@ -1629,9 +1666,10 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
                   opacity: 1,
                   transition: "opacity 0.4s ease",
                   lineHeight: 1.3,
+                  textShadow: "0 0 20px rgba(20,184,166,0.3), 0 0 40px rgba(20,184,166,0.15)",
                 }}
               >
-                "Right here. Right now. You can still choose."
+                RIGHT HERE. RIGHT NOW. YOU CAN STILL CHOOSE.
               </p>
             )}
 
@@ -1639,15 +1677,16 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
               <p
                 data-testid="text-gap-interrupt"
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: isMobile ? "0.9rem" : "1rem",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: "italic",
+                  fontSize: isMobile ? "1.1rem" : "1.3rem",
                   color: "#14B8A6",
-                  marginTop: "12px",
+                  marginTop: "16px",
                   opacity: 1,
                   transition: "opacity 0.4s ease",
                 }}
               >
-                "This is where your pattern already won."
+                This is where your pattern already won.
               </p>
             )}
           </div>
@@ -1658,16 +1697,18 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             <p
               data-testid="text-aftermath-bet"
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
-                fontSize: isMobile ? "1rem" : "1.1rem",
-                color: "#777",
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                fontSize: isMobile ? "1.3rem" : "1.6rem",
+                color: "white",
+                textTransform: "uppercase",
                 margin: 0,
-                lineHeight: 1.5,
+                lineHeight: 1.3,
                 opacity: past("aftermath1") ? 1 : 0,
                 transition: "opacity 0.6s ease",
               }}
             >
-              "The pattern bets everything on you letting that bar finish."
+              3 seconds. Every time. Without fail.
             </p>
 
             <p
@@ -1675,7 +1716,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: "italic",
-                fontSize: isMobile ? "1.6rem" : "2rem",
+                fontSize: isMobile ? "1.6rem" : "clamp(1.8rem, 3.5vw, 2.4rem)",
                 color: "#14B8A6",
                 margin: 0,
                 marginTop: "24px",
@@ -1684,38 +1725,13 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
                 transition: "opacity 0.8s ease",
               }}
             >
-              "The Archivist Method is what happens when you pull the plug."
+              The Archivist Method is what happens when you pull the plug.
             </p>
           </div>
         )}
 
         {past("threeSecTest") && (
           <div data-testid="three-sec-test" style={{ opacity: past("threeSecTest") ? 1 : 0, transition: "opacity 0.8s ease" }}>
-            <p
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "12px",
-                color: "#14B8A6",
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                marginBottom: "20px",
-              }}
-            >
-              THE 3-SECOND TEST
-            </p>
-            <p
-              data-testid="text-three-sec-body"
-              style={{
-                fontFamily: "'Source Sans 3', sans-serif",
-                fontSize: isMobile ? "1rem" : "1.1rem",
-                color: "#ccc",
-                maxWidth: "500px",
-                margin: "0 auto 32px",
-                lineHeight: 1.7,
-              }}
-            >
-              "You had 3 seconds. Now you know."
-            </p>
             <CTAButton text="SHOW ME HOW TO USE THEM" />
           </div>
         )}
@@ -2504,8 +2520,8 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1rem", maxWidth: "500px", margin: "0 auto" }}>
-            "If you felt something reading one of those — that's your body signal. That's the thread."
+          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
+            If you felt something reading one of those — that's your body signal. That's the thread.
           </p>
         </div>
       </section>
