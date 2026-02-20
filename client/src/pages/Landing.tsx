@@ -1130,7 +1130,7 @@ function PatternFileSection() {
         }}>
           CLASSIFIED RESEARCH
         </p>
-        <h2 style={{
+        <h2 className="distressed-stamp-heavy chromatic-aberration" style={{
           fontFamily: "'Schibsted Grotesk', sans-serif",
           fontWeight: 900,
           textTransform: "uppercase",
@@ -1714,6 +1714,32 @@ export default function Landing() {
 
   return (
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif", overflowX: "hidden" }}>
+      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+        <defs>
+          <filter id="distress" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" seed="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="8" result="crackNoise" />
+            <feColorMatrix in="crackNoise" type="luminanceToAlpha" result="crackAlpha" />
+            <feComponentTransfer in="crackAlpha" result="crackMask">
+              <feFuncA type="discrete" tableValues="0 0 0 0 0.15 0 0 0.1 0 0" />
+            </feComponentTransfer>
+            <feComposite in="displaced" in2="crackMask" operator="out" result="distressed" />
+            <feBlend in="distressed" in2="SourceGraphic" mode="normal" />
+          </filter>
+          <filter id="distress-heavy" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="6" seed="5" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" seed="12" result="crackNoise" />
+            <feColorMatrix in="crackNoise" type="luminanceToAlpha" result="crackAlpha" />
+            <feComponentTransfer in="crackAlpha" result="crackMask">
+              <feFuncA type="discrete" tableValues="0 0 0 0 0.2 0 0.15 0 0 0.1" />
+            </feComponentTransfer>
+            <feComposite in="displaced" in2="crackMask" operator="out" result="distressed" />
+            <feBlend in="distressed" in2="SourceGraphic" mode="normal" />
+          </filter>
+        </defs>
+      </svg>
       <StarField />
       <FloatingParticles />
       <div className="bg-fog" />
@@ -2104,15 +2130,31 @@ export default function Landing() {
           border: 1px solid rgba(255,255,255,0.15);
         }
 
-        .headline-glitch {
-          animation: headlineGlitch 0.3s ease-out;
+        .distressed-stamp {
+          filter: url(#distress);
+          position: relative;
         }
-        @keyframes headlineGlitch {
-          0% { transform: translateX(-4px); opacity: 0.7; }
-          25% { transform: translateX(4px); opacity: 0.85; }
-          50% { transform: translateX(-2px); opacity: 0.95; }
-          75% { transform: translateX(2px); opacity: 1; }
-          100% { transform: translateX(0); opacity: 1; }
+        .distressed-stamp-heavy {
+          filter: url(#distress-heavy);
+          position: relative;
+        }
+
+        .chromatic-aberration {
+          position: relative;
+          text-shadow:
+            -1px 0 rgba(255, 60, 60, 0.3),
+            1px 0 rgba(60, 120, 255, 0.3);
+        }
+
+        .headline-glitch {
+          animation: headlineGlitchDistress 0.3s ease-out;
+        }
+        @keyframes headlineGlitchDistress {
+          0% { transform: translateX(-4px); opacity: 0.7; filter: url(#distress-heavy); text-shadow: -1px 0 rgba(255,60,60,0.3), 1px 0 rgba(60,120,255,0.3); }
+          25% { transform: translateX(4px); opacity: 0.85; filter: url(#distress-heavy); text-shadow: -1px 0 rgba(255,60,60,0.35), 1px 0 rgba(60,120,255,0.35); }
+          50% { transform: translateX(-2px); opacity: 0.95; filter: url(#distress); text-shadow: -1px 0 rgba(255,60,60,0.15), 1px 0 rgba(60,120,255,0.15); }
+          75% { transform: translateX(2px); opacity: 1; filter: none; text-shadow: none; }
+          100% { transform: translateX(0); opacity: 1; filter: none; text-shadow: none; }
         }
 
         @keyframes scanlineGlitch {
@@ -2239,6 +2281,8 @@ export default function Landing() {
           .cta-glow-border::before { animation: none !important; }
           .scanline-glitch, .headline-glitch { animation: none !important; }
           .myelin-pulse { animation: none !important; }
+          .distressed-stamp, .distressed-stamp-heavy { filter: none !important; }
+          .chromatic-aberration { text-shadow: none !important; }
         }
       `}</style>
 
@@ -2256,7 +2300,7 @@ export default function Landing() {
         <div className="absolute inset-0 z-0 hero-overlay" />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
-            className="hero-stagger tracking-[0.3em] uppercase"
+            className="hero-stagger tracking-[0.3em] uppercase distressed-stamp chromatic-aberration"
             style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "1.2s" }}
             data-testid="text-brand-name"
           >
