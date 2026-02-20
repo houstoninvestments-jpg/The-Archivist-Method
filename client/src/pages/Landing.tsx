@@ -970,8 +970,6 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
 
   return (
     <section ref={setRefs} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
-      <div className="thread-node" />
-      <div className="thread-node-label">Interrupt</div>
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
           The window is closing.
@@ -1115,8 +1113,6 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.06) 0%, transparent 70%)",
       }}
     >
-      <div className="thread-node" />
-      <div className="thread-node-label">Mechanism</div>
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
       <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
 
@@ -1363,6 +1359,158 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   );
 }
 
+function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, React.RefObject<HTMLDivElement | null>> }) {
+  const sections = [
+    { key: "hero", label: "Hero" },
+    { key: "gutCheck", label: "Gut Check" },
+    { key: "patterns", label: "Patterns" },
+    { key: "window", label: "The Window" },
+    { key: "whoFor", label: "For You" },
+    { key: "howItWorks", label: "The Method" },
+    { key: "notTherapy", label: "Not Therapy" },
+    { key: "pricing", label: "Pricing" },
+    { key: "founder", label: "Founder" },
+    { key: "finalCta", label: "Exit" },
+  ];
+
+  const [activeKey, setActiveKey] = useState("hero");
+  const [positions, setPositions] = useState<Record<string, number>>({});
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    const calculate = () => {
+      const docHeight = document.documentElement.scrollHeight;
+      if (docHeight === 0) return;
+      const newPositions: Record<string, number> = {};
+      sections.forEach((s) => {
+        if (s.key === "hero") {
+          newPositions[s.key] = 0.03;
+          return;
+        }
+        const ref = sectionRefs[s.key];
+        if (ref?.current) {
+          const rect = ref.current.getBoundingClientRect();
+          const absTop = rect.top + window.scrollY;
+          newPositions[s.key] = Math.min(Math.max(absTop / docHeight, 0.03), 0.97);
+        }
+      });
+      setPositions(newPositions);
+
+      const scrollY = window.scrollY;
+      const viewCenter = scrollY + window.innerHeight * 0.4;
+      let closest = "hero";
+      let closestDist = Infinity;
+      sections.forEach((s) => {
+        let sectionTop: number;
+        if (s.key === "hero") {
+          sectionTop = 0;
+        } else {
+          const ref = sectionRefs[s.key];
+          if (!ref?.current) return;
+          sectionTop = ref.current.getBoundingClientRect().top + scrollY;
+        }
+        const dist = viewCenter - sectionTop;
+        if (dist >= 0 && dist < closestDist) {
+          closestDist = dist;
+          closest = s.key;
+        }
+      });
+      setActiveKey(closest);
+    };
+
+    calculate();
+    window.addEventListener("scroll", calculate, { passive: true });
+    window.addEventListener("resize", calculate, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", calculate);
+      window.removeEventListener("resize", calculate);
+    };
+  }, [sectionRefs]);
+
+  const handleClick = (key: string) => {
+    if (key === "hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const ref = sectionRefs[key];
+    if (ref?.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <div
+      className="scroll-progress-thread"
+      style={{
+        position: "fixed",
+        left: "40px",
+        top: 0,
+        width: "1px",
+        height: "100vh",
+        zIndex: 42,
+        pointerEvents: "none",
+      }}
+    >
+      {sections.map((s) => {
+        const top = positions[s.key];
+        if (top === undefined) return null;
+        const isActive = activeKey === s.key;
+        const isHovered = hoveredKey === s.key;
+        return (
+          <div
+            key={s.key}
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: `${top * 100}%`,
+              transform: "translate(-50%, -50%)",
+              pointerEvents: "auto",
+              cursor: "pointer",
+              padding: "4px",
+            }}
+            onMouseEnter={() => setHoveredKey(s.key)}
+            onMouseLeave={() => setHoveredKey(null)}
+            onClick={() => handleClick(s.key)}
+            data-testid={`thread-node-${s.key}`}
+          >
+            <div
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: isActive ? "#14B8A6" : "#0A0A0A",
+                border: `1.5px solid ${isActive ? "#14B8A6" : "rgba(20,184,166,0.4)"}`,
+                boxShadow: isActive ? "0 0 8px rgba(20,184,166,0.5)" : "none",
+                animation: isActive ? "threadNodePulse 2s ease-in-out infinite" : "none",
+                transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
+              }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                left: "14px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "9px",
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                color: "rgba(20,184,166,0.6)",
+                whiteSpace: "nowrap",
+                opacity: isHovered ? 1 : 0,
+                transition: "opacity 0.2s ease",
+                pointerEvents: "none",
+              }}
+            >
+              {s.label}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Landing() {
   const sectionRefs = {
     gutCheck: useScrollReveal(),
@@ -1404,28 +1552,6 @@ export default function Landing() {
   }, []);
 
   useEffect(() => {
-    const nodeObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("thread-node-visible");
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    const labelObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("thread-node-visible");
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
     const headlineGlitchObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -1441,14 +1567,10 @@ export default function Landing() {
 
     const page = pageRef.current;
     if (page) {
-      page.querySelectorAll(".thread-node").forEach((el) => nodeObserver.observe(el));
-      page.querySelectorAll(".thread-node-label").forEach((el) => labelObserver.observe(el));
       page.querySelectorAll("h2").forEach((el) => headlineGlitchObserver.observe(el));
     }
 
     return () => {
-      nodeObserver.disconnect();
-      labelObserver.disconnect();
       headlineGlitchObserver.disconnect();
     };
   }, []);
@@ -1460,6 +1582,7 @@ export default function Landing() {
       <div className="bg-fog" />
       <div className="bg-grain" />
       <div className="bg-grid" />
+      <ScrollProgressThread sectionRefs={sectionRefs} />
 
       {!sessionStorage.getItem('archivistLoaded') && (
         <div className="skeleton-overlay" data-testid="skeleton-loading" ref={(el) => { if (el) setTimeout(() => sessionStorage.setItem('archivistLoaded', '1'), 800); }}>
@@ -1547,47 +1670,9 @@ export default function Landing() {
           transition: none;
         }
 
-        .thread-node {
-          position: absolute;
-          left: 40px;
-          top: 0;
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: #0A0A0A;
-          border: 1.5px solid rgba(20, 184, 166, 0.4);
-          transform: translate(-50%, -50%) scale(0);
-          opacity: 0;
-          transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          z-index: 41;
-          pointer-events: none;
-        }
-
-        .thread-node.thread-node-visible {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
-          background: #14B8A6;
-          border-color: #14B8A6;
-          box-shadow: 0 0 8px rgba(20, 184, 166, 0.5);
-        }
-
-        .thread-node-label {
-          position: absolute;
-          left: 40px;
-          transform: translate(14px, -50%);
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 9px;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: rgba(20, 184, 166, 0);
-          white-space: nowrap;
-          z-index: 41;
-          pointer-events: none;
-          transition: color 0.6s ease-out 0.2s;
-        }
-
-        .thread-node-label.thread-node-visible {
-          color: rgba(20, 184, 166, 0.35);
+        @keyframes threadNodePulse {
+          0%, 100% { box-shadow: 0 0 8px rgba(20,184,166,0.5); }
+          50% { box-shadow: 0 0 14px rgba(20,184,166,0.8), 0 0 4px rgba(20,184,166,0.3); }
         }
 
         @media (max-width: 1024px) {
@@ -1595,8 +1680,7 @@ export default function Landing() {
           .thread-page::after {
             display: none !important;
           }
-          .thread-node,
-          .thread-node-label {
+          .scroll-progress-thread {
             display: none !important;
           }
           .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
@@ -1905,8 +1989,7 @@ export default function Landing() {
           .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
           .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
-          .thread-node { transition: none !important; display: none !important; }
-          .thread-node-label { transition: none !important; display: none !important; }
+          .scroll-progress-thread { display: none !important; }
           .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .skeleton-overlay { display: none !important; }
           .bg-grain, .bg-grid, .bg-fog { display: none !important; }
@@ -2014,8 +2097,6 @@ export default function Landing() {
 
       {/* ========== SECTION 2: GUT CHECK ========== */}
       <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Recognition</div>
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
@@ -2036,8 +2117,6 @@ export default function Landing() {
 
       {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
       <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Patterns</div>
         <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
@@ -2083,8 +2162,6 @@ export default function Landing() {
 
       {/* ========== SECTION 6: THIS IS FOR YOU / NOT FOR YOU ========== */}
       <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Validation</div>
         <div className="max-w-5xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>WHO THIS IS FOR</SectionLabel>
@@ -2128,8 +2205,6 @@ export default function Landing() {
 
       {/* ========== SECTION 7: HOW IT WORKS ========== */}
       <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Method</div>
         <SectorLabel text="PROTOCOL: FEIR-4 // CLEARANCE: STANDARD" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
@@ -2162,8 +2237,6 @@ export default function Landing() {
 
       {/* ========== SECTION 8: NOT THERAPY ========== */}
       <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Difference</div>
         <div className="max-w-4xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE DIFFERENCE</SectionLabel>
@@ -2196,8 +2269,6 @@ export default function Landing() {
 
       {/* ========== SECTION 8.5: FROM THE ARCHIVES ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-archives" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Evidence</div>
         <div className="max-w-4xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>FROM THE ARCHIVES</SectionLabel>
@@ -2236,8 +2307,6 @@ export default function Landing() {
 
       {/* ========== SECTION 8.7: BENTO DASHBOARD PREVIEW ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">System</div>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>INSIDE THE SYSTEM</SectionLabel>
@@ -2373,8 +2442,6 @@ export default function Landing() {
 
       {/* ========== SECTION 9: PRICING ========== */}
       <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Access</div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
@@ -2471,8 +2538,6 @@ export default function Landing() {
 
       {/* ========== SECTION 11: FOUNDER ========== */}
       <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
-        <div className="thread-node" />
-        <div className="thread-node-label">Origin</div>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
