@@ -9,7 +9,7 @@ import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
 
-const StarField = ({ count = 200 }: { count?: number }) => {
+const StarField = ({ count = 120 }: { count?: number }) => {
   const stars = Array.from({ length: count }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -40,7 +40,7 @@ const StarField = ({ count = 200 }: { count?: number }) => {
 
 const PARTICLE_COLORS = ["#ffffff", "#ffffff", "#14B8A6", "#14B8A6", "#EC4899"];
 
-const FloatingParticles = ({ count = 40 }: { count?: number }) => {
+const FloatingParticles = ({ count = 24 }: { count?: number }) => {
   const rnd = (min: number, max: number) => Math.random() * (max - min) + min;
   const particles = Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -48,8 +48,8 @@ const FloatingParticles = ({ count = 40 }: { count?: number }) => {
     y: rnd(5, 95),
     size: rnd(1, 3),
     opacity: rnd(0.1, 0.4),
-    duration: rnd(15, 25),
-    delay: rnd(-25, 0),
+    duration: rnd(10.5, 17.5),
+    delay: rnd(-18, 0),
     color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
     x1: rnd(-30, 30), y1: rnd(-30, 30),
     x2: rnd(-30, 30), y2: rnd(-30, 30),
@@ -474,7 +474,7 @@ function EmbeddedQuiz() {
             borderTopColor: "#14B8A6", borderRadius: "50%", margin: "0 auto 24px",
             animation: "spin 1s linear infinite",
           }} />
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em" }}>
             Analyzing Your Patterns...
           </p>
         </div>
@@ -535,10 +535,10 @@ function EmbeddedQuiz() {
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; e.currentTarget.style.background = "rgba(20,184,166,0.08)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(20,184,166,0.3)"; e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
               >
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "white", marginBottom: "4px" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "white", marginBottom: "4px" }}>
                   {patternDisplayNames[pattern]}
                 </p>
-                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#777", lineHeight: 1.4 }}>
+                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#777", lineHeight: 1.4 }}>
                   {patternDescriptions[pattern].slice(0, 60)}...
                 </p>
               </button>
@@ -551,7 +551,7 @@ function EmbeddedQuiz() {
     return (
       <div style={containerStyle} data-testid="embedded-quiz-reveal">
         <div style={{ textAlign: "center" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
             Pattern Identified
           </p>
 
@@ -564,7 +564,7 @@ function EmbeddedQuiz() {
             </div>
           </div>
 
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.6rem, 3.5vw, 2.2rem)", color: "white", fontWeight: 700, marginBottom: "8px" }} data-testid="text-embedded-pattern-name">
+          <h3 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "clamp(1.6rem, 3.5vw, 2.2rem)", color: "white", fontWeight: 700, marginBottom: "8px" }} data-testid="text-embedded-pattern-name">
             <span ref={typewriterRef} />
             {!typewriterDone && <span style={{ color: "#14B8A6", animation: "blink 0.8s step-end infinite" }}>|</span>}
           </h3>
@@ -625,7 +625,7 @@ function EmbeddedQuiz() {
     return (
       <div style={containerStyle} data-testid="embedded-quiz-email">
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#14B8A6", fontWeight: 600, marginBottom: "12px" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#14B8A6", fontWeight: 600, marginBottom: "12px" }}>
             Pattern Confirmed
           </p>
           <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "white", marginBottom: "8px" }}>
@@ -687,7 +687,7 @@ function EmbeddedQuiz() {
           {error && <p style={{ color: "#EF4444", fontSize: "0.85rem", textAlign: "center", marginTop: "8px" }} role="alert">{error}</p>}
         </form>
 
-        <p style={{ textAlign: "center", fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", marginTop: "16px" }}>
+        <p style={{ textAlign: "center", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", marginTop: "16px" }}>
           {"Free access \u00b7 No spam \u00b7 Instant portal entry"}
         </p>
       </div>
@@ -700,7 +700,7 @@ function EmbeddedQuiz() {
         <div style={{ width: `${progressPct}%`, height: "100%", background: "#14B8A6", transition: "width 300ms ease" }} data-testid="bar-quiz-progress" />
       </div>
 
-      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "12px" }} data-testid="text-question-counter">
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "12px" }} data-testid="text-question-counter">
         QUESTION {currentQuestion + 1} OF 15
       </p>
 
@@ -715,7 +715,7 @@ function EmbeddedQuiz() {
           </p>
 
           {question.weight === 2 && (
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", marginBottom: "12px" }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", marginBottom: "12px" }}>
               counts 2x
             </p>
           )}
@@ -759,7 +759,7 @@ function EmbeddedQuiz() {
           onClick={handleBack}
           data-testid="button-quiz-back"
           style={{
-            background: "none", border: "none", color: "#666", fontSize: "12px",
+            background: "none", border: "none", color: "#666", fontSize: "13px",
             fontFamily: "'JetBrains Mono', monospace", cursor: "pointer", marginTop: "16px",
             padding: "4px 0", transition: "color 200ms",
           }}
@@ -795,7 +795,7 @@ function SectionLabel({ children }: { children: string }) {
   }, []);
 
   return (
-    <p ref={ref} className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+    <p ref={ref} className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
   );
@@ -841,7 +841,7 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
       <div style={{ position: "relative", minHeight: "4.5em" }}>
         <p
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Libre Baskerville', serif",
             fontStyle: "italic",
             color: "#14B8A6",
             fontSize: "1rem",
@@ -857,7 +857,7 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
         <p
           data-testid={`text-trigger-${card.num}`}
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Libre Baskerville', serif",
             fontStyle: "italic",
             color: "#14B8A6",
             fontSize: "1rem",
@@ -885,7 +885,7 @@ function SectorLabel({ text }: { text: string }) {
         top: "16px",
         right: "24px",
         fontFamily: "'JetBrains Mono', monospace",
-        fontSize: "9px",
+        fontSize: "13px",
         color: "rgba(255,255,255,0.12)",
         letterSpacing: "0.05em",
         pointerEvents: "none",
@@ -927,7 +927,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
         <p
           data-testid={`text-gut-desc-${index}`}
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Libre Baskerville', serif",
             fontStyle: "italic",
             fontSize: "1rem",
             color: "#14B8A6",
@@ -988,7 +988,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
         top: "12px",
         right: "16px",
         fontFamily: "'JetBrains Mono', monospace",
-        fontSize: "9px",
+        fontSize: "13px",
         color: "#EC4899",
         textTransform: "uppercase",
         letterSpacing: "0.1em",
@@ -1042,7 +1042,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
       <p
         style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "10px",
+          fontSize: "13px",
           color: "#555",
           marginBottom: "16px",
           transition: "opacity 0.3s",
@@ -1051,7 +1051,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
       >
         {isMobile ? "[ TAP TO DECLASSIFY ]" : "[ HOVER TO DECLASSIFY ]"}
       </p>
-      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em" }}>
         STATUS: {file.status}
       </p>
     </div>
@@ -1121,7 +1121,7 @@ function PatternFileSection() {
       <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center", marginBottom: "80px" }}>
         <p style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "11px",
+          fontSize: "13px",
           color: "#EC4899",
           textTransform: "uppercase",
           letterSpacing: "0.2em",
@@ -1141,7 +1141,7 @@ function PatternFileSection() {
           THE PATTERN FILE
         </h2>
         <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: "'Libre Baskerville', serif",
           fontStyle: "italic",
           fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
           color: "#14B8A6",
@@ -1234,7 +1234,7 @@ function PatternFileSection() {
 
                 <p style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "9px",
+                  fontSize: "13px",
                   color: "#14B8A6",
                   textTransform: "uppercase",
                   letterSpacing: "0.15em",
@@ -1273,7 +1273,7 @@ function PatternFileSection() {
 
       <div style={{ maxWidth: "500px", margin: "80px auto 0", textAlign: "center" }}>
         <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: "'Libre Baskerville', serif",
           fontStyle: "italic",
           fontSize: "1.2rem",
           color: "#14B8A6",
@@ -1340,7 +1340,7 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
         <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
           The window is closing.
         </h2>
-        <p className="reveal reveal-delay-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
+        <p className="reveal reveal-delay-1" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
           You have 7 seconds before your brain convinces you to stay exactly as you are.
         </p>
         <div className="reveal reveal-delay-1" style={{ marginBottom: "32px" }}>
@@ -1450,7 +1450,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
             data-testid="text-window-label"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "10px",
+              fontSize: "13px",
               color: "#EC4899",
               textTransform: "uppercase",
               letterSpacing: "0.2em",
@@ -1476,7 +1476,7 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
           <p
             data-testid="text-window-closing"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Libre Baskerville', serif",
               fontStyle: "italic",
               fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
               color: "#14B8A6",
@@ -1628,7 +1628,7 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
                 top: "50%",
                 transform: "translateY(-50%)",
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "9px",
+                fontSize: "13px",
                 textTransform: "uppercase",
                 letterSpacing: "0.15em",
                 color: "rgba(20,184,166,0.6)",
@@ -1760,7 +1760,7 @@ export default function Landing() {
       )}
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
 
         .reveal {
           opacity: 0;
@@ -2327,7 +2327,7 @@ export default function Landing() {
           </p>
           <p
             className="myelin-pulse"
-            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15 }}
+            style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15 }}
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
@@ -2378,7 +2378,7 @@ export default function Landing() {
           <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.2s" }}>
             <p
               className="tracking-[0.2em] uppercase"
-              style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", opacity: 0.7 }}
+              style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", opacity: 0.7 }}
               data-testid="text-brand-tagline"
             >
               Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
@@ -2401,7 +2401,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
+          <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
             If you felt something reading one of those — that's your body signal. That's the thread.
           </p>
         </div>
@@ -2416,7 +2416,7 @@ export default function Landing() {
             <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
               9 Destructive Patterns. You're Running at Least One.
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.05rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
               "The pattern is not you. It is a program that runs through you. It was installed to protect a child. You are no longer that child."
             </p>
           </div>
@@ -2427,7 +2427,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
+          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
             If you felt something reading one of those — that's your body signal firing right now.
           </p>
         </div>
@@ -2439,7 +2439,7 @@ export default function Landing() {
           <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
             One interrupt changes everything.
           </h2>
-          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
+          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
           <EmbeddedQuiz />
         </div>
       </section>
@@ -2451,7 +2451,7 @@ export default function Landing() {
       <section className="py-24 md:py-32 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
-          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
             THE COST
           </p>
 
@@ -2459,7 +2459,7 @@ export default function Landing() {
             EVERY PATTERN THAT RUNS TO COMPLETION TAKES SOMETHING FROM YOU.
           </h2>
 
-          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
+          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
             A relationship. An opportunity. A version of yourself you don't get back.
           </p>
 
@@ -2481,7 +2481,7 @@ export default function Landing() {
             HOW MANY MORE TIMES BEFORE SOMETHING CHANGES?
           </h2>
 
-          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
+          <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
             The Archivist Method costs $47. Not interrupting it costs everything.
           </p>
 
@@ -2514,7 +2514,7 @@ export default function Landing() {
                   </p>
                 ))}
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "32px", opacity: 0.7 }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "32px", opacity: 0.7 }}>
                 — Field Notes, The Archivist
               </p>
             </div>
@@ -2577,12 +2577,12 @@ export default function Landing() {
             <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
               Pattern Archaeology vs. Traditional Therapy
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
+            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
               "Knowing why you do it doesn't stop you from doing it. This does."
             </p>
           </div>
 
-          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.1rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
+          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
             Inspiration is not a mechanism. Understanding is not interruption. This is the difference.
           </p>
 
@@ -2826,7 +2826,7 @@ export default function Landing() {
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
                   The Pocket Archivist — included free during the founding period. ($27/month value when it launches publicly.) Pull it out when the pattern fires. It responds in seconds.
                 </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
                 <button
@@ -2858,7 +2858,7 @@ export default function Landing() {
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
                   Full Pocket Archivist access across all 9 patterns. Every scenario. Every trigger. Every circuit break. Available 24 hours a day. ($27/month value — included permanently with your purchase.)
                 </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
                 <button
@@ -2876,16 +2876,16 @@ export default function Landing() {
           <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "0.05em" }} data-testid="text-one-time">
             One-time purchase. No subscriptions. Yours forever.
           </p>
-          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
+          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
             If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
           </p>
 
           {import.meta.env.DEV && (
             <div style={{ marginTop: "48px", padding: "24px", border: "2px dashed #EC4899", background: "rgba(236,72,153,0.05)" }} data-testid="test-purchase-panel">
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px", textAlign: "center" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px", textAlign: "center" }}>
                 DEV MODE: Test Purchase Simulator
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#737373", textAlign: "center", marginBottom: "16px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#737373", textAlign: "center", marginBottom: "16px" }}>
                 Card: 4242 4242 4242 4242 | Exp: 12/34 | CVC: 123
               </p>
               <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
@@ -2965,10 +2965,10 @@ export default function Landing() {
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
+            <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
+            <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
           </div>
@@ -2988,7 +2988,7 @@ export default function Landing() {
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
         <div className="max-w-4xl mx-auto text-center">
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
+          <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
             "The archive is open. Don't close the door."
           </p>
 
