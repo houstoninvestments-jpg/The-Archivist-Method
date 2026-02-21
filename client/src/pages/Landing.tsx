@@ -671,19 +671,23 @@ function EmbeddedQuiz() {
             onFocus={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; }}
             onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
           />
-          <button
-            type="submit"
-            disabled={submitting}
-            data-testid="button-embedded-submit"
-            style={{
-              width: "100%", padding: "14px", background: "#14B8A6", color: "#000",
-              fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", fontWeight: 700,
-              textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer",
-              opacity: submitting ? 0.5 : 1, transition: "opacity 200ms",
-            }}
-          >
-            {submitting ? 'Opening Archive...' : 'Send Magic Link'}
-          </button>
+          <div className="cta-glow-wrap cta-glow-full" style={{ display: "block", width: "100%" }}>
+            <div className="cta-glow-border" />
+            <button
+              type="submit"
+              disabled={submitting}
+              data-testid="button-embedded-submit"
+              className="cta-glow-inner"
+              style={{
+                width: "100%", padding: "14px", color: "white",
+                fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", fontWeight: 700,
+                textTransform: "uppercase", letterSpacing: "0.1em", border: "none", cursor: "pointer",
+                opacity: submitting ? 0.5 : 1, transition: "opacity 200ms",
+              }}
+            >
+              {submitting ? 'Opening Archive...' : 'Send Magic Link'}
+            </button>
+          </div>
           {error && <p style={{ color: "#EF4444", fontSize: "0.85rem", textAlign: "center", marginTop: "8px" }} role="alert">{error}</p>}
         </form>
 
@@ -2118,7 +2122,7 @@ export default function Landing() {
             rgba(236, 72, 153, 1) 357.5deg,
             rgba(236, 72, 153, 0.8) 360deg
           );
-          animation: ctaSpin 3.75s linear infinite;
+          animation: ctaSpin 5.25s linear infinite;
         }
         .cta-glow-border::after {
           content: '';
@@ -2798,14 +2802,17 @@ export default function Landing() {
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
                   Your pattern found. 7-day intro to pattern breaking. Body signal basics. Your first circuit break.
                 </p>
-                <Link
-                  href="/quiz"
-                  className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
-                  data-testid="button-pricing-free"
-                >
-                  START FREE <ArrowRight className="inline w-3 h-3 ml-1" />
-                </Link>
+                <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+                  <div className="cta-glow-border" />
+                  <Link
+                    href="/quiz"
+                    className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                    data-testid="button-pricing-free"
+                  >
+                    START FREE <ArrowRight className="inline w-3 h-3 ml-1" />
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -2829,16 +2836,17 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
-                <button
-                  onClick={() => handleCheckout("quick-start")}
-                  className="block w-full text-center py-3 text-white tracking-wider uppercase transition-all duration-300 cursor-pointer"
-                  style={{ border: "2px solid #14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", background: "transparent" }}
-                  onMouseEnter={(e) => { const el = e.currentTarget; el.style.background = "#14B8A6"; el.style.color = "#0A0A0A"; }}
-                  onMouseLeave={(e) => { const el = e.currentTarget; el.style.background = "transparent"; el.style.color = "white"; }}
-                  data-testid="button-pricing-field-guide"
-                >
-                  GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
-                </button>
+                <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+                  <div className="cta-glow-border" />
+                  <button
+                    onClick={() => handleCheckout("quick-start")}
+                    className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase cursor-pointer"
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                    data-testid="button-pricing-field-guide"
+                  >
+                    GET YOUR FIELD GUIDE <ArrowRight className="inline w-3 h-3 ml-1" />
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -2861,14 +2869,17 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
-                <button
-                  onClick={() => handleCheckout("complete-archive")}
-                  className="block w-full text-center py-3 border border-white/80 text-white tracking-wider uppercase transition-all duration-300 hover:bg-white hover:text-black cursor-pointer"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
-                  data-testid="button-pricing-archive"
-                >
-                  GET THE COMPLETE ARCHIVE <ArrowRight className="inline w-3 h-3 ml-1" />
-                </button>
+                <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+                  <div className="cta-glow-border" />
+                  <button
+                    onClick={() => handleCheckout("complete-archive")}
+                    className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase cursor-pointer"
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem" }}
+                    data-testid="button-pricing-archive"
+                  >
+                    GET THE COMPLETE ARCHIVE <ArrowRight className="inline w-3 h-3 ml-1" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

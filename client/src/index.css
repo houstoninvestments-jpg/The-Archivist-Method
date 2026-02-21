@@ -550,3 +550,55 @@
     box-shadow: none;
   }
 }
+
+@keyframes ctaSpinGlobal {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.cta-glow-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .cta-glow-wrap:not(.cta-glow-full) {
+    display: inline-block;
+    width: auto;
+  }
+}
+.cta-glow-border {
+  position: absolute;
+  inset: -1px;
+  border-radius: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.cta-glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 350deg,
+    rgba(236, 72, 153, 0.8) 355deg,
+    rgba(236, 72, 153, 1) 357.5deg,
+    rgba(236, 72, 153, 0.8) 360deg
+  );
+  animation: ctaSpinGlobal 5.25s linear infinite;
+}
+.cta-glow-border::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: #000;
+  border-radius: 1px;
+}
+.cta-glow-inner {
+  position: relative;
+  z-index: 1;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.15);
+}

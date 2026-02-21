@@ -320,14 +320,18 @@ export default function QuizResult() {
               data-testid="input-email"
               className="w-full px-4 py-3.5 bg-slate-800/80 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
             />
-            <button
-              type="submit"
-              disabled={submitting}
-              data-testid="button-submit-email"
-              className="results-cta-btn w-full px-6 py-3.5 bg-teal-500 text-black font-bold rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {submitting ? 'Opening Archive...' : 'Send Magic Link'}
-            </button>
+            <div className="cta-glow-wrap cta-glow-full" style={{ display: "block", width: "100%" }}>
+              <div className="cta-glow-border" />
+              <button
+                type="submit"
+                disabled={submitting}
+                data-testid="button-submit-email"
+                className="cta-glow-inner results-cta-btn w-full px-6 py-3.5 text-white font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", letterSpacing: "0.1em", textTransform: "uppercase" }}
+              >
+                {submitting ? 'Opening Archive...' : 'Send Magic Link'}
+              </button>
+            </div>
             {error && <p className="text-red-400 text-sm text-center" role="alert">{error}</p>}
           </form>
 
