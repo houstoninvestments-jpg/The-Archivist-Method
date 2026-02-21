@@ -2979,18 +2979,22 @@ export default function Landing() {
             This is what $27 a month buys when it launches publicly. Right now it's included with every purchase.
           </p>
 
-          <div className="reveal text-center">
-            <a
-              href="#section-pricing"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector('[data-testid="section-pricing"]')?.scrollIntoView({ behavior: "smooth" });
-              }}
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textDecoration: "none", cursor: "pointer", letterSpacing: "0.1em", textTransform: "uppercase" }}
-              data-testid="link-pocket-archivist-pricing"
-            >
-              SEE WHAT'S INCLUDED <ArrowRight className="inline w-3 h-3 ml-1" />
-            </a>
+          <div className="reveal text-center" style={{ maxWidth: "320px", margin: "0 auto" }}>
+            <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+              <div className="cta-glow-border" />
+              <a
+                href="#section-pricing"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector('[data-testid="section-pricing"]')?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", textDecoration: "none", cursor: "pointer" }}
+                data-testid="link-pocket-archivist-pricing"
+              >
+                SEE WHAT'S INCLUDED <ArrowRight className="inline w-3 h-3 ml-1" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
