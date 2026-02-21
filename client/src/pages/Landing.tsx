@@ -2357,8 +2357,11 @@ export default function Landing() {
           <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.7s" }}>
             Free · 2 Minutes · Instant Results
           </p>
+          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
+            A self-paced digital system. No sessions. No subscriptions. Works in real time.
+          </p>
 
-          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
+          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.4s" }}>
             <a
               href="#section-window"
               onClick={(e) => {
@@ -2620,11 +2623,11 @@ export default function Landing() {
 
       {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
       <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
-        <SectorLabel text="DATASET: 685 PAGES // PATTERNS: 9 // CONFIDENCE: 0.97" />
+        <SectorLabel text="DATASET: COMPLETE // PATTERNS: 9 // CONFIDENCE: 0.97" />
         <div className="max-w-5xl mx-auto">
           <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { stat: "685+", label: "Pages of Research" },
+              { stat: "4", label: "FEIR Doors" },
               { stat: "9", label: "Documented Patterns" },
               { stat: "3-7", label: "Second Window" },
               { stat: "24/7", label: "AI Pattern Coach" },
@@ -2795,7 +2798,7 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
-                  Your pattern found. 7-day intro to pattern breaking. Body signal basics. Your first circuit break.
+                  Identify your pattern in 7 days.
                 </p>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
@@ -2823,10 +2826,10 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Everything about YOUR pattern. Full body signal mapping. Custom interrupt steps. How your pattern shows up in love. 90+ pages. AI pattern coach access.
+                  Your complete interrupt protocol — ready to use the moment the pattern fires.
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  The Pocket Archivist — included free during the founding period. ($27/month value when it launches publicly.) Pull it out when the pattern fires. It responds in seconds.
+                  Your pattern identified and documented. Body signature mapped. Circuit break protocol. Pocket Archivist access. Yours permanently.
                 </p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
@@ -2856,10 +2859,10 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  The full Archivist Method. All 9 patterns mapped out. How patterns feed each other. Advanced tools. The Four Doors system. Full Vault access. 600+ pages.
+                  Every pattern. Every scenario. The complete system.
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  Full Pocket Archivist access across all 9 patterns. Every scenario. Every trigger. Every circuit break. Available 24 hours a day. ($27/month value — included permanently with your purchase.)
+                  All 9 patterns. Cross-pattern analysis. Complete FEIR framework. Full Pocket Archivist. Yours permanently.
                 </p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
