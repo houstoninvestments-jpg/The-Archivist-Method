@@ -2438,6 +2438,50 @@ export default function Landing() {
       {/* ========== SECTION 4.5: THE PATTERN FILE (Detective Board) ========== */}
       <PatternFileSection />
 
+      {/* ========== SECTION 4.75: THE COST OF WAITING ========== */}
+      <section className="py-24 md:py-32 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
+          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+            THE COST
+          </p>
+
+          <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
+            EVERY PATTERN THAT RUNS TO COMPLETION TAKES SOMETHING FROM YOU.
+          </h2>
+
+          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
+            A relationship. An opportunity. A version of yourself you don't get back.
+          </p>
+
+          <div className="reveal reveal-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
+            {[
+              "Your pattern fires 3\u20137 seconds before you can stop it.",
+              "Without the method \u2014 it runs every single time.",
+              "With the method \u2014 you get to choose.",
+            ].map((stat, i) => (
+              <div key={i} style={{ padding: "20px 0", borderTop: i === 0 ? "1px solid rgba(20,184,166,0.25)" : "1px solid rgba(20,184,166,0.15)", borderBottom: i === 2 ? "1px solid rgba(20,184,166,0.25)" : "none" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: i === 2 ? "#14B8A6" : "#ccc", letterSpacing: "0.02em", lineHeight: 1.6 }} data-testid={`text-cost-stat-${i}`}>
+                  {stat}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
+            HOW MANY MORE TIMES BEFORE SOMETHING CHANGES?
+          </h2>
+
+          <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
+            The Archivist Method costs $47. Not interrupting it costs everything.
+          </p>
+
+          <div className="reveal">
+            <CTAButton text="FIND YOUR PATTERN" />
+          </div>
+        </div>
+      </section>
+
       {/* ========== SECTION 5: THE WINDOW (Timed Text Sequence) ========== */}
       <TheWindowSection sectionRef={sectionRefs.window} />
 
