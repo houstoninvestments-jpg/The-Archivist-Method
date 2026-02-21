@@ -1665,8 +1665,13 @@ export default function Landing() {
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const img = new Image();
-    img.src = heroSeatedImg;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = heroSeatedImg;
+    link.type = "image/webp";
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
   }, []);
 
   useEffect(() => {
@@ -2288,13 +2293,11 @@ export default function Landing() {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
         <img
+          ref={(el) => { if (el) el.setAttribute("fetchpriority", "high"); }}
           src={heroSeatedImg}
           alt="The Archivist"
-          width={2560}
-          height={1429}
-          // @ts-ignore - fetchpriority is a valid HTML attribute
-          fetchpriority="high"
-          decoding="async"
+          width={1600}
+          height={893}
           className="absolute inset-0 z-0 hero-bg-image"
           style={{
             width: "100%",

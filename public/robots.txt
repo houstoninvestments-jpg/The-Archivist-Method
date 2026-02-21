@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 Disallow: /portal
 Disallow: /api
-Sitemap: https://thearchivistmethod.com/sitemap.xml
