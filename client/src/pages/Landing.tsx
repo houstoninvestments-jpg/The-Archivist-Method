@@ -1518,52 +1518,47 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
   useEffect(() => {
+    let ticking = false;
     const calculate = () => {
       const docHeight = document.documentElement.scrollHeight;
       if (docHeight === 0) return;
-      const newPositions: Record<string, number> = {};
-      sections.forEach((s) => {
-        if (s.key === "hero") {
-          newPositions[s.key] = 0.03;
-          return;
-        }
-        const ref = sectionRefs[s.key];
-        if (ref?.current) {
-          const rect = ref.current.getBoundingClientRect();
-          const absTop = rect.top + window.scrollY;
-          newPositions[s.key] = Math.min(Math.max(absTop / docHeight, 0.03), 0.97);
-        }
-      });
-      setPositions(newPositions);
-
       const scrollY = window.scrollY;
       const viewCenter = scrollY + window.innerHeight * 0.4;
+      const newPositions: Record<string, number> = {};
       let closest = "hero";
       let closestDist = Infinity;
       sections.forEach((s) => {
-        let sectionTop: number;
         if (s.key === "hero") {
-          sectionTop = 0;
-        } else {
-          const ref = sectionRefs[s.key];
-          if (!ref?.current) return;
-          sectionTop = ref.current.getBoundingClientRect().top + scrollY;
+          newPositions[s.key] = 0.03;
+          const dist = viewCenter;
+          if (dist >= 0 && dist < closestDist) { closestDist = dist; closest = s.key; }
+          return;
         }
-        const dist = viewCenter - sectionTop;
-        if (dist >= 0 && dist < closestDist) {
-          closestDist = dist;
-          closest = s.key;
-        }
+        const ref = sectionRefs[s.key];
+        if (!ref?.current) return;
+        const absTop = ref.current.getBoundingClientRect().top + scrollY;
+        newPositions[s.key] = Math.min(Math.max(absTop / docHeight, 0.03), 0.97);
+        const dist = viewCenter - absTop;
+        if (dist >= 0 && dist < closestDist) { closestDist = dist; closest = s.key; }
       });
+      setPositions(newPositions);
       setActiveKey(closest);
+    };
+    const onScrollOrResize = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        calculate();
+        ticking = false;
+      });
     };
 
     calculate();
-    window.addEventListener("scroll", calculate, { passive: true });
-    window.addEventListener("resize", calculate, { passive: true });
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
     return () => {
-      window.removeEventListener("scroll", calculate);
-      window.removeEventListener("resize", calculate);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
     };
   }, [sectionRefs]);
 
@@ -1764,8 +1759,6 @@ export default function Landing() {
       )}
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
-
         .reveal {
           opacity: 0;
           transform: translateY(20px);
@@ -2297,11 +2290,13 @@ export default function Landing() {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
         <img
-          ref={(el) => { if (el) el.setAttribute("fetchpriority", "high"); }}
           src={heroSeatedImg}
-          alt="The Archivist"
-          width={1600}
-          height={893}
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          width={1920}
+          height={1080}
+          alt=""
           className="absolute inset-0 z-0 hero-bg-image"
           style={{
             width: "100%",
