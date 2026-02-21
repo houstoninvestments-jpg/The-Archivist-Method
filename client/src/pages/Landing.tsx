@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
-import heroSeatedImg from "@assets/hero-archivist-seated.webp";
+const heroSeatedImg = "/hero-archivist-seated.webp";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
@@ -1663,15 +1663,6 @@ export default function Landing() {
 
   const pageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = heroSeatedImg;
-    link.type = "image/webp";
-    document.head.appendChild(link);
-    return () => { document.head.removeChild(link); };
-  }, []);
 
   useEffect(() => {
     let ticking = false;
