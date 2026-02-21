@@ -374,8 +374,8 @@ export default function PortalDashboard() {
   ];
 
   const firstLoginGreeting = pattern && patternDetails[pattern] 
-    ? `You have ${patternName}.\n\n${patternDetails[pattern].origin}\n\nBut you're here now. That's the first interrupt.\n\nYour Crash Course is ready. Ask me anything about your pattern, or start with one of the prompts below.`
-    : "Welcome to the archive. I'm The Archivist. Tell me what pattern brought you here, and we'll start the excavation.";
+    ? `THE POCKET ARCHIVIST IS READY.\n\nIt knows your pattern. It knows your body signature. It knows your circuit break sequence.\n\nWhat's firing right now — in your body, not your thoughts?`
+    : "THE POCKET ARCHIVIST IS READY.\n\nIt knows your pattern. It knows your body signature. It knows your circuit break sequence. Tell it what's happening right now.";
 
   const SidebarLabel = ({ children }: { children: string }) => (
     <p
@@ -592,7 +592,7 @@ export default function PortalDashboard() {
           <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: `1px solid rgba(20,184,166,0.3)` }}>
             <ArchivistIcon size={32} />
           </div>
-          <h3 className="text-sm font-bold tracking-wider uppercase" style={{ fontFamily: FONT_MONO, color: COLOR_TEXT }}>THE ARCHIVIST</h3>
+          <h3 className="text-sm font-bold tracking-wider uppercase" style={{ fontFamily: FONT_MONO, color: COLOR_TEXT }}>THE POCKET ARCHIVIST</h3>
         </div>
         <span className="text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm" style={{ fontFamily: FONT_MONO, color: COLOR_TEAL, border: `1px solid rgba(20,184,166,0.3)` }}>
           {tierLabel}

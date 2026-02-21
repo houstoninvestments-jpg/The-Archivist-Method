@@ -2829,7 +2829,7 @@ export default function Landing() {
                   Your complete interrupt protocol — ready to use the moment the pattern fires.
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  Your pattern identified and documented. Body signature mapped. Circuit break protocol. Pocket Archivist access. Yours permanently.
+                  Includes The Pocket Archivist — a precision tool built around your specific pattern. Open it when the pattern fires. It already knows what to do.
                 </p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
@@ -2862,7 +2862,7 @@ export default function Landing() {
                   Every pattern. Every scenario. The complete system.
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  All 9 patterns. Cross-pattern analysis. Complete FEIR framework. Full Pocket Archivist. Yours permanently.
+                  Full Pocket Archivist access across all nine patterns. Every trigger sequence. Every body signature. Every circuit break. Whenever you need it.
                 </p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
                   FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
@@ -2949,6 +2949,58 @@ export default function Landing() {
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ========== SECTION 10.5: THE POCKET ARCHIVIST ========== */}
+      <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <SectorLabel text="THE POCKET ARCHIVIST" />
+        <div className="max-w-3xl mx-auto">
+          <p className="reveal text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+            THE POCKET ARCHIVIST
+          </p>
+          <h2 className="reveal text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+            IT ALREADY KNOWS YOUR PATTERN.
+          </h2>
+          <p className="reveal text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+            You don't have to explain yourself. Not at midnight. Not mid-spiral. Not when you're three seconds from doing the thing again.
+          </p>
+
+          <div className="reveal space-y-0" style={{ maxWidth: "700px", margin: "0 auto" }}>
+            {[
+              { moment: "IT'S 11PM", scenario: "The pattern is firing. Your therapist is asleep. Your journal won't talk back. The Pocket Archivist will." },
+              { moment: "YOU ALREADY KNOW WHY", scenario: "You don't need another insight. You need to know what to do in the next seven seconds. It tells you exactly that." },
+              { moment: "IT KNOWS YOUR SIGNATURE", scenario: "The tightening in your throat. The chest drop. The heat behind your eyes. It was built around your specific body signal — not patterns in general. Yours." },
+            ].map((row, i) => (
+              <div key={i} className="flex flex-col md:flex-row gap-4 md:gap-8 py-8" style={{ borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+                <div className="md:w-1/3 flex-shrink-0">
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.15em" }}>THE MOMENT</p>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "4px" }}>{row.moment}</p>
+                </div>
+                <div className="md:w-2/3">
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", color: "white", lineHeight: 1.7 }}>{row.scenario}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="reveal text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 32px", lineHeight: 1.7 }}>
+            This is what $27 a month buys when it launches publicly. Right now it's included with every purchase.
+          </p>
+
+          <div className="reveal text-center">
+            <a
+              href="#section-pricing"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('[data-testid="section-pricing"]')?.scrollIntoView({ behavior: "smooth" });
+              }}
+              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textDecoration: "none", cursor: "pointer", letterSpacing: "0.1em", textTransform: "uppercase" }}
+              data-testid="link-pocket-archivist-pricing"
+            >
+              SEE WHAT'S INCLUDED <ArrowRight className="inline w-3 h-3 ml-1" />
+            </a>
+          </div>
         </div>
       </section>
 

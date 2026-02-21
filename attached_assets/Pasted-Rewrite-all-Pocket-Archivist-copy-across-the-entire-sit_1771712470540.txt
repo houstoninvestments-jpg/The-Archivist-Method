@@ -1,0 +1,51 @@
+Rewrite all Pocket Archivist copy across the entire site and portal. Apply now.
+
+THE CORE POSITIONING:
+The Pocket Archivist is not a chatbot. It is a pattern-specific intervention tool. It knows your pattern, your body signature, your trigger sequence, and your circuit break protocol. It exists for one moment — the moment the pattern fires and no one else is available.
+
+LANDING PAGE — POCKET ARCHIVIST SECTION:
+Add a dedicated section between Pricing and Founder. Apply now.
+
+Section label: "THE POCKET ARCHIVIST" — JetBrains Mono pink spaced caps
+Main headline: "IT ALREADY KNOWS YOUR PATTERN." — Schibsted Grotesk 900 white all caps massive
+Subheadline: "You don't have to explain yourself. Not at midnight. Not mid-spiral. Not when you're three seconds from doing the thing again." — Libre Baskerville italic teal large
+
+Three problem/solution pairs stacked, each in its own row:
+Left side in JetBrains Mono #999 small: THE MOMENT
+Right side in white Source Sans 3: the scenario
+
+Row 1:
+Left: "IT'S 11PM"
+Right: "The pattern is firing. Your therapist is asleep. Your journal won't talk back. The Pocket Archivist will."
+
+Row 2:
+Left: "YOU ALREADY KNOW WHY"
+Right: "You don't need another insight. You need to know what to do in the next seven seconds. It tells you exactly that."
+
+Row 3:
+Left: "IT KNOWS YOUR SIGNATURE"
+Right: "The tightening in your throat. The chest drop. The heat behind your eyes. It was built around your specific body signal — not patterns in general. Yours."
+
+Closing line in Libre Baskerville italic teal large:
+"This is what $27 a month buys when it launches publicly. Right now it's included with every purchase."
+
+CTA: "SEE WHAT'S INCLUDED →" — links to pricing section
+
+PRICING CARDS — POCKET ARCHIVIST REFERENCES:
+Replace all current Pocket Archivist copy with:
+
+$47 card: "Includes The Pocket Archivist — a precision tool built around your specific pattern. Open it when the pattern fires. It already knows what to do."
+
+$197 card: "Full Pocket Archivist access across all nine patterns. Every trigger sequence. Every body signature. Every circuit break. Whenever you need it."
+
+PORTAL — POCKET ARCHIVIST INTRODUCTION:
+Replace the current portal AI introduction with:
+
+Headline: "THE POCKET ARCHIVIST IS READY."
+Subtext: "It knows your pattern. It knows your body signature. It knows your circuit break sequence. Tell it what's happening right now."
+First message pre-loaded in chat: "What's firing right now — in your body, not your thoughts?"
+
+SYSTEM PROMPT UPDATE:
+Add to the existing Pocket Archivist system prompt at the very top:
+
+"You are not a chatbot. You are a precision pattern intervention tool. You know this user's specific pattern, body signature, and circuit break protocol from their quiz results and purchase history. Reference their specific pattern by name immediately. Do not ask them to explain their situation from scratch. Meet them where they are. Your only job is to help them interrupt the pattern that is firing right now."
