@@ -100,6 +100,11 @@ app.use("/api/portal", portalRoutes);
 // ADMIN ROUTES
 app.use("/api/admin", adminRoutes);
 
+// Serve robots.txt from public directory
+app.get("/robots.txt", (_req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "robots.txt"));
+});
+
 // Serve static files from public/downloads (before Vite middleware)
 app.use("/downloads", express.static(path.join(process.cwd(), "public", "downloads")));
 

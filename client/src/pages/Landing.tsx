@@ -4,11 +4,10 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
-import heroSeatedImg from "@assets/hero-archivist-seated.png";
-import productCrashCourse from "@assets/product-crash-course.jpg";
-import productFieldGuide from "@assets/product-field-guide.png";
-import productCompleteArchive from "@assets/product-complete-archive.png";
-import archivistPortrait from "@assets/archivist-portrait.jpg";
+import heroSeatedImg from "@assets/hero-archivist-seated.webp";
+import productCrashCourse from "@assets/product-crash-course.webp";
+import productFieldGuide from "@assets/product-field-guide.webp";
+import productCompleteArchive from "@assets/product-complete-archive.webp";
 
 const StarField = ({ count = 200 }: { count?: number }) => {
   const stars = Array.from({ length: count }, (_, i) => ({
@@ -1008,7 +1007,7 @@ function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; inde
             PATTERN: {file.pattern}
           </span>
         </div>
-        <div style={{ background: "#0D0D0D", height: "12px", width: "120px", marginTop: "8px" }} aria-label="Redacted name" />
+        <div role="img" aria-label="Redacted name" style={{ background: "#0D0D0D", height: "12px", width: "120px", marginTop: "8px" }} />
       </div>
       <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "14px", color: "#b0a890", lineHeight: 1.8, marginBottom: "12px" }}>
         "{file.reportBody}"
@@ -2288,13 +2287,20 @@ export default function Landing() {
 
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
-        <div
+        <img
+          src={heroSeatedImg}
+          alt="The Archivist"
+          width={2560}
+          height={1429}
+          // @ts-ignore - fetchpriority is a valid HTML attribute
+          fetchpriority="high"
+          decoding="async"
           className="absolute inset-0 z-0 hero-bg-image"
           style={{
-            backgroundImage: `url(${heroSeatedImg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center top",
-            backgroundRepeat: "no-repeat",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center top",
           }}
         />
         <div className="absolute inset-0 z-0 hero-overlay" />
@@ -2779,7 +2785,7 @@ export default function Landing() {
             {/* Crash Course */}
             <div className="reveal flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productCrashCourse} alt="The Crash Course" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-crash-course" />
+                <img src={productCrashCourse} alt="The Crash Course" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-crash-course" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
@@ -2803,7 +2809,7 @@ export default function Landing() {
             {/* Field Guide - emphasized */}
             <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productFieldGuide} alt="The Field Guide" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75 }} data-testid="img-product-field-guide" />
+                <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75 }} data-testid="img-product-field-guide" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none" }} />
               </div>
@@ -2836,7 +2842,7 @@ export default function Landing() {
             {/* Complete Archive */}
             <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productCompleteArchive} alt="The Complete Archive" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-complete-archive" />
+                <img src={productCompleteArchive} alt="The Complete Archive" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-complete-archive" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
