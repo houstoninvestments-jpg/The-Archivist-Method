@@ -146,7 +146,11 @@ function useGlobalFadeIn() {
 
     const failsafe = setTimeout(() => {
       document.querySelectorAll(".fade-section").forEach((el) => el.classList.add("visible"));
-    }, 3000);
+      document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
+        (el as HTMLElement).style.opacity = "1";
+        (el as HTMLElement).style.transform = "none";
+      });
+    }, 2000);
 
     return () => {
       observer.disconnect();
@@ -2113,7 +2117,7 @@ export default function Landing() {
             {/* Crash Course */}
             <div className="fade-section flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productCrashCourse} alt="The Crash Course" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-crash-course" />
+                <img src={productCrashCourse} alt="The Crash Course" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-crash-course" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
@@ -2140,7 +2144,7 @@ export default function Landing() {
             {/* Field Guide - emphasized */}
             <div className="fade-section fade-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75 }} data-testid="img-product-field-guide" />
+                <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-field-guide" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none" }} />
               </div>
@@ -2174,7 +2178,7 @@ export default function Landing() {
             {/* Complete Archive */}
             <div className="fade-section fade-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productCompleteArchive} alt="The Complete Archive" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-complete-archive" />
+                <img src={productCompleteArchive} alt="The Complete Archive" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-complete-archive" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
