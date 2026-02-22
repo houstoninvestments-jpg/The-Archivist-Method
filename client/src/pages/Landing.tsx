@@ -171,17 +171,18 @@ function handleCheckout(product: string) {
     .catch(() => {});
 }
 
-function CTAButton({ text }: { text: string }) {
+function CTAButton({ text, variant }: { text: string; variant?: "teal" }) {
+  const isTeal = variant === "teal";
   return (
     <div className="cta-glow-wrap" data-testid="button-cta-wrap">
       <div className="cta-glow-border" />
       <Link
         href="/quiz"
         data-testid="button-cta"
-        className="cta-glow-inner block text-center text-white tracking-[0.15em] uppercase"
-        style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
+        className={`cta-glow-inner block text-center tracking-[0.15em] uppercase ${isTeal ? "text-[#0A0A0A]" : "text-white"}`}
+        style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px", ...(isTeal ? { background: "#14B8A6" } : {}) }}
       >
-        {text} <ArrowRight className="inline w-4 h-4 ml-1" />
+        {text}
       </Link>
     </div>
   );
@@ -1652,32 +1653,24 @@ export default function Landing() {
 
           <p
             className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.0s" }}
+            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.0s" }}
             data-testid="text-hero-positioning"
           >
-            You keep doing the thing you hate doing. You know what it is. You've tried to stop. This shows you how to catch it before it happens.
+            Your body sends a signal 3 to 7 seconds before the pattern executes. The Archivist Method teaches you to read it — and what to do inside that window.
           </p>
 
-          <p
-            className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#F5F5F5", fontSize: "1.05rem", maxWidth: "540px", marginTop: "24px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.6s" }}
-            data-testid="text-hero-mechanism"
-          >
-            Your body gives you a 3-second warning every single time. Nobody taught you to use it. Until now.
-          </p>
-
-          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.2s" }}>
-            <CTAButton text="FIND YOUR PATTERN" />
+          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.6s" }}>
+            <CTAButton text="FIND MY PATTERN →" variant="teal" />
           </div>
 
-          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.7s" }}>
+          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.2s" }}>
             Free · 2 Minutes · Instant Results
           </p>
-          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
+          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.5s" }}>
             A self-paced digital system. No sessions. No subscriptions. Works in real time.
           </p>
 
-          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.4s" }}>
+          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.9s" }}>
             <a
               href="#section-window"
               onClick={(e) => {
@@ -1693,7 +1686,7 @@ export default function Landing() {
             </a>
           </p>
 
-          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.2s" }}>
+          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
             <p
               className="tracking-[0.2em] uppercase"
               style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", opacity: 0.7 }}
