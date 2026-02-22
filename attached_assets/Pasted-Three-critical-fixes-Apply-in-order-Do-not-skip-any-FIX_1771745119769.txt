@@ -1,0 +1,106 @@
+Three critical fixes. Apply in order. Do not skip any.
+
+FIX 1 — PATTERN CARDS TEXT:
+The pattern card descriptions have double/overlapping text 
+rendering. This is a CSS animation artifact. Fix now:
+
+Find all pattern card elements. Remove any text-shadow 
+glitch effects, any pseudo-element (::before, ::after) 
+that duplicates text content, any translateX animation 
+on text inside cards. 
+
+Each card description must render as clean single text only.
+No effects on the description copy whatsoever.
+
+FIX 2 — CREDIBILITY STATS SECTION:
+Current: plain teal numbers on black. Weak.
+
+Replace entirely with this treatment:
+
+Section background: subtle teal fog at 3% opacity
+Four stats in a row, each stat block:
+
+Stat number: Schibsted Grotesk 900, 80px desktop 56px 
+mobile, white, no color
+
+Stat label: JetBrains Mono, 12px, #666, spaced caps
+
+Add one heavy dividing line above the stats in teal at 
+1px opacity 0.3
+
+Add this copy above the stats row:
+Label: "THE SYSTEM" — JetBrains Mono pink 11px spaced
+Headline: "BUILT AROUND ONE THING." — Schibsted Grotesk 
+900 white 48px desktop 36px mobile
+Subhead: "The moment before you do it again." — Libre 
+Baskerville italic teal 22px
+
+Stats remain: 4 FEIR Doors, 9 Documented Patterns, 
+3-7 Second Window, 24/7 Pocket Archivist
+
+Below stats add one line in Libre Baskerville italic 
+teal 18px:
+"Every component exists for one purpose — to give you 
+what you need in the 7 seconds that decide everything."
+
+FIX 3 — BENTO "THIS IS WHAT YOU GET":
+This section is not working. Rebuild it completely.
+
+Remove "THIS IS WHAT YOU GET" as the headline. 
+Replace with:
+
+Section label: "INSIDE THE ARCHIVE" — JetBrains Mono 
+pink 11px spaced caps
+
+Headline: "FOUR TOOLS. ONE WINDOW." — Schibsted Grotesk 
+900 white 56px desktop 40px mobile all caps
+
+Subhead: "Everything in this system was built for the 
+moment the pattern fires." — Libre Baskerville italic 
+teal 20px
+
+Four bento panels in 2x2 grid desktop, stacked mobile:
+
+PANEL 1 — largest, top left, teal border:
+Label: "YOUR PATTERN DASHBOARD" — JetBrains Mono pink
+Title: "THE DISAPPEARING PATTERN" bold white
+Body: "Your pattern documented in full. Body signature 
+mapped. Trigger sequence identified. Yours permanently."
+Small detail line: "Chest tightness — active • 12 day 
+streak" in JetBrains Mono #666 small
+
+PANEL 2 — top right, subtle border:
+Label: "THE POCKET ARCHIVIST" — JetBrains Mono pink
+Title: "IT ALREADY KNOWS." bold white
+Simulated chat bubble dark background:
+User bubble right: "I just ghosted her again"
+Archivist response left teal border: "Disappearing 
+pattern. What did you feel in your chest right before 
+you pulled away?"
+Below in #666 small: "Not a chatbot. A precision tool."
+
+PANEL 3 — bottom left, subtle border:
+Label: "BODY SIGNATURE MAP" — JetBrains Mono pink
+Title: "YOUR BODY KNEW FIRST." bold white
+Body: "Tightness (Chest) • Drop (Stomach) • Cold (Hands)"
+Subtitle: "Your pattern has a physical signal. The 
+method teaches you to read it before it executes."
+Simple body silhouette with three teal dots at chest, 
+stomach, hands
+
+PANEL 4 — bottom right, subtle border:
+Label: "THE INTERRUPT PROTOCOL" — JetBrains Mono pink
+Title: "CIRCUIT BREAK." bold white
+Teal label: "DISAPPEARING PATTERN"
+Quote in italic: "The pattern is running. I feel the 
+tightness. I'm choosing to stay."
+Progress bar teal: "Day 11 of 90"
+Body: "A trained sequence. Not a thought. Not a reframe. 
+A practiced physical response that fires before the 
+pattern executes."
+
+All panels: dark background #111, subtle border #1a1a1a, 
+16px border radius, generous padding 32px desktop 24px 
+mobile. Teal glow on panel 1 border only.
+
+Republish after all three fixes confirmed complete.

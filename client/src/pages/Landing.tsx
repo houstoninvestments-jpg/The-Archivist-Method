@@ -729,7 +729,6 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 function PatternCard({ card, index }: { card: typeof patternCards[0]; index: number }) {
-  const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -743,61 +742,32 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
         padding: "32px",
         transition: "border-color 0.3s",
         transitionDelay: `${(index % 3) * 0.1}s`,
-        cursor: "pointer",
       }}
       data-testid={`card-pattern-${card.num}`}
       onMouseEnter={() => {
-        setHovered(true);
         if (cardRef.current) cardRef.current.style.borderColor = index % 2 === 0 ? "#14B8A6" : "#EC4899";
       }}
       onMouseLeave={() => {
-        setHovered(false);
         if (cardRef.current) cardRef.current.style.borderColor = "rgba(255,255,255,0.06)";
       }}
-      onClick={() => setHovered(prev => !prev)}
     >
       <p style={{
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: "2rem",
         color: "#EC4899",
         marginBottom: "12px",
-        textShadow: "0 0 6px rgba(236,72,153,0.3)",
         letterSpacing: "0.05em",
       }}>{card.num}</p>
       <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "1rem", color: "white", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>{card.name}</p>
-      <div style={{ position: "relative", minHeight: "4.5em" }}>
-        <p
-          style={{
-            fontFamily: "'Libre Baskerville', serif",
-            fontStyle: "italic",
-            color: "#14B8A6",
-            fontSize: "1rem",
-            lineHeight: 1.6,
-            transition: "opacity 0.3s ease",
-            opacity: hovered ? 0 : 1,
-            position: hovered ? "absolute" : "relative",
-            inset: hovered ? 0 : undefined,
-          }}
-        >
-          {card.desc}
-        </p>
-        <p
-          data-testid={`text-trigger-${card.num}`}
-          style={{
-            fontFamily: "'Libre Baskerville', serif",
-            fontStyle: "italic",
-            color: "#14B8A6",
-            fontSize: "1rem",
-            lineHeight: 1.6,
-            transition: "opacity 0.3s ease",
-            opacity: hovered ? 1 : 0,
-            position: hovered ? "relative" : "absolute",
-            inset: hovered ? undefined : 0,
-          }}
-        >
-          "{card.trigger}"
-        </p>
-      </div>
+      <p style={{
+        fontFamily: "'Libre Baskerville', serif",
+        fontStyle: "italic",
+        color: "#14B8A6",
+        fontSize: "1rem",
+        lineHeight: 1.6,
+      }}>
+        {card.desc}
+      </p>
     </div>
   );
 }
@@ -1949,85 +1919,89 @@ export default function Landing() {
 
 
       {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
-      <section className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
-        <SectorLabel text="DATASET: COMPLETE // PATTERNS: 9 // CONFIDENCE: 0.97" />
+      <section className="py-24 md:py-32 px-6" data-testid="section-credibility" style={{ position: "relative", background: "rgba(20,184,166,0.03)" }}>
         <div className="max-w-5xl mx-auto">
-          <div className="fade-section grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="text-center fade-section" style={{ marginBottom: "48px" }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>THE SYSTEM</p>
+            <h2 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.25rem, 5vw, 3rem)", color: "white", marginBottom: "16px" }}>BUILT AROUND ONE THING.</h2>
+            <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.375rem)" }}>The moment before you do it again.</p>
+          </div>
+          <div style={{ height: "1px", background: "#14B8A6", opacity: 0.3, marginBottom: "48px" }} />
+          <div className="fade-section grid grid-cols-2 md:grid-cols-4 gap-8 text-center" style={{ marginBottom: "48px" }}>
             {[
-              { stat: "4", label: "FEIR Doors" },
-              { stat: "9", label: "Documented Patterns" },
-              { stat: "3-7", label: "Second Window" },
-              { stat: "24/7", label: "AI Pattern Coach" },
+              { stat: "4", label: "FEIR DOORS" },
+              { stat: "9", label: "DOCUMENTED PATTERNS" },
+              { stat: "3-7", label: "SECOND WINDOW" },
+              { stat: "24/7", label: "POCKET ARCHIVIST" },
             ].map((item) => (
               <div key={item.label}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.5rem", color: "#14B8A6", marginBottom: "4px" }}>{item.stat}</p>
-                <p style={{ color: "#999", fontSize: "0.85rem" }}>{item.label}</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(3.5rem, 8vw, 5rem)", color: "white", lineHeight: 1, marginBottom: "8px" }}>{item.stat}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.15em" }}>{item.label}</p>
               </div>
             ))}
           </div>
+          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", color: "#14B8A6", fontSize: "1.125rem", maxWidth: "640px", margin: "0 auto" }}>
+            Every component exists for one purpose — to give you what you need in the 7 seconds that decide everything.
+          </p>
         </div>
       </section>
 
-      {/* ========== SECTION 8.7: BENTO DASHBOARD PREVIEW ========== */}
+      {/* ========== SECTION 8.7: BENTO — INSIDE THE ARCHIVE ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-          <div className="text-center" style={{ marginBottom: "48px" }}>
-            <SectionLabel>INSIDE THE SYSTEM</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
-              This Is What You Get
+        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+          <div className="text-center" style={{ marginBottom: "56px" }}>
+            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>INSIDE THE ARCHIVE</p>
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "white", marginBottom: "16px" }} data-testid="text-bento-headline">
+              FOUR TOOLS. ONE WINDOW.
             </h2>
+            <p className="fade-section fade-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.25rem)", maxWidth: "580px", margin: "0 auto" }}>
+              Everything in this system was built for the moment the pattern fires.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* PANEL 1: Pattern Dashboard */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* PANEL 1: Pattern Dashboard — teal glow border */}
             <div
-              className="fade-section md:col-span-1"
+              className="fade-section"
               data-testid="panel-dashboard"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                padding: "24px",
-                transition: "border-color 0.3s",
+                background: "#111",
+                border: "1px solid #14B8A6",
+                borderRadius: "16px",
+                padding: "32px",
+                boxShadow: "0 0 20px rgba(20,184,166,0.08)",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Your Pattern Dashboard</p>
-              <div style={{ background: "rgba(0,0,0,0.4)", padding: "16px", border: "1px solid rgba(255,255,255,0.04)" }}>
-                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "14px", color: "white", marginBottom: "12px" }}>THE DISAPPEARING PATTERN</p>
-                <div className="flex items-center gap-2 flex-wrap" style={{ marginBottom: "8px" }}>
-                  <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#EC4899", display: "inline-block" }} />
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999" }}>Chest tightness — active</span>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" strokeWidth="2"><path d="M12 2c.5 3.5 3 6 6 6.5-3 .5-5.5 3-6 6.5-.5-3.5-3-6-6-6.5 3-.5 5.5-3 6-6.5z"/></svg>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>12 day streak</span>
-                </div>
-              </div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>YOUR PATTERN DASHBOARD</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>THE DISAPPEARING PATTERN</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
+                Your pattern documented in full. Body signature mapped. Trigger sequence identified. Yours permanently.
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666" }}>Chest tightness — active &middot; 12 day streak</p>
             </div>
 
-            {/* PANEL 2: AI Pattern Coach */}
+            {/* PANEL 2: The Pocket Archivist */}
             <div
               className="fade-section"
               data-testid="panel-ai-coach"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                padding: "24px",
-                transition: "border-color 0.3s",
+                background: "#111",
+                border: "1px solid #1a1a1a",
+                borderRadius: "16px",
+                padding: "32px",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>AI Pattern Coach</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <div style={{ alignSelf: "flex-end", background: "rgba(255,255,255,0.06)", padding: "10px 14px", maxWidth: "85%" }}>
-                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc" }}>I just ghosted her again</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "14px" }}>
+                <div style={{ alignSelf: "flex-end", background: "rgba(255,255,255,0.06)", padding: "10px 14px", borderRadius: "8px", maxWidth: "85%" }}>
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#ccc" }}>I just ghosted her again</p>
                 </div>
-                <div style={{ alignSelf: "flex-start", borderLeft: "2px solid #14B8A6", padding: "10px 14px", maxWidth: "85%", background: "rgba(20,184,166,0.04)" }}>
-                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc" }}>Disappearing pattern. What did you feel in your chest right before you pulled away?</p>
+                <div style={{ alignSelf: "flex-start", borderLeft: "2px solid #14B8A6", padding: "10px 14px", maxWidth: "85%", background: "rgba(20,184,166,0.04)", borderRadius: "0 8px 8px 0" }}>
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#ccc" }}>Disappearing pattern. What did you feel in your chest right before you pulled away?</p>
                 </div>
               </div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666" }}>Not a chatbot. A precision tool.</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -2035,16 +2009,15 @@ export default function Landing() {
               className="fade-section"
               data-testid="panel-body-map"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                padding: "24px",
-                transition: "border-color 0.3s",
+                background: "#111",
+                border: "1px solid #1a1a1a",
+                borderRadius: "16px",
+                padding: "32px",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>Body Signature Map</p>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
+              <div style={{ display: "flex", alignItems: "center", gap: "24px", marginBottom: "14px" }}>
                 <svg viewBox="0 0 60 140" width="50" height="120" style={{ flexShrink: 0 }}>
                   <ellipse cx="30" cy="14" rx="10" ry="12" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
                   <line x1="30" y1="26" x2="30" y2="80" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
@@ -2052,52 +2025,44 @@ export default function Landing() {
                   <line x1="30" y1="40" x2="52" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
                   <line x1="30" y1="80" x2="15" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
                   <line x1="30" y1="80" x2="45" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <circle cx="30" cy="42" r="3" fill="#14B8A6" opacity="0.8"/>
-                  <circle cx="30" cy="62" r="3" fill="#14B8A6" opacity="0.8"/>
-                  <circle cx="8" cy="65" r="2.5" fill="#14B8A6" opacity="0.8"/>
+                  <circle cx="30" cy="42" r="4" fill="#14B8A6" opacity="0.9"/>
+                  <circle cx="30" cy="62" r="4" fill="#14B8A6" opacity="0.9"/>
+                  <circle cx="8" cy="65" r="3" fill="#14B8A6" opacity="0.9"/>
                 </svg>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[{ label: "Tightness", area: "Chest" }, { label: "Drop", area: "Stomach" }, { label: "Cold", area: "Hands" }].map((sig) => (
-                    <div key={sig.area} className="flex items-center gap-2">
-                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#14B8A6", display: "inline-block" }} />
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "white" }}>{sig.label}</span>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#555" }}>({sig.area})</span>
-                    </div>
-                  ))}
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#aaa" }}>Tightness (Chest) &middot; Drop (Stomach) &middot; Cold (Hands)</p>
                 </div>
               </div>
-              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "11px", color: "#666", marginTop: "14px", textAlign: "center" }}>Your pattern has a physical signal. Learn to read it.</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", lineHeight: 1.6 }}>Your pattern has a physical signal. The method teaches you to read it before it executes.</p>
             </div>
 
-            {/* PANEL 4: Interrupt Protocol */}
+            {/* PANEL 4: The Interrupt Protocol */}
             <div
               className="fade-section"
               data-testid="panel-interrupt"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                padding: "24px",
-                transition: "border-color 0.3s",
+                background: "#111",
+                border: "1px solid #1a1a1a",
+                borderRadius: "16px",
+                padding: "32px",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
             >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px" }}>The Interrupt Protocol</p>
-              <div style={{ background: "rgba(0,0,0,0.4)", padding: "14px", border: "1px solid rgba(255,255,255,0.04)", marginBottom: "12px" }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>CIRCUIT BREAK — Disappearing Pattern</p>
-                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#ccc", fontStyle: "italic", lineHeight: 1.6 }}>
-                  "The pattern is running. I feel the tightness. I'm choosing to stay."
-                </p>
-              </div>
-              <div>
-                <div className="flex items-center justify-between gap-2 flex-wrap" style={{ marginBottom: "4px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#999" }}>Progress</span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6" }}>Day 11 of 90</span>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>
+              <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>DISAPPEARING PATTERN</p>
+              <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "14px", color: "#ccc", lineHeight: 1.6, marginBottom: "14px" }}>
+                "The pattern is running. I feel the tightness. I'm choosing to stay."
+              </p>
+              <div style={{ marginBottom: "14px" }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: "4px" }}>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999" }}>Progress</span>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Day 11 of 90</span>
                 </div>
-                <div style={{ height: "3px", background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                  <div style={{ width: "12%", height: "100%", background: "#14B8A6" }} />
+                <div style={{ height: "3px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden" }}>
+                  <div style={{ width: "12%", height: "100%", background: "#14B8A6", borderRadius: "2px" }} />
                 </div>
               </div>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", lineHeight: 1.6 }}>A trained sequence. Not a thought. Not a reframe. A practiced physical response that fires before the pattern executes.</p>
             </div>
           </div>
         </div>
