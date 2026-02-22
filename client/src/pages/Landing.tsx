@@ -1611,6 +1611,7 @@ export default function Landing() {
           src={heroSeatedImg}
           loading="eager"
           decoding="async"
+          fetchPriority="high"
           width={1920}
           height={1080}
           alt=""
