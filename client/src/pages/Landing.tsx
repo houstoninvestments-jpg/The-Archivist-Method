@@ -129,8 +129,7 @@ const notForYou = [
   "You need crisis support (call 988).",
 ];
 
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
+function useGlobalFadeIn() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -141,14 +140,19 @@ function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
-    if (ref.current) {
-      ref.current.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    }
-    return () => observer.disconnect();
+    document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el));
+
+    const failsafe = setTimeout(() => {
+      document.querySelectorAll(".fade-section").forEach((el) => el.classList.add("visible"));
+    }, 3000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(failsafe);
+    };
   }, []);
-  return ref;
 }
 
 function handleCheckout(product: string) {
@@ -714,7 +718,7 @@ function EmbeddedQuiz() {
 
 function SectionLabel({ children }: { children: string }) {
   return (
-    <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+    <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
   );
@@ -727,7 +731,7 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
   return (
     <div
       ref={cardRef}
-      className="reveal"
+      className="fade-section"
       style={{
         position: "relative",
         background: "rgba(255,255,255,0.02)",
@@ -820,7 +824,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
   const [active, setActive] = useState(false);
 
   return (
-    <div className="gut-pattern-slide reveal" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
+    <div className="gut-pattern-slide fade-section" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
       <div
         style={{ cursor: "pointer", padding: "8px 0" }}
         data-testid={`text-gut-pattern-${index}`}
@@ -872,7 +876,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
 
 
 
-function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+function ExitInterviewSection() {
   const [countdown, setCountdown] = useState(7);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const sectionObserverRef = useRef<HTMLElement | null>(null);
@@ -911,23 +915,16 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
     };
   }, []);
 
-  const setRefs = useCallback((node: HTMLElement | null) => {
-    sectionObserverRef.current = node;
-    if (sectionRef && "current" in sectionRef) {
-      (sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
-    }
-  }, [sectionRef]);
-
   return (
-    <section ref={setRefs} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
+    <section ref={sectionObserverRef} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
+        <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
           The window is closing.
         </h2>
-        <p className="reveal reveal-delay-1" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
+        <p className="fade-section fade-delay-1" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
           You have 7 seconds before your brain convinces you to stay exactly as you are.
         </p>
-        <div className="reveal reveal-delay-1" style={{ marginBottom: "32px" }}>
+        <div className="fade-section fade-delay-1" style={{ marginBottom: "32px" }}>
           <span
             data-testid="text-countdown"
             style={{
@@ -941,10 +938,10 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
             {countdown}
           </span>
         </div>
-        <div className="reveal reveal-delay-2">
+        <div className="fade-section fade-delay-2">
           <CTAButton text="INTERRUPT THE CYCLE NOW" />
         </div>
-        <p className="reveal reveal-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
+        <p className="fade-section fade-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
           Free · 2 Minutes · Instant Results
         </p>
       </div>
@@ -952,10 +949,9 @@ function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTML
   );
 }
 
-function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+function TheWindowSection() {
   return (
     <section
-      ref={sectionRef as React.RefObject<HTMLElement>}
       className="px-6"
       data-testid="section-window"
       style={{
@@ -967,35 +963,35 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
     >
       <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
 
-        <p className="reveal" data-testid="text-window-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "80px" }}>
           THE WINDOW
         </p>
 
-        <h2 className="reveal" data-testid="text-window-line1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(52px, 8vw, 72px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
+        <h2 className="fade-section" data-testid="text-window-line1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(52px, 8vw, 72px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           YOUR BODY KNEW.
         </h2>
 
-        <p className="reveal" data-testid="text-window-line2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-line2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
           Before the thought formed. Before the words came out. Before you did the thing you swore you wouldn't do again.
         </p>
 
-        <h2 className="reveal" data-testid="text-window-line3" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(64px, 10vw, 96px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
+        <h2 className="fade-section" data-testid="text-window-line3" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(64px, 10vw, 96px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           3 TO 7 SECONDS.
         </h2>
 
-        <p className="reveal" data-testid="text-window-line4" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "18px", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-line4" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "18px", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
           That's the gap between the signal and the pattern executing. It exists in every person. In every pattern. Every single time.
         </p>
 
-        <h3 className="reveal" data-testid="text-window-line5" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
+        <h3 className="fade-section" data-testid="text-window-line5" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
           WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
         </h3>
 
-        <p className="reveal" data-testid="text-window-line6" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-line6" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
           Your pattern fires from the survival part. You've been bringing a spreadsheet to a knife fight.
         </p>
 
-        <h3 className="reveal" data-testid="text-window-line7" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
+        <h3 className="fade-section" data-testid="text-window-line7" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
           THE ARCHIVIST METHOD TEACHES YOU WHAT TO DO INSIDE THAT WINDOW.
         </h3>
 
@@ -1004,22 +1000,22 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   );
 }
 
-function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, React.RefObject<HTMLDivElement | null>> }) {
-  const sections = [
-    { key: "hero", label: "Hero" },
-    { key: "gutCheck", label: "Gut Check" },
-    { key: "patterns", label: "Patterns" },
-    { key: "ctaBreak", label: "Pattern File" },
-    { key: "window", label: "The Window" },
-    { key: "whoFor", label: "For You" },
-    { key: "howItWorks", label: "The Method" },
-    { key: "notTherapy", label: "Not Therapy" },
-    { key: "credibility", label: "The Archives" },
-    { key: "pricing", label: "Pricing" },
-    { key: "founder", label: "Founder" },
-    { key: "finalCta", label: "Exit" },
-  ];
+const scrollSections = [
+  { key: "hero", label: "Hero", testId: "section-hero" },
+  { key: "gutCheck", label: "Gut Check", testId: "section-gut-check" },
+  { key: "patterns", label: "Patterns", testId: "section-patterns" },
+  { key: "ctaBreak", label: "Pattern File", testId: "section-cta-break" },
+  { key: "window", label: "The Window", testId: "section-window" },
+  { key: "whoFor", label: "For You", testId: "section-who-for" },
+  { key: "howItWorks", label: "The Method", testId: "section-how-it-works" },
+  { key: "notTherapy", label: "Not Therapy", testId: "section-not-therapy" },
+  { key: "credibility", label: "The Archives", testId: "section-credibility" },
+  { key: "pricing", label: "Pricing", testId: "section-pricing" },
+  { key: "founder", label: "Founder", testId: "section-founder" },
+  { key: "finalCta", label: "Exit", testId: "section-final-cta" },
+];
 
+function ScrollProgressThread() {
   const [activeKey, setActiveKey] = useState("hero");
   const [positions, setPositions] = useState<Record<string, number>>({});
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
@@ -1034,16 +1030,16 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
       const newPositions: Record<string, number> = {};
       let closest = "hero";
       let closestDist = Infinity;
-      sections.forEach((s) => {
+      scrollSections.forEach((s) => {
         if (s.key === "hero") {
           newPositions[s.key] = 0.03;
           const dist = viewCenter;
           if (dist >= 0 && dist < closestDist) { closestDist = dist; closest = s.key; }
           return;
         }
-        const ref = sectionRefs[s.key];
-        if (!ref?.current) return;
-        const absTop = ref.current.getBoundingClientRect().top + scrollY;
+        const el = document.querySelector(`[data-testid="${s.testId}"]`);
+        if (!el) return;
+        const absTop = el.getBoundingClientRect().top + scrollY;
         newPositions[s.key] = Math.min(Math.max(absTop / docHeight, 0.03), 0.97);
         const dist = viewCenter - absTop;
         if (dist >= 0 && dist < closestDist) { closestDist = dist; closest = s.key; }
@@ -1067,16 +1063,17 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
     };
-  }, [sectionRefs]);
+  }, []);
 
   const handleClick = (key: string) => {
     if (key === "hero") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    const ref = sectionRefs[key];
-    if (ref?.current) {
-      ref.current.scrollIntoView({ behavior: "smooth" });
+    const s = scrollSections.find((sec) => sec.key === key);
+    if (s) {
+      const el = document.querySelector(`[data-testid="${s.testId}"]`);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -1093,7 +1090,7 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
         pointerEvents: "none",
       }}
     >
-      {sections.map((s) => {
+      {scrollSections.map((s) => {
         const top = positions[s.key];
         if (top === undefined) return null;
         const isActive = activeKey === s.key;
@@ -1154,19 +1151,7 @@ function ScrollProgressThread({ sectionRefs }: { sectionRefs: Record<string, Rea
 }
 
 export default function Landing() {
-  const sectionRefs = {
-    gutCheck: useScrollReveal(),
-    patterns: useScrollReveal(),
-    ctaBreak: useScrollReveal(),
-    window: useScrollReveal(),
-    whoFor: useScrollReveal(),
-    howItWorks: useScrollReveal(),
-    notTherapy: useScrollReveal(),
-    pricing: useScrollReveal(),
-    credibility: useScrollReveal(),
-    founder: useScrollReveal(),
-    finalCta: useScrollReveal(),
-  };
+  useGlobalFadeIn();
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -1197,7 +1182,7 @@ export default function Landing() {
       <div className="bg-fog" />
       <div className="bg-grain" />
       <div className="bg-grid" />
-      <ScrollProgressThread sectionRefs={sectionRefs} />
+      <ScrollProgressThread />
 
       {!sessionStorage.getItem('archivistLoaded') && (
         <div className="skeleton-overlay" data-testid="skeleton-loading" ref={(el) => { if (el) setTimeout(() => sessionStorage.setItem('archivistLoaded', '1'), 800); }}>
@@ -1208,20 +1193,25 @@ export default function Landing() {
       )}
 
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .reveal {
+        .fade-section {
           opacity: 0;
           transform: translateY(20px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
         }
-        .reveal.visible {
-          animation: fadeIn 0.6s ease-out forwards;
+        .fade-section.visible {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .reveal-delay-1 { animation-delay: 0.1s; }
-        .reveal-delay-2 { animation-delay: 0.2s; }
-        .reveal-delay-3 { animation-delay: 0.3s; }
+        .fade-delay-1 { transition-delay: 0.1s; }
+        .fade-delay-2 { transition-delay: 0.2s; }
+        .fade-delay-3 { transition-delay: 0.3s; }
+        @media (prefers-reduced-motion: reduce) {
+          .fade-section {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
 
 
         .interrupt-pulse {
@@ -1284,7 +1274,7 @@ export default function Landing() {
           .scroll-progress-thread {
             display: none !important;
           }
-          .reveal { transition-delay: 0s !important; transition-duration: 0.5s; }
+          .fade-section { transition-delay: 0s !important; transition-duration: 0.5s; }
         }
 
         @media (max-width: 767px) {
@@ -1618,7 +1608,7 @@ export default function Landing() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .reveal { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
+          .fade-section { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
           .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
           .scroll-progress-thread { display: none !important; }
@@ -1630,7 +1620,7 @@ export default function Landing() {
           [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
           .cta-glow-border::before { animation: none !important; }
           .myelin-pulse { animation: none !important; }
-          .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+          .fade-section { opacity: 1 !important; transform: none !important; transition: none !important; }
         }
       `}</style>
 
@@ -1742,10 +1732,10 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 2: GUT CHECK ========== */}
-      <section ref={sectionRefs.gutCheck} className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
+          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
             Which one makes your stomach drop?
           </h2>
 
@@ -1755,22 +1745,22 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
+          <p className="fade-section" style={{ fontFamily: "'Libre Baskerville', serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
             If you felt something reading one of those — that's your body signal. That's the thread.
           </p>
         </div>
       </section>
 
       {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
-      <section ref={sectionRefs.patterns} className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
         <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE PATTERNS</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
               9 Destructive Patterns. You're Running at Least One.
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
+            <p className="fade-section fade-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
               "The pattern is not you. It is a program that runs through you. It was installed to protect a child. You are no longer that child."
             </p>
           </div>
@@ -1781,19 +1771,19 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal reveal-delay-3 text-center mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
+          <p className="fade-section fade-delay-3 text-center mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
             If you felt something reading one of those — that's your body signal firing right now.
           </p>
         </div>
       </section>
 
       {/* ========== SECTION 4: CTA BREAK ========== */}
-      <section ref={sectionRefs.ctaBreak} className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
+          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
             One interrupt changes everything.
           </h2>
-          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
+          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
           <EmbeddedQuiz />
         </div>
       </section>
@@ -1803,19 +1793,19 @@ export default function Landing() {
       <section className="py-24 md:py-32 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
-          <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
             THE COST
           </p>
 
-          <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
+          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
             EVERY PATTERN THAT RUNS TO COMPLETION TAKES SOMETHING FROM YOU.
           </h2>
 
-          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
+          <p className="fade-section fade-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
             A relationship. An opportunity. A version of yourself you don't get back.
           </p>
 
-          <div className="reveal reveal-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
+          <div className="fade-section fade-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
             {[
               "Your pattern fires 3\u20137 seconds before you can stop it.",
               "Without the method \u2014 it runs every single time.",
@@ -1829,25 +1819,25 @@ export default function Landing() {
             ))}
           </div>
 
-          <h2 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
+          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
             HOW MANY MORE TIMES BEFORE SOMETHING CHANGES?
           </h2>
 
-          <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
+          <p className="fade-section" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
             The Archivist Method costs $47. Not interrupting it costs everything.
           </p>
 
-          <div className="reveal">
+          <div className="fade-section">
             <CTAButton text="FIND YOUR PATTERN" />
           </div>
         </div>
       </section>
 
       {/* ========== SECTION 5: THE WINDOW (Timed Text Sequence) ========== */}
-      <TheWindowSection sectionRef={sectionRefs.window} />
+      <TheWindowSection />
 
       {/* ========== SECTION 6: THIS IS FOR YOU / NOT FOR YOU ========== */}
-      <section ref={sectionRefs.whoFor} className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>WHO THIS IS FOR</SectionLabel>
@@ -1855,7 +1845,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* For You */}
-            <div className="reveal" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
+            <div className="fade-section" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
               <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is For You If:
               </h3>
@@ -1872,7 +1862,7 @@ export default function Landing() {
             </div>
 
             {/* Not For You */}
-            <div className="reveal reveal-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
+            <div className="fade-section fade-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
               <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is Not For You If:
               </h3>
@@ -1890,12 +1880,12 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 7: HOW IT WORKS ========== */}
-      <section ref={sectionRefs.howItWorks} className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
         <SectorLabel text="PROTOCOL: FEIR-4 // CLEARANCE: STANDARD" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
               The Method
             </h2>
           </div>
@@ -1908,7 +1898,7 @@ export default function Landing() {
             ].map((step, i) => (
               <div
                 key={step.num}
-                className={`reveal reveal-delay-${i + 1}`}
+                className={`fade-section fade-delay-${i + 1}`}
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}
                 data-testid={`card-step-${step.num}`}
               >
@@ -1922,23 +1912,23 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 8: NOT THERAPY ========== */}
-      <section ref={sectionRefs.notTherapy} className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE DIFFERENCE</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
               Pattern Archaeology vs. Traditional Therapy
             </h2>
-            <p className="reveal reveal-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
+            <p className="fade-section fade-delay-2 mx-auto" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
               "Knowing why you do it doesn't stop you from doing it. This does."
             </p>
           </div>
 
-          <p className="reveal reveal-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
+          <p className="fade-section fade-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
             Inspiration is not a mechanism. Understanding is not interruption. This is the difference.
           </p>
 
-          <div className="reveal reveal-delay-2">
+          <div className="fade-section fade-delay-2">
             <div className="grid grid-cols-2 gap-0" style={{ background: "rgba(20,184,166,0.15)", borderBottom: "2px solid #14B8A6", padding: "14px 16px" }}>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THERAPY</p>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THE ARCHIVIST METHOD</p>
@@ -1955,10 +1945,10 @@ export default function Landing() {
 
 
       {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
-      <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
+      <section className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
         <SectorLabel text="DATASET: COMPLETE // PATTERNS: 9 // CONFIDENCE: 0.97" />
         <div className="max-w-5xl mx-auto">
-          <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="fade-section grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { stat: "4", label: "FEIR Doors" },
               { stat: "9", label: "Documented Patterns" },
@@ -1979,7 +1969,7 @@ export default function Landing() {
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>INSIDE THE SYSTEM</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-bento-headline">
               This Is What You Get
             </h2>
           </div>
@@ -1987,7 +1977,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* PANEL 1: Pattern Dashboard */}
             <div
-              className="reveal md:col-span-1"
+              className="fade-section md:col-span-1"
               data-testid="panel-dashboard"
               style={{
                 background: "rgba(255,255,255,0.03)",
@@ -2014,7 +2004,7 @@ export default function Landing() {
 
             {/* PANEL 2: AI Pattern Coach */}
             <div
-              className="reveal"
+              className="fade-section"
               data-testid="panel-ai-coach"
               style={{
                 background: "rgba(255,255,255,0.03)",
@@ -2038,7 +2028,7 @@ export default function Landing() {
 
             {/* PANEL 3: Body Signature Map */}
             <div
-              className="reveal"
+              className="fade-section"
               data-testid="panel-body-map"
               style={{
                 background: "rgba(255,255,255,0.03)",
@@ -2077,7 +2067,7 @@ export default function Landing() {
 
             {/* PANEL 4: Interrupt Protocol */}
             <div
-              className="reveal"
+              className="fade-section"
               data-testid="panel-interrupt"
               style={{
                 background: "rgba(255,255,255,0.03)",
@@ -2110,18 +2100,18 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 9: PRICING ========== */}
-      <section ref={sectionRefs.pricing} className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
               Start Free. Go Deeper When You're Ready.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {/* Crash Course */}
-            <div className="reveal flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
+            <div className="fade-section flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productCrashCourse} alt="The Crash Course" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-crash-course" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
@@ -2148,7 +2138,7 @@ export default function Landing() {
             </div>
 
             {/* Field Guide - emphasized */}
-            <div className="reveal reveal-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
+            <div className="fade-section fade-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75 }} data-testid="img-product-field-guide" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
@@ -2182,7 +2172,7 @@ export default function Landing() {
             </div>
 
             {/* Complete Archive */}
-            <div className="reveal reveal-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
+            <div className="fade-section fade-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productCompleteArchive} alt="The Complete Archive" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7 }} data-testid="img-product-complete-archive" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
@@ -2215,10 +2205,10 @@ export default function Landing() {
             </div>
           </div>
 
-          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "0.05em" }} data-testid="text-one-time">
+          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "0.05em" }} data-testid="text-one-time">
             One-time purchase. No subscriptions. Yours forever.
           </p>
-          <p className="reveal reveal-delay-3 text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
+          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
             If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
           </p>
 
@@ -2289,17 +2279,17 @@ export default function Landing() {
       <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <SectorLabel text="THE POCKET ARCHIVIST" />
         <div className="max-w-3xl mx-auto">
-          <p className="reveal text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
             THE POCKET ARCHIVIST
           </p>
-          <h2 className="reveal text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+          <h2 className="fade-section text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
             IT ALREADY KNOWS YOUR PATTERN.
           </h2>
-          <p className="reveal text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "0 auto 64px", lineHeight: 1.7 }}>
             You don't have to explain yourself. Not at midnight. Not mid-spiral. Not when you're three seconds from doing the thing again.
           </p>
 
-          <div className="reveal space-y-0" style={{ maxWidth: "700px", margin: "0 auto" }}>
+          <div className="fade-section space-y-0" style={{ maxWidth: "700px", margin: "0 auto" }}>
             {[
               { moment: "IT'S 11PM", scenario: "The pattern is firing. Your therapist is asleep. Your journal won't talk back. The Pocket Archivist will." },
               { moment: "YOU ALREADY KNOW WHY", scenario: "You don't need another insight. You need to know what to do in the next seven seconds. It tells you exactly that." },
@@ -2317,11 +2307,11 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="reveal text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 32px", lineHeight: 1.7 }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 32px", lineHeight: 1.7 }}>
             This is what $27 a month buys when it launches publicly. Right now it's included with every purchase.
           </p>
 
-          <div className="reveal text-center" style={{ maxWidth: "320px", margin: "0 auto" }}>
+          <div className="fade-section text-center" style={{ maxWidth: "320px", margin: "0 auto" }}>
             <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
               <div className="cta-glow-border" />
               <a
@@ -2342,18 +2332,18 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 11: FOUNDER ========== */}
-      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
+      <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
-            <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
               About The Founder
             </h2>
           </div>
 
-          <div className="reveal reveal-delay-2 text-center" style={{ lineHeight: 1.8 }}>
+          <div className="fade-section fade-delay-2 text-center" style={{ lineHeight: 1.8 }}>
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
               I built this because I was watching patterns tear apart something I cared about deeply. Someone I love was stuck in the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't break the cycle.
             </p>
@@ -2374,7 +2364,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 12: FINAL CTA - EXIT INTERVIEW ========== */}
-      <ExitInterviewSection sectionRef={sectionRefs.finalCta} />
+      <ExitInterviewSection />
 
       {/* ========== RESEARCH CITATIONS ========== */}
       <div style={{ padding: "32px 24px 0", borderTop: "1px solid rgba(255,255,255,0.04)" }} data-testid="section-citations">
