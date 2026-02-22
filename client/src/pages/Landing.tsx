@@ -2209,6 +2209,12 @@ export default function Landing() {
         }
       `}</style>
 
+      {import.meta.env.DEV && (
+        <div data-testid="test-mode-banner" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999, background: "#FACC15", color: "#000", textAlign: "center", padding: "6px 16px", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+          TEST MODE ACTIVE
+        </div>
+      )}
+
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
         <img
