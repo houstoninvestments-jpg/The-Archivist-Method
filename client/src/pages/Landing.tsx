@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
@@ -95,36 +95,6 @@ const patternCards = [
   { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and way too big. After, you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me." },
 ];
 
-const archivesCaseFiles = [
-  {
-    num: "0041",
-    pattern: "DISAPPEARING",
-    reportBody: "Subject found pattern on Day 3 of Crash Course. First body signal caught: chest tightness before urge to ghost. First clean interrupt: Day 11.",
-    breakthrough: "Subject stayed in the talk. First time in 14 years.",
-    status: "PATTERN WEAKENING",
-  },
-  {
-    num: "0087",
-    pattern: "SUCCESS SABOTAGE",
-    reportBody: "Subject caught pre-sabotage body signal (hands shaking, urge to delete project) 4 seconds before pattern fired. Applied circuit break.",
-    breakthrough: "Did not destroy 6 months of work.",
-    status: "INTERRUPT CONFIRMED",
-  },
-  {
-    num: "0113",
-    pattern: "APOLOGY LOOP",
-    reportBody: "Subject caught herself mid-apology for asking a question at work. Felt throat tighten — body signal. Used circuit break: 'I don't need to say sorry for this.'",
-    breakthrough: "Cut needless apologies by 60% in 3 weeks.",
-    status: "PATTERN DISRUPTED",
-  },
-  {
-    num: "0156",
-    pattern: "TESTING",
-    reportBody: "Subject caught testing behavior mid-fight with partner. Body signal: jaw clenching, urge to push harder. Applied interrupt. Chose to say what she needed instead of testing.",
-    breakthrough: "Partner responded. Relationship intact.",
-    status: "ACTIVE INTERRUPTION",
-  },
-];
 
 const gutCheckPatterns = [
   { name: "THE DISAPPEARING PATTERN", color: "#14B8A6", desc: "You pull away the moment someone gets close." },
@@ -166,11 +136,12 @@ function useScrollReveal() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.1 }
     );
     if (ref.current) {
       ref.current.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
@@ -285,7 +256,7 @@ function BodySilhouette({ optionId, hovered }: { optionId: string; hovered: bool
 }
 
 function EmbeddedQuiz() {
-  const [phase, setPhase] = useState<'quiz' | 'analyzing' | 'glitch' | 'reveal' | 'emailCapture'>('quiz');
+  const [phase, setPhase] = useState<'quiz' | 'analyzing' | 'reveal' | 'emailCapture'>('quiz');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [email, setEmail] = useState('');
@@ -293,7 +264,6 @@ function EmbeddedQuiz() {
   const [error, setError] = useState('');
   const [primaryPattern, setPrimaryPattern] = useState<PatternKey | null>(null);
   const [scores, setScores] = useState<Record<PatternKey, number> | null>(null);
-  const [glitchText, setGlitchText] = useState('');
   const [typewriterDone, setTypewriterDone] = useState(false);
   const [copyVisible, setCopyVisible] = useState(false);
   const [slideDir, setSlideDir] = useState<'left' | 'right'>('left');
@@ -344,32 +314,11 @@ function EmbeddedQuiz() {
         const result = determineQuizResult(calcScores);
         setScores(calcScores);
         setPrimaryPattern(result.primaryPattern);
-        setPhase('glitch');
+        setPhase('reveal');
       }, 2500);
       return () => clearTimeout(timer);
     }
   }, [phase, answers]);
-
-  useEffect(() => {
-    if (phase === 'glitch' && primaryPattern) {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&";
-      const targetLen = patternDisplayNames[primaryPattern]?.length || 12;
-
-      const scrambleInterval = setInterval(() => {
-        let s = "";
-        for (let j = 0; j < targetLen; j++) s += chars[Math.floor(Math.random() * chars.length)];
-        setGlitchText(s);
-      }, 30);
-
-      const timer = setTimeout(() => {
-        clearInterval(scrambleInterval);
-        setGlitchText('');
-        setPhase('reveal');
-      }, 300);
-
-      return () => { clearInterval(scrambleInterval); clearTimeout(timer); };
-    }
-  }, [phase, primaryPattern]);
 
   useEffect(() => {
     if (phase === 'reveal' && primaryPattern) {
@@ -479,20 +428,6 @@ function EmbeddedQuiz() {
           </p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
-  if (phase === 'glitch') {
-    return (
-      <div style={containerStyle} data-testid="embedded-quiz-glitch">
-        <div style={{ position: "absolute", left: 0, right: 0, top: "30%", height: "1px", background: "rgba(255,255,255,0.2)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", left: 0, right: 0, top: "60%", height: "1px", background: "rgba(255,255,255,0.15)", pointerEvents: "none" }} />
-        <div style={{ textAlign: "center", padding: "48px 0" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "rgba(255,255,255,0.3)", letterSpacing: "0.15em" }} data-testid="text-embedded-glitch">
-            {glitchText}
-          </p>
-        </div>
       </div>
     );
   }
@@ -778,28 +713,8 @@ function EmbeddedQuiz() {
 }
 
 function SectionLabel({ children }: { children: string }) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const glitched = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !glitched.current) {
-          glitched.current = true;
-          el.classList.add("scanline-glitch");
-          setTimeout(() => el.classList.remove("scanline-glitch"), 300);
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <p ref={ref} className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+    <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
       {children}
     </p>
   );
@@ -955,342 +870,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
   );
 }
 
-function CaseFileCard({ file, index }: { file: typeof archivesCaseFiles[0]; index: number }) {
-  const [declassified, setDeclassified] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const archiveRef = useMemo(() => String(Math.floor(100000 + Math.random() * 900000)), []);
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const handleDeclassify = () => {
-    if (!declassified) setDeclassified(true);
-  };
-
-  return (
-    <div
-      className="reveal candle-flicker"
-      style={{
-        position: "relative",
-        background: "#1a1510",
-        padding: "28px",
-        transitionDelay: `${(index % 2) * 0.15}s`,
-        boxShadow: "3px 2px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(255,255,255,0.03), inset 0 0 30px rgba(0,0,0,0.3)",
-        animationName: `candleFlicker${(index % 3) + 1}`,
-        animationDuration: `${3 + (index * 0.7)}s`,
-      }}
-      data-testid={`card-case-file-${file.num}`}
-      onMouseEnter={!isMobile ? handleDeclassify : undefined}
-      onClick={isMobile ? handleDeclassify : undefined}
-    >
-      <div style={{
-        position: "absolute",
-        top: "12px",
-        right: "16px",
-        fontFamily: "'JetBrains Mono', monospace",
-        fontSize: "13px",
-        color: "#EC4899",
-        textTransform: "uppercase",
-        letterSpacing: "0.1em",
-        opacity: 0.7,
-        transform: "rotate(-2deg)",
-      }}>
-        ARCHIVE REF: {archiveRef}
-      </div>
-      <div style={{ marginBottom: "16px" }}>
-        <div className="flex items-center gap-3 flex-wrap" style={{ marginBottom: "8px" }}>
-          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            CASE FILE {file.num}
-          </span>
-          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#737373" }}>|</span>
-          <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            PATTERN: {file.pattern}
-          </span>
-        </div>
-        <div role="img" aria-label="Redacted name" style={{ background: "#0D0D0D", height: "12px", width: "120px", marginTop: "8px" }} />
-      </div>
-      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "14px", color: "#b0a890", lineHeight: 1.8, marginBottom: "12px" }}>
-        "{file.reportBody}"
-      </p>
-      <div style={{ position: "relative", marginBottom: "8px", overflow: "hidden" }}>
-        <p
-          data-testid={`text-breakthrough-${file.num}`}
-          style={{
-            fontFamily: "'Special Elite', cursive",
-            fontSize: "14px",
-            color: "#14B8A6",
-            lineHeight: 1.8,
-            fontWeight: 400,
-          }}
-        >
-          "{file.breakthrough}"
-        </p>
-        <div
-          data-testid={`redaction-bar-${file.num}`}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "#1a1510",
-            transform: declassified ? "translateX(101%)" : "translateX(0)",
-            transition: "transform 0.6s ease",
-          }}
-        />
-      </div>
-      <p
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "13px",
-          color: "#555",
-          marginBottom: "16px",
-          transition: "opacity 0.3s",
-          opacity: declassified ? 0 : 1,
-        }}
-      >
-        {isMobile ? "[ TAP TO DECLASSIFY ]" : "[ HOVER TO DECLASSIFY ]"}
-      </p>
-      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "13px", color: "#666", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-        STATUS: {file.status}
-      </p>
-    </div>
-  );
-}
-
-
-const patternFileCards = [
-  { stamp: "TRIGGER", caseNum: "01", headline: "Something happens.", body: "A look. A tone. A silence. Your nervous system flags it as danger before you hear a word.", side: "left" as const, rotate: -1.5 },
-  { stamp: "AMYGDALA FIRE", caseNum: "02", headline: "Your survival brain takes over.", body: "80,000x faster than thought. The pattern is already loading. Your CEO hasn't even been notified yet.", side: "right" as const, rotate: 2 },
-  { stamp: "BODY SIGNATURE", caseNum: "03", headline: "Your body knows before you do.", body: "Jaw tightens. Chest drops. Stomach clenches. That sensation is not anxiety. It's data.", side: "left" as const, rotate: -1 },
-  { stamp: "THE WINDOW", caseNum: "04", headline: "3 to 7 seconds.", body: "This is the only moment interruption is biologically possible. Most people live their entire lives never knowing it exists.", side: "right" as const, rotate: 1.5 },
-  { stamp: "PATTERN EXECUTES", caseNum: "05", headline: "Without the method \u2014 it runs.", body: "The message gets sent. The fight starts. The opportunity collapses. The loop tightens. Again.", side: "left" as const, rotate: -2 },
-  { stamp: "THE INTERRUPT", caseNum: "06", headline: "With the method \u2014 you choose.", body: "You recognize the signature. You apply the circuit break. For the first time \u2014 the pattern does not complete.", side: "right" as const, rotate: 1 },
-];
-
-function PatternFileSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
-  const [activePin, setActivePin] = useState(0);
-  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 768);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setVisibleCards(prev => { const next = new Set(Array.from(prev)); next.add(i); return next; });
-            setActivePin(i);
-          }
-        },
-        { threshold: 0.3 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach(o => o.disconnect());
-  }, []);
-
-  const pinPositions = [
-    { y: 80 }, { y: 240 }, { y: 400 }, { y: 560 }, { y: 720 }, { y: 880 }
-  ];
-  const threadHeight = 960;
-
-  return (
-    <section
-      ref={sectionRef}
-      className="px-6"
-      data-testid="section-pattern-file"
-      style={{
-        position: "relative",
-        background: "#0A0A0A",
-        paddingTop: "100px",
-        paddingBottom: "100px",
-        backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"200\" height=\"200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"n\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23n)\" opacity=\"0.04\"/%3E%3C/svg%3E')",
-      }}
-    >
-      <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center", marginBottom: "80px" }}>
-        <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "13px",
-          color: "#EC4899",
-          textTransform: "uppercase",
-          letterSpacing: "0.2em",
-          marginBottom: "16px",
-        }}>
-          CLASSIFIED RESEARCH
-        </p>
-        <h2 className="distressed-stamp-heavy chromatic-aberration" style={{
-          fontFamily: "'Schibsted Grotesk', sans-serif",
-          fontWeight: 900,
-          textTransform: "uppercase",
-          fontSize: "clamp(2rem, 5vw, 3.5rem)",
-          color: "white",
-          marginBottom: "20px",
-          lineHeight: 1.1,
-        }}>
-          THE PATTERN FILE
-        </h2>
-        <p style={{
-          fontFamily: "'Libre Baskerville', serif",
-          fontStyle: "italic",
-          fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
-          color: "#14B8A6",
-          maxWidth: "600px",
-          margin: "0 auto",
-          lineHeight: 1.5,
-        }}>
-          How a destructive pattern runs &mdash; and the one moment it can be stopped.
-        </p>
-      </div>
-
-      <div style={{ position: "relative", maxWidth: "700px", margin: "0 auto" }}>
-        {!isMobile && (
-          <svg
-            style={{ position: "absolute", left: "50%", top: 0, transform: "translateX(-50%)", width: "4px", height: threadHeight, zIndex: 1, overflow: "visible" }}
-            viewBox={`0 0 4 ${threadHeight}`}
-          >
-            <line
-              x1="2" y1="0" x2="2" y2={threadHeight}
-              stroke="#14B8A6"
-              strokeWidth="1.5"
-              strokeDasharray="6 4"
-              opacity="0.5"
-            />
-            {pinPositions.map((pin, i) => (
-              <circle
-                key={i}
-                cx="2"
-                cy={pin.y}
-                r="4"
-                fill={i <= activePin ? "#14B8A6" : "#1a1a1a"}
-                stroke="#14B8A6"
-                strokeWidth="1"
-              />
-            ))}
-            <circle
-              cx="2"
-              cy={pinPositions[Math.min(activePin, 5)]?.y || 80}
-              r="6"
-              fill="#14B8A6"
-              opacity="0.8"
-              style={{ transition: "cy 0.6s ease" }}
-            >
-              <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
-            </circle>
-            <circle
-              cx="2"
-              cy={pinPositions[Math.min(activePin, 5)]?.y || 80}
-              r="12"
-              fill="none"
-              stroke="#14B8A6"
-              strokeWidth="0.5"
-              opacity="0.3"
-              style={{ transition: "cy 0.6s ease" }}
-            >
-              <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" />
-            </circle>
-          </svg>
-        )}
-
-        <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "24px" : "40px", position: "relative", zIndex: 2 }}>
-          {patternFileCards.map((card, i) => {
-            const isVisible = visibleCards.has(i);
-            const isLeft = card.side === "left";
-            return (
-              <div
-                key={i}
-                ref={(el) => { cardRefs.current[i] = el; }}
-                data-testid={`pattern-file-card-${i}`}
-                className={`case-file-card${isVisible ? " case-file-visible" : " case-file-hidden"}`}
-                style={{
-                  width: isMobile ? "100%" : "280px",
-                  alignSelf: isMobile ? "center" : isLeft ? "flex-start" : "flex-end",
-                  "--init-rotate": `${card.rotate}deg`,
-                } as React.CSSProperties}
-              >
-                <div style={{
-                  position: "absolute",
-                  top: "-6px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "50%",
-                  background: "#14B8A6",
-                  border: "2px solid #0A0A0A",
-                  display: isMobile ? "none" : "block",
-                }} />
-
-                <p style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "13px",
-                  color: "#14B8A6",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.15em",
-                  marginBottom: "12px",
-                  opacity: 0.9,
-                }}>
-                  {card.stamp} &mdash; CASE FILE {card.caseNum}
-                </p>
-
-                <h3 style={{
-                  fontFamily: "'Schibsted Grotesk', sans-serif",
-                  fontWeight: 900,
-                  textTransform: "uppercase",
-                  fontSize: "1rem",
-                  color: "white",
-                  marginBottom: "10px",
-                  lineHeight: 1.3,
-                }}>
-                  {card.headline}
-                </h3>
-
-                <p style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: "0.85rem",
-                  color: "rgba(255,255,255,0.7)",
-                  lineHeight: 1.6,
-                  margin: 0,
-                }}>
-                  {card.body}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: "500px", margin: "80px auto 0", textAlign: "center" }}>
-        <p style={{
-          fontFamily: "'Libre Baskerville', serif",
-          fontStyle: "italic",
-          fontSize: "1.2rem",
-          color: "#14B8A6",
-          marginBottom: "32px",
-          lineHeight: 1.5,
-        }}>
-          The Archivist Method was built for this window.
-        </p>
-        <CTAButton text="FIND YOUR PATTERN" />
-      </div>
-    </section>
-  );
-}
 
 function ExitInterviewSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const [countdown, setCountdown] = useState(7);
@@ -1385,41 +965,37 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         paddingBottom: "120px",
       }}
     >
-      <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
       <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
 
-        <p className="reveal" data-testid="text-window-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "64px" }}>
+        <p className="reveal" data-testid="text-window-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "80px" }}>
           THE WINDOW
         </p>
 
-        <h2 className="reveal reveal-delay-1" data-testid="text-window-line1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
+        <h2 className="reveal" data-testid="text-window-line1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(52px, 8vw, 72px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           YOUR BODY KNEW.
         </h2>
 
-        <p className="reveal reveal-delay-2" data-testid="text-window-line2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto 80px" }}>
+        <p className="reveal" data-testid="text-window-line2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
           Before the thought formed. Before the words came out. Before you did the thing you swore you wouldn't do again.
         </p>
 
-        <h2 className="reveal reveal-delay-3" data-testid="text-window-line3" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px", textShadow: "0 0 30px rgba(20,184,166,0.3)" }}>
+        <h2 className="reveal" data-testid="text-window-line3" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(64px, 10vw, 96px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           3 TO 7 SECONDS.
         </h2>
 
-        <p className="reveal" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "clamp(1rem, 2vw, 1.15rem)", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto 80px", animationDelay: "0.8s" }} data-testid="text-window-line4">
+        <p className="reveal" data-testid="text-window-line4" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "18px", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
           That's the gap between the signal and the pattern executing. It exists in every person. In every pattern. Every single time.
         </p>
 
-        <h3 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "32px", animationDelay: "1s" }} data-testid="text-window-line5">
+        <h3 className="reveal" data-testid="text-window-line5" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
           WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
         </h3>
 
-        <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.2rem)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto 80px", animationDelay: "1.2s" }} data-testid="text-window-line6">
+        <p className="reveal" data-testid="text-window-line6" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
           Your pattern fires from the survival part. You've been bringing a spreadsheet to a knife fight.
         </p>
 
-        <h3 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "white", textTransform: "uppercase", lineHeight: 1.2, transition: "text-shadow 0.3s", animationDelay: "1.4s" }} data-testid="text-window-line7"
-          onMouseOver={(e) => { e.currentTarget.style.textShadow = "0 0 30px rgba(20,184,166,0.4)"; }}
-          onMouseOut={(e) => { e.currentTarget.style.textShadow = "none"; }}
-        >
+        <h3 className="reveal" data-testid="text-window-line7" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
           THE ARCHIVIST METHOD TEACHES YOU WHAT TO DO INSIDE THAT WINDOW.
         </h3>
 
@@ -1613,58 +1189,9 @@ export default function Landing() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const headlineGlitchObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !entry.target.getAttribute("data-glitched")) {
-            entry.target.setAttribute("data-glitched", "1");
-            entry.target.classList.add("headline-glitch");
-            setTimeout(() => entry.target.classList.remove("headline-glitch"), 300);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    const page = pageRef.current;
-    if (page) {
-      page.querySelectorAll("h2").forEach((el) => headlineGlitchObserver.observe(el));
-    }
-
-    return () => {
-      headlineGlitchObserver.disconnect();
-    };
-  }, []);
 
   return (
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Source Sans 3', sans-serif", overflowX: "hidden" }}>
-      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
-        <defs>
-          <filter id="distress" x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" seed="2" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="8" result="crackNoise" />
-            <feColorMatrix in="crackNoise" type="luminanceToAlpha" result="crackAlpha" />
-            <feComponentTransfer in="crackAlpha" result="crackMask">
-              <feFuncA type="discrete" tableValues="0 0 0 0 0.15 0 0 0.1 0 0" />
-            </feComponentTransfer>
-            <feComposite in="displaced" in2="crackMask" operator="out" result="distressed" />
-            <feBlend in="distressed" in2="SourceGraphic" mode="normal" />
-          </filter>
-          <filter id="distress-heavy" x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="6" seed="5" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" seed="12" result="crackNoise" />
-            <feColorMatrix in="crackNoise" type="luminanceToAlpha" result="crackAlpha" />
-            <feComponentTransfer in="crackAlpha" result="crackMask">
-              <feFuncA type="discrete" tableValues="0 0 0 0 0.2 0 0.15 0 0 0.1" />
-            </feComponentTransfer>
-            <feComposite in="displaced" in2="crackMask" operator="out" result="distressed" />
-            <feBlend in="distressed" in2="SourceGraphic" mode="normal" />
-          </filter>
-        </defs>
-      </svg>
       <StarField />
       <FloatingParticles />
       <div className="bg-fog" />
@@ -1681,33 +1208,21 @@ export default function Landing() {
       )}
 
       <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         .reveal {
           opacity: 0;
           transform: translateY(20px);
-          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .reveal.revealed {
-          opacity: 1;
-          transform: translateY(0);
+        .reveal.visible {
+          animation: fadeIn 0.6s ease-out forwards;
         }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-        .reveal-delay-5 { transition-delay: 0.5s; }
-        .reveal-delay-6 { transition-delay: 0.6s; }
-        .reveal-delay-7 { transition-delay: 0.7s; }
-        .reveal-delay-8 { transition-delay: 0.8s; }
+        .reveal-delay-1 { animation-delay: 0.1s; }
+        .reveal-delay-2 { animation-delay: 0.2s; }
+        .reveal-delay-3 { animation-delay: 0.3s; }
 
-        .gut-pattern {
-          opacity: 0;
-          transform: translateY(10px);
-          transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        .gut-pattern.revealed {
-          opacity: 1;
-          transform: translateY(0);
-        }
 
         .interrupt-pulse {
           animation: pulse-subtle 2s ease-in-out infinite;
@@ -2053,74 +1568,6 @@ export default function Landing() {
           border: 1px solid rgba(255,255,255,0.15);
         }
 
-        .distressed-stamp {
-          filter: url(#distress);
-          position: relative;
-        }
-        .distressed-stamp-heavy {
-          filter: url(#distress-heavy);
-          position: relative;
-        }
-
-        .chromatic-aberration {
-          position: relative;
-          text-shadow:
-            -1px 0 rgba(255, 60, 60, 0.3),
-            1px 0 rgba(60, 120, 255, 0.3);
-        }
-
-        .headline-glitch {
-          animation: headlineGlitchDistress 0.3s ease-out;
-        }
-        @keyframes headlineGlitchDistress {
-          0% { transform: translateX(-4px); opacity: 0.7; filter: url(#distress-heavy); text-shadow: -1px 0 rgba(255,60,60,0.3), 1px 0 rgba(60,120,255,0.3); }
-          25% { transform: translateX(4px); opacity: 0.85; filter: url(#distress-heavy); text-shadow: -1px 0 rgba(255,60,60,0.35), 1px 0 rgba(60,120,255,0.35); }
-          50% { transform: translateX(-2px); opacity: 0.95; filter: url(#distress); text-shadow: -1px 0 rgba(255,60,60,0.15), 1px 0 rgba(60,120,255,0.15); }
-          75% { transform: translateX(2px); opacity: 1; filter: none; text-shadow: none; }
-          100% { transform: translateX(0); opacity: 1; filter: none; text-shadow: none; }
-        }
-
-        @keyframes scanlineGlitch {
-          0% { transform: translateX(0); }
-          20% { transform: translateX(-3px); }
-          40% { transform: translateX(3px); }
-          60% { transform: translateX(-2px); }
-          80% { transform: translateX(2px); }
-          100% { transform: translateX(0); }
-        }
-        .scanline-glitch {
-          animation: scanlineGlitch 0.3s ease-out;
-        }
-
-        .case-file-card {
-          transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-          background: #1a1510;
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 2px;
-          padding: 24px 20px;
-          position: relative;
-          cursor: default;
-          box-shadow: none;
-          opacity: 1;
-          transform: rotate(0deg) translateY(0);
-          background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.06"/%3E%3C/svg%3E');
-        }
-        .case-file-hidden {
-          opacity: 0;
-          transform: rotate(var(--init-rotate, 0deg)) translateY(30px);
-        }
-        .case-file-visible {
-          opacity: 1;
-          transform: rotate(0deg) translateY(0);
-          border-color: rgba(20, 184, 166, 0.3);
-          box-shadow: 0 0 20px rgba(20, 184, 166, 0.08);
-        }
-        .case-file-visible:hover {
-          transform: rotate(0deg) translateY(-6px);
-          box-shadow: 0 8px 30px rgba(236, 72, 153, 0.15);
-          border-color: rgba(236, 72, 153, 0.4);
-        }
-
         @keyframes myelinStreak {
           0%, 80% { background-position: -200% center; }
           100% { background-position: 200% center; }
@@ -2145,25 +1592,6 @@ export default function Landing() {
           -webkit-text-fill-color: currentColor;
         }
 
-        @keyframes candleFlicker1 {
-          0%, 100% { opacity: 0.88; }
-          20% { opacity: 0.95; }
-          40% { opacity: 0.85; }
-          60% { opacity: 1; }
-          80% { opacity: 0.9; }
-        }
-        @keyframes candleFlicker2 {
-          0%, 100% { opacity: 0.92; }
-          25% { opacity: 0.87; }
-          50% { opacity: 1; }
-          75% { opacity: 0.9; }
-        }
-        @keyframes candleFlicker3 {
-          0%, 100% { opacity: 0.9; }
-          33% { opacity: 1; }
-          66% { opacity: 0.86; }
-        }
-        .candle-flicker { animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
 
         @keyframes heroWordReveal {
           0% { opacity: 0; color: #14B8A6; }
@@ -2194,7 +1622,6 @@ export default function Landing() {
           .interrupt-pulse { animation: none !important; opacity: 1 !important; }
           .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
           .scroll-progress-thread { display: none !important; }
-          .gut-pattern { transition-duration: 0.01ms !important; opacity: 1 !important; transform: none !important; }
           .skeleton-overlay { display: none !important; }
           .bg-grain, .bg-grid, .bg-fog { display: none !important; }
           .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
@@ -2202,10 +1629,8 @@ export default function Landing() {
           [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
           [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
           .cta-glow-border::before { animation: none !important; }
-          .scanline-glitch, .headline-glitch { animation: none !important; }
           .myelin-pulse { animation: none !important; }
-          .distressed-stamp, .distressed-stamp-heavy { filter: none !important; }
-          .chromatic-aberration { text-shadow: none !important; }
+          .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
         }
       `}</style>
 
@@ -2219,7 +1644,6 @@ export default function Landing() {
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
         <img
           src={heroSeatedImg}
-          fetchPriority="high"
           loading="eager"
           decoding="async"
           width={1920}
@@ -2236,7 +1660,7 @@ export default function Landing() {
         <div className="absolute inset-0 z-0 hero-overlay" />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
-            className="hero-stagger tracking-[0.3em] uppercase distressed-stamp chromatic-aberration"
+            className="hero-stagger tracking-[0.3em] uppercase"
             style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "1.2s" }}
             data-testid="text-brand-name"
           >
@@ -2374,8 +1798,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 4.5: THE PATTERN FILE (Detective Board) ========== */}
-      <PatternFileSection />
 
       {/* ========== SECTION 4.75: THE COST OF WAITING ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
@@ -2531,23 +1953,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 8.5: FROM THE ARCHIVES ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-archives" style={{ position: "relative" }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center" style={{ marginBottom: "48px" }}>
-            <SectionLabel>FROM THE ARCHIVES</SectionLabel>
-            <h2 className="reveal reveal-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-archives-headline">
-              Field Reports
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {archivesCaseFiles.map((file, i) => (
-              <CaseFileCard key={file.num} file={file} index={i} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
       <section ref={sectionRefs.credibility} className="py-16 md:py-20 px-6" data-testid="section-credibility" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
@@ -2937,7 +2342,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 11: FOUNDER ========== */}
-      <section ref={sectionRefs.founder} className="px-6 candle-flicker" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)", animationName: "candleFlicker2", animationDuration: "5s" }}>
+      <section ref={sectionRefs.founder} className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <p className="reveal" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
