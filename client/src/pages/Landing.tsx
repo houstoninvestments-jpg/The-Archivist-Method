@@ -1380,118 +1380,49 @@ function TheWindowSection({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
       data-testid="section-window"
       style={{
         position: "relative",
-        background: "#0A0A0A",
-        paddingTop: "80px",
-        paddingBottom: "80px",
-        backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.06) 0%, transparent 70%)",
+        background: "#000",
+        paddingTop: "120px",
+        paddingBottom: "120px",
       }}
     >
       <SectorLabel text="TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE" />
-      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-        
-        <div
-          data-testid="circuit-animation"
-          style={{
-            position: "relative",
-            width: "100%",
-            height: "200px",
-            maxHeight: "200px",
-            overflow: "hidden",
-            marginBottom: "48px",
-          }}
+      <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+
+        <p className="reveal" data-testid="text-window-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "64px" }}>
+          THE WINDOW
+        </p>
+
+        <h2 className="reveal reveal-delay-1" data-testid="text-window-line1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
+          YOUR BODY KNEW.
+        </h2>
+
+        <p className="reveal reveal-delay-2" data-testid="text-window-line2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto 80px" }}>
+          Before the thought formed. Before the words came out. Before you did the thing you swore you wouldn't do again.
+        </p>
+
+        <h2 className="reveal reveal-delay-3" data-testid="text-window-line3" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px", textShadow: "0 0 30px rgba(20,184,166,0.3)" }}>
+          3 TO 7 SECONDS.
+        </h2>
+
+        <p className="reveal" style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "clamp(1rem, 2vw, 1.15rem)", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto 80px", animationDelay: "0.8s" }} data-testid="text-window-line4">
+          That's the gap between the signal and the pattern executing. It exists in every person. In every pattern. Every single time.
+        </p>
+
+        <h3 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "32px", animationDelay: "1s" }} data-testid="text-window-line5">
+          WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
+        </h3>
+
+        <p className="reveal" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.2rem)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto 80px", animationDelay: "1.2s" }} data-testid="text-window-line6">
+          Your pattern fires from the survival part. You've been bringing a spreadsheet to a knife fight.
+        </p>
+
+        <h3 className="reveal" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "white", textTransform: "uppercase", lineHeight: 1.2, transition: "text-shadow 0.3s", animationDelay: "1.4s" }} data-testid="text-window-line7"
+          onMouseOver={(e) => { e.currentTarget.style.textShadow = "0 0 30px rgba(20,184,166,0.4)"; }}
+          onMouseOut={(e) => { e.currentTarget.style.textShadow = "none"; }}
         >
-          <svg
-            viewBox="0 0 700 200"
-            preserveAspectRatio="xMidYMid meet"
-            style={{ width: "100%", height: "100%" }}
-            data-testid="svg-circuit"
-          >
-            <defs>
-              <filter id="glow-pink" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <filter id="glow-teal" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="6" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#EC4899" stopOpacity="0" />
-                <stop offset="40%" stopColor="#EC4899" stopOpacity="1" />
-                <stop offset="100%" stopColor="#EC4899" stopOpacity="1" />
-              </linearGradient>
-            </defs>
+          THE ARCHIVIST METHOD TEACHES YOU WHAT TO DO INSIDE THAT WINDOW.
+        </h3>
 
-            <line x1="60" y1="100" x2="640" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-
-            <rect
-              x="250" y="60" width="200" height="80" rx="4"
-              fill="rgba(20,184,166,0.08)"
-              stroke="rgba(20,184,166,0.25)"
-              strokeWidth="1"
-              className="circuit-window-zone"
-            />
-
-            <text x="350" y="92" textAnchor="middle" fill="#14B8A6" fontFamily="'JetBrains Mono', monospace" fontSize="13" fontWeight="bold" className="circuit-window-label">3-7 SECONDS</text>
-            <text x="350" y="128" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="0.05em">THIS IS WHERE YOU CAN CHOOSE.</text>
-
-            <circle cx="60" cy="100" r="6" fill="#EC4899" className="circuit-trigger-dot" filter="url(#glow-pink)" />
-            <text x="60" y="80" textAnchor="middle" fill="#EC4899" fontFamily="'JetBrains Mono', monospace" fontSize="9" letterSpacing="0.1em" className="circuit-trigger-label">TRIGGER</text>
-
-            <text x="170" y="85" textAnchor="middle" fill="rgba(236,72,153,0.7)" fontFamily="'JetBrains Mono', monospace" fontSize="8" className="circuit-speed-label">AMYGDALA — 80,000x FASTER</text>
-
-            <line x1="60" y1="100" x2="640" y2="100" stroke="url(#line-grad)" strokeWidth="2" className="circuit-shooting-line" filter="url(#glow-pink)" />
-
-            <circle cx="640" cy="100" r="8" fill="#EC4899" className="circuit-execute-dot" filter="url(#glow-pink)" />
-            <text x="640" y="80" textAnchor="middle" fill="#EC4899" fontFamily="'JetBrains Mono', monospace" fontSize="8" letterSpacing="0.05em" className="circuit-execute-label">PATTERN EXECUTES</text>
-          </svg>
-
-          <div className="circuit-desat-flash" style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", pointerEvents: "none" }} />
-        </div>
-
-        <div style={{ textAlign: "center" }}>
-          <p
-            data-testid="text-window-label"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "13px",
-              color: "#EC4899",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              marginBottom: "16px",
-            }}
-          >
-            THE WINDOW
-          </p>
-          <p
-            data-testid="text-window-headline"
-            style={{
-              fontFamily: "'Schibsted Grotesk', sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(1.4rem, 3.5vw, 2rem)",
-              color: "white",
-              textTransform: "uppercase",
-              marginBottom: "16px",
-              lineHeight: 1.3,
-            }}
-          >
-            3 seconds. Every time. Without fail.
-          </p>
-          <p
-            data-testid="text-window-closing"
-            style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontStyle: "italic",
-              fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
-              color: "#14B8A6",
-              lineHeight: 1.4,
-              maxWidth: "500px",
-              margin: "0 auto",
-            }}
-          >
-            The Archivist Method teaches you what to do inside it.
-          </p>
-        </div>
       </div>
     </section>
   );
