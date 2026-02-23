@@ -797,40 +797,34 @@
   background-repeat: repeat;
   background-size: 50px 50px;
   opacity: calc(0.035 * clamp(0, (0.45 - var(--scroll-progress, 0)) * 3, 1));
+  will-change: transform;
   animation: grainFlicker 0.3s steps(3) infinite;
   transition: opacity 0.3s linear;
 }
 @keyframes grainFlicker {
-  0% { background-position: 0 0; }
-  33% { background-position: -17px 13px; }
-  66% { background-position: 11px -23px; }
-  100% { background-position: 0 0; }
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-17px, 13px); }
+  66% { transform: translate(11px, -23px); }
+  100% { transform: translate(0, 0); }
 }
 
 @keyframes fogDrift {
-  0% {
-    background-position: 0% 50%, 100% 50%;
-  }
-  33% {
-    background-position: 15% 40%, 85% 60%;
-  }
-  66% {
-    background-position: 5% 55%, 95% 45%;
-  }
-  100% {
-    background-position: 0% 50%, 100% 50%;
-  }
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(15px, -10px); }
+  66% { transform: translate(-10px, 10px); }
+  100% { transform: translate(0, 0); }
 }
 
 .bg-fog {
   position: fixed;
-  inset: 0;
+  inset: -20px;
   pointer-events: none;
   z-index: 1;
   background-image:
     radial-gradient(ellipse 60% 50% at 0% 50%, rgba(20,184,166,0.06) 0%, transparent 70%),
     radial-gradient(ellipse 60% 50% at 100% 50%, rgba(236,72,153,0.05) 0%, transparent 70%);
   background-size: 100% 100%;
+  will-change: transform;
   animation: fogDrift 35s ease-in-out infinite;
   opacity: calc(1 - var(--scroll-progress, 0) * 2);
   transition: opacity 0.3s linear;
@@ -1004,27 +998,31 @@
 }
 
 @keyframes myelinStreak {
-  0%, 80% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0%, 80% { transform: translateX(-200%); }
+  100% { transform: translateX(200%); }
 }
 .myelin-pulse {
-  background-image: linear-gradient(
+  position: relative;
+  overflow: hidden;
+}
+.myelin-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
     90deg,
     transparent 0%,
     transparent 40%,
-    rgba(255,255,255,0.6) 48%,
-    rgba(255,255,255,0.9) 50%,
-    rgba(255,255,255,0.6) 52%,
+    rgba(255,255,255,0.15) 48%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.15) 52%,
     transparent 60%,
     transparent 100%
   );
-  background-size: 200% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
+  will-change: transform;
   animation: myelinStreak 6s ease-in-out 2s infinite;
-}
-.myelin-pulse .hero-word {
-  -webkit-text-fill-color: currentColor;
+  pointer-events: none;
+  mix-blend-mode: overlay;
 }
 
 
@@ -1065,7 +1063,7 @@
   [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
   [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
   .cta-glow-border::before { animation: none !important; }
-  .myelin-pulse { animation: none !important; }
+  .myelin-pulse::after { animation: none !important; display: none !important; }
   .fade-section { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
@@ -1075,5 +1073,5 @@ html.is-bot .hero-word { opacity: 1 !important; animation: none !important; }
 html.is-bot [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
 html.is-bot [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
 html.is-bot .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%) !important; }
-html.is-bot .myelin-pulse { animation: none !important; }
+html.is-bot .myelin-pulse::after { animation: none !important; display: none !important; }
 html.is-bot .fade-section { opacity: 1 !important; transform: none !important; transition: none !important; }
