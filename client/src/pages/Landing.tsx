@@ -1186,6 +1186,7 @@ export default function Landing() {
           width={1920}
           height={1080}
           alt="The Archivist Method"
+          className="lcp-image"
           style={{
             position: "absolute",
             inset: 0,
@@ -1200,7 +1201,7 @@ export default function Landing() {
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
             className="hero-stagger tracking-[0.3em] uppercase"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "1.2s" }}
+            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0s" }}
             data-testid="text-brand-name"
           >
             THE ARCHIVIST METHOD&trade;
@@ -1212,7 +1213,7 @@ export default function Landing() {
             data-testid="text-brand-title"
           >
             {["YOU", "KNOW", "EXACTLY", "WHAT", "YOU'RE", "DOING."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationDelay: `${2.8 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationDelay: `${0.05 + i * 0.04}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
           <p
@@ -1221,30 +1222,30 @@ export default function Landing() {
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ animationName: "heroWordRevealTeal", animationDelay: `${4.3 + i * 0.22}s`, marginRight: "0.3em" }}>{word}</span>
+              <span key={i} className="hero-word" style={{ animationName: "heroWordRevealTeal", animationDelay: `${0.3 + i * 0.04}s`, marginRight: "0.3em" }}>{word}</span>
             ))}
           </p>
 
           <p
             className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.0s" }}
+            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", marginBottom: "48px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.35s" }}
             data-testid="text-hero-positioning"
           >
             Your body sends a signal 3 to 7 seconds before the pattern executes. The Archivist Method teaches you to read it — and what to do inside that window.
           </p>
 
-          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "7.6s" }}>
+          <div className="hero-stagger" style={{ animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.4s" }}>
             <CTAButton text="FIND MY PATTERN →" variant="teal" />
           </div>
 
-          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.2s" }}>
+          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.42s" }}>
             Free · 2 Minutes · Instant Results
           </p>
-          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.5s" }}>
+          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.44s" }}>
             A self-paced digital system. No sessions. No subscriptions. Works in real time.
           </p>
 
-          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "8.9s" }}>
+          <p className="hero-stagger" style={{ marginTop: "20px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.46s" }}>
             <a
               href="#section-window"
               onClick={(e) => {
@@ -1260,7 +1261,7 @@ export default function Landing() {
             </a>
           </p>
 
-          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.6s", animationDelay: "9.0s" }}>
+          <div className="hero-stagger" style={{ marginTop: "48px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.5s" }}>
             <p
               className="tracking-[0.2em] uppercase"
               style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", opacity: 0.7 }}
