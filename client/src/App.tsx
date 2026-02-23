@@ -24,9 +24,7 @@ const ContentReader = lazy(() => import("@/pages/ContentReader"));
 
 function PageLoader() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#14B8A6]"></div>
-    </div>
+    <div className="min-h-screen" style={{ background: "#0A0A0A" }} />
   );
 }
 

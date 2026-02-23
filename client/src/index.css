@@ -846,40 +846,6 @@
   transition: opacity 0.3s linear;
 }
 
-.skeleton-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: #0A0A0A;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  animation: skeletonFadeOut 0.4s ease-out 0.8s forwards;
-  pointer-events: none;
-}
-.skeleton-bar {
-  background: rgba(255,255,255,0.03);
-  animation: skeletonPulse 1s ease-in-out infinite;
-}
-.skeleton-bar-outline {
-  position: absolute;
-  inset: 0;
-  border: 1px solid transparent;
-  animation: skeletonTrace 0.8s ease-out forwards;
-}
-@keyframes skeletonPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-}
-@keyframes skeletonTrace {
-  0% { border-color: transparent; clip-path: inset(0 100% 0 0); }
-  100% { border-color: rgba(20,184,166,0.15); clip-path: inset(0 0 0 0); }
-}
-@keyframes skeletonFadeOut {
-  to { opacity: 0; visibility: hidden; }
-}
 
 @keyframes circuitTriggerPulse {
   0%, 12% { opacity: 1; r: 6; }
@@ -1037,7 +1003,6 @@
   .interrupt-pulse { animation: none !important; opacity: 1 !important; }
   .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
   .scroll-progress-thread { display: none !important; }
-  .skeleton-overlay { display: none !important; }
   .bg-grain, .bg-grid, .bg-fog { display: none !important; }
   .hero-section-fade { animation: none !important; opacity: 1 !important; }
   .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
