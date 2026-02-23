@@ -7,9 +7,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-import Landing from "@/pages/Landing";
 import NotFound from "@/pages/not-found";
 
+const Landing = lazy(() => import("@/pages/Landing"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
 const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
