@@ -1181,16 +1181,19 @@ export default function Landing() {
           src={heroSeatedImg}
           loading="eager"
           decoding="async"
-          fetchPriority="high"
+          // @ts-ignore - fetchpriority is valid HTML but React doesn't recognize it
+          fetchpriority="high"
           width={1920}
           height={1080}
-          alt=""
-          className="absolute inset-0 z-0 hero-bg-image"
+          alt="The Archivist Method"
           style={{
+            position: "absolute",
+            inset: 0,
             width: "100%",
             height: "100%",
             objectFit: "cover",
             objectPosition: "center top",
+            zIndex: 0,
           }}
         />
         <div className="absolute inset-0 z-0 hero-overlay" />
