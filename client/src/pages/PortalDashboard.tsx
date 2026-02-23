@@ -17,7 +17,7 @@ const CARD_BG = "rgba(255,255,255,0.03)";
 const CARD_BORDER = "rgba(255,255,255,0.06)";
 const COLOR_BG = "#0A0A0A";
 const COLOR_TEXT = "#F5F5F5";
-const COLOR_MUTED = "#737373";
+const COLOR_MUTED = "#999999";
 const COLOR_TEAL = "#14B8A6";
 const COLOR_PINK = "#EC4899";
 

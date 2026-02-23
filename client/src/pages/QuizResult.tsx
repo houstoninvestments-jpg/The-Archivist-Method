@@ -374,7 +374,7 @@ export default function QuizResult() {
           {phase !== 'glitch' && (
           <p
             className="results-fade-in"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px" }}
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px" }}
           >
             Pattern Identified
           </p>

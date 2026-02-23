@@ -496,7 +496,7 @@ function EmbeddedQuiz() {
     return (
       <div style={containerStyle} data-testid="embedded-quiz-reveal">
         <div style={{ textAlign: "center" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
             Pattern Identified
           </p>
 
@@ -917,7 +917,7 @@ function ExitInterviewSection() {
         <div className="fade-section fade-delay-2">
           <CTAButton text="INTERRUPT THE CYCLE NOW" />
         </div>
-        <p className="fade-section fade-delay-2" style={{ color: "#737373", fontSize: "13px", marginTop: "16px" }}>
+        <p className="fade-section fade-delay-2" style={{ color: "#999999", fontSize: "13px", marginTop: "16px" }}>
           Free · 2 Minutes · Instant Results
         </p>
       </div>
@@ -1238,7 +1238,7 @@ export default function Landing() {
             <CTAButton text="FIND MY PATTERN →" variant="teal" />
           </div>
 
-          <p className="hero-stagger" style={{ color: "#737373", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.42s" }}>
+          <p className="hero-stagger" style={{ color: "#999999", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.42s" }}>
             Free · 2 Minutes · Instant Results
           </p>
           <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px", animationName: "heroFadeIn", animationDuration: "0.4s", animationDelay: "0.44s" }}>
@@ -1477,7 +1477,7 @@ export default function Landing() {
             </div>
             {therapyRows.map((row, i) => (
               <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "14px 16px", background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#737373", fontSize: "0.85rem" }}>{row[0]}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999999", fontSize: "0.85rem" }}>{row[0]}</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.85rem" }}>{row[1]}</p>
               </div>
             ))}
@@ -1754,7 +1754,7 @@ export default function Landing() {
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "16px", textAlign: "center" }}>
                 DEV MODE: Test Purchase Simulator
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#737373", textAlign: "center", marginBottom: "16px" }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999999", textAlign: "center", marginBottom: "16px" }}>
                 Card: 4242 4242 4242 4242 | Exp: 12/34 | CVC: 123
               </p>
               <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
@@ -1872,7 +1872,7 @@ export default function Landing() {
       <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
-            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#737373", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
+            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
@@ -1922,11 +1922,11 @@ export default function Landing() {
           </p>
 
           <div className="flex justify-center gap-4" style={{ marginTop: "16px" }}>
-            <Link href="/terms" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
+            <Link href="/terms" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
             <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
-            <Link href="/privacy" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
+            <Link href="/privacy" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
             <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
-            <Link href="/contact" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#444", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
+            <Link href="/contact" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
           </div>
         </div>
       </footer>

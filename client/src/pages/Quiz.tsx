@@ -178,7 +178,7 @@ export default function Quiz() {
             style={{
               fontFamily: "'Source Sans 3', sans-serif",
               fontSize: '1rem',
-              color: '#737373',
+              color: '#999999',
               marginTop: '32px',
             }}
           >
@@ -226,7 +226,7 @@ export default function Quiz() {
             style={{
               fontFamily: "'Source Sans 3', sans-serif",
               fontSize: '13px',
-              color: '#737373',
+              color: '#999999',
               marginTop: '16px',
             }}
           >
@@ -259,12 +259,12 @@ export default function Quiz() {
           <div className="relative w-20 h-20 mx-auto mb-8">
             <div className="absolute inset-0 border-4 rounded-full" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }} />
             <div className="absolute inset-0 border-4 border-transparent rounded-full quiz-spin" style={{ borderTopColor: '#14B8A6' }} />
-            <div className="absolute inset-2 border-4 border-transparent rounded-full quiz-spin-reverse" style={{ borderTopColor: '#737373' }} />
+            <div className="absolute inset-2 border-4 border-transparent rounded-full quiz-spin-reverse" style={{ borderTopColor: '#999999' }} />
           </div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', color: 'white', marginBottom: '12px' }}>
             Analyzing Your Patterns
           </h2>
-          <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#737373', maxWidth: '400px', margin: '0 auto' }}>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#999999', maxWidth: '400px', margin: '0 auto' }}>
             Cross-referencing your responses against 9 core survival patterns...
           </p>
         </div>
@@ -364,7 +364,7 @@ export default function Quiz() {
                   margin: '8px auto 0',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '12px',
-                  color: '#737373',
+                  color: '#999999',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -373,7 +373,7 @@ export default function Quiz() {
                   transition: 'color 200ms ease',
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = '#999'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#737373'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = '#999999'; }}
               >
                 back
               </button>
