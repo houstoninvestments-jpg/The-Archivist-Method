@@ -973,12 +973,8 @@
   contain: none;
 }
 
-@keyframes heroSectionFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
 .hero-section-fade {
-  animation: heroSectionFadeIn 0.4s ease-out forwards;
+  opacity: 1;
 }
 .hero-overlay {
   background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%);
@@ -988,10 +984,6 @@
   to { background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%); }
 }
 
-@keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 @keyframes ctaSpin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -1026,28 +1018,18 @@
 }
 
 
-@keyframes heroWordReveal {
-  0% { opacity: 0; color: #14B8A6; }
-  15% { opacity: 1; color: #14B8A6; }
-  40% { color: #14B8A6; }
-  100% { opacity: 1; color: #F5F5F5; }
-}
-@keyframes heroWordRevealTeal {
-  0% { opacity: 0; color: #14B8A6; }
-  100% { opacity: 1; color: #14B8A6; }
-}
 .hero-stagger {
-  opacity: 0;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  opacity: 1;
 }
 .hero-word {
-  opacity: 0;
-  animation-name: heroWordReveal;
-  animation-duration: 1.2s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  opacity: 1;
   display: inline-block;
+}
+[data-testid="text-brand-title"] .hero-word {
+  color: #F5F5F5;
+}
+[data-testid="text-brand-title-2"] .hero-word {
+  color: #14B8A6;
 }
 
 @media (prefers-reduced-motion: reduce) {
