@@ -1674,9 +1674,9 @@ export default function Landing() {
             {/* Field Guide - emphasized */}
             <div className="fade-section fade-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
-                <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.75, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-field-guide" />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
-                <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none" }} />
+                <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-field-guide" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)", zIndex: 1 }} />
+                <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none", zIndex: 0 }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
