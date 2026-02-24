@@ -1507,6 +1507,19 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ========== SECTION 8.6: THE METHOD IN 4 FRAMES ========== */}
+      <section style={{ background: "#0A0A0A", padding: "80px 24px" }} data-testid="section-4-frames">
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "12px" }}>
+            <img src="/images/panel-01-the-hit.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
+            <img src="/images/panel-02-the-body.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
+            <img src="/images/panel-03-the-window.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
+            <img src="/images/panel-04-the-break.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
+          </div>
+        </div>
+      </section>
+
       {/* ========== SECTION 8.7: BENTO — INSIDE THE ARCHIVE ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
