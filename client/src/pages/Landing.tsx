@@ -483,7 +483,7 @@ function EmbeddedQuiz() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "white", marginBottom: "4px" }}>
                   {patternDisplayNames[pattern]}
                 </p>
-                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#777", lineHeight: 1.4 }}>
+                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#AAAAAA", lineHeight: 1.4 }}>
                   {patternDescriptions[pattern].slice(0, 60)}...
                 </p>
               </button>
@@ -785,7 +785,7 @@ function SectorLabel({ text }: { text: string }) {
         right: "24px",
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: "13px",
-        color: "rgba(255,255,255,0.12)",
+        color: "#AAAAAA",
         letterSpacing: "0.05em",
         pointerEvents: "none",
         zIndex: 1,
@@ -1110,7 +1110,7 @@ function ScrollProgressThread() {
                 fontSize: "13px",
                 textTransform: "uppercase",
                 letterSpacing: "0.15em",
-                color: "rgba(20,184,166,0.6)",
+                color: "#AAAAAA",
                 whiteSpace: "nowrap",
                 opacity: isHovered ? 1 : 0,
                 transition: "opacity 0.2s ease",
@@ -1899,7 +1899,7 @@ export default function Landing() {
             <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.15rem", color: "#888", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
+            <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1.15rem", color: "#AAAAAA", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
           </div>
