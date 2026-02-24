@@ -636,7 +636,7 @@ function EmbeddedQuiz() {
           {error && <p style={{ color: "#EF4444", fontSize: "0.85rem", textAlign: "center", marginTop: "8px" }} role="alert">{error}</p>}
         </form>
 
-        <p style={{ textAlign: "center", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", marginTop: "16px" }}>
+        <p style={{ textAlign: "center", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#AAAAAA", marginTop: "16px" }}>
           {"Free access \u00b7 No spam \u00b7 Instant portal entry"}
         </p>
       </div>
@@ -708,12 +708,12 @@ function EmbeddedQuiz() {
           onClick={handleBack}
           data-testid="button-quiz-back"
           style={{
-            background: "none", border: "none", color: "#666", fontSize: "13px",
+            background: "none", border: "none", color: "#AAAAAA", fontSize: "13px",
             fontFamily: "'JetBrains Mono', monospace", cursor: "pointer", marginTop: "16px",
             padding: "4px 0", transition: "color 200ms",
           }}
           onMouseEnter={(e) => { e.currentTarget.style.color = "#999"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = "#666"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "#AAAAAA"; }}
         >
           &larr; Back
         </button>
@@ -1497,7 +1497,7 @@ export default function Landing() {
             ].map((item) => (
               <div key={item.label}>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(3.5rem, 8vw, 5rem)", color: "white", lineHeight: 1, marginBottom: "8px" }}>{item.stat}</p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#666", textTransform: "uppercase", letterSpacing: "0.15em" }}>{item.label}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#AAAAAA", textTransform: "uppercase", letterSpacing: "0.15em" }}>{item.label}</p>
               </div>
             ))}
           </div>
@@ -1538,7 +1538,7 @@ export default function Landing() {
               <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
                 Your pattern documented in full. Body signature mapped. Trigger sequence identified. Yours permanently.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666" }}>Chest tightness — active &middot; 12 day streak</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA" }}>Chest tightness — active &middot; 12 day streak</p>
             </div>
 
             {/* PANEL 2: The Pocket Archivist */}
@@ -1562,7 +1562,7 @@ export default function Landing() {
                   <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#ccc" }}>Disappearing pattern. What did you feel in your chest right before you pulled away?</p>
                 </div>
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666" }}>Not a chatbot. A precision tool.</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA" }}>Not a chatbot. A precision tool.</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -1594,7 +1594,7 @@ export default function Landing() {
                   <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#aaa" }}>Tightness (Chest) &middot; Drop (Stomach) &middot; Cold (Hands)</p>
                 </div>
               </div>
-              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", lineHeight: 1.6 }}>Your pattern has a physical signal. The method teaches you to read it before it executes.</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>Your pattern has a physical signal. The method teaches you to read it before it executes.</p>
             </div>
 
             {/* PANEL 4: The Interrupt Protocol */}
@@ -1623,7 +1623,7 @@ export default function Landing() {
                   <div style={{ width: "12%", height: "100%", background: "#14B8A6", borderRadius: "2px" }} />
                 </div>
               </div>
-              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", lineHeight: 1.6 }}>A trained sequence. Not a thought. Not a reframe. A practiced physical response that fires before the pattern executes.</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>A trained sequence. Not a thought. Not a reframe. A practiced physical response that fires before the pattern executes.</p>
             </div>
           </div>
         </div>
@@ -1898,7 +1898,7 @@ export default function Landing() {
 
       {/* ========== RESEARCH CITATIONS ========== */}
       <div style={{ padding: "32px 24px 0", borderTop: "1px solid rgba(255,255,255,0.04)" }} data-testid="section-citations">
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#666", textAlign: "center", maxWidth: "700px", margin: "0 auto", lineHeight: 1.8 }}>
+        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA", textAlign: "center", maxWidth: "700px", margin: "0 auto", lineHeight: 1.8 }}>
           Research Foundation: Libet, B. (1983). Time of conscious intention to act. <em>Brain</em>. · LeDoux, J. (1996). <em>The Emotional Brain</em>. · van der Kolk, B. (2014). <em>The Body Keeps the Score</em>. · Porges, S. (2011). <em>The Polyvagal Theory</em>. · Duhigg, C. (2012). <em>The Power of Habit</em>.
         </p>
       </div>
@@ -1910,16 +1910,16 @@ export default function Landing() {
             "The archive is open. Don't close the door."
           </p>
 
-          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#555", marginTop: "32px" }}>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#AAAAAA", marginTop: "32px" }}>
             &copy; 2026 The Archivist Method&trade; · Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
           </p>
 
           <div className="flex justify-center gap-4" style={{ marginTop: "16px" }}>
-            <Link href="/terms" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
-            <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
-            <Link href="/privacy" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
-            <span style={{ color: "#333", fontSize: "12px" }}>&middot;</span>
-            <Link href="/contact" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#888888", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
+            <Link href="/terms" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#AAAAAA", fontSize: "12px" }} data-testid="link-terms">Terms</Link>
+            <span style={{ color: "#AAAAAA", fontSize: "12px" }}>&middot;</span>
+            <Link href="/privacy" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#AAAAAA", fontSize: "12px" }} data-testid="link-privacy">Privacy</Link>
+            <span style={{ color: "#AAAAAA", fontSize: "12px" }}>&middot;</span>
+            <Link href="/contact" className="transition-colors hover:text-white" style={{ fontFamily: "'Source Sans 3', sans-serif", color: "#AAAAAA", fontSize: "12px" }} data-testid="link-contact">Contact</Link>
           </div>
         </div>
       </footer>
