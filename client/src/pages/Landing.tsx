@@ -1189,7 +1189,6 @@ export default function Landing() {
           </p>
 
           <p
-            className="myelin-pulse"
             style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase" }}
             data-testid="text-brand-title"
           >
@@ -1198,7 +1197,6 @@ export default function Landing() {
             ))}
           </p>
           <p
-            className="myelin-pulse"
             style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15 }}
             data-testid="text-brand-title-2"
           >
