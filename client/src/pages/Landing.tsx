@@ -797,16 +797,11 @@ function SectorLabel({ text }: { text: string }) {
 }
 
 function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatterns[0]; index: number; isLast: boolean }) {
-  const [active, setActive] = useState(false);
-
   return (
     <div className="gut-pattern-slide fade-section" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
       <div
-        style={{ cursor: "pointer", padding: "8px 0" }}
+        style={{ padding: "8px 0" }}
         data-testid={`text-gut-pattern-${index}`}
-        onMouseEnter={() => setActive(true)}
-        onMouseLeave={() => setActive(false)}
-        onClick={() => setActive(prev => !prev)}
       >
         <p
           style={{
@@ -815,9 +810,6 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
             fontSize: "1.2rem",
             textTransform: "uppercase",
             color: "white",
-            transition: "transform 0.3s ease, text-shadow 0.3s ease",
-            transform: active ? "scale(1.05)" : "scale(1)",
-            textShadow: active ? `0 0 20px ${pattern.color}60` : "none",
             margin: 0,
           }}
         >
@@ -830,11 +822,7 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
             fontStyle: "italic",
             fontSize: "1rem",
             color: "#14B8A6",
-            opacity: active ? 1 : 0,
-            maxHeight: active ? "40px" : "0",
-            overflow: "hidden",
-            transition: "opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease",
-            marginTop: active ? "6px" : "0",
+            marginTop: "6px",
           }}
         >
           {pattern.desc}
@@ -1315,9 +1303,12 @@ export default function Landing() {
       {/* ========== SECTION 4: CTA BREAK ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "32px" }}>
+          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "12px" }}>
             One interrupt changes everything.
           </h2>
+          <p className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, textTransform: "uppercase", fontSize: "1.4rem", color: "white", marginBottom: "32px" }}>
+            DISCOVER YOUR PATTERN IN 2 MINUTES.
+          </p>
           <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
           <EmbeddedQuiz />
         </div>
@@ -1337,7 +1328,7 @@ export default function Landing() {
           </h2>
 
           <p className="fade-section fade-delay-2" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
-            A relationship. An opportunity. A version of yourself you don't get back.
+            The promotion you didn't take. The person you pushed away. The apology that came three years too late. The version of yourself you keep promising to become.
           </p>
 
           <div className="fade-section fade-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
@@ -1359,7 +1350,7 @@ export default function Landing() {
           </h2>
 
           <p className="fade-section" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
-            The Archivist Method costs $47. Not interrupting it costs everything.
+            The Archivist Method exists for this moment. Not interrupting it costs everything.
           </p>
 
           <div className="fade-section">
