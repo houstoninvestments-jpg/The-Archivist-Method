@@ -10,11 +10,11 @@ import {
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
 import ArchivistIcon from '@/components/ArchivistIcon';
 
-const FONT_PLAYFAIR = "'Playfair Display', serif";
+const FONT_HEADING = "'Schibsted Grotesk', sans-serif";
 const FONT_BODY = "'Source Sans 3', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
-const CARD_BG = "rgba(255,255,255,0.03)";
-const CARD_BORDER = "rgba(255,255,255,0.06)";
+const CARD_BG = "#111";
+const CARD_BORDER = "#1a1a1a";
 const COLOR_BG = "#0A0A0A";
 const COLOR_TEXT = "#F5F5F5";
 const COLOR_MUTED = "#999999";
@@ -167,7 +167,7 @@ function LockedModal({
           <span className="text-xl">&times;</span>
         </button>
         
-        <h3 className="text-2xl font-bold text-center mb-3" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>
+        <h3 className="text-2xl font-bold text-center mb-3" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>
           {isFieldGuide ? "THE FIELD GUIDE" : "THE COMPLETE ARCHIVE"} — ${isFieldGuide ? "47" : "197"}
         </h3>
         
@@ -379,8 +379,8 @@ export default function PortalDashboard() {
 
   const SidebarLabel = ({ children }: { children: string }) => (
     <p
-      className="text-[10px] uppercase tracking-[0.2em] px-3 mb-2 mt-1"
-      style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}
+      className="uppercase px-3 mb-2 mt-1"
+      style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}
     >
       {children}
     </p>
@@ -419,10 +419,11 @@ export default function PortalDashboard() {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
       <a
         href="/vault/workbench"
-        className="block p-7 rounded-md transition-all group emergency-card-teal"
+        className="block p-7 transition-all group emergency-card-teal"
         style={{
-          background: "linear-gradient(135deg, rgba(20,184,166,0.08) 0%, rgba(20,184,166,0.02) 100%)",
+          background: "#111",
           border: `2px solid ${COLOR_TEAL}`,
+          borderRadius: "16px",
           boxShadow: "0 0 20px rgba(20,184,166,0.08), inset 0 1px 0 rgba(20,184,166,0.1)",
         }}
         data-testid="card-im-activated"
@@ -432,7 +433,7 @@ export default function PortalDashboard() {
             <Zap className="w-6 h-6" style={{ color: COLOR_TEAL }} />
           </div>
           <div>
-            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>I'm Activated</h3>
+            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>I'm Activated</h3>
             <p className="text-[10px] uppercase tracking-[0.2em] mt-0.5" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>WORKBENCH</p>
           </div>
         </div>
@@ -445,10 +446,11 @@ export default function PortalDashboard() {
       </a>
       <a
         href="/vault/workbench#braindump"
-        className="block p-7 rounded-md transition-all group emergency-card-pink"
+        className="block p-7 transition-all group emergency-card-pink"
         style={{
-          background: "linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(236,72,153,0.02) 100%)",
+          background: "#111",
           border: `2px solid ${COLOR_PINK}`,
+          borderRadius: "16px",
           boxShadow: "0 0 20px rgba(236,72,153,0.08), inset 0 1px 0 rgba(236,72,153,0.1)",
         }}
         data-testid="card-brain-dump"
@@ -458,7 +460,7 @@ export default function PortalDashboard() {
             <PenLine className="w-6 h-6" style={{ color: COLOR_PINK }} />
           </div>
           <div>
-            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Brain Dump</h3>
+            <h3 className="text-xl font-bold leading-tight" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>Brain Dump</h3>
             <p className="text-[10px] uppercase tracking-[0.2em] mt-0.5" style={{ color: COLOR_PINK, fontFamily: FONT_MONO }}>UNLOAD</p>
           </div>
         </div>
@@ -478,7 +480,7 @@ export default function PortalDashboard() {
         <SidebarLabel>YOUR PATTERN</SidebarLabel>
         <h3
           className="text-lg font-bold leading-tight mt-1"
-          style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}
+          style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}
           data-testid="text-pattern-name"
         >
           {patternName}
@@ -677,7 +679,7 @@ export default function PortalDashboard() {
   );
 
   const SectionLabel = ({ children }: { children: string }) => (
-    <h4 className="text-xs uppercase tracking-[0.15em] font-bold mb-2" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>{children}</h4>
+    <h4 className="uppercase font-bold mb-2" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>{children}</h4>
   );
 
   const ContentView = () => {
@@ -706,14 +708,14 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Crash Course</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>The Crash Course</h2>
                 <BackLink />
               </div>
               <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Your 7-day pattern interruption crash course. Free for all members.</p>
               
               {pattern && patternDetails[pattern] && (
-                <div className="p-6 space-y-5 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
-                  <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
+                <div className="p-6 space-y-5" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
+                  <h3 className="text-lg font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
                   <div>
                     <SectionLabel>Triggers</SectionLabel>
                     <ul className="space-y-1.5">
@@ -763,13 +765,13 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Field Guide</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>The Field Guide</h2>
                 <BackLink />
               </div>
               <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Full 90-day protocol. Deep pattern analysis. All 9 patterns explained.</p>
               
-              <div className="p-6 space-y-3 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
-                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>What's Included</h3>
+              <div className="p-6 space-y-3" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
+                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>What's Included</h3>
                 {["Full pattern deep dive for YOUR pattern", "90-day interruption protocol", "All 9 patterns overview", "Circuit break scripts", "Crisis protocols"].map((f, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
                     <Check className="w-4 h-4 flex-shrink-0" style={{ color: COLOR_TEAL }} />
@@ -786,13 +788,13 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>The Complete Archive</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>The Complete Archive</h2>
                 <BackLink />
               </div>
               <p className="text-sm" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>Every pattern. Every protocol. Every tool. The full excavation.</p>
               
-              <div className="p-6 space-y-3 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
-                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Full Library</h3>
+              <div className="p-6 space-y-3" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
+                <h3 className="text-lg font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>Full Library</h3>
                 {["All 9 patterns — full depth", "Pattern combination analysis", "Relationship protocols", "Workplace applications", "Parenting patterns", "Lifetime updates"].map((f, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>
                     <Check className="w-4 h-4 flex-shrink-0" style={{ color: COLOR_TEAL }} />
@@ -809,7 +811,7 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>All 9 Patterns</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>All 9 Patterns</h2>
                 <BackLink />
               </div>
               <div className="space-y-3">
@@ -817,7 +819,7 @@ export default function PortalDashboard() {
                   const isUserPattern = key === pattern;
                   const canExpand = hasCompleteArchive || hasQuickStart || isUserPattern;
                   return (
-                    <div key={key} className="p-4 rounded-md" style={{ background: CARD_BG, border: isUserPattern ? `1px solid rgba(20,184,166,0.4)` : `1px solid ${CARD_BORDER}` }}>
+                    <div key={key} className="p-4" style={{ background: CARD_BG, border: isUserPattern ? `1px solid rgba(20,184,166,0.4)` : `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
                       <div className="flex items-center justify-between mb-1">
                         <h3 className="font-bold text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>
                           {patternDisplayNames[key]}
@@ -844,11 +846,11 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>My Downloads</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>My Downloads</h2>
                 <BackLink />
               </div>
               <div className="space-y-3">
-                <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                <div className="p-4 flex items-center justify-between" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
                   <div className="flex items-center gap-3">
                     <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                     <div>
@@ -862,7 +864,7 @@ export default function PortalDashboard() {
                 </div>
                 
                 {hasQuickStart && (
-                  <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                  <div className="p-4 flex items-center justify-between" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
                     <div className="flex items-center gap-3">
                       <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                       <div>
@@ -877,7 +879,7 @@ export default function PortalDashboard() {
                 )}
                 
                 {hasCompleteArchive && (
-                  <div className="p-4 flex items-center justify-between rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+                  <div className="p-4 flex items-center justify-between" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
                     <div className="flex items-center gap-3">
                       <FileText className="w-5 h-5" style={{ color: COLOR_TEAL }} />
                       <div>
@@ -898,25 +900,25 @@ export default function PortalDashboard() {
           return (
             <div className="p-6 space-y-6 animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Settings</h2>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>Settings</h2>
                 <BackLink />
               </div>
               
-              <div className="p-5 space-y-4 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+              <div className="p-5 space-y-4" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Email</p>
+                  <p className="uppercase mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Email</p>
                   <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }} data-testid="text-user-email">{userData.email}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Name</p>
+                  <p className="uppercase mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Name</p>
                   <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{userData.name || "Not set"}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Tier</p>
+                  <p className="uppercase mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Tier</p>
                   <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{tierLabel}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}>Pattern Interrupts</p>
+                  <p className="uppercase mb-1" style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Pattern Interrupts</p>
                   <p className="text-sm" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{streakData.totalInterrupts} total</p>
                 </div>
               </div>
@@ -956,9 +958,9 @@ export default function PortalDashboard() {
         </div>
 
         {pattern && patternDetails[pattern] && (
-          <div className="p-6 rounded-md" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}>
+          <div className="p-6" style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}>
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-              <h3 className="text-lg font-bold" style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
+              <h3 className="text-lg font-bold" style={{ fontFamily: FONT_HEADING, fontWeight: 900, color: COLOR_TEXT }}>Your Pattern: {patternName}</h3>
               <button
                 onClick={() => setActiveContent("crash-course")}
                 className="text-xs transition-colors cursor-pointer flex items-center gap-1"
@@ -971,13 +973,13 @@ export default function PortalDashboard() {
             <div className="space-y-4">
               <div>
                 <Tooltip text="The physical sensation your body produces 3-7 seconds before a pattern runs. Learning yours is how you catch it.">
-                  <p className="text-[10px] uppercase tracking-[0.15em] font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>Body Signature</p>
+                  <p className="uppercase font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Body Signature</p>
                 </Tooltip>
                 <p className="text-sm" style={{ color: "#A3A3A3", fontFamily: FONT_BODY }}>{patternDetails[pattern].bodySignature}</p>
               </div>
               <div>
                 <Tooltip text="A specific statement you say out loud or internally to interrupt a pattern mid-activation.">
-                  <p className="text-[10px] uppercase tracking-[0.15em] font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO }}>Circuit Break</p>
+                  <p className="uppercase font-bold mb-1" style={{ color: COLOR_TEAL, fontFamily: FONT_MONO, fontSize: "11px", letterSpacing: "0.2em" }}>Circuit Break</p>
                 </Tooltip>
                 <p className="text-sm italic" style={{ color: COLOR_TEXT, fontFamily: FONT_BODY }}>{patternDetails[pattern].interrupt}</p>
               </div>
@@ -988,8 +990,8 @@ export default function PortalDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button
             onClick={() => setActiveContent("crash-course")}
-            className="p-5 rounded-md text-left transition-all cursor-pointer"
-            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}
+            className="p-5 text-left transition-all cursor-pointer"
+            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}
             data-testid="card-crash-course-home"
           >
             <FolderOpen className="w-5 h-5 mb-2" style={{ color: COLOR_TEAL }} />
@@ -998,8 +1000,8 @@ export default function PortalDashboard() {
           </button>
           <button
             onClick={() => setActiveContent("chat")}
-            className="p-5 rounded-md text-left transition-all cursor-pointer"
-            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}` }}
+            className="p-5 text-left transition-all cursor-pointer"
+            style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: "16px" }}
             data-testid="card-chat-home"
           >
             <MessageCircle className="w-5 h-5 mb-2" style={{ color: COLOR_TEAL }} />
@@ -1096,7 +1098,7 @@ export default function PortalDashboard() {
           <div className="flex items-center gap-3">
             <div>
               <h1 className="text-sm leading-none" style={{ color: COLOR_TEXT }}>
-                <span style={{ fontFamily: FONT_PLAYFAIR, fontWeight: 700 }}>Pattern Archive</span>
+                <span style={{ fontFamily: FONT_HEADING, fontWeight: 900 }}>Pattern Archive</span>
                 <span className="mx-2" style={{ color: COLOR_MUTED }}>/</span>
                 <span className="text-xs" style={{ color: COLOR_MUTED, fontFamily: FONT_BODY }}>The Archivist Method</span>
               </h1>

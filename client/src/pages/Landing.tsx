@@ -265,6 +265,103 @@ function BodySilhouette({ optionId, hovered }: { optionId: string; hovered: bool
   );
 }
 
+const embeddedScanLines = [
+  "Scanning 9 behavioral patterns...",
+  "Cross-referencing your response signature...",
+  "Identifying your primary loop...",
+  "Checking for secondary reinforcement patterns...",
+  "Your Archivist file is being compiled...",
+];
+
+function EmbeddedSequentialLoading({ containerStyle }: { containerStyle: React.CSSProperties }) {
+  const [visibleLines, setVisibleLines] = useState(0);
+  const [showFinal, setShowFinal] = useState(false);
+  const [progressWidth, setProgressWidth] = useState(0);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setProgressWidth(100);
+      });
+    });
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    embeddedScanLines.forEach((_, i) => {
+      timers.push(setTimeout(() => setVisibleLines(i + 1), (i + 1) * 1500));
+    });
+    timers.push(setTimeout(() => setShowFinal(true), embeddedScanLines.length * 1500 + 500));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <div style={containerStyle} data-testid="embedded-quiz-analyzing">
+      <div style={{ padding: '24px 0' }}>
+        <div style={{ marginBottom: '32px' }}>
+          {embeddedScanLines.map((line, i) => (
+            <p
+              key={i}
+              data-testid={`text-embedded-scan-line-${i + 1}`}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                color: '#999',
+                marginBottom: '14px',
+                opacity: i < visibleLines ? 1 : 0,
+                transform: i < visibleLines ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 600ms ease, transform 600ms ease',
+              }}
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <div
+          data-testid="text-embedded-scan-final"
+          style={{
+            opacity: showFinal ? 1 : 0,
+            transform: showFinal ? 'translateY(0)' : 'translateY(12px)',
+            transition: 'opacity 800ms ease, transform 800ms ease',
+            textAlign: 'center',
+            marginBottom: '32px',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Libre Baskerville', serif",
+              fontStyle: 'italic',
+              fontSize: '1rem',
+              color: '#14B8A6',
+              lineHeight: 1.6,
+            }}
+          >
+            Your pattern has a name. And a way out.
+          </p>
+        </div>
+
+        <div
+          style={{
+            height: '2px',
+            background: 'rgba(255, 255, 255, 0.06)',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+          data-testid="bar-embedded-analyzing-progress"
+        >
+          <div
+            style={{
+              height: '100%',
+              background: '#14B8A6',
+              width: `${progressWidth}%`,
+              transition: 'width 7.5s linear',
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EmbeddedQuiz() {
   const [phase, setPhase] = useState<'quiz' | 'analyzing' | 'reveal' | 'emailCapture'>('quiz');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -325,7 +422,7 @@ function EmbeddedQuiz() {
         setScores(calcScores);
         setPrimaryPattern(result.primaryPattern);
         setPhase('reveal');
-      }, 2500);
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, [phase, answers]);
@@ -425,21 +522,7 @@ function EmbeddedQuiz() {
   };
 
   if (phase === 'analyzing') {
-    return (
-      <div style={containerStyle} data-testid="embedded-quiz-analyzing">
-        <div style={{ textAlign: "center", padding: "48px 0" }}>
-          <div style={{
-            width: "32px", height: "32px", border: "2px solid rgba(20,184,166,0.3)",
-            borderTopColor: "#14B8A6", borderRadius: "50%", margin: "0 auto 24px",
-            animation: "spin 1s linear infinite",
-          }} />
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em" }}>
-            Analyzing Your Patterns...
-          </p>
-        </div>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
+    return <EmbeddedSequentialLoading containerStyle={containerStyle} />;
   }
 
   if (phase === 'reveal' && primaryPattern) {
@@ -673,6 +756,7 @@ function EmbeddedQuiz() {
             {question.options.map((option) => {
               const isQ15 = question.id === 15;
               const isHovered = hoveredOption === option.id;
+              const isNeutral = option.id.endsWith('n');
               return (
                 <button
                   key={option.id}
@@ -680,21 +764,24 @@ function EmbeddedQuiz() {
                   onClick={() => handleAnswer(option.id)}
                   style={{
                     display: "flex", alignItems: "center", gap: isQ15 ? "12px" : "0",
-                    background: answers[question.id] === option.id ? "rgba(20,184,166,0.2)" : isHovered ? "rgba(20,184,166,0.15)" : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${isHovered ? "#14B8A6" : "rgba(20,184,166,0.3)"}`,
-                    color: isHovered ? "#14B8A6" : "white",
+                    background: answers[question.id] === option.id ? "rgba(20,184,166,0.2)" : isHovered && !isNeutral ? "rgba(20,184,166,0.15)" : "rgba(255,255,255,0.03)",
+                    border: isNeutral
+                      ? `1px dotted ${isHovered ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.08)"}`
+                      : `1px solid ${isHovered ? "#14B8A6" : "rgba(20,184,166,0.3)"}`,
+                    color: isNeutral ? "#999" : isHovered ? "#14B8A6" : "white",
                     padding: "12px 16px",
                     fontFamily: "'Source Sans 3', sans-serif",
-                    fontSize: "0.9rem",
+                    fontSize: isNeutral ? "0.82rem" : "0.9rem",
                     textAlign: "left",
                     cursor: "pointer",
                     transition: "all 200ms ease",
                     width: "100%",
+                    ...(isNeutral ? { marginTop: "4px" } : {}),
                   }}
                   onMouseEnter={() => setHoveredOption(option.id)}
                   onMouseLeave={() => setHoveredOption(null)}
                 >
-                  {isQ15 && <BodySilhouette optionId={option.id} hovered={isHovered} />}
+                  {isQ15 && !isNeutral && <BodySilhouette optionId={option.id} hovered={isHovered} />}
                   <span>{option.text}</span>
                 </button>
               );

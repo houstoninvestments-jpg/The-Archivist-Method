@@ -56,6 +56,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "1c", text: "Guilt. You don't get to have this.", pattern: "apologyLoop" },
       { id: "1d", text: "Walls going up. Exit located.", pattern: "disappearing" },
       { id: "1e", text: "Nothing. You stopped feeling years ago.", pattern: "attractionToHarm" },
+      { id: "1n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -67,6 +68,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "2c", text: "Apologize for taking up space", pattern: "apologyLoop" },
       { id: "2d", text: "Feel the pressure to never fail now", pattern: "perfectionism" },
       { id: "2e", text: "Don't believe them. Can't.", pattern: "attractionToHarm" },
+      { id: "2n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -78,6 +80,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "3c", text: "You vanish. Door. Phone off. Gone.", pattern: "disappearing" },
       { id: "3d", text: "You stay. Take it. Like always.", pattern: "drainingBond" },
       { id: "3e", text: "You weaponize it. Test them.", pattern: "testing" },
+      { id: "3n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -89,6 +92,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "4c", text: "Already planning your exit", pattern: "disappearing" },
       { id: "4d", text: "You don't deserve them", pattern: "apologyLoop" },
       { id: "4e", text: "You'll destroy this. Give it time.", pattern: "successSabotage" },
+      { id: "4n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -100,6 +104,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "5c", text: "Say nothing. Need nothing. Want nothing.", pattern: "complimentDeflection" },
       { id: "5d", text: "Get angry when they don't just know", pattern: "rage" },
       { id: "5e", text: "Convince yourself you never needed it anyway", pattern: "perfectionism" },
+      { id: "5n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -111,6 +116,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "6c", text: "You finish but tell no one", pattern: "complimentDeflection" },
       { id: "6d", text: "You finish but feel nothing", pattern: "attractionToHarm" },
       { id: "6e", text: "You're already onto the next thing", pattern: "disappearing" },
+      { id: "6n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -122,6 +128,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "7c", text: "Something you caused", pattern: "apologyLoop" },
       { id: "7d", text: "Home", pattern: "drainingBond" },
       { id: "7e", text: "Permission to leave", pattern: "disappearing" },
+      { id: "7n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -133,6 +140,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "8c", text: "You stayed until there was nothing left of you", pattern: "drainingBond" },
       { id: "8d", text: "You tested them until they proved you right", pattern: "testing" },
       { id: "8e", text: "You gave everything. Asked for nothing. Got nothing.", pattern: "apologyLoop" },
+      { id: "8n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -144,6 +152,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "9c", text: "Guilt. Who are you to have this?", pattern: "apologyLoop" },
       { id: "9d", text: "Exposed. Too visible.", pattern: "complimentDeflection" },
       { id: "9e", text: "Empty. What now?", pattern: "perfectionism" },
+      { id: "9n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -155,6 +164,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "10c", text: "Shrinking. Taking up too much space.", pattern: "apologyLoop" },
       { id: "10d", text: "Heat building. Pressure rising.", pattern: "rage" },
       { id: "10e", text: "Numb. Frozen. Stuck.", pattern: "drainingBond" },
+      { id: "10n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -166,6 +176,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "11c", text: "You're too much. You're not enough. Both.", pattern: "apologyLoop" },
       { id: "11d", text: "Rage. At them. At yourself.", pattern: "rage" },
       { id: "11e", text: "Whatever. Add it to the pile.", pattern: "complimentDeflection" },
+      { id: "11n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -177,6 +188,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "12c", text: "Sorry for being seen", pattern: "apologyLoop" },
       { id: "12d", text: "Need to run", pattern: "disappearing" },
       { id: "12e", text: "Feel nothing. You're already gone inside.", pattern: "perfectionism" },
+      { id: "12n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -188,6 +200,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "13c", text: "You stayed until you forgot who you were", pattern: "drainingBond" },
       { id: "13d", text: "You burned it down in one conversation", pattern: "rage" },
       { id: "13e", text: "You gave until you were empty, then resented them for it", pattern: "apologyLoop" },
+      { id: "13n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -200,6 +213,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "14d", text: "Seen. Really seen.", pattern: "complimentDeflection" },
       { id: "14e", text: "Stuck here forever.", pattern: "drainingBond" },
       { id: "14f", text: "Hurt again. By someone you let in.", pattern: "attractionToHarm" },
+      { id: "14n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
   {
@@ -216,6 +230,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "15g", text: "Paralyzed. Can't start. Can't fail if you don't try.", pattern: "perfectionism" },
       { id: "15h", text: "Panic at the finish line. Snatch defeat from victory.", pattern: "successSabotage" },
       { id: "15i", text: "Exposed. Seen. Want to disappear into the floor.", pattern: "complimentDeflection" },
+      { id: "15n", text: "This doesn't apply to me", pattern: "disappearing" },
     ],
   },
 ];
@@ -242,6 +257,7 @@ export function calculatePatternScores(answers: Record<number, string>): Record<
   for (const question of quizQuestions) {
     const selectedId = answers[question.id];
     if (!selectedId) continue;
+    if (selectedId.endsWith('n')) continue;
     const option = question.options.find(o => o.id === selectedId);
     if (option) {
       const weight = question.weight || 1;

@@ -4,6 +4,107 @@ import { quizQuestions, calculatePatternScores, determineQuizResult } from '@/li
 
 const ParticleField = lazy(() => import("@/components/ParticleField"));
 
+const scanLines = [
+  "Scanning 9 behavioral patterns...",
+  "Cross-referencing your response signature...",
+  "Identifying your primary loop...",
+  "Checking for secondary reinforcement patterns...",
+  "Your Archivist file is being compiled...",
+];
+
+function SequentialLoadingScreen() {
+  const [visibleLines, setVisibleLines] = useState(0);
+  const [showFinal, setShowFinal] = useState(false);
+  const [progressWidth, setProgressWidth] = useState(0);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setProgressWidth(100);
+      });
+    });
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    scanLines.forEach((_, i) => {
+      timers.push(setTimeout(() => setVisibleLines(i + 1), (i + 1) * 1500));
+    });
+    timers.push(setTimeout(() => setShowFinal(true), scanLines.length * 1500 + 500));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <div
+      className="quiz-screen min-h-screen flex items-center justify-center"
+      style={{ background: '#0A0A0A' }}
+      data-testid="quiz-analyzing-screen"
+    >
+      <div style={{ maxWidth: '500px', width: '100%', padding: '0 24px', textAlign: 'left' }}>
+        <div style={{ marginBottom: '48px' }}>
+          {scanLines.map((line, i) => (
+            <p
+              key={i}
+              data-testid={`text-scan-line-${i + 1}`}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '13px',
+                color: '#999',
+                marginBottom: '16px',
+                opacity: i < visibleLines ? 1 : 0,
+                transform: i < visibleLines ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 600ms ease, transform 600ms ease',
+              }}
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <div
+          data-testid="text-scan-final"
+          style={{
+            opacity: showFinal ? 1 : 0,
+            transform: showFinal ? 'translateY(0)' : 'translateY(12px)',
+            transition: 'opacity 800ms ease, transform 800ms ease',
+            textAlign: 'center',
+            marginBottom: '48px',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Libre Baskerville', serif",
+              fontStyle: 'italic',
+              fontSize: '1.1rem',
+              color: '#14B8A6',
+              lineHeight: 1.6,
+            }}
+          >
+            Your pattern has a name. And a way out.
+          </p>
+        </div>
+
+        <div
+          style={{
+            height: '2px',
+            background: 'rgba(255, 255, 255, 0.06)',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+          data-testid="bar-analyzing-progress"
+        >
+          <div
+            style={{
+              height: '100%',
+              background: '#14B8A6',
+              width: `${progressWidth}%`,
+              transition: 'width 7.5s linear',
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Quiz() {
   const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing'>('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -48,7 +149,7 @@ export default function Quiz() {
 
         const resultData = encodeURIComponent(JSON.stringify(result));
         setLocation(`/results?data=${resultData}`);
-      }, 2500);
+      }, 8000);
     }
   }, [currentQuestion, answers]);
 
@@ -253,23 +354,7 @@ export default function Quiz() {
   }
 
   if (screen === 'analyzing') {
-    return (
-      <div className="quiz-screen min-h-screen flex items-center justify-center" style={{ background: '#0A0A0A' }}>
-        <div className="quiz-analyzing-content text-center px-6 relative z-10">
-          <div className="relative w-20 h-20 mx-auto mb-8">
-            <div className="absolute inset-0 border-4 rounded-full" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }} />
-            <div className="absolute inset-0 border-4 border-transparent rounded-full quiz-spin" style={{ borderTopColor: '#14B8A6' }} />
-            <div className="absolute inset-2 border-4 border-transparent rounded-full quiz-spin-reverse" style={{ borderTopColor: '#999999' }} />
-          </div>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', color: 'white', marginBottom: '12px' }}>
-            Analyzing Your Patterns
-          </h2>
-          <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#999999', maxWidth: '400px', margin: '0 auto' }}>
-            Cross-referencing your responses against 9 core survival patterns...
-          </p>
-        </div>
-      </div>
-    );
+    return <SequentialLoadingScreen />;
   }
 
   return (
@@ -332,6 +417,7 @@ export default function Quiz() {
                 {question.options.map((option) => {
                   const isSelected = currentAnswer === option.id;
                   const isFlashing = selectedFlash === option.id;
+                  const isNeutral = option.id.endsWith('n');
                   return (
                     <button
                       key={option.id}
@@ -340,12 +426,17 @@ export default function Quiz() {
                       disabled={isAdvancing}
                       className={`quiz-option w-full text-left px-4 py-3.5 transition-all duration-200 ${isFlashing ? 'quiz-option-flash' : ''} ${isAdvancing && !isSelected ? 'opacity-50' : ''}`}
                       style={{
-                        border: isSelected ? '1px solid #14B8A6' : '1px solid rgba(255, 255, 255, 0.12)',
+                        border: isSelected
+                          ? '1px solid #14B8A6'
+                          : isNeutral
+                            ? '1px dotted rgba(255, 255, 255, 0.08)'
+                            : '1px solid rgba(255, 255, 255, 0.12)',
                         background: isSelected ? 'rgba(20, 184, 166, 0.08)' : 'transparent',
                         fontFamily: "'Source Sans 3', sans-serif",
-                        fontSize: '0.95rem',
-                        color: isSelected ? 'white' : '#ccc',
+                        fontSize: isNeutral ? '0.85rem' : '0.95rem',
+                        color: isSelected ? 'white' : isNeutral ? '#999' : '#ccc',
                         lineHeight: 1.5,
+                        ...(isNeutral ? { marginTop: '8px' } : {}),
                       }}
                     >
                       {option.text}

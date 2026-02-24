@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { Check } from 'lucide-react';
 import { PatternKey, patternDisplayNames, QuizResult as QuizResultType, calculateMatchPercent } from '@/lib/quizData';
 
 const feelSeenCopy: Record<PatternKey, string[]> = {
@@ -42,21 +41,64 @@ const feelSeenCopy: Record<PatternKey, string[]> = {
   ],
 };
 
+const breadcrumbData: Record<PatternKey, { triggers: string; costs: string; whyWillpowerFails: string }> = {
+  disappearing: {
+    triggers: "Intimacy crosses a threshold. Someone gets close enough to actually see you. Three months in, the chest tightens. You feel the walls before you even know you're building them.",
+    costs: "Every relationship has an expiration date you set before it starts. You've lost people who actually loved you. The loneliness isn't the worst part\u2014it's knowing you chose it.",
+    whyWillpowerFails: "You can't just decide to stay. The exit reflex is wired into your nervous system. It fires before your conscious mind even registers what's happening. Willpower can't outrun a survival response.",
+  },
+  apologyLoop: {
+    triggers: "Having a need. Taking up space. Saying something that lands wrong. Existing too loudly. The trigger is almost anything\u2014because the real trigger is visibility itself.",
+    costs: "You've made yourself so small that people forget you're in the room. Your needs go unmet because you never voice them. Resentment builds in the silence you created.",
+    whyWillpowerFails: "You can't just stop apologizing. The reflex is a survival strategy from when making yourself small kept you safe. Your body still believes that being seen is dangerous.",
+  },
+  testing: {
+    triggers: "Someone says they love you. Things get too good. Too stable. Too safe. Your nervous system reads peace as the calm before the storm\u2014so you create the storm yourself.",
+    costs: "You've driven away people who meant it. Every test has an expiration date, and eventually, they stop trying to pass. Then you point to their leaving as proof you were right.",
+    whyWillpowerFails: "The testing isn't a choice\u2014it's a compulsion. Your attachment system is wired to expect abandonment, so it manufactures evidence. You can't think your way out of a nervous system pattern.",
+  },
+  attractionToHarm: {
+    triggers: "Safety. Boredom. The absence of chaos. When things are calm, your body reads it as wrong. The dangerous ones feel like electricity because your nervous system confused threat with connection early.",
+    costs: "Your body is a map of relationships that hurt you. You've normalized pain as the price of passion. The safe ones never stood a chance\u2014not because they weren't enough, but because enough felt like nothing.",
+    whyWillpowerFails: "You can't just choose the safe person. Your attraction template was written before you had language. Chemistry isn't a preference\u2014it's a trauma signature. The pull toward harm feels like desire because that's how your brain learned love.",
+  },
+  complimentDeflection: {
+    triggers: "Someone sees you. Really sees you. A compliment. Recognition. Being put in the spotlight. Your body reads visibility as exposure, and exposure as danger.",
+    costs: "Years of work no one has seen. Promotions you didn't apply for. Relationships you ended because being known felt like being hunted. You've hidden from the very thing you want most.",
+    whyWillpowerFails: "You can't force yourself to accept praise. The deflection is a reflex, not a decision. Your nervous system learned early that being seen made you a target. Until you rewire that association, willpower just creates a performance of acceptance.",
+  },
+  drainingBond: {
+    triggers: "Guilt. Obligation. The look on their face when you consider leaving. The voice that says you're the only one who understands them. You stay because leaving feels like destroying someone.",
+    costs: "You've given yourself away in pieces until there's nothing left. Your health, your friendships, your ambitions\u2014all sacrificed on the altar of someone else's need. You forgot what you wanted years ago.",
+    whyWillpowerFails: "The bond isn't rational\u2014it's biochemical. Trauma bonds hijack the same reward pathways as addiction. Your brain gets withdrawal symptoms when you try to leave. Willpower can't override chemistry.",
+  },
+  successSabotage: {
+    triggers: "The finish line. The moment right before the win. The promotion. The relationship that's actually working. Success itself is the trigger\u2014because your system doesn't have a template for what comes after.",
+    costs: "A trail of almost-victories. Jobs you left at the worst time. Relationships you detonated right when they got good. You've built a life-sized monument to the gap between your potential and your reality.",
+    whyWillpowerFails: "The sabotage happens at the neurological level. Your identity was formed around struggle, not success. When you get close to the win, your brain treats it as an identity threat. You can't willpower yourself into becoming someone your nervous system doesn't recognize.",
+  },
+  perfectionism: {
+    triggers: "The gap between your vision and your output. The first draft. The imperfect attempt. Starting something where failure is possible. Your standards are the cage\u2014impossibly high, perfectly designed to keep you frozen.",
+    costs: "Years of unfinished work. Ideas that never left your head. The ache of watching less talented people succeed because they shipped while you perfected. You're not protecting quality\u2014you're protecting yourself from judgment.",
+    whyWillpowerFails: "You can't just lower your standards. Perfectionism isn't about quality\u2014it's about control. It's the illusion that if you make it perfect enough, no one can hurt you. The real fear isn't imperfection. It's being seen as you actually are.",
+  },
+  rage: {
+    triggers: "Disrespect. Feeling unheard. Boundaries crossed. The trigger is almost never the thing that sets it off\u2014it's the accumulation of everything you swallowed before. The explosion comes when the pressure exceeds your capacity to contain it.",
+    costs: "Relationships ended in a single conversation. Words you can never take back. The look on their face that you see every time you close your eyes. The shame spiral that follows is worse than whatever triggered the rage.",
+    whyWillpowerFails: "The rage bypasses your prefrontal cortex entirely. By the time you're aware you're angry, your amygdala has already hijacked the controls. Willpower works in the calm moments\u2014not in the 3-7 second window where the pattern fires.",
+  },
+};
+
 export default function QuizResult() {
   const [location, setLocation] = useLocation();
-  const [phase, setPhase] = useState<'glitch' | 'reveal' | 'confirm' | 'secondPattern' | 'manualSelect' | 'emailCapture'>('glitch');
+  const [phase, setPhase] = useState<'reveal' | 'confirmed' | 'secondPattern' | 'manualSelect'>('reveal');
   const [confirmedPattern, setConfirmedPattern] = useState<PatternKey | null>(null);
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [typewriterDone, setTypewriterDone] = useState(false);
-  const [copyVisible, setCopyVisible] = useState(false);
-  const [buttonsVisible, setButtonsVisible] = useState(false);
-  const [emailSlideUp, setEmailSlideUp] = useState(false);
-  const [glitchText, setGlitchText] = useState('');
-  const [showScanlines, setShowScanlines] = useState(false);
-  const [screenFlash, setScreenFlash] = useState(false);
-  const typewriterRef = useRef<HTMLSpanElement>(null);
+  const [fadeIn, setFadeIn] = useState(false);
+  const [breadcrumbsVisible, setBreadcrumbsVisible] = useState(false);
+  const [gateVisible, setGateVisible] = useState(false);
 
   const searchParams = new URLSearchParams(location.split('?')[1] || '');
   const resultData = searchParams.get('data');
@@ -90,76 +132,30 @@ export default function QuizResult() {
   const currentName = patternDisplayNames[currentPattern] || '';
   const currentCopy = feelSeenCopy[currentPattern] || [];
 
-  useEffect(() => {
-    if (phase === 'glitch') {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&";
-      const targetLen = currentName.length || 12;
-      setShowScanlines(true);
-
-      const scrambleInterval = setInterval(() => {
-        let s = "";
-        for (let j = 0; j < targetLen; j++) s += chars[Math.floor(Math.random() * chars.length)];
-        setGlitchText(s);
-      }, 30);
-
-      setTimeout(() => setScreenFlash(true), 100);
-      setTimeout(() => setScreenFlash(false), 150);
-
-      setTimeout(() => {
-        clearInterval(scrambleInterval);
-        setShowScanlines(false);
-        setGlitchText('');
-        setPhase('reveal');
-      }, 300);
-
-      return () => clearInterval(scrambleInterval);
-    }
-  }, [phase, currentName]);
+  const patternScore = (scores?.[currentPattern] as number) || 0;
+  const totalAnswered = scores ? (Object.values(scores) as number[]).reduce((a, b) => a + b, 0) : 0;
+  const matchPct = calculateMatchPercent(patternScore, totalAnswered);
 
   useEffect(() => {
-    if (phase === 'reveal' || phase === 'secondPattern') {
-      setTypewriterDone(false);
-      setCopyVisible(false);
-      setButtonsVisible(false);
-
-      const el = typewriterRef.current;
-      if (el) {
-        el.textContent = '';
-        let i = 0;
-        const text = currentName;
-        const speed = Math.max(30, 200 / text.length);
-        const interval = setInterval(() => {
-          if (i < text.length) {
-            el.textContent += text[i];
-            i++;
-          } else {
-            clearInterval(interval);
-            setTypewriterDone(true);
-            setTimeout(() => setCopyVisible(true), 200);
-            setTimeout(() => {
-              setButtonsVisible(true);
-              if (phase === 'reveal') setPhase('confirm');
-            }, 600);
-          }
-        }, speed);
-        return () => clearInterval(interval);
-      }
-    }
-  }, [phase, currentName]);
+    const t = setTimeout(() => setFadeIn(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
-    if (phase === 'emailCapture') {
-      setTimeout(() => setEmailSlideUp(true), 50);
+    if (phase === 'confirmed') {
+      const t1 = setTimeout(() => setBreadcrumbsVisible(true), 300);
+      const t2 = setTimeout(() => setGateVisible(true), 800);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, [phase]);
 
   const handleConfirm = (pattern: PatternKey) => {
     setConfirmedPattern(pattern);
-    setPhase('emailCapture');
+    setPhase('confirmed');
   };
 
   const handleNotQuite = () => {
-    if (phase === 'confirm' && secondPattern) {
+    if ((phase === 'reveal' || phase === 'secondPattern') && secondPattern && phase !== 'secondPattern') {
       setPhase('secondPattern');
     } else {
       setPhase('manualSelect');
@@ -168,7 +164,7 @@ export default function QuizResult() {
 
   const handleManualSelect = (pattern: PatternKey) => {
     setConfirmedPattern(pattern);
-    setPhase('emailCapture');
+    setPhase('confirmed');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -217,12 +213,12 @@ export default function QuizResult() {
 
   if (!primaryPattern || !patternDisplayNames[primaryPattern]) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0A0A0A' }}>
         <div className="text-center">
-          <p className="text-slate-400 mb-4">No pattern data found.</p>
+          <p style={{ color: '#999', marginBottom: '16px' }}>No pattern data found.</p>
           <button
             onClick={() => setLocation('/quiz')}
-            className="text-teal-400 hover:text-teal-300 transition-colors"
+            style={{ color: '#14B8A6', cursor: 'pointer', background: 'none', border: 'none' }}
             data-testid="link-retake-quiz"
           >
             Take the Quiz
@@ -239,31 +235,78 @@ export default function QuizResult() {
     ];
 
     return (
-      <div className="min-h-screen bg-black">
-        <div className="relative max-w-3xl mx-auto px-4 py-12 md:py-16 z-10">
-          <div className="results-fade-in text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+      <div className="min-h-screen" style={{ background: '#0A0A0A' }}>
+        <div className="max-w-4xl mx-auto px-4 py-16 md:py-24">
+          <div className="text-center mb-12">
+            <p
+              data-testid="text-manual-select-label"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '11px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+                color: '#14B8A6',
+                marginBottom: '24px',
+              }}
+            >
+              SELECT YOUR PATTERN
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                color: 'white',
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                marginBottom: '12px',
+              }}
+            >
               Which pattern do you recognize?
             </h2>
-            <p className="text-slate-400">
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#999', fontSize: '1rem' }}>
               Select the one that lives in your body.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {allPatterns.map((pattern, i) => (
               <button
                 key={pattern}
                 data-testid={`pattern-card-${pattern}`}
                 onClick={() => handleManualSelect(pattern)}
-                className="results-pattern-card text-left p-4 bg-slate-900/70 border border-slate-700/40 rounded-md hover-elevate"
-                style={{ animationDelay: `${i * 50}ms` }}
+                className="text-left results-pattern-card"
+                style={{
+                  animationDelay: `${i * 50}ms`,
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  cursor: 'pointer',
+                  transition: 'border-color 200ms ease',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.5)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
               >
-                <h3 className="text-white font-bold text-sm mb-1.5">
+                <h3
+                  style={{
+                    fontFamily: "'Schibsted Grotesk', sans-serif",
+                    fontWeight: 700,
+                    color: 'white',
+                    fontSize: '0.95rem',
+                    marginBottom: '8px',
+                  }}
+                >
                   {patternDisplayNames[pattern]}
                 </h3>
-                <p className="text-slate-400 text-xs leading-relaxed">
-                  {feelSeenCopy[pattern]?.[0]}
+                <p
+                  style={{
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    color: '#999',
+                    fontSize: '0.85rem',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {feelSeenCopy[pattern]?.[0]?.slice(0, 120)}...
                 </p>
               </button>
             ))}
@@ -273,171 +316,125 @@ export default function QuizResult() {
     );
   }
 
-  if (phase === 'emailCapture') {
-    const finalPattern = confirmedPattern || primaryPattern;
-    const finalName = patternDisplayNames[finalPattern];
-
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <div className={`results-email-capture max-w-md w-full relative z-10 ${emailSlideUp ? 'results-email-visible' : ''}`}>
-          <div className="text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold mb-3">
-              Pattern Confirmed
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              {finalName}
-            </h2>
-            <div className="h-0.5 w-16 bg-teal-500 mx-auto mb-4" />
-            <p className="text-slate-400 text-sm">
-              Your full breakdown is waiting in your personal portal.
-            </p>
-          </div>
-
-          <div className="bg-slate-900/60 border border-slate-700/40 rounded-md p-5 mb-6">
-            <ul className="space-y-3">
-              {[
-                'Complete pattern analysis',
-                'Your body signature (the 3-7 second warning)',
-                'The Four Doors Protocol for your pattern',
-                'AI Pattern Coach (24/7)',
-                'The Crash Course (free)',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-slate-300 text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              data-testid="input-email"
-              className="w-full px-4 py-3.5 bg-slate-800/80 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
-            />
-            <div className="cta-glow-wrap cta-glow-full" style={{ display: "block", width: "100%" }}>
-              <div className="cta-glow-border" />
-              <button
-                type="submit"
-                disabled={submitting}
-                data-testid="button-submit-email"
-                className="cta-glow-inner results-cta-btn w-full px-6 py-3.5 text-white font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", letterSpacing: "0.1em", textTransform: "uppercase" }}
-              >
-                {submitting ? 'Opening Archive...' : 'Send Magic Link'}
-              </button>
-            </div>
-            {error && <p className="text-red-400 text-sm text-center" role="alert">{error}</p>}
-          </form>
-
-          <p className="text-center text-slate-500 text-xs mt-5">
-            {"Free access \u2022 No spam \u2022 Instant portal entry"}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const patternScore = (scores?.[currentPattern] as number) || 0;
-  const totalAnswered = scores ? (Object.values(scores) as number[]).reduce((a, b) => a + b, 0) : 0;
-  const matchPct = calculateMatchPercent(patternScore, totalAnswered);
+  const crumbs = breadcrumbData[confirmedPattern || currentPattern];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: screenFlash ? '#111' : '#0A0A0A', transition: 'background 50ms' }}>
-      {showScanlines && (
-        <>
-          <div style={{ position: "fixed", left: 0, right: 0, top: `${20 + Math.random() * 20}%`, height: "1px", background: "rgba(255,255,255,0.2)", zIndex: 50, pointerEvents: "none" }} />
-          <div style={{ position: "fixed", left: 0, right: 0, top: `${50 + Math.random() * 15}%`, height: "1px", background: "rgba(255,255,255,0.15)", zIndex: 50, pointerEvents: "none" }} />
-          <div style={{ position: "fixed", left: 0, right: 0, top: `${75 + Math.random() * 10}%`, height: "1px", background: "rgba(255,255,255,0.1)", zIndex: 50, pointerEvents: "none" }} />
-        </>
-      )}
-      <div className="max-w-xl w-full relative z-10">
-        <div className="text-center">
-          {phase === 'glitch' && glitchText && (
-            <p
-              data-testid="text-glitch"
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-                color: "rgba(255,255,255,0.3)",
-                letterSpacing: "0.15em",
-              }}
-            >
-              {glitchText}
-            </p>
-          )}
-          {phase !== 'glitch' && (
+    <div className="min-h-screen" style={{ background: '#0A0A0A' }}>
+
+      {/* SECTION 1 — The Reveal */}
+      <section className="flex items-center justify-center px-4" style={{ minHeight: '100vh' }}>
+        <div
+          className="max-w-xl w-full text-center"
+          style={{
+            opacity: fadeIn ? 1 : 0,
+            transform: fadeIn ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
           <p
-            className="results-fade-in"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px" }}
+            data-testid="text-pattern-label"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '11px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: '#14B8A6',
+              marginBottom: '24px',
+            }}
           >
-            Pattern Identified
+            PATTERN IDENTIFIED
           </p>
-          )}
 
-          <div className={`transition-all duration-500 ${typewriterDone ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-            <p
-              data-testid="text-match-percent"
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "#14B8A6", fontWeight: 700, marginBottom: "12px" }}
-            >
-              {matchPct}% MATCH
-            </p>
-            <div style={{ maxWidth: "400px", margin: "0 auto 24px", height: "4px", background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
-              <div
-                data-testid="bar-match-percent"
-                style={{
-                  width: `${matchPct}%`,
-                  height: "100%",
-                  background: "#14B8A6",
-                  transition: "width 1s ease-out",
-                }}
-              />
-            </div>
-          </div>
+          <p
+            data-testid="text-match-percent"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              color: '#14B8A6',
+              fontWeight: 700,
+              marginBottom: '16px',
+            }}
+          >
+            {matchPct}%
+          </p>
 
-          <h1 data-testid="text-pattern-name" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white", fontWeight: 700, marginBottom: "8px" }}>
-            <span ref={typewriterRef} className="results-typewriter" />
-            {!typewriterDone && <span className="results-cursor">|</span>}
+          <h1
+            data-testid="text-pattern-name"
+            style={{
+              fontFamily: "'Schibsted Grotesk', sans-serif",
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              color: 'white',
+              marginBottom: '20px',
+              lineHeight: 1.1,
+            }}
+          >
+            {currentName}
           </h1>
 
-          <div className={`h-0.5 w-20 mx-auto mb-8 transition-all duration-300 ${typewriterDone ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} style={{ background: '#14B8A6' }} />
+          <div
+            style={{
+              width: '80px',
+              height: '2px',
+              background: '#14B8A6',
+              margin: '0 auto 32px',
+            }}
+          />
 
-          <div className={`space-y-4 mb-10 transition-all duration-300 ${copyVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+          <div style={{ marginBottom: '32px' }}>
             {currentCopy.map((paragraph, i) => (
-              <p key={i} style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.1rem", color: "#ccc", lineHeight: 1.7, maxWidth: "500px", margin: "0 auto" }}>
+              <p
+                key={i}
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: '1.1rem',
+                  color: '#ccc',
+                  lineHeight: 1.7,
+                  maxWidth: '550px',
+                  margin: '0 auto 16px',
+                }}
+              >
                 {paragraph}
               </p>
             ))}
           </div>
 
-          <div className={`transition-all duration-300 ${buttonsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: "white", fontWeight: 500, marginBottom: "20px" }} data-testid="text-confirmation">
-              Does this sound like you?
-            </p>
+          <p
+            data-testid="text-closing-line"
+            style={{
+              fontFamily: "'Libre Baskerville', serif",
+              fontStyle: 'italic',
+              fontSize: '1.1rem',
+              color: '#14B8A6',
+              maxWidth: '550px',
+              margin: '0 auto 40px',
+              lineHeight: 1.6,
+            }}
+          >
+            You've been running this pattern longer than you think. And there's a reason it still works on you.
+          </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {phase !== 'confirmed' && (
+            <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
               <button
                 data-testid="button-yes"
                 onClick={() => handleConfirm(currentPattern)}
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "14px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  border: "1px solid rgba(20, 184, 166, 0.5)",
-                  background: "transparent",
-                  color: "white",
-                  padding: "12px 32px",
-                  cursor: "pointer",
-                  transition: "all 200ms ease",
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  border: '1px solid rgba(20, 184, 166, 0.5)',
+                  background: 'transparent',
+                  color: 'white',
+                  padding: '14px 36px',
+                  cursor: 'pointer',
+                  transition: 'all 200ms ease',
+                  borderRadius: '2px',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#14B8A6"; e.currentTarget.style.background = "rgba(20, 184, 166, 0.08)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(20, 184, 166, 0.5)"; e.currentTarget.style.background = "transparent"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#14B8A6'; e.currentTarget.style.background = 'rgba(20, 184, 166, 0.08)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.5)'; e.currentTarget.style.background = 'transparent'; }}
               >
                 Yes, that's me
               </button>
@@ -446,25 +443,245 @@ export default function QuizResult() {
                 onClick={handleNotQuite}
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "14px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  background: "transparent",
-                  color: "#999",
-                  padding: "12px 32px",
-                  cursor: "pointer",
-                  transition: "all 200ms ease",
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  background: 'transparent',
+                  color: '#999',
+                  padding: '14px 36px',
+                  cursor: 'pointer',
+                  transition: 'all 200ms ease',
+                  borderRadius: '2px',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.color = "white"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "#999"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; e.currentTarget.style.color = 'white'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = '#999'; }}
               >
                 Not quite
               </button>
             </div>
-          </div>
+          )}
         </div>
-      </div>
+      </section>
+
+      {/* SECTION 2 — Breadcrumbs (3 bento cards) */}
+      {phase === 'confirmed' && crumbs && (
+        <section
+          className="px-4 py-16 md:py-24"
+          style={{
+            opacity: breadcrumbsVisible ? 1 : 0,
+            transform: breadcrumbsVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div
+                data-testid="card-breadcrumb-triggers"
+                style={{
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: '16px',
+                  padding: '32px',
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.2em',
+                    color: '#14B8A6',
+                    marginBottom: '16px',
+                  }}
+                >
+                  WHAT TRIGGERS IT
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    color: '#ccc',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {crumbs.triggers}
+                </p>
+              </div>
+
+              <div
+                data-testid="card-breadcrumb-costs"
+                style={{
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: '16px',
+                  padding: '32px',
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.2em',
+                    color: '#EC4899',
+                    marginBottom: '16px',
+                  }}
+                >
+                  WHAT IT COSTS YOU
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    color: '#ccc',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {crumbs.costs}
+                </p>
+              </div>
+
+              <div
+                data-testid="card-breadcrumb-willpower"
+                style={{
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: '16px',
+                  padding: '32px',
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.2em',
+                    color: 'white',
+                    marginBottom: '16px',
+                  }}
+                >
+                  WHY WILLPOWER FAILS
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    color: '#ccc',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {crumbs.whyWillpowerFails}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* SECTION 3 — The Gate (email capture) */}
+      {phase === 'confirmed' && (
+        <section
+          className="px-4 py-16 md:py-24"
+          style={{
+            opacity: gateVisible ? 1 : 0,
+            transform: gateVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
+          <div className="max-w-lg mx-auto text-center">
+            <h2
+              data-testid="text-gate-headline"
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                color: 'white',
+                fontSize: 'clamp(1.4rem, 3vw, 2rem)',
+                lineHeight: 1.2,
+                marginBottom: '16px',
+              }}
+            >
+              The pattern has a name. The exit has a door.
+            </h2>
+            <p
+              style={{
+                fontFamily: "'Source Sans 3', sans-serif",
+                color: '#999',
+                fontSize: '1rem',
+                lineHeight: 1.6,
+                marginBottom: '32px',
+                maxWidth: '480px',
+                margin: '0 auto 32px',
+              }}
+            >
+              Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                data-testid="input-email"
+                style={{
+                  width: '100%',
+                  padding: '14px 16px',
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  borderRadius: '2px',
+                  color: 'white',
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: '1rem',
+                  outline: 'none',
+                  transition: 'border-color 200ms ease',
+                }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = '#14B8A6'; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
+              />
+              <div className="cta-glow-wrap cta-glow-full" style={{ display: "block", width: "100%" }}>
+                <div className="cta-glow-border" />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  data-testid="button-submit-email"
+                  className="cta-glow-inner results-cta-btn w-full"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'white',
+                    fontWeight: 700,
+                    padding: '14px 24px',
+                    cursor: submitting ? 'not-allowed' : 'pointer',
+                    opacity: submitting ? 0.5 : 1,
+                    width: '100%',
+                    transition: 'all 200ms ease',
+                  }}
+                >
+                  {submitting ? 'Opening Archive...' : 'SEND ME THE FIRST STEP'}
+                </button>
+              </div>
+              {error && <p style={{ color: '#f87171', fontSize: '0.875rem', textAlign: 'center' }} role="alert">{error}</p>}
+            </form>
+
+            <p
+              data-testid="text-no-spam"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '11px',
+                color: '#999',
+                marginTop: '20px',
+              }}
+            >
+              No sales sequence. Just the work.
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
