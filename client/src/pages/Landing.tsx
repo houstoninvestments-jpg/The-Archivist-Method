@@ -8,6 +8,196 @@ const heroSeatedImg = "/hero-archivist-seated.webp";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
+import panel01Hit from "@assets/upscalemedia-transformed_(8)_1771967703399.png";
+import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.png";
+import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.png";
+import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.png";
+
+function ArchivistDemo() {
+  const [step, setStep] = useState<1 | 2 | 3 | 'done'>(1);
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState('');
+  const [aiResponses, setAiResponses] = useState<string[]>([]);
+  const [history, setHistory] = useState<Array<{role: string; content: string}>>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleSubmit = async () => {
+    if (!input.trim() || loading) return;
+    setLoading(true);
+    const currentStep = step as number;
+    const userInput = input.trim();
+    setInput('');
+
+    try {
+      const res = await fetch('/api/archivist-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          step: currentStep,
+          userInput,
+          history,
+        }),
+      });
+      const data = await res.json();
+      const aiText = data.response || "Your pattern is speaking. The method is listening.";
+
+      setAiResponses(prev => [...prev, aiText]);
+      setHistory(prev => [
+        ...prev,
+        { role: 'user', content: userInput },
+        { role: 'assistant', content: aiText },
+      ]);
+
+      if (currentStep === 1) {
+        setStep(2);
+      } else if (currentStep === 2) {
+        setStep('done');
+      }
+    } catch {
+      setAiResponses(prev => [...prev, "Your pattern is speaking. The method is listening."]);
+      if (currentStep === 1) setStep(2);
+      else if (currentStep === 2) setStep('done');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const promptStyle: React.CSSProperties = {
+    fontFamily: "'Source Sans 3', sans-serif",
+    fontSize: "1.05rem",
+    color: "white",
+    lineHeight: 1.7,
+    marginBottom: "24px",
+  };
+
+  const aiStyle: React.CSSProperties = {
+    fontFamily: "'Source Sans 3', sans-serif",
+    fontSize: "1.05rem",
+    color: "#ccc",
+    lineHeight: 1.7,
+    borderLeft: "2px solid #14B8A6",
+    paddingLeft: "20px",
+    marginBottom: "32px",
+    animation: "fadeInUp 0.6s ease-out",
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "#111",
+    border: "1px solid #1a1a1a",
+    borderRadius: "12px",
+    color: "white",
+    fontFamily: "'Source Sans 3', sans-serif",
+    fontSize: "1rem",
+    padding: "16px",
+    resize: "none",
+    outline: "none",
+    minHeight: "80px",
+    marginBottom: "16px",
+  };
+
+  return (
+    <section style={{ background: "#0A0A0A", paddingTop: "120px", paddingBottom: "120px" }} className="px-6" data-testid="section-archivist-demo">
+      <div ref={containerRef} style={{ maxWidth: "640px", margin: "0 auto" }}>
+        <div className="text-center" style={{ marginBottom: "64px" }}>
+          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+            EXPERIENCE IT
+          </p>
+          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+            MEET YOUR PATTERN.
+          </h2>
+          <p className="fade-section" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+            Three questions. That's all it takes to feel the difference between insight and interruption.
+          </p>
+        </div>
+
+        {step === 'done' ? (
+          <div style={{ animation: "fadeInUp 0.6s ease-out" }} className="text-center">
+            {aiResponses[1] && (
+              <div style={{ ...aiStyle, textAlign: "left", marginBottom: "48px" }}>
+                {aiResponses[1]}
+              </div>
+            )}
+            <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.5rem, 4vw, 2.25rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
+              Your pattern has a name. The exit has a door.
+            </h3>
+            <div style={{ maxWidth: "320px", margin: "0 auto 16px" }}>
+              <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+                <div className="cta-glow-border" />
+                <a
+                  href="/quiz"
+                  className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", textDecoration: "none", cursor: "pointer" }}
+                  data-testid="link-demo-find-pattern"
+                >
+                  FIND YOUR PATTERN <ArrowRight className="inline w-3 h-3 ml-1" />
+                </a>
+              </div>
+            </div>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "16px" }}>
+              Free. 2 minutes. No email required until you're ready.
+            </p>
+          </div>
+        ) : (
+          <div>
+            {aiResponses[0] && step === 2 && (
+              <div style={aiStyle}>
+                {aiResponses[0]}
+              </div>
+            )}
+
+            <p style={promptStyle}>
+              {step === 1
+                ? "Think of the last time you did the thing you're trying to stop. What did you feel in your body right before it happened?"
+                : "How long has that feeling been your starting gun?"
+              }
+            </p>
+
+            <textarea
+              style={inputStyle}
+              value={input}
+              onChange={(e) => setInput(e.target.value.slice(0, 200))}
+              placeholder={step === 1 ? "Describe the sensation..." : "How long..."}
+              maxLength={200}
+              onFocus={(e) => { e.target.style.borderColor = "#14B8A6"; }}
+              onBlur={(e) => { e.target.style.borderColor = "#1a1a1a"; }}
+              data-testid={`input-demo-step-${step}`}
+            />
+
+            {loading ? (
+              <div className="text-center" style={{ padding: "20px 0" }}>
+                <span className="animate-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "20px", color: "#14B8A6", letterSpacing: "0.3em" }}>
+                  ...
+                </span>
+              </div>
+            ) : (
+              <div style={{ maxWidth: "240px" }}>
+                <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
+                  <div className="cta-glow-border" />
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!input.trim()}
+                    className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "0.8rem",
+                      cursor: input.trim() ? "pointer" : "default",
+                      opacity: input.trim() ? 1 : 0.4,
+                      border: "none",
+                    }}
+                    data-testid={`button-demo-submit-${step}`}
+                  >
+                    {step === 1 ? "I FELT..." : "ABOUT..."} <ArrowRight className="inline w-3 h-3 ml-1" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
 
 const StarField = ({ count = 40 }: { count?: number }) => {
   const stars = Array.from({ length: count }, (_, i) => ({
@@ -1039,7 +1229,7 @@ function TheWindowSection() {
         </h3>
 
         <p className="fade-section" data-testid="text-window-line6" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
-          Your pattern fires from the survival part. You've been bringing a spreadsheet to a knife fight.
+          Your pattern doesn't live in your thoughts. It lives in your body. And it moves faster than your intentions do.
         </p>
 
         <h3 className="fade-section" data-testid="text-window-line7" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
@@ -1588,10 +1778,22 @@ export default function Landing() {
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "12px" }}>
-            <img src="/images/panel-01-the-hit.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
-            <img src="/images/panel-02-the-body.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
-            <img src="/images/panel-03-the-window.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
-            <img src="/images/panel-04-the-break.png" alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
+            <div style={{ textAlign: "center" }}>
+              <img src={panel01Hit} alt="The Hit" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>THE HIT</p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <img src={panel02Body} alt="Your Body Knew First" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOUR BODY KNEW FIRST</p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <img src={panel03Window} alt="3-7 Seconds" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>3-7 SECONDS</p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <img src={panel04Break} alt="You Are Not That Child Anymore" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOU ARE NOT THAT CHILD ANYMORE</p>
+            </div>
           </div>
         </div>
       </section>
@@ -1773,9 +1975,6 @@ export default function Landing() {
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
                   Includes The Pocket Archivist — a precision tool built around your specific pattern. Open it when the pattern fires. It already knows what to do.
                 </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-field-guide">
-                  FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
-                </p>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
                   <button
@@ -1805,9 +2004,6 @@ export default function Landing() {
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
                   Full Pocket Archivist access across all nine patterns. Every trigger sequence. Every body signature. Every circuit break. Whenever you need it.
-                </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "24px", lineHeight: 1.6 }} data-testid="text-founding-archive">
-                  FOUNDING PERIOD PRICING — THIS CHANGES WHEN WE LAUNCH PUBLICLY
                 </p>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
@@ -1898,57 +2094,36 @@ export default function Landing() {
       <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <SectorLabel text="THE POCKET ARCHIVIST" />
         <div className="max-w-3xl mx-auto">
-          <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "24px" }}>
             THE POCKET ARCHIVIST
           </p>
           <h2 className="fade-section text-center" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
-            IT ALREADY KNOWS YOUR PATTERN.
+            IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
           </h2>
-          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "0 auto 64px", lineHeight: 1.7 }}>
-            You don't have to explain yourself. Not at midnight. Not mid-spiral. Not when you're three seconds from doing the thing again.
+          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+            This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it.
           </p>
 
-          <div className="fade-section space-y-0" style={{ maxWidth: "700px", margin: "0 auto" }}>
-            {[
-              { moment: "IT'S 11PM", scenario: "The pattern is firing. Your therapist is asleep. Your journal won't talk back. The Pocket Archivist will." },
-              { moment: "YOU ALREADY KNOW WHY", scenario: "You don't need another insight. You need to know what to do in the next seven seconds. It tells you exactly that." },
-              { moment: "IT KNOWS YOUR SIGNATURE", scenario: "The tightening in your throat. The chest drop. The heat behind your eyes. It was built around your specific body signal — not patterns in general. Yours." },
-            ].map((row, i) => (
-              <div key={i} className="flex flex-col md:flex-row gap-4 md:gap-8 py-8" style={{ borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
-                <div className="md:w-1/3 flex-shrink-0">
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.15em" }}>THE MOMENT</p>
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "4px" }}>{row.moment}</p>
-                </div>
-                <div className="md:w-2/3">
-                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", color: "white", lineHeight: 1.7 }}>{row.scenario}</p>
-                </div>
-              </div>
-            ))}
+          <div className="fade-section" style={{ maxWidth: "700px", margin: "0 auto" }}>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              You already know the feeling. The chest drop. The throat tighten. The pull toward the thing you said you wouldn't do again. Most tools want to talk about it later. The Pocket Archivist is built for right now.
+            </p>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              It's been trained exclusively on The Archivist Method framework — pattern architecture, body signal sequencing, interrupt protocols, and circuit break language. It doesn't give you generic advice. It knows your pattern's specific trigger sequence and responds with the exact language your nervous system can actually use in that moment.
+            </p>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              The problems it solves are the ones nobody names. The 11pm spiral. The shutdown before the conversation starts. The moment you watch yourself do it anyway. That's what it was built for.
+            </p>
           </div>
 
-          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 32px", lineHeight: 1.7 }}>
-            This is what $27 a month buys when it launches publicly. Right now it's included with every purchase.
+          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
+            Not a companion. A circuit breaker.
           </p>
-
-          <div className="fade-section text-center" style={{ maxWidth: "320px", margin: "0 auto" }}>
-            <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
-              <div className="cta-glow-border" />
-              <a
-                href="#section-pricing"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector('[data-testid="section-pricing"]')?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
-                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", textDecoration: "none", cursor: "pointer" }}
-                data-testid="link-pocket-archivist-pricing"
-              >
-                SEE WHAT'S INCLUDED <ArrowRight className="inline w-3 h-3 ml-1" />
-              </a>
-            </div>
-          </div>
         </div>
       </section>
+
+      {/* ========== SECTION 10.6: POCKET ARCHIVIST DEMO ========== */}
+      <ArchivistDemo />
 
       {/* ========== SECTION 11: FOUNDER ========== */}
       <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>

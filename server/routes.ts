@@ -65,6 +65,51 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/archivist-demo", async (req, res) => {
+    try {
+      const { step, userInput, history } = req.body;
+      if (!step || !userInput) {
+        return res.status(400).json({ error: "Step and input required" });
+      }
+
+      const systemPrompt = `You are The Pocket Archivist — a precision pattern interruption tool trained exclusively on The Archivist Method framework. You speak with warmth, directness, and clinical precision. You never use therapy language. You name patterns specifically. You validate body signals as real neurological data. You do not give advice — you reflect patterns back with enough accuracy that the person feels seen. Keep responses to 2-3 sentences max. Never use emoji. Never use quotation marks around your own words.`;
+
+      let stepInstruction = "";
+      if (step === 1) {
+        stepInstruction = "The user just described what they feel in their body right before their pattern fires. Name what they described as a specific body signal. Validate it as a real neurological pattern marker — not anxiety, not weakness, but their nervous system loading a learned survival response. Then ask exactly this question: 'How long has that feeling been your starting gun?'";
+      } else if (step === 2) {
+        stepInstruction = "The user just told you how long they've been experiencing this body signal before their pattern fires. Reflect their pattern back to them: give it a specific behavioral name (like 'the disappearing pattern' or 'the shutdown sequence' or 'the testing loop'), describe in one sentence what it costs them, and end with exactly this line: 'This is your signal. The method teaches you what to do the moment you feel it.'";
+      }
+
+      const messages = [
+        ...(history || []),
+        { role: "user", content: `${userInput}\n\n[Internal instruction — do not repeat this to the user: ${stepInstruction}]` }
+      ];
+
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.ANTHROPIC_API_KEY || "",
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 300,
+          system: systemPrompt,
+          messages,
+        }),
+      });
+
+      const data = await response.json() as any;
+      const text = data?.content?.[0]?.text || "Your pattern is speaking. The method is listening.";
+      res.json({ response: text });
+    } catch (error) {
+      console.error("Archivist demo error:", error);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  });
+
   app.post("/api/quiz/submit", async (req, res) => {
     try {
       const { email, primaryPattern, secondaryPatterns, patternScores } = req.body;
