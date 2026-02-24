@@ -797,15 +797,7 @@
   background-repeat: repeat;
   background-size: 50px 50px;
   opacity: calc(0.035 * clamp(0, (0.45 - var(--scroll-progress, 0)) * 3, 1));
-  will-change: transform;
-  animation: grainFlicker 0.3s steps(3) infinite;
   transition: opacity 0.3s linear;
-}
-@keyframes grainFlicker {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(-17px, 13px); }
-  66% { transform: translate(11px, -23px); }
-  100% { transform: translate(0, 0); }
 }
 
 @keyframes fogDrift {
