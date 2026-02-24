@@ -1,24 +1,41 @@
 <!doctype html>
 <html lang="en" class="dark">
   <head>
-    <title>The Archivist Method™ - Pattern Archaeology, Not Therapy</title>
-    <meta
-      name="description"
-      content="Stop running the same destructive patterns. Take the 2-minute assessment and get your 7-day interruption protocol."
-    />
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
+    <title>The Archivist Method™ - Pattern Archaeology, Not Therapy</title>
+    <meta
+      name="description"
+      content="Stop running the same destructive patterns. Take the 2-minute assessment and get your 7-day interruption protocol."
+    />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="prefetch" href="/quiz" />
-    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" as="image" type="image/webp" href="/hero-archivist-seated.webp" fetchpriority="high">
     <link rel="preload" href="/assets/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/jetbrains-mono-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/libre-baskerville-italic.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/source-sans-3-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" type="image/webp" href="/hero-archivist-seated.webp" fetchpriority="high">
+    <style>
+      @font-face{font-family:'Schibsted Grotesk';font-style:normal;font-weight:400 900;font-display:swap;src:url('/assets/fonts/schibsted-grotesk-latin.woff2') format('woff2')}
+      @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/jetbrains-mono-regular.woff2') format('woff2')}
+      html,body{margin:0;padding:0;background:#000;color:#FAFAFA}
+      *,*::before,*::after{box-sizing:border-box;border-color:hsl(0 0% 12%)}
+      body{font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+      #root{min-height:100vh;background:#000}
+      .lcp-image{contain:none}
+      .hero-section-fade{opacity:1}
+      .hero-overlay{background:linear-gradient(to bottom,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.55) 60%,rgba(0,0,0,0.90) 100%)}
+      .hero-stagger{opacity:1}
+      .hero-word{opacity:1;display:inline-block}
+      html.is-bot .hero-section-fade{animation:none!important;opacity:1!important}
+      html.is-bot .hero-stagger{opacity:1!important;animation:none!important;transform:none!important}
+      html.is-bot .hero-word{opacity:1!important;animation:none!important}
+      html.is-bot [data-testid="text-brand-title"] .hero-word{color:#F5F5F5!important}
+      html.is-bot [data-testid="text-brand-title-2"] .hero-word{color:#14B8A6!important}
+      html.is-bot .hero-overlay{background:linear-gradient(to bottom,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.55) 60%,rgba(0,0,0,0.90) 100%)!important}
+      html.is-bot .fade-section{opacity:1!important;transform:none!important;transition:none!important}
+    </style>
+    <link rel="prefetch" href="/quiz" />
   </head>
   <body>
     <script>if(/bot|crawl|spider|lighthouse|pagespeed|headless|prerender|slurp|mediapartners/i.test(navigator.userAgent)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('is-bot')}</script>

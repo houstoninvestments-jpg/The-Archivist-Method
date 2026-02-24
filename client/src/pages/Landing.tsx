@@ -8,10 +8,10 @@ const heroSeatedImg = "/hero-archivist-seated.webp";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
-import panel01Hit from "@assets/upscalemedia-transformed_(8)_1771967703399.png";
-import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.png";
-import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.png";
-import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.png";
+import panel01Hit from "@assets/upscalemedia-transformed_(8)_1771967703399.webp";
+import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp";
+import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
+import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
 function ArchivistDemo() {
   const [step, setStep] = useState<1 | 2 | 3 | 'done'>(1);
@@ -1438,7 +1438,7 @@ export default function Landing() {
         <img
           src={heroSeatedImg}
           loading="eager"
-          decoding="async"
+          decoding="sync"
           // @ts-ignore - fetchpriority is valid HTML but React doesn't recognize it
           fetchpriority="high"
           width={1920}
@@ -1779,19 +1779,19 @@ export default function Landing() {
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "12px" }}>
             <div style={{ textAlign: "center" }}>
-              <img src={panel01Hit} alt="The Hit" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
+              <img src={panel01Hit} alt="The Hit" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>THE HIT</p>
             </div>
             <div style={{ textAlign: "center" }}>
-              <img src={panel02Body} alt="Your Body Knew First" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
+              <img src={panel02Body} alt="Your Body Knew First" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOUR BODY KNEW FIRST</p>
             </div>
             <div style={{ textAlign: "center" }}>
-              <img src={panel03Window} alt="3-7 Seconds" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
+              <img src={panel03Window} alt="3-7 Seconds" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>3-7 SECONDS</p>
             </div>
             <div style={{ textAlign: "center" }}>
-              <img src={panel04Break} alt="You Are Not That Child Anymore" loading="lazy" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
+              <img src={panel04Break} alt="You Are Not That Child Anymore" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOU ARE NOT THAT CHILD ANYMORE</p>
             </div>
           </div>
