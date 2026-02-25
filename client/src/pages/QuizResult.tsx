@@ -461,6 +461,37 @@ export default function QuizResult() {
               </button>
             </div>
           )}
+
+          <div style={{ marginTop: '32px' }} className="text-center">
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just discovered my ${currentName} pattern with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="button-share-pattern"
+              style={{
+                display: 'inline-block',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                border: '1px solid rgba(20, 184, 166, 0.4)',
+                background: 'transparent',
+                color: '#14B8A6',
+                padding: '10px 24px',
+                cursor: 'pointer',
+                transition: 'all 200ms ease',
+                borderRadius: '2px',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#14B8A6'; e.currentTarget.style.background = 'rgba(20, 184, 166, 0.08)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.4)'; e.currentTarget.style.background = 'transparent'; }}
+            >
+              Share Your Pattern
+            </a>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: '#666', marginTop: '8px' }}>
+              Share anonymously — no name, just your pattern.
+            </p>
+          </div>
         </div>
       </section>
 

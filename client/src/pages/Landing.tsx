@@ -1362,7 +1362,7 @@ function ScrollProgressThread() {
                 borderRadius: "50%",
                 background: isActive ? "#14B8A6" : "#0A0A0A",
                 border: `1.5px solid ${isActive ? "#14B8A6" : "rgba(20,184,166,0.4)"}`,
-                boxShadow: isActive ? "0 0 8px rgba(20,184,166,0.5)" : "none",
+                boxShadow: isActive ? "0 0 10px rgba(20,184,166,0.6), 0 0 20px rgba(20,184,166,0.3)" : "none",
                 animation: isActive ? "threadNodePulse 2s ease-in-out infinite" : "none",
                 transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
               }}
@@ -1377,10 +1377,10 @@ function ScrollProgressThread() {
                 fontSize: "13px",
                 textTransform: "uppercase",
                 letterSpacing: "0.15em",
-                color: "#AAAAAA",
+                color: isActive ? "#14B8A6" : "#AAAAAA",
                 whiteSpace: "nowrap",
-                opacity: isHovered ? 1 : 0,
-                transition: "opacity 0.2s ease",
+                opacity: isActive ? 1 : isHovered ? 0.8 : 0.4,
+                transition: "opacity 0.3s ease, color 0.3s ease",
                 pointerEvents: "none",
               }}
             >
