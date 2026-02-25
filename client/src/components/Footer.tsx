@@ -2,10 +2,10 @@ import { Link } from "wouter";
 
 const footerLinks = {
   method: [
-    { label: "Pattern Archaeology", href: "/#origin" },
-    { label: "The 9 Patterns", href: "/#patterns" },
-    { label: "FEIR Framework", href: "/#method" },
-    { label: "The Original Room", href: "/#origin" }
+    { label: "Pattern Archaeology", href: "/#credibility", scrollTarget: "section-credibility" },
+    { label: "The 9 Patterns", href: "/#patterns", scrollTarget: "section-patterns" },
+    { label: "FEIR Framework", href: "/#method", scrollTarget: "section-how-it-works" },
+    { label: "The Original Room", href: "/#founder", scrollTarget: "section-founder" }
   ],
   products: [
     { label: "The Crash Course (Free)", href: "/quiz" },
@@ -23,7 +23,7 @@ const footerLinks = {
   ]
 };
 
-function FooterLink({ href, label }: { href: string; label: string }) {
+function FooterLink({ href, label, scrollTarget }: { href: string; label: string; scrollTarget?: string }) {
   const testId = `link-footer-${label.toLowerCase().replace(/\s+/g, '-')}`;
   const className = "text-gray-500 hover:text-teal-500 transition-colors text-sm cursor-pointer block";
   
@@ -41,12 +41,20 @@ function FooterLink({ href, label }: { href: string; label: string }) {
     );
   }
   
-  if (href.startsWith("/#")) {
+  if (scrollTarget) {
     return (
       <a
         href={href}
         className={className}
         data-testid={testId}
+        onClick={(e) => {
+          e.preventDefault();
+          if (window.location.pathname !== "/") {
+            window.location.href = href;
+            return;
+          }
+          document.querySelector(`[data-testid="${scrollTarget}"]`)?.scrollIntoView({ behavior: "smooth" });
+        }}
       >
         {label}
       </a>
@@ -77,7 +85,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.method.map((link) => (
                   <li key={link.label}>
-                    <FooterLink href={link.href} label={link.label} />
+                    <FooterLink href={link.href} label={link.label} scrollTarget={link.scrollTarget} />
                   </li>
                 ))}
               </ul>

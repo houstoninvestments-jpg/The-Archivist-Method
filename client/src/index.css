@@ -698,6 +698,22 @@
 .fade-delay-2 { transition-delay: 0.2s; }
 .fade-delay-3 { transition-delay: 0.3s; }
 
+.pricing-card {
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(20, 184, 166, 0.4) !important;
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.1), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.pricing-card-featured:hover {
+  transform: scale(1.02) translateY(-4px) !important;
+  border-color: #14B8A6 !important;
+  box-shadow: 0 0 32px rgba(20, 184, 166, 0.2), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
 .bento-panel {
   opacity: 0;
   transform: translateY(24px) scale(0.95);

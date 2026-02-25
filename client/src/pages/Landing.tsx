@@ -54,7 +54,7 @@ function ArchivistDemo() {
         setStep('done');
       }
     } catch {
-      setAiResponses(prev => [...prev, "Your pattern is speaking. The method is listening."]);
+      setAiResponses(prev => [...prev, "__ERROR__"]);
       if (currentStep === 1) setStep(2);
       else if (currentStep === 2) setStep('done');
     } finally {
@@ -113,7 +113,7 @@ function ArchivistDemo() {
 
         {step === 'done' ? (
           <div style={{ animation: "fadeInUp 0.6s ease-out" }} className="text-center">
-            {aiResponses[1] && (
+            {aiResponses[1] && aiResponses[1] !== "__ERROR__" && (
               <div style={{ ...aiStyle, textAlign: "left", marginBottom: "48px" }}>
                 {aiResponses[1]}
               </div>
@@ -142,7 +142,18 @@ function ArchivistDemo() {
           <div>
             {aiResponses[0] && step === 2 && (
               <div style={aiStyle}>
-                {aiResponses[0]}
+                {aiResponses[0] === "__ERROR__" ? (
+                  <div className="flex items-center gap-3">
+                    <span style={{ color: "#999" }}>The signal dropped.</span>
+                    <button
+                      onClick={() => { setAiResponses([]); setHistory([]); setStep(1); }}
+                      style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#14B8A6", background: "none", border: "1px solid rgba(20,184,166,0.4)", padding: "6px 14px", cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em" }}
+                      data-testid="button-demo-retry"
+                    >
+                      Try again
+                    </button>
+                  </div>
+                ) : aiResponses[0]}
               </div>
             )}
 
@@ -166,8 +177,8 @@ function ArchivistDemo() {
 
             {loading ? (
               <div className="text-center" style={{ padding: "20px 0" }}>
-                <span className="animate-pulse" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "20px", color: "#14B8A6", letterSpacing: "0.3em" }}>
-                  ...
+                <span className="animate-pulse" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6" }}>
+                  Reading your signal...
                 </span>
               </div>
             ) : (
@@ -1929,18 +1940,32 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {/* Crash Course */}
-            <div className="fade-section flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
+            <div className="pricing-card fade-section flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-crash-course">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productCrashCourse} alt="The Crash Course" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-crash-course" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
-              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
-                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "32px", flex: 1 }}>
+                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   Identify your pattern in 7 days.
                 </p>
+                <div style={{ marginBottom: "24px", flex: 1 }}>
+                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer"].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
+                      <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
+                      <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
+                    </div>
+                  ))}
+                  {["Pocket Archivist access", "Interrupt protocols", "Full body signature map"].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
+                      <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
+                      <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
                   <Link
@@ -1956,22 +1981,34 @@ export default function Landing() {
             </div>
 
             {/* Field Guide - emphasized */}
-            <div className="fade-section fade-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
+            <div className="pricing-card pricing-card-featured fade-section fade-delay-1 flex flex-col" style={{ background: "#0D0D0D", border: "2px solid #14B8A6", overflow: "hidden", position: "relative", transform: "scale(1.02)" }} data-testid="card-pricing-field-guide">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productFieldGuide} alt="The Field Guide" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-field-guide" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)", zIndex: 1 }} />
                 <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 60px rgba(20, 184, 166, 0.15)", pointerEvents: "none", zIndex: 0 }} />
               </div>
-              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
-                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$47</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$47</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   Your complete interrupt protocol — ready to use the moment the pattern fires.
                 </p>
-                <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  Includes The Pocket Archivist — a precision tool built around your specific pattern. Open it when the pattern fires. It already knows what to do.
-                </p>
+                <div style={{ marginBottom: "24px", flex: 1 }}>
+                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer", "Pocket Archivist (your pattern)", "Full interrupt protocol", "Body signature map"].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
+                      <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
+                      <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
+                    </div>
+                  ))}
+                  {["All 9 pattern protocols"].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
+                      <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
+                      <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
                   <button
@@ -1987,21 +2024,27 @@ export default function Landing() {
             </div>
 
             {/* Complete Archive */}
-            <div className="fade-section fade-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
+            <div className="pricing-card fade-section fade-delay-2 flex flex-col" style={{ background: "#0D0D0D", border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", position: "relative" }} data-testid="card-pricing-archive">
               <div style={{ position: "relative", height: "250px", overflow: "hidden" }}>
                 <img src={productCompleteArchive} alt="The Complete Archive" width={400} height={400} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.7, maskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)", WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 40%, transparent 85%)" }} data-testid="img-product-complete-archive" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
-              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px" }}>
+              <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
-                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$197</p>
+                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$197</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   Every pattern. Every scenario. The complete system.
                 </p>
-                <p style={{ color: "#ccc", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "24px" }}>
-                  Full Pocket Archivist access across all nine patterns. Every trigger sequence. Every body signature. Every circuit break. Whenever you need it.
-                </p>
+                <div style={{ marginBottom: "24px", flex: 1 }}>
+                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer", "Pocket Archivist (all 9 patterns)", "Full interrupt protocols (all 9)", "Body signature maps (all 9)", "Complete pattern cross-reference"].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
+                      <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
+                      <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
                 <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                   <div className="cta-glow-border" />
                   <button

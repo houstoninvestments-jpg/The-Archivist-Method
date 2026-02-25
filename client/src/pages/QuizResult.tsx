@@ -641,6 +641,15 @@ export default function QuizResult() {
                 onFocus={(e) => { e.currentTarget.style.borderColor = '#14B8A6'; }}
                 onBlur={(e) => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
               />
+              <div style={{ marginTop: "16px", marginBottom: "16px", textAlign: "left" }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginBottom: "10px" }}>What you'll receive:</p>
+                {["Your pattern's trigger sequence", "Your body signal map", "Your first interrupt protocol"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2" style={{ marginBottom: "6px" }}>
+                    <span style={{ color: "#14B8A6", fontSize: "13px", fontWeight: 700 }}>&#10003;</span>
+                    <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
+                  </div>
+                ))}
+              </div>
               <div className="cta-glow-wrap cta-glow-full" style={{ display: "block", width: "100%" }}>
                 <div className="cta-glow-border" />
                 <button
