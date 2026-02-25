@@ -13,13 +13,21 @@ import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp
 import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
 import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
-function ArchivistDemo() {
+function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [step, setStep] = useState<1 | 2 | 3 | 'done'>(1);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
   const [aiResponses, setAiResponses] = useState<string[]>([]);
   const [history, setHistory] = useState<Array<{role: string; content: string}>>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
 
   const handleSubmit = async () => {
     if (!input.trim() || loading) return;
@@ -32,27 +40,18 @@ function ArchivistDemo() {
       const res = await fetch('/api/archivist-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          step: currentStep,
-          userInput,
-          history,
-        }),
+        body: JSON.stringify({ step: currentStep, userInput, history }),
       });
       const data = await res.json();
       const aiText = data.response || "Your pattern is speaking. The method is listening.";
-
       setAiResponses(prev => [...prev, aiText]);
       setHistory(prev => [
         ...prev,
         { role: 'user', content: userInput },
         { role: 'assistant', content: aiText },
       ]);
-
-      if (currentStep === 1) {
-        setStep(2);
-      } else if (currentStep === 2) {
-        setStep('done');
-      }
+      if (currentStep === 1) setStep(2);
+      else if (currentStep === 2) setStep('done');
     } catch {
       setAiResponses(prev => [...prev, "__ERROR__"]);
       if (currentStep === 1) setStep(2);
@@ -62,51 +61,40 @@ function ArchivistDemo() {
     }
   };
 
-  const promptStyle: React.CSSProperties = {
-    fontFamily: "'Source Sans 3', sans-serif",
-    fontSize: "1.05rem",
-    color: "white",
-    lineHeight: 1.7,
-    marginBottom: "24px",
+  const handleQuizCta = () => {
+    onClose();
+    setTimeout(() => {
+      const quizSection = document.querySelector('[data-testid="section-final-cta"]');
+      if (quizSection) quizSection.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
-  const aiStyle: React.CSSProperties = {
-    fontFamily: "'Source Sans 3', sans-serif",
-    fontSize: "1.05rem",
-    color: "#ccc",
-    lineHeight: 1.7,
-    borderLeft: "2px solid #14B8A6",
-    paddingLeft: "20px",
-    marginBottom: "32px",
-    animation: "fadeInUp 0.6s ease-out",
-  };
+  if (!isOpen) return null;
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    background: "#111",
-    border: "1px solid #1a1a1a",
-    borderRadius: "12px",
-    color: "white",
-    fontFamily: "'Source Sans 3', sans-serif",
-    fontSize: "1rem",
-    padding: "16px",
-    resize: "none",
-    outline: "none",
-    minHeight: "80px",
-    marginBottom: "16px",
-  };
+  const promptStyle: React.CSSProperties = { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "white", lineHeight: 1.7, marginBottom: "24px" };
+  const aiStyle: React.CSSProperties = { fontFamily: "'Source Sans 3', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, borderLeft: "2px solid #14B8A6", paddingLeft: "20px", marginBottom: "32px", animation: "fadeInUp 0.6s ease-out" };
+  const inputStyle: React.CSSProperties = { width: "100%", background: "#111", border: "1px solid #1a1a1a", borderRadius: "12px", color: "white", fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", padding: "16px", resize: "none", outline: "none", minHeight: "80px", marginBottom: "16px" };
 
   return (
-    <section style={{ background: "#0A0A0A", paddingTop: "120px", paddingBottom: "120px" }} className="px-6" data-testid="section-archivist-demo">
-      <div ref={containerRef} style={{ maxWidth: "640px", margin: "0 auto" }}>
-        <div className="text-center" style={{ marginBottom: "64px" }}>
-          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
-            EXPERIENCE IT
-          </p>
-          <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center"
+      style={{ background: "rgba(10,10,10,0.97)", backdropFilter: "blur(12px)", overflowY: "auto" }}
+      data-testid="modal-archivist-demo"
+    >
+      <button
+        onClick={onClose}
+        style={{ position: "fixed", top: "24px", right: "24px", background: "none", border: "none", color: "#14B8A6", fontSize: "28px", cursor: "pointer", zIndex: 60, fontFamily: "'JetBrains Mono', monospace", lineHeight: 1 }}
+        data-testid="button-close-demo-modal"
+      >
+        &times;
+      </button>
+
+      <div style={{ maxWidth: "640px", width: "100%", padding: "80px 24px 64px", margin: "0 auto" }}>
+        <div className="text-center" style={{ marginBottom: "48px" }}>
+          <h2 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }}>
             MEET YOUR PATTERN.
           </h2>
-          <p className="fade-section" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.05rem", color: "#14B8A6", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
             Three questions. That's all it takes to feel the difference between insight and interruption.
           </p>
         </div>
@@ -114,9 +102,7 @@ function ArchivistDemo() {
         {step === 'done' ? (
           <div style={{ animation: "fadeInUp 0.6s ease-out" }} className="text-center">
             {aiResponses[1] && aiResponses[1] !== "__ERROR__" && (
-              <div style={{ ...aiStyle, textAlign: "left", marginBottom: "48px" }}>
-                {aiResponses[1]}
-              </div>
+              <div style={{ ...aiStyle, textAlign: "left", marginBottom: "48px" }}>{aiResponses[1]}</div>
             )}
             <h3 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(1.5rem, 4vw, 2.25rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
               Your pattern has a name. The exit has a door.
@@ -124,14 +110,14 @@ function ArchivistDemo() {
             <div style={{ maxWidth: "320px", margin: "0 auto 16px" }}>
               <div className="cta-glow-wrap" style={{ display: "block", width: "100%" }}>
                 <div className="cta-glow-border" />
-                <a
-                  href="/quiz"
+                <button
+                  onClick={handleQuizCta}
                   className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", textDecoration: "none", cursor: "pointer" }}
-                  data-testid="link-demo-find-pattern"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", cursor: "pointer", border: "none" }}
+                  data-testid="button-demo-take-quiz"
                 >
-                  FIND YOUR PATTERN <ArrowRight className="inline w-3 h-3 ml-1" />
-                </a>
+                  TAKE THE FULL QUIZ <ArrowRight className="inline w-3 h-3 ml-1" />
+                </button>
               </div>
             </div>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "16px" }}>
@@ -189,13 +175,7 @@ function ArchivistDemo() {
                     onClick={handleSubmit}
                     disabled={!input.trim()}
                     className="cta-glow-inner block w-full text-center py-3 text-white tracking-wider uppercase"
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: "0.8rem",
-                      cursor: input.trim() ? "pointer" : "default",
-                      opacity: input.trim() ? 1 : 0.4,
-                      border: "none",
-                    }}
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", cursor: input.trim() ? "pointer" : "default", opacity: input.trim() ? 1 : 0.4, border: "none" }}
                     data-testid={`button-demo-submit-${step}`}
                   >
                     {step === 1 ? "I FELT..." : "ABOUT..."} <ArrowRight className="inline w-3 h-3 ml-1" />
@@ -206,7 +186,7 @@ function ArchivistDemo() {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -342,7 +322,7 @@ function useGlobalFadeIn() {
           }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.1 }
     );
     document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el));
     document.querySelectorAll(".bento-panel").forEach((el) => observer.observe(el));
@@ -1495,6 +1475,7 @@ function ScrollProgressThread() {
 
 export default function Landing() {
   useGlobalFadeIn();
+  const [demoModalOpen, setDemoModalOpen] = useState(false);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -2261,11 +2242,35 @@ export default function Landing() {
           <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
             Not a companion. A circuit breaker.
           </p>
+
+          <div className="fade-section text-center" style={{ marginTop: "40px" }}>
+            <button
+              onClick={() => setDemoModalOpen(true)}
+              style={{
+                background: "transparent",
+                border: "1px solid #14B8A6",
+                borderRadius: "8px",
+                padding: "14px 32px",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                color: "#14B8A6",
+                cursor: "pointer",
+                textTransform: "uppercase",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,184,166,0.1)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+              data-testid="button-experience-demo"
+            >
+              EXPERIENCE IT FREE <ArrowRight className="inline w-3 h-3 ml-1" />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* ========== SECTION 10.6: POCKET ARCHIVIST DEMO ========== */}
-      <ArchivistDemo />
+      <ArchivistDemoModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
 
       {/* ========== SECTION 11: FOUNDER ========== */}
       <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
@@ -2304,15 +2309,17 @@ export default function Landing() {
 
       {/* ========== EVIDENCE BASE ========== */}
       <section style={{ padding: "64px 24px 32px" }} data-testid="section-citations">
-        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "20px", textAlign: "center" }}>THE SCIENCE BEHIND THE WINDOW</p>
           <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", textAlign: "center", lineHeight: 1.7, marginBottom: "32px", maxWidth: "560px", margin: "0 auto 32px" }} data-testid="text-evidence-intro">The Archivist Method is built on four decades of peer-reviewed neuroscience. We didn't invent the window. We built the tool to use it.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "14px" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: "14px" }}>
             {[
               { year: "1983", finding: "The brain initiates action 350ms before conscious awareness.", researcher: "Libet, B. · Brain Research" },
               { year: "1996", finding: "Emotional memory fires faster than rational thought.", researcher: "LeDoux, J. · The Emotional Brain" },
               { year: "2011", finding: "The body signals threat before the mind registers it.", researcher: "Porges, S. · Polyvagal Theory" },
               { year: "2014", finding: "Trauma lives in the body, not the story.", researcher: "van der Kolk, B. · The Body Keeps the Score" },
+              { year: "2012", finding: "Habits form through neurological loops the conscious mind cannot override.", researcher: "Duhigg, C. · The Power of Habit" },
+              { year: "2000", finding: "The window between stimulus and response is where all change lives.", researcher: "Schwartz, J. · The Mind and the Brain" },
             ].map((card, i) => (
               <div key={i} style={{ background: "#111", borderRadius: "12px", padding: "24px" }} data-testid={`card-evidence-${i}`}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.1rem", color: "#14B8A6", fontWeight: 700, marginBottom: "10px" }}>{card.year}</p>
@@ -2338,6 +2345,7 @@ export default function Landing() {
               </div>
             ))}
           </div>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textAlign: "center", marginTop: "24px", letterSpacing: "0.05em" }} data-testid="text-evidence-tagline">This is not self-help. This is applied neuroscience.</p>
         </div>
       </section>
 
