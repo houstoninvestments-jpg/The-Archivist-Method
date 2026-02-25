@@ -1119,9 +1119,24 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
 
 
 
+const countdownBeats = [
+  { number: "Seven.", sub: null },
+  { number: "Six.", sub: null },
+  { number: "Five.", sub: "The pattern is loading." },
+  { number: "Four.", sub: "Your body already knows." },
+  { number: "Three.", sub: "This is the window." },
+  { number: "Two.", sub: "Most people miss it." },
+  { number: "One.", sub: "You just used it." },
+  { number: "", sub: null },
+  { number: "HEADLINE", sub: null },
+];
+
 function ExitInterviewSection() {
-  const [countdown, setCountdown] = useState(7);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [beatIndex, setBeatIndex] = useState(-1);
+  const [visible, setVisible] = useState(false);
+  const [sequenceComplete, setSequenceComplete] = useState(false);
+  const [ctaVisible, setCtaVisible] = useState(false);
+  const hasPlayedRef = useRef(false);
   const sectionObserverRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -1131,20 +1146,10 @@ function ExitInterviewSection() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCountdown(7);
-            if (timerRef.current) clearInterval(timerRef.current);
-            timerRef.current = setInterval(() => {
-              setCountdown((prev) => {
-                if (prev <= 0) {
-                  if (timerRef.current) clearInterval(timerRef.current);
-                  return 0;
-                }
-                return prev - 1;
-              });
-            }, 1000);
-          } else {
-            if (timerRef.current) clearInterval(timerRef.current);
+          if (entry.isIntersecting && !hasPlayedRef.current) {
+            hasPlayedRef.current = true;
+            setBeatIndex(0);
+            setVisible(true);
           }
         });
       },
@@ -1152,41 +1157,136 @@ function ExitInterviewSection() {
     );
 
     observer.observe(el);
-    return () => {
-      observer.disconnect();
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+    return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (beatIndex < 0) return;
+    if (beatIndex >= countdownBeats.length) {
+      setSequenceComplete(true);
+      setVisible(true);
+      setTimeout(() => setCtaVisible(true), 400);
+      return;
+    }
+
+    setVisible(true);
+    const fadeOutTimer = setTimeout(() => {
+      setVisible(false);
+    }, 700);
+    const nextBeatTimer = setTimeout(() => {
+      setBeatIndex((prev) => prev + 1);
+    }, 1000);
+
+    return () => {
+      clearTimeout(fadeOutTimer);
+      clearTimeout(nextBeatTimer);
+    };
+  }, [beatIndex]);
+
+  const currentBeat = beatIndex >= 0 && beatIndex < countdownBeats.length ? countdownBeats[beatIndex] : null;
+  const isBlankBeat = currentBeat?.number === "";
+  const isHeadlineBeat = currentBeat?.number === "HEADLINE" || sequenceComplete;
 
   return (
     <section ref={sectionObserverRef} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="fade-section" style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white", marginBottom: "24px", lineHeight: 1.1 }} data-testid="text-final-cta-headline">
-          The window is closing.
-        </h2>
-        <p className="fade-section fade-delay-1" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.2rem", color: "#14B8A6", maxWidth: "520px", margin: "0 auto 40px", lineHeight: 1.5 }} data-testid="text-final-cta-subtext">
-          You have 7 seconds before your brain convinces you to stay exactly as you are.
-        </p>
-        <div className="fade-section fade-delay-1" style={{ marginBottom: "32px" }}>
-          <span
+      <div className="max-w-3xl mx-auto text-center" style={{ minHeight: "280px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+
+        {!sequenceComplete && currentBeat && !isBlankBeat && !isHeadlineBeat && (
+          <div
             data-testid="text-countdown"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "3rem",
-              color: countdown <= 2 ? "#EC4899" : "#14B8A6",
-              transition: "color 0.3s ease",
-              letterSpacing: "0.1em",
+              opacity: visible ? 1 : 0,
+              transition: "opacity 300ms ease",
             }}
           >
-            {countdown}
-          </span>
-        </div>
-        <div className="fade-section fade-delay-2">
-          <CTAButton text="INTERRUPT THE CYCLE NOW" />
-        </div>
-        <p className="fade-section fade-delay-2" style={{ color: "#999999", fontSize: "13px", marginTop: "16px" }}>
-          Free · 2 Minutes · Instant Results
-        </p>
+            <h2
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                fontSize: "clamp(3rem, 8vw, 5rem)",
+                color: "white",
+                lineHeight: 1.1,
+                marginBottom: currentBeat.sub ? "12px" : "0",
+              }}
+            >
+              {currentBeat.number}
+            </h2>
+            {currentBeat.sub && (
+              <p
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontSize: "clamp(1rem, 2.5vw, 1.25rem)",
+                  color: "#14B8A6",
+                  lineHeight: 1.5,
+                }}
+              >
+                {currentBeat.sub}
+              </p>
+            )}
+          </div>
+        )}
+
+        {!sequenceComplete && isBlankBeat && (
+          <div style={{ opacity: 0 }}>&nbsp;</div>
+        )}
+
+        {(isHeadlineBeat || sequenceComplete) && (
+          <>
+            <h2
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                fontSize: "clamp(2.5rem, 6vw, 4rem)",
+                color: "white",
+                marginBottom: "24px",
+                lineHeight: 1.1,
+                opacity: visible ? 1 : 0,
+                transition: "opacity 300ms ease",
+              }}
+              data-testid="text-final-cta-headline"
+            >
+              The window is closing.
+            </h2>
+            <p
+              style={{
+                fontFamily: "'Libre Baskerville', serif",
+                fontStyle: "italic",
+                fontSize: "1.2rem",
+                color: "#14B8A6",
+                maxWidth: "520px",
+                margin: "0 auto 40px",
+                lineHeight: 1.5,
+                opacity: visible ? 1 : 0,
+                transition: "opacity 300ms ease 100ms",
+              }}
+              data-testid="text-final-cta-subtext"
+            >
+              You have 7 seconds before your brain convinces you to stay exactly as you are.
+            </p>
+            <div
+              style={{
+                opacity: ctaVisible ? 1 : 0,
+                transform: ctaVisible ? "translateY(0)" : "translateY(12px)",
+                transition: "opacity 400ms ease, transform 400ms ease",
+              }}
+            >
+              <CTAButton text="INTERRUPT THE CYCLE NOW" />
+              <p style={{ color: "#999999", fontSize: "13px", marginTop: "16px" }}>
+                Free · 2 Minutes · Instant Results
+              </p>
+            </div>
+          </>
+        )}
+
+        {beatIndex < 0 && (
+          <div style={{ opacity: 0 }}>
+            <h2 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white" }}>
+              The window is closing.
+            </h2>
+          </div>
+        )}
       </div>
     </section>
   );
