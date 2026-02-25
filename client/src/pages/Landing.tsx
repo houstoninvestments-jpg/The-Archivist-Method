@@ -1776,24 +1776,26 @@ export default function Landing() {
       {/* ========== SECTION 8.6: THE METHOD IN 4 FRAMES ========== */}
       <section style={{ background: "#0A0A0A", padding: "80px 24px" }} data-testid="section-4-frames">
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
-          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "12px" }}>
-            <div style={{ textAlign: "center" }}>
-              <img src={panel01Hit} alt="The Hit" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-01" />
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>THE HIT</p>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <img src={panel02Body} alt="Your Body Knew First" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-02" />
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOUR BODY KNEW FIRST</p>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <img src={panel03Window} alt="3-7 Seconds" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-03" />
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>3-7 SECONDS</p>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <img src={panel04Break} alt="You Are Not That Child Anymore" loading="lazy" decoding="async" style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "8px", display: "block" }} data-testid="img-frame-04" />
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#999", marginTop: "12px" }}>YOU ARE NOT THAT CHILD ANYMORE</p>
-            </div>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "40px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "24px" }}>
+            {[
+              { src: panel01Hit, num: "01", caption: "THE HIT", alt: "The Hit", testId: "img-frame-01" },
+              { src: panel02Body, num: "02", caption: "YOUR BODY KNEW FIRST", alt: "Your Body Knew First", testId: "img-frame-02" },
+              { src: panel03Window, num: "03", caption: "3-7 SECONDS", alt: "3-7 Seconds", testId: "img-frame-03" },
+              { src: panel04Break, num: "04", caption: "YOU ARE NOT THAT CHILD ANYMORE", alt: "You Are Not That Child Anymore", testId: "img-frame-04" },
+            ].map((panel) => (
+              <div key={panel.num}>
+                <div style={{ position: "relative", border: "1px solid rgba(20,184,166,0.25)", borderRadius: "4px", overflow: "hidden" }}>
+                  <div style={{ position: "absolute", top: 0, left: 0, width: "28px", height: "28px", borderRight: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", top: 0, right: 0, width: "28px", height: "28px", borderLeft: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, width: "28px", height: "28px", borderRight: "2px solid #14B8A6", borderTop: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", bottom: 0, right: 0, width: "28px", height: "28px", borderLeft: "2px solid #14B8A6", borderTop: "2px solid #14B8A6", zIndex: 2 }} />
+                  <span style={{ position: "absolute", top: "10px", left: "10px", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", letterSpacing: "0.1em", zIndex: 3 }}>{panel.num}</span>
+                  <img src={panel.src} alt={panel.alt} loading="lazy" decoding="async" style={{ width: "100%", height: "auto", display: "block" }} data-testid={panel.testId} />
+                </div>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#14B8A6", marginTop: "16px", textAlign: "center" }}>{panel.caption}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
