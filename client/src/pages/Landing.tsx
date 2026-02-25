@@ -334,9 +334,10 @@ function useGlobalFadeIn() {
       { threshold: 0.05 }
     );
     document.querySelectorAll(".fade-section").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".bento-panel").forEach((el) => observer.observe(el));
 
     const failsafe = setTimeout(() => {
-      document.querySelectorAll(".fade-section").forEach((el) => el.classList.add("visible"));
+      document.querySelectorAll(".fade-section, .bento-panel").forEach((el) => el.classList.add("visible"));
       document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
         (el as HTMLElement).style.opacity = "1";
         (el as HTMLElement).style.transform = "none";
@@ -1008,27 +1009,17 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 function PatternCard({ card, index }: { card: typeof patternCards[0]; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
   return (
     <div
-      ref={cardRef}
-      className="fade-section"
+      className="bento-panel"
       style={{
         position: "relative",
         background: "rgba(255,255,255,0.02)",
         border: "1px solid rgba(255,255,255,0.06)",
         padding: "32px",
-        transition: "border-color 0.3s",
-        transitionDelay: `${(index % 3) * 0.1}s`,
+        transitionDelay: `${index * 0.15}s`,
       }}
       data-testid={`card-pattern-${card.num}`}
-      onMouseEnter={() => {
-        if (cardRef.current) cardRef.current.style.borderColor = index % 2 === 0 ? "#14B8A6" : "#EC4899";
-      }}
-      onMouseLeave={() => {
-        if (cardRef.current) cardRef.current.style.borderColor = "rgba(255,255,255,0.06)";
-      }}
     >
       <p style={{
         fontFamily: "'JetBrains Mono', monospace",
@@ -1783,8 +1774,8 @@ export default function Landing() {
               { src: panel02Body, num: "02", caption: "YOUR BODY KNEW FIRST", alt: "Your Body Knew First", testId: "img-frame-02" },
               { src: panel03Window, num: "03", caption: "3-7 SECONDS", alt: "3-7 Seconds", testId: "img-frame-03" },
               { src: panel04Break, num: "04", caption: "YOU ARE NOT THAT CHILD ANYMORE", alt: "You Are Not That Child Anymore", testId: "img-frame-04" },
-            ].map((panel) => (
-              <div key={panel.num}>
+            ].map((panel, i) => (
+              <div key={panel.num} className="bento-panel" style={{ transitionDelay: `${i * 0.15}s` }}>
                 <div style={{ position: "relative", border: "1px solid rgba(20,184,166,0.25)", borderRadius: "4px", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, width: "28px", height: "28px", borderRight: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
                   <div style={{ position: "absolute", top: 0, right: 0, width: "28px", height: "28px", borderLeft: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
@@ -1816,7 +1807,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* PANEL 1: Pattern Dashboard — teal glow border */}
             <div
-              className="fade-section"
+              className="bento-panel"
               data-testid="panel-dashboard"
               style={{
                 background: "#111",
@@ -1824,6 +1815,7 @@ export default function Landing() {
                 borderRadius: "16px",
                 padding: "32px",
                 boxShadow: "0 0 20px rgba(20,184,166,0.08)",
+                transitionDelay: "0s",
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>YOUR PATTERN DASHBOARD</p>
@@ -1836,13 +1828,14 @@ export default function Landing() {
 
             {/* PANEL 2: The Pocket Archivist */}
             <div
-              className="fade-section"
+              className="bento-panel"
               data-testid="panel-ai-coach"
               style={{
                 background: "#111",
                 border: "1px solid #1a1a1a",
                 borderRadius: "16px",
                 padding: "32px",
+                transitionDelay: "0.15s",
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
@@ -1860,13 +1853,14 @@ export default function Landing() {
 
             {/* PANEL 3: Body Signature Map */}
             <div
-              className="fade-section"
+              className="bento-panel"
               data-testid="panel-body-map"
               style={{
                 background: "#111",
                 border: "1px solid #1a1a1a",
                 borderRadius: "16px",
                 padding: "32px",
+                transitionDelay: "0.3s",
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
@@ -1892,13 +1886,14 @@ export default function Landing() {
 
             {/* PANEL 4: The Interrupt Protocol */}
             <div
-              className="fade-section"
+              className="bento-panel"
               data-testid="panel-interrupt"
               style={{
                 background: "#111",
                 border: "1px solid #1a1a1a",
                 borderRadius: "16px",
                 padding: "32px",
+                transitionDelay: "0.45s",
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>

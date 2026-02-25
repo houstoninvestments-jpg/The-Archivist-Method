@@ -697,11 +697,34 @@
 .fade-delay-1 { transition-delay: 0.1s; }
 .fade-delay-2 { transition-delay: 0.2s; }
 .fade-delay-3 { transition-delay: 0.3s; }
+
+.bento-panel {
+  opacity: 0;
+  transform: translateY(24px) scale(0.95);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+.bento-panel.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.bento-panel:hover {
+  transform: translateY(-4px) scale(1);
+  border-color: rgba(20, 184, 166, 0.5) !important;
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.12), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .fade-section {
+  .fade-section,
+  .bento-panel {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .bento-panel:hover {
+    transform: none !important;
   }
 }
 
@@ -975,7 +998,7 @@
   [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
   [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
   .cta-glow-border::before { animation: none !important; }
-  .fade-section { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .fade-section, .bento-panel { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
 html.is-bot .hero-section-fade { animation: none !important; opacity: 1 !important; }
@@ -984,4 +1007,4 @@ html.is-bot .hero-word { opacity: 1 !important; animation: none !important; }
 html.is-bot [data-testid="text-brand-title"] .hero-word { color: #F5F5F5 !important; }
 html.is-bot [data-testid="text-brand-title-2"] .hero-word { color: #14B8A6 !important; }
 html.is-bot .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%) !important; }
-html.is-bot .fade-section { opacity: 1 !important; transform: none !important; transition: none !important; }
+html.is-bot .fade-section, html.is-bot .bento-panel { opacity: 1 !important; transform: none !important; transition: none !important; }
