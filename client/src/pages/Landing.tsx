@@ -1876,23 +1876,25 @@ export default function Landing() {
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
               <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
-              <div style={{ display: "flex", alignItems: "center", gap: "24px", marginBottom: "14px" }}>
-                <svg viewBox="0 0 60 140" width="50" height="120" style={{ flexShrink: 0 }}>
-                  <ellipse cx="30" cy="14" rx="10" ry="12" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <line x1="30" y1="26" x2="30" y2="80" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <line x1="30" y1="40" x2="8" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <line x1="30" y1="40" x2="52" y2="65" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <line x1="30" y1="80" x2="15" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <line x1="30" y1="80" x2="45" y2="130" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                  <circle cx="30" cy="42" r="4" fill="#14B8A6" opacity="0.9"/>
-                  <circle cx="30" cy="62" r="4" fill="#14B8A6" opacity="0.9"/>
-                  <circle cx="8" cy="65" r="3" fill="#14B8A6" opacity="0.9"/>
-                </svg>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "#aaa" }}>Tightness (Chest) &middot; Drop (Stomach) &middot; Cold (Hands)</p>
-                </div>
+              <svg viewBox="0 0 280 24" width="100%" height="24" style={{ marginBottom: "18px", display: "block" }} preserveAspectRatio="none">
+                <polyline points="0,12 60,12 80,12 90,4 100,20 110,8 120,16 130,12 140,12 280,12" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "18px" }}>
+                {[
+                  { signal: "THROAT CLOSES", desc: "Pattern is loading" },
+                  { signal: "CHEST DROPS", desc: "Signal is firing" },
+                  { signal: "HANDS GO COLD", desc: "You have 3-7 seconds" },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <svg viewBox="0 0 24 16" width="24" height="16" style={{ flexShrink: 0 }}>
+                      <polyline points="0,8 6,8 9,3 12,13 15,6 18,10 21,8 24,8" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "white", letterSpacing: "0.05em" }}>{row.signal}</span>
+                    <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#EC4899", marginLeft: "auto", whiteSpace: "nowrap" }}>{row.desc}</span>
+                  </div>
+                ))}
               </div>
-              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>Your pattern has a physical signal. The method teaches you to read it before it executes.</p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>Most people call this anxiety. It isn't. It's your nervous system announcing the pattern 3-7 seconds before your conscious mind knows anything is wrong. That signal is your window.</p>
             </div>
 
             {/* PANEL 4: The Interrupt Protocol */}
