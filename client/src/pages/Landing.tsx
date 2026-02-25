@@ -2202,12 +2202,27 @@ export default function Landing() {
       {/* ========== SECTION 12: FINAL CTA - EXIT INTERVIEW ========== */}
       <ExitInterviewSection />
 
-      {/* ========== RESEARCH CITATIONS ========== */}
-      <div style={{ padding: "32px 24px 0", borderTop: "1px solid rgba(255,255,255,0.04)" }} data-testid="section-citations">
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA", textAlign: "center", maxWidth: "700px", margin: "0 auto", lineHeight: 1.8 }}>
-          Research Foundation: Libet, B. (1983). Time of conscious intention to act. <em>Brain</em>. · LeDoux, J. (1996). <em>The Emotional Brain</em>. · van der Kolk, B. (2014). <em>The Body Keeps the Score</em>. · Porges, S. (2011). <em>The Polyvagal Theory</em>. · Duhigg, C. (2012). <em>The Power of Habit</em>.
-        </p>
-      </div>
+      {/* ========== EVIDENCE BASE ========== */}
+      <section style={{ padding: "64px 24px 32px" }} data-testid="section-citations">
+        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px", textAlign: "center" }}>THE SCIENCE BEHIND THE WINDOW</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "14px" }}>
+            {[
+              { year: "1983", finding: "The brain initiates action 350ms before conscious awareness.", researcher: "Libet, B. · Brain Research" },
+              { year: "1996", finding: "Emotional memory fires faster than rational thought.", researcher: "LeDoux, J. · The Emotional Brain" },
+              { year: "2011", finding: "The body signals threat before the mind registers it.", researcher: "Porges, S. · Polyvagal Theory" },
+              { year: "2014", finding: "Trauma lives in the body, not the story.", researcher: "van der Kolk, B. · The Body Keeps the Score" },
+            ].map((card, i) => (
+              <div key={i} style={{ background: "#111", borderRadius: "12px", padding: "24px" }} data-testid={`card-evidence-${i}`}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.1rem", color: "#14B8A6", fontWeight: 700, marginBottom: "10px" }}>{card.year}</p>
+                <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.9rem", color: "white", lineHeight: 1.55, marginBottom: "12px" }}>"{card.finding}"</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", letterSpacing: "0.05em" }}>— {card.researcher}</p>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", textAlign: "center", marginTop: "24px", lineHeight: 1.6 }}>The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
+        </div>
+      </section>
 
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
