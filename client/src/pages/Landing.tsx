@@ -2305,7 +2305,8 @@ export default function Landing() {
       {/* ========== EVIDENCE BASE ========== */}
       <section style={{ padding: "64px 24px 32px" }} data-testid="section-citations">
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "32px", textAlign: "center" }}>THE SCIENCE BEHIND THE WINDOW</p>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "20px", textAlign: "center" }}>THE SCIENCE BEHIND THE WINDOW</p>
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", color: "#666", textAlign: "center", lineHeight: 1.7, marginBottom: "32px", maxWidth: "560px", margin: "0 auto 32px" }} data-testid="text-evidence-intro">The Archivist Method is built on four decades of peer-reviewed neuroscience. We didn't invent the window. We built the tool to use it.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "14px" }}>
             {[
               { year: "1983", finding: "The brain initiates action 350ms before conscious awareness.", researcher: "Libet, B. · Brain Research" },
@@ -2320,7 +2321,23 @@ export default function Landing() {
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", textAlign: "center", marginTop: "24px", lineHeight: 1.6 }}>The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
+          <div style={{ textAlign: "center", marginTop: "28px" }}>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "14px", color: "white", lineHeight: 1.6, marginBottom: "10px" }} data-testid="text-evidence-statement">The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
+            <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto" }} data-testid="text-evidence-detail">Every protocol in The Archivist Method is designed to operate inside this window — not before it, not after it. Inside it.</p>
+          </div>
+          <div style={{ width: "80px", height: "1px", background: "#14B8A6", margin: "32px auto", opacity: 0.4 }} />
+          <div className="flex flex-wrap justify-center" style={{ gap: "12px" }}>
+            {[
+              { label: "Neuroscience-Based", icon: (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11h1a3 3 0 0 1 3 3v1h1a2 2 0 0 1 0 4h-1v1a3 3 0 0 1-3 3h-1v-1.5a4 4 0 0 1-4 0V22h-1a3 3 0 0 1-3-3v-1H5a2 2 0 0 1 0-4h1v-1a3 3 0 0 1 3-3h1V9.5A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/><circle cx="12" cy="6" r="1.5"/></svg>) },
+              { label: "Body-Signal Indexed", icon: (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="2 12 5 12 8 6 11 18 14 8 17 12 22 12"/></svg>) },
+              { label: "Pattern-Specific Protocols", icon: (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>) },
+            ].map((badge, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", border: "1px solid rgba(20,184,166,0.3)", borderRadius: "999px", padding: "8px 16px", background: "rgba(20,184,166,0.05)" }} data-testid={`badge-credential-${i}`}>
+                {badge.icon}
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "white", letterSpacing: "0.05em" }}>{badge.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
