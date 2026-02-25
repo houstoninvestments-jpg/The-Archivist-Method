@@ -1,0 +1,33 @@
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+client/dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# PDF outputs (large files — store in Replit, not git)
+outputs/*.pdf
