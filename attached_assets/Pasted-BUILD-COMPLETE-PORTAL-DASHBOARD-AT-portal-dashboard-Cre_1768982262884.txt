@@ -1,0 +1,392 @@
+BUILD COMPLETE PORTAL DASHBOARD AT /portal/dashboard
+
+Create the full portal experience for The Archivist Method with Four Doors Protocol branding, video section, progress tracking, and AI section.
+
+═══════════════════════════════════════════════════════════════
+
+PORTAL ROUTE: /portal/dashboard
+
+User must be logged in to access (check existing auth system)
+
+═══════════════════════════════════════════════════════════════
+
+FIRST-TIME USER ONBOARDING MODAL (shows once):
+
+Create 3-screen modal overlay that appears on first login.
+Store "hasSeenOnboarding" in localStorage to prevent repeat.
+
+SCREEN 1:
+Title: "Welcome to The Pattern Archive"
+Content: 
+"You're running: [USER'S PATTERN NAME]
+
+This is your excavation site.
+Here's how it works:"
+
+Buttons: [Next →]
+
+SCREEN 2:
+Title: "What You Have Access To"
+Content:
+"Right now, you have:
+
+✅ Your pattern breakdown
+✅ 7-Day Crash Course (free)
+
+Door 1 of The Four Doors Protocol.
+Pattern recognition and body signature awareness."
+
+Buttons: [← Back] [Next →]
+
+SCREEN 3:
+Title: "Ready to Go Deeper?"
+Content:
+"Want the complete system?
+
+Quick-Start ($47):
+- The Four Doors Protocol for your pattern
+- 90 days of daily exercises
+- Archivist AI access
+
+Complete Archive ($197):
+- All Four Doors for all 7 patterns
+- Lifetime access
+- Archivist AI access"
+
+Buttons: [← Back] [Enter Archive →]
+
+Modal styling:
+- Dark background (slate-900/95 opacity)
+- Modal card: slate-800, rounded, max-width 600px
+- Teal buttons
+- Center screen
+- Backdrop blur
+
+═══════════════════════════════════════════════════════════════
+
+DASHBOARD LAYOUT:
+
+HEADER (sticky top):
+┌─────────────────────────────────────────────────────────────┐
+│ [Logo] The Archivist Method          [Settings] [Logout]   │
+└─────────────────────────────────────────────────────────────┘
+
+Styling:
+- Background: slate-900
+- Border bottom: slate-700
+- Logo: white text, teal accent
+- Buttons: slate-700 hover:slate-600
+
+WELCOME BANNER:
+"Welcome Back, [User Name]"
+"Your Pattern: [PATTERN NAME]"
+
+Styling:
+- Name in white
+- Pattern name in teal (#14B8A6), bold
+- Email below in slate-400, smaller
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 1: BEGIN YOUR EXCAVATION (collapsible)
+
+┌─────────────────────────────────────────────────────────────┐
+│ 🏛️ BEGIN YOUR EXCAVATION                                    │
+│                                                             │
+│ Step 1: Watch the Pattern Recognition Session ⬇️           │
+│ Step 2: Read your specific pattern breakdown               │
+│ Step 3: Download your Crash Course (Day 1)                 │
+│                                                             │
+│ [Start →]                                                   │
+└─────────────────────────────────────────────────────────────┘
+
+Styling:
+- Background: slate-800
+- Border: teal-500 (left border 4px)
+- Padding: 24px
+- Rounded corners
+- [Start] button scrolls to video section
+- Collapsible after first click (stores state in localStorage)
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 2: PATTERN RECOGNITION SESSION VIDEO
+
+┌─────────────────────────────────────────────────────────────┐
+│ 📹 PATTERN RECOGNITION SESSION                              │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │                                                     │   │
+│ │  [Video player embed - 25:26 minutes]              │   │
+│ │  YouTube or Vimeo embed                            │   │
+│ │                                                     │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ This video covers:                                          │
+│ • What pattern archaeology is                               │
+│ • All 7 core patterns (you'll recognize yours)             │
+│ • The Four Doors Protocol                                   │
+│ • How to begin interrupting patterns                        │
+│                                                             │
+│ Watch this first. Everything below will make sense.         │
+└─────────────────────────────────────────────────────────────┘
+
+Video specs:
+- Embed YouTube/Vimeo (placeholder: https://www.youtube.com/watch?v=PLACEHOLDER)
+- Responsive 16:9 aspect ratio
+- No autoplay
+- Show controls
+- Full width on mobile, max 800px on desktop
+
+Styling:
+- Section background: slate-900
+- Title: white, bold, text-xl
+- Video container: rounded, overflow hidden
+- Description text: slate-300, leading-relaxed
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 3: YOUR FOUR DOORS PROGRESS
+
+┌─────────────────────────────────────────────────────────────┐
+│ YOUR FOUR DOORS PROGRESS                                    │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ 🚪 DOOR 1: FOCUS                                    │   │
+│ │ ✅ UNLOCKED                                         │   │
+│ │ Progress: Day 3 of 7                                │   │
+│ │ [Continue →]                                        │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ 🚪 DOOR 2: EXCAVATION                               │   │
+│ │ 🔒 Unlock with Quick-Start ($47)                    │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ 🚪 DOOR 3: INTERRUPTION                             │   │
+│ │ 🔒 Unlock with Quick-Start ($47)                    │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ 🚪 DOOR 4: REWRITE                                  │   │
+│ │ 🔒 Unlock with Quick-Start ($47)                    │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ Complete all four doors to fully interrupt your pattern.   │
+└─────────────────────────────────────────────────────────────┘
+
+Logic:
+- Check user's access_level from database
+- If 'crash-course': Only Door 1 unlocked
+- If 'quick-start' or 'archive': All doors unlocked
+
+Styling:
+- Each door card: slate-800, border-left 4px
+- Unlocked: teal border, white text
+- Locked: slate-700 border, slate-500 text with lock icon
+- Progress bar for Door 1 (if in progress)
+- Hover effects on unlocked doors
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 4: PATTERN BREAKDOWN
+
+┌─────────────────────────────────────────────────────────────┐
+│ YOU'RE RUNNING: [PATTERN NAME IN PINK]                      │
+│                                                             │
+│ ▼ YOU RECOGNIZE THIS                                        │
+│ [Pattern description text]                                  │
+│                                                             │
+│ ▼ WHAT'S ACTUALLY HAPPENING                                 │
+│ [Origin/nervous system explanation]                         │
+│                                                             │
+│ ▼ YOUR BODY SIGNATURE                                       │
+│ • [Physical symptom 1]                                      │
+│ • [Physical symptom 2]                                      │
+│ • [Physical symptom 3]                                      │
+│                                                             │
+│ This is your 2.7 second window.                             │
+│ Catch it here, interrupt the code.                          │
+│                                                             │
+│ ▼ HOW TO INTERRUPT IT                                       │
+│ 1. [Protocol step 1]                                        │
+│ 2. [Protocol step 2]                                        │
+│ 3. [Protocol step 3]                                        │
+└─────────────────────────────────────────────────────────────┘
+
+Pattern data (use from earlier conversation):
+- disappearing
+- apologyLoop
+- testing
+- attractionToHarm
+- complimentDeflection
+- drainingBond
+- successSabotage
+
+Each has: name, description, bodySignature, origin, protocol
+
+Styling:
+- Pattern name: pink (#EC4899), text-3xl, font-black
+- Section headers: teal, uppercase, tracking-wide, collapsible
+- Body text: slate-300, leading-relaxed
+- Body signature: teal colored bullets
+- Protocol: numbered list, teal numbers
+- "2.7 second window": italic, slate-400
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 5: YOUR ARCHIVE ACCESS (Product Cards)
+
+Grid of 3 cards (stack on mobile):
+
+CARD 1: 7-DAY CRASH COURSE
+┌─────────────────────────────────────────────────────────────┐
+│ ✅ 7-DAY CRASH COURSE (UNLOCKED)                            │
+│                                                             │
+│ 🚪 DOOR 1: FOCUS                                            │
+│                                                             │
+│ Day 1: Pattern Recognition                                  │
+│ [View PDF] [Download]                                       │
+│                                                             │
+│ Next: Day 2 arrives in 2 days (via email)                  │
+└─────────────────────────────────────────────────────────────┘
+
+CARD 2: 90-DAY QUICK-START GUIDE
+┌─────────────────────────────────────────────────────────────┐
+│ 🔒 90-DAY QUICK-START GUIDE                                 │
+│                                                             │
+│ 🚪 THE FOUR DOORS PROTOCOL                                  │
+│ For [Pattern Name]                                          │
+│                                                             │
+│ • Doors 1-4 (Complete system)                               │
+│ • 90 daily exercises                                        │
+│ • Body signature tracking                                   │
+│ • Includes Archivist AI                                     │
+│                                                             │
+│ [Unlock for $47 →]                                          │
+└─────────────────────────────────────────────────────────────┘
+
+CARD 3: COMPLETE PATTERN ARCHIVE
+┌─────────────────────────────────────────────────────────────┐
+│ 🔒 COMPLETE PATTERN ARCHIVE                                 │
+│                                                             │
+│ 🚪 ALL FOUR DOORS                                           │
+│ All 7 Patterns                                              │
+│                                                             │
+│ • Complete documentation                                    │
+│ • Cross-pattern analysis                                    │
+│ • Advanced protocols                                        │
+│ • Lifetime access                                           │
+│ • Includes Archivist AI                                     │
+│                                                             │
+│ [Unlock for $197 →]                                         │
+└─────────────────────────────────────────────────────────────┘
+
+Logic:
+- Show green checkmark + "unlocked" if user has access
+- Show lock icon + price if locked
+- Unlock buttons link to Stripe checkout
+- After purchase, redirect back to portal with product unlocked
+
+Styling:
+- Cards: slate-800, rounded, padding 24px
+- Unlocked cards: teal border-top (4px)
+- Locked cards: slate-700 border
+- Buttons: teal background, white text
+- Grid: 3 columns desktop, 1 column mobile
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 6: THE ARCHIVIST AI (Permanent Section)
+
+IF USER HAS FREE TIER (crash-course):
+┌─────────────────────────────────────────────────────────────┐
+│ 🤖 THE ARCHIVIST AI                                         │
+│                                                             │
+│ Your personal pattern technician.                           │
+│ Ask questions. Track patterns. Get guidance.                │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ [Blurred/grayed chat interface preview]             │   │
+│ │                                                     │   │
+│ │ 🔒 LOCKED                                           │   │
+│ │                                                     │   │
+│ │ Sample questions:                                   │   │
+│ │ "Why do I apologize when I haven't done wrong?"    │   │
+│ │ "Track my body signature patterns..."              │   │
+│ │ "Give me today's interruption exercise..."         │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ [Unlock with Quick-Start $47 →]                            │
+│ [Unlock with Complete Archive $197 →]                      │
+└─────────────────────────────────────────────────────────────┘
+
+IF USER HAS PAID TIER (quick-start or archive):
+┌─────────────────────────────────────────────────────────────┐
+│ 🤖 THE ARCHIVIST AI                                         │
+│                                                             │
+│ Your personal pattern technician.                           │
+│ Ask anything. Available 24/7.                               │
+│                                                             │
+│ ┌─────────────────────────────────────────────────────┐   │
+│ │ [Active chat interface]                             │   │
+│ │                                                     │   │
+│ │ You: "Why do I apologize when I haven't           │   │
+│ │      done anything wrong?"                         │   │
+│ │                                                     │   │
+│ │ Archivist: "You're running the Apology Loop.      │   │
+│ │ Your nervous system learned..."                    │   │
+│ │                                                     │   │
+│ │ [Type your question...]                            │   │
+│ └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│ Recent Conversations:                                       │
+│ • "Body signature tracking help"                            │
+│ • "Testing pattern appearing?"                              │
+│ • "Day 5 protocol question"                                 │
+│                                                             │
+│ [View All Conversations →]                                  │
+└─────────────────────────────────────────────────────────────┘
+
+Styling:
+- Section: Full width, slate-900 background
+- Chat interface: slate-800 card, rounded
+- Locked state: opacity 50%, blur filter
+- User messages: teal background
+- AI messages: slate-700 background
+- Input: slate-800, teal border on focus
+- Recent conversations: clickable list, hover effect
+
+Note: AI chat is a SECTION on the page, NOT a floating chatbot
+
+═══════════════════════════════════════════════════════════════
+
+FOOTER:
+"Built in the fire. Years of observation. Systematized December 2025."
+— The Archivist
+
+[Support] [Documentation] [Logout]
+
+═══════════════════════════════════════════════════════════════
+
+RESPONSIVE DESIGN:
+- Mobile: Single column, full width sections
+- Tablet: 2 columns for product cards
+- Desktop: 3 columns for product cards, max-width 1200px
+- All sections stack vertically with proper spacing
+- Video maintains 16:9 aspect ratio on all devices
+
+PERFORMANCE:
+- Lazy load video (don't load until viewport)
+- Optimize images
+- Smooth scrolling
+- Fast transitions
+
+ACCESSIBILITY:
+- Proper heading hierarchy (h1, h2, h3)
+- ARIA labels for interactive elements
+- Keyboard navigation support
+- Focus indicators
+
+Build this complete portal dashboard maintaining dark theme aesthetic and integrating with existing authentication system.

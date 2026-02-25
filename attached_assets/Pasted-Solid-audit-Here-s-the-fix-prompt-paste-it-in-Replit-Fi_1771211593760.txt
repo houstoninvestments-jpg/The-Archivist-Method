@@ -1,0 +1,31 @@
+Solid audit. Here’s the fix prompt — paste it in Replit:
+
+Fix all of the following issues found in the comprehensive audit:
+
+1. BROKEN ICON — The file /public/archivist-icon.png doesn't exist but is referenced in Header, Terms, Privacy, and Portal chat panel. Either create a simple SVG icon inline (a minimal teal geometric symbol — like an abstract "A" or a thread/knot symbol) and replace all img references with the inline SVG component, OR remove the icon references entirely and use text-only branding. Do NOT leave broken image tags.
+
+2. COMPLETE ARCHIVE PDF — Check if THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf exists anywhere in the project (try client/public/downloads/, public/downloads/, or the root). If found, copy it to the correct location. If not found, make the download button show a toast message: "Download available soon. Check back shortly." instead of a 404.
+
+3. SUPABASE CONNECTION — The vault components import from @/lib/supabase which has empty URL/key values. Check if SUPABASE_URL and SUPABASE_ANON_KEY (or VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY) exist in the environment/secrets. If they do, update the supabase client to read from them. If they don't exist yet, add graceful error handling to all vault components so they show a friendly message instead of silently failing. Wrap all Supabase calls in try/catch and show "Feature loading..." or "Connect your account to use this feature" instead of blank/broken UI.
+
+4. CONTACT FORM — Add a working onSubmit handler. Since we don't have a backend email service, make it open the user's email client with a mailto:support@thearchivistmethod.com pre-filled with the form's subject and message body. Show a toast confirmation: "Opening your email client..." Also redesign the Contact page to match the dark cinematic style: background #0A0A0A, Playfair Display title, Source Sans 3 body, JetBrains Mono labels, same card styling as Terms and Privacy pages.
+
+5. FOOTER DATES — Change ALL instances of "2025" to "2026" across the entire codebase. Check Landing, Terms, Privacy, and any shared Footer component. "Systematized December 2025" should stay as December 2025 (that's historically accurate — it WAS systematized in December 2025). But copyright should be "© 2026 The Archivist Method™"
+
+6. "NO EMAIL REQUIRED" — Change "Free · Private · No Email Required · Instant Results" to "Free · 2 Minutes · Instant Results" on the landing page. Remove the "No Email Required" claim since email IS required to access the portal.
+
+7. CONTACT PAGE DESIGN — Rebuild the Contact page to match Terms and Privacy: background #0A0A0A, max-width 800px centered, Playfair Display for title, JetBrains Mono for labels (teal, uppercase), Source Sans 3 for body text. Same card styling. Same footer. Remove the generic Card/Button components and old Tailwind utility classes.
+
+8. FOOTER "NOT" STYLING — In the Footer component, change "Not" to "not" styled with color #EC4899 (inline style, not Tailwind class). Make sure the full line reads: "Pattern archaeology, not therapy." with "not" in pink #EC4899.
+
+9. VAULT GRACEFUL DEGRADATION — For all Workbench and Archive components, add proper error boundaries and loading states. If Supabase connection fails:
+   - "I'm Activated" flow: show the activation steps UI but save to localStorage as fallback instead of Supabase
+   - Brain Dump: allow typing and save to localStorage as fallback
+   - Streaks: show "Connect to track streaks" message
+   - Archive browsing: show the content from the markdown files directly without requiring Supabase for activity logging
+   - Never show a blank screen or silent failure
+
+Fix all 9 issues. Don't break any existing working functionality.
+
+
+That covers every issue from the audit. One prompt, all fixes.​​​​​​​​​​​​​​​​

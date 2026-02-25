@@ -1,0 +1,65 @@
+Two upgrades to the landing page:
+
+1. REDACTED HOVER REVEAL ON CASE FILE CARDS:
+Update the "From The Archives" case file cards. Instead of showing the full text immediately, redact the key breakthrough line with a black rectangle overlay (like a classified document with information blacked out).
+
+For each card, the LAST sentence is the breakthrough. That sentence should be covered by a black bar (background: #000, height matching the text line, positioned over the text).
+
+On hover (desktop) or tap (mobile), the black bar slides to the right and disappears (transform: translateX(100%), transition 0.6s ease), revealing the breakthrough text underneath in teal.
+
+After reveal, it stays revealed (don't re-hide on mouse leave).
+
+Add a small label below each card's redacted area:
+[JetBrains Mono, 10px, #555]
+"[ HOVER TO DECLASSIFY ]" on desktop
+"[ TAP TO DECLASSIFY ]" on mobile
+
+The revealed breakthrough lines for each card:
+- Card 1: "Subject stayed in the conversation. First time in 14 years."
+- Card 2: "Did not destroy 6 months of work."
+- Card 3: "Reports reduced unnecessary apologies by 60% in 3 weeks."
+- Card 4: "Partner responded. Relationship intact."
+
+2. BENTO BOX DASHBOARD PREVIEW:
+Add a visual preview of the actual product near the pricing section. Place it between the credibility stats bar and the pricing cards. This shows users what they're actually buying.
+
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+INSIDE THE SYSTEM
+
+[Playfair Display, 2rem, white]
+This Is What You Get
+
+Create a bento grid layout (CSS grid, 2 columns desktop, 1 column mobile) showing 4 mini preview panels:
+
+PANEL 1 (top-left, spans full width on mobile):
+"Your Pattern Dashboard"
+A mini mock of the portal: dark background, shows pattern name "THE DISAPPEARING PATTERN" in Playfair Display small, a body signature indicator ("Chest tightness — active"), and a streak counter "12 day streak" with a teal fire icon.
+Style: rgba(255,255,255,0.03) bg, 1px border, 24px padding, JetBrains Mono for data
+
+PANEL 2 (top-right):
+"AI Pattern Coach"
+A mini mock of a chat interface: 2 chat bubbles.
+User bubble (dark gray): "I just ghosted her again"
+Archivist bubble (teal left border): "Disappearing pattern. What did you feel in your chest right before you pulled away?"
+Style: same card style, chat bubbles with appropriate styling
+
+PANEL 3 (bottom-left):
+"Body Signature Map"
+A simple body outline (use CSS/SVG, just a minimal human silhouette) with 3 labeled points:
+- Chest area: "Tightness" (teal dot + label)
+- Stomach area: "Drop" (teal dot + label)  
+- Hands: "Cold" (teal dot + label)
+Small text below: "Your pattern has a physical signature. Learn to read it."
+
+PANEL 4 (bottom-right):
+"The Interrupt Protocol"
+A mini mock showing a circuit break card:
+"CIRCUIT BREAK — Disappearing Pattern"
+"Say out loud: 'The pattern is running. I feel the tightness. I'm choosing to stay.'"
+A small progress bar at bottom: "Day 11 of 90"
+
+All 4 panels should have subtle hover effect (border brightens slightly).
+
+The whole bento section should feel like a window into the actual product. Not screenshots — coded UI that matches the real portal aesthetic. This transforms the purchase from "I'm buying information" to "I'm buying access to a system."
+
+Keep the bento section clean and contained. Max-width 900px. Don't let it overwhelm the page.

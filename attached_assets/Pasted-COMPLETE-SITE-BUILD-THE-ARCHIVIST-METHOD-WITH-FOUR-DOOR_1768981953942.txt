@@ -1,0 +1,395 @@
+COMPLETE SITE BUILD - THE ARCHIVIST METHOD WITH FOUR DOORS PROTOCOL
+
+Build the complete user flow for The Archivist Method website with quiz, email capture, portal, and Four Doors Protocol branding.
+
+═══════════════════════════════════════════════════════════════
+
+PART 1: LANDING PAGE UPDATES
+
+1. UPDATE HERO SECTION:
+   - Keep current design (dark theme, particles, pink/teal accents)
+   - Button text: "Discover Your Pattern →"
+   - Button links to: /quiz
+   - Keep subtitle: "Pattern Archaeology, Not Therapy"
+
+2. ADD "ABOUT THE ARCHIVIST METHOD" SECTION (before pricing):
+
+Title: "ABOUT THE ARCHIVIST METHOD"
+Content:
+"The archive was built over years.
+December 2025 made it a system.
+
+Not theory. Not academic research.
+Pattern archaeology performed in real time.
+
+Built while running the code it documents.
+Field research. Real conditions. Active patterns.
+
+When you're inside the pattern, you see the architecture.
+
+The method works because it was tested where it matters."
+
+— The Archivist
+
+Styling:
+- Section background: Slightly darker than main bg
+- Border top/bottom: slate-700
+- Title: teal (#14B8A6), uppercase, tracking-widest
+- "December 2025": pink (#EC4899), font-semibold
+- Italic lines: slate-400, italic
+- Center-aligned, max-width 2xl
+
+3. ADD "THE FOUR DOORS PROTOCOL" SECTION (after About, before pricing):
+
+Title: "THE FOUR DOORS PROTOCOL™"
+Subtitle: "Your systematic path to pattern interruption"
+
+Content (4 cards in grid):
+
+🚪 DOOR 1: FOCUS
+See the pattern clearly
+
+🚪 DOOR 2: EXCAVATION
+Understand the original room
+
+🚪 DOOR 3: INTERRUPTION
+Break the circuit in real-time
+
+🚪 DOOR 4: REWRITE
+Build new behavioral pathways
+
+Styling:
+- 2x2 grid on desktop, single column on mobile
+- Each card: dark background, teal border-left (4px)
+- Door emoji + number: large, prominent
+- Title: teal, bold
+- Description: slate-300
+- Cards have subtle hover effect
+
+4. UPDATE PRICING CARDS:
+
+FREE TIER:
+Title: "7-DAY CRASH COURSE"
+Subtitle: "🚪 DOOR 1: FOCUS"
+Features:
+- Pattern recognition training
+- Body signature identification
+- 7 days of observation protocols
+- Your pattern breakdown
+CTA: "Discover Your Pattern →" (links to /quiz)
+
+QUICK-START ($47):
+Title: "90-DAY QUICK-START GUIDE"
+Price: "$47"
+Subtitle: "THE FOUR DOORS PROTOCOL For Your Pattern"
+Features:
+🚪 DOOR 1: FOCUS (Days 1-7)
+🚪 DOOR 2: EXCAVATION (Days 8-21)
+🚪 DOOR 3: INTERRUPTION (Days 22-60)
+🚪 DOOR 4: REWRITE (Days 61-90)
+- Complete interruption system
+- Daily exercises (90 days)
+- Archivist AI access
+- Body signature tracking
+CTA: "Unlock Quick-Start →"
+
+COMPLETE ARCHIVE ($197):
+Title: "COMPLETE PATTERN ARCHIVE"
+Price: "$197"
+Subtitle: "THE FOUR DOORS PROTOCOL For All 7 Patterns"
+Features:
+🚪 All Four Doors, Fully Documented
+- All 7 patterns mapped
+- Cross-pattern analysis
+- Advanced protocols
+- Lifetime access
+- Archivist AI access
+CTA: "Enter The Archive →"
+
+5. UPDATE FOOTER:
+Add:
+"Built in the fire. Years of observation. Systematized December 2025."
+— The Archivist
+
+═══════════════════════════════════════════════════════════════
+
+PART 2: QUIZ BUILD (/quiz route)
+
+Create mobile-optimized 15-question quiz with Framer Motion animations.
+
+INTRO SCREEN:
+Title: "THE ARCHIVIST METHOD™"
+Pink divider line (bg-pink-500, h-0.5, w-24, centered, mb-8)
+Headline: "DISCOVER YOUR PATTERN" (teal, text-4xl, font-black)
+
+Body copy:
+"You watch yourself do it. You know it's happening.
+You do it anyway.
+
+[pink bold] Disappear. Apologize. Test. Sabotage. Repeat. [/pink]
+
+15 questions. 2 minutes.
+Pattern archaeology, not therapy."
+
+Button: "Discover Your Pattern →" (teal bg)
+Subtext: "Free • 2 Minutes • Instant Results"
+
+Styling:
+- "THE ARCHIVIST METHOD™" - white, font-bold, text-2xl, tracking-widest
+- "You do it anyway." - pink (#EC4899), font-bold, slight glow
+- Background: bg-slate-950 with subtle animated gradient
+- All text center-aligned
+
+QUIZ QUESTIONS (use exact data):
+[Include all 15 questions with scoring from earlier in conversation]
+
+Question format:
+- One card at a time, full screen height
+- Question text: large, bold, white, centered
+- 4 answer buttons in bottom 40% (thumb zone)
+- Buttons: bg-slate-800, hover:bg-slate-700, rounded, padding 20px
+- Progress bar at top (bg-indigo-500)
+
+Animation:
+- Current card slides LEFT on answer click
+- New card slides in from RIGHT
+- Framer Motion spring: stiffness 300, damping 30
+- Scale down button slightly on click (0.98)
+
+AFTER QUESTION 15 - EMAIL GATE:
+(Do NOT show results yet)
+
+Title: "Get Your Pattern Analysis"
+Body: "Your full breakdown is ready in your personal portal:"
+
+Checklist:
+✓ What's driving this pattern (The Original Room)
+✓ Your body signature (the 3-7 second warning)
+✓ Secondary patterns you're also running
+✓ 7-Day Crash Course specific to [Pattern Name]
+✓ How to interrupt it (your custom protocol)
+✓ AI Pattern Coach (ask questions 24/7)
+
+Email input field
+Button: "Enter The Archive →"
+Subtext: "Free • Private • Brutally Honest • Instant Access"
+
+Behind the scenes when email submitted:
+- Send email to ConvertKit with pattern tag
+- Create/check portal account
+- Redirect to /portal/dashboard (auto-login)
+
+═══════════════════════════════════════════════════════════════
+
+PART 3: PORTAL BUILD (/portal/dashboard)
+
+FIRST-TIME USER ONBOARDING (3-screen modal):
+
+SCREEN 1:
+"Welcome to The Pattern Archive
+
+You're running: [PATTERN NAME]
+
+This is your excavation site.
+Here's how it works:"
+
+[Next →]
+
+SCREEN 2:
+"Right now, you have:
+
+✅ Your pattern breakdown
+✅ 7-Day Crash Course (free)
+
+Door 1 of The Four Doors Protocol.
+Pattern recognition and body signature awareness."
+
+[Back] [Next →]
+
+SCREEN 3:
+"Want the complete system?
+
+Quick-Start ($47):
+The Four Doors Protocol for your pattern
+90 days of daily exercises + AI access
+
+Complete Archive ($197):
+All Four Doors for all 7 patterns
+Lifetime access + AI access"
+
+[Back] [Enter Archive →]
+
+Store "hasSeenOnboarding" in localStorage
+
+═══════════════════════════════════════════════════════════════
+
+DASHBOARD LAYOUT:
+
+Header:
+[Logo] The Archivist Method          [Settings] [Logout]
+
+Welcome banner:
+"Welcome Back, [Name]
+Your Pattern: [PATTERN NAME]"
+
+SECTION 1: BEGIN YOUR EXCAVATION (collapsible box at top)
+Title: "🏛️ BEGIN YOUR EXCAVATION"
+Content:
+"Step 1: Watch the Pattern Recognition Session ⬇️
+Step 2: Read your specific pattern breakdown
+Step 3: Download your Crash Course (Day 1)"
+
+Button: [Start →]
+
+SECTION 2: PATTERN RECOGNITION SESSION VIDEO
+Title: "📹 PATTERN RECOGNITION SESSION"
+
+[Video player embed - 25:26 minutes]
+YouTube/Vimeo embed (no autoplay, show controls)
+
+Description:
+"This video covers:
+- What pattern archaeology is
+- All 7 core patterns (you'll recognize yours)
+- The Four Doors Protocol
+- How to begin interrupting patterns
+
+Watch this first. Everything below will make sense."
+
+SECTION 3: YOUR FOUR DOORS PROGRESS
+Title: "YOUR FOUR DOORS PROGRESS"
+
+Progress cards:
+🚪 DOOR 1: FOCUS
+✅ UNLOCKED
+Progress: Day [X] of 7
+[Continue →]
+
+🚪 DOOR 2: EXCAVATION
+🔒 Unlock with Quick-Start ($47)
+
+🚪 DOOR 3: INTERRUPTION
+🔒 Unlock with Quick-Start ($47)
+
+🚪 DOOR 4: REWRITE
+🔒 Unlock with Quick-Start ($47)
+
+Note: "Complete all four doors to fully interrupt your pattern."
+
+SECTION 4: PATTERN BREAKDOWN
+Title: "YOU'RE RUNNING: [PATTERN NAME]"
+
+Subsections:
+- You Recognize This (description)
+- What's Actually Happening (origin)
+- Your Body Signature (3 physical symptoms + "This is your 2.7 second window")
+- How to Interrupt It (protocol steps)
+
+Use pattern data from earlier in conversation
+
+SECTION 5: YOUR ARCHIVE ACCESS (Product cards)
+
+Card 1: 7-DAY CRASH COURSE
+Status: ✅ UNLOCKED
+Content:
+"🚪 DOOR 1: FOCUS
+Day 1: Pattern Recognition
+[View PDF] [Download]
+
+Next: Day 2 arrives in 2 days (via email)"
+
+Card 2: 90-DAY QUICK-START GUIDE
+Status: 🔒 LOCKED
+Content:
+"🚪 THE FOUR DOORS PROTOCOL
+For [Pattern Name]
+
+- Doors 1-4 (Full system)
+- 90 daily exercises
+- Includes Archivist AI
+
+[Unlock for $47 →]"
+
+Card 3: COMPLETE PATTERN ARCHIVE
+Status: 🔒 LOCKED
+Content:
+"🚪 ALL FOUR DOORS
+All 7 Patterns
+
+- Complete documentation
+- Cross-pattern analysis
+- Includes Archivist AI
+
+[Unlock for $197 →]"
+
+SECTION 6: THE ARCHIVIST AI (Permanent section, NOT floating chatbot)
+
+Title: "🤖 THE ARCHIVIST AI"
+
+IF LOCKED (free tier):
+"Your personal pattern technician.
+Ask questions. Track patterns. Get guidance.
+
+[Preview - blurred chat interface showing sample questions]
+
+🔒 Unlock with Quick-Start ($47) or Archive ($197)"
+
+IF UNLOCKED (paid tier):
+"Your personal pattern technician.
+Ask anything. Available 24/7.
+
+[Full chat interface embedded here]
+
+Recent Conversations:
+- "Body signature tracking help"
+- "Testing pattern appearing?"
+- "Day 5 protocol question"
+
+[View All Conversations →]"
+
+═══════════════════════════════════════════════════════════════
+
+STYLING SPECS:
+
+Colors:
+- Background: #0A0E27 (slate-950)
+- Primary accent: #14B8A6 (teal-500)
+- Secondary accent: #EC4899 (pink-500)
+- Text: white / slate-300
+- Borders: slate-700
+- Cards: slate-800/slate-900
+
+Typography:
+- Headings: font-bold, tracking-wide
+- Body: font-normal, leading-relaxed
+- System font stack
+
+Layout:
+- Max width: 1200px desktop
+- Full width mobile
+- Padding: consistent spacing
+- Mobile-first responsive
+
+Animations:
+- Smooth transitions (150-300ms)
+- Subtle hover states
+- No aggressive animations
+
+═══════════════════════════════════════════════════════════════
+
+TECHNICAL REQUIREMENTS:
+
+1. Use existing React/TypeScript structure
+2. Integrate with existing Stripe checkout
+3. Integrate with existing portal login system
+4. Use Framer Motion for quiz animations
+5. Store quiz results in state/database
+6. Link email to ConvertKit (pattern tags)
+7. Auto-login to portal after email capture
+8. Responsive on all devices
+9. Fast load times
+10. Accessible (ARIA labels, keyboard nav)
+
+═══════════════════════════════════════════════════════════════
+
+Build this complete system maintaining the existing dark aesthetic and integrating with current authentication/payment systems.

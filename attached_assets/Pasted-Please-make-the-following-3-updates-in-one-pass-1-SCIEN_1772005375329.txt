@@ -1,0 +1,43 @@
+Please make the following 3 updates in one pass:
+
+**1. SCIENCE SECTION — ADD DEPTH**
+In the "THE SCIENCE BEHIND THE WINDOW" section, add 2 more research cards to the grid making it a 3x2 grid of 6 cards total:
+
+Card 5:
+2012
+"Habits form through neurological loops the conscious mind cannot override."
+— Duhigg, C. · The Power of Habit
+
+Card 6:
+2000
+"The window between stimulus and response is where all change lives."
+— Schwartz, J. · The Mind and the Brain
+
+Below the badges add one more line in small teal text:
+"This is not self-help. This is applied neuroscience."
+
+**2. DEMO SECTION — CONVERT TO MODAL**
+Remove the "MEET YOUR PATTERN" demo section from the main page scroll entirely.
+
+Instead, in the existing POCKET ARCHIVIST section, add a single button below the copy:
+Button text: "EXPERIENCE IT FREE →"
+Style: Teal border, teal text, dark background — secondary button, not competing with the main quiz CTA
+
+When clicked, open a full-screen modal overlay with:
+- Dark background matching site
+- The existing demo component inside it (3-question Pocket Archivist sequence)
+- An X close button top right in teal
+- The headline: "MEET YOUR PATTERN." at the top
+- After completing all 3 questions, show the result then a CTA button: "Take The Full Quiz →" that closes the modal and scrolls to the quiz CTA
+
+**3. FIX BENTO SCROLL ANIMATIONS**
+The bento panel entrance animations are not triggering properly on scroll. Please fix:
+
+- Lower the Intersection Observer threshold to 0.1 (trigger when just 10% of panel is visible)
+- Increase the animation distance from 20px to 40px translateY for more noticeable lift
+- Ensure stagger delay is working — each panel should animate 150ms after the previous one
+- Add a stronger scale effect: start at 0.92, ease to 1.0
+- On hover: translateY -6px, box-shadow with teal glow (0 0 20px rgba(0,212,170,0.3))
+- Apply this fix to ALL bento cards across the entire site — patterns section, method section, archives section, everywhere
+
+Test on both mobile and desktop before confirming complete.

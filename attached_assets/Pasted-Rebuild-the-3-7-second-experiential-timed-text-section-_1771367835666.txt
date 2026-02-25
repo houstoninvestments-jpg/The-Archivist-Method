@@ -1,0 +1,97 @@
+Rebuild the 3-7 second experiential timed text section. The current version only shows one pattern's body signatures which misses most visitors. The new version cycles through multiple patterns so everyone recognizes themselves.
+
+CONCEPT: The section plays a repeating sequence. Each cycle shows a different pattern's trigger → body signature → pull to act. The visitor watches multiple patterns pass by until THEIRS hits and they feel it. Then the payoff line lands.
+
+IMPLEMENTATION:
+
+When the section scrolls into view (intersection observer, threshold 0.4), begin the sequence.
+
+INTRO (plays once, never repeats):
+
+[Delay 0.5s, fade in]
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+THE WINDOW
+
+[Delay 1.5s, fade in]
+[Playfair Display, 2.2rem, white]
+"Every pattern has a signature."
+
+[Delay 3.0s, fade in]
+[Source Sans 3, 1.1rem, #999]
+"Your body sends it 3-7 seconds before the behavior runs."
+
+[Delay 4.5s — intro text fades to 40% opacity and stays as background context]
+
+PATTERN CYCLE (starts at 5.0s, each pattern gets 4 seconds):
+
+Each pattern cycle shows 3 lines that fade in sequentially, hold for a moment, then all 3 fade out before the next pattern begins. Centered. Max-width 500px.
+
+Line 1 (fade in at 0.0s of cycle): The trigger situation
+Style: Source Sans 3, 1.15rem, #777
+
+Line 2 (fade in at 0.8s of cycle): The body signature
+Style: Source Sans 3, 1.15rem, white
+
+Line 3 (fade in at 1.6s of cycle): The pull / urge
+Style: Source Sans 3, 1.15rem, white, slightly brighter
+
+All 3 lines fade out together at 3.2s of cycle. 0.8s gap of nothing. Next pattern begins.
+
+THE CYCLES:
+
+Cycle 1 — DISAPPEARING:
+"Someone says I love you."
+"Your chest tightens. Your hands go cold."
+"You're already planning how to leave."
+
+Cycle 2 — APOLOGY LOOP:
+"You ask a question in a meeting."
+"Your throat closes. Stomach drops."
+"You're already apologizing for speaking."
+
+Cycle 3 — SUCCESS SABOTAGE:
+"The project is almost finished."
+"Your hands start shaking. Restless heat."
+"You're about to delete six months of work."
+
+Cycle 4 — TESTING:
+"Things are going well with them."
+"Jaw clenches. Pulse quickens."
+"You're about to start a fight to see if they'll stay."
+
+Cycle 5 — ATTRACTION TO HARM:
+"They hurt you again."
+"Numbness spreads. Familiar warmth."
+"You're going back. You already know you are."
+
+After all 5 cycles complete (about 25 seconds total):
+
+THE PAYOFF (fades in and stays):
+
+[1.0s pause after last cycle fades]
+
+[Playfair Display, 2rem, white, fade in over 0.8s]
+"Did one of those hit?"
+
+[1.5s pause]
+
+[Playfair Display, 2.5rem, teal, fade in over 0.8s]
+"That was your window."
+
+[1.5s pause]
+
+[Source Sans 3, 1.1rem, #999, fade in over 0.6s]
+"This method teaches you what to do inside it."
+
+The payoff lines stay visible permanently after appearing. They do not fade out.
+
+DESIGN DETAILS:
+- The entire section has generous padding (120px top and bottom minimum)
+- Background stays #0A0A0A, no special effects
+- All text centered
+- The pattern name is NOT shown during each cycle — the visitor doesn't know which pattern they're seeing. They just feel it. This is intentional. The recognition comes from the body signature description, not a label.
+- Smooth, elegant transitions. Fade duration 0.4s ease for all appears and disappears.
+- The sequence plays ONCE per page load. After the payoff lines appear, if the user scrolls away and back, they see the final state (payoff lines visible, cycles done).
+- On mobile: same sequence, same timing, slightly smaller text (1rem body, 1.8rem Playfair)
+
+DO NOT show all patterns simultaneously. DO NOT use cards or grids. The power is in the sequential reveal — one at a time, building tension, until one of them lands.

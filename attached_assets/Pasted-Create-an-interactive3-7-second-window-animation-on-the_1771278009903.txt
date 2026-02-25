@@ -1,0 +1,80 @@
+Create an interactive3-7 second window animation on the landing page in the "THE3-7 SECOND WINDOW" section (section 5).
+
+ANIMATION CONCEPT:
+This is not a static diagram. This is a simulation of a pattern activating in real-time. The user watches it happen, feels it happen, and understands the exact moment where interruption is possible.
+
+ANIMATION SEQUENCE (10 seconds total, loops continuously):
+
+FRAME 1: THE TRIGGER (0-1 seconds)
+- Screen background stays #0A0A0A
+- White text in center, Playfair Display, 2rem: "THE TRIGGER"
+- Below it, Source Sans 3, 1rem, #999: "Something happens. A text. A compliment. Closeness."
+- Fade in with slight pulse
+
+FRAME 2: THE PAUSE (1-1.2 seconds)
+- Everything goes dark for 0.2 seconds
+- Just a single line of teal (#14B8A6) sweeps across the screen horizontally, left to right, like a scanner
+- This represents the millisecond between trigger and body response
+
+FRAME 3: THE BODY SIGNATURE (1.2-3.2 seconds — 2SECONDS DURATION)
+- A RED GLOW (#FF4444or similar, semi-transparent) spreads outward from the center of the screen in waves
+- Each wave expands outward, then fades, then another wave expands — like a heartbeat or panic spreading through the body
+- Text in center: Playfair Display, 1.8rem, white: "YOUR BODY REACTS"
+- Below: Source Sans 3, #999: "Chest tightens. Stomach drops. Hands go cold."
+- This glow should feel urgent, physical, inescapable
+- The duration is 2 SECONDS — this visually represents the body signature phase
+
+FRAME 4: THE INTERRUPT POINT (3.2-5.2 seconds — THE CRITICAL2SECONDS)
+- Red glow is still present but DIMMER (opacity 0.3)
+- A LARGE WHITE CIRCLE appears in the exact center of the screen, perfectly centered
+- Inside the circle in JetBrains Mono, teal, large: "YOU ARE HERE"
+- Below the circle in Source Sans 3, white, bold: "YOU CAN STILL CHOOSE"
+- Below that in Source Sans 3, #999, smaller: "Apply your circuit break now. The pattern hasn't finished running yet."
+- A thin teal border pulses around the white circle (pulse: 0.5 opacity to 1.0 opacity, repeating every 0.4s)
+- This is the 3-7 second window. This is where everything changes.
+- Duration: 2 SECONDS (this represents your actual interrupt window)
+
+FRAME 5: THE PATTERN RUNS (5.2-9seconds — IF YOU DON'T INTERRUPT)
+- The white circle fades out
+- Red glow fades to dark
+- Text appears in center: Playfair Display, 1.8rem, #999 (muted/greyed): "THE PATTERN RUNS"
+- Below: Source Sans 3, #999: "You ghost them. You sabotage it. You apologize again."
+- Everything is slightly desaturated, like watching a video of yourself you can't stop
+- It feels inevitable, automatic, like the decision was already made
+- Duration: 3.8 SECONDS (this represents the pattern completing)
+
+FRAME 6: THE RESET (9-10 seconds)
+- Everything fades to black
+- Brief pause
+- Text appears: "It happens this way every time."
+- Then: "Unless you interrupt it in the window."
+- Then the animation loops back to FRAME 1
+
+TECHNICAL IMPLEMENTATION:
+
+1. Create a React component called `ThreeSevenSecondAnimation.tsx`
+2. Use framer-motion for the animations (smooth, performant)
+3. Each frame is tied to a timeline (0s to 10s, loops)
+4. The red glow should use CSS keyframes for performance: radial-gradient that expands and fades
+5. The white circle pulse should use CSS animation, not JavaScript
+6. The whole animation auto-plays on scroll into view (intersection observer)
+7. Add a small "playing" indicator (JetBrains Mono, 11px, #555) in top right: "Animation • Press to pause"
+8. If user clicks anywhere on the animation, it pauses. Click again to resume. This lets them study each frame.
+9. On mobile: scale down the text sizes appropriately, but keep the same visual impact
+
+COLORS:
+- Red glow: #FF4444 or #E74C3C (test both, pick the one that feels more visceral)
+- Teal circle border: #14B8A6
+- Background: #0A0A0A
+- Text: white and muted grays as specified
+
+PLACEMENT:
+Replace the current three-box diagram in section 5 with this animation component.
+Keep the explanatory text above and below unchanged.
+
+FEEL:
+This should feel like watching your own nervous system activate. It should be slightly uncomfortable to watch because that's what it feels like when the pattern runs. The red glow should feel like danger. The white circle should feel like hope — a moment of choice.
+
+When someone watches this, they should immediately think: "Oh. That's what happens to me. And there's that moment... I didn't know I could catch it there."
+
+Build this component and integrate it into the landing page rebuild. Test on both desktop and mobile.

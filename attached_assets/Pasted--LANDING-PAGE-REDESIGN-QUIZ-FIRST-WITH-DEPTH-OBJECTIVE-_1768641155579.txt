@@ -1,0 +1,814 @@
+# LANDING PAGE REDESIGN - QUIZ-FIRST WITH DEPTH
+
+## OBJECTIVE
+Redesign thearchivistmethod.com landing page to optimize for quiz starts while maintaining all the valuable content that builds trust and explains the method.
+
+**Primary Goal:** Get visitors to start the pattern quiz  
+**Secondary Goal:** Provide depth for skeptics who need more information  
+**Strategy:** Progressive disclosure - immediate CTA for high-intent, detailed content for skeptics
+
+---
+
+## PAGE STRUCTURE OVERVIEW
+
+1. Hero Section (Above fold - immediate quiz CTA)
+2. Trust Builder (What is Pattern Archaeology?)
+3. The 7 Patterns (Recognition hooks - BIGGEST converter)
+4. How It Works (The Method)
+5. The Original Room (The "Why")
+6. Pricing Section (Transparency)
+7. Social Proof (Honest positioning)
+8. Final CTA (Last conversion opportunity)
+9. Footer
+
+**Every section ends with a CTA button that links to /quiz**
+
+---
+
+## SECTION 1: HERO (ABOVE THE FOLD)
+
+### Layout:
+- Full screen height on desktop
+- Centered content
+- Dark background with subtle particle effects (existing animation)
+- Logo in top left corner (existing)
+
+### Content:
+
+```
+[Small centered text, gray]
+PATTERN ARCHAEOLOGY SESSION
+
+[Main headline, large, white, bold]
+Which Pattern Is Running Your Life?
+
+[Subhead, medium, light gray]
+You watch yourself do it. You know it's happening. You do it anyway.
+
+[Subhead line 2]
+Find your pattern in 2 minutes — then get the free crash course to interrupt it.
+
+[Large CTA button, teal background, white text, with arrow]
+Take the 2-Minute Quiz →
+
+[Below button, small, gray]
+Free • Private • Brutally Honest
+```
+
+### Design Specs:
+- **Background:** #0a0a0a or #1a1a1a with existing particle effects
+- **Main headline:** 56-72px, bold, white (#ffffff)
+- **Subhead:** 20-24px, light gray (#d1d5db)
+- **CTA button:** 
+  - Background: #14B8A6 (teal)
+  - Text: white, 18-20px, bold
+  - Padding: 20px 40px
+  - Border radius: 8px
+  - Hover: slightly lighter teal, subtle scale (1.02)
+  - Arrow icon: →
+- **Below button text:** 14px, gray (#9ca3af)
+
+### Spacing:
+- Top padding: 120px (below header)
+- Content max-width: 800px centered
+- Button margin-top: 40px
+- Below-button text margin-top: 16px
+
+---
+
+## SECTION 2: TRUST BUILDER
+
+### Layout:
+- Full width background (slightly different shade for visual break)
+- Content max-width: 900px centered
+- Generous padding top/bottom
+
+### Content:
+
+```
+[Section headline, centered, teal]
+WHAT IS PATTERN ARCHAEOLOGY?
+
+[Body text, center-aligned, white/light gray]
+Not therapy. Not self-help. Not another "healing journey."
+
+This is behavioral forensics.
+
+Your destructive patterns run in a 3-7 second window:
+Trigger → Body sensation → Thought → Behavior
+
+Right now, those 3-7 seconds are automatic. You don't see the 
+pattern until after it's already run.
+
+Pattern archaeology teaches you to recognize the pattern BEFORE 
+it executes. In that recognition, you create a gap. In that gap, 
+you can interrupt the code.
+
+[CTA button, teal]
+Take the Quiz - Find Your Pattern →
+```
+
+### Design Specs:
+- **Background:** #111111 (slightly lighter than hero)
+- **Section headline:** 36-42px, teal (#14B8A6), bold
+- **Body text:** 18-20px, light gray (#d1d5db), line-height 1.8
+- **Arrow in body:** Teal color to highlight the progression
+- **CTA button:** Same as hero button
+- **Padding:** 80px top/bottom on desktop, 60px on mobile
+
+---
+
+## SECTION 3: THE 7 PATTERNS (MOST IMPORTANT)
+
+### Layout:
+- Dark background
+- Grid of 7 pattern cards
+- Each card is its own component
+- Desktop: 2 columns, mobile: 1 column
+
+### Content:
+
+```
+[Section headline, centered, white]
+THE 7 DESTRUCTIVE PATTERNS
+
+[Subhead, centered, gray]
+One (or more) of these is running your life:
+
+[7 Pattern Cards - Each card contains:]
+
+CARD 1:
+---
+1. DISAPPEARING
+
+You ghost when relationships get close. Three months in, 
+they say "I love you" and your chest gets tight. You watch 
+yourself do it. You do it anyway.
+---
+
+CARD 2:
+---
+2. APOLOGY LOOP
+
+You apologize for existing. "Sorry to bother you." "Sorry, 
+quick question." You apologize 20+ times per day for things 
+that don't require apologies.
+---
+
+CARD 3:
+---
+3. TESTING
+
+You push people away to see if they'll stay. You create tests. 
+They pass? You create bigger ones. You don't trust "I'm not 
+leaving" until you've tested it 47 ways.
+---
+
+CARD 4:
+---
+4. ATTRACTION TO HARM
+
+Safe people feel boring. Chaos feels like chemistry. Red flags 
+don't register as warnings—they register as attraction. Harm 
+feels like home.
+---
+
+CARD 5:
+---
+5. COMPLIMENT DEFLECTION
+
+You can't accept praise. Someone says "great work" and you 
+deflect, minimize, redirect. Visibility makes you squirm. 
+Recognition makes you want to disappear.
+---
+
+CARD 6:
+---
+6. DRAINING BOND
+
+You can't leave. Toxic job, harmful relationship, depleting 
+friendship—you know you should go. Everyone tells you to leave. 
+You stay. Leaving feels like abandoning them.
+---
+
+CARD 7:
+---
+7. SUCCESS SABOTAGE
+
+You destroy things right before they succeed. Three weeks from 
+launch, you quit. One week from promotion, you blow it up. 
+Sustained success triggers panic, so you destroy it first.
+---
+
+[Below cards, centered]
+Which pattern made your stomach drop?
+
+[CTA button, teal]
+Take the Quiz to Find Out →
+```
+
+### Design Specs - Pattern Cards:
+- **Card background:** #1a1a1a with subtle border (#262626)
+- **Card padding:** 32px
+- **Card border-radius:** 12px
+- **Card hover:** Slight glow effect (teal shadow), subtle scale (1.02)
+- **Pattern number + name:** Teal (#14B8A6), 24px, bold
+- **Pattern description:** Light gray (#d1d5db), 16-18px, line-height 1.7
+- **Gap between cards:** 24px
+- **Grid:** 2 columns on desktop (>768px), 1 column on mobile
+
+### Overall Section:
+- **Background:** #0a0a0a
+- **Content max-width:** 1200px centered
+- **Padding:** 100px top/bottom on desktop, 80px on mobile
+- **Section headline:** 42-48px, white, bold
+- **Subhead below headline:** 20px, gray, margin-bottom 60px
+
+---
+
+## SECTION 4: HOW IT WORKS
+
+### Layout:
+- Lighter background for visual break
+- 5 steps with numbers
+- Content max-width: 1000px
+
+### Content:
+
+```
+[Section headline, centered, white]
+HERE'S HOW PATTERN INTERRUPTION WORKS
+
+[5 Steps - Each formatted as:]
+
+STEP 1: IDENTIFY THE PATTERN
+Take the 2-minute quiz. Get your result. Understand what's 
+been running your life.
+
+STEP 2: LEARN YOUR BODY SIGNATURE
+Your body signals the pattern BEFORE it runs. Every time. 
+That chest tightness? That sudden urge to flee? That crushing 
+guilt? That's your 3-7 second warning.
+
+STEP 3: CIRCUIT BREAK
+When you feel the body signature, you speak your circuit break 
+statement. Out loud or in your head. This creates a pause in 
+the automatic execution.
+
+STEP 4: CHOOSE DIFFERENT BEHAVIOR
+In the pause the circuit break creates, you can choose a 
+different response. Not by willpower. By interrupting the 
+code before it runs.
+
+STEP 5: TRACK AND REFINE
+Every attempt generates data. You learn what triggers you, 
+when the pattern activates, what works to interrupt it. 
+You get better over time.
+
+[Closing text, centered]
+This isn't therapy. It's not processing the original trauma. 
+It's catching the pattern mid-execution and installing new 
+behavior in real-time.
+
+[CTA button, teal]
+Start Your 7-Day Crash Course - Take Quiz →
+```
+
+### Design Specs:
+- **Background:** #111111
+- **Section headline:** 42px, white, bold, centered
+- **Step format:**
+  - Step number + title: Teal (#14B8A6), 20-22px, bold
+  - Step description: Light gray (#d1d5db), 18px, line-height 1.7
+  - Margin between steps: 40px
+- **Closing text:** 18px, light gray, max-width 800px centered
+- **Padding:** 100px top/bottom on desktop, 80px on mobile
+
+---
+
+## SECTION 5: THE ORIGINAL ROOM
+
+### Layout:
+- Dark background
+- Content max-width: 900px centered
+- Emotional depth section
+
+### Content:
+
+```
+[Section headline, centered, white]
+WHY PATTERNS RUN AUTOMATICALLY
+
+[Body text, center-aligned or left-aligned, readable width]
+
+These patterns installed in what we call The Original Room.
+
+Your childhood environment. The people who raised you. The 
+situations that shaped your nervous system before you had 
+language to process them.
+
+In The Original Room, you learned equations:
+• Closeness = Danger (Disappearing Pattern)
+• Your Needs = Burden to Others (Apology Loop)
+• Love = Pain + Chaos (Attraction to Harm)
+• Success = Threat Incoming (Success Sabotage)
+
+Those equations still run today. Not because you're broken. 
+Because your nervous system is doing exactly what it was 
+trained to do 20 years ago.
+
+The patterns aren't personality traits. They're survival code 
+that wrote itself when you needed it—and never got uninstalled.
+
+Pattern interruption doesn't rewrite The Original Room. It 
+teaches you to catch the pattern before it executes, so you 
+can choose different behavior now.
+
+[CTA button, teal]
+Find Your Pattern - Take the Quiz →
+```
+
+### Design Specs:
+- **Background:** #0a0a0a
+- **Section headline:** 42px, white, bold
+- **Body text:** 18-20px, light gray (#d1d5db), line-height 1.8
+- **Bullet points:** Teal color (#14B8A6)
+- **Padding:** 100px top/bottom on desktop, 80px on mobile
+- **Text max-width:** 800px for readability
+
+---
+
+## SECTION 6: PRICING
+
+### Layout:
+- Lighter background
+- 3 pricing cards in row (desktop), stacked (mobile)
+- Content max-width: 1200px
+
+### Content:
+
+```
+[Section headline, centered, white]
+THE COMPLETE SYSTEM
+
+[3 Pricing Cards - Side by side on desktop]
+
+CARD 1 (FREE):
+---
+7-DAY CRASH COURSE
+FREE
+
+• Pattern identification quiz
+• Your complete pattern analysis
+• 7-day interruption protocol
+• Circuit break scripts
+• Body signature guide
+• AI pattern coach (basic)
+
+[Button: Start Free - Take Quiz →]
+---
+
+CARD 2 ($47):
+---
+90-DAY QUICK-START SYSTEM
+$47
+
+• Everything in crash course
+• All 7 patterns (not just yours)
+• 90-day structured protocol
+• Crisis intervention protocols
+• Relationship communication scripts
+• Workplace applications
+• Unlimited AI pattern coach
+
+[Button: Learn More]
+---
+
+CARD 3 ($197):
+---
+COMPLETE ARCHIVE
+$197
+
+• Everything in Quick-Start
+• Pattern combinations (when 2-3 run together)
+• Long-term maintenance protocols
+• Advanced workplace scenarios
+• Parenting with patterns
+• Lifetime access + updates
+
+[Button: Learn More]
+---
+
+[Below cards, centered text]
+Start with the free crash course. Upgrade only if it works for you.
+
+[Final CTA button, teal, large]
+Take the Quiz - Start Free →
+```
+
+### Design Specs - Pricing Cards:
+- **Card background:** #1a1a1a
+- **Card border:** 1px solid #262626
+- **Card padding:** 40px
+- **Card border-radius:** 12px
+- **Card spacing:** 24px gap between cards
+- **Grid:** 3 columns on desktop (>1024px), 2 columns on tablet, 1 column on mobile
+
+**Card elements:**
+- **Title:** 20-22px, white, bold
+- **Price:** 36-42px, teal (#14B8A6), bold
+- **Features list:**
+  - Bullet style: Teal checkmarks or bullets
+  - Text: 16px, light gray (#d1d5db)
+  - Line-height: 1.8
+  - Spacing: 12px between items
+- **Button:**
+  - Free card: Teal background, white text (primary CTA)
+  - Paid cards: Transparent background, teal border, teal text (secondary CTA)
+  - Padding: 16px 32px
+  - Border-radius: 8px
+
+**Section:**
+- **Background:** #111111
+- **Padding:** 100px top/bottom on desktop, 80px on mobile
+- **Below-cards text:** 18px, gray, margin 40px top
+- **Final CTA button:** Same as hero button, margin 40px top
+
+---
+
+## SECTION 7: SOCIAL PROOF (HONEST)
+
+### Layout:
+- Dark background
+- Content max-width: 800px centered
+- Clean, minimal
+
+### Content:
+
+```
+[Section headline, centered, white]
+YOU'RE EARLY TO THIS
+
+[Body text, center-aligned]
+The Archivist Method launched January 2026. You're one of the first.
+
+No "10,000+ success stories." No manufactured testimonials. 
+No inflated claims.
+
+Just a method that either works for your nervous system or doesn't.
+
+The 7-day crash course shows you which. One successful interrupt 
+in 7 days = proof of concept. Then you decide if you want to continue.
+
+Fast validation. No bullshit. Real results or honest failure.
+
+[CTA button, teal]
+Take the Quiz - Find Your Pattern →
+```
+
+### Design Specs:
+- **Background:** #0a0a0a
+- **Section headline:** 36-42px, white, bold
+- **Body text:** 18-20px, light gray (#d1d5db), line-height 1.8
+- **Text alignment:** Center
+- **Padding:** 100px top/bottom on desktop, 80px on mobile
+
+---
+
+## SECTION 8: FINAL CTA
+
+### Layout:
+- Clean, simple, centered
+- Last conversion opportunity before footer
+
+### Content:
+
+```
+[Headline, large, centered, white]
+FIND YOUR PATTERN
+
+[Three lines, centered, medium text]
+Take the 2-minute quiz.
+Get your result + what's driving it.
+Start the free 7-day crash course.
+
+[Large CTA button, teal]
+Take the Pattern Quiz →
+
+[Below button]
+Free • Private • Brutally Honest
+```
+
+### Design Specs:
+- **Background:** #111111
+- **Headline:** 42-48px, white, bold
+- **Three lines:** 20-22px, light gray (#d1d5db), line-height 1.6
+- **CTA button:** Same as hero button, extra large
+- **Padding:** 80px top/bottom on desktop, 60px on mobile
+
+---
+
+## SECTION 9: FOOTER
+
+### Layout:
+- Dark background
+- Two rows: links + branding
+- Full width
+
+### Content:
+
+```
+[Top row - links, centered, spaced]
+Method  |  Pricing  |  Contact  |  Privacy  |  Terms
+
+[Bottom row - centered]
+Pattern Archaeology, Not Therapy
+
+[Very bottom - centered, smaller]
+THE ARCHIVIST METHOD™ | 2026
+```
+
+### Design Specs:
+- **Background:** #0a0a0a
+- **Links:** 
+  - 14px, gray (#9ca3af)
+  - Hover: teal (#14B8A6)
+  - Spacing: | separator with 20px padding each side
+- **"Pattern Archaeology" text:** 16px, light gray (#d1d5db)
+- **Bottom text:** 14px, gray (#6b7280)
+- **Padding:** 60px top/bottom
+- **Margin between rows:** 20px
+
+### Link Destinations:
+- **Method:** Link to #method section on same page OR dedicated /method page
+- **Pricing:** Link to #pricing section on same page
+- **Contact:** Link to /contact page or email
+- **Privacy:** Link to /privacy page
+- **Terms:** Link to /terms page
+
+---
+
+## HEADER (NAVIGATION)
+
+Keep existing header with these updates:
+
+### Content:
+```
+[Left side]
+[Logo] THE ARCHIVIST METHOD™
+Pattern Archaeology, Not Therapy
+
+[Right side - navigation]
+Method  |  Pricing  |  Contact  |  [Portal Login button]
+```
+
+### Important Update:
+- **Remove any "Start Free Course" button from header**
+- Keep "Portal Login" button (existing users)
+- Navigation links go to page sections (smooth scroll)
+
+### Design Specs:
+- **Background:** Semi-transparent dark (#0a0a0a with 90% opacity)
+- **Backdrop blur:** 10px for glassmorphism effect
+- **Sticky:** Fixed position on scroll
+- **Height:** 80px
+- **Logo + brand text:** White
+- **Tagline:** Gray, smaller
+- **Nav links:** Gray, hover teal
+- **Portal Login button:** Teal outline, teal text
+
+---
+
+## MOBILE OPTIMIZATION (CRITICAL)
+
+### Breakpoints:
+- **Desktop:** >1024px
+- **Tablet:** 768px - 1024px
+- **Mobile:** <768px
+
+### Mobile-Specific Changes:
+
+**Hero Section:**
+- Font sizes: Scale down 30% (e.g., 56px → 40px headline)
+- Button: Full width with 90% max-width
+- Padding: Reduce to 60px top
+
+**Pattern Cards:**
+- Single column layout
+- Full width with 20px side margins
+- Slightly smaller padding (24px instead of 32px)
+
+**Pricing Cards:**
+- Stack vertically
+- Full width with 20px side margins
+- Maintain same internal spacing
+
+**All Sections:**
+- Reduce top/bottom padding by 20-30%
+- Text sizes scale down 10-15%
+- Buttons: Larger tap targets (min 44px height)
+
+**Navigation:**
+- Hamburger menu on mobile
+- Full-screen overlay menu
+- Large tap targets for menu items
+
+---
+
+## PERFORMANCE OPTIMIZATION
+
+### Loading Strategy:
+1. **Critical above-fold content loads first:**
+   - Hero section HTML/CSS
+   - Hero CTA button
+2. **Below-fold content lazy loads:**
+   - Pattern cards
+   - Pricing section
+   - Images (if any added later)
+
+### Animations:
+- **Subtle fade-in** as sections enter viewport
+- **Particle effects** on hero only (don't overuse)
+- **Button hover states** smooth (0.2s transition)
+- **Card hover effects** smooth (0.3s transition)
+
+### Image Optimization:
+- Logo: SVG if possible
+- Background images: WebP format with fallback
+- Pattern card images (if added): Lazy load, compressed
+
+---
+
+## ANALYTICS & TRACKING
+
+Implement tracking for:
+- **Hero CTA clicks** (primary conversion metric)
+- **Quiz starts** (from all CTA buttons)
+- **Scroll depth** (how far people read)
+- **Pattern card hovers** (engagement indicator)
+- **Pricing card views** (in viewport)
+- **Time on page** (engagement)
+
+Tag each CTA button with data-attribute:
+```html
+<button data-cta="hero-quiz-start">Take the 2-Minute Quiz →</button>
+<button data-cta="patterns-quiz-start">Take the Quiz to Find Out →</button>
+```
+
+---
+
+## TECHNICAL REQUIREMENTS
+
+### Framework:
+- Use existing React/TypeScript setup
+- Maintain existing component structure where possible
+- Keep existing authentication system intact
+
+### Routing:
+- Homepage: `/` (this new landing page)
+- Quiz: `/quiz` (existing quiz system)
+- Portal: `/portal` (existing portal)
+- Method details: `/method` (create if doesn't exist, or link to section)
+
+### CTAs Configuration:
+**ALL "Take Quiz" buttons link to:** `/quiz`
+**"Learn More" buttons (on paid tiers) link to:** 
+- Quick-Start: `/pricing#quickstart` OR modal with details
+- Archive: `/pricing#archive` OR modal with details
+
+### State Management:
+- No state needed on landing page
+- All buttons are simple links to `/quiz`
+- Maintain existing auth state for "Portal Login"
+
+### CSS:
+- Use Tailwind for consistency with existing app
+- Custom CSS for animations/particle effects
+- Responsive breakpoints: sm, md, lg, xl
+
+---
+
+## COPY GUIDELINES
+
+### Voice:
+- **Direct, not academic:** "You watch yourself do it" not "Individuals often observe themselves engaging in..."
+- **Brutally honest:** "You destroy things right before they succeed" not "You may experience challenges with completion"
+- **Clinical but accessible:** "3-7 second window" (specific) not "brief moment" (vague)
+- **No therapy jargon:** Never use "healing journey," "inner child," "self-love," etc.
+
+### Formatting:
+- **Short paragraphs:** 2-3 sentences max
+- **White space:** Let content breathe
+- **Bold sparingly:** Only for emphasis, not decoration
+- **Lists with bullets:** When showing features/steps
+
+---
+
+## ACCESSIBILITY
+
+### Requirements:
+- **Alt text** for logo and any images
+- **ARIA labels** for navigation and buttons
+- **Keyboard navigation** works perfectly
+- **Focus indicators** visible and clear (teal outline)
+- **Color contrast** meets WCAG AA standards:
+  - White text on dark background: ✓
+  - Teal (#14B8A6) on dark background: ✓
+  - Gray text large enough to read: ✓
+- **Screen reader friendly:** Proper heading hierarchy (h1, h2, h3)
+
+### Semantic HTML:
+```html
+<header>
+<main>
+  <section> for each major section
+  <h1> for main headline
+  <h2> for section headlines
+  <button> for CTAs (not <a> styled as button)
+</main>
+<footer>
+```
+
+---
+
+## QUALITY CHECKLIST
+
+Before considering this done, verify:
+
+### Content:
+- [ ] All 7 patterns described accurately
+- [ ] Method explanation is clear
+- [ ] Original Room concept explained
+- [ ] Pricing is transparent and accurate
+- [ ] CTAs all link to /quiz
+- [ ] Copy matches brand voice
+
+### Design:
+- [ ] Dark theme (#0a0a0a, #1a1a1a) throughout
+- [ ] Teal accent (#14B8A6) used consistently
+- [ ] Pink accent (#EC4899) for subtle touches
+- [ ] Typography hierarchy is clear
+- [ ] White space is generous
+- [ ] Mobile looks as good as desktop
+
+### Functionality:
+- [ ] All CTA buttons work (link to /quiz)
+- [ ] Smooth scrolling to sections works
+- [ ] Navigation links work
+- [ ] Portal Login works (existing users)
+- [ ] Page loads quickly (<3 seconds)
+- [ ] No console errors
+
+### Conversion:
+- [ ] Hero CTA is impossible to miss
+- [ ] Pattern cards create recognition ("that's me")
+- [ ] Multiple CTAs throughout (7+ quiz entry points)
+- [ ] No dead ends (every section has CTA)
+- [ ] Mobile CTA buttons are thumb-friendly
+
+---
+
+## FINAL NOTES
+
+### The Strategy:
+This landing page follows a **quiz-first, depth-available** model:
+- High-intent visitors see hero → click quiz (30-40% of traffic)
+- Skeptics scroll, read patterns → recognize themselves → click quiz (40-50% of traffic)
+- Deep researchers read everything → convinced by method → click quiz (10-15% of traffic)
+- Remaining 5-10% bounce (acceptable loss)
+
+### Success Metrics:
+- **Primary:** Quiz start rate (target: 60-75% of visitors)
+- **Secondary:** Scroll depth (target: 70% reach patterns section)
+- **Tertiary:** Time on page (target: 2+ minutes for engaged users)
+
+### Post-Launch:
+After initial launch, A/B test:
+1. Hero headline variations
+2. Pattern card copy
+3. CTA button copy ("Take Quiz" vs "Find My Pattern" vs "Start Free")
+4. Section order (consider moving patterns above method)
+
+But START with this complete version. Get real data before optimizing.
+
+---
+
+## IMPLEMENTATION ORDER
+
+Build in this sequence:
+1. Header (updated navigation)
+2. Hero section (most important)
+3. Pattern cards section (second most important)
+4. Remaining sections (order doesn't matter)
+5. Footer
+6. Mobile responsive polish
+7. Analytics implementation
+8. Performance optimization
+
+---
+
+Build this landing page. Every CTA links to /quiz. Maintain brand aesthetic. Optimize for quiz starts while giving skeptics the depth they need.
+
+This is the .1% approach: Conversion-focused without sacrificing trust-building content.
+
+Let's go.

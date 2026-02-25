@@ -1,0 +1,46 @@
+The METHOD IN 4 FRAMES section needs a full consistency pass. The images are correct and should not be changed. Fix the visual treatment so all 4 panels feel like one cohesive system:
+
+**PANEL CONSISTENCY RULES — apply to all 4:**
+- Same dark overlay gradient on every panel (bottom 40% of each image fades to #0a0a0a) so text is always readable
+- Panel number (01, 02, 03, 04): top left, same font, same size, same teal color (#00d4aa), same opacity (60%), monospace
+- Corner brackets: identical size, identical teal color, identical position on all 4 corners of all 4 panels
+- Panel border: 1px solid rgba(0,212,170,0.2) on all 4 panels — subtle, consistent
+- Caption below each panel: same font, same size, same letter-spacing, same teal color, centered
+
+**PANEL 01 — SOMETHING JUST HAPPENED**
+- Keep the brain lightning image
+- Move headline and subtext to bottom left, inside the gradient overlay
+- Headline: "SOMETHING JUST HAPPENED" — white, bold
+- Subtext: "Before you heard it. Before you saw it." — pink, smaller
+- Remove the floating text that sits awkwardly over the image top area
+
+**PANEL 02 — YOUR BODY KNEW FIRST**
+- Keep the wireframe body signal image  
+- Move "YOUR BODY KNEW FIRST." headline to top of panel inside a dark overlay bar
+- Subtext "This is not anxiety. This is your pattern loading." in pink below headline
+- The body signal labels (THROAT CLOSES, CHEST DROPS, etc.) are fine — keep them
+
+**PANEL 03 — 3-7 SECONDS**
+- This panel needs the most work — it currently looks like a completely different design
+- Keep the pink/teal energy wave image
+- Apply the same dark overlay treatment as other panels
+- Headline: "THE ONLY MOMENT THAT HAS EVER MATTERED." — white, bold, bottom of panel
+- Keep the 3-7 SECONDS box but make it smaller and position it center of the image
+- Remove THE PATTERN LOADING / THE INTERRUPT ZONE / THE OLD RESPONSE / THE NEW CHOICE labels — they're cluttering it
+- Add just two labels flanking the 3-7 box: left side "PATTERN" in pink, right side "INTERRUPT" in teal
+
+**PANEL 04 — YOU ARE NOT THAT CHILD ANYMORE**
+- Keep the child/adult split image — this is the strongest panel
+- Headline at bottom: "YOU ARE NOT THAT CHILD ANYMORE." — white, bold
+- Subtext: "One trained response. The pattern breaks." — pink
+- Remove the THE OLD WIRING / THE INTERRUPT FIRED header labels at top — the image speaks for itself
+
+**CAPTION LABELS BELOW EACH PANEL:**
+01 — THE HIT
+02 — YOUR BODY KNEW FIRST  
+03 — 3-7 SECONDS
+04 — YOU ARE NOT THAT CHILD ANYMORE
+
+All caps, same teal, same monospace font, same size, centered under each panel.
+
+Do not change the images. Only fix the text treatment, overlays, borders, and consistency.

@@ -1,0 +1,102 @@
+Build an interactive content reader system inside the portal. This is how users read and navigate through their purchased content (Crash Course, Field Guide, Complete Archive).
+
+CONTENT READER — Core Component:
+
+1. READER LAYOUT:
+- Left panel (250px): Table of contents / navigation tree
+- Center panel (flex): Reading area with the actual content
+- Right panel (280px, collapsible): User's personal notes for this section
+- Mobile: Full-width reader with bottom sheet for TOC and notes toggle buttons
+
+2. TABLE OF CONTENTS (left panel):
+- Expandable/collapsible tree structure
+- For Crash Course: show the 7-day structure (Day 1-7, each with subsections)
+- For Field Guide: show the user's specific pattern with all sections (Triggers, Behaviors, Body Signature, Origin, Circuit Break, Interrupt Protocol, Relationship Analysis, Advanced Exercises)
+- For Complete Archive: show all 9 patterns organized by module, plus cross-pattern analysis and advanced protocols
+- Current section highlighted with teal left border
+- Completed sections get a subtle checkmark
+- Locked sections (content user hasn't purchased) show lock icon with "Upgrade to unlock" tooltip on hover
+- Smooth scroll to section when clicked
+
+3. READING AREA (center panel):
+- Clean, comfortable reading experience
+- Background: #0A0A0A
+- Text: Source Sans 3, 17px line-height 1.7, max-width 680px centered
+- Section headers: Playfair Display
+- Key terms (body signature, circuit break, pattern names): teal highlight with tooltip on hover showing the definition
+- Pull quotes / key insights: left teal border, slightly larger text, italic
+- Progress bar at the top of the reader showing how far through the current section you are
+- Estimated read time shown at the top of each section in JetBrains Mono, muted
+
+4. TEXT INTERACTION:
+- When user selects/highlights any text in the reader, show a floating toolbar above the selection with these options:
+  - "Save to Notes" — copies the highlighted text into their notes panel for this section with a timestamp
+  - "Copy" — copies to clipboard with a small "Copied!" confirmation toast
+  - "Share" — opens a small modal with the highlighted text formatted as a quote card with The Archivist Method branding, and buttons to: Copy as text, Copy as image (use html2canvas or similar to render a styled quote card), or share directly to Twitter/X with pre-filled text
+- The floating toolbar: dark bg (#1a1a1a), teal border, small icons with labels, fade in, positioned above selection
+
+5. NOTES PANEL (right panel):
+- Header: "My Notes" in JetBrains Mono
+- Shows all saved highlights/notes for the current section
+- Each note shows: the highlighted text in quotes, timestamp, and a delete button
+- User can also type freeform notes using a text input at the bottom
+- Notes are saved to Supabase (create a user_notes table: id, user_id, section_id, content, highlight_text, created_at)
+- Notes persist across sessions
+- Collapse/expand the panel with a toggle button
+
+6. SHARE QUOTE CARD (when user clicks Share):
+- Generate a styled card (dark background, teal accent, Playfair Display quote text)
+- Format: 1080x1080px (Instagram-ready)
+- Layout: The highlighted quote centered, "— The Archivist Method" below it, "thearchivistmethod.com" at the bottom, subtle pattern name label at top
+- Render using a hidden canvas element or html-to-image approach
+- Buttons: "Download Image", "Copy Text", "Share to X"
+
+7. READING PROGRESS:
+- Track which sections the user has read (scrolled past 80% of section = marked as read)
+- Save progress to Supabase (create reading_progress table: id, user_id, section_id, completed, last_position, updated_at)
+- Show overall progress percentage on the portal dashboard ("You've completed 3 of 7 days" or "42% through your Field Guide")
+- Resume reading: when user opens the reader, offer to jump to where they left off
+
+8. CONTENT SOURCE:
+- Pull content from the markdown files in the-archivist-method/ folder
+- Parse markdown to React components (use react-markdown or a simple custom parser)
+- Map the folder structure to the navigation tree:
+  - module-1-foundation/ → Crash Course sections
+  - module-3-patterns/[pattern-name]/ → Field Guide sections
+  - All modules → Complete Archive
+- Respect purchase level: only render content the user has access to. Show locked preview (first paragraph visible, rest blurred) for unpurchased content with an upgrade CTA.
+
+9. KEYBOARD SHORTCUTS:
+- Arrow left/right: previous/next section
+- N: toggle notes panel
+- Escape: close any open modal
+- Show a small "?" icon in bottom right that reveals keyboard shortcuts on hover
+
+Supabase tables needed:
+
+CREATE TABLE user_notes (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) NOT NULL,
+  section_id TEXT NOT NULL,
+  content TEXT,
+  highlight_text TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE user_notes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can manage own notes" ON user_notes FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE reading_progress (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) NOT NULL,
+  section_id TEXT NOT NULL,
+  completed BOOLEAN DEFAULT FALSE,
+  last_position FLOAT DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, section_id)
+);
+
+ALTER TABLE reading_progress ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can manage own progress" ON reading_progress FOR ALL USING (auth.uid() = user_id);
+
+Route this at /portal/reader or integrate it as the main content view when a user clicks into any content section from the portal sidebar.

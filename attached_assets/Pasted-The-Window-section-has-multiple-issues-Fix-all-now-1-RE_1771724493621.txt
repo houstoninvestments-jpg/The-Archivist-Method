@@ -1,0 +1,36 @@
+The Window section has multiple issues. Fix all now.
+
+1. REMOVE COMPLETELY:
+- All glitch effects on any text across the entire page
+- All glitch CSS and JavaScript
+- The detective board section and all its code
+- Any remaining animation from the old 3-7 second window component
+- Any Intersection Observer animations that are causing lag
+- Clean up all unused code and imports after deletion
+
+2. REBUILD THE WINDOW SECTION FROM SCRATCH:
+Pure static typography. Zero JavaScript. CSS fade-in on scroll only using CSS animation-timeline or simple opacity transition. Nothing else moves.
+
+Structure:
+- Section label: "THE WINDOW" JetBrains Mono pink 13px spaced caps
+- Massive padding top and bottom on each line
+- Each line fades in as it enters viewport using CSS only
+
+Lines in order with exact styling:
+"YOUR BODY KNEW." — Schibsted Grotesk 900, white, 52px mobile 72px desktop, all caps
+"Before the thought formed. Before the words came out. Before you did the thing you swore you wouldn't do again." — Libre Baskerville italic, teal #14B8A6, 20px mobile 24px desktop
+"3 TO 7 SECONDS." — Schibsted Grotesk 900, white, 64px mobile 96px desktop, all caps
+"That's the gap between the signal and the pattern executing. It exists in every person. In every pattern. Every single time." — Source Sans 3, white #F5F5F5, 18px
+"WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN." — Schibsted Grotesk 900, white, 36px mobile 48px desktop, all caps
+"Your pattern fires from the survival part. You've been bringing a spreadsheet to a knife fight." — Libre Baskerville italic, teal, 20px mobile 24px desktop
+"THE ARCHIVIST METHOD TEACHES YOU WHAT TO DO INSIDE THAT WINDOW." — Schibsted Grotesk 900, white, 36px mobile 48px desktop, all caps
+
+3. PAGE-WIDE ANIMATION CLEANUP:
+Remove all Intersection Observer scroll animations that trigger on every pixel scroll. Replace with simple CSS:
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+Apply to sections with animation-play-state controlled by a simple .visible class added once when element enters viewport. Fire once, never again.
+
+4. LOADING:
+Add a simple page fade-in on load. Body starts at opacity 0, transitions to 1 over 400ms on DOMContentLoaded. Nothing else.
+
+5. REPUBLISH after all changes confirmed.

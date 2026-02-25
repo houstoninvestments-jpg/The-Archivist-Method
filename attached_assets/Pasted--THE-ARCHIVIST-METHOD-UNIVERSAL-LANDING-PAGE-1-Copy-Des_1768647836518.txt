@@ -1,0 +1,1315 @@
+# THE ARCHIVIST METHOD - UNIVERSAL LANDING PAGE
+## .1% Copy + Design + Strategy
+
+---
+
+## STRATEGIC FOUNDATION
+
+### **The User Journey (All Traffic Sources):**
+
+```
+AWARENESS SPECTRUM:
+
+Unaware → Problem Aware → Solution Aware → Product Aware → Most Aware
+
+Your landing page must convert across ALL levels.
+```
+
+**Traffic Sources & Awareness:**
+- **HeyGen shorts:** Solution Aware (saw pattern, want fix)
+- **Google search:** Problem Aware (know they have issue)
+- **Social ads:** Unaware/Problem Aware (curious, exploring)
+- **Reddit/forums:** Solution Aware but Skeptical (need proof)
+- **Word of mouth:** Product Aware (friend recommended)
+- **YouTube:** Most Aware (researched, ready to buy)
+
+**Strategy:** Build a PAGE THAT MEETS THEM WHERE THEY ARE and moves them forward.
+
+---
+
+## COPYWRITING FRAMEWORK
+
+### **The Story We're Telling:**
+
+**ACT 1 (Recognition):** You're not broken. You're running code.  
+**ACT 2 (Understanding):** The code installed in The Original Room.  
+**ACT 3 (Solution):** We teach you to interrupt the code.  
+**ACT 4 (Proof):** 7 days to know if it works.  
+**ACT 5 (Action):** Start free. Decide later.
+
+**Tone:**
+- Direct, not flowery
+- Clinical, not therapeutic
+- Honest, not salesy
+- Gothic, not corporate
+- Confident, not arrogant
+
+**Voice:**
+- "You watch yourself do it. You know it's happening. You do it anyway."
+- "Not therapy. Not self-help. Not another healing journey."
+- "Fast validation. No bullshit. Real results or honest failure."
+
+**Key Phrases (Brand Language):**
+- "The Original Room" (not "childhood trauma")
+- "Pattern archaeology" (not "therapy")
+- "Circuit break" (not "coping mechanism")
+- "Body signature" (not "trigger warning")
+- "Survival code" (not "defense mechanism")
+
+---
+
+## SECTION-BY-SECTION BREAKDOWN
+
+---
+
+## HERO SECTION
+
+### **Strategic Purpose:**
+- Establish brand identity (memorable, differentiated)
+- Universal hook (works cold or warm)
+- Clear value proposition (what you get)
+- Single obvious action (reduce friction)
+- Eliminate alternatives (one path forward)
+
+### **Copy (Final):**
+
+```
+[Background: Atmospheric library image, darkened, mysterious]
+[Centered content, pristine white space]
+
+THE ARCHIVIST METHOD™
+PATTERN ARCHAEOLOGY, NOT THERAPY
+          ↑ "NOT" in pink (#EC4899) ONLY
+
+[Visual break - 40px]
+
+Stop Running the Same Destructive Patterns
+
+[Subhead - conversational, recognizable]
+You watch yourself do it. You know it's happening. 
+You do it anyway.
+
+[Value prop - clear, concrete]
+Identify your pattern in 2 minutes. Get your 7-day 
+interruption protocol. Start breaking the cycle today.
+
+[CTA]
+Take the Pattern Assessment →
+
+[Trust indicators below]
+Free • No Email Required • Instant Results
+```
+
+**Why This Works:**
+
+**For cold traffic:**
+- "Stop running patterns" = universal problem
+- "You watch yourself do it" = recognition point
+- Clear outcome stated upfront
+
+**For warm traffic:**
+- Brand confirms right place
+- Validates their awareness
+- Clear next step
+
+**For skeptics:**
+- "2 minutes" = low commitment
+- "No email" = reduces friction
+- "Free" = no risk
+
+**Design Notes:**
+- Brand lockup LARGE (56-64px title, 20-24px tagline)
+- Centered, unmissable
+- Pink ONLY on "NOT" (defiant accent)
+- Button teal, subtle pink underglow on hover
+- Maximum contrast, minimum complexity
+
+---
+
+## SECTION 2: THE 7 PATTERNS (Recognition Engine)
+
+### **Strategic Purpose:**
+- Create "holy shit that's me" moment (highest converter)
+- Works for ALL awareness levels (universal recognition)
+- Self-qualifies users (they pick their pattern)
+- Emotional hook (stomach drop = engagement)
+- Curiosity gap (want to know more)
+
+### **Copy (Final):**
+
+```
+THE 7 DESTRUCTIVE PATTERNS
+
+One (or more) of these is running your life:
+
+[7 cards, brutal honesty, instant recognition]
+
+1. DISAPPEARING
+You ghost when relationships get close. Three months in, 
+they say "I love you"—your chest gets tight. Every time.
+
+2. APOLOGY LOOP
+You apologize for existing. "Sorry to bother you." "Sorry, 
+quick question." Twenty times a day for things that need 
+no apology.
+
+3. TESTING
+You push people away to see if they'll stay. They pass the 
+test? You create a bigger one. You don't trust "I'm not 
+leaving" until you've tested it 47 ways.
+
+4. ATTRACTION TO HARM
+Safe people feel boring. Chaos feels like chemistry. Red flags 
+don't register as warnings—they register as attraction. Harm 
+feels like home.
+
+5. COMPLIMENT DEFLECTION
+You can't accept praise. Someone says "great work"—you deflect, 
+minimize, redirect. Visibility makes you squirm. Recognition 
+makes you want to disappear.
+
+6. DRAINING BOND
+You can't leave. Toxic job, harmful relationship, depleting 
+friendship. You know you should go. Everyone tells you to leave. 
+You stay.
+
+7. SUCCESS SABOTAGE
+You destroy things right before they succeed. Three weeks from 
+launch, you quit. One week from promotion, you blow it up. 
+Sustained success triggers panic—so you destroy it first.
+
+[Emotional anchor]
+Which one made your stomach drop?
+
+[CTA]
+Find Your Pattern - Take Assessment →
+```
+
+**Why This Copy Works:**
+
+**Specificity = Recognition:**
+- "Three months in, they say 'I love you'" (not "when things get serious")
+- "Twenty times a day" (not "frequently")
+- "Tested it 47 ways" (specific absurdity = truth)
+
+**Second-person present tense = Immediacy:**
+- "You ghost" (not "people with this pattern ghost")
+- "You stay" (not "they find it hard to leave")
+- Direct confrontation = engagement
+
+**Behavioral, not emotional:**
+- "You deflect, minimize, redirect" (actions)
+- Not "you feel insecure" (emotions are vague)
+- Concrete behaviors = stronger recognition
+
+**Design Notes:**
+- 2-column grid on desktop (3 patterns left, 4 patterns right)
+- Each card: Dark (#1a1a1a), subtle border (#333)
+- Teal numbers (28px), white names (20px bold)
+- Descriptions: 16-18px, light gray, 2-3 sentences MAX
+- Hover: Subtle lift (-4px), soft shadow
+- Generous spacing (32px gap between cards)
+
+---
+
+## SECTION 3: THE ORIGIN (Build Understanding)
+
+### **Strategic Purpose:**
+- Answer "why do I do this?" (universal question)
+- Differentiate from therapy (positioning)
+- Explain mechanism without jargon (accessibility)
+- Create framework understanding (The Original Room)
+- Shift from shame to curiosity (emotional reset)
+
+### **Copy (Final):**
+
+```
+THESE AREN'T PERSONALITY TRAITS.
+THEY'RE SURVIVAL CODE.
+
+[Clean, direct explanation]
+
+The patterns installed in what we call The Original Room.
+
+Your childhood. The environment that shaped your nervous system 
+before you had language to process what was happening.
+
+In The Original Room, you learned equations:
+
+  Closeness = Danger
+  Your Needs = Burden to Others
+  Love = Pain + Chaos
+  Success = Threat Incoming
+
+Those equations are still running. Not because you're broken. 
+Because your nervous system is doing exactly what it was trained 
+to do 20 years ago.
+
+[The mechanism]
+
+Right now, your patterns run in a 3-7 second window:
+
+Trigger → Body Sensation → Thought → Behavior
+
+You don't catch the pattern until after it's already executed.
+
+[The solution]
+
+Pattern archaeology teaches you to recognize the pattern BEFORE 
+it runs. In that 3-7 second window. In that recognition, you 
+create a gap. In that gap, you can interrupt the code.
+
+[CTA]
+Learn Your Pattern - Take Assessment →
+```
+
+**Why This Copy Works:**
+
+**Reframe = Empowerment:**
+- "Survival code" (not "trauma response")
+- Removes shame, adds agency
+- You're not broken, you're running old code
+
+**The Original Room = Memorable Framework:**
+- Concrete metaphor (everyone has a childhood room)
+- Gothic resonance (fits brand)
+- Not clinical jargon ("childhood trauma")
+
+**3-7 Second Window = Specific Mechanism:**
+- Concrete timeframe (not vague "moment")
+- Teachable skill (not abstract concept)
+- Repeatable process (not one-time insight)
+
+**"You can interrupt the code" = Clear Promise:**
+- Active verb (interrupt, not "heal")
+- Clear outcome (code stops running)
+- Learnable skill (not innate ability)
+
+**Design Notes:**
+- Clean typography, generous line-height (1.8)
+- Equations in list format, slightly larger (20px)
+- 3-7 second window diagram (optional visual)
+- Max-width 900px for readability
+- Dark background (#0d0d0d) to break from previous section
+
+---
+
+## SECTION 4: THE METHOD (Process Clarity)
+
+### **Strategic Purpose:**
+- Demystify "how does this work?" (reduce skepticism)
+- Show concrete steps (tangible process)
+- Set timeline expectations (7 days to proof)
+- Position free as complete (not tease)
+- Create confidence in approach (methodology)
+
+### **Copy (Final):**
+
+```
+HERE'S HOW YOU INTERRUPT A PATTERN
+
+[4-step process, each step one outcome]
+
+STEP 1: IDENTIFY THE PATTERN
+Take the 2-minute assessment. Get your pattern analysis 
+and the specific equation running your life.
+
+STEP 2: LEARN YOUR BODY SIGNATURE
+Your body signals the pattern 3-7 seconds before it runs. 
+That chest tightness. That sudden urge to flee. That 
+crushing guilt. Learn to recognize your warning.
+
+STEP 3: INSTALL YOUR CIRCUIT BREAK
+When you feel your body signature, speak your circuit break 
+statement. Out loud or internal. This creates a pause in the 
+automatic execution.
+
+STEP 4: PRACTICE & TRACK
+Attempt interruptions. Track what works. Refine your approach. 
+You get better every time.
+
+[Timeline expectation]
+
+The 7-day protocol gives you proof of concept. One successful 
+interrupt = the method works for you. Then decide if you want 
+to continue.
+
+[CTA]
+Start Your Free Protocol →
+```
+
+**Why This Copy Works:**
+
+**Concrete Actions:**
+- "Take assessment" (not "explore patterns")
+- "Speak your statement" (not "use technique")
+- "Track what works" (not "reflect on progress")
+- Each step = observable behavior
+
+**Body Signature Examples:**
+- "Chest tightness" (physical, specific)
+- "Sudden urge to flee" (recognizable)
+- "Crushing guilt" (visceral)
+- Examples make abstract concept concrete
+
+**"One successful interrupt" = Clear Win:**
+- Binary outcome (works or doesn't)
+- 7 days to know (fast validation)
+- Low commitment, clear proof point
+
+**Design Notes:**
+- Numbered circles (80px diameter) with teal borders
+- Step numbers inside circles (36px)
+- Left-aligned content (easier to read)
+- Each step 60px apart vertically
+- Timeline callout box (subtle background)
+
+---
+
+## SECTION 5: THE OFFER (Pricing Clarity)
+
+### **Strategic Purpose:**
+- Show complete system (not just free tier)
+- Create clear value ladder (self-selection)
+- Remove price objections (transparent upfront)
+- Position free as valuable (not cheap lead magnet)
+- Make paid tiers aspirational (visible upgrade path)
+
+### **Copy (Final):**
+
+```
+THE COMPLETE SYSTEM
+
+[3-tier structure, clean presentation]
+
+─────────────────────────────────
+
+7-DAY CRASH COURSE
+FREE
+
+Start here. See if pattern interruption works for your 
+nervous system.
+
+What's included:
+• 2-minute pattern assessment
+• Your complete pattern analysis
+• 7-day interruption protocol
+• Circuit break scripts for your pattern
+• Body signature identification guide
+• Basic AI pattern coach
+
+[Start Free - Take Assessment →]
+
+─────────────────────────────────
+
+90-DAY QUICK-START SYSTEM
+$47 one-time
+
+For people who got proof of concept in the crash course 
+and want to master pattern interruption.
+
+Everything in free, plus:
+• All 7 patterns (not just yours)
+• 90-day structured protocol
+• Crisis intervention scripts
+• Relationship communication guide
+• Workplace application protocols
+• Unlimited AI pattern coach
+
+[Learn More About Quick-Start →]
+
+─────────────────────────────────
+
+COMPLETE ARCHIVE
+$197 one-time
+
+For people serious about breaking patterns long-term 
+and handling complex situations.
+
+Everything in Quick-Start, plus:
+• Pattern combinations (when 2-3 run together)
+• Long-term maintenance protocols (years 1-5)
+• Advanced workplace scenarios
+• Parenting with patterns (break the cycle)
+• Lifetime access + all future updates
+
+[Learn More About Archive →]
+
+─────────────────────────────────
+
+[Positioning]
+
+Start with the free 7-day crash course.
+
+One successful pattern interrupt in 7 days = proof the method 
+works for you. Then decide if you want the 90-day system or 
+the complete archive.
+
+No pressure. No tricks. Just fast validation and honest results.
+
+[CTA]
+Take the Assessment - Start Free →
+```
+
+**Why This Copy Works:**
+
+**Free Positioned as Complete:**
+- "Start here" (not "try this")
+- "See if it works" (clear purpose)
+- Detailed feature list (shows value)
+- Not a "taste" or "sample"
+
+**Paid Tiers Have Clear Use Cases:**
+- Quick-Start: "got proof of concept, want to master"
+- Archive: "serious about long-term"
+- Self-selection language (they know which they are)
+
+**Transparent Language:**
+- "one-time" (not subscription)
+- "Everything in X, plus:" (clear differentiation)
+- No hidden features or surprise costs
+
+**Honest Positioning:**
+- "No pressure. No tricks."
+- "Fast validation and honest results"
+- Reinforces brand voice (brutal honesty)
+
+**Design Notes:**
+- 3 cards, equal height, grid layout
+- FREE card: Teal border (2px), slightly larger
+- Quick-Start: Standard border, "Most choose this" badge (later)
+- Archive: Standard border, subtle premium indicator
+- Buttons: Primary (teal bg) for free, Secondary (teal outline) for paid
+- Feature lists: 6 items max, teal checkmarks
+- Clean divider lines between cards
+
+---
+
+## SECTION 6: THE TRUTH (Social Proof - Honest)
+
+### **Strategic Purpose:**
+- Address "is this legit?" (skepticism)
+- Differentiate through honesty (positioning)
+- Set expectations (fast validation)
+- Build trust via transparency (no hype)
+- Create early adopter appeal (you're first)
+
+### **Copy (Final):**
+
+```
+YOU'RE EARLY TO THIS
+
+The Archivist Method launched January 2026. You're one of 
+the first.
+
+No "10,000+ transformed lives."
+No manufactured testimonials.
+No inflated claims about miracle results.
+
+Just a method that either works for your nervous system 
+or it doesn't.
+
+The 7-day crash course shows you which.
+
+One successful pattern interrupt = proof of concept.
+Zero successful interrupts = this isn't for you.
+
+Fast validation. No bullshit. Real results or honest failure.
+
+[CTA]
+Find Out If It Works - Take Assessment →
+```
+
+**Why This Copy Works:**
+
+**Honesty as Differentiation:**
+- States what's NOT there (unusual transparency)
+- Acknowledges newness (doesn't hide it)
+- Creates contrast with typical marketing
+
+**Binary Outcome:**
+- "Works or doesn't" (clear expectation)
+- "Real results or honest failure" (both valid)
+- Removes false hope, adds credibility
+
+**Early Adopter Language:**
+- "You're one of the first" (status)
+- "You're early" (insider positioning)
+- Appeals to pioneers, not followers
+
+**Design Notes:**
+- Centered text, max-width 800px
+- Clean, minimal design
+- No fake badges or trust seals
+- Just words and white space
+- Dark background (#000000)
+
+---
+
+## SECTION 7: FINAL CTA (Last Conversion Point)
+
+### **Strategic Purpose:**
+- Final opportunity for conversion (catch scrollers)
+- Reinforce core message (pattern + interruption)
+- Simple, clear action (reduce decision fatigue)
+- Trust reminders (free, private, instant)
+
+### **Copy (Final):**
+
+```
+STOP RUNNING THE PATTERN
+
+[Three simple lines, clear outcome]
+
+Take the 2-minute assessment.
+Get your 7-day interruption protocol.
+Start breaking the cycle today.
+
+[CTA]
+Take the Pattern Assessment →
+
+[Trust indicators]
+Free • Private • No Email Required • Instant Results
+```
+
+**Why This Copy Works:**
+
+**Imperative Hook:**
+- "Stop running the pattern" (command)
+- Action-oriented, not passive
+- Reinforces core message
+
+**Three-Step Clarity:**
+- Each step one line
+- Clear sequence
+- Observable actions
+
+**Trust Stack:**
+- Four trust indicators
+- Addresses four objections (cost, privacy, commitment, delay)
+
+**Design Notes:**
+- Large headline (42-48px)
+- Three lines in slightly smaller font (20px)
+- Large button (24px padding)
+- Centered, simple, clean
+- Light background (#0d0d0d) for contrast
+
+---
+
+## FOOTER (Navigation + Links)
+
+### **Strategic Purpose:**
+- Site navigation (secondary paths)
+- Legal requirements (trust signals)
+- Contact options (support)
+- Clean, organized, functional
+
+### **Copy + Structure:**
+
+```
+[4-column layout on desktop, stack on mobile]
+
+METHOD
+Pattern Archaeology
+The 7 Patterns
+FEIR Framework
+The Original Room
+
+PRODUCTS
+Free 7-Day Crash Course
+90-Day Quick-Start System
+Complete Archive
+Gift Options
+
+LEGAL
+Terms of Service
+Privacy Policy
+Refund Policy
+Cookie Policy
+
+CONNECT
+Contact Us
+Portal Login
+Help Center
+Support
+
+[Center bottom]
+
+THE ARCHIVIST METHOD™
+Pattern Archaeology, Not Therapy
+
+© 2026 The Archivist Method. All rights reserved.
+```
+
+**Design Notes:**
+- Dark background (#000000)
+- Gray links (#9ca3af)
+- Pink on hover (#EC4899) - not teal (subtle brand moment)
+- Clean organization
+- 14-16px font size
+- Generous spacing
+
+---
+
+## NAVIGATION HEADER (Sticky)
+
+### **Strategic Purpose:**
+- Persistent brand presence (always visible)
+- Quick access to key sections (smooth scroll)
+- Portal login for existing users (separate path)
+
+### **Structure:**
+
+```
+[Left side - Brand]
+[Logo] THE ARCHIVIST METHOD™
+
+[Right side - Navigation]
+Method | Pricing | Contact | [Portal Login]
+
+[Mobile: Hamburger menu]
+```
+
+**Design Notes:**
+- Fixed position on scroll
+- Semi-transparent background with backdrop blur
+- 80px height
+- Logo larger than current (1.3x)
+- Gray links, teal on hover
+- Portal Login: Teal outline button
+
+---
+
+## DESIGN SYSTEM (Complete Spec)
+
+### **Color Palette:**
+
+```css
+/* Backgrounds */
+--black-pure: #000000;
+--black-soft: #0d0d0d;
+--dark-card: #1a1a1a;
+--dark-border: #333333;
+
+/* Text */
+--white: #ffffff;
+--gray-light: #e5e5e5;
+--gray-medium: #d1d5db;
+--gray-dark: #9ca3af;
+
+/* Brand */
+--teal: #14B8A6;
+--pink: #EC4899;
+
+/* Usage */
+Primary CTA: var(--teal) background, white text
+Secondary CTA: var(--teal) border, var(--teal) text
+Hover accent: var(--pink) subtle underglow (opacity: 0.2)
+Brand accent: var(--pink) ONLY on "NOT Therapy"
+```
+
+### **Typography System:**
+
+```css
+/* Font Stack */
+font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+/* Sizes - Desktop */
+--hero-headline: 56-64px;
+--section-headline: 42-48px;
+--subsection-headline: 28-32px;
+--large-body: 20-24px;
+--body: 18-20px;
+--small: 14-16px;
+
+/* Sizes - Mobile */
+--hero-headline-mobile: 40-48px;
+--section-headline-mobile: 32-36px;
+--subsection-headline-mobile: 24-28px;
+--body-mobile: 16-18px;
+
+/* Weights */
+--bold: 700;
+--semibold: 600;
+--regular: 400;
+
+/* Line Height */
+--headline: 1.2;
+--subhead: 1.4;
+--body: 1.8;
+```
+
+### **Spacing System:**
+
+```css
+/* Section Padding */
+--section-large: 120px;
+--section-medium: 100px;
+--section-small: 80px;
+
+/* Element Spacing */
+--space-xl: 60px;
+--space-lg: 40px;
+--space-md: 32px;
+--space-sm: 24px;
+--space-xs: 16px;
+
+/* Content Width */
+--width-xl: 1400px;
+--width-lg: 1200px;
+--width-md: 1000px;
+--width-sm: 900px;
+--width-xs: 800px;
+```
+
+### **Component Specs:**
+
+**Buttons:**
+```css
+.button-primary {
+  background: var(--teal);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.button-primary:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 0 30px rgba(20, 184, 166, 0.4),
+    0 0 50px rgba(236, 72, 153, 0.15);
+  transition: all 0.3s ease;
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--teal);
+  border: 2px solid var(--teal);
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.button-secondary:hover {
+  background: var(--teal);
+  color: white;
+  transition: all 0.3s ease;
+}
+```
+
+**Pattern Cards:**
+```css
+.pattern-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  padding: 32px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.pattern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(20, 184, 166, 0.1);
+}
+
+.pattern-number {
+  color: var(--teal);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.pattern-name {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.pattern-description {
+  color: var(--gray-medium);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+```
+
+**Pricing Cards:**
+```css
+.pricing-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.pricing-card.featured {
+  border: 2px solid var(--teal);
+  transform: scale(1.05);
+}
+
+.pricing-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.pricing-price {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.pricing-description {
+  font-size: 16px;
+  color: var(--gray-medium);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+}
+
+.pricing-features li {
+  font-size: 16px;
+  color: var(--gray-light);
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+}
+
+.pricing-features li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+```
+
+---
+
+## RESPONSIVE DESIGN (Mobile Strategy)
+
+### **Mobile Breakpoints:**
+```css
+/* Tablet */
+@media (max-width: 1024px) {
+  /* 2-column grids become 1-column */
+  /* Reduce padding by 20% */
+  /* Font sizes reduce by 10% */
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* All grids become 1-column */
+  /* Reduce padding by 40% */
+  /* Font sizes reduce by 20% */
+  /* Buttons full-width (90%) */
+  /* Navigation becomes hamburger */
+}
+```
+
+### **Mobile-Specific Optimizations:**
+
+**Hero:**
+- Background image more zoomed, darker overlay
+- Brand lockup 20% smaller but still prominent
+- Headline 40-48px (down from 56-64px)
+- Button full-width with max-width 90%
+- Padding reduced to 60px top
+
+**Pattern Cards:**
+- Single column, full width
+- 20px side margins
+- Padding reduced to 24px
+- Touch-friendly (no hover dependency)
+- Slightly larger tap targets
+
+**Pricing Cards:**
+- Stack vertically
+- Full width with 20px margins
+- Maintain visual hierarchy (free still emphasized)
+- Buttons full-width
+
+**Navigation:**
+- Hamburger menu icon (24x24px)
+- Full-screen overlay when open
+- Large touch targets (min 44px height)
+- Close X in top right
+
+---
+
+## PERFORMANCE OPTIMIZATION
+
+### **Critical Path:**
+1. Above-fold HTML/CSS loads first
+2. Hero image lazy loads (but prioritized)
+3. Below-fold content lazy loads
+4. Non-critical JS deferred
+
+### **Image Strategy:**
+```
+Hero background:
+- Format: WebP with JPG fallback
+- Size: 1920x1080, optimized <200KB
+- Preload: Yes (critical)
+
+Pattern card images (if added):
+- Format: WebP
+- Size: 400x300 max
+- Lazy load: Yes
+```
+
+### **Font Loading:**
+```html
+<link rel="preload" href="/fonts/Inter-Bold.woff2" as="font" crossorigin>
+<link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" crossorigin>
+```
+
+### **Animation Performance:**
+```css
+/* Only animate transform and opacity (GPU accelerated) */
+.animate {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform; /* Use sparingly */
+}
+```
+
+---
+
+## ACCESSIBILITY (WCAG AA Compliance)
+
+### **Color Contrast:**
+- White (#ffffff) on Black (#000000): 21:1 ✓
+- Light Gray (#d1d5db) on Black: 12:1 ✓
+- Teal (#14B8A6) on Black: 7:1 ✓
+- Pink (#EC4899) on Black: 5.5:1 ✓
+
+### **Keyboard Navigation:**
+- Tab order: Logical, top to bottom
+- Focus indicators: Teal outline (2px), visible
+- Skip to main content link: Hidden until focused
+- All interactive elements: Keyboard accessible
+
+### **Screen Readers:**
+```html
+<!-- Semantic HTML -->
+<header role="banner">
+<main role="main">
+<section aria-label="Pattern Cards">
+<footer role="contentinfo">
+
+<!-- Alt text -->
+<img src="logo.svg" alt="The Archivist Method">
+
+<!-- ARIA labels -->
+<button aria-label="Take pattern assessment">
+<nav aria-label="Main navigation">
+```
+
+### **Motion Preferences:**
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+---
+
+## ANALYTICS & TRACKING
+
+### **Critical Metrics:**
+
+**Conversion Events:**
+1. Hero CTA click
+2. Pattern card hover (engagement)
+3. Assessment started
+4. Assessment completed
+5. Email captured
+6. Portal accessed
+7. Quick-Start purchase
+8. Archive purchase
+
+**Engagement Metrics:**
+1. Scroll depth (25%, 50%, 75%, 100%)
+2. Time on page
+3. Pattern cards viewed
+4. Pricing section reached
+5. Exit points
+
+**Traffic Attribution:**
+1. Source (HeyGen, Google, Reddit, etc.)
+2. Landing page variant (if A/B testing)
+3. Device type (mobile vs desktop)
+4. Returning vs new visitor
+
+### **Event Tracking Implementation:**
+
+```javascript
+// Example: Track CTA clicks with source
+<button 
+  data-event="cta_click"
+  data-location="hero"
+  data-label="Take Pattern Assessment"
+  onClick={trackEvent}
+>
+  Take the Pattern Assessment →
+</button>
+
+// Example: Track pattern card engagement
+<div 
+  data-event="pattern_view"
+  data-pattern="disappearing"
+  onMouseEnter={trackEngagement}
+>
+```
+
+---
+
+## A/B TESTING STRATEGY (Post-Launch)
+
+### **Test Priority (After 500+ Visitors):**
+
+**High Impact Tests:**
+1. Hero headline variations
+   - A: "Stop Running the Same Destructive Patterns"
+   - B: "You're Not Broken. You're Running Code."
+   - C: "The Pattern Runs Automatically. The Interruption Is Learnable."
+
+2. CTA button copy
+   - A: "Take the Pattern Assessment"
+   - B: "Find Your Pattern"
+   - C: "Start Free Protocol"
+
+3. Pattern card length
+   - A: 1 sentence (current)
+   - B: 2 sentences (more detail)
+   - C: Expandable (click for more)
+
+**Medium Impact Tests:**
+4. Pricing section position (before or after method explanation)
+5. Social proof language (honest vs conventional)
+6. Number of pattern cards visible (7 vs top 3 + expand)
+
+**Low Impact Tests:**
+7. Button color (teal vs pink vs white)
+8. Background image variations
+9. Font size adjustments
+
+### **Success Metrics:**
+- Primary: Assessment completion rate
+- Secondary: Email capture rate
+- Tertiary: Time to conversion
+
+---
+
+## QUALITY ASSURANCE CHECKLIST
+
+### **Content:**
+- [ ] All 7 patterns have accurate, recognizable descriptions
+- [ ] Copy is consistent in voice and tone
+- [ ] No jargon without explanation
+- [ ] Clear value propositions throughout
+- [ ] CTAs are consistent and clear
+
+### **Design:**
+- [ ] Brand lockup is prominent (56-64px title)
+- [ ] Pink used ONLY on "NOT" and hover states
+- [ ] All text meets WCAG AA contrast ratios
+- [ ] White space is generous and consistent
+- [ ] Pattern cards have proper hover states
+- [ ] Pricing cards are clear and differentiated
+
+### **Functionality:**
+- [ ] All CTAs link to correct destination (/quiz or /assessment)
+- [ ] Smooth scroll navigation works
+- [ ] Mobile hamburger menu functions
+- [ ] Portal login works for existing users
+- [ ] Form submissions work
+- [ ] No console errors
+
+### **Performance:**
+- [ ] Page loads under 3 seconds
+- [ ] Images are optimized (WebP)
+- [ ] Fonts load properly
+- [ ] No layout shift (CLS < 0.1)
+- [ ] Smooth 60fps animations
+
+### **Cross-Browser:**
+- [ ] Chrome (latest)
+- [ ] Firefox (latest)
+- [ ] Safari (latest)
+- [ ] Edge (latest)
+- [ ] Mobile Safari (iOS)
+- [ ] Mobile Chrome (Android)
+
+### **Devices:**
+- [ ] Desktop (1920x1080)
+- [ ] Laptop (1440x900)
+- [ ] Tablet (768x1024)
+- [ ] Mobile (375x667)
+- [ ] Large mobile (414x896)
+
+---
+
+## IMPLEMENTATION ROADMAP
+
+### **Phase 1: Foundation (Week 1)**
+**Priority: Critical**
+
+1. Hero section with brand lockup
+2. Pattern cards (the 7)
+3. Basic CTA buttons
+4. Mobile responsive structure
+
+**Goal:** Functional landing page that converts
+
+---
+
+### **Phase 2: Content (Week 2)**
+**Priority: High**
+
+5. Origin story section (The Original Room)
+6. Method explanation (4 steps)
+7. Pricing section
+8. Social proof section
+9. Footer
+
+**Goal:** Complete content flow
+
+---
+
+### **Phase 3: Polish (Week 3)**
+**Priority: Medium**
+
+10. Hover animations
+11. Scroll animations
+12. Performance optimization
+13. Accessibility audit
+14. Cross-browser testing
+
+**Goal:** Premium experience
+
+---
+
+### **Phase 4: Optimization (Ongoing)**
+**Priority: Low**
+
+15. A/B testing setup
+16. Analytics implementation
+17. Heat mapping
+18. User session recording
+19. Conversion rate optimization
+
+**Goal:** Data-driven improvements
+
+---
+
+## SUCCESS CRITERIA
+
+### **Launch Readiness:**
+✓ Page loads in under 3 seconds  
+✓ Mobile experience is flawless  
+✓ All CTAs work correctly  
+✓ Brand feels premium and cohesive  
+✓ Copy is clear and compelling  
+✓ No critical bugs or errors  
+
+### **Post-Launch Targets (First 30 Days):**
+- Assessment start rate: >50% of visitors
+- Assessment completion rate: >70% of starters
+- Email capture rate: >60% of completers
+- Time on page: >2 minutes average
+- Bounce rate: <50%
+
+### **Post-Launch Targets (90 Days):**
+- Free → Quick-Start conversion: 15-25%
+- Quick-Start → Archive conversion: 20-30%
+- Overall revenue per visitor: $5-10
+- Returning visitor rate: 15-20%
+
+---
+
+## FINAL NOTES
+
+### **What Makes This .1%:**
+
+**1. Universal Design**
+- Works for cold, warm, and hot traffic
+- Self-adjusts to user awareness level
+- Multiple entry points, one destination
+
+**2. Strategic Copy**
+- Recognition-driven (pattern cards)
+- Mechanism-explained (3-7 second window)
+- Honest positioning (no fake social proof)
+- Clear outcomes (fast validation)
+
+**3. Premium Execution**
+- Every detail intentional
+- Consistent brand voice
+- Clean, minimal design
+- Performance optimized
+
+**4. Conversion Focused**
+- Clear path (assessment → protocol → purchase)
+- Multiple touchpoints (7+ CTAs)
+- Risk reversal (free, no email)
+- Value ladder (self-selection)
+
+### **The Difference:**
+
+**Most landing pages:** Generic, salesy, cluttered, confusing
+
+**This landing page:** Specific, honest, clean, converting
+
+**The goal:** Make people feel SEEN (recognition), UNDERSTOOD (mechanism), and CONFIDENT (clear process)
+
+---
+
+## BUILD INSTRUCTIONS FOR REPLIT
+
+```
+BUILD THIS EXACT LANDING PAGE
+
+Use all copy provided word-for-word.
+Use all design specs exactly as specified.
+Implement responsive design for mobile.
+Ensure accessibility (WCAG AA).
+Optimize for performance (<3s load).
+
+Start with Phase 1 (hero + patterns + CTAs).
+Then Phase 2 (complete content).
+Then Phase 3 (polish + optimization).
+
+This is the final, .1% version.
+Every pixel matters.
+Every word matters.
+
+Build it.
+```
+
+---
+
+This is the landing page that converts cold traffic, validates warm traffic, and sells to hot traffic.
+
+Universal. Premium. Effective.
+
+Let's go.

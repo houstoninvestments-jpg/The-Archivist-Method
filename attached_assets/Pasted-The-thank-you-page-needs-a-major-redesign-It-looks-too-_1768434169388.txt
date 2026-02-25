@@ -1,0 +1,50 @@
+The /thank-you page needs a major redesign. It looks too generic and "template-y". I need it to feel premium, professional, and punchy.
+
+PROBLEMS TO FIX:
+1. Too much wasted space - content feels scattered
+2. Copy is too soft and generic ("Before You Go..." feels weak)
+3. Design doesn't match the gothic/premium aesthetic of the landing page
+4. Social proof feels fake ("Join 2,847+ pattern archaeologists" - we don't have that data yet)
+5. Icons are too basic (email icon, clock icon, etc.)
+
+NEW DESIGN DIRECTION:
+
+HERO SECTION (Top):
+- Headline: "Your Crash Course is Coming"
+- Subheadline: "Check your email in the next 60 seconds"
+- Clean, centered, minimal - no email icon needed
+
+UPSELL SECTION (Main focus):
+- Remove "Special Offer" badge - looks cheap
+- New headline: "Don't Stop Now"
+- New subheadline: "You just got the appetizer. Here's the full method."
+- Countdown: Keep it but style it better (red text, inline with copy, not in a badge)
+- Pricing: Make $37 HUGE, cross out $47 smaller
+- "Save $10" should be teal/pink gradient accent text
+- Benefits: Use actual pattern language, not generic features:
+  * "Interrupt all 7 destructive patterns"
+  * "90-day circuit break protocol"
+  * "Unlimited Archivist AI chat"
+  * "Emergency interruption cards"
+- CTA button: "Get Quick-Start - $37" (not "Yes, Add...")
+- Decline link: "Skip this offer" (smaller, gray, bottom of card)
+
+WHAT HAPPENS NEXT (Bottom):
+- Keep this section but make it 3 clean cards in a row
+- Simpler copy:
+  1. "Day 1: Pattern recognition starts"
+  2. "Day 3: Find your Original Room"
+  3. "Day 7: First circuit break"
+
+REMOVE ENTIRELY:
+- Social proof section (we don't have real numbers yet)
+- Any fake urgency that isn't the real countdown timer
+
+DESIGN SPECS:
+- Match the landing page aesthetic: dark background, glassmorphism cards, teal/pink gradients
+- Use the same bold, condensed typography
+- Framer Motion animations for entrance
+- Make the upsell card the visual center of gravity
+- Clean, professional, premium - not "internet marketer"
+
+The goal is to make this page feel like a natural extension of the site, not a generic upsell template.

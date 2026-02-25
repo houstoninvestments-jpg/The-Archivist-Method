@@ -1,0 +1,77 @@
+Completely redesign the Greeter Assistant to feel premium and conversational.
+
+REMOVE the current chatbot design entirely and replace with this:
+
+COLLAPSED STATE (Default):
+┌─────────────────────────────────────────────────────┐
+│                                                     │
+│              💬                                     │
+│                                                     │
+│         Have Questions?                             │
+│         Talk to The Archivist                       │
+│                                                     │
+│         I can help you understand the patterns,     │
+│         choose the right system, and get started.   │
+│                                                     │
+│         [Start Conversation →]                      │
+│                                                     │
+│         Free • Private • Instant answers            │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+
+STYLING FOR COLLAPSED:
+- Much larger card (800px max-width on desktop)
+- Heavy glassmorphism: backdrop-blur-2xl
+- Border: 2px gradient (teal to pink), subtle animated glow
+- Generous padding (60px on desktop, 40px mobile)
+- Icon: 80px size, gradient background circle
+- Title: 2.5rem, bold, white
+- Subtitle: 1.5rem, gradient teal-to-cyan
+- Description: 1.1rem, gray-300, better line-height (1.8)
+- Button: Large (180px wide, 56px tall), gradient, hover animation
+- Badge text: Small, teal, below button
+- Center everything
+- Smooth entrance animation (fade + slight scale up)
+
+EXPANDED STATE (Chat Interface):
+┌─────────────────────────────────────────────────────┐
+│  💬 The Archivist Assistant              [Minimize] │
+│  ─────────────────────────────────────────────────  │
+│                                                     │
+│  [Chat messages here - scrollable area]            │
+│                                                     │
+│  AI: Hey! I'm here to help. What questions         │
+│      do you have about The Archivist Method?       │
+│                                                     │
+│  User: Which product should I get?                 │
+│                                                     │
+│  AI: Great question! It depends on where you       │
+│      are in your pattern work. Let me ask...       │
+│                                                     │
+│  ─────────────────────────────────────────────────  │
+│  [Type your message...]                      [Send] │
+│  8 messages remaining • Free                        │
+└─────────────────────────────────────────────────────┘
+
+STYLING FOR EXPANDED:
+- Full-height chat interface (600px tall, full-screen on mobile)
+- Header: Glass bar with title and minimize button
+- Messages area: 
+  * AI messages: Left-aligned, dark card with teal accent border, rounded-2xl
+  * User messages: Right-aligned, teal gradient background, rounded-2xl
+  * Avatar icons next to each message
+  * Smooth scroll behavior
+  * Auto-scroll to bottom on new message
+- Input area:
+  * Dark background with subtle border
+  * Larger text input (18px font)
+  * Send button: Teal gradient, icon (→)
+  * Character counter below
+- Typing indicator: "..." animated dots when AI is responding
+- Smooth expand/collapse animation (scale + opacity)
+
+CONVERSATIONAL GREETING:
+When user opens chat, AI automatically sends first message:
+"Hey! I'm The Archivist Assistant. I can help you understand the patterns, figure out which system is right for you, or answer any questions. What's on your mind?"
+
+Make it feel like you're texting a knowledgeable friend, not using a corporate chatbot.

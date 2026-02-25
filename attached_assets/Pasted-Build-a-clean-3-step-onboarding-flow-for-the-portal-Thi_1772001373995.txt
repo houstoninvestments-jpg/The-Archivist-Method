@@ -1,0 +1,44 @@
+Build a clean 3-step onboarding flow for the portal. This should be the first thing any new user sees after login, before they access any content. It should only show once — after completion it never appears again (store completion state in Supabase).
+
+Match the site design exactly — dark background, teal accents, same typography.
+
+**STEP 1 — YOUR PATTERN**
+Headline: "First. Let's confirm your pattern."
+Subhead: "Everything in this system is built around one pattern. Yours."
+
+If the user's pattern is already stored from the quiz — display it:
+"Your identified pattern: [PATTERN NAME]"
+Teal confirm button: "Yes, this is mine"
+Small text link below: "This isn't right — let me reselect"
+
+If no pattern is stored — show a single dropdown or 9-option selector:
+"Select your primary pattern to continue"
+Button: "This Is My Pattern →"
+
+**STEP 2 — 60 SECOND BRIEF**
+Headline: "Before you begin. Watch this."
+Subhead: "60 seconds. This is the only orientation you need."
+
+Display a video player with a placeholder (dark card with teal play button and text: "Video coming soon — check back shortly")
+Video dimensions: 16:9, full width on mobile
+
+Below video: Button: "I watched it. Let's go. →"
+Small text: "You can rewatch this anytime in your settings."
+
+**STEP 3 — FIRST SIGNAL**
+Headline: "Now. Meet your signal."
+Subhead: "The Pocket Archivist is going to map your body signal. This takes 2 minutes and it's the most important thing you'll do today."
+
+Display the 3-question Pocket Archivist demo inline (same component from the landing page)
+
+After completion, show:
+"Your signal is mapped. Your archive is open."
+Then a single button: "Start Day 1 →" — routes to Day 1 of the Crash Course
+
+**GLOBAL RULES:**
+- Progress indicator at top: Step 1 of 3, Step 2 of 3, Step 3 of 3 — teal dots
+- No skip buttons — the onboarding must be completed
+- Back button allowed between steps
+- Store completion in Supabase so it never shows again
+- Mobile first
+- Feels like entering a classified system, not filling out a form

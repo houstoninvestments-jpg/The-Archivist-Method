@@ -1,0 +1,51 @@
+Add a visual "thread" design element to the landing page. This represents the concept of "finding the thread and pulling it" — a core metaphor of The Archivist Method. It should feel like a single thread of truth being pulled through the entire page.
+
+IMPLEMENTATION — CSS + Intersection Observer only, no external libraries:
+
+THE VERTICAL THREAD:
+- Create a fixed-position vertical line on the LEFT side, 60px from the left edge on desktop
+- The line is 2px wide, color #14B8A6 (teal)
+- Use a ::before pseudo-element on the page wrapper
+- The line should NOT be full height on load. Instead, use a scaleY transform that grows from 0 to 1 based on scroll position. Calculate scroll percentage with a simple JS scroll listener that updates a CSS custom property (--scroll-progress) on the document root. The line's scaleY uses this variable.
+- transform-origin: top
+- Give the line a soft glow: box-shadow 0 0 8px rgba(20, 184, 166, 0.3)
+- The line fades in starting at 5% scroll (below the hero) and reaches full opacity by 20% scroll. Use opacity tied to --scroll-progress.
+- At the very bottom (last 10% of page), the line fades out
+
+THREAD NODES (5 total):
+- At 5 key section boundaries, place a small circle ON the vertical line
+- Each circle: 12px diameter, border: 2px solid #14B8A6, background: #0A0A0A (so it looks like a bead on the thread)
+- Position them with absolute positioning relative to the page, aligned to the thread line's left offset (60px)
+- Place nodes at: hero section bottom, 9 patterns section top, 3-7 second window section top, pricing section top, founder section top
+- When each node scrolls into the viewport (intersection observer, threshold 0.5), it transitions from opacity 0 and scale 0 to opacity 1 and scale 1 over 0.4s with ease-out
+- After appearing, add a subtle repeating pulse: box-shadow animation from 0 0 0 0 rgba(20,184,166,0.4) to 0 0 0 8px rgba(20,184,166,0) over 2s infinite
+
+THREADED WORDS (4 total):
+- These specific words/phrases get a special underline treatment
+- Target these EXACT phrases: "interrupt it" in the hero section, "stomach drop" in the gut check, "Body Signature" in the 3-7 second window, "For her." in the founder section
+- Wrap each phrase in a span with class "thread-word"
+- Default state: no underline
+- When the span enters the viewport (intersection observer, threshold 0.8 — so it's mostly visible before triggering): animate a teal underline from left to right
+- The underline is a ::after pseudo-element: height 2px, background #14B8A6, position absolute bottom, width goes from 0% to 100% over 0.6s ease-out
+- Add a subtle glow to the underline: box-shadow 0 1px 6px rgba(20,184,166,0.3)
+- Once animated in, it stays — no animation out
+
+MOBILE (under 768px):
+- Hide the vertical thread line completely (display: none on the pseudo-element)
+- Hide all thread nodes
+- KEEP the threaded word underline animations — they work great on mobile
+- This ensures mobile still gets the thread concept without the vertical line cluttering a narrow screen
+
+PERFORMANCE:
+- The scroll listener for --scroll-progress should use requestAnimationFrame to avoid jank
+- All intersection observers should use a single observer instance with multiple entries, not one per element
+- All animations are CSS only (transforms and opacity) — nothing triggers layout recalculation
+
+DO NOT:
+- Use any external animation library (no framer-motion, no GSAP, no AOS)
+- Add scroll-hijacking or smooth-scroll overrides
+- Change any existing content, layout, spacing, or functionality
+- Add horizontal thread lines or curved paths — keep it strictly vertical with word highlights
+- Make the thread thick or prominent — it should be subtle and elegant, noticed on second look not first glance
+
+The overall effect should be: as you scroll down the page, a thin teal thread draws itself down the left side, passing through glowing nodes at each major section. Key words across the page get a teal underline pulled across them as they appear. It should feel like you're literally pulling a thread through the content — unraveling the patterns as you go.

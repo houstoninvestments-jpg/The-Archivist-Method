@@ -1,0 +1,121 @@
+Update the quiz with these 15 questions. Replace everything currently in Quiz.tsx.
+
+Q1: Good things start happening. You feel:
+- The urge to burn it down before it burns you → Success Sabotage
+- Suspicious. What's the trap? → Testing
+- Guilt. You don't get to have this. → Apology Loop
+- Walls going up. Exit located. → Disappearing
+- Nothing. You stopped feeling years ago. → Draining Bond
+
+Q2: Someone says you're talented. You:
+- Deflect. Change subject. Disappear into the wall. → Compliment Deflection
+- Wonder what they're really after → Testing
+- Apologize for taking up space → Apology Loop
+- Feel the pressure to never fail now → Perfectionism
+- Don't believe them. Can't. → Draining Bond
+
+Q3: You're angry. What runs?
+- You explode. Say things you can't take back. → Rage
+- You swallow it. Apologize. Again. → Apology Loop
+- You vanish. Door. Phone off. Gone. → Disappearing
+- You stay. Take it. Like always. → Draining Bond
+- You weaponize it. Test them. → Testing
+
+Q4: Someone safe wants you. Gut check:
+- Bored. Where's the chaos? → Attraction to Harm
+- Waiting for the mask to slip → Testing
+- Already planning your exit → Disappearing
+- You don't deserve them → Apology Loop
+- You'll destroy this. Give it time. → Success Sabotage
+
+Q5: You need something. You:
+- Apologize before the ask leaves your mouth → Apology Loop
+- Drop hints. See if they care enough to notice. → Testing
+- Say nothing. Need nothing. Want nothing. → Compliment Deflection
+- Get angry when they don't just know → Rage
+- Convince yourself you never needed it anyway → Draining Bond
+
+Q6: Project's almost done. What happens?
+- You stop. Walk away. Can't finish. → Success Sabotage
+- You tweak it forever. Never ships. → Perfectionism
+- You finish but tell no one → Compliment Deflection
+- You finish but feel nothing → Draining Bond
+- You're already onto the next thing → Disappearing
+
+Q7: Red flags feel like:
+- Electricity → Attraction to Harm
+- A test you need to pass → Testing
+- Something you caused → Apology Loop
+- Home → Draining Bond
+- Permission to leave → Disappearing
+
+Q8: Your relationship history:
+- 90 days. Max. Then you're gone. → Disappearing
+- Toxic but alive. Safe feels dead. → Attraction to Harm
+- You stayed until there was nothing left of you → Draining Bond
+- You tested them until they proved you right → Testing
+- You gave everything. Asked for nothing. Got nothing. → Apology Loop
+
+Q9: You succeed. First feeling:
+- Terror. It's about to collapse. → Success Sabotage
+- Fraud. They'll find out. → Perfectionism
+- Guilt. Who are you to have this? → Apology Loop
+- Exposed. Too visible. → Compliment Deflection
+- Empty. What now? → Draining Bond
+
+Q10: Someone gets too close. Body response:
+- Chest locks. Walls up. Where's the door? → Disappearing
+- Heart hammering. Scanning. What do they want? → Testing
+- Shrinking. Taking up too much space. → Apology Loop
+- Heat building. Pressure rising. → Rage
+- Numb. Frozen. Stuck. → Draining Bond
+
+Q11: You mess up. First thought:
+- Knew it. You always ruin it. → Success Sabotage
+- They'll leave now. Watch. → Testing
+- You're too much. You're not enough. Both. → Apology Loop
+- Rage. At them. At yourself. → Rage
+- Whatever. Add it to the pile. → Draining Bond
+
+Q12: Visibility makes you:
+- Want to evaporate → Compliment Deflection
+- Suspicious. Why are they looking? → Testing
+- Sorry for being seen → Apology Loop
+- Need to run → Disappearing
+- Feel nothing. You're already gone inside. → Draining Bond
+
+Q13: Your relationships end because:
+- You left before they could → Disappearing
+- You pushed until they finally broke → Testing
+- You stayed until you forgot who you were → Draining Bond
+- You burned it down in one conversation → Rage
+- You gave until you were empty, then resented them for it → Apology Loop
+
+Q14: Deepest fear:
+- Trapped. No exit. → Disappearing
+- Abandoned. Confirmed unlovable. → Testing
+- Burden. Too much. Not enough. → Apology Loop
+- Seen. Really seen. → Compliment Deflection
+- Stuck here forever. → Draining Bond
+- Hurt again. By someone you let in. → Attraction to Harm
+
+Q15: Which one lives in your body? (COUNTS 2X)
+- Chest crushing. Walls closing. Get out get out get out. → Disappearing
+- Throat tight. Shrinking. Sorry. Sorry. Sorry. → Apology Loop
+- Heart slamming. Scanning. Waiting for proof. → Testing
+- Heat rising. Jaw locked. About to blow. → Rage
+- Heavy. Stuck. Can't move. Can't leave. → Draining Bond
+- Danger feels like home. Safety feels like boredom. → Attraction to Harm
+- Paralyzed. Can't start. Can't fail if you don't try. → Perfectionism
+- Panic at the finish line. Snatch defeat from victory. → Success Sabotage
+- Exposed. Seen. Want to disappear into the floor. → Compliment Deflection
+
+SCORING:
+- Count how many times each pattern is selected
+- Q15 counts as 2 points
+- Highest score = primary pattern
+- Track second highest for fallback
+
+AFTER QUIZ → redirect to /results with pattern data
+
+Keep the dark UI, teal accents, current styling. Just replace the questions and scoring logic.

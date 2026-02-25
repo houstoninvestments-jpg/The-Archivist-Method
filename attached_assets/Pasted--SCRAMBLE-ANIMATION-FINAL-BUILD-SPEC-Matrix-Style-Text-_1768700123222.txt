@@ -1,0 +1,431 @@
+# SCRAMBLE ANIMATION - FINAL BUILD SPEC
+## Matrix-Style Text Scramble (Based on https://codepen.io/soulwire/pen/mEMPrK)
+
+---
+
+## WHAT WE'RE BUILDING:
+
+Hero headline that scrambles with random characters then resolves to final text.
+
+**Text:**
+```
+Stop Running the Same Destructive Patterns
+```
+
+**Effect:**
+```
+[Random chars scrambling]
+St#p R*nn!ng th$ S@m# D#str&ct!v# P@tt$rns
+↓
+Stop Running the Same Destructive Patterns
+                    ↑ "Same Destructive" in pink
+```
+
+---
+
+## HTML STRUCTURE:
+
+```html
+<div class="hero-content">
+  <!-- Brand lockup (already exists) -->
+  <div class="brand-lockup">
+    <h1 class="brand-title">THE ARCHIVIST METHOD™</h1>
+    <p class="brand-tagline">Pattern Archaeology, <span class="not">Not</span> Therapy</p>
+  </div>
+  
+  <!-- Scramble headline (NEW) -->
+  <h2 class="hero-headline">
+    <span class="scramble-text"></span>
+  </h2>
+  
+  <!-- Subhead (already exists) -->
+  <p class="hero-subhead">
+    You watch yourself do it. You know it's happening. You do it anyway.
+  </p>
+  
+  <!-- CTA (already exists) -->
+  <a href="/quiz" class="cta-primary">
+    Take the Pattern Assessment →
+  </a>
+</div>
+```
+
+---
+
+## CSS:
+
+```css
+.hero-headline {
+  font-family: 'Inter', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 40px 0 24px;
+  line-height: 1.2;
+  min-height: 120px; /* Prevent layout shift */
+  text-align: center;
+}
+
+.scramble-text {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Scrambling characters (teal color) */
+.scramble-text .dud {
+  color: #14B8A6;
+  opacity: 0.7;
+}
+
+/* Pink emphasis on final text */
+.scramble-text .pink-text {
+  color: #EC4899;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 36px;
+    min-height: 90px;
+  }
+  
+  .scramble-text {
+    font-size: 36px;
+  }
+}
+
+/* Accessibility - reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scramble-text {
+    /* Skip animation, show final text immediately */
+  }
+}
+```
+
+---
+
+## JAVASCRIPT:
+
+```javascript
+// TextScramble class (based on CodePen example)
+class TextScramble {
+  constructor(el) {
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#________'; // Scramble characters
+    this.update = this.update.bind(this);
+  }
+  
+  setText(newText) {
+    const oldText = this.el.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    const promise = new Promise((resolve) => this.resolve = resolve);
+    this.queue = [];
+    
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || '';
+      const to = newText[i] || '';
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      this.queue.push({ from, to, start, end });
+    }
+    
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  }
+  
+  update() {
+    let output = '';
+    let complete = 0;
+    
+    for (let i = 0, n = this.queue.length; i < n; i++) {
+      let { from, to, start, end, char } = this.queue[i];
+      
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = this.randomChar();
+          this.queue[i].char = char;
+        }
+        output += `<span class="dud">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+    
+    this.el.innerHTML = output;
+    
+    if (complete === this.queue.length) {
+      // Add pink emphasis to "Same Destructive" after scramble completes
+      this.el.innerHTML = this.el.innerHTML.replace(
+        'Same Destructive',
+        '<span class="pink-text">Same Destructive</span>'
+      );
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  }
+  
+  randomChar() {
+    return this.chars[Math.floor(Math.random() * this.chars.length)];
+  }
+}
+
+// Initialize scramble animation
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.querySelector('.scramble-text');
+  const fx = new TextScramble(el);
+  
+  // Check if user prefers reduced motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  if (prefersReducedMotion) {
+    // Skip animation, show final text
+    el.innerHTML = 'Stop Running the <span class="pink-text">Same Destructive</span> Patterns';
+  } else {
+    // Wait for brand lockup to finish (1.5s), then scramble
+    setTimeout(() => {
+      fx.setText('Stop Running the Same Destructive Patterns');
+    }, 1500);
+  }
+});
+```
+
+---
+
+## ANIMATION TIMELINE:
+
+```
+0.0s - Page loads
+       → Particles start floating
+       → Background visible
+
+0.3s - Brand title animation starts
+       → "THE ARCHIVIST METHOD™" slides up
+
+1.0s - Tagline animation starts
+       → "Pattern Archaeology, Not Therapy" fades in
+
+1.5s - Scramble animation starts
+       → Random characters appear
+       → Characters scramble and resolve letter by letter
+       → Teal scrambling chars gradually become white final text
+
+3.5s - Scramble completes
+       → Final text fully resolved
+       → "Same Destructive" turns pink
+
+4.0s - Subhead appears
+       → "You watch yourself do it..."
+
+4.5s - CTA appears
+       → "Take the Pattern Assessment" button visible
+
+MOBILE TIMELINE (SAME):
+Scramble animation is fast enough for mobile (2 seconds)
+```
+
+---
+
+## VISUAL EFFECT:
+
+**What user sees:**
+
+1. Brand lockup animates in
+2. Brief pause
+3. Random characters appear:
+   ```
+   St#p R*nn!ng th$ S@m# D#str&ct!v# P@tt$rns
+   ```
+4. Characters scramble rapidly (teal colored scramble chars)
+5. Text resolves letter by letter to:
+   ```
+   Stop Running the Same Destructive Patterns
+                       ↑ Pink
+   ```
+6. Rest of hero content appears
+
+**Matrix vibes, premium feel, memorable.**
+
+---
+
+## INTEGRATION WITH EXISTING ANIMATIONS:
+
+**Hero section has these animations:**
+
+1. ✅ **Archival Reveal** (brand lockup) - Keep
+2. ✅ **Floating particles** - Keep
+3. ✅ **NEW: Scramble headline** - Add
+4. ✅ **Subhead fade-in** (if exists) - Keep
+5. ✅ **CTA fade-in** (if exists) - Keep
+
+**They all work together in sequence.**
+
+---
+
+## CUSTOMIZATION OPTIONS:
+
+### **Scramble Speed:**
+```javascript
+// Faster scramble (more aggressive)
+const start = Math.floor(Math.random() * 20); // Was 40
+const end = start + Math.floor(Math.random() * 20); // Was 40
+
+// Slower scramble (more dramatic)
+const start = Math.floor(Math.random() * 60);
+const end = start + Math.floor(Math.random() * 60);
+```
+
+### **Scramble Characters:**
+```javascript
+// Current (symbols)
+this.chars = '!<>-_\\/[]{}—=+*^?#________';
+
+// Alternative (letters + numbers)
+this.chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+// Alternative (minimal symbols)
+this.chars = '-_/\\|________';
+```
+
+### **Pink Emphasis:**
+```javascript
+// Current: "Same Destructive" in pink
+this.el.innerHTML.replace('Same Destructive', '<span class="pink-text">Same Destructive</span>');
+
+// Alternative: Just "Destructive" in pink
+this.el.innerHTML.replace('Destructive', '<span class="pink-text">Destructive</span>');
+
+// Alternative: Last word in pink
+this.el.innerHTML.replace('Patterns', '<span class="pink-text">Patterns</span>');
+```
+
+---
+
+## FALLBACKS:
+
+### **If JavaScript Fails:**
+Text won't appear (not ideal, but rare)
+
+**Better fallback:**
+```html
+<h2 class="hero-headline">
+  <span class="scramble-text">
+    Stop Running the <span class="pink-text">Same Destructive</span> Patterns
+  </span>
+</h2>
+```
+Show text by default, JS will replace it with scramble
+
+### **If User Has Reduced Motion Enabled:**
+Skip animation entirely, show final text immediately
+
+### **On Slow Connections:**
+Animation still works (JavaScript loads quickly)
+
+---
+
+## TESTING CHECKLIST:
+
+After Replit builds this:
+
+**Desktop:**
+- [ ] Does headline start scrambling at 1.5s?
+- [ ] Does scramble take ~2 seconds?
+- [ ] Are scrambling characters teal?
+- [ ] Is "Same Destructive" pink in final text?
+- [ ] Is animation smooth (not choppy)?
+- [ ] Does it work in Chrome, Safari, Firefox?
+
+**Mobile:**
+- [ ] Does animation work on small screens?
+- [ ] Is text readable during scramble?
+- [ ] No performance issues?
+- [ ] Works on iPhone/Android?
+
+**Accessibility:**
+- [ ] Enable "Reduce Motion" in OS
+- [ ] Does headline appear instantly (no scramble)?
+- [ ] Is text still readable?
+
+---
+
+## REPLIT BUILD INSTRUCTION:
+
+```
+ADD SCRAMBLE ANIMATION TO HERO HEADLINE
+
+Location: Hero section, main headline
+Text: "Stop Running the Same Destructive Patterns"
+
+Animation Type: Matrix-Style Text Scramble
+Based on: https://codepen.io/soulwire/pen/mEMPrK
+
+Implementation:
+1. Add HTML structure (see spec)
+2. Add CSS for scramble styling
+3. Add TextScramble JavaScript class (complete code provided)
+4. Pink emphasis on "Same Destructive" after scramble completes
+5. Teal colored scramble characters (#14B8A6)
+
+Timeline:
+- Start at 1.5s (after brand lockup)
+- Scramble for ~2 seconds
+- Resolve to final text at 3.5s
+
+Features:
+- Random character scramble
+- Letter-by-letter resolution
+- Pink emphasis on key words
+- Reduced motion fallback
+- Mobile responsive
+
+Integrates with:
+- Existing Archival Reveal animation (brand lockup)
+- Floating particles
+- Pattern cards scroll animation
+
+All code provided in specification file.
+Test on desktop AND mobile.
+Ensure smooth 60fps performance.
+
+Build now.
+```
+
+---
+
+## WHAT YOU'LL SEE WHEN IT'S LIVE:
+
+**Desktop experience:**
+1. Page loads with particles floating
+2. Brand title slides up elegantly
+3. Tagline fades in
+4. **Headline starts scrambling** ← Matrix effect
+5. Random teal characters scramble rapidly
+6. Text resolves letter by letter
+7. "Same Destructive" appears in pink
+8. Subhead and CTA appear
+
+**Feels edgy, premium, memorable.**
+
+---
+
+## WHY THIS IS BETTER THAN TYPEWRITER:
+
+✅ **More distinctive** - Nobody else has this  
+✅ **More memorable** - People remember Matrix vibes  
+✅ **Still professional** - Not gimmicky if done well  
+✅ **Matches "archaeology"** - Uncovering hidden patterns  
+✅ **Pattern interruption theme** - Breaking/revealing code  
+
+---
+
+**Hand this to Replit and watch it scramble live.**
+
+**This is going to look SICK.**

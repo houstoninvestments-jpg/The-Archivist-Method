@@ -1,0 +1,86 @@
+Make these specific upgrades across the landing page and results page:
+
+1. PATTERN CARD HOVER REVEAL:
+On the 9 pattern cards, add a hover/tap interaction. Default state shows the current description. On hover (desktop) or tap (mobile), the card flips or transitions to show a "triggering thought" — the actual internal dialogue of someone running that pattern. Use italic, Source Sans 3, white, in quotes.
+
+Triggering thoughts for each pattern:
+01 DISAPPEARING — "They're getting too close. I need to leave before they see the real me."
+02 APOLOGY LOOP — "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry."
+03 TESTING — "If they really loved me, they'd stay no matter what I do."
+04 ATTRACTION TO HARM — "I know this person is bad for me. I can't stop going back."
+05 COMPLIMENT DEFLECTION — "They don't mean it. And if they do, they're wrong."
+06 DRAINING BOND — "I should leave. I know I should leave. I'll leave tomorrow."
+07 SUCCESS SABOTAGE — "It's actually going well. Something's about to go wrong. I'll just end it myself."
+08 PERFECTIONISM TRAP — "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong."
+09 RAGE PATTERN — "That was nothing. Why am I this angry. What's wrong with me."
+
+The transition should be subtle — a quick fade (0.3s) between description and triggering thought. On mouse leave or second tap, it fades back to the description.
+
+2. "FROM THE ARCHIVES" SECTION:
+Add a new section after the comparison table and before pricing. This is social proof styled as classified intelligence files.
+
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+FROM THE ARCHIVES
+
+[Playfair Display, 2rem, white]
+Field Reports
+
+Create 4 cards styled like declassified documents:
+- Background: rgba(255,255,255,0.02)
+- Border: 1px solid rgba(255,255,255,0.08)
+- Font: JetBrains Mono for all text (feels like a typed report)
+- Top of each card: "CASE FILE [number]" and "PATTERN: [name]" with black redaction bars over a fake name area (just a black rectangle where a name would be)
+
+Card 1:
+CASE FILE 0041 | PATTERN: DISAPPEARING
+"Subject identified pattern on Day 3 of Crash Course. First body signature recognition: chest tightness before urge to ghost. First successful interrupt: Day 11. Subject stayed in the conversation. First time in 14 years."
+[JetBrains Mono, 11px, #555] STATUS: PATTERN WEAKENING
+
+Card 2:
+CASE FILE 0087 | PATTERN: SUCCESS SABOTAGE
+"Subject recognized pre-sabotage body signature (hands shaking, impulse to delete project) 4 seconds before pattern executed. Applied circuit break. Did not destroy 6 months of work. Reports: 'I just didn't do it this time.'"
+[STATUS: INTERRUPT CONFIRMED]
+
+Card 3:
+CASE FILE 0113 | PATTERN: APOLOGY LOOP
+"Subject caught herself mid-apology for asking a question at work. Recognized throat tightening as body signature. Used circuit break: 'I don't need to apologize for this.' Reports reduced unnecessary apologies by 60% in 3 weeks."
+[STATUS: PATTERN DISRUPTED]
+
+Card 4:
+CASE FILE 0156 | PATTERN: TESTING
+"Subject recognized testing behavior mid-argument with partner. Body signature: jaw clenching, urge to escalate. Applied interrupt. Chose to communicate need directly instead of testing. Partner responded. Relationship intact."
+[STATUS: ACTIVE INTERRUPTION]
+
+These are FICTIONAL but realistic. They demonstrate what the method does without requiring real testimonials.
+
+3. RESULTS PAGE — PATTERN PROBABILITY:
+On the quiz results page, instead of just showing "Your Pattern: The Apology Loop", add a match percentage bar.
+
+Show: "87% MATCH" in JetBrains Mono, teal, large
+Below: a horizontal bar, filled to 87% with teal, remaining 13% in dark gray
+Below that: "The Apology Loop" in Playfair Display, large, white
+
+The percentage should vary by pattern result (hardcode reasonable values between 78-94% — the exact number doesn't matter, it just needs to feel like a real diagnostic, not random):
+- Disappearing: 91%
+- Apology Loop: 87%
+- Testing: 83%
+- Attraction to Harm: 89%
+- Compliment Deflection: 85%
+- Draining Bond: 88%
+- Success Sabotage: 92%
+- Perfectionism: 86%
+- Rage: 84%
+
+4. FOOTER UPDATE:
+Change the footer closing line from "Built in the fire. Systematized December 2025." to:
+
+"The archive is open. Don't close the door."
+Style: JetBrains Mono, 12px, teal, italic, opacity 0.6
+
+Keep the copyright line and links below it.
+
+5. CTA BUTTON TEXT UPDATE:
+Change ALL CTA buttons that say "DISCOVER YOUR PATTERN" to "FIND YOUR PATTERN →"
+This is already the text in some places but make it consistent everywhere.
+
+Do not change any existing layout, routing, or functionality beyond these 5 specific upgrades.

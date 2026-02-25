@@ -1,0 +1,1176 @@
+# THE ARCHIVIST METHOD — FIELD GUIDE GENERATOR
+
+## OVERVIEW
+
+Generate 9 personalized Field Guide PDFs, one for each pattern. Each guide contains shared system content + full deep dive on ONE pattern + brief awareness of the other 8.
+
+-----
+
+## THE 9 FIELD GUIDES TO GENERATE
+
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-APOLOGY-LOOP.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-TESTING.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-ATTRACTION-TO-HARM.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-DRAINING-BOND.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-COMPLIMENT-DEFLECTION.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-PERFECTIONISM.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-SUCCESS-SABOTAGE.pdf`
+1. `THE-ARCHIVIST-METHOD-FIELD-GUIDE-RAGE.pdf`
+
+-----
+
+## DESIGN SPECS (Match Complete Archive / Crash Course)
+
+### Page Setup
+
+- Size: Letter (8.5” x 11”)
+- Margins: 1” all sides
+- Background: Dark charcoal (#1A1A1A) on ALL pages
+
+### Colors
+
+```
+DARK_BG = #1A1A1A (background)
+WHITE = #FFFFFF (headers, bold text)
+LIGHT_GRAY = #E5E5E5 (body text)
+TEAL = #14B8A6 (accents, H2 headers, rules)
+PINK = #EC4899 ("NOT" in tagline only)
+MUTED = #888888 (footer text)
+```
+
+### Typography
+
+- Title: 48pt, WHITE, bold, centered
+- H1: 24pt, WHITE, bold, uppercase
+- H2: 18pt, TEAL, bold
+- H3: 14pt, WHITE, bold
+- Body: 11pt, LIGHT_GRAY, 1.6 line height
+- Bold in body: WHITE
+- Footer: 9pt, MUTED
+
+### Elements
+
+- Horizontal rules: 1pt, TEAL
+- Bullet points: TEAL dot, LIGHT_GRAY text
+- Fill-in blanks: TEAL underline
+- Blockquotes: 3pt TEAL left border, italic
+
+### Logo
+
+- Archivist portrait with teal/pink gradient ring
+- Transparent background (no white box)
+- Centered on title page
+
+### Footer (every page except title)
+
+```
+THE ARCHIVIST METHOD™ | CLASSIFIED                    [page number]
+─────────────────────────────────────────────────────────────────────
+```
+
+Teal line above footer text.
+
+-----
+
+## FIELD GUIDE STRUCTURE
+
+Total target: 80-120 pages per guide
+
+```
+TITLE PAGE (1 page)
+TABLE OF CONTENTS (1 page)
+SECTION 1: WELCOME (3-4 pages)
+SECTION 2: THE FOUR DOORS PROTOCOL (10-12 pages)
+SECTION 3: YOUR PATTERN — [PATTERN NAME] (35-45 pages)
+SECTION 4: THE OTHER PATTERNS (10-12 pages)
+SECTION 5: THE 90-DAY PROTOCOL (15-20 pages)
+SECTION 6: CRISIS PROTOCOLS (8-10 pages)
+SECTION 7: TRACKING TEMPLATES (5-8 pages)
+SECTION 8: WHAT'S NEXT (2-3 pages)
+```
+
+-----
+
+## SECTION 1: TITLE PAGE
+
+```
+[Archivist Logo - circular with gradient ring]
+
+
+
+
+THE ARCHIVIST METHOD™
+
+FIELD GUIDE
+
+─────────
+
+THE [PATTERN NAME] PATTERN
+
+Your 90-day protocol for identifying, interrupting,
+and overriding the pattern destroying your life.
+
+
+
+
+PATTERN ARCHAEOLOGY, NOT THERAPY
+
+
+
+
+THE ARCHIVIST METHOD™ | CLASSIFIED
+```
+
+-----
+
+## SECTION 2: TABLE OF CONTENTS
+
+```
+CONTENTS
+
+─────────────────────────────────────────────────
+
+WELCOME ........................................... 3
+   How to Use This Guide
+   The Rules
+   What This Is (And What It Isn't)
+
+THE FOUR DOORS PROTOCOL ........................... 7
+   Door 1: Recognition
+   Door 2: Excavation
+   Door 3: Interruption
+   Door 4: Override
+
+YOUR PATTERN: THE [PATTERN NAME] .................. 19
+   What It Looks Like
+   The Origin Room
+   Your Triggers
+   The Body Signature
+   Circuit Break Scripts
+   Override Protocol
+   The Archaeology
+
+THE OTHER PATTERNS ................................ 65
+   Quick Reference Guide
+
+THE 90-DAY PROTOCOL ............................... 77
+   Days 1-7: Recognition
+   Days 8-30: Excavation
+   Days 31-60: Interruption
+   Days 61-90: Override
+
+CRISIS PROTOCOLS .................................. 97
+   When the Pattern Runs Anyway
+   Emergency Interrupts
+   The Morning After Protocol
+
+TRACKING TEMPLATES ................................ 107
+   Daily Interrupt Log
+   Trigger Map
+   Progress Tracker
+
+WHAT'S NEXT ....................................... 115
+
+─────────────────────────────────────────────────
+```
+
+-----
+
+## SECTION 3: WELCOME
+
+### Page 1: How to Use This Guide
+
+```
+HOW TO USE THIS GUIDE
+
+─────────────────────────────────────────────────
+
+This is not a book you read cover to cover and put on a shelf.
+
+This is a field guide. You take it into the field. You use it when 
+the pattern activates. You reference it when you're in the middle 
+of the fire, not after.
+
+HERE'S HOW THIS WORKS:
+
+Read the Four Doors Protocol first. Understand the system.
+
+Then go deep on YOUR pattern. That's Section 3. That's where 
+you'll spend most of your time. Learn it. Know it. Memorize 
+the circuit breaks.
+
+Use the 90-Day Protocol as your structure. It tells you what 
+to focus on each week.
+
+When shit hits the fan, go to Crisis Protocols. That's your 
+emergency kit.
+
+Track your interrupts. The data matters. Every interrupt—successful 
+or not—is information.
+
+The other patterns are there for awareness. You'll recognize 
+people in your life. You might recognize yourself. But stay 
+focused on YOUR pattern first. Master one before you try to 
+master all.
+
+
+YOU FOUND THE THREAD. NOW PULL IT.
+```
+
+### Page 2: The Rules
+
+```
+THE RULES
+
+─────────────────────────────────────────────────
+
+RULE 1: ONE PATTERN AT A TIME
+
+You probably have multiple patterns running. Most people do. 
+Ignore them for now. This guide is about ONE pattern—yours. 
+Master this one first. The others can wait.
+
+
+RULE 2: PROGRESS, NOT PERFECTION
+
+You will try to interrupt your pattern and fail. The pattern 
+will run anyway. That is not failure. That is data.
+
+Write down what happened. What triggered it. How fast it ran. 
+That data makes tomorrow better than today.
+
+
+RULE 3: TRACK JUST ENOUGH
+
+When the pattern activates, write one sentence. What happened. 
+Move on.
+
+This is not journaling. This is data collection. You're building 
+a map of your own mind.
+
+
+RULE 4: USE THE CRISIS PROTOCOLS
+
+When you're in the middle of the pattern running, you won't 
+remember what to do. That's why the Crisis Protocols exist. 
+Bookmark them. Screenshot them. Know where they are.
+
+
+THE ONLY WAY TO FAIL THIS
+
+Quit before Day 90.
+
+A pattern running on Day 30 is not failure. A pattern running 
+on Day 60 is not failure. Closing this PDF and never opening 
+it again is failure.
+
+90 days. That's the commitment.
+```
+
+### Page 3: What This Is (And What It Isn’t)
+
+```
+WHAT THIS IS
+
+─────────────────────────────────────────────────
+
+This is pattern interruption. Behavioral forensics. You have 
+a program running. We are going to interrupt it mid-execution.
+
+This is a field guide for people who are tired of understanding 
+why and ready to focus on stopping it.
+
+This is the 90-day protocol to take a pattern that has been 
+running for years—maybe decades—and break its automatic grip.
+
+
+WHAT THIS IS NOT
+
+─────────────────────────────────────────────────
+
+This is not therapy. We are not processing your trauma. We are 
+not exploring your inner child. We are not journaling about feelings.
+
+This is not self-help. We are not affirming your worth or teaching 
+you to love yourself. That might come later. But that's not the work.
+
+This is not a cure. Patterns don't disappear. They lose power. 
+They stop running automatically. But the circuit remains. This 
+guide teaches you to catch it before it runs, not to pretend 
+it doesn't exist.
+
+
+THE DIFFERENCE
+
+Therapy explains why the house caught fire.
+
+This teaches you to stop lighting matches.
+
+
+PATTERN ARCHAEOLOGY, NOT THERAPY.
+```
+
+-----
+
+## SECTION 4: THE FOUR DOORS PROTOCOL
+
+### Overview Page
+
+```
+THE FOUR DOORS PROTOCOL
+
+─────────────────────────────────────────────────
+
+Every pattern interruption moves through four doors.
+
+You cannot skip doors. You cannot rush doors. Each one builds 
+on the last.
+
+
+   ┌─────────────────┐
+   │                 │
+   │   DOOR 1        │
+   │   RECOGNITION   │
+   │                 │
+   │   See the       │
+   │   pattern       │
+   │                 │
+   └────────┬────────┘
+            │
+            ▼
+   ┌─────────────────┐
+   │                 │
+   │   DOOR 2        │
+   │   EXCAVATION    │
+   │                 │
+   │   Understand    │
+   │   the origin    │
+   │                 │
+   └────────┬────────┘
+            │
+            ▼
+   ┌─────────────────┐
+   │                 │
+   │   DOOR 3        │
+   │   INTERRUPTION  │
+   │                 │
+   │   Break the     │
+   │   circuit       │
+   │                 │
+   └────────┬────────┘
+            │
+            ▼
+   ┌─────────────────┐
+   │                 │
+   │   DOOR 4        │
+   │   OVERRIDE      │
+   │                 │
+   │   Install new   │
+   │   response      │
+   │                 │
+   └─────────────────┘
+
+
+Most people spend their whole lives at Door 1—seeing the pattern, 
+hating the pattern, but never moving through the other doors.
+
+This guide walks you through all four.
+```
+
+### Door 1: Recognition (2-3 pages)
+
+```
+DOOR 1: RECOGNITION
+
+─────────────────────────────────────────────────
+
+Before you can interrupt a pattern, you have to see it.
+
+Not after it runs. Not the next day when you're full of regret.
+In the moment. As it's activating.
+
+This is harder than it sounds. Patterns are fast. They run in 
+3-7 seconds. By the time you realize what's happening, it's 
+already happened.
+
+Recognition has three layers:
+
+
+LAYER 1: THE TRIGGER
+
+Something happens right before your pattern activates. Always.
+A word. A tone. A silence. A look on someone's face.
+
+Your job: Identify your top 3 triggers.
+
+You'll map these in Section 3.
+
+
+LAYER 2: THE BODY SIGNATURE
+
+Before your pattern runs, your body signals it. Every time.
+Chest tightness. Stomach drop. Throat closing. Heart racing.
+
+This is the 3-7 second window. The body knows before the 
+mind catches up.
+
+Your job: Learn what your body does before the pattern runs.
+
+You'll identify this in Section 3.
+
+
+LAYER 3: THE THOUGHT
+
+Between trigger and action, there's usually a thought. Fast. 
+Almost invisible. But it's there.
+
+"They're going to leave anyway."
+"I shouldn't have asked."
+"Here we go again."
+
+Your job: Catch the thought.
+
+
+RECOGNITION COMPLETE WHEN:
+
+You can feel the pattern activating BEFORE it runs. You notice 
+the trigger, feel the body signature, and catch the thought.
+
+You don't have to stop it yet. You just have to SEE it.
+```
+
+### Door 2: Excavation (2-3 pages)
+
+```
+DOOR 2: EXCAVATION
+
+─────────────────────────────────────────────────
+
+Your pattern didn't come from nowhere.
+
+It installed in childhood. Not because something happened TO 
+you—because you learned to DO something to survive.
+
+Excavation is not about blame. It's not about processing. It's 
+about understanding where the pattern learned to run.
+
+
+THE ORIGINAL ROOM
+
+Every pattern has an Original Room. Not a literal room—an 
+emotional environment. The place where this pattern made sense.
+
+Maybe closeness led to pain, so you learned to disappear.
+Maybe your needs were a burden, so you learned to apologize.
+Maybe love was unpredictable, so you learned to test it.
+
+The pattern was a solution once. It kept you safe. It helped 
+you survive.
+
+But you're not in that room anymore. And the pattern keeps 
+running like you are.
+
+
+WHY THIS MATTERS
+
+You don't excavate to heal. You excavate to understand why 
+the pattern feels so automatic.
+
+When you know where it came from, you stop thinking something 
+is wrong with you. You start seeing it as a program that 
+installed in a specific environment for a specific reason.
+
+Programs can be rewritten.
+
+
+EXCAVATION COMPLETE WHEN:
+
+You can name the Original Room. You understand what the pattern 
+was protecting you from. You see why it made sense then—and 
+why it doesn't now.
+
+You'll do this work in Section 3.
+```
+
+### Door 3: Interruption (2-3 pages)
+
+```
+DOOR 3: INTERRUPTION
+
+─────────────────────────────────────────────────
+
+This is the door most people never reach.
+
+They see the pattern (Door 1). They understand it (Door 2). 
+But they never learn to STOP it mid-execution.
+
+Interruption is the skill that changes everything.
+
+
+THE CIRCUIT BREAK
+
+A circuit break is a pre-written script you say when the 
+pattern activates. Out loud or in your head.
+
+It interrupts the automatic sequence.
+
+WITHOUT CIRCUIT BREAK:
+Trigger → Body signature → Pattern runs (3-7 seconds)
+
+WITH CIRCUIT BREAK:
+Trigger → Body signature → CIRCUIT BREAK → Choose different response
+
+The circuit break creates a gap. In that gap, you can choose.
+
+
+HOW TO USE A CIRCUIT BREAK
+
+1. Feel the body signature
+2. Say the script (out loud or in your head)
+3. Take one breath
+4. Choose a different action
+
+That's it. Simple in concept. Hard in practice.
+
+
+YOUR CIRCUIT BREAKS
+
+Section 3 contains the circuit break scripts for your specific 
+pattern. Multiple scripts for different situations.
+
+Memorize them. Practice them when you're NOT activated. So 
+when the moment comes, you have the words ready.
+
+
+INTERRUPTION COMPLETE WHEN:
+
+You successfully interrupt the pattern at least once. It 
+doesn't have to be perfect. It doesn't have to stick. You 
+just need ONE successful interrupt to prove the circuit can break.
+```
+
+### Door 4: Override (2-3 pages)
+
+```
+DOOR 4: OVERRIDE
+
+─────────────────────────────────────────────────
+
+Interruption stops the old pattern.
+Override installs a new one.
+
+You cannot just stop a behavior. You have to replace it with 
+something. Otherwise the vacuum gets filled by the old pattern 
+running again.
+
+
+THE OVERRIDE PROTOCOL
+
+An override is the new behavior you do INSTEAD of the pattern.
+
+PATTERN: Disappear when someone gets close.
+OVERRIDE: Stay and communicate what you're feeling.
+
+PATTERN: Apologize before asking for something.
+OVERRIDE: Ask directly without preamble.
+
+PATTERN: Test if they really love you.
+OVERRIDE: Ask for reassurance directly.
+
+
+THE OVERRIDE SCRIPT
+
+Just like circuit breaks, overrides have scripts. Pre-written 
+words for the new behavior.
+
+You'll find your override scripts in Section 3.
+
+
+WHY OVERRIDE IS HARD
+
+The pattern feels natural. The override feels fake.
+
+That's because the pattern has been running for years. Maybe 
+decades. It's worn a groove in your brain.
+
+The override is a new path. It feels awkward. Forced. Wrong.
+
+This is normal. You're not being fake. You're being intentional.
+
+Keep running the override. Eventually, it wears its own groove.
+
+
+OVERRIDE COMPLETE WHEN:
+
+The new behavior starts to feel less forced. You reach for 
+the override without having to consciously remember it.
+
+This takes time. Usually somewhere between Day 60-90.
+```
+
+-----
+
+## SECTION 5: YOUR PATTERN — [PATTERN NAME]
+
+This is the personalized section. Different for each of the 9 guides.
+
+### Structure (35-45 pages):
+
+```
+YOUR PATTERN: THE [PATTERN NAME]
+
+─────────────────────────────────────────────────
+
+WHAT IT LOOKS LIKE (3-4 pages)
+- The behavior in detail
+- How others experience it
+- The cost
+
+THE ORIGIN ROOM (4-5 pages)
+- Where this pattern installed
+- What it was protecting you from
+- Why it made sense then
+
+YOUR TRIGGERS (4-5 pages)
+- Common triggers for this pattern
+- Trigger mapping exercise
+- Your top 3 triggers
+
+THE BODY SIGNATURE (3-4 pages)
+- Physical sensations before this pattern runs
+- The 3-7 second window
+- Body signature identification exercise
+
+CIRCUIT BREAK SCRIPTS (6-8 pages)
+- Primary circuit break
+- Situation-specific circuit breaks
+- Emergency circuit break
+- Practice exercises
+
+OVERRIDE PROTOCOL (6-8 pages)
+- The new behavior
+- Override scripts for common situations
+- What to expect (the awkward phase)
+
+THE ARCHAEOLOGY (5-6 pages)
+- Deeper excavation questions
+- Pattern origin worksheet
+- Connecting past to present
+
+PATTERN-SPECIFIC CHALLENGES (4-5 pages)
+- Common obstacles for this pattern
+- Troubleshooting guide
+- When the pattern adapts
+```
+
+### Content Note:
+
+Pull the pattern-specific content from the existing 145 files in `content/book/`. Each pattern has its own module with detailed material.
+
+-----
+
+## SECTION 6: THE OTHER PATTERNS
+
+Brief awareness section. 1-2 pages per pattern.
+
+```
+THE OTHER PATTERNS
+
+─────────────────────────────────────────────────
+
+You're focused on your pattern right now. Good.
+
+But patterns rarely run alone. As you do this work, you may 
+recognize other patterns in yourself—or in people you love.
+
+This section gives you quick identification for all 9 patterns. 
+Not mastery. Just awareness.
+
+If you want to go deep on all 9 patterns, the Complete Archive 
+has the full archaeology for each.
+
+─────────────────────────────────────────────────
+
+THE DISAPPEARING PATTERN
+
+You leave before they can leave you. When relationships get 
+close, you feel walls closing in. You ghost, pull away, or 
+end things before they can end you.
+
+Signs: Relationships that never get past 3 months. Serial 
+almost-relationships. Chronic loneliness despite meeting people.
+
+─────────────────────────────────────────────────
+
+THE APOLOGY LOOP
+
+You apologize for existing. For asking. For needing. You make 
+yourself small before anyone can tell you you're too much.
+
+Signs: Starting sentences with "sorry." Minimizing your needs. 
+Feeling like a burden. Can't negotiate or set boundaries.
+
+─────────────────────────────────────────────────
+
+THE TESTING PATTERN
+
+You don't ask if they love you—you make them prove it. You 
+create tests to see if they'll stay. Most people fail.
+
+Signs: Late-night fights. Loaded questions. Pushing people 
+away to see if they'll fight to stay.
+
+─────────────────────────────────────────────────
+
+ATTRACTION TO HARM
+
+The safe ones bore you. Red flags feel like chemistry. You 
+confuse chaos for connection.
+
+Signs: History of toxic relationships. Good people feel 
+"off." Drawn to unavailable or harmful partners.
+
+─────────────────────────────────────────────────
+
+THE DRAINING BOND
+
+You know you should leave. Everyone tells you to leave. You 
+stay. Guilt keeps you locked in.
+
+Signs: Years in situations you've outgrown. Can't leave 
+without feeling like the bad guy. Slow disappearance of self.
+
+─────────────────────────────────────────────────
+
+COMPLIMENT DEFLECTION
+
+Praise makes you flinch. You deflect, minimize, explain why 
+it wasn't that good. Visibility feels dangerous.
+
+Signs: Career stagnation despite talent. Can't accept 
+acknowledgment. Hide your best work.
+
+─────────────────────────────────────────────────
+
+THE PERFECTIONISM PATTERN
+
+If it's not perfect, it's garbage. So you don't finish. Or 
+you don't start. The gap between vision and output paralyzes you.
+
+Signs: Projects that never launch. Ideas that die in your 
+head. Endless tweaking instead of shipping.
+
+─────────────────────────────────────────────────
+
+SUCCESS SABOTAGE
+
+You get close, then blow it up. Right before the win, you 
+pull the pin. You're not afraid of failure—you're afraid of success.
+
+Signs: Pattern of almost-then-not. Destroying things right 
+before breakthrough. Self-fulfilling prophecy of failure.
+
+─────────────────────────────────────────────────
+
+THE RAGE PATTERN
+
+It comes fast. One second fine, next second saying things you 
+can't take back. The anger runs you.
+
+Signs: Damaged relationships from words you didn't mean. 
+Regret after outbursts. A version of yourself you're ashamed of.
+
+─────────────────────────────────────────────────
+```
+
+-----
+
+## SECTION 7: THE 90-DAY PROTOCOL
+
+```
+THE 90-DAY PROTOCOL
+
+─────────────────────────────────────────────────
+
+This is your structure. What to focus on each phase.
+
+
+PHASE 1: RECOGNITION (Days 1-7)
+
+Focus: See the pattern in real-time.
+
+□ Day 1: Identify your pattern (done—you're here)
+□ Day 2: Learn your body signature
+□ Day 3: Map your triggers
+□ Day 4: Catch the thought
+□ Day 5: Practice noticing without stopping
+□ Day 6: Track activations (minimum 3)
+□ Day 7: Review—what did you learn?
+
+Success metric: You can feel the pattern activate BEFORE it runs.
+
+─────────────────────────────────────────────────
+
+PHASE 2: EXCAVATION (Days 8-30)
+
+Focus: Understand where the pattern came from.
+
+Week 2: The Original Room
+□ Where did this pattern install?
+□ What was it protecting you from?
+□ Who taught you this was necessary?
+
+Week 3: The Function
+□ What did this pattern do for you?
+□ How did it keep you safe?
+□ What would have happened without it?
+
+Week 4: The Cost
+□ What has this pattern cost you?
+□ Relationships? Opportunities? Health?
+□ What do you want back?
+
+Success metric: You understand why the pattern exists—and why it no longer serves you.
+
+─────────────────────────────────────────────────
+
+PHASE 3: INTERRUPTION (Days 31-60)
+
+Focus: Break the circuit.
+
+Week 5-6: Circuit Break Practice
+□ Memorize your primary circuit break
+□ Practice it 3x daily (not just when activated)
+□ Use it in low-stakes situations first
+
+Week 7-8: Live Interruption
+□ Use circuit break in real activations
+□ Track outcomes: AUTO / PAUSE / REWRITE
+□ Refine based on what works
+
+Success metric: At least ONE successful interrupt where you chose a different behavior.
+
+─────────────────────────────────────────────────
+
+PHASE 4: OVERRIDE (Days 61-90)
+
+Focus: Install new behavior.
+
+Week 9-10: Override Practice
+□ Identify your override behavior
+□ Practice override scripts
+□ Use override after successful interrupts
+
+Week 11-12: Integration
+□ Override becomes more automatic
+□ Notice when old pattern tries to return
+□ Reinforce new pathway
+
+Week 13: Review + What's Next
+□ What changed in 90 days?
+□ What still needs work?
+□ Other patterns to address?
+
+Success metric: Override feels less forced. New behavior is becoming default.
+
+─────────────────────────────────────────────────
+
+TRACKING YOUR PROGRESS
+
+Use the tracking templates in the next section.
+
+Log every activation. Every interrupt attempt. Every override.
+
+The data shows you what's working.
+```
+
+-----
+
+## SECTION 8: CRISIS PROTOCOLS
+
+```
+CRISIS PROTOCOLS
+
+─────────────────────────────────────────────────
+
+For when the pattern runs anyway. For when you're in the 
+middle of it and can't think straight. For the morning after.
+
+
+WHEN THE PATTERN IS RUNNING RIGHT NOW
+
+Stop. Read this.
+
+1. You are not your pattern. The pattern is running through 
+   you. But it is not you.
+
+2. You noticed. That matters. Most people don't even see it.
+
+3. You have a choice right now. Not a perfect choice. But 
+   a choice.
+
+Say this out loud:
+
+"The [PATTERN NAME] just activated. I feel it in my 
+[body signature]. I am choosing to pause before I act."
+
+Take 3 breaths. Slow.
+
+Now: What is ONE different thing you can do right now? Not 
+the perfect thing. Just a different thing.
+
+Do that.
+
+─────────────────────────────────────────────────
+
+EMERGENCY CIRCUIT BREAKS
+
+When you can't remember your scripts, use these:
+
+"This is the pattern. Not me. The pattern."
+
+"I can feel it running. I'm going to pause."
+
+"I don't have to do what the pattern wants right now."
+
+"What would I do if the pattern wasn't running?"
+
+─────────────────────────────────────────────────
+
+WHEN THE PATTERN ALREADY RAN
+
+It happened. You did the thing. Now what?
+
+DO NOT:
+- Spiral into shame
+- Decide you're broken
+- Give up on the process
+
+DO:
+- Write down what happened (one paragraph)
+- Identify the trigger
+- Note when you first felt the body signature
+- Ask: Where could I have interrupted?
+
+This is data. Not failure. Data.
+
+The pattern ran for years before you started this work. It 
+doesn't stop in a week. Every time it runs, you learn something.
+
+─────────────────────────────────────────────────
+
+THE MORNING AFTER PROTOCOL
+
+You woke up and remembered what happened. The shame is heavy.
+
+1. Get out of bed. Shower. Eat something.
+
+2. Open this guide. Read your pattern section.
+
+3. Write: "The pattern ran. I noticed. I'm still here. Today 
+   is a new data point."
+
+4. Do ONE thing from your 90-day protocol today.
+
+That's it. You don't have to fix everything. You just have 
+to keep going.
+
+─────────────────────────────────────────────────
+
+WHEN YOU WANT TO QUIT
+
+The pattern might tell you this doesn't work. That you're 
+too broken. That you should give up.
+
+That's the pattern talking.
+
+Patterns don't want to be interrupted. They fight back. 
+Wanting to quit IS the pattern trying to protect itself.
+
+Read this:
+
+"Quitting is the pattern winning. I don't have to be perfect. 
+I just have to keep going. One more day. One more interrupt 
+attempt. That's all."
+
+If you're thinking about quitting, you're closer than you 
+think. The pattern is fighting because it's losing.
+
+Keep going.
+```
+
+-----
+
+## SECTION 9: TRACKING TEMPLATES
+
+```
+TRACKING TEMPLATES
+
+─────────────────────────────────────────────────
+
+DAILY INTERRUPT LOG
+
+Date: _____________
+
+Activation 1:
+Time: _______ 
+Trigger: _________________________________________________
+Body signature: __________________________________________
+Circuit break used? [ ] Yes [ ] No
+Outcome: [ ] AUTO (ran anyway) [ ] PAUSE [ ] REWRITE
+Notes: ___________________________________________________
+
+Activation 2:
+Time: _______ 
+Trigger: _________________________________________________
+Body signature: __________________________________________
+Circuit break used? [ ] Yes [ ] No
+Outcome: [ ] AUTO [ ] PAUSE [ ] REWRITE
+Notes: ___________________________________________________
+
+Activation 3:
+Time: _______ 
+Trigger: _________________________________________________
+Body signature: __________________________________________
+Circuit break used? [ ] Yes [ ] No
+Outcome: [ ] AUTO [ ] PAUSE [ ] REWRITE
+Notes: ___________________________________________________
+
+─────────────────────────────────────────────────
+
+TRIGGER MAP
+
+My top triggers for the [PATTERN NAME]:
+
+1. _______________________________________________________
+   Situation: ____________________________________________
+   Who's usually involved: _______________________________
+
+2. _______________________________________________________
+   Situation: ____________________________________________
+   Who's usually involved: _______________________________
+
+3. _______________________________________________________
+   Situation: ____________________________________________
+   Who's usually involved: _______________________________
+
+Patterns I notice:
+__________________________________________________________
+__________________________________________________________
+
+─────────────────────────────────────────────────
+
+WEEKLY PROGRESS TRACKER
+
+Week: _____ of 13
+
+Total activations this week: _____
+Successful interrupts: _____
+Override attempts: _____
+
+What's getting easier:
+__________________________________________________________
+
+What's still hard:
+__________________________________________________________
+
+Insight of the week:
+__________________________________________________________
+
+─────────────────────────────────────────────────
+
+90-DAY PROGRESS TRACKER
+
+         RECOGNITION    EXCAVATION    INTERRUPTION    OVERRIDE
+Week 1   [ ][ ][ ][ ][ ][ ][ ]
+Week 2                  [ ][ ][ ][ ][ ][ ][ ]
+Week 3                  [ ][ ][ ][ ][ ][ ][ ]
+Week 4                  [ ][ ][ ][ ][ ][ ][ ]
+Week 5                                [ ][ ][ ][ ][ ][ ][ ]
+Week 6                                [ ][ ][ ][ ][ ][ ][ ]
+Week 7                                [ ][ ][ ][ ][ ][ ][ ]
+Week 8                                [ ][ ][ ][ ][ ][ ][ ]
+Week 9                                              [ ][ ][ ][ ][ ][ ][ ]
+Week 10                                             [ ][ ][ ][ ][ ][ ][ ]
+Week 11                                             [ ][ ][ ][ ][ ][ ][ ]
+Week 12                                             [ ][ ][ ][ ][ ][ ][ ]
+Week 13                                             [ ][ ][ ][ ][ ][ ][ ]
+
+Mark each day you engaged with the protocol.
+```
+
+-----
+
+## SECTION 10: WHAT’S NEXT
+
+```
+WHAT'S NEXT
+
+─────────────────────────────────────────────────
+
+You have what you need to master this pattern.
+
+The Field Guide. The 90-day protocol. The crisis protocols. 
+The tracking templates.
+
+This is enough to change your life.
+
+But patterns rarely run alone.
+
+
+WHEN YOU'RE READY FOR MORE
+
+The Complete Archive contains:
+
+• Full deep dives on all 9 patterns
+• Pattern combinations (when you run more than one)
+• Relationship protocols (how patterns interact with partners)
+• Workplace applications (patterns at work)
+• Parenting contexts (breaking the cycle)
+• Advanced interruption techniques
+• Lifetime updates as the method evolves
+
+You don't need it now. Focus on YOUR pattern first.
+
+But when you're ready—when you've tasted what interruption 
+feels like and you want the full picture—the Archive is there.
+
+thearchivistmethod.com
+
+
+─────────────────────────────────────────────────
+
+YOU FOUND THE THREAD. NOW PULL IT.
+
+─────────────────────────────────────────────────
+
+
+THE ARCHIVIST METHOD™
+Pattern Archaeology, Not Therapy
+
+─────────────────────────────────────────────────
+
+THE ARCHIVIST METHOD | END OF FIELD GUIDE
+```
+
+-----
+
+## GENERATION INSTRUCTIONS FOR REPLIT
+
+1. Use the same PDF generation system as Complete Archive
+1. Apply identical design specs (dark background, typography, colors)
+1. For each of the 9 Field Guides:
+- Use shared content for Sections 1, 2, 4, 5, 6, 7, 8
+- Pull pattern-specific content from `content/book/` for Section 3
+- Personalize title page with pattern name
+- Personalize Section 3 header with pattern name
+- Personalize crisis protocol scripts with pattern name
+1. Output 9 separate PDFs with naming convention above
+1. Each PDF should be 80-120 pages
+1. Verify no raw markdown tags in output
+1. Verify logo renders correctly (circular, gradient ring, transparent)
+
+-----
+
+## END OF FIELD GUIDE GENERATOR SPEC

@@ -1,0 +1,743 @@
+Create a comprehensive Four Doors Protocol implementation across the TAM site. This is the core methodology that explains HOW pattern interruption works.
+
+---
+
+PART 1: ADD FOUR DOORS SECTION TO HOMEPAGE
+
+Add this section after the "Invisible Trap" section and before the pattern grid/list.
+
+---
+
+THE FOUR DOORS PROTOCOL
+
+HOW TO STOP RUNNING PATTERNS IN REAL-TIME
+
+Most people try to stop patterns through willpower.
+It doesn't work.
+
+Patterns run faster than conscious thought.
+
+By the time you realize you're doing it, you've already done it.
+
+The Four Doors Protocol teaches you to interrupt patterns BEFORE they become actions.
+
+Here's how it works:
+
+---
+
+DOOR 1: FEEL
+Recognize the pattern activating in your body before it becomes action.
+
+Every pattern has a signature feeling—a tightness in your chest, an urge, a thought that triggers the sequence. Most people skip right past this feeling and go straight to action. Door 1 teaches you to catch the feeling first.
+
+---
+
+DOOR 2: ENGAGE
+Name the pattern in real-time: "This is [Pattern Name] activating."
+
+Once you feel it, you name it. "Oh, this is Disappearing Act." "I'm running Apology Loop right now." Naming breaks the automaticity. The pattern loses power when you see it clearly. This isn't analysis. This is recognition.
+
+---
+
+DOOR 3: INTERRUPT
+Stop the action before it happens. Pause. Breathe. Wait.
+
+This is the hardest door. Your body is screaming to complete the pattern. The discomfort is intense. But if you can pause for 60-90 seconds without feeding the pattern, the urge will pass. Every successful interruption weakens the pattern's grip.
+
+---
+
+DOOR 4: REDIRECT
+Channel the energy into something that actually serves you.
+
+The pattern has energy behind it. That energy needs somewhere to go. Instead of ghosting, you communicate. Instead of apologizing for existing, you express gratitude. Instead of testing, you ask directly. Redirect gives you something TO DO instead of something NOT TO DO.
+
+---
+
+This isn't theory.
+This is real-time pattern interruption.
+
+And it works on all 7 patterns.
+
+[Link to full Four Doors page: "Learn the complete methodology →"]
+
+---
+
+STYLING NOTES FOR HOMEPAGE SECTION:
+- "THE FOUR DOORS PROTOCOL" should be bold, prominent headline
+- Each door should be clearly separated (cards, boxes, or visual dividers)
+- Door number and name should be emphasized (DOOR 1: FEEL, etc.)
+- Body text for each door should be concise but clear
+- Consider using icons or visual metaphors for each door
+- The closing section should have clear CTA to full methodology page
+- Mobile responsive - doors may need to stack vertically
+
+---
+
+PART 2: CREATE DEDICATED FOUR DOORS PAGE
+
+Create a new page at /four-doors (or /method or /how-it-works)
+
+Full page content:
+
+---
+
+THE FOUR DOORS PROTOCOL
+The Complete Methodology for Pattern Interruption
+
+---
+
+THE PROBLEM WITH WILLPOWER
+
+You've tried to stop before.
+
+You've promised yourself: "This time will be different."
+You've white-knuckled your way through situations.
+You've used every ounce of self-control you have.
+
+And the pattern ran anyway.
+
+Not because you're weak.
+Not because you lack discipline.
+
+Because willpower tries to fight patterns at the wrong stage.
+
+By the time you're consciously trying NOT to do something, the pattern has already activated. You're trying to stop a train that's already left the station.
+
+The Four Doors Protocol works differently.
+
+It teaches you to interrupt patterns BEFORE they become actions.
+
+---
+
+HOW PATTERNS ACTUALLY RUN
+
+Every pattern follows the same sequence:
+
+TRIGGER → FEELING → ACTION → OUTCOME → REPEAT
+
+Most people only notice the ACTION and the OUTCOME.
+
+They ghost someone (action) and feel guilty after (outcome).
+They apologize excessively (action) and feel weak after (outcome).
+They sabotage success (action) and feel frustrated after (outcome).
+
+But the pattern is already complete by then.
+
+The real intervention point is earlier:
+Between FEELING and ACTION.
+
+That's where the Four Doors Protocol lives.
+
+---
+
+DOOR 1: FEEL
+RECOGNIZE THE PATTERN ACTIVATING IN YOUR BODY
+
+Every pattern has a signature feeling.
+
+Not an emotion like "sad" or "angry."
+A somatic sensation. A body-level signal.
+
+THE DISAPPEARING ACT feels like:
+- Tightness in your chest
+- Urge to check your phone compulsively
+- Thought: "They're better off without me"
+
+THE APOLOGY LOOP feels like:
+- The word "sorry" forming in your throat
+- Before you even think about whether you need to apologize
+- Automatic, reflexive, unconscious
+
+SUCCESS SABOTAGE feels like:
+- Sudden excitement about a "new, better" idea
+- Boredom or perfectionism about the current project
+- Restlessness that says "this isn't good enough"
+
+DOOR 1 teaches you to recognize YOUR specific signature feeling for each pattern.
+
+Not after the fact.
+In real-time.
+Before the action.
+
+This is the foundation.
+If you can't feel it activating, you can't interrupt it.
+
+---
+
+DOOR 2: ENGAGE
+NAME THE PATTERN WHEN IT'S HAPPENING
+
+Once you feel the pattern activating, you name it.
+
+Not out loud (unless you want to).
+Just consciously recognize it:
+
+"Oh. This is Disappearing Act."
+"I'm running Apology Loop right now."
+"This is Testing Pattern activating."
+
+That's it.
+
+No analysis.
+No wondering why.
+No digging into your past.
+
+Just: "There it is."
+
+Why does this work?
+
+Because patterns run on autopilot.
+They require unconsciousness to complete.
+
+The moment you NAME the pattern, you've brought consciousness to it.
+You've interrupted the automaticity.
+
+Think of it like catching yourself mid-lie.
+Suddenly you're aware of what you're doing.
+The pattern doesn't disappear, but it loses some of its power.
+
+You've engaged with it consciously instead of running it unconsciously.
+
+---
+
+DOOR 3: INTERRUPT
+STOP THE ACTION BEFORE IT HAPPENS
+
+This is the hardest door.
+
+Because your body is SCREAMING to complete the pattern.
+
+The urge to ghost is overwhelming.
+The word "sorry" is already in your mouth.
+The impulse to cancel plans is intense.
+The desire to abandon the project feels urgent.
+
+Every part of you wants to DO THE THING.
+
+DOOR 3 asks you to pause.
+
+Just pause.
+Breathe.
+Wait.
+
+Don't ghost. Not yet.
+Don't apologize. Not yet.
+Don't cancel. Not yet.
+Don't quit. Not yet.
+
+Sit with the discomfort for 60-90 seconds.
+
+The feeling will peak.
+It will be intense.
+You'll think you can't stand it.
+
+And then it will start to fade.
+
+Not because you "processed" it.
+Not because you "healed" anything.
+
+Because feelings are waves.
+They rise, peak, and fall.
+But only if you don't feed them with action.
+
+Every time you successfully interrupt a pattern, you weaken its grip.
+You're creating new neural pathways.
+You're proving to your brain that the pattern is optional.
+
+This is where the actual change happens.
+
+---
+
+DOOR 4: REDIRECT
+CHANNEL THE ENERGY SOMEWHERE THAT SERVES YOU
+
+Here's what most people get wrong about pattern interruption:
+
+They think it's about STOPPING.
+
+Just... don't do the thing.
+Use willpower.
+Resist.
+
+But patterns have ENERGY behind them.
+Real, powerful, physiological energy.
+
+If you just try to suppress it, it will come out somewhere else.
+Usually somewhere worse.
+
+DOOR 4 is about redirection, not suppression.
+
+You're not killing the energy.
+You're channeling it differently.
+
+---
+
+DISAPPEARING ACT → REDIRECT:
+
+Instead of ghosting:
+"I'm feeling overwhelmed and need space. Can we reconnect Friday?"
+
+You're not running.
+You're communicating.
+Same need for space.
+Different method.
+
+---
+
+APOLOGY LOOP → REDIRECT:
+
+Instead of "I'm so sorry":
+"Thank you for your patience" or "I appreciate you"
+
+You're not apologizing for existing.
+You're expressing gratitude.
+Same recognition of the other person.
+Different frame.
+
+---
+
+TESTING PATTERN → REDIRECT:
+
+Instead of canceling plans to see if they'll chase you:
+"I'm feeling insecure. Can you reassure me you want to hang out?"
+
+You're not testing.
+You're asking directly.
+Same need for reassurance.
+Different method.
+
+---
+
+SUCCESS SABOTAGE → REDIRECT:
+
+Instead of abandoning the project:
+"I'm going to work on THIS for 25 minutes. Then I can think about new ideas."
+
+You're not white-knuckling through months of work.
+You're containing the distraction to a specific window.
+Same creative energy.
+Different boundary.
+
+---
+
+Redirect gives you something TO DO.
+Not just something NOT TO DO.
+
+That's why it works when willpower doesn't.
+
+---
+
+WHY THIS WORKS WHEN EVERYTHING ELSE FAILS
+
+The Four Doors Protocol works because:
+
+1. It intervenes at the right stage (between feeling and action, not after)
+2. It doesn't require understanding WHY (just recognizing WHAT)
+3. It's real-time (not in a therapy session, in the moment)
+4. It's practical (specific actions, not abstract concepts)
+5. It compounds (every interruption makes the next one easier)
+
+This isn't about healing.
+This isn't about processing.
+This isn't about understanding your childhood.
+
+This is about interruption.
+
+And interruption is the only thing that actually stops patterns from running.
+
+---
+
+THE FOUR DOORS IN ACTION: A REAL EXAMPLE
+
+Let's walk through Success Sabotage with the Four Doors Protocol:
+
+SITUATION:
+You're 87% done with your website. It's good. Almost ready to launch.
+Suddenly you have an idea for a "better" version. The current one feels boring.
+
+DOOR 1 - FEEL:
+You notice:
+- Excitement about the new idea (almost manic energy)
+- Boredom with the current project
+- Thought: "This version isn't good enough"
+- Restlessness in your body
+
+You recognize: "Oh, this feeling. I know this feeling."
+
+DOOR 2 - ENGAGE:
+You name it: "This is Success Sabotage activating."
+
+Not with judgment.
+Just recognition.
+"There it is."
+
+DOOR 3 - INTERRUPT:
+You do NOT open a new document.
+You do NOT start sketching the "better" version.
+You close the laptop.
+
+You sit with the discomfort.
+The new idea feels so much more exciting.
+The current project feels so boring in comparison.
+
+You wait 90 seconds.
+
+The urgency starts to fade.
+
+DOOR 4 - REDIRECT:
+You tell yourself:
+"I can explore that new idea AFTER I launch this version. Right now, I'm finishing THIS."
+
+You set a reminder to revisit the idea in two weeks.
+You open the laptop.
+You work on the current project for 25 minutes.
+
+The pattern wanted you to abandon.
+You redirected the energy into completion.
+
+That's the Four Doors Protocol in action.
+
+---
+
+THIS IS NOT THERAPY
+
+Therapy asks: "Why do I sabotage success?"
+
+Childhood wounds, fear of visibility, worthiness issues—all valid.
+
+The Four Doors Protocol asks: "What does Success Sabotage feel like in my body RIGHT NOW, and how do I interrupt it?"
+
+One explores your past.
+One changes your present.
+
+Both have value.
+They're solving different problems.
+
+If you want to understand why, get therapy.
+If you want to stop running patterns, use the Four Doors Protocol.
+
+---
+
+LEARNING THE FOUR DOORS
+
+The Four Doors Protocol is simple.
+But simple doesn't mean easy.
+
+Each door requires practice:
+
+DOOR 1 requires body awareness you might not have yet
+DOOR 2 requires the ability to name patterns in real-time
+DOOR 3 requires sitting with intense discomfort
+DOOR 4 requires creative redirection strategies
+
+The Archivist Method teaches you all four doors across all seven patterns.
+
+Not in theory.
+In practice.
+
+With specific exercises.
+With real examples.
+With trackable progress.
+
+Because understanding the Four Doors conceptually is not the same as being able to use them when a pattern activates.
+
+That's what the courses teach.
+
+---
+
+READY TO LEARN?
+
+The Four Doors Protocol works on all seven patterns:
+- The Disappearing Act
+- The Apology Loop
+- The Testing Pattern
+- Attraction to Harm
+- Compliment Deflection
+- The Draining Bond
+- Success Sabotage
+
+Choose your path:
+
+[Free Course - Introduction to Pattern Recognition]
+[Quick-Start Guide - $47]
+[Complete Archive - $197]
+
+---
+
+STYLING NOTES FOR FULL PAGE:
+- Long-form, scrollable page
+- Clear section breaks with whitespace
+- Door explanations should have visual hierarchy (numbers, bold headers)
+- The "real example" section should be visually distinct (maybe boxed or different background)
+- "This Is Not Therapy" section should stand out
+- Strong CTA at bottom
+- Navigation back to homepage and to patterns
+- Consider adding a progress indicator for long scroll
+- Mobile-friendly with comfortable reading width
+
+---
+
+PART 3: ADD FOUR DOORS APPLICATION TO EACH PATTERN PAGE
+
+On each of the 7 pattern pages, add a section titled "HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN"
+
+This goes AFTER "Why Therapy Doesn't Fix This Pattern" and BEFORE the one-line anchor.
+
+---
+
+PATTERN 1 - THE DISAPPEARING ACT:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Tightness in your chest
+- Urge to check your phone compulsively
+- Thought forming: "They're better off without me"
+- Restlessness, need to create distance
+
+This feeling usually comes after connection or vulnerability. Learn to recognize THIS specific sensation.
+
+DOOR 2 - ENGAGE:
+When you feel it, name it: "This is Disappearing Act activating."
+
+Don't judge it. Don't analyze it. Just recognize: "Oh, there it is."
+
+DOOR 3 - INTERRUPT:
+Do NOT ghost.
+Do NOT send the distancing text.
+Do NOT make excuses to cancel.
+
+Close your phone. Breathe. Wait 90 seconds.
+
+The urge to run will peak and then start to fade.
+
+DOOR 4 - REDIRECT:
+Instead of disappearing, communicate:
+"I'm feeling overwhelmed and need some space. Can we reconnect Friday?"
+
+Same need for distance. Different method. This preserves the relationship instead of destroying it.
+
+---
+
+PATTERN 2 - THE APOLOGY LOOP:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- The word "sorry" forming in your throat
+- Before you even think about whether you need to apologize
+- Automatic, reflexive sensation
+- Anxiety about taking up space
+
+This happens in normal conversations, not just when you've done something wrong.
+
+DOOR 2 - ENGAGE:
+When you feel "sorry" forming, name it: "This is Apology Loop."
+
+Recognition breaks the automaticity.
+
+DOOR 3 - INTERRUPT:
+Do NOT say "sorry."
+
+Pause. Breathe. Let the word dissolve.
+
+It will feel wrong. You'll feel rude. You'll feel like you're breaking a rule.
+
+You're not.
+
+DOOR 4 - REDIRECT:
+Instead of "I'm sorry":
+- "Thank you for your patience"
+- "I appreciate you"
+- Or just... say what you actually mean to say
+
+Same acknowledgment of the other person. Different frame. No self-erasure.
+
+---
+
+PATTERN 3 - THE TESTING PATTERN:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Urge to cancel plans
+- Impulse to create distance "to see what they do"
+- Thought: "If they cared, they would..."
+- Restlessness, need to "test" the relationship
+
+This usually comes when things are going well. That's the trigger.
+
+DOOR 2 - ENGAGE:
+Name it: "This is Testing Pattern. I'm about to push them away to see if they'll stay."
+
+Say it in your head. Recognize what you're doing.
+
+DOOR 3 - INTERRUPT:
+Do NOT cancel.
+Do NOT create artificial distance.
+Do NOT send the "testing" text.
+
+Sit with the insecurity for 60 seconds.
+
+DOOR 4 - REDIRECT:
+Instead of testing, ask directly:
+"I'm feeling insecure. Can you reassure me you want to hang out?"
+
+Vulnerability instead of manipulation. Same need for reassurance. Healthier method.
+
+---
+
+PATTERN 4 - ATTRACTION TO HARM:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Excitement toward chaos (feels like chemistry)
+- Boredom with stability (feels flat)
+- Pull toward red flags
+- Distrust of anything that feels peaceful
+
+This is a body-level attraction. Learn your specific signature.
+
+DOOR 2 - ENGAGE:
+When you feel the pull toward chaos, name it: "This is Attraction to Harm. I'm confusing familiar with safe."
+
+DOOR 3 - INTERRUPT:
+Do NOT move toward the chaotic option.
+Do NOT text the red flag person.
+Do NOT choose the drama.
+
+Pause. The pull will feel magnetic. Wait it out.
+
+DOOR 4 - REDIRECT:
+Ask yourself: "What would safe actually look like?"
+
+Then choose the boring option deliberately.
+
+Not because it's exciting. Because it's actually safe.
+
+---
+
+PATTERN 5 - COMPLIMENT DEFLECTION:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Discomfort when praised
+- Urge to minimize, joke away, or redirect
+- Thought: "They don't really mean it"
+- Physical need to escape the attention
+
+This happens in the second after receiving a compliment.
+
+DOOR 2 - ENGAGE:
+Name it: "This is Compliment Deflection. I'm about to minimize this."
+
+DOOR 3 - INTERRUPT:
+Do NOT deflect.
+Do NOT say "Oh, it was nothing."
+Do NOT redirect to someone else.
+
+Pause. Sit with the discomfort of being seen.
+
+DOOR 4 - REDIRECT:
+Say: "Thank you."
+
+Nothing else.
+Just "Thank you."
+
+Let the compliment land. Sit with it. This is reprogramming.
+
+---
+
+PATTERN 6 - THE DRAINING BOND:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Pull to "help" someone who never changes
+- Urgency: "They need me"
+- Familiar exhaustion
+- Thought: "I'm the only one who understands them"
+
+This feels like purpose. It's not.
+
+DOOR 2 - ENGAGE:
+Name it: "This is Draining Bond. I'm about to abandon myself to rescue them."
+
+DOOR 3 - INTERRUPT:
+Do NOT answer the 2 AM crisis call.
+Do NOT drop everything to fix their problem.
+Do NOT sacrifice your needs.
+
+Breathe. The urgency will feel overwhelming. Wait.
+
+DOOR 4 - REDIRECT:
+Ask yourself: "What do I need right now?"
+
+Then do that instead.
+
+Set the boundary. Turn off your phone. Take care of yourself first.
+
+---
+
+PATTERN 7 - SUCCESS SABOTAGE:
+
+HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN
+
+DOOR 1 - FEEL:
+What to feel for:
+- Sudden "better idea" excitement
+- Boredom with current project (especially near completion)
+- Perfectionism spike
+- Thought: "This isn't good enough"
+
+This happens around 80-90% completion. Always.
+
+DOOR 2 - ENGAGE:
+Name it: "This is Success Sabotage. I'm about to abandon this."
+
+DOOR 3 - INTERRUPT:
+Do NOT open a new document.
+Do NOT start planning the "better" version.
+Do NOT pivot.
+
+Close the laptop. Walk away. Come back tomorrow.
+
+DOOR 4 - REDIRECT:
+Tell yourself: "I can explore new ideas AFTER I finish this."
+
+Set a date to revisit the new idea.
+
+Then do ONE small task on the current project.
+
+Complete instead of abandon.
+
+---
+
+STYLING NOTES FOR PATTERN PAGES:
+- "HOW THE FOUR DOORS PROTOCOL INTERRUPTS THIS PATTERN" should be a clear section header
+- Each door should be visually separated (DOOR 1, DOOR 2, etc. in bold or color)
+- Specific feelings/actions should be in bullet points or emphasized
+- The flow should feel practical, actionable, specific to that pattern
+- This section proves the method works for THIS specific pattern
+
+---
+
+PART 4: UPDATE NAVIGATION
+
+Add "Four Doors Protocol" or "How It Works" or "The Method" to main navigation
+
+Should link to /four-doors page
+
+This should be prominent - it's the core methodology
+
+---
+
+END OF PROMPT

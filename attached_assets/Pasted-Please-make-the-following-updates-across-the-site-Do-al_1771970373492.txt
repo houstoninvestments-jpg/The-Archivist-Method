@@ -1,0 +1,43 @@
+Please make the following updates across the site. Do all of them in one pass.
+
+**1. QUIZ — ADD NEUTRAL OPTION**
+Add a 'This doesn't apply to me' option to every quiz question so users who don't identify with a pattern aren't forced into a false answer.
+
+**2. QUIZ — LOADING SCREEN**
+Add a loading screen between quiz submission and results. Sequential fade-in lines, 1.5 seconds apart, teal accent, dark background:
+
+Line 1: Scanning 9 behavioral patterns...
+Line 2: Cross-referencing your response signature...
+Line 3: Identifying your primary loop...
+Line 4: Checking for secondary reinforcement patterns...
+Line 5: Your Archivist file is being compiled...
+
+Final hold: 'Your pattern has a name. And a way out.'
+Subtle teal progress bar at bottom. Minimum 6 seconds display time. Never skip this screen.
+
+**3. QUIZ RESULTS PAGE — FULL REDESIGN**
+Match homepage design exactly — dark background, teal accents, same fonts and card styles.
+
+Section 1 — The Reveal: Pattern name in large teal type. 2-3 sentences of deeply personal behavioral/emotional language describing their pattern. End with: 'You've been running this pattern longer than you think. And there's a reason it still works on you.'
+
+Section 2 — Breadcrumbs: 3 dark bento-style cards. No solutions, just recognition:
+- What triggers this pattern
+- What it costs them emotionally
+- Why willpower hasn't worked
+Teal icons or accent lines. Warm and knowing tone, not clinical.
+
+Section 3 — The Gate:
+Headline: 'The pattern has a name. The exit has a door.'
+Subhead: 'Your free Crash Course walks you through the first step of the FEIR method — built specifically for your pattern.'
+Email input + button: 'Send Me The First Step'
+Small text below: 'No sales sequence. Just the work.'
+
+**4. PORTAL — UPDATE TO MATCH**
+Update the portal/crash course page to match the same homepage design language — dark background, teal accents, same typography and card styles. It should feel like a seamless continuation of the quiz results experience, not a separate product.
+
+**Design rules for everything above:**
+- Mobile first
+- Match homepage exactly
+- Emotional tone: warm, knowing, not clinical
+- No confetti, no generic messaging
+- Every screen should feel like the same coherent experience
