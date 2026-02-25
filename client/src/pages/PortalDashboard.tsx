@@ -255,13 +255,23 @@ export default function PortalDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [userRes, patternRes, streakRes] = await Promise.all([
+        const [userRes, patternRes, streakRes, onboardingRes] = await Promise.all([
           fetch("/api/portal/user-data", { credentials: "include" }),
           fetch("/api/portal/user-pattern", { credentials: "include" }),
           fetch("/api/portal/streak", { credentials: "include" }),
+          fetch("/api/portal/onboarding-status", { credentials: "include" }),
         ]);
 
         if (!userRes.ok) { setLocation("/quiz"); return; }
+
+        if (onboardingRes.ok) {
+          const onboardingData = await onboardingRes.json();
+          if (!onboardingData.completed) {
+            setLocation("/portal/onboarding");
+            return;
+          }
+        }
+
         setUserData(await userRes.json());
         if (patternRes.ok) setPatternData(await patternRes.json());
         if (streakRes.ok) setStreakData(await streakRes.json());

@@ -1316,6 +1316,74 @@ router.get("/user-pattern", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/onboarding-status", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { quizUsers } = await import("@shared/schema");
+    const [quizUser] = await db
+      .select()
+      .from(quizUsers)
+      .where(eq(quizUsers.email, authData.email));
+
+    res.json({
+      completed: quizUser?.onboardingCompleted ?? false,
+      primaryPattern: quizUser?.primaryPattern || null,
+    });
+  } catch (error) {
+    console.error("Onboarding status error:", error);
+    res.status(500).json({ error: "Failed to get onboarding status" });
+  }
+});
+
+router.post("/onboarding-complete", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { quizUsers } = await import("@shared/schema");
+    await db
+      .update(quizUsers)
+      .set({ onboardingCompleted: true })
+      .where(eq(quizUsers.email, authData.email));
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Onboarding complete error:", error);
+    res.status(500).json({ error: "Failed to complete onboarding" });
+  }
+});
+
+router.post("/onboarding-update-pattern", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { pattern } = req.body;
+    if (!pattern || typeof pattern !== "string") {
+      return res.status(400).json({ error: "Valid pattern required" });
+    }
+
+    const { quizUsers } = await import("@shared/schema");
+    await db
+      .update(quizUsers)
+      .set({ primaryPattern: pattern })
+      .where(eq(quizUsers.email, authData.email));
+
+    res.json({ success: true, pattern });
+  } catch (error) {
+    console.error("Update pattern error:", error);
+    res.status(500).json({ error: "Failed to update pattern" });
+  }
+});
+
 // ==========================================
 // CONTENT READER ROUTES
 // ==========================================

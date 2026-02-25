@@ -32,6 +32,7 @@ Preferred communication style: Simple, everyday language.
 - **Quiz loading screen**: Analyzing phase replaced with sequential 5-line fade-in (1.5s apart) + teal progress bar. Minimum 8 seconds before redirect. Applied to both standalone Quiz and EmbeddedQuiz.
 - **Quiz results redesign**: Removed glitch/typewriter animations. New 3-section layout: The Reveal (pattern + feelSeenCopy), Breadcrumbs (3 bento cards: triggers/costs/willpower), The Gate (email capture with "Send Me The First Step"). Uses homepage design language (Schibsted Grotesk, #111 cards, teal/pink accents).
 - **Portal design update**: Replaced Playfair Display with Schibsted Grotesk 900 for headings. Cards updated to #111 bg with #1a1a1a borders and 16px border-radius. Section labels standardized to 11px JetBrains Mono uppercase.
+- **Portal onboarding flow**: 3-step onboarding (Confirm Pattern → 60s Video Brief → Pocket Archivist Signal Mapping). Shows once per user, stored via `onboarding_completed` column in `quiz_users`. PortalDashboard redirects to `/portal/onboarding` if not completed. Step 3 reuses the Archivist demo AI endpoint. Routes: GET `/api/portal/onboarding-status`, POST `/api/portal/onboarding-complete`, POST `/api/portal/onboarding-update-pattern`.
 
 ## Important Brand Rules
 
@@ -51,6 +52,7 @@ Preferred communication style: Simple, everyday language.
 | /quiz | Quiz.tsx | 15-question Pattern Identification Quiz |
 | /results | QuizResult.tsx | Pattern-specific result page with email capture |
 | /portal | PortalDashboard.tsx | Members portal (auth required) |
+| /portal/onboarding | PortalOnboarding.tsx | 3-step onboarding flow (auth required, shows once) |
 | /portal/reader | ContentReader.tsx | Interactive content reader with notes, progress tracking (auth required) |
 | /vault/workbench | VaultWorkbench.tsx | Vault Workbench - activation tracking (auth required) |
 | /vault/archive | VaultArchive.tsx | Vault Archive - artifact library (auth required) |

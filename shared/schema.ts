@@ -21,6 +21,7 @@ export const quizUsers = pgTable("quiz_users", {
   crashCourseDay: integer("crash_course_day").default(0),
   magicLinkToken: text("magic_link_token"),
   magicLinkExpires: timestamp("magic_link_expires"),
+  onboardingCompleted: boolean("onboarding_completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
