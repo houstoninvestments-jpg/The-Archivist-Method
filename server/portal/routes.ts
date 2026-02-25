@@ -477,7 +477,7 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
             currency: "usd",
             product_data: {
               name: "Complete Archive Upgrade",
-              description: "Upgrade from Quick-Start to Complete Archive - All 9 Core Patterns",
+              description: "The Complete Archive — Every pattern. Every scenario. The complete system. (Upgrade pricing)",
             },
             unit_amount: 15000, // $150 in cents
           },

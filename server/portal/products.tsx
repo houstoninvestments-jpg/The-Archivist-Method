@@ -32,7 +32,7 @@ export const PRODUCTS: Record<string, Product> = {
     price: 47,
     stripeProductId: "prod_quick_start",
     stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9",
-    description: "Your pattern-specific Field Guide with complete FEIR framework",
+    description: "The Field Guide — Your complete interrupt protocol.",
     features: [
       "Complete FEIR framework introduction",
       "Pattern-specific Field Guide PDF",
@@ -48,7 +48,7 @@ export const PRODUCTS: Record<string, Product> = {
     price: 197,
     stripeProductId: "prod_complete_archive",
     stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w",
-    description: "Full transformation system with all 9 patterns",
+    description: "The Complete Archive — Every pattern. Every scenario. The complete system.",
     features: [
       "All 9 destructive patterns fully mapped",
       "Complete rewrite protocol",
