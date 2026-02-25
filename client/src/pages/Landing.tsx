@@ -1788,10 +1788,10 @@ export default function Landing() {
             ].map((panel, i) => (
               <div key={panel.num} className="bento-panel" style={{ transitionDelay: `${i * 0.15}s` }}>
                 <div style={{ position: "relative", border: "1px solid rgba(20,184,166,0.25)", borderRadius: "4px", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", top: 0, left: 0, width: "28px", height: "28px", borderRight: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
-                  <div style={{ position: "absolute", top: 0, right: 0, width: "28px", height: "28px", borderLeft: "2px solid #14B8A6", borderBottom: "2px solid #14B8A6", zIndex: 2 }} />
-                  <div style={{ position: "absolute", bottom: 0, left: 0, width: "28px", height: "28px", borderRight: "2px solid #14B8A6", borderTop: "2px solid #14B8A6", zIndex: 2 }} />
-                  <div style={{ position: "absolute", bottom: 0, right: 0, width: "28px", height: "28px", borderLeft: "2px solid #14B8A6", borderTop: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", top: 0, left: 0, width: "28px", height: "28px", borderTop: "2px solid #14B8A6", borderLeft: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", top: 0, right: 0, width: "28px", height: "28px", borderTop: "2px solid #14B8A6", borderRight: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, width: "28px", height: "28px", borderBottom: "2px solid #14B8A6", borderLeft: "2px solid #14B8A6", zIndex: 2 }} />
+                  <div style={{ position: "absolute", bottom: 0, right: 0, width: "28px", height: "28px", borderBottom: "2px solid #14B8A6", borderRight: "2px solid #14B8A6", zIndex: 2 }} />
                   <span style={{ position: "absolute", top: "10px", left: "10px", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", letterSpacing: "0.1em", zIndex: 3 }}>{panel.num}</span>
                   <img src={panel.src} alt={panel.alt} loading="lazy" decoding="async" style={{ width: "100%", height: "auto", display: "block" }} data-testid={panel.testId} />
                 </div>
