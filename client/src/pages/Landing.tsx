@@ -13,6 +13,105 @@ import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp
 import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
 import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
+const SCRAMBLE_CHARS = "!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function HeroScrambleText({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const hasRun = useRef(false);
+
+  useEffect(() => {
+    if (hasRun.current) return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || document.documentElement.classList.contains("is-bot")) {
+      if (containerRef.current) {
+        containerRef.current.textContent = text;
+        containerRef.current.style.color = color;
+      }
+      onComplete?.();
+      hasRun.current = true;
+      return;
+    }
+    hasRun.current = true;
+    const chars = text.split("");
+    const totalDuration = 1500;
+    const perCharDelay = totalDuration / chars.length;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const spans: HTMLSpanElement[] = [];
+    el.innerHTML = "";
+    chars.forEach((ch) => {
+      const s = document.createElement("span");
+      s.className = "hero-scramble-char";
+      s.style.color = color;
+      s.textContent = ch === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      el.appendChild(s);
+      spans.push(s);
+    });
+
+    let frame: number;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      let allDone = true;
+      spans.forEach((s, i) => {
+        const resolveAt = i * perCharDelay;
+        if (elapsed >= resolveAt) {
+          s.textContent = chars[i] === " " ? "\u00A0" : chars[i];
+        } else {
+          allDone = false;
+          if (Math.random() > 0.5) {
+            s.textContent = chars[i] === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          }
+        }
+      });
+      if (!allDone) frame = requestAnimationFrame(animate);
+      else onComplete?.();
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [text, color, onComplete]);
+
+  return <span ref={containerRef} />;
+}
+
+function useProximityGlow(ctaRef: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(hover: none)").matches;
+    if (prefersReduced || isMobile) return;
+
+    const el = ctaRef.current;
+    if (!el) return;
+
+    let frame: number;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
+        const maxDist = 150;
+        if (dist > maxDist) {
+          el.style.boxShadow = "";
+          return;
+        }
+        const intensity = 1 - dist / maxDist;
+        const spread = 8 + intensity * 20;
+        const alpha = 0.08 + intensity * 0.35;
+        el.style.boxShadow = `0 0 ${spread}px rgba(0, 212, 170, ${alpha})`;
+      });
+    };
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("mousemove", onMove);
+      if (el) el.style.boxShadow = "";
+    };
+  }, [ctaRef]);
+}
+
 function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [step, setStep] = useState<1 | 2 | 3 | 'done'>(1);
   const [loading, setLoading] = useState(false);
@@ -354,10 +453,10 @@ function handleCheckout(product: string) {
     .catch(() => {});
 }
 
-function CTAButton({ text, variant }: { text: string; variant?: "teal" }) {
+function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal"; glowRef?: React.RefObject<HTMLDivElement | null> }) {
   const isTeal = variant === "teal";
   return (
-    <div className="cta-glow-wrap" data-testid="button-cta-wrap">
+    <div className={`cta-glow-wrap ${glowRef ? "cta-proximity-glow" : ""}`} data-testid="button-cta-wrap" ref={glowRef || undefined}>
       <div className="cta-glow-border" />
       <Link
         href="/quiz"
@@ -1476,6 +1575,9 @@ function ScrollProgressThread() {
 export default function Landing() {
   useGlobalFadeIn();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
+  const [scrambleDone, setScrambleDone] = useState(false);
+  const ctaGlowRef = useRef<HTMLDivElement>(null);
+  useProximityGlow(ctaGlowRef);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -1490,6 +1592,8 @@ export default function Landing() {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
         document.documentElement.style.setProperty("--scroll-progress", String(progress));
+        const parallaxOffset = scrollTop * 0.4;
+        document.documentElement.style.setProperty("--hero-parallax", `${parallaxOffset}px`);
         ticking = false;
       });
     };
@@ -1517,27 +1621,26 @@ export default function Landing() {
       )}
 
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero">
-        <img
-          src={heroSeatedImg}
-          loading="eager"
-          decoding="sync"
-          // @ts-ignore - fetchpriority is valid HTML but React doesn't recognize it
-          fetchpriority="high"
-          width={1920}
-          height={1080}
-          alt="The Archivist Method"
-          className="lcp-image"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center top",
-            zIndex: 0,
-          }}
-        />
+      <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
+        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-20% 0", zIndex: 0, willChange: "transform" }}>
+          <img
+            src={heroSeatedImg}
+            loading="eager"
+            decoding="sync"
+            // @ts-ignore - fetchpriority is valid HTML but React doesn't recognize it
+            fetchpriority="high"
+            width={1920}
+            height={1080}
+            alt="The Archivist Method"
+            className="lcp-image"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+            }}
+          />
+        </div>
         <div className="absolute inset-0 z-0 hero-overlay" />
         <div className="text-center max-w-3xl mx-auto relative z-10">
           <p
@@ -1549,15 +1652,13 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase" }}
+            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5" }}
             data-testid="text-brand-title"
           >
-            {["YOU", "KNOW", "EXACTLY", "WHAT", "YOU'RE", "DOING."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ marginRight: "0.3em" }}>{word}</span>
-            ))}
+            <HeroScrambleText text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
           </p>
           <p
-            style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15 }}
+            style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15, opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
@@ -1574,7 +1675,7 @@ export default function Landing() {
           </p>
 
           <div className="hero-stagger">
-            <CTAButton text="FIND MY PATTERN →" variant="teal" />
+            <CTAButton text="FIND MY PATTERN →" variant="teal" glowRef={ctaGlowRef} />
           </div>
 
           <p className="hero-stagger" style={{ color: "#999999", fontFamily: "'Source Sans 3', sans-serif", fontSize: "13px", marginTop: "16px" }}>
