@@ -89,6 +89,18 @@ const breadcrumbData: Record<PatternKey, { triggers: string; costs: string; whyW
   },
 };
 
+const circuitBreakData: Record<PatternKey, string> = {
+  disappearing: "When the chest tightens and your hand reaches for the exit — stop. Put both feet flat on the floor. Name one thing you can see, one thing you can hear. You're not leaving yet. You're just standing still for ten seconds. That's the entire protocol: don't move until the wave passes.",
+  apologyLoop: "Next time 'sorry' rises in your throat — hold it for five seconds. Replace it with what you actually mean: 'Thank you for waiting,' 'I have a question,' 'I need something.' The apology is a shield. Put it down once and feel what happens when you take up the space you already deserve.",
+  testing: "The next time you feel the urge to test someone — text them something honest instead. Not a trap. Not a riddle. One true sentence: 'I'm scared you'll leave.' The test is a question you already know the answer to. Ask the real one instead.",
+  attractionToHarm: "When the dangerous one lights you up — pause. Put your hand on your sternum and say: 'This is recognition, not love.' Your body learned to call alarm bells chemistry. Name the sensation for what it is. Familiar is not the same as safe.",
+  complimentDeflection: "Next time someone compliments you, do not speak for three seconds. Let the words land. Don't deflect, don't explain, don't minimize. Just say 'Thank you' — and sit in the discomfort of being seen. The flinch will come. Let it pass through you without acting on it.",
+  drainingBond: "Set one boundary this week that costs you nothing but guilt. 'I can't talk after 10pm.' That's it. Say it once. Don't explain. Don't apologize. The guilt you feel is the pattern fighting to survive — it is not evidence that you're a bad person.",
+  successSabotage: "The next time something goes well — do nothing. Don't celebrate, don't deflect, don't blow it up. Just sit with the win for sixty seconds and notice what your body does. The itch to sabotage is loudest right after success. Name it: 'There's the pull.' Then don't follow it.",
+  perfectionism: "Finish one thing at 80%. Send it, post it, ship it — before the revision voice kicks in. Set a timer for the amount of work left and when it rings, you're done. The gap between your vision and your output is not a flaw. It's where the work lives.",
+  rage: "When you feel the heat rising — before you speak, press your tongue to the roof of your mouth and exhale through your nose for four seconds. You have a three-to-seven-second window before the pattern takes the wheel. This one breath is the entire gap. Use it.",
+};
+
 export default function QuizResult() {
   const [location, setLocation] = useLocation();
   const [phase, setPhase] = useState<'reveal' | 'confirmed' | 'secondPattern' | 'manualSelect'>('reveal');
@@ -98,6 +110,7 @@ export default function QuizResult() {
   const [error, setError] = useState('');
   const [fadeIn, setFadeIn] = useState(false);
   const [breadcrumbsVisible, setBreadcrumbsVisible] = useState(false);
+  const [microWinVisible, setMicroWinVisible] = useState(false);
   const [gateVisible, setGateVisible] = useState(false);
 
   const searchParams = new URLSearchParams(location.split('?')[1] || '');
@@ -144,8 +157,9 @@ export default function QuizResult() {
   useEffect(() => {
     if (phase === 'confirmed') {
       const t1 = setTimeout(() => setBreadcrumbsVisible(true), 300);
-      const t2 = setTimeout(() => setGateVisible(true), 800);
-      return () => { clearTimeout(t1); clearTimeout(t2); };
+      const t2 = setTimeout(() => setMicroWinVisible(true), 600);
+      const t3 = setTimeout(() => setGateVisible(true), 1100);
+      return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }
   }, [phase]);
 
@@ -606,6 +620,88 @@ export default function QuizResult() {
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* SECTION 2.5 — Micro-Win Circuit Break */}
+      {phase === 'confirmed' && confirmedPattern && circuitBreakData[confirmedPattern] && (
+        <section
+          className="px-4 py-16 md:py-24"
+          style={{
+            opacity: microWinVisible ? 1 : 0,
+            transform: microWinVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
+          <div className="max-w-xl mx-auto text-center">
+            <p
+              data-testid="text-circuit-break-label"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '11px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+                color: '#14B8A6',
+                marginBottom: '24px',
+              }}
+            >
+              COMPLIMENTARY CIRCUIT BREAK
+            </p>
+
+            <h2
+              data-testid="text-circuit-break-headline"
+              style={{
+                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                color: 'white',
+                fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
+                lineHeight: 1.2,
+                marginBottom: '28px',
+              }}
+            >
+              Here's one thing you can do the moment you feel it.
+            </h2>
+
+            <div
+              data-testid="card-circuit-break"
+              style={{
+                background: '#111',
+                border: '1px solid #1a1a1a',
+                borderRadius: '16px',
+                padding: '32px',
+                textAlign: 'left',
+                marginBottom: '28px',
+              }}
+            >
+              <p
+                data-testid="text-circuit-break-technique"
+                style={{
+                  fontFamily: "'Source Sans 3', sans-serif",
+                  color: '#ccc',
+                  fontSize: '1.05rem',
+                  lineHeight: 1.75,
+                }}
+              >
+                {circuitBreakData[confirmedPattern]}
+              </p>
+            </div>
+
+            <p
+              data-testid="text-circuit-break-teaser"
+              style={{
+                fontFamily: "'Libre Baskerville', serif",
+                fontStyle: 'italic',
+                fontSize: '0.95rem',
+                color: '#14B8A6',
+                lineHeight: 1.6,
+                maxWidth: '480px',
+                margin: '0 auto',
+              }}
+            >
+              This is one of 47 protocols in your pattern's full interrupt sequence.
+            </p>
           </div>
         </section>
       )}
