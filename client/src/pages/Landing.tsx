@@ -39,12 +39,25 @@ function HeroScrambleText({ text, color, onComplete }: { text: string; color: st
 
     const spans: HTMLSpanElement[] = [];
     el.innerHTML = "";
+    let currentWordWrap: HTMLSpanElement | null = null;
     chars.forEach((ch) => {
       const s = document.createElement("span");
       s.className = "hero-scramble-char";
       s.style.color = color;
-      s.textContent = ch === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      el.appendChild(s);
+      if (ch === " ") {
+        currentWordWrap = null;
+        s.textContent = "\u00A0";
+        el.appendChild(s);
+      } else {
+        if (!currentWordWrap) {
+          currentWordWrap = document.createElement("span");
+          currentWordWrap.style.whiteSpace = "nowrap";
+          currentWordWrap.style.display = "inline-block";
+          el.appendChild(currentWordWrap);
+        }
+        s.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        currentWordWrap.appendChild(s);
+      }
       spans.push(s);
     });
 
