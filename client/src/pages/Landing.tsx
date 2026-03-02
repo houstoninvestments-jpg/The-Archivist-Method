@@ -53,6 +53,8 @@ function HeroScrambleText({ text, color, onComplete }: { text: string; color: st
           currentWordWrap = document.createElement("span");
           currentWordWrap.style.whiteSpace = "nowrap";
           currentWordWrap.style.display = "inline-block";
+          currentWordWrap.style.overflowWrap = "normal";
+          currentWordWrap.style.wordBreak = "normal";
           el.appendChild(currentWordWrap);
         }
         s.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
@@ -1677,7 +1679,7 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5" }}
+            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
             data-testid="text-brand-title"
           >
             <HeroScrambleText text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
