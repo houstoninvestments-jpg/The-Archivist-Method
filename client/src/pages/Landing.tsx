@@ -32,7 +32,7 @@ function HeroScrambleText({ text, color, onComplete }: { text: string; color: st
     }
     hasRun.current = true;
     const chars = text.split("");
-    const totalDuration = 1500;
+    const totalDuration = 3000;
     const perCharDelay = totalDuration / chars.length;
     const el = containerRef.current;
     if (!el) return;
@@ -454,7 +454,19 @@ function useGlobalFadeIn() {
   }, []);
 }
 
+// TODO: Replace these placeholder URLs with your actual Stripe payment links
+const STRIPE_PAYMENT_LINKS: Record<string, string> = {
+  "quick-start": "STRIPE_LINK_47",       // $47 Field Guide payment link
+  "complete-archive": "STRIPE_LINK_197", // $197 Complete Archive payment link
+};
+
 function handleCheckout(product: string) {
+  const stripeUrl = STRIPE_PAYMENT_LINKS[product];
+  if (stripeUrl && !stripeUrl.startsWith("STRIPE_LINK_")) {
+    window.location.href = stripeUrl;
+    return;
+  }
+  // Fallback to API checkout session if Stripe links not yet configured
   const endpoint = product === "quick-start"
     ? "/api/portal/checkout/quick-start"
     : "/api/portal/checkout/complete-archive";
@@ -463,7 +475,7 @@ function handleCheckout(product: string) {
     .then((data) => {
       if (data.url) window.location.href = data.url;
     })
-    .catch(() => {});
+    .catch((err) => console.error("Checkout failed:", err));
 }
 
 function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal"; glowRef?: React.RefObject<HTMLDivElement | null> }) {
@@ -1605,7 +1617,7 @@ export default function Landing() {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
         document.documentElement.style.setProperty("--scroll-progress", String(progress));
-        const parallaxOffset = scrollTop * 0.4;
+        const parallaxOffset = scrollTop * 0.15;
         document.documentElement.style.setProperty("--hero-parallax", `${parallaxOffset}px`);
         ticking = false;
       });
@@ -1635,7 +1647,7 @@ export default function Landing() {
 
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
-        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-20% 0", zIndex: 0, willChange: "transform" }}>
+        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-30% 0", zIndex: 0, willChange: "transform" }}>
           <img
             src={heroSeatedImg}
             loading="eager"
