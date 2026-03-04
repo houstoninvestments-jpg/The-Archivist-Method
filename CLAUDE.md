@@ -2,13 +2,13 @@
 
 ## Git Workflow
 
-**Always commit directly to `master`. Never create feature branches or pull requests.**
+**Always commit directly to `main`. Never create feature branches or pull requests.**
 
-- Default branch: `master`
-- Push all changes directly to `master` with `git push -u origin master`
+- Default branch: `main`
+- Push all changes directly to `main` with `git push -u origin main`
 - Do not create `claude/*` branches
 - Do not open pull requests
-- Changes pushed to `master` deploy automatically to thearchivistmethod.com via Replit
+- Changes pushed to `main` deploy automatically to thearchivistmethod.com via Replit
 
 ## Project Overview
 
