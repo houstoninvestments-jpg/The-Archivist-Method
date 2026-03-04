@@ -340,8 +340,12 @@ export default function PortalDashboard() {
   };
 
   const handleCheckout = async (productId: string) => {
+    if (productId === "quick-start") {
+      window.open("https://buy.stripe.com/cNidR1eKi8cb16qalY6c001", "_blank");
+      return;
+    }
     try {
-      const endpoint = productId === "quick-start" ? "/api/portal/checkout/quick-start" : "/api/portal/checkout/complete-archive";
+      const endpoint = "/api/portal/checkout/complete-archive";
       const res = await fetch(endpoint, { method: "POST", credentials: "include" });
       if (res.ok) {
         const data = await res.json();
