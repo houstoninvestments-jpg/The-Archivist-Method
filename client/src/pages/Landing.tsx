@@ -456,28 +456,17 @@ function useGlobalFadeIn() {
   }, []);
 }
 
-// TODO: Replace these placeholder URLs with your actual Stripe payment links
 const STRIPE_PAYMENT_LINKS: Record<string, string> = {
-  "quick-start": "STRIPE_LINK_47",       // $47 Field Guide payment link
-  "complete-archive": "STRIPE_LINK_197", // $197 Complete Archive payment link
+  "quick-start": "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
+  "complete-archive": "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
 };
 
 function handleCheckout(product: string) {
   const stripeUrl = STRIPE_PAYMENT_LINKS[product];
-  if (stripeUrl && !stripeUrl.startsWith("STRIPE_LINK_")) {
-    window.location.href = stripeUrl;
+  if (stripeUrl) {
+    window.open(stripeUrl, "_blank", "noopener,noreferrer");
     return;
   }
-  // Fallback to API checkout session if Stripe links not yet configured
-  const endpoint = product === "quick-start"
-    ? "/api/portal/checkout/quick-start"
-    : "/api/portal/checkout/complete-archive";
-  apiRequest("POST", endpoint)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.url) window.location.href = data.url;
-    })
-    .catch((err) => console.error("Checkout failed:", err));
 }
 
 function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal"; glowRef?: React.RefObject<HTMLDivElement | null> }) {
