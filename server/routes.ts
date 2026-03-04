@@ -124,9 +124,16 @@ export async function registerRoutes(
         secondaryPatterns: secondaryPatterns || [],
         patternScores: patternScores || {},
       });
-      
+
       console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
-      
+
+      // Fire welcome email — non-blocking, failure doesn't affect response
+      import("./portal/email").then(({ sendWelcomeEmail }) => {
+        sendWelcomeEmail({ email, primaryPattern }).catch((err) =>
+          console.error("[EMAIL] Welcome email error:", err),
+        );
+      });
+
       const { generateAuthToken } = await import("./portal/auth");
       const jwtToken = generateAuthToken(user.id, email);
       
