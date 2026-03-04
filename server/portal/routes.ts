@@ -21,7 +21,7 @@ import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, test
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
-import { sendPurchaseConfirmationEmail } from "./email";
+import { sendPurchaseConfirmationEmail, sendMagicLinkEmail } from "./email";
 
 // Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
@@ -127,8 +127,8 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
 
     console.log(`Magic link for ${email}: ${magicLink}`);
 
-    // TODO: Send email via your email service
-    // For development, return the link
+    await sendMagicLinkEmail(email, magicLink, user.name?.split(" ")[0]);
+
     if (process.env.NODE_ENV === "development") {
       return res.json({
         message: "Login link generated",
