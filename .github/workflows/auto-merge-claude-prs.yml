@@ -1,0 +1,30 @@
+name: Auto-merge Claude PRs
+
+# Automatically merge any PR opened by Claude Code into main.
+# This ensures changes deploy to production (thearchivistmethod.com) without
+# requiring a manual merge step.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+
+jobs:
+  auto-merge:
+    if: startsWith(github.head_ref, 'claude/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Auto-merge Claude PR
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
+          MERGE_COMMIT_MESSAGE: pull-request-title
+          MERGE_LABELS: ""
+          MERGE_REQUIRED_APPROVALS: "0"
+          UPDATE_METHOD: rebase
