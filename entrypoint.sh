@@ -11,7 +11,7 @@ cat > /root/.clawdbot/clawdbot.json <<EOF
 {
   "telegram": {
     "bot_username": "@ArchieOS_Bot",
-    "bot_token": "${TELEGRAM_BOT_TOKEN}"
+    "botToken": "${TELEGRAM_BOT_TOKEN}"
   }
 }
 EOF
