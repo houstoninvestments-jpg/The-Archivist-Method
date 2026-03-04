@@ -39,12 +39,27 @@ function HeroScrambleText({ text, color, onComplete }: { text: string; color: st
 
     const spans: HTMLSpanElement[] = [];
     el.innerHTML = "";
+    let currentWordWrap: HTMLSpanElement | null = null;
     chars.forEach((ch) => {
       const s = document.createElement("span");
       s.className = "hero-scramble-char";
       s.style.color = color;
-      s.textContent = ch === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      el.appendChild(s);
+      if (ch === " ") {
+        currentWordWrap = null;
+        s.textContent = "\u00A0";
+        el.appendChild(s);
+      } else {
+        if (!currentWordWrap) {
+          currentWordWrap = document.createElement("span");
+          currentWordWrap.style.whiteSpace = "nowrap";
+          currentWordWrap.style.display = "inline-block";
+          currentWordWrap.style.overflowWrap = "normal";
+          currentWordWrap.style.wordBreak = "normal";
+          el.appendChild(currentWordWrap);
+        }
+        s.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        currentWordWrap.appendChild(s);
+      }
       spans.push(s);
     });
 
@@ -441,16 +456,17 @@ function useGlobalFadeIn() {
   }, []);
 }
 
+const STRIPE_PAYMENT_LINKS: Record<string, string> = {
+  "quick-start": "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
+  "complete-archive": "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
+};
+
 function handleCheckout(product: string) {
-  const endpoint = product === "quick-start"
-    ? "/api/portal/checkout/quick-start"
-    : "/api/portal/checkout/complete-archive";
-  apiRequest("POST", endpoint)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.url) window.location.href = data.url;
-    })
-    .catch(() => {});
+  const stripeUrl = STRIPE_PAYMENT_LINKS[product];
+  if (stripeUrl) {
+    window.open(stripeUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
 }
 
 function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal"; glowRef?: React.RefObject<HTMLDivElement | null> }) {
@@ -1652,7 +1668,7 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5" }}
+            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
             data-testid="text-brand-title"
           >
             <HeroScrambleText text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
