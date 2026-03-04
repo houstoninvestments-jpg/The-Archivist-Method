@@ -1,15 +1,12 @@
-FROM debian:bookworm-slim
+FROM node:22-slim
 
-# Install clawdbot (replace with actual installation method if different)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-# Copy the bot username config (no secrets)
-COPY clawdbot.json /tmp/clawdbot-defaults.json
+RUN npm install -g clawdbot@latest
 
-# Copy and set up entrypoint
+WORKDIR /app
+
+COPY clawdbot.json .
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
