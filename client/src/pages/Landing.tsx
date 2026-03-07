@@ -13,80 +13,31 @@ import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp
 import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
 import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
-const SCRAMBLE_CHARS = "!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-function HeroScrambleText({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
-  const containerRef = useRef<HTMLSpanElement>(null);
-  const hasRun = useRef(false);
+function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
+  const words = text.split(" ");
+  const stagger = 0.15;
+  const duration = 0.6;
+  const totalMs = ((words.length - 1) * stagger + duration) * 1000;
 
   useEffect(() => {
-    if (hasRun.current) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced || document.documentElement.classList.contains("is-bot")) {
-      if (containerRef.current) {
-        containerRef.current.textContent = text;
-        containerRef.current.style.color = color;
-      }
-      onComplete?.();
-      hasRun.current = true;
-      return;
-    }
-    hasRun.current = true;
-    const chars = text.split("");
-    const totalDuration = 3000;
-    const perCharDelay = totalDuration / chars.length;
-    const el = containerRef.current;
-    if (!el) return;
+    const isBot = document.documentElement.classList.contains("is-bot");
+    const delay = prefersReduced || isBot ? 0 : totalMs;
+    const timer = setTimeout(() => onComplete?.(), delay);
+    return () => clearTimeout(timer);
+  }, [onComplete, totalMs]);
 
-    const spans: HTMLSpanElement[] = [];
-    el.innerHTML = "";
-    let currentWordWrap: HTMLSpanElement | null = null;
-    chars.forEach((ch) => {
-      const s = document.createElement("span");
-      s.className = "hero-scramble-char";
-      s.style.color = color;
-      if (ch === " ") {
-        currentWordWrap = null;
-        s.textContent = "\u00A0";
-        el.appendChild(s);
-      } else {
-        if (!currentWordWrap) {
-          currentWordWrap = document.createElement("span");
-          currentWordWrap.style.whiteSpace = "nowrap";
-          currentWordWrap.style.display = "inline-block";
-          currentWordWrap.style.overflowWrap = "normal";
-          currentWordWrap.style.wordBreak = "normal";
-          el.appendChild(currentWordWrap);
-        }
-        s.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-        currentWordWrap.appendChild(s);
-      }
-      spans.push(s);
-    });
-
-    let frame: number;
-    const startTime = performance.now();
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      let allDone = true;
-      spans.forEach((s, i) => {
-        const resolveAt = i * perCharDelay;
-        if (elapsed >= resolveAt) {
-          s.textContent = chars[i] === " " ? "\u00A0" : chars[i];
-        } else {
-          allDone = false;
-          if (Math.random() > 0.5) {
-            s.textContent = chars[i] === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-          }
-        }
-      });
-      if (!allDone) frame = requestAnimationFrame(animate);
-      else onComplete?.();
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [text, color, onComplete]);
-
-  return <span ref={containerRef} />;
+  return (
+    <span style={{ display: "inline" }}>
+      {words.map((word, i) => (
+        <span key={i} style={{ display: "inline-block", whiteSpace: "nowrap", marginRight: "0.3em" }}>
+          <span className="hero-word-drop" style={{ display: "inline-block", color, animationDelay: `${i * stagger}s` }}>
+            {word}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function useProximityGlow(ctaRef: React.RefObject<HTMLDivElement | null>) {
@@ -1671,7 +1622,7 @@ export default function Landing() {
             style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
             data-testid="text-brand-title"
           >
-            <HeroScrambleText text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
+            <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
           </p>
           <p
             style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15, opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
