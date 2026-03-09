@@ -679,6 +679,18 @@
   z-index: 1;
   background: #000;
   border: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+}
+.cta-glow-inner:hover {
+  background: rgba(20, 184, 166, 0.12);
+  border-color: rgba(20, 184, 166, 0.6);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
+  transform: scale(1.03);
+  filter: brightness(1.15);
+}
+.cta-glow-inner:active {
+  background: rgba(20, 184, 166, 0.18);
+  transform: scale(1.01);
 }
 
 /* ==========================================
@@ -687,8 +699,8 @@
 
 .fade-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.0, 0.0, 0.2, 1), transform 0.7s cubic-bezier(0.0, 0.0, 0.2, 1);
 }
 .fade-section.visible {
   opacity: 1;
@@ -716,9 +728,9 @@
 
 .bento-panel {
   opacity: 0;
-  transform: translateY(40px) scale(0.92);
-  transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+  transform: translateY(40px) scale(0.95);
+  transition: opacity 0.75s cubic-bezier(0.0, 0.0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.0, 0.0, 0.2, 1),
               border-color 0.3s ease,
               box-shadow 0.3s ease;
 }
@@ -805,7 +817,7 @@
   .scroll-progress-thread {
     display: none !important;
   }
-  .fade-section { transition-delay: 0s !important; transition-duration: 0.5s; }
+  .fade-section { transition-delay: 0s !important; transition-duration: 0.7s; }
 }
 
 @media (max-width: 767px) {
@@ -984,8 +996,9 @@
 }
 .hero-scramble-char {
   display: inline-block;
-  min-width: 0.55em;
+  width: 0.6em;
   text-align: center;
+  overflow: visible;
 }
 .hero-overlay {
   background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.90) 100%);

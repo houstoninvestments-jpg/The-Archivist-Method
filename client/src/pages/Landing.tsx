@@ -13,65 +13,31 @@ import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp
 import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
 import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
-const SCRAMBLE_CHARS = "!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-function HeroScrambleText({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
-  const containerRef = useRef<HTMLSpanElement>(null);
-  const hasRun = useRef(false);
+function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
+  const words = text.split(" ");
+  const stagger = 0.15;
+  const duration = 0.6;
+  const totalMs = ((words.length - 1) * stagger + duration) * 1000;
 
   useEffect(() => {
-    if (hasRun.current) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced || document.documentElement.classList.contains("is-bot")) {
-      if (containerRef.current) {
-        containerRef.current.textContent = text;
-        containerRef.current.style.color = color;
-      }
-      onComplete?.();
-      hasRun.current = true;
-      return;
-    }
-    hasRun.current = true;
-    const chars = text.split("");
-    const totalDuration = 1500;
-    const perCharDelay = totalDuration / chars.length;
-    const el = containerRef.current;
-    if (!el) return;
+    const isBot = document.documentElement.classList.contains("is-bot");
+    const delay = prefersReduced || isBot ? 0 : totalMs;
+    const timer = setTimeout(() => onComplete?.(), delay);
+    return () => clearTimeout(timer);
+  }, [onComplete, totalMs]);
 
-    const spans: HTMLSpanElement[] = [];
-    el.innerHTML = "";
-    chars.forEach((ch) => {
-      const s = document.createElement("span");
-      s.className = "hero-scramble-char";
-      s.style.color = color;
-      s.textContent = ch === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      el.appendChild(s);
-      spans.push(s);
-    });
-
-    let frame: number;
-    const startTime = performance.now();
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      let allDone = true;
-      spans.forEach((s, i) => {
-        const resolveAt = i * perCharDelay;
-        if (elapsed >= resolveAt) {
-          s.textContent = chars[i] === " " ? "\u00A0" : chars[i];
-        } else {
-          allDone = false;
-          if (Math.random() > 0.5) {
-            s.textContent = chars[i] === " " ? "\u00A0" : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-          }
-        }
-      });
-      if (!allDone) frame = requestAnimationFrame(animate);
-      else onComplete?.();
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [text, color, onComplete]);
-
-  return <span ref={containerRef} />;
+  return (
+    <span style={{ display: "inline" }}>
+      {words.map((word, i) => (
+        <span key={i} style={{ display: "inline-block", whiteSpace: "nowrap", marginRight: "0.3em" }}>
+          <span className="hero-word-drop" style={{ display: "inline-block", color, animationDelay: `${i * stagger}s` }}>
+            {word}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function useProximityGlow(ctaRef: React.RefObject<HTMLDivElement | null>) {
@@ -441,16 +407,17 @@ function useGlobalFadeIn() {
   }, []);
 }
 
+const STRIPE_PAYMENT_LINKS: Record<string, string> = {
+  "quick-start": "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
+  "complete-archive": "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
+};
+
 function handleCheckout(product: string) {
-  const endpoint = product === "quick-start"
-    ? "/api/portal/checkout/quick-start"
-    : "/api/portal/checkout/complete-archive";
-  apiRequest("POST", endpoint)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.url) window.location.href = data.url;
-    })
-    .catch(() => {});
+  const stripeUrl = STRIPE_PAYMENT_LINKS[product];
+  if (stripeUrl) {
+    window.open(stripeUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
 }
 
 function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal"; glowRef?: React.RefObject<HTMLDivElement | null> }) {
@@ -1592,7 +1559,7 @@ export default function Landing() {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
         document.documentElement.style.setProperty("--scroll-progress", String(progress));
-        const parallaxOffset = scrollTop * 0.4;
+        const parallaxOffset = scrollTop * 0.15;
         document.documentElement.style.setProperty("--hero-parallax", `${parallaxOffset}px`);
         ticking = false;
       });
@@ -1622,7 +1589,7 @@ export default function Landing() {
 
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
-        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-20% 0", zIndex: 0, willChange: "transform" }}>
+        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-30% 0", zIndex: 0, willChange: "transform" }}>
           <img
             src={heroSeatedImg}
             loading="eager"
@@ -1652,10 +1619,10 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", color: "#F5F5F5" }}
+            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
             data-testid="text-brand-title"
           >
-            <HeroScrambleText text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
+            <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
           </p>
           <p
             style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2.4rem, 6.5vw, 4.4rem)", lineHeight: 1.15, opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
@@ -1929,31 +1896,96 @@ export default function Landing() {
       </section>
 
 
-      {/* ========== SECTION 8.6: CREDIBILITY BAR ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-credibility" style={{ position: "relative", background: "rgba(20,184,166,0.03)" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center fade-section" style={{ marginBottom: "48px" }}>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>THE SYSTEM</p>
-            <h2 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.25rem, 5vw, 3rem)", color: "white", marginBottom: "16px" }}>BUILT AROUND ONE THING.</h2>
-            <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.375rem)" }}>The moment before you do it again.</p>
+      {/* ========== SECTION 8.6: THE ARCHIVES ========== */}
+      <section className="py-24 md:py-32 px-6" data-testid="section-credibility" style={{ position: "relative", background: "#0A0A0A", overflow: "hidden" }}>
+        {/* Subtle dot-grid background */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(20,184,166,0.07) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
+        {/* Teal radial glow, top-right */}
+        <div style={{ position: "absolute", top: "-120px", right: "-80px", width: "500px", height: "500px", background: "radial-gradient(ellipse at center, rgba(20,184,166,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+
+        <div className="max-w-6xl mx-auto" style={{ position: "relative" }}>
+          {/* Top classification bar */}
+          <div className="fade-section" style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "56px" }}>
+            <div style={{ height: "1px", flex: 1, background: "rgba(20,184,166,0.2)" }} />
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.25em", whiteSpace: "nowrap" }}>
+              THE ARCHIVES &nbsp;·&nbsp; SYSTEM RECORD &nbsp;·&nbsp; CLEARANCE: STANDARD
+            </p>
+            <div style={{ height: "1px", flex: 1, background: "rgba(20,184,166,0.2)" }} />
           </div>
-          <div style={{ height: "1px", background: "#14B8A6", opacity: 0.3, marginBottom: "48px" }} />
-          <div className="fade-section grid grid-cols-2 md:grid-cols-4 gap-8 text-center" style={{ marginBottom: "48px" }}>
-            {[
-              { stat: "4", label: "FEIR DOORS" },
-              { stat: "9", label: "DOCUMENTED PATTERNS" },
-              { stat: "3-7", label: "SECOND WINDOW" },
-              { stat: "24/7", label: "POCKET ARCHIVIST" },
-            ].map((item) => (
-              <div key={item.label}>
-                <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(3.5rem, 8vw, 5rem)", color: "white", lineHeight: 1, marginBottom: "8px" }}>{item.stat}</p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#AAAAAA", textTransform: "uppercase", letterSpacing: "0.15em" }}>{item.label}</p>
+
+          {/* Two-column editorial layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            {/* LEFT: Headline + copy */}
+            <div className="fade-section">
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "20px" }}>THE ARCHIVES</p>
+              <h2 style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.75rem, 5.5vw, 4rem)", color: "white", lineHeight: 1.0, marginBottom: "28px" }}>
+                BUILT<br />AROUND<br />ONE THING.
+              </h2>
+              <div style={{ width: "40px", height: "2px", background: "#14B8A6", marginBottom: "28px" }} />
+              <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.15rem", color: "#14B8A6", lineHeight: 1.65, marginBottom: "20px" }}>
+                The moment before you do it again.
+              </p>
+              <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.95rem", color: "#888", lineHeight: 1.75 }}>
+                Every component exists for one purpose — to give you what you need in the 7 seconds that decide everything.
+              </p>
+            </div>
+
+            {/* RIGHT: Stats as classified field record */}
+            <div className="fade-section fade-delay-2" style={{ position: "relative" }}>
+              {/* Corner brackets */}
+              <div style={{ position: "absolute", top: 0, left: 0, width: "18px", height: "18px", borderTop: "1.5px solid rgba(20,184,166,0.5)", borderLeft: "1.5px solid rgba(20,184,166,0.5)" }} />
+              <div style={{ position: "absolute", top: 0, right: 0, width: "18px", height: "18px", borderTop: "1.5px solid rgba(20,184,166,0.5)", borderRight: "1.5px solid rgba(20,184,166,0.5)" }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, width: "18px", height: "18px", borderBottom: "1.5px solid rgba(20,184,166,0.5)", borderLeft: "1.5px solid rgba(20,184,166,0.5)" }} />
+              <div style={{ position: "absolute", bottom: 0, right: 0, width: "18px", height: "18px", borderBottom: "1.5px solid rgba(20,184,166,0.5)", borderRight: "1.5px solid rgba(20,184,166,0.5)" }} />
+
+              <div style={{ padding: "32px 28px" }}>
+                {/* Table header */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", paddingBottom: "12px", borderBottom: "1px solid rgba(20,184,166,0.25)" }}>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em" }}>FIELD</p>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em" }}>RECORD</p>
+                </div>
+
+                {/* Stat rows */}
+                {[
+                  { value: "4",    label: "FEIR DOORS",           desc: "The four entry points of pattern intervention" },
+                  { value: "9",    label: "DOCUMENTED PATTERNS",  desc: "Catalogued behavioral sequences, fully mapped" },
+                  { value: "3–7",  label: "SECOND WINDOW",        desc: "The only moment where the pattern can be broken" },
+                  { value: "24/7", label: "POCKET ARCHIVIST",     desc: "Precision AI deployed inside the window, in real time" },
+                ].map((item, i) => (
+                  <div
+                    key={item.label}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "20px",
+                      padding: "18px 0",
+                      borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                    }}
+                  >
+                    <p style={{ fontFamily: "'Schibsted Grotesk', sans-serif", fontWeight: 900, fontSize: "clamp(2.2rem, 4vw, 2.8rem)", color: "white", lineHeight: 1, minWidth: "72px" }}>
+                      {item.value}
+                    </p>
+                    <div>
+                      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "4px" }}>
+                        {item.label}
+                      </p>
+                      <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "12px", color: "#666", lineHeight: 1.5 }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                {/* File reference footer */}
+                <div style={{ marginTop: "20px", paddingTop: "12px", borderTop: "1px solid rgba(20,184,166,0.15)", display: "flex", justifyContent: "space-between" }}>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#333", letterSpacing: "0.1em" }}>FILE: TAM-CORE-001</p>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#333", letterSpacing: "0.1em" }}>STATUS: ACTIVE</p>
+                </div>
               </div>
-            ))}
+            </div>
+
           </div>
-          <p className="fade-section text-center" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", color: "#14B8A6", fontSize: "1.125rem", maxWidth: "640px", margin: "0 auto" }}>
-            Every component exists for one purpose — to give you what you need in the 7 seconds that decide everything.
-          </p>
         </div>
       </section>
 
