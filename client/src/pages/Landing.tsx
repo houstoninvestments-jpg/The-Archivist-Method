@@ -1619,13 +1619,13 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(1rem, 3.8vw, 5.5rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#F5F5F5", whiteSpace: "nowrap", overflowWrap: "normal", wordBreak: "normal" }}
+            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(3rem, 7vw, 8rem)", lineHeight: 1 }}
             data-testid="text-brand-title"
           >
-            <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
+            <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#ffffff" onComplete={() => setScrambleDone(true)} />
           </p>
           <p
-            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(3.2rem, 8.5vw, 6.2rem)", lineHeight: 1.15, opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
+            style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(1.5rem, 3vw, 3rem)", color: "#00FFC2", textShadow: "0 0 10px rgba(0, 255, 194, 0.5)", marginTop: "-8px", opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
             data-testid="text-brand-title-2"
           >
             {["You", "just", "can't", "stop."].map((word, i) => (
