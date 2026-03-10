@@ -1620,7 +1620,8 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(3rem, 7vw, 8rem)", lineHeight: 1 }}
+            className="md:whitespace-nowrap"
+            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(2.5rem, 5.8vw, 6.5rem)", lineHeight: 1 }}
             data-testid="text-brand-title"
           >
             <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#ffffff" onComplete={() => setScrambleDone(true)} />
