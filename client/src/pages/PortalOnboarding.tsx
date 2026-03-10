@@ -3,8 +3,8 @@ import { useLocation } from 'wouter';
 import { ArrowRight, ArrowLeft, Play, Check } from 'lucide-react';
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
 
-const FONT_HEADING = "'Schibsted Grotesk', sans-serif";
-const FONT_BODY = "'Source Sans 3', sans-serif";
+const FONT_HEADING = "'Bebas Neue', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
 const COLOR_TEAL = "#14B8A6";
 const COLOR_PINK = "#EC4899";
@@ -62,7 +62,7 @@ function StepOne({
       <h2 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "clamp(1.8rem, 5vw, 2.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }} data-testid="text-step1-headline">
         First. Let's confirm your pattern.
       </h2>
-      <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }} data-testid="text-step1-subhead">
+      <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }} data-testid="text-step1-subhead">
         Everything in this system is built around one pattern. Yours.
       </p>
 
@@ -205,7 +205,7 @@ function StepTwo({ onNext }: { onNext: () => void }) {
       <h2 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "clamp(1.8rem, 5vw, 2.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }} data-testid="text-step2-headline">
         Before you begin. Watch this.
       </h2>
-      <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }} data-testid="text-step2-subhead">
+      <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }} data-testid="text-step2-subhead">
         60 seconds. This is the only orientation you need.
       </p>
 
@@ -330,7 +330,7 @@ function StepThree({ onComplete }: { onComplete: () => void }) {
       <h2 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "clamp(1.8rem, 5vw, 2.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }} data-testid="text-step3-headline">
         Now. Meet your signal.
       </h2>
-      <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "520px" }} data-testid="text-step3-subhead">
+      <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "520px" }} data-testid="text-step3-subhead">
         The Pocket Archivist is going to map your body signal. This takes 2 minutes and it's the most important thing you'll do today.
       </p>
 
@@ -374,7 +374,7 @@ function StepThree({ onComplete }: { onComplete: () => void }) {
             <h3 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "1.3rem", color: "white", textTransform: "uppercase", marginBottom: "8px" }} data-testid="text-signal-mapped">
               Your signal is mapped.
             </h3>
-            <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1rem", color: COLOR_TEAL }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1rem", color: COLOR_TEAL }}>
               Your archive is open.
             </p>
           </div>
@@ -573,7 +573,7 @@ export default function PortalOnboarding() {
                 <h2 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "clamp(1.8rem, 5vw, 2.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }}>
                   Select your pattern.
                 </h2>
-                <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }}>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }}>
                   Choose the one that runs most often.
                 </p>
                 <PatternSelector
@@ -597,7 +597,7 @@ export default function PortalOnboarding() {
                 <h2 style={{ fontFamily: FONT_HEADING, fontWeight: 900, fontSize: "clamp(1.8rem, 5vw, 2.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }} data-testid="text-step1-headline">
                   First. Let's confirm your pattern.
                 </h2>
-                <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }}>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.1rem", color: COLOR_TEAL, lineHeight: 1.6, marginBottom: "48px", maxWidth: "480px" }}>
                   Everything in this system is built around one pattern. Yours.
                 </p>
                 <PatternSelector

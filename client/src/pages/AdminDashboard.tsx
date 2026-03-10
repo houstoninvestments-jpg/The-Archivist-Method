@@ -26,8 +26,8 @@ const TL = "#14B8A6";
 const PK = "#EC4899";
 const TEXT = "#F5F5F5";
 const MUTED = "#999999";
-const FONT_DISPLAY = "'Playfair Display', serif";
-const FONT_BODY = "'Source Sans 3', sans-serif";
+const FONT_DISPLAY = "'Bebas Neue', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
 
 interface Stats {

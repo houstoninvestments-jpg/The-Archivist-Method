@@ -10,8 +10,8 @@ import {
   Trash2, Plus, Send,
 } from "lucide-react";
 
-const FP = "'Playfair Display', serif";
-const FB = "'Source Sans 3', sans-serif";
+const FP = "'Bebas Neue', sans-serif";
+const FB = "'Inter', sans-serif";
 const FM = "'JetBrains Mono', monospace";
 const BG = "#0A0A0A";
 const TX = "#F5F5F5";

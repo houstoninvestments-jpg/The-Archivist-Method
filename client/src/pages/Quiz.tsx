@@ -71,7 +71,7 @@ function SequentialLoadingScreen() {
         >
           <p
             style={{
-              fontFamily: "'Libre Baskerville', serif",
+              fontFamily: "'Inter', sans-serif",
               fontStyle: 'italic',
               fontSize: '1.1rem',
               color: '#14B8A6',
@@ -236,7 +236,7 @@ export default function Quiz() {
           <h1
             data-testid="text-quiz-headline"
             style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2.8rem, 5vw, 3.5rem)',
               color: 'white',
               fontWeight: 700,
@@ -250,7 +250,7 @@ export default function Quiz() {
           <p
             data-testid="text-quiz-subhead-1"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: '1.1rem',
               color: '#999',
               marginTop: '24px',
@@ -265,7 +265,7 @@ export default function Quiz() {
           <p
             data-testid="text-quiz-subhead-2"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: '1.1rem',
               color: 'white',
               marginTop: '8px',
@@ -277,7 +277,7 @@ export default function Quiz() {
           <p
             data-testid="text-quiz-meta"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: '1rem',
               color: '#999999',
               marginTop: '32px',
@@ -325,7 +325,7 @@ export default function Quiz() {
           <p
             data-testid="text-quiz-privacy"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: '13px',
               color: '#999999',
               marginTop: '16px',
@@ -402,7 +402,7 @@ export default function Quiz() {
               <h2
                 data-testid="quiz-question-title"
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   fontSize: 'clamp(1.15rem, 2.5vw, 1.35rem)',
                   color: 'white',
                   fontWeight: 400,
@@ -432,7 +432,7 @@ export default function Quiz() {
                             ? '1px dotted rgba(255, 255, 255, 0.08)'
                             : '1px solid rgba(255, 255, 255, 0.12)',
                         background: isSelected ? 'rgba(20, 184, 166, 0.08)' : 'transparent',
-                        fontFamily: "'Source Sans 3', sans-serif",
+                        fontFamily: "'Inter', sans-serif",
                         fontSize: isNeutral ? '0.85rem' : '0.95rem',
                         color: isSelected ? 'white' : isNeutral ? '#999' : '#ccc',
                         lineHeight: 1.5,

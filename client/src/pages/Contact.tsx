@@ -3,8 +3,8 @@ import { Link } from 'wouter';
 import { Mail, Send, ArrowRight } from 'lucide-react';
 import ArchivistIcon from '@/components/ArchivistIcon';
 
-const FONT_PLAYFAIR = "'Playfair Display', serif";
-const FONT_BODY = "'Source Sans 3', sans-serif";
+const FONT_PLAYFAIR = "'Bebas Neue', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
 const COLOR_BG = "#0A0A0A";
 const COLOR_TEXT = "#F5F5F5";
