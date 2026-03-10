@@ -1619,7 +1619,7 @@ export default function Landing() {
           </p>
 
           <p
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, fontStyle: "normal", fontSize: "clamp(2.2rem, 6vw, 4rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
+            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontStyle: "normal", fontSize: "clamp(3.8rem, 10vw, 7.5rem)", lineHeight: 1.1, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#F5F5F5", overflowWrap: "normal", wordBreak: "normal" }}
             data-testid="text-brand-title"
           >
             <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#F5F5F5" onComplete={() => setScrambleDone(true)} />
