@@ -1,0 +1,38 @@
+name: Create PR for Claude branch
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if PR already exists for this branch
+          EXISTING_PR=$(gh pr list \
+            --repo "${{ github.repository }}" \
+            --head "${{ github.ref_name }}" \
+            --base main \
+            --json number \
+            --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "$EXISTING_PR" ]; then
+            gh pr create \
+              --repo "${{ github.repository }}" \
+              --title "Fix hero font size" \
+              --body "Fixes hero section font size" \
+              --base main \
+              --head "${{ github.ref_name }}"
+            echo "PR created successfully"
+          else
+            echo "PR #$EXISTING_PR already exists for this branch"
+          fi
