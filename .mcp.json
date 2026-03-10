@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "meigen": {
+      "command": "npx",
+      "args": ["-y", "meigen@1.2.5"]
+    }
+  }
+}
