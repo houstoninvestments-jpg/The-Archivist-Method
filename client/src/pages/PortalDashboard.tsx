@@ -10,8 +10,8 @@ import {
 import { patternDisplayNames, type PatternKey } from '@/lib/quizData';
 import ArchivistIcon from '@/components/ArchivistIcon';
 
-const FONT_HEADING = "'Schibsted Grotesk', sans-serif";
-const FONT_BODY = "'Source Sans 3', sans-serif";
+const FONT_HEADING = "'Bebas Neue', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
 const CARD_BG = "#111";
 const CARD_BORDER = "#1a1a1a";

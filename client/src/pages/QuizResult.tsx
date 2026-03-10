@@ -267,7 +267,7 @@ export default function QuizResult() {
             </p>
             <h2
               style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontFamily: "'Bebas Neue', sans-serif",
                 fontWeight: 900,
                 textTransform: 'uppercase',
                 color: 'white',
@@ -277,7 +277,7 @@ export default function QuizResult() {
             >
               Which pattern do you recognize?
             </h2>
-            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#999', fontSize: '1rem' }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", color: '#999', fontSize: '1rem' }}>
               Select the one that lives in your body.
             </p>
           </div>
@@ -303,7 +303,7 @@ export default function QuizResult() {
               >
                 <h3
                   style={{
-                    fontFamily: "'Schibsted Grotesk', sans-serif",
+                    fontFamily: "'Bebas Neue', sans-serif",
                     fontWeight: 700,
                     color: 'white',
                     fontSize: '0.95rem',
@@ -314,7 +314,7 @@ export default function QuizResult() {
                 </h3>
                 <p
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     color: '#999',
                     fontSize: '0.85rem',
                     lineHeight: 1.5,
@@ -375,7 +375,7 @@ export default function QuizResult() {
           <h1
             data-testid="text-pattern-name"
             style={{
-              fontFamily: "'Schibsted Grotesk', sans-serif",
+              fontFamily: "'Bebas Neue', sans-serif",
               fontSize: 'clamp(2rem, 5vw, 3rem)',
               fontWeight: 900,
               textTransform: 'uppercase',
@@ -401,7 +401,7 @@ export default function QuizResult() {
               <p
                 key={i}
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   fontSize: '1.1rem',
                   color: '#ccc',
                   lineHeight: 1.7,
@@ -417,7 +417,7 @@ export default function QuizResult() {
           <p
             data-testid="text-closing-line"
             style={{
-              fontFamily: "'Libre Baskerville', serif",
+              fontFamily: "'Inter', sans-serif",
               fontStyle: 'italic',
               fontSize: '1.1rem',
               color: '#14B8A6',
@@ -544,7 +544,7 @@ export default function QuizResult() {
                 </p>
                 <p
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     color: '#ccc',
                     fontSize: '0.95rem',
                     lineHeight: 1.7,
@@ -577,7 +577,7 @@ export default function QuizResult() {
                 </p>
                 <p
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     color: '#ccc',
                     fontSize: '0.95rem',
                     lineHeight: 1.7,
@@ -610,7 +610,7 @@ export default function QuizResult() {
                 </p>
                 <p
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     color: '#ccc',
                     fontSize: '0.95rem',
                     lineHeight: 1.7,
@@ -652,7 +652,7 @@ export default function QuizResult() {
             <h2
               data-testid="text-circuit-break-headline"
               style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontFamily: "'Bebas Neue', sans-serif",
                 fontWeight: 900,
                 textTransform: 'uppercase',
                 color: 'white',
@@ -678,7 +678,7 @@ export default function QuizResult() {
               <p
                 data-testid="text-circuit-break-technique"
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   color: '#ccc',
                   fontSize: '1.05rem',
                   lineHeight: 1.75,
@@ -691,7 +691,7 @@ export default function QuizResult() {
             <p
               data-testid="text-circuit-break-teaser"
               style={{
-                fontFamily: "'Libre Baskerville', serif",
+                fontFamily: "'Inter', sans-serif",
                 fontStyle: 'italic',
                 fontSize: '0.95rem',
                 color: '#14B8A6',
@@ -720,7 +720,7 @@ export default function QuizResult() {
             <h2
               data-testid="text-gate-headline"
               style={{
-                fontFamily: "'Schibsted Grotesk', sans-serif",
+                fontFamily: "'Bebas Neue', sans-serif",
                 fontWeight: 900,
                 textTransform: 'uppercase',
                 color: 'white',
@@ -733,7 +733,7 @@ export default function QuizResult() {
             </h2>
             <p
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 color: '#999',
                 fontSize: '1rem',
                 lineHeight: 1.6,
@@ -760,7 +760,7 @@ export default function QuizResult() {
                   border: '1px solid #1a1a1a',
                   borderRadius: '2px',
                   color: 'white',
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   fontSize: '1rem',
                   outline: 'none',
                   transition: 'border-color 200ms ease',
@@ -773,7 +773,7 @@ export default function QuizResult() {
                 {["Your pattern's trigger sequence", "Your body signal map", "Your first interrupt protocol"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2" style={{ marginBottom: "6px" }}>
                     <span style={{ color: "#14B8A6", fontSize: "13px", fontWeight: 700 }}>&#10003;</span>
-                    <span style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
+                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
                   </div>
                 ))}
               </div>
