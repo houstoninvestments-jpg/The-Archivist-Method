@@ -9,6 +9,10 @@
 - Do not create `claude/*` branches
 - Do not open pull requests
 - Changes pushed to `main` deploy automatically to thearchivistmethod.com via Replit
+- After every push, trigger the Vercel deploy hook:
+  ```
+  curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_v2ZzajenTAd8rGlhUOl1yFkuUjGR/mWEKFcdL0D
+  ```
 
 ## Project Overview
 
