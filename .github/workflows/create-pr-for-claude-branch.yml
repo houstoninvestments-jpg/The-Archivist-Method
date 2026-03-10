@@ -26,13 +26,25 @@ jobs:
             --jq '.[0].number' 2>/dev/null || echo "")
 
           if [ -z "$EXISTING_PR" ]; then
-            gh pr create \
+            PR_URL=$(gh pr create \
               --repo "${{ github.repository }}" \
               --title "Fix hero font size" \
               --body "Fixes hero section font size" \
               --base main \
-              --head "${{ github.ref_name }}"
-            echo "PR created successfully"
+              --head "${{ github.ref_name }}")
+            echo "PR created: $PR_URL"
+            PR_NUMBER=$(echo "$PR_URL" | grep -o '[0-9]*$')
           else
             echo "PR #$EXISTING_PR already exists for this branch"
+            PR_NUMBER=$EXISTING_PR
+          fi
+
+          # Merge the PR directly
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr merge "$PR_NUMBER" \
+              --repo "${{ github.repository }}" \
+              --squash \
+              --subject "Fix hero font size" \
+              --auto
+            echo "PR #$PR_NUMBER merged"
           fi
