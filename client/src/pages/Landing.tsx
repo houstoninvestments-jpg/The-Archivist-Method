@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link } from "wouter"; //
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { apiRequest } from "@/lib/queryClient";
