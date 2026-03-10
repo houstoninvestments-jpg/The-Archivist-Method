@@ -1,6 +1,7 @@
 import { Link } from "wouter"; //
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
+import TheWindowScience from "@/components/TheWindowScience";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
@@ -1863,37 +1864,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 8: NOT THERAPY ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-not-therapy" style={{ position: "relative" }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center" style={{ marginBottom: "48px" }}>
-            <SectionLabel>THE DIFFERENCE</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-therapy-headline">
-              Pattern Archaeology vs. Traditional Therapy
-            </h2>
-            <p className="fade-section fade-delay-2 mx-auto" style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "550px", marginTop: "24px" }} data-testid="text-therapy-subline">
-              "Knowing why you do it doesn't stop you from doing it. This does."
-            </p>
-          </div>
-
-          <p className="fade-section fade-delay-2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#999", textAlign: "center", maxWidth: "550px", margin: "0 auto 40px", lineHeight: 1.6 }} data-testid="text-therapy-intro">
-            Inspiration is not a mechanism. Understanding is not interruption. This is the difference.
-          </p>
-
-          <div className="fade-section fade-delay-2">
-            <div className="grid grid-cols-2 gap-0" style={{ background: "rgba(20,184,166,0.15)", borderBottom: "2px solid #14B8A6", padding: "14px 16px" }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THERAPY</p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>THE ARCHIVIST METHOD</p>
-            </div>
-            {therapyRows.map((row, i) => (
-              <div key={i} className="grid grid-cols-2 gap-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "14px 16px", background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999999", fontSize: "0.85rem" }}>{row[0]}</p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", color: "white", fontSize: "0.85rem" }}>{row[1]}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ========== SECTION 8: THE WINDOW SCIENCE ========== */}
+      <TheWindowScience />
 
 
       {/* ========== SECTION 8.6: THE ARCHIVES ========== */}
