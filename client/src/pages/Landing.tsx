@@ -9,10 +9,6 @@ const heroSeatedImg = "/hero-archivist-seated.webp";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
-import panel01Hit from "@assets/upscalemedia-transformed_(8)_1771967703399.webp";
-import panel02Body from "@assets/upscalemedia-transformed_(9)_1771967703402.webp";
-import panel03Window from "@assets/upscalemedia-transformed_(11)_1771967703403.webp";
-import panel04Break from "@assets/upscalemedia-transformed_(10)_1771967703403.webp";
 
 function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
   const words = text.split(" ");
@@ -1956,94 +1952,6 @@ export default function Landing() {
                   <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#333", letterSpacing: "0.1em" }}>STATUS: ACTIVE</p>
                 </div>
               </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ========== SECTION 8.6: THE METHOD IN 4 FRAMES ========== */}
-      <section style={{ background: "#0A0A0A", padding: "80px 24px" }} data-testid="section-4-frames">
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "40px", textAlign: "center" }}>THE METHOD IN 4 FRAMES</p>
-          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "24px" }}>
-
-            {/* PANEL 01 */}
-            <div className="bento-panel" style={{ transitionDelay: "0s" }}>
-              <div style={{ position: "relative", border: "1px solid rgba(0,212,170,0.2)", borderRadius: "4px", overflow: "hidden", aspectRatio: "16/10" }}>
-                <img src={panel01Hit} alt="The Hit" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} data-testid="img-frame-01" />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.85) 40%, transparent 70%)", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <span style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#00d4aa", opacity: 0.6, letterSpacing: "0.1em", zIndex: 3 }}>01</span>
-                <div style={{ position: "absolute", bottom: "20px", left: "20px", right: "20px", zIndex: 3 }}>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 800, fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", color: "white", textTransform: "uppercase", marginBottom: "6px" }}>SOMETHING JUST HAPPENED</p>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "0.85rem", color: "#EC4899" }}>Before you heard it. Before you saw it.</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#00d4aa", marginTop: "16px", textAlign: "center" }}>THE HIT</p>
-            </div>
-
-            {/* PANEL 02 */}
-            <div className="bento-panel" style={{ transitionDelay: "0.15s" }}>
-              <div style={{ position: "relative", border: "1px solid rgba(0,212,170,0.2)", borderRadius: "4px", overflow: "hidden", aspectRatio: "16/10" }}>
-                <img src={panel02Body} alt="Your Body Knew First" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} data-testid="img-frame-02" />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.85) 40%, transparent 70%)", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <span style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#00d4aa", opacity: 0.6, letterSpacing: "0.1em", zIndex: 3 }}>02</span>
-                <div style={{ position: "absolute", top: "16px", left: "0", right: "0", zIndex: 3, padding: "12px 20px", background: "rgba(10,10,10,0.75)" }}>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 800, fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", color: "white", textTransform: "uppercase", marginBottom: "4px" }}>YOUR BODY KNEW FIRST.</p>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "0.85rem", color: "#EC4899" }}>This is not anxiety. This is your pattern loading.</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#00d4aa", marginTop: "16px", textAlign: "center" }}>YOUR BODY KNEW FIRST</p>
-            </div>
-
-            {/* PANEL 03 */}
-            <div className="bento-panel" style={{ transitionDelay: "0.3s" }}>
-              <div style={{ position: "relative", border: "1px solid rgba(0,212,170,0.2)", borderRadius: "4px", overflow: "hidden", aspectRatio: "16/10" }}>
-                <img src={panel03Window} alt="3-7 Seconds" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} data-testid="img-frame-03" />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.85) 40%, transparent 70%)", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <span style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#00d4aa", opacity: 0.6, letterSpacing: "0.1em", zIndex: 3 }}>03</span>
-                <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 3, display: "flex", alignItems: "center", gap: "16px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em" }}>PATTERN</span>
-                  <div style={{ border: "1px solid rgba(0,212,170,0.5)", borderRadius: "4px", padding: "10px 20px", background: "rgba(10,10,10,0.7)" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(1rem, 2vw, 1.3rem)", fontWeight: 700, color: "white", letterSpacing: "0.1em" }}>3–7 SECONDS</span>
-                  </div>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#00d4aa", textTransform: "uppercase", letterSpacing: "0.15em" }}>INTERRUPT</span>
-                </div>
-                <div style={{ position: "absolute", bottom: "20px", left: "20px", right: "20px", zIndex: 3 }}>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 800, fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", color: "white", textTransform: "uppercase" }}>THE ONLY MOMENT THAT HAS EVER MATTERED.</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#00d4aa", marginTop: "16px", textAlign: "center" }}>3-7 SECONDS</p>
-            </div>
-
-            {/* PANEL 04 */}
-            <div className="bento-panel" style={{ transitionDelay: "0.45s" }}>
-              <div style={{ position: "relative", border: "1px solid rgba(0,212,170,0.2)", borderRadius: "4px", overflow: "hidden", aspectRatio: "16/10" }}>
-                <img src={panel04Break} alt="You Are Not That Child Anymore" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} data-testid="img-frame-04" />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.85) 40%, transparent 70%)", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "24px", borderTop: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderLeft: "2px solid #00d4aa", zIndex: 2 }} />
-                <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "24px", borderBottom: "2px solid #00d4aa", borderRight: "2px solid #00d4aa", zIndex: 2 }} />
-                <span style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#00d4aa", opacity: 0.6, letterSpacing: "0.1em", zIndex: 3 }}>04</span>
-                <div style={{ position: "absolute", bottom: "20px", left: "20px", right: "20px", zIndex: 3 }}>
-                  <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 800, fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", color: "white", textTransform: "uppercase", marginBottom: "6px" }}>YOU ARE NOT THAT CHILD ANYMORE.</p>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "0.85rem", color: "#EC4899" }}>One trained response. The pattern breaks.</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#00d4aa", marginTop: "16px", textAlign: "center" }}>YOU ARE NOT THAT CHILD ANYMORE</p>
             </div>
 
           </div>
