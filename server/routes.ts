@@ -141,7 +141,9 @@ export async function registerRoutes(
             <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
               <p style="color:#00FFD1;font-size:12px;letter-spacing:3px;">PATTERN IDENTIFIED</p>
               <h2 style="font-size:28px;">${patternName}</h2>
-              <p style="color:#94A3B8;">Your free Crash Course is built specifically for this pattern. Everything inside is designed for how your nervous system works.</p>
+              <p style="color:#94A3B8;">Your free Crash Course is built specifically
+              for this pattern. Everything inside is designed
+              for how your nervous system works.</p>
               <a href="https://thearchivistmethod.com/portal"
                  style="display:inline-block;background:#00FFD1;color:#0a0a0a;padding:14px 32px;text-decoration:none;font-weight:bold;margin-top:20px;">
                 START YOUR CRASH COURSE →
