@@ -1,470 +1,807 @@
-import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation } from 'wouter';
-import { quizQuestions, calculatePatternScores, determineQuizResult } from '@/lib/quizData';
+import {
+  quizQuestions,
+  calculatePatternScores,
+  determineQuizResult,
+  type PatternKey,
+} from '@/lib/quizData';
 
-const ParticleField = lazy(() => import("@/components/ParticleField"));
-
-const scanLines = [
-  "Scanning 9 behavioral patterns...",
-  "Cross-referencing your response signature...",
-  "Identifying your primary loop...",
-  "Checking for secondary reinforcement patterns...",
-  "Your Archivist file is being compiled...",
+// ── Pattern key order (index = dot position in constellation)
+const PATTERN_KEYS: PatternKey[] = [
+  'disappearing', 'apologyLoop', 'testing', 'attractionToHarm',
+  'complimentDeflection', 'drainingBond', 'successSabotage', 'perfectionism', 'rage',
 ];
 
-function SequentialLoadingScreen() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [showFinal, setShowFinal] = useState(false);
-  const [progressWidth, setProgressWidth] = useState(0);
+// ── Constellation dot positions (9 dots in a circle, SVG 100×100 viewport)
+const DOT_COUNT = 9;
+const DOT_POSITIONS = Array.from({ length: DOT_COUNT }, (_, i) => {
+  const angle = ((i * 360) / DOT_COUNT - 90) * (Math.PI / 180);
+  return { x: 50 + 38 * Math.cos(angle), y: 50 + 38 * Math.sin(angle) };
+});
+
+// Adjacent + cross connections for the constellation lines
+const LINES: [number, number][] = [
+  [0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0], // ring
+  [0,4],[1,5],[2,6],[3,7],[4,8], // cross
+];
+
+// ─────────────────────────────────────────────
+// OPENING RITUAL
+// ─────────────────────────────────────────────
+function OpeningRitual({ onComplete }: { onComplete: () => void }) {
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setProgressWidth(100);
-      });
-    });
-
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    scanLines.forEach((_, i) => {
-      timers.push(setTimeout(() => setVisibleLines(i + 1), (i + 1) * 1500));
-    });
-    timers.push(setTimeout(() => setShowFinal(true), scanLines.length * 1500 + 500));
+    const timers = [
+      setTimeout(() => setStep(1), 800),
+      setTimeout(() => setStep(2), 1600),
+      setTimeout(() => setStep(3), 2200),
+      setTimeout(() => { setStep(4); onComplete(); }, 3500),
+    ];
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [onComplete]);
 
   return (
-    <div
-      className="quiz-screen min-h-screen flex items-center justify-center"
-      style={{ background: '#0A0A0A' }}
-      data-testid="quiz-analyzing-screen"
-    >
-      <div style={{ maxWidth: '500px', width: '100%', padding: '0 24px', textAlign: 'left' }}>
-        <div style={{ marginBottom: '48px' }}>
-          {scanLines.map((line, i) => (
-            <p
-              key={i}
-              data-testid={`text-scan-line-${i + 1}`}
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '13px',
-                color: '#999',
-                marginBottom: '16px',
-                opacity: i < visibleLines ? 1 : 0,
-                transform: i < visibleLines ? 'translateY(0)' : 'translateY(8px)',
-                transition: 'opacity 600ms ease, transform 600ms ease',
-              }}
-            >
-              {line}
-            </p>
+    <>
+      <style>{`
+        @keyframes pulseRing {
+          0% { transform: translate(-50%,-50%) scale(0.3); opacity: 0.7; }
+          100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+        }
+      `}</style>
+      <div
+        onClick={onComplete}
+        style={{
+          position: 'fixed', inset: 0,
+          background: '#000000',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer', zIndex: 100,
+        }}
+      >
+        {/* Pulse rings */}
+        <div style={{ position: 'relative', width: '120px', height: '120px', marginBottom: '48px' }}>
+          {[0, 1, 2].map(i => (
+            <div key={i} style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              width: '80px', height: '80px',
+              border: '1px solid #00FFD1',
+              borderRadius: '50%',
+              animation: 'pulseRing 2s ease-out infinite',
+              animationDelay: `${i * 0.6}s`,
+            }} />
           ))}
+          <div style={{
+            position: 'absolute', top: '50%', left: '50%',
+            transform: 'translate(-50%,-50%)',
+            width: '8px', height: '8px',
+            background: '#00FFD1', borderRadius: '50%',
+          }} />
         </div>
 
-        <div
-          data-testid="text-scan-final"
-          style={{
-            opacity: showFinal ? 1 : 0,
-            transform: showFinal ? 'translateY(0)' : 'translateY(12px)',
-            transition: 'opacity 800ms ease, transform 800ms ease',
-            textAlign: 'center',
-            marginBottom: '48px',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontStyle: 'italic',
-              fontSize: '1.1rem',
-              color: '#14B8A6',
-              lineHeight: 1.6,
-            }}
-          >
-            Your pattern has a name. And a way out.
-          </p>
-        </div>
+        {/* Text sequence */}
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.75rem',
+          color: '#00FFD1',
+          letterSpacing: '0.4em',
+          textTransform: 'uppercase',
+          marginBottom: '24px',
+          opacity: step >= 1 ? 1 : 0,
+          transition: 'opacity 600ms ease',
+        }}>
+          PATTERN ARCHAEOLOGY INITIATED
+        </p>
 
-        <div
-          style={{
-            height: '2px',
-            background: 'rgba(255, 255, 255, 0.06)',
-            width: '100%',
-            overflow: 'hidden',
-          }}
-          data-testid="bar-analyzing-progress"
-        >
-          <div
-            style={{
-              height: '100%',
-              background: '#14B8A6',
-              width: `${progressWidth}%`,
-              transition: 'width 7.5s linear',
-            }}
-          />
-        </div>
+        <p style={{
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontStyle: 'italic',
+          fontSize: '1.3rem',
+          color: '#FAFAFA',
+          marginBottom: '12px',
+          opacity: step >= 2 ? 1 : 0,
+          transform: step >= 2 ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 600ms ease, transform 600ms ease',
+        }}>
+          Your nervous system already knows the answers.
+        </p>
+
+        <p style={{
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontStyle: 'italic',
+          fontSize: '1.3rem',
+          color: '#EC4899',
+          opacity: step >= 3 ? 1 : 0,
+          transform: step >= 3 ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 600ms ease, transform 600ms ease',
+        }}>
+          Just tell the truth.
+        </p>
+      </div>
+    </>
+  );
+}
+
+// ─────────────────────────────────────────────
+// CALCULATING / CONSTELLATION SCREEN
+// ─────────────────────────────────────────────
+function ConstellationScreen({
+  primaryPattern,
+  secondaryPatterns,
+  onDone,
+}: {
+  primaryPattern: PatternKey | null;
+  secondaryPatterns: PatternKey[];
+  onDone: () => void;
+}) {
+  const [calcPhase, setCalcPhase] = useState(0);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setCalcPhase(1), 800),   // lines draw
+      setTimeout(() => setCalcPhase(2), 1500),  // dots dim
+      setTimeout(() => setCalcPhase(3), 2200),  // primary blazes
+      setTimeout(() => setCalcPhase(4), 2800),  // "PATTERN IDENTIFIED"
+      setTimeout(() => setCalcPhase(5), 3500),  // "ROUTING TO YOUR RESULTS"
+      setTimeout(() => onDone(), 4000),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [onDone]);
+
+  const primaryIdx = primaryPattern ? PATTERN_KEYS.indexOf(primaryPattern) : -1;
+  const secondaryIdxs = secondaryPatterns.map(p => PATTERN_KEYS.indexOf(p));
+
+  const getDotOpacity = (i: number) => {
+    if (calcPhase < 2) return 0.3;
+    if (calcPhase < 3) {
+      // Dimming phase
+      if (i === primaryIdx) return 0.3;
+      return 0.08;
+    }
+    // Phase 3+: primary blazes, secondary glow, rest dim
+    if (i === primaryIdx) return 1;
+    if (secondaryIdxs.includes(i)) return 0.6;
+    return 0.1;
+  };
+
+  const getDotSize = (i: number) => {
+    if (calcPhase >= 3 && i === primaryIdx) return 16;
+    return 8;
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0,
+      background: '#000000',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      zIndex: 100,
+    }}>
+      {/* Constellation SVG */}
+      <div style={{ width: '200px', height: '200px', marginBottom: '48px' }}>
+        <svg viewBox="0 0 100 100" width="200" height="200">
+          {/* Lines */}
+          {calcPhase >= 1 && LINES.map(([a, b], i) => (
+            <line
+              key={i}
+              x1={DOT_POSITIONS[a].x} y1={DOT_POSITIONS[a].y}
+              x2={DOT_POSITIONS[b].x} y2={DOT_POSITIONS[b].y}
+              stroke="rgba(0,255,209,0.2)"
+              strokeWidth="0.5"
+              style={{
+                opacity: calcPhase >= 1 ? 1 : 0,
+                transition: `opacity 400ms ease ${i * 30}ms`,
+              }}
+            />
+          ))}
+          {/* Dots */}
+          {DOT_POSITIONS.map((pos, i) => {
+            const size = getDotSize(i);
+            const opacity = getDotOpacity(i);
+            return (
+              <circle
+                key={i}
+                cx={pos.x}
+                cy={pos.y}
+                r={size / 2}
+                fill={i === primaryIdx && calcPhase >= 3 ? '#00FFD1' : 'rgba(0,255,209,0.6)'}
+                style={{
+                  opacity,
+                  transition: 'opacity 600ms ease, r 600ms ease',
+                  filter: i === primaryIdx && calcPhase >= 3 ? 'drop-shadow(0 0 6px #00FFD1)' : 'none',
+                }}
+              />
+            );
+          })}
+        </svg>
+      </div>
+
+      {/* Text */}
+      <div style={{ textAlign: 'center' }}>
+        <p style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: '3rem',
+          color: 'white',
+          letterSpacing: '0.05em',
+          marginBottom: '16px',
+          opacity: calcPhase >= 4 ? 1 : 0,
+          transform: calcPhase >= 4 ? 'translateY(0)' : 'translateY(12px)',
+          transition: 'opacity 400ms ease, transform 400ms ease',
+        }}>
+          PATTERN IDENTIFIED
+        </p>
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.7rem',
+          color: '#00FFD1',
+          letterSpacing: '0.3em',
+          textTransform: 'uppercase',
+          opacity: calcPhase >= 5 ? 1 : 0,
+          transition: 'opacity 400ms ease',
+        }}>
+          ROUTING TO YOUR RESULTS
+        </p>
       </div>
     </div>
   );
 }
 
+// ─────────────────────────────────────────────
+// MAIN QUIZ COMPONENT
+// ─────────────────────────────────────────────
 export default function Quiz() {
-  const [screen, setScreen] = useState<'intro' | 'quiz' | 'analyzing'>('intro');
+  const [screen, setScreen] = useState<'opening' | 'quiz' | 'calculating'>('opening');
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<number, string[]>>({});
   const [, setLocation] = useLocation();
-  const [selectedFlash, setSelectedFlash] = useState<string | null>(null);
-  const [slideState, setSlideState] = useState<'enter' | 'visible' | 'exit'>('visible');
-  const [isAdvancing, setIsAdvancing] = useState(false);
-  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Typing effect
+  const [typedText, setTypedText] = useState('');
+  const [typingComplete, setTypingComplete] = useState(false);
+  const [visibleAnswers, setVisibleAnswers] = useState(0);
+
+  // Recognition line
+  const [recognition, setRecognition] = useState<{ optionId: string; text: string; visible: boolean } | null>(null);
+  const recognitionTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Quiz result (stored when transitioning to calculating)
+  const [quizResult, setQuizResult] = useState<ReturnType<typeof determineQuizResult> | null>(null);
+
+  // Slide state for question transitions
+  const [slideVisible, setSlideVisible] = useState(false);
 
   const question = quizQuestions[currentQuestion];
-  const progress = ((currentQuestion) / quizQuestions.length) * 100;
-  const progressAfterAnswer = ((currentQuestion + 1) / quizQuestions.length) * 100;
-  const currentAnswer = answers[question?.id];
-  const isFinalQuestion = currentQuestion === quizQuestions.length - 1;
+  const isQ20 = question?.id === 20;
+  const currentSelections = answers[question?.id] || [];
+  const maxSelections = isQ20 ? 1 : 3;
+  const isAtMax = currentSelections.length >= maxSelections;
+  const hasSelection = currentSelections.length > 0;
+  const meterProgress = currentQuestion / 19;
 
+  // ── Start question slide-in + typing on question change
+  useEffect(() => {
+    if (screen !== 'quiz') return;
+    setSlideVisible(false);
+    setTypedText('');
+    setTypingComplete(false);
+    setVisibleAnswers(0);
+    setRecognition(null);
+
+    const slideTimer = setTimeout(() => setSlideVisible(true), 50);
+    return () => clearTimeout(slideTimer);
+  }, [currentQuestion, screen]);
+
+  // ── Typing effect
+  useEffect(() => {
+    if (screen !== 'quiz' || !slideVisible) return;
+    const text = question.title;
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setTypedText(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(interval);
+        setTypingComplete(true);
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, [currentQuestion, screen, slideVisible, question]);
+
+  // ── Stagger answer reveal after typing
+  useEffect(() => {
+    if (!typingComplete) return;
+    const delay = isQ20 ? 400 : 100;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    question.options.forEach((_, i) => {
+      timers.push(setTimeout(() => setVisibleAnswers(i + 1), (i + 1) * delay));
+    });
+    return () => timers.forEach(clearTimeout);
+  }, [typingComplete, isQ20, currentQuestion, question]);
+
+  // ── Recognition line trigger
+  const triggerRecognition = useCallback((optionId: string, text: string) => {
+    recognitionTimers.current.forEach(clearTimeout);
+    setRecognition({ optionId, text, visible: false });
+    const t1 = setTimeout(() => setRecognition(r => r ? { ...r, visible: true } : null), 16);
+    const t2 = setTimeout(() => setRecognition(r => r ? { ...r, visible: false } : null), 1816);
+    const t3 = setTimeout(() => setRecognition(null), 2116);
+    recognitionTimers.current = [t1, t2, t3];
+  }, []);
+
+  useEffect(() => () => recognitionTimers.current.forEach(clearTimeout), []);
+
+  // ── Handle answer selection
+  const handleSelect = useCallback((optionId: string) => {
+    const qId = question.id;
+    const current = answers[qId] || [];
+
+    if (current.includes(optionId)) {
+      // Deselect
+      setAnswers(prev => ({ ...prev, [qId]: current.filter(id => id !== optionId) }));
+      return;
+    }
+
+    if (isAtMax) return;
+
+    const option = question.options.find(o => o.id === optionId);
+    if (!option) return;
+
+    const newSelections = [...current, optionId];
+    setAnswers(prev => ({ ...prev, [qId]: newSelections }));
+    triggerRecognition(optionId, option.recognition);
+  }, [question, answers, isAtMax, triggerRecognition]);
+
+  // ── Navigate to next question or calculating screen
   const goToNext = useCallback(() => {
     if (currentQuestion < quizQuestions.length - 1) {
-      setSlideState('exit');
-      setTimeout(() => {
-        setCurrentQuestion(prev => prev + 1);
-        setSlideState('enter');
-        setSelectedFlash(null);
-        setIsAdvancing(false);
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setSlideState('visible');
-          });
-        });
-      }, 200);
+      setCurrentQuestion(prev => prev + 1);
     } else {
-      setScreen('analyzing');
-      setIsAdvancing(false);
-      setTimeout(() => {
-        const scores = calculatePatternScores(answers);
-        const result = determineQuizResult(scores);
-
-        if (result.primaryPattern) {
-          localStorage.setItem('quizResultPattern', result.primaryPattern);
-        }
-        localStorage.setItem('quizScores', JSON.stringify(result.scores));
-
-        const resultData = encodeURIComponent(JSON.stringify(result));
-        setLocation(`/results?data=${resultData}`);
-      }, 8000);
+      const rawScores = calculatePatternScores(answers);
+      const result = determineQuizResult(rawScores);
+      setQuizResult(result);
+      setScreen('calculating');
     }
   }, [currentQuestion, answers]);
 
-  const handleSelect = useCallback((optionId: string) => {
-    if (isAdvancing) return;
-
-    setSelectedFlash(optionId);
-    setAnswers(prev => ({ ...prev, [question.id]: optionId }));
-    setIsAdvancing(true);
-
-    if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
-    advanceTimerRef.current = setTimeout(() => {
-      goToNext();
-    }, 400);
-  }, [question, goToNext, isAdvancing]);
-
-  const handleBack = useCallback(() => {
-    if (currentQuestion > 0 && !isAdvancing) {
-      setSlideState('exit');
-      setTimeout(() => {
-        setCurrentQuestion(prev => prev - 1);
-        setSelectedFlash(null);
-        setIsAdvancing(false);
-        setSlideState('enter');
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setSlideState('visible');
-          });
-        });
-      }, 150);
-    }
-  }, [currentQuestion, isAdvancing]);
-
+  // ── Keyboard: number keys to select, Enter to advance
   useEffect(() => {
     if (screen !== 'quiz') return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isAdvancing) return;
       const num = parseInt(e.key);
       if (num >= 1 && num <= question.options.length) {
-        const option = question.options[num - 1];
-        handleSelect(option.id);
+        handleSelect(question.options[num - 1].id);
       }
-      if (e.key === 'Backspace' && currentQuestion > 0) {
-        e.preventDefault();
-        handleBack();
-      }
+      if (e.key === 'Enter' && hasSelection) goToNext();
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [screen, question, handleSelect, handleBack, currentQuestion, isAdvancing]);
+  }, [screen, question, handleSelect, goToNext, hasSelection]);
 
-  useEffect(() => {
-    return () => {
-      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
-    };
-  }, []);
+  // ── Constellation done → navigate to results
+  const handleCalculatingDone = useCallback(() => {
+    if (!quizResult) return;
+    if (quizResult.primaryPattern) {
+      localStorage.setItem('quizResultPattern', quizResult.primaryPattern);
+    }
+    localStorage.setItem('quizScores', JSON.stringify(quizResult.scores));
+    const resultData = encodeURIComponent(JSON.stringify(quizResult));
+    setLocation(`/results?data=${resultData}`);
+  }, [quizResult, setLocation]);
 
-  if (screen === 'intro') {
+  // ─────────────────
+  // SCREENS
+  // ─────────────────
+  if (screen === 'opening') {
+    return <OpeningRitual onComplete={() => setScreen('quiz')} />;
+  }
+
+  if (screen === 'calculating') {
     return (
-      <div
-        className="quiz-screen min-h-screen flex flex-col items-center justify-center px-6"
-        style={{ background: '#0A0A0A' }}
-      >
-        <Suspense fallback={null}>
-          <ParticleField />
-        </Suspense>
-
-        <div className="quiz-intro-content text-center relative z-10" style={{ maxWidth: '600px' }}>
-          <p
-            data-testid="text-quiz-brand"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '12px',
-              color: '#14B8A6',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3em',
-            }}
-          >
-            THE ARCHIVIST METHOD&trade;
-          </p>
-
-          <h1
-            data-testid="text-quiz-headline"
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.8rem, 5vw, 3.5rem)',
-              color: 'white',
-              fontWeight: 700,
-              lineHeight: 1.15,
-              marginTop: '32px',
-            }}
-          >
-            Discover Your Pattern
-          </h1>
-
-          <p
-            data-testid="text-quiz-subhead-1"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.1rem',
-              color: '#999',
-              marginTop: '24px',
-              maxWidth: '480px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          >
-            You watch yourself do it. You know it's happening.
-          </p>
-
-          <p
-            data-testid="text-quiz-subhead-2"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.1rem',
-              color: 'white',
-              marginTop: '8px',
-            }}
-          >
-            You do it anyway.
-          </p>
-
-          <p
-            data-testid="text-quiz-meta"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1rem',
-              color: '#999999',
-              marginTop: '32px',
-            }}
-          >
-            15 questions. 2 minutes.
-          </p>
-
-          <button
-            data-testid="quiz-start-btn"
-            onClick={() => {
-              setScreen('quiz');
-              setSlideState('enter');
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  setSlideState('visible');
-                });
-              });
-            }}
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '15px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              background: 'transparent',
-              color: 'white',
-              padding: '18px 48px',
-              marginTop: '32px',
-              cursor: 'pointer',
-              transition: 'all 300ms ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'white';
-              e.currentTarget.style.color = 'black';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'white';
-            }}
-          >
-            BEGIN &rarr;
-          </button>
-
-          <p
-            data-testid="text-quiz-privacy"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '13px',
-              color: '#999999',
-              marginTop: '16px',
-            }}
-          >
-            Free &middot; Private &middot; Instant Results
-          </p>
-
-          <p
-            data-testid="text-quiz-tagline"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '12px',
-              color: '#14B8A6',
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              marginTop: '48px',
-              opacity: 0.7,
-            }}
-          >
-            Pattern archaeology, not therapy.
-          </p>
-        </div>
-      </div>
+      <ConstellationScreen
+        primaryPattern={quizResult?.primaryPattern || null}
+        secondaryPatterns={quizResult?.secondaryPatterns || []}
+        onDone={handleCalculatingDone}
+      />
     );
   }
 
-  if (screen === 'analyzing') {
-    return <SequentialLoadingScreen />;
-  }
+  // ── QUIZ SCREEN
+  const progressPct = (currentQuestion / quizQuestions.length) * 100;
+  const progressAfterPct = ((currentQuestion + 1) / quizQuestions.length) * 100;
 
   return (
-    <div
-      className={`quiz-screen min-h-screen flex flex-col ${isFinalQuestion ? 'quiz-final-question' : ''}`}
-      style={{ background: '#0A0A0A' }}
-    >
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="h-[3px]" style={{ background: 'rgba(255, 255, 255, 0.06)' }}>
-          <div
-            className="quiz-progress-bar h-full"
-            style={{
-              width: `${currentAnswer ? progressAfterAnswer : progress}%`,
-            }}
-          />
+    <>
+      <style>{`
+        @keyframes pulseRing {
+          0% { transform: translate(-50%,-50%) scale(0.3); opacity: 0.7; }
+          100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+        }
+        @keyframes q20Fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+
+      <div
+        className="quiz-screen min-h-screen"
+        style={{ background: '#000000', position: 'relative' }}
+      >
+        {/* Q20 dark overlay */}
+        {isQ20 && (
+          <div style={{
+            position: 'fixed', inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            animation: 'q20Fade 800ms ease forwards',
+            zIndex: 1, pointerEvents: 'none',
+          }} />
+        )}
+
+        {/* Progress bar */}
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+          height: '3px', background: 'rgba(255,255,255,0.06)',
+        }}>
+          <div className="quiz-progress-bar" style={{
+            height: '100%',
+            width: `${hasSelection ? progressAfterPct : progressPct}%`,
+          }} />
         </div>
-      </div>
 
-      <div className="flex-1 flex flex-col pt-6 pb-4 relative z-10">
-        <div className="flex-1 flex items-center justify-center px-4">
-          <div
-            className={`w-full max-w-xl quiz-slide quiz-slide-${slideState}`}
-          >
-            <div className="p-5 md:p-7">
-              <div className="flex items-center gap-3 mb-5">
-                <span
-                  data-testid={`quiz-question-badge-${currentQuestion + 1}`}
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '11px',
-                    color: '#14B8A6',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                  }}
-                >
-                  {currentQuestion + 1} / {quizQuestions.length}
+        {/* Depth meter */}
+        <div style={{
+          position: 'fixed',
+          left: '24px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          height: '60vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '8px',
+          zIndex: 10,
+        }}>
+          <span style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '0.6rem',
+            color: '#00FFD1',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            writingMode: 'vertical-rl',
+            textOrientation: 'mixed',
+            transform: 'rotate(180deg)',
+            opacity: 0.7,
+          }}>SURFACE</span>
+          <div style={{
+            flex: 1,
+            width: '2px',
+            background: 'rgba(0,255,209,0.15)',
+            position: 'relative',
+          }}>
+            {/* Filled portion */}
+            <div style={{
+              position: 'absolute',
+              top: 0, left: 0, right: 0,
+              height: `${meterProgress * 100}%`,
+              background: '#00FFD1',
+              transition: 'height 600ms ease',
+            }} />
+            {/* Position dot */}
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: `${meterProgress * 100}%`,
+              transform: 'translate(-50%, -50%)',
+              width: '8px',
+              height: '8px',
+              background: '#00FFD1',
+              borderRadius: '50%',
+              transition: 'top 600ms ease',
+              boxShadow: '0 0 6px rgba(0,255,209,0.6)',
+            }} />
+          </div>
+          <span style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '0.6rem',
+            color: '#00FFD1',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            writingMode: 'vertical-rl',
+            textOrientation: 'mixed',
+            transform: 'rotate(180deg)',
+            opacity: 0.7,
+          }}>CORE SIGNAL</span>
+        </div>
+
+        {/* Main question area */}
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '60px 24px 60px 80px',
+          position: 'relative',
+          zIndex: 2,
+        }}>
+          <div style={{
+            maxWidth: '640px',
+            width: '100%',
+            opacity: slideVisible ? 1 : 0,
+            transform: slideVisible ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 400ms ease, transform 400ms ease',
+          }}>
+            {/* Question counter */}
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.7rem',
+              color: '#00FFD1',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              marginBottom: '24px',
+              opacity: 0.7,
+            }}>
+              {currentQuestion + 1} / {quizQuestions.length}
+              {isQ20 && (
+                <span style={{ marginLeft: '12px', color: 'rgba(0,255,209,0.5)' }}>
+                  TRIPLE WEIGHT
                 </span>
-                {isFinalQuestion && (
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', color: 'rgba(20, 184, 166, 0.5)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
-                    counts 2x
-                  </span>
-                )}
+              )}
+            </p>
+
+            {/* Q20 special header */}
+            {isQ20 && (
+              <div style={{ marginBottom: '32px' }}>
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  color: '#00FFD1',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  marginBottom: '12px',
+                  opacity: slideVisible ? 1 : 0,
+                  transition: 'opacity 800ms ease',
+                }}>
+                  FINAL SIGNAL
+                </p>
+                <p style={{
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                  fontStyle: 'italic',
+                  fontSize: '1.1rem',
+                  color: '#FAFAFA',
+                  lineHeight: 1.6,
+                  marginBottom: '0',
+                  opacity: slideVisible ? 1 : 0,
+                  transition: 'opacity 800ms ease 200ms',
+                }}>
+                  This is the one your body runs without asking permission.
+                </p>
               </div>
+            )}
 
-              <h2
-                data-testid="quiz-question-title"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(1.15rem, 2.5vw, 1.35rem)',
-                  color: 'white',
-                  fontWeight: 400,
-                  lineHeight: 1.5,
-                  marginBottom: '28px',
-                }}
-              >
-                {question.title}
-              </h2>
+            {/* Question text — typing effect */}
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+              color: 'white',
+              lineHeight: 1.2,
+              marginBottom: '20px',
+              minHeight: '1.2em',
+            }}>
+              {typedText}
+              {!typingComplete && (
+                <span style={{
+                  display: 'inline-block',
+                  width: '2px',
+                  height: '1em',
+                  background: '#00FFD1',
+                  marginLeft: '2px',
+                  verticalAlign: 'middle',
+                  animation: 'none',
+                  opacity: 0.8,
+                }} />
+              )}
+            </h2>
 
-              <div className="space-y-3">
-                {question.options.map((option) => {
-                  const isSelected = currentAnswer === option.id;
-                  const isFlashing = selectedFlash === option.id;
-                  const isNeutral = option.id.endsWith('n');
-                  return (
+            {/* Instruction line */}
+            {typingComplete && !isQ20 && (
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.7rem',
+                color: '#00FFD1',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                marginBottom: '2rem',
+              }}>
+                PICK EVERY ANSWER THAT LANDS. DON'T THINK.
+              </p>
+            )}
+
+            {/* Selection counter */}
+            {hasSelection && !isQ20 && (
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.75rem',
+                color: '#00FFD1',
+                letterSpacing: '0.2em',
+                marginBottom: '16px',
+              }}>
+                {currentSelections.length} OF 3 SELECTED
+              </p>
+            )}
+
+            {/* Answer options */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {question.options.map((option, idx) => {
+                const isSelected = currentSelections.includes(option.id);
+                const isDimmed = isAtMax && !isSelected;
+                const isVisible = idx < visibleAnswers;
+                const showRecognition = recognition?.optionId === option.id;
+
+                return (
+                  <div key={option.id}>
                     <button
-                      key={option.id}
                       data-testid={`quiz-option-${option.id}`}
                       onClick={() => handleSelect(option.id)}
-                      disabled={isAdvancing}
-                      className={`quiz-option w-full text-left px-4 py-3.5 transition-all duration-200 ${isFlashing ? 'quiz-option-flash' : ''} ${isAdvancing && !isSelected ? 'opacity-50' : ''}`}
+                      disabled={isDimmed}
                       style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '16px 20px',
+                        background: isSelected
+                          ? 'rgba(0,255,209,0.08)'
+                          : 'rgba(255,255,255,0.03)',
                         border: isSelected
-                          ? '1px solid #14B8A6'
-                          : isNeutral
-                            ? '1px dotted rgba(255, 255, 255, 0.08)'
-                            : '1px solid rgba(255, 255, 255, 0.12)',
-                        background: isSelected ? 'rgba(20, 184, 166, 0.08)' : 'transparent',
+                          ? '1px solid rgba(0,255,209,0.3)'
+                          : '1px solid rgba(255,255,255,0.08)',
+                        borderLeft: isSelected
+                          ? '3px solid #00FFD1'
+                          : '3px solid transparent',
+                        borderRadius: '4px',
+                        color: isSelected ? 'white' : '#CBD5E1',
                         fontFamily: "'Inter', sans-serif",
-                        fontSize: isNeutral ? '0.85rem' : '0.95rem',
-                        color: isSelected ? 'white' : isNeutral ? '#999' : '#ccc',
-                        lineHeight: 1.5,
-                        ...(isNeutral ? { marginTop: '8px' } : {}),
+                        fontSize: '0.95rem',
+                        cursor: isDimmed ? 'not-allowed' : 'pointer',
+                        transition: 'all 200ms ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                        opacity: isVisible ? (isDimmed ? 0.3 : 1) : 0,
+                        transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+                      }}
+                      onMouseEnter={e => {
+                        if (!isDimmed && !isSelected) {
+                          e.currentTarget.style.background = 'rgba(0,255,209,0.05)';
+                          e.currentTarget.style.borderLeftColor = 'rgba(0,255,209,0.4)';
+                          e.currentTarget.style.color = 'white';
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (!isDimmed && !isSelected) {
+                          e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                          e.currentTarget.style.borderLeftColor = 'transparent';
+                          e.currentTarget.style.color = '#CBD5E1';
+                        }
                       }}
                     >
-                      {option.text}
+                      <span>{option.text}</span>
+                      {isSelected && (
+                        <span style={{
+                          color: '#00FFD1',
+                          fontSize: '0.85rem',
+                          flexShrink: 0,
+                          fontFamily: "'JetBrains Mono', monospace",
+                        }}>
+                          ✓
+                        </span>
+                      )}
                     </button>
-                  );
-                })}
-              </div>
+
+                    {/* Recognition line */}
+                    {showRecognition && (
+                      <p style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: '0.75rem',
+                        color: '#00FFD1',
+                        letterSpacing: '0.15em',
+                        fontStyle: 'italic',
+                        paddingLeft: '20px',
+                        marginTop: '6px',
+                        marginBottom: '2px',
+                        opacity: recognition?.visible ? 1 : 0,
+                        transition: 'opacity 300ms ease',
+                      }}>
+                        {recognition?.text}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* "This doesn't apply to me" — not on Q20 */}
+              {!isQ20 && typingComplete && (
+                <button
+                  onClick={() => {
+                    setAnswers(prev => ({ ...prev, [question.id]: [] }));
+                    setRecognition(null);
+                  }}
+                  style={{
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '12px 20px',
+                    background: 'transparent',
+                    border: '1px dotted rgba(255,255,255,0.1)',
+                    borderLeft: '3px solid transparent',
+                    borderRadius: '4px',
+                    color: '#64748B',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    transition: 'all 200ms ease',
+                    marginTop: '4px',
+                    opacity: visibleAnswers >= question.options.length ? 1 : 0,
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#94A3B8'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#64748B'; }}
+                >
+                  This doesn't apply to me
+                </button>
+              )}
             </div>
 
-            {currentQuestion > 0 && !isAdvancing && (
+            {/* NEXT button */}
+            {hasSelection && (
               <button
-                data-testid="quiz-back-btn"
-                onClick={handleBack}
+                data-testid="quiz-next-btn"
+                onClick={goToNext}
                 style={{
                   display: 'block',
-                  margin: '8px auto 0',
+                  marginTop: '2rem',
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '12px',
-                  color: '#999999',
+                  fontSize: '0.85rem',
+                  color: '#0a0a0a',
+                  background: '#00FFD1',
+                  border: 'none',
+                  padding: '14px 40px',
+                  cursor: 'pointer',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  transition: 'background 200ms ease, transform 200ms ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = '#00C9A7';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = '#00FFD1';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                NEXT →
+              </button>
+            )}
+
+            {/* Back button */}
+            {currentQuestion > 0 && (
+              <button
+                data-testid="quiz-back-btn"
+                onClick={() => setCurrentQuestion(prev => prev - 1)}
+                style={{
+                  display: 'block',
+                  marginTop: '16px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  color: '#475569',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  textTransform: 'lowercase',
                   letterSpacing: '0.1em',
                   transition: 'color 200ms ease',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#999'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#999999'; }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#94A3B8'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#475569'; }}
               >
                 back
               </button>
@@ -472,6 +809,6 @@ export default function Quiz() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
