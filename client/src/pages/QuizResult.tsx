@@ -169,8 +169,15 @@ export default function QuizResult() {
         }),
       });
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to save results');
+        const text = await response.text();
+        let errorMsg = 'Failed to save results';
+        try {
+          const data = JSON.parse(text);
+          errorMsg = data.error || data.message || errorMsg;
+        } catch {
+          console.error('[quiz/submit] non-JSON error response:', text.slice(0, 200));
+        }
+        throw new Error(errorMsg);
       }
       localStorage.setItem('quizResultPattern', finalPattern);
       localStorage.setItem('userEmail', email);

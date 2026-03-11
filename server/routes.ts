@@ -116,19 +116,28 @@ export async function registerRoutes(
 
   app.post("/api/quiz/submit", async (req, res) => {
     try {
+      console.log("[quiz/submit] received request body:", JSON.stringify({
+        email: req.body?.email,
+        primaryPattern: req.body?.primaryPattern,
+        hasScores: !!req.body?.patternScores,
+      }));
+
       const { email, primaryPattern, secondaryPatterns, patternScores } = req.body;
-      
+
       if (!email || !primaryPattern) {
+        console.warn("[quiz/submit] missing required fields - email:", !!email, "primaryPattern:", !!primaryPattern);
         return res.status(400).json({ error: "Email and pattern are required" });
       }
-      
+
+      console.log("[quiz/submit] calling storage.createQuizUser for:", email);
       const user = await storage.createQuizUser({
         email,
         primaryPattern,
         secondaryPatterns: secondaryPatterns || [],
         patternScores: patternScores || {},
       });
-      
+      console.log("[quiz/submit] user created/updated, id:", user?.id);
+
       console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
 
       const patternName = patternDisplayNames[primaryPattern] || primaryPattern;
@@ -154,9 +163,11 @@ export async function registerRoutes(
         // never block the main flow
       }
 
+      console.log("[quiz/submit] generating auth token");
       const { generateAuthToken } = await import("./portal/auth");
       const jwtToken = generateAuthToken(user.id, email);
-      
+      console.log("[quiz/submit] auth token generated, setting cookie");
+
       res.cookie("quiz_token", jwtToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -171,8 +182,14 @@ export async function registerRoutes(
         userId: user.id,
       });
     } catch (error) {
-      console.error("Quiz submission error:", error);
-      res.status(500).json({ error: "Failed to save quiz submission" });
+      console.error("[quiz/submit] FATAL ERROR:", error);
+      if (error instanceof Error) {
+        console.error("[quiz/submit] stack:", error.stack);
+        console.error("[quiz/submit] message:", error.message);
+      }
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Failed to save quiz submission", detail: error instanceof Error ? error.message : String(error) });
+      }
     }
   });
 
