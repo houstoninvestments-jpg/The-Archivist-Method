@@ -1119,11 +1119,21 @@ function SectorLabel({ text }: { text: string }) {
 }
 
 function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatterns[0]; index: number; isLast: boolean }) {
+  const [hovered, setHovered] = useState(false);
   return (
     <div className="gut-pattern-slide fade-section" style={{ transitionDelay: `${index * 0.15}s`, textAlign: "center" }}>
       <div
-        style={{ padding: "8px 0" }}
         data-testid={`text-gut-pattern-${index}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          padding: "8px 0",
+          paddingLeft: hovered ? "12px" : "0px",
+          borderLeft: hovered ? "2px solid #00FFD1" : "2px solid transparent",
+          transform: hovered ? "translateX(4px)" : "translateX(0)",
+          transition: "all 300ms ease",
+          cursor: "default",
+        }}
       >
         <p
           style={{
@@ -1131,8 +1141,9 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
             fontWeight: 900,
             fontSize: "1.2rem",
             textTransform: "uppercase",
-            color: "white",
+            color: hovered ? "#00FFD1" : "white",
             margin: 0,
+            transition: "all 300ms ease",
           }}
         >
           {pattern.name}
@@ -1143,8 +1154,9 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
             fontFamily: "'Inter', sans-serif",
             fontStyle: "italic",
             fontSize: "1rem",
-            color: "#14B8A6",
+            color: hovered ? "#FF2D9B" : "#14B8A6",
             marginTop: "6px",
+            transition: "all 300ms ease",
           }}
         >
           {pattern.desc}
