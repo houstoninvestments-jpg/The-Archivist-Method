@@ -151,7 +151,6 @@ export async function registerRoutes(
         });
       } catch (err) {
         console.error('Email send failed:', err);
-        // never block the main flow
       }
 
       const { generateAuthToken } = await import("./portal/auth");
