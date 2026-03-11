@@ -1745,8 +1745,7 @@ export default function Landing() {
           </p>
 
           <p
-            className="md:whitespace-nowrap"
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(2.5rem, 5.8vw, 6.5rem)", lineHeight: 1 }}
+            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(2rem, 5.5vw, 6rem)", lineHeight: 1, whiteSpace: "normal", wordBreak: "break-word" }}
             data-testid="text-brand-title"
           >
             <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#ffffff" onComplete={() => setScrambleDone(true)} />
@@ -1862,13 +1861,96 @@ export default function Landing() {
       {/* ========== SECTION 4: CTA BREAK ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "12px" }}>
-            One interrupt changes everything.
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.7rem',
+              color: '#00FFD1',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              marginBottom: '1.5rem',
+              opacity: 0.8,
+            }}
+          >
+            PATTERN IDENTIFICATION · 2 MINUTES · FREE
+          </div>
+
+          <h2
+            className="fade-section"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              color: '#ffffff',
+              lineHeight: 0.95,
+              marginBottom: '1.25rem',
+              textTransform: 'uppercase',
+            }}
+          >
+            IN 2 MINUTES YOU'LL KNOW<br />
+            WHY YOU KEEP DOING IT.
           </h2>
-          <p className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, textTransform: "uppercase", fontSize: "1.4rem", color: "white", marginBottom: "32px" }}>
-            DISCOVER YOUR PATTERN IN 2 MINUTES.
+
+          <p
+            className="fade-section"
+            style={{
+              fontFamily: "'EB Garamond', serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
+              color: '#FF2D9B',
+              marginBottom: '2rem',
+              lineHeight: 1.6,
+            }}
+          >
+            Not a personality type. Not a diagnosis.<br />
+            The exact pattern wired into your nervous system —<br />
+            and the interrupt that stops it.
           </p>
-          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textAlign: "center", marginBottom: "16px" }}>Takes 2 minutes. No email required.</p>
+
+          <div
+            className="fade-section"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.6rem',
+              marginBottom: '2rem',
+            }}
+          >
+            {[
+              '› Your dominant pattern — identified by name',
+              '› The body signal that fires 3 seconds before it runs',
+              '› One interrupt you can use in the next 24 hours',
+            ].map((item) => (
+              <div
+                key={item}
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.78rem',
+                  color: '#00FFD1',
+                  letterSpacing: '0.1em',
+                  textAlign: 'left',
+                  width: '100%',
+                  maxWidth: '400px',
+                }}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.65rem',
+              color: '#475569',
+              letterSpacing: '0.2em',
+              marginBottom: '2.5rem',
+              textTransform: 'uppercase',
+            }}
+          >
+            FREE · NO ACCOUNT · NO EMAIL REQUIRED
+          </div>
+
           <EmbeddedQuiz />
         </div>
       </section>
