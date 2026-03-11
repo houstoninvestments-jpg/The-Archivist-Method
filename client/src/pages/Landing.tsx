@@ -1,7 +1,7 @@
 import { Link } from "wouter"; //
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import TheWindowScience from "@/components/TheWindowScience";
+import ImmersiveFrames from "@/components/ImmersiveFrames";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
@@ -1865,8 +1865,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ========== SECTION 8: THE WINDOW SCIENCE ========== */}
-      <TheWindowScience />
+      {/* ========== SECTION 8: IMMERSIVE FRAMES ========== */}
+      <ImmersiveFrames />
 
 
       {/* ========== SECTION 8.6: THE ARCHIVES ========== */}
