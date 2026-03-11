@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const TEAL = '#00FFD1';
 const MAGENTA = '#FF2D9B';
-const ROSE = '#EC4899';
+const ROSE = '#FF2D9B';
 
 // ─── HOOK: FIRES ONCE WHEN VISIBLE, NEVER RESETS ─────────────────────────────
 function useOnceVisible(ref: React.RefObject<HTMLElement | null>): boolean {
@@ -167,7 +167,7 @@ function Frame01() {
               fontFamily: "'EB Garamond', serif",
               fontStyle: 'italic',
               fontSize: 'clamp(1rem, 2vw, 1.3rem)',
-              color: MAGENTA,
+              color: '#FAFAFA',
             }}
           >
             <div>That's not weakness.</div>
@@ -183,60 +183,75 @@ function Frame01() {
 function Frame02() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
+  const [labelActive, setLabelActive] = useState([false, false, false]);
 
   useEffect(() => {
     console.log('[Frame02] image path:', '/images/frame-02.png');
   }, []);
 
+  // Scroll-progress based label triggers
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const frameHeight = ref.current.offsetHeight;
+      // progress = how far frame top has scrolled past viewport top
+      const progress = -rect.top / frameHeight;
+      setLabelActive([
+        progress >= 0.20,
+        progress >= 0.45,
+        progress >= 0.70,
+      ]);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // check on mount in case already scrolled
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const symptoms = [
-    { label: 'THROAT CLOSES.', delay: 0 },
-    { label: 'CHEST DROPS.', delay: 400 },
-    { label: 'HANDS GO COLD.', delay: 800 },
+    { label: 'THROAT CLOSES', top: '18%' },
+    { label: 'CHEST DROPS', top: '38%' },
+    { label: 'HANDS GO COLD', top: '58%' },
   ];
 
   return (
     <div
       ref={ref}
       style={{
-        ...frameWrapStyle('space-between'),
-        paddingTop: '10vh',
+        ...frameWrapStyle('flex-end'),
         paddingBottom: '10vh',
       }}
     >
       <FrameBg src="/images/frame-02.png" />
 
-      {/* Top zone — stacked symptom lines */}
+      {/* Absolutely positioned diagnostic labels */}
       <div
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           zIndex: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.75rem',
+          pointerEvents: 'none',
         }}
       >
-        {symptoms.map(({ label, delay }) => (
+        {symptoms.map(({ label, top }, index) => (
           <div
             key={label}
             style={{
+              position: 'absolute',
+              top,
+              right: '8%',
               display: 'flex',
+              flexDirection: 'row',
               alignItems: 'center',
               gap: '12px',
-              opacity: active ? 1 : 0,
-              transition: `opacity 600ms cubic-bezier(0.4,0,0.2,1) ${delay}ms`,
+              opacity: labelActive[index] ? 1 : 0,
+              transition: 'opacity 600ms cubic-bezier(0.4,0,0.2,1)',
             }}
           >
-            {/* 50px teal line draws in */}
-            <div
-              style={{
-                width: active ? '50px' : '0px',
-                height: '1px',
-                background: TEAL,
-                flexShrink: 0,
-                transition: `width 400ms cubic-bezier(0.4,0,0.2,1) ${delay}ms`,
-              }}
-            />
             <span
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
@@ -245,15 +260,28 @@ function Frame02() {
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
+                textAlign: 'right',
               }}
             >
               {label}
             </span>
+            {/* Teal line draws RIGHT to LEFT — transformOrigin: right */}
+            <div
+              style={{
+                width: '50px',
+                height: '1px',
+                background: TEAL,
+                flexShrink: 0,
+                transform: labelActive[index] ? 'scaleX(1)' : 'scaleX(0)',
+                transformOrigin: 'right',
+                transition: 'transform 400ms cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
           </div>
         ))}
       </div>
 
-      {/* Bottom zone — big Bebas statement */}
+      {/* Bottom zone — big Bebas statement, unchanged */}
       <div
         style={{
           position: 'relative',
