@@ -1,7 +1,7 @@
 import { Link } from "wouter"; //
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import TheWindowScience from "@/components/TheWindowScience";
+import TimelineScroll from "@/components/TimelineScroll";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
@@ -1866,7 +1866,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 8: THE WINDOW SCIENCE ========== */}
-      <TheWindowScience />
+      <TimelineScroll />
 
 
       {/* ========== SECTION 8.6: THE ARCHIVES ========== */}
