@@ -10,7 +10,7 @@ function useOnceVisible(ref: React.RefObject<HTMLElement | null>): boolean {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (visible) return; // already triggered, skip
+    if (visible) return;
     const el = ref.current;
     if (!el) return;
 
@@ -39,18 +39,16 @@ interface StaggeredElProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
-  isMobile?: boolean;
 }
 
-function StaggeredEl({ delay, active, children, style, className, isMobile }: StaggeredElProps) {
-  const mobileDelay = isMobile ? delay * 0.5 : delay;
+function StaggeredEl({ delay, active, children, style, className }: StaggeredElProps) {
   return (
     <div
       className={className}
       style={{
         opacity: active ? 1 : 0,
         transform: active ? 'translateY(0)' : 'translateY(-20px)',
-        transition: `opacity 600ms cubic-bezier(0.4,0,0.2,1) ${mobileDelay}ms, transform 600ms cubic-bezier(0.4,0,0.2,1) ${mobileDelay}ms`,
+        transition: `opacity 600ms cubic-bezier(0.4,0,0.2,1) ${delay}ms, transform 600ms cubic-bezier(0.4,0,0.2,1) ${delay}ms`,
         ...style,
       }}
     >
@@ -59,118 +57,66 @@ function StaggeredEl({ delay, active, children, style, className, isMobile }: St
   );
 }
 
-// ─── TEAL SCAN LINE ───────────────────────────────────────────────────────────
-function TealLine({ delay, active, isMobile }: { delay: number; active: boolean; isMobile: boolean }) {
-  const mobileDelay = isMobile ? delay * 0.5 : delay;
+// ─── SHARED IMAGE + OVERLAY ───────────────────────────────────────────────────
+function FrameBg({ src }: { src: string }) {
   return (
-    <div
-      style={{
-        position: 'absolute',
-        bottom: '30%',
-        left: 0,
-        height: '1px',
-        background: TEAL,
-        width: active ? '100%' : '0%',
-        transition: `width 1500ms cubic-bezier(0.4,0,0.2,1) ${mobileDelay}ms`,
-        pointerEvents: 'none',
-      }}
-    />
-  );
-}
-
-// ─── DIAGNOSTIC LABEL (Frame 02) ─────────────────────────────────────────────
-interface DiagLabelProps {
-  delay: number;
-  active: boolean;
-  label: string;
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
-  isMobile: boolean;
-}
-
-function DiagLabel({ delay, active, label, top, left, right, bottom, isMobile }: DiagLabelProps) {
-  const mobileDelay = isMobile ? delay * 0.5 : delay;
-  return (
-    <div
-      style={{
-        position: isMobile ? 'relative' : 'absolute',
-        top: isMobile ? undefined : top,
-        left: isMobile ? undefined : left,
-        right: isMobile ? undefined : right,
-        bottom: isMobile ? undefined : bottom,
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        opacity: active ? 1 : 0,
-        transition: `opacity 600ms cubic-bezier(0.4,0,0.2,1) ${mobileDelay}ms`,
-      }}
-    >
-      <div
-        style={{
-          width: active ? '60px' : '0px',
-          height: '1px',
-          background: TEAL,
-          transition: `width 400ms cubic-bezier(0.4,0,0.2,1) ${mobileDelay}ms`,
-          flexShrink: 0,
-        }}
-      />
-      <span
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.75rem',
-          color: MAGENTA,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {label}
-      </span>
-    </div>
-  );
-}
-
-// ─── FRAME 01 — THE HIT ───────────────────────────────────────────────────────
-function Frame01({ isMobile }: { isMobile: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        background: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-      }}
-    >
-      {/* Background image — always visible */}
-      <div
+    <>
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/images/frame-01.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 15%',
           opacity: 0.85,
         }}
       />
-      {/* Overlay */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5))',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%)',
           pointerEvents: 'none',
         }}
       />
+    </>
+  );
+}
+
+// ─── FRAME WRAPPER STYLE ──────────────────────────────────────────────────────
+function frameWrapStyle(justifyContent: string): React.CSSProperties {
+  return {
+    position: 'relative',
+    height: '100vh',
+    width: '100%',
+    overflow: 'hidden',
+    background: '#0a0a0a',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent,
+    textAlign: 'center',
+    paddingLeft: '24px',
+    paddingRight: '24px',
+  };
+}
+
+// ─── FRAME 01 — THE HIT ───────────────────────────────────────────────────────
+function Frame01() {
+  const ref = useRef<HTMLDivElement>(null);
+  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
+
+  useEffect(() => {
+    console.log('[Frame01] image path:', '/images/frame-01.png');
+  }, []);
+
+  return (
+    <div ref={ref} style={{ ...frameWrapStyle('flex-start'), paddingTop: '15vh' }}>
+      <FrameBg src="/images/frame-01.png" />
 
       {/* Text layer */}
       <div
@@ -180,177 +126,86 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem',
-          padding: '0 1.5rem',
-          textAlign: 'center',
-          maxWidth: '900px',
         }}
       >
-        <StaggeredEl delay={0} active={active} isMobile={isMobile}>
-          <span
+        {/* Line 1 — monospace teal label */}
+        <StaggeredEl delay={0} active={active}>
+          <div
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.7rem',
+              fontSize: '0.75rem',
               color: TEAL,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
+              marginBottom: '1.5rem',
             }}
           >
             SIGNAL DETECTED · T+0.0S
-          </span>
+          </div>
         </StaggeredEl>
 
-        <StaggeredEl delay={400} active={active} isMobile={isMobile}>
-          <h2
+        {/* Line 2 — Bebas Neue headline */}
+        <StaggeredEl delay={400} active={active}>
+          <div
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: isMobile ? '12vw' : '8vw',
+              fontSize: 'clamp(3rem, 10vw, 7rem)',
               color: '#FAFAFA',
-              lineHeight: 0.9,
-              margin: 0,
+              lineHeight: 0.95,
+              marginBottom: '1.5rem',
             }}
           >
-            YOUR BODY ALREADY DECIDED.
-          </h2>
+            <div>YOUR BODY DECIDED</div>
+            <div>BEFORE YOU DID.</div>
+          </div>
         </StaggeredEl>
 
-        <StaggeredEl delay={800} active={active} isMobile={isMobile}>
-          <p
+        {/* Line 3 — EB Garamond italic */}
+        <StaggeredEl delay={800} active={active}>
+          <div
             style={{
               fontFamily: "'EB Garamond', serif",
               fontStyle: 'italic',
-              fontSize: '1.4rem',
+              fontSize: 'clamp(1rem, 2vw, 1.3rem)',
               color: MAGENTA,
-              margin: 0,
-              maxWidth: '600px',
             }}
           >
-            Before you heard it. Before you saw it. Before you had a choice.
-          </p>
+            <div>That's not weakness.</div>
+            <div>That's wiring.</div>
+          </div>
         </StaggeredEl>
       </div>
-
-      {/* Bottom right label */}
-      <StaggeredEl
-        delay={1400}
-        active={active}
-        isMobile={isMobile}
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          right: '2rem',
-          zIndex: 2,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.6rem',
-            color: TEAL,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-          }}
-        >
-          SUBCORTICAL REFLEX · WILLPOWER ARRIVES 2.3S LATER
-        </span>
-      </StaggeredEl>
     </div>
   );
 }
 
 // ─── FRAME 02 — THE BROADCAST ─────────────────────────────────────────────────
-function Frame02({ isMobile }: { isMobile: boolean }) {
+function Frame02() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
+
+  useEffect(() => {
+    console.log('[Frame02] image path:', '/images/frame-02.png');
+  }, []);
+
+  const symptoms = [
+    { label: 'THROAT CLOSES.', delay: 0 },
+    { label: 'CHEST DROPS.', delay: 400 },
+    { label: 'HANDS GO COLD.', delay: 800 },
+  ];
 
   return (
     <div
       ref={ref}
       style={{
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        background: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
+        ...frameWrapStyle('space-between'),
+        paddingTop: '10vh',
+        paddingBottom: '10vh',
       }}
     >
-      {/* Background image — always visible */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/images/frame-02.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: 0.85,
-        }}
-      />
-      {/* Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0,0,0,0.45)',
-          pointerEvents: 'none',
-        }}
-      />
+      <FrameBg src="/images/frame-02.png" />
 
-      {/* Top left label */}
-      <StaggeredEl
-        delay={0}
-        active={active}
-        isMobile={isMobile}
-        style={{
-          position: 'absolute',
-          top: '2rem',
-          left: '2rem',
-          zIndex: 2,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.7rem',
-            color: TEAL,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-          }}
-        >
-          SIGNAL_TYPE: INTEROCEPTIVE
-        </span>
-      </StaggeredEl>
-
-      {/* Diagnostic labels */}
-      {!isMobile ? (
-        <>
-          <DiagLabel delay={300} active={active} label="THROAT CLOSES" top="25%" left="52%" isMobile={false} />
-          <DiagLabel delay={600} active={active} label="CHEST DROPS" top="42%" left="52%" isMobile={false} />
-          <DiagLabel delay={900} active={active} label="HANDS GO COLD" top="62%" left="52%" isMobile={false} />
-        </>
-      ) : (
-        <div
-          style={{
-            position: 'absolute',
-            top: '20%',
-            left: 0,
-            right: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1rem',
-            zIndex: 2,
-          }}
-        >
-          <DiagLabel delay={300} active={active} label="THROAT CLOSES" isMobile={true} />
-          <DiagLabel delay={600} active={active} label="CHEST DROPS" isMobile={true} />
-          <DiagLabel delay={900} active={active} label="HANDS GO COLD" isMobile={true} />
-        </div>
-      )}
-
-      {/* Center text */}
+      {/* Top zone — stacked symptom lines */}
       <div
         style={{
           position: 'relative',
@@ -358,40 +213,81 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem',
-          textAlign: 'center',
-          padding: '0 1.5rem',
-          maxWidth: '800px',
-          marginTop: isMobile ? '8rem' : '0',
+          gap: '0.75rem',
         }}
       >
-        <StaggeredEl delay={1400} active={active} isMobile={isMobile}>
-          <h2
+        {symptoms.map(({ label, delay }) => (
+          <div
+            key={label}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              opacity: active ? 1 : 0,
+              transition: `opacity 600ms cubic-bezier(0.4,0,0.2,1) ${delay}ms`,
+            }}
+          >
+            {/* 50px teal line draws in */}
+            <div
+              style={{
+                width: active ? '50px' : '0px',
+                height: '1px',
+                background: TEAL,
+                flexShrink: 0,
+                transition: `width 400ms cubic-bezier(0.4,0,0.2,1) ${delay}ms`,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.95rem',
+                color: MAGENTA,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom zone — big Bebas statement */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}
+      >
+        <StaggeredEl delay={1200} active={active}>
+          <div
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: isMobile ? '12vw' : '7vw',
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
               color: '#FAFAFA',
-              lineHeight: 0.9,
-              margin: 0,
+              lineHeight: 1,
             }}
           >
-            THIS IS NOT ANXIETY.
-          </h2>
+            THAT'S THE SIGNAL.
+          </div>
         </StaggeredEl>
 
-        <StaggeredEl delay={1900} active={active} isMobile={isMobile}>
-          <p
+        <StaggeredEl delay={1400} active={active}>
+          <div
             style={{
-              fontFamily: "'EB Garamond', serif",
-              fontStyle: 'italic',
-              fontSize: '1.3rem',
-              color: MAGENTA,
-              margin: 0,
-              maxWidth: '560px',
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(1.5rem, 5vw, 4rem)',
+              color: TEAL,
+              lineHeight: 1,
             }}
           >
-            This is your pattern loading. 3 seconds before you act.
-          </p>
+            THAT'S YOUR WINDOW.
+          </div>
         </StaggeredEl>
       </div>
     </div>
@@ -399,49 +295,24 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
 }
 
 // ─── FRAME 03 — THE WINDOW ────────────────────────────────────────────────────
-function Frame03({ isMobile }: { isMobile: boolean }) {
+function Frame03() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
+  useEffect(() => {
+    console.log('[Frame03] image path:', '/images/frame-03.png');
+  }, []);
+
+  const windowLines = [
+    { text: 'THE WINDOW IS REAL.', delay: 1800 },
+    { text: 'IT IS MEASURABLE.', delay: 2100 },
+    { text: 'IT IS YOURS.', delay: 2400 },
+  ];
+
   return (
-    <div
-      ref={ref}
-      style={{
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        background: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-      }}
-    >
-      {/* Background image — always visible */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/images/frame-03.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: 0.85,
-        }}
-      />
-      {/* Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0,0,0,0.4)',
-          pointerEvents: 'none',
-        }}
-      />
+    <div ref={ref} style={frameWrapStyle('center')}>
+      <FrameBg src="/images/frame-03.png" />
 
-      {/* Teal scan line */}
-      <TealLine delay={isMobile ? 600 : 1200} active={active} isMobile={isMobile} />
-
-      {/* Text layer */}
       <div
         style={{
           position: 'relative',
@@ -449,164 +320,77 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem',
-          textAlign: 'center',
-          padding: '0 1.5rem',
-          maxWidth: '900px',
         }}
       >
-        <StaggeredEl delay={0} active={active} isMobile={isMobile}>
-          <h2
+        {/* "3 TO 7 SECONDS." */}
+        <StaggeredEl delay={0} active={active}>
+          <div
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: isMobile ? '18vw' : '12vw',
+              fontSize: 'clamp(4rem, 14vw, 10rem)',
               color: '#FAFAFA',
-              lineHeight: 0.85,
-              margin: 0,
-              transform: active ? 'scale(1)' : 'scale(0.9)',
-              transition: 'transform 600ms cubic-bezier(0.4,0,0.2,1) 0ms, opacity 600ms cubic-bezier(0.4,0,0.2,1) 0ms',
+              lineHeight: 1,
+              letterSpacing: '0.02em',
             }}
           >
-            3 TO 7 SECONDS.
-          </h2>
+            <div>3 TO 7</div>
+            <div>SECONDS.</div>
+          </div>
         </StaggeredEl>
 
-        <StaggeredEl delay={600} active={active} isMobile={isMobile}>
-          <h3
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: isMobile ? '6vw' : '3.5vw',
-              color: '#FAFAFA',
-              margin: 0,
-              letterSpacing: '0.05em',
-            }}
-          >
-            THE ONLY MOMENT THAT HAS EVER MATTERED.
-          </h3>
-        </StaggeredEl>
+        {/* Teal divider line draws left to right */}
+        <div
+          style={{
+            width: active ? '50vw' : '0',
+            height: '1px',
+            background: TEAL,
+            margin: '2rem auto',
+            transition: 'width 1200ms ease-in-out 600ms',
+          }}
+        />
 
-        <StaggeredEl delay={isMobile ? 1400 : 2800} active={active} isMobile={isMobile}>
-          <p
-            style={{
-              fontFamily: "'EB Garamond', serif",
-              fontStyle: 'italic',
-              fontSize: '1.3rem',
-              color: TEAL,
-              margin: 0,
-              maxWidth: '560px',
-            }}
-          >
-            Your body found it. Now you know where to look.
-          </p>
-        </StaggeredEl>
+        {/* Three staggered lines */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.25rem',
+          }}
+        >
+          {windowLines.map(({ text, delay }) => (
+            <StaggeredEl key={text} delay={delay} active={active}>
+              <div
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 'clamp(1rem, 3.5vw, 2.5rem)',
+                  color: '#FAFAFA',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                {text}
+              </div>
+            </StaggeredEl>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 // ─── FRAME 04 — THE SPLIT ─────────────────────────────────────────────────────
-function Frame04({ isMobile }: { isMobile: boolean }) {
+function Frame04() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
+  useEffect(() => {
+    console.log('[Frame04] image path:', '/images/frame-04.png');
+  }, []);
+
   return (
-    <div
-      ref={ref}
-      style={{
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        background: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-      }}
-    >
-      {/* Background image — always visible */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/images/frame-04.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: 0.85,
-        }}
-      />
-      {/* Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0,0,0,0.5)',
-          pointerEvents: 'none',
-        }}
-      />
+    <div ref={ref} style={frameWrapStyle('center')}>
+      <FrameBg src="/images/frame-04.png" />
 
-      {/* Far left label */}
-      {!isMobile && (
-        <StaggeredEl
-          delay={0}
-          active={active}
-          isMobile={isMobile}
-          style={{
-            position: 'absolute',
-            left: '4%',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 2,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.7rem',
-              color: MAGENTA,
-              opacity: 0.6,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              lineHeight: 1.8,
-            }}
-          >
-            <div>DEFAULT ROUTE</div>
-            <div>PATTERN EXECUTED</div>
-          </div>
-        </StaggeredEl>
-      )}
-
-      {/* Far right label */}
-      {!isMobile && (
-        <StaggeredEl
-          delay={0}
-          active={active}
-          isMobile={isMobile}
-          style={{
-            position: 'absolute',
-            right: '4%',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 2,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.7rem',
-              color: TEAL,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              lineHeight: 1.8,
-              textAlign: 'right',
-            }}
-          >
-            <div>NEW ROUTE</div>
-            <div>INTERRUPT DEPLOYED</div>
-          </div>
-        </StaggeredEl>
-      )}
-
-      {/* Center text layer */}
       <div
         style={{
           position: 'relative',
@@ -614,50 +398,38 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem',
-          textAlign: 'center',
-          padding: '0 1.5rem',
-          maxWidth: '700px',
         }}
       >
-        <StaggeredEl delay={800} active={active} isMobile={isMobile}>
-          <h2
+        {/* "YOU ARE NOT THAT CHILD ANYMORE." */}
+        <StaggeredEl delay={0} active={active}>
+          <div
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: isMobile ? '12vw' : '7vw',
+              fontSize: 'clamp(3rem, 11vw, 8rem)',
               color: '#FAFAFA',
               lineHeight: 0.9,
-              margin: 0,
             }}
           >
-            YOU ARE NOT<br />THAT CHILD<br />ANYMORE.
-          </h2>
+            <div>YOU ARE NOT</div>
+            <div>THAT CHILD</div>
+            <div>ANYMORE.</div>
+          </div>
         </StaggeredEl>
 
-        <StaggeredEl delay={1600} active={active} isMobile={isMobile}>
-          <p
-            style={{
-              fontFamily: "'EB Garamond', serif",
-              fontStyle: 'italic',
-              fontSize: '1.2rem',
-              color: '#FAFAFA',
-              margin: 0,
-              maxWidth: '480px',
-            }}
-          >
-            One trained response. That's all it takes.
-          </p>
-        </StaggeredEl>
+        {/* Gap */}
+        <div style={{ height: '2.5rem' }} />
 
-        <StaggeredEl delay={isMobile ? 1200 : 2400} active={active} isMobile={isMobile}>
+        {/* "[ THIS IS LEARNABLE ]" */}
+        <StaggeredEl delay={1200} active={active}>
           <div
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.8rem',
+              fontSize: '0.9rem',
               color: TEAL,
               letterSpacing: '0.3em',
               border: `1px solid ${TEAL}`,
-              padding: '8px 24px',
+              padding: '10px 28px',
+              display: 'inline-block',
               textTransform: 'uppercase',
             }}
           >
@@ -671,28 +443,13 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
 
 // ─── MAIN EXPORT ──────────────────────────────────────────────────────────────
 export default function ImmersiveFrames() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 1023px)');
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
   return (
     <section
       aria-label="Immersive Frames — Pattern Archaeology"
       style={{ background: '#0a0a0a' }}
     >
       {/* Section header */}
-      <div
-        style={{
-          borderBottom: '1px solid #1E293B',
-          padding: '4rem 2rem',
-        }}
-      >
+      <div style={{ borderBottom: '1px solid #1E293B', padding: '4rem 2rem' }}>
         <div style={{ maxWidth: '768px', margin: '0 auto' }}>
           <div
             style={{
@@ -749,11 +506,11 @@ export default function ImmersiveFrames() {
         </div>
       </div>
 
-      {/* Frames — 100vh each, normal scroll, stacked vertically */}
-      <Frame01 isMobile={isMobile} />
-      <Frame02 isMobile={isMobile} />
-      <Frame03 isMobile={isMobile} />
-      <Frame04 isMobile={isMobile} />
+      {/* Frames — 100vh each, stacked vertically */}
+      <Frame01 />
+      <Frame02 />
+      <Frame03 />
+      <Frame04 />
     </section>
   );
 }
