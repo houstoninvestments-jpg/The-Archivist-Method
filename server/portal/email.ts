@@ -1,4 +1,8 @@
-const patternDisplayNames: Record<string, string> = {
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export const patternDisplayNames: Record<string, string> = {
   disappearing: "The Disappearing Pattern",
   apologyLoop: "The Apology Loop",
   testing: "The Testing Pattern",
@@ -101,18 +105,16 @@ export async function sendPurchaseConfirmationEmail(data: PurchaseEmailData): Pr
     return true;
   }
 
-  // Production: attempt to send via configured email provider
-  // When SendGrid or Resend is configured, add the sending logic here
   try {
-    // Placeholder for email provider integration
-    // const sgMail = require('@sendgrid/mail');
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    // await sgMail.send({ to: data.email, from: 'noreply@archivistmethod.com', subject, html, text });
-    
-    console.log("[EMAIL] No email provider configured. Email not sent.");
-    return false;
-  } catch (error) {
-    console.error("[EMAIL] Failed to send:", error);
+    await resend.emails.send({
+      from: 'The Archivist <hello@archiebase.com>',
+      to: [data.email],
+      subject: subject,
+      html: html
+    });
+    return true;
+  } catch (err) {
+    console.error('Email send failed:', err);
     return false;
   }
 }
