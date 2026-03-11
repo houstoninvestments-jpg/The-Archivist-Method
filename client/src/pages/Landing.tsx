@@ -328,15 +328,15 @@ const FloatingParticles = ({ count = 12 }: { count?: number }) => {
 };
 
 const patternCards = [
-  { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me." },
-  { num: "02", name: "APOLOGY LOOP", desc: "You say sorry for being alive. For having needs. For taking up space. You've done it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry." },
-  { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave.", trigger: "If they really loved me, they'd stay no matter what I do." },
-  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and things that hurt you. Not because you're broken. Because chaos feels like home.", trigger: "I know this person is bad for me. I can't stop going back." },
-  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your whole body fights it. You can't let it in.", trigger: "They don't mean it. And if they do, they're wrong." },
-  { num: "06", name: "DRAINING BOND", desc: "You stay tied to people who drain you. You know you should leave. You can't make yourself go.", trigger: "I should leave. I know I should leave. I'll leave tomorrow." },
-  { num: "07", name: "SUCCESS SABOTAGE", desc: "You wreck things right before they work. Jobs, love, projects. The closer you get, the harder you burn it down.", trigger: "It's actually going well. Something's about to go wrong. I'll just end it myself." },
-  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather scrap it than put it out there flawed.", trigger: "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong." },
-  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and way too big. After, you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me." },
+  { num: "01", name: "DISAPPEARING", desc: "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger.", trigger: "They're getting too close. I need to leave before they see the real me.", signal: "Your chest tightens the moment they say 'we need to talk.' You're already planning the exit.", interrupt: "Notice the tightening. Name it. You don't have to move yet." },
+  { num: "02", name: "APOLOGY LOOP", desc: "You say sorry for being alive. For having needs. For taking up space. You've done it so long it feels normal.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry.", signal: "You feel their mood shift and your stomach drops. The apology forms before you know what you did.", interrupt: "Ask yourself — did I actually do something wrong? Wait for the answer." },
+  { num: "03", name: "TESTING", desc: "You push people to their limit to see if they'll stay. Then hate yourself when they leave.", trigger: "If they really loved me, they'd stay no matter what I do.", signal: "You say something sharp and watch their face. You need to know if they'll leave.", interrupt: "Say the sharp thing silently. Give yourself 7 seconds." },
+  { num: "04", name: "ATTRACTION TO HARM", desc: "You're drawn to people and things that hurt you. Not because you're broken. Because chaos feels like home.", trigger: "I know this person is bad for me. I can't stop going back.", signal: "Something about them feels electric. That electricity is familiarity — not chemistry.", interrupt: "Ask — does this feel exciting or does it feel like home?" },
+  { num: "05", name: "COMPLIMENT DEFLECTION", desc: "Someone says something good about you and your whole body fights it. You can't let it in.", trigger: "They don't mean it. And if they do, they're wrong.", signal: "They say something kind and your body rejects it before your mind can process it.", interrupt: "Say thank you. Just that. Nothing after it." },
+  { num: "06", name: "DRAINING BOND", desc: "You stay tied to people who drain you. You know you should leave. You can't make yourself go.", trigger: "I should leave. I know I should leave. I'll leave tomorrow.", signal: "You feel responsible for their emotional state. You can't leave without fixing them first.", interrupt: "Their feelings are information. Not a task assigned to you." },
+  { num: "07", name: "SUCCESS SABOTAGE", desc: "You wreck things right before they work. Jobs, love, projects. The closer you get, the harder you burn it down.", trigger: "It's actually going well. Something's about to go wrong. I'll just end it myself.", signal: "Things are going well. Your body starts looking for what's wrong.", interrupt: "The search for danger is the pattern. Name it before it finds something." },
+  { num: "08", name: "PERFECTIONISM TRAP", desc: "Nothing is ever good enough to ship, share, or finish. You'd rather scrap it than put it out there flawed.", trigger: "It's not ready. It'll never be ready. I'd rather not ship it than ship it wrong.", signal: "It's not ready. It's never ready. You keep working so you never have to ship.", interrupt: "Done and out is worth more than perfect and hidden." },
+  { num: "09", name: "RAGE PATTERN", desc: "The anger comes fast and hot and way too big. After, you wonder who that was. It was the pattern.", trigger: "That was nothing. Why am I this angry. What's wrong with me.", signal: "Something small happens and the heat moves up from your chest before you decide to be angry.", interrupt: "The heat is the signal. You have 3 seconds before the pattern takes over." },
 ];
 
 
@@ -1062,18 +1062,23 @@ function SectionLabel({ children }: { children: string }) {
   );
 }
 
-function PatternCard({ card, index }: { card: typeof patternCards[0]; index: number }) {
+function PatternCard({ card, index, isOpen, onToggle }: { card: typeof patternCards[0]; index: number; isOpen: boolean; onToggle: () => void }) {
   return (
     <div
       className="bento-panel"
       style={{
         position: "relative",
         background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        border: isOpen ? "1px solid rgba(0,255,209,0.5)" : "1px solid rgba(255,255,255,0.06)",
+        boxShadow: isOpen ? "0 0 30px rgba(0,255,209,0.1)" : undefined,
         padding: "32px",
+        paddingBottom: "48px",
         transitionDelay: `${index * 0.15}s`,
+        cursor: "pointer",
+        transition: "border 0.3s ease, box-shadow 0.3s ease",
       }}
       data-testid={`card-pattern-${card.num}`}
+      onClick={onToggle}
     >
       <p style={{
         fontFamily: "'JetBrains Mono', monospace",
@@ -1092,6 +1097,61 @@ function PatternCard({ card, index }: { card: typeof patternCards[0]; index: num
       }}>
         {card.desc}
       </p>
+      <div style={{
+        overflow: "hidden",
+        maxHeight: isOpen ? "400px" : "0px",
+        transition: "max-height 400ms ease",
+      }}>
+        <div style={{
+          borderTop: "1px solid rgba(0,255,209,0.2)",
+          marginTop: "1rem",
+          paddingTop: "1rem",
+        }}>
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "0.7rem",
+            color: "#00FFD1",
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            marginBottom: "0.4rem",
+          }}>THE SIGNAL:</p>
+          <p style={{
+            fontFamily: "'EB Garamond', serif",
+            fontStyle: "italic",
+            color: "#FAFAFA",
+            fontSize: "0.85rem",
+            lineHeight: 1.6,
+            marginBottom: "0.75rem",
+          }}>{card.signal}</p>
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "0.7rem",
+            color: "#FF2D9B",
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            marginBottom: "0.4rem",
+          }}>THE INTERRUPT:</p>
+          <p style={{
+            fontFamily: "'EB Garamond', serif",
+            fontStyle: "italic",
+            color: "#FAFAFA",
+            fontSize: "0.85rem",
+            lineHeight: 1.6,
+          }}>{card.interrupt}</p>
+        </div>
+      </div>
+      <div style={{
+        position: "absolute",
+        bottom: "16px",
+        right: "16px",
+        fontFamily: "monospace",
+        fontSize: "1.2rem",
+        color: "#00FFD1",
+        lineHeight: 1,
+        userSelect: "none",
+      }}>
+        {isOpen ? "−" : "+"}
+      </div>
     </div>
   );
 }
@@ -1540,6 +1600,7 @@ export default function Landing() {
   useGlobalFadeIn();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [scrambleDone, setScrambleDone] = useState(false);
+  const [openCardNum, setOpenCardNum] = useState<string | null>(null);
   const ctaGlowRef = useRef<HTMLDivElement>(null);
   useProximityGlow(ctaGlowRef);
 
@@ -1699,9 +1760,9 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-patterns" style={{ position: "relative" }}>
+      <section className="py-24 md:py-32" data-testid="section-patterns" style={{ position: "relative", paddingLeft: "3rem" }}>
         <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
-        <div className="max-w-6xl mx-auto">
+        <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "1100px", width: "100%", paddingLeft: "2rem", paddingRight: "2rem" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE PATTERNS</SectionLabel>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
@@ -1714,7 +1775,13 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {patternCards.map((p, i) => (
-              <PatternCard key={p.num} card={p} index={i} />
+              <PatternCard
+                key={p.num}
+                card={p}
+                index={i}
+                isOpen={openCardNum === p.num}
+                onToggle={() => setOpenCardNum(openCardNum === p.num ? null : p.num)}
+              />
             ))}
           </div>
 
