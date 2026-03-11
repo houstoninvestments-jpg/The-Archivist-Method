@@ -169,7 +169,7 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           inset: 0,
           backgroundImage: 'url(/images/frame-01.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: isMobile ? 'center 20%' : 'center',
           opacity: active ? 0.85 : 0,
           transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
         }}
@@ -301,7 +301,7 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
           inset: 0,
           backgroundImage: 'url(/images/frame-02.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: isMobile ? 'center 20%' : 'center',
           opacity: active ? 0.85 : 0,
           transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
         }}
@@ -468,7 +468,7 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           inset: 0,
           backgroundImage: 'url(/images/frame-03.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: isMobile ? 'center 20%' : 'center',
           opacity: active ? 0.85 : 0,
           transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
         }}
@@ -580,7 +580,7 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           inset: 0,
           backgroundImage: 'url(/images/frame-04.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: isMobile ? 'center 20%' : 'center',
           opacity: active ? 0.85 : 0,
           transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
         }}
