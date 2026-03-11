@@ -1,6 +1,21 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const patternDisplayNames: Record<string, string> = {
+  disappearing: "The Disappearing Pattern",
+  apologyLoop: "The Apology Loop",
+  testing: "The Testing Pattern",
+  attractionToHarm: "Attraction to Harm",
+  complimentDeflection: "Compliment Deflection",
+  drainingBond: "The Draining Bond",
+  successSabotage: "Success Sabotage",
+  perfectionism: "The Perfectionism Pattern",
+  rage: "The Rage Pattern",
+};
 
 export async function registerRoutes(
   httpServer: Server,
@@ -126,7 +141,31 @@ export async function registerRoutes(
       });
       
       console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
-      
+
+      const patternName = patternDisplayNames[primaryPattern] || primaryPattern;
+      try {
+        await resend.emails.send({
+          from: 'The Archivist <hello@archiebase.com>',
+          to: [email],
+          subject: `Your pattern has been identified — ${patternName}`,
+          html: `
+            <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
+              <p style="color:#00FFD1;font-size:12px;letter-spacing:3px;">PATTERN IDENTIFIED</p>
+              <h2 style="font-size:28px;">${patternName}</h2>
+              <p style="color:#94A3B8;">Your free Crash Course is built specifically
+              for this pattern. Everything inside is designed
+              for how your nervous system works.</p>
+              <a href="https://thearchivistmethod.com/portal"
+                 style="display:inline-block;background:#00FFD1;color:#0a0a0a;padding:14px 32px;text-decoration:none;font-weight:bold;margin-top:20px;">
+                START YOUR CRASH COURSE →
+              </a>
+            </div>
+          `
+        });
+      } catch (err) {
+        console.error('Email send failed:', err);
+      }
+
       const { generateAuthToken } = await import("./portal/auth");
       const jwtToken = generateAuthToken(user.id, email);
       

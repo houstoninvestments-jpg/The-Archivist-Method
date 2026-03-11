@@ -22,6 +22,9 @@ import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { sendPurchaseConfirmationEmail } from "./email";
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
@@ -127,8 +130,32 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
 
     console.log(`Magic link for ${email}: ${magicLink}`);
 
-    // TODO: Send email via your email service
-    // For development, return the link
+    // Send magic link email
+    try {
+      await resend.emails.send({
+        from: 'The Archivist <hello@archiebase.com>',
+        to: [email],
+        subject: 'Your access link — The Archivist Method',
+        html: `
+          <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
+            <p style="color:#00FFD1;font-size:12px;letter-spacing:3px;">THE ARCHIVIST METHOD</p>
+            <h2 style="font-size:28px;">Your access link is ready.</h2>
+            <p style="color:#94A3B8;">Click below to access your portal. Link expires in 1 hour.</p>
+            <a href="${magicLink}"
+               style="display:inline-block;background:#00FFD1;color:#0a0a0a;padding:14px 32px;text-decoration:none;font-weight:bold;margin-top:20px;">
+              ACCESS MY PORTAL →
+            </a>
+            <p style="color:#475569;font-size:12px;margin-top:40px;">
+              If you didn't request this, ignore it.
+            </p>
+          </div>
+        `
+      });
+    } catch (err) {
+      console.error('Email send failed:', err);
+    }
+
+    // For development, also return the link
     if (process.env.NODE_ENV === "development") {
       return res.json({
         message: "Login link generated",
