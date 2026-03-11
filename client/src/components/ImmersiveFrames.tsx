@@ -161,7 +161,7 @@ function Frame01() {
         </StaggeredEl>
 
         {/* Line 3 — EB Garamond italic */}
-        <StaggeredEl delay={800} active={active}>
+        <StaggeredEl delay={800} active={active} style={{ marginTop: '2rem' }}>
           <div
             style={{
               fontFamily: "'EB Garamond', serif",
@@ -210,9 +210,9 @@ function Frame02() {
   }, []);
 
   const symptoms = [
-    { label: 'THROAT CLOSES', top: '18%' },
-    { label: 'CHEST DROPS', top: '38%' },
-    { label: 'HANDS GO COLD', top: '58%' },
+    { label: 'THROAT CLOSES', top: '22%' },
+    { label: 'CHEST DROPS', top: '42%' },
+    { label: 'HANDS GO COLD', top: '62%' },
   ];
 
   return (
@@ -243,7 +243,7 @@ function Frame02() {
             style={{
               position: 'absolute',
               top,
-              right: '8%',
+              right: '22%',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
@@ -252,20 +252,7 @@ function Frame02() {
               transition: 'opacity 600ms cubic-bezier(0.4,0,0.2,1)',
             }}
           >
-            <span
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.95rem',
-                color: MAGENTA,
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-                textAlign: 'right',
-              }}
-            >
-              {label}
-            </span>
-            {/* Teal line draws RIGHT to LEFT — transformOrigin: right */}
+            {/* Teal line points LEFT toward the body — transformOrigin: left */}
             <div
               style={{
                 width: '50px',
@@ -273,10 +260,22 @@ function Frame02() {
                 background: TEAL,
                 flexShrink: 0,
                 transform: labelActive[index] ? 'scaleX(1)' : 'scaleX(0)',
-                transformOrigin: 'right',
+                transformOrigin: 'left',
                 transition: 'transform 400ms cubic-bezier(0.4,0,0.2,1)',
               }}
             />
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.85rem',
+                color: MAGENTA,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {label}
+            </span>
           </div>
         ))}
       </div>
