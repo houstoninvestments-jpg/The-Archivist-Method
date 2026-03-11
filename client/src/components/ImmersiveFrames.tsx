@@ -5,40 +5,31 @@ const TEAL = '#00FFD1';
 const MAGENTA = '#FF2D9B';
 const ROSE = '#EC4899';
 
-// ─── TYPES ────────────────────────────────────────────────────────────────────
-type FrameState = 'idle' | 'active' | 'exit';
-
-// ─── HOOK: INTERSECTION OBSERVER ─────────────────────────────────────────────
-function useFrameState(ref: React.RefObject<HTMLElement | null>): FrameState {
-  const [state, setState] = useState<FrameState>('idle');
-  const prevRatio = useRef(0);
+// ─── HOOK: FIRES ONCE WHEN VISIBLE, NEVER RESETS ─────────────────────────────
+function useOnceVisible(ref: React.RefObject<HTMLElement | null>): boolean {
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (visible) return; // already triggered, skip
     const el = ref.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        const ratio = entry.intersectionRatio;
-
-        if (ratio >= 0.3 && prevRatio.current < 0.3) {
-          setState('active');
-        } else if (ratio < 0.3 && prevRatio.current >= 0.3) {
-          setState('exit');
-          const t = setTimeout(() => setState('idle'), 300);
-          return () => clearTimeout(t);
+        if (entry.intersectionRatio >= 0.3) {
+          setVisible(true);
+          observer.disconnect();
         }
-        prevRatio.current = ratio;
       },
-      { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5] }
+      { threshold: [0, 0.1, 0.2, 0.3] }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [ref]);
+  }, [ref, visible]);
 
-  return state;
+  return visible;
 }
 
 // ─── STAGGERED TEXT ELEMENT ───────────────────────────────────────────────────
@@ -144,15 +135,12 @@ function DiagLabel({ delay, active, label, top, left, right, bottom, isMobile }:
 // ─── FRAME 01 — THE HIT ───────────────────────────────────────────────────────
 function Frame01({ isMobile }: { isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const state = useFrameState(ref as React.RefObject<HTMLElement>);
-  const active = state === 'active';
+  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
   return (
     <div
       ref={ref}
       style={{
-        position: 'sticky',
-        top: 0,
         height: '100vh',
         width: '100%',
         overflow: 'hidden',
@@ -160,9 +148,10 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
     >
-      {/* Background image */}
+      {/* Background image — always visible */}
       <div
         style={{
           position: 'absolute',
@@ -170,8 +159,7 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           backgroundImage: 'url(/images/frame-01.png)',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: active ? 0.85 : 0,
-          transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
+          opacity: 0.85,
         }}
       />
       {/* Overlay */}
@@ -198,7 +186,6 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           maxWidth: '900px',
         }}
       >
-        {/* Element 1 */}
         <StaggeredEl delay={0} active={active} isMobile={isMobile}>
           <span
             style={{
@@ -213,7 +200,6 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           </span>
         </StaggeredEl>
 
-        {/* Element 2 */}
         <StaggeredEl delay={400} active={active} isMobile={isMobile}>
           <h2
             style={{
@@ -228,7 +214,6 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
           </h2>
         </StaggeredEl>
 
-        {/* Element 3 */}
         <StaggeredEl delay={800} active={active} isMobile={isMobile}>
           <p
             style={{
@@ -245,7 +230,7 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
         </StaggeredEl>
       </div>
 
-      {/* Element 4 — bottom right */}
+      {/* Bottom right label */}
       <StaggeredEl
         delay={1400}
         active={active}
@@ -276,15 +261,12 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
 // ─── FRAME 02 — THE BROADCAST ─────────────────────────────────────────────────
 function Frame02({ isMobile }: { isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const state = useFrameState(ref as React.RefObject<HTMLElement>);
-  const active = state === 'active';
+  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
   return (
     <div
       ref={ref}
       style={{
-        position: 'sticky',
-        top: 0,
         height: '100vh',
         width: '100%',
         overflow: 'hidden',
@@ -292,9 +274,10 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
     >
-      {/* Background image */}
+      {/* Background image — always visible */}
       <div
         style={{
           position: 'absolute',
@@ -302,8 +285,7 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
           backgroundImage: 'url(/images/frame-02.png)',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: active ? 0.85 : 0,
-          transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
+          opacity: 0.85,
         }}
       />
       {/* Overlay */}
@@ -316,7 +298,7 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
         }}
       />
 
-      {/* Element 1 — top left */}
+      {/* Top left label */}
       <StaggeredEl
         delay={0}
         active={active}
@@ -341,36 +323,14 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
         </span>
       </StaggeredEl>
 
-      {/* Diagnostic labels — hotspot positions */}
+      {/* Diagnostic labels */}
       {!isMobile ? (
         <>
-          <DiagLabel
-            delay={300}
-            active={active}
-            label="THROAT CLOSES"
-            top="25%"
-            left="52%"
-            isMobile={false}
-          />
-          <DiagLabel
-            delay={600}
-            active={active}
-            label="CHEST DROPS"
-            top="42%"
-            left="52%"
-            isMobile={false}
-          />
-          <DiagLabel
-            delay={900}
-            active={active}
-            label="HANDS GO COLD"
-            top="62%"
-            left="52%"
-            isMobile={false}
-          />
+          <DiagLabel delay={300} active={active} label="THROAT CLOSES" top="25%" left="52%" isMobile={false} />
+          <DiagLabel delay={600} active={active} label="CHEST DROPS" top="42%" left="52%" isMobile={false} />
+          <DiagLabel delay={900} active={active} label="HANDS GO COLD" top="62%" left="52%" isMobile={false} />
         </>
       ) : (
-        /* Mobile: center stacked */
         <div
           style={{
             position: 'absolute',
@@ -405,7 +365,6 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
           marginTop: isMobile ? '8rem' : '0',
         }}
       >
-        {/* Element 5 */}
         <StaggeredEl delay={1400} active={active} isMobile={isMobile}>
           <h2
             style={{
@@ -420,7 +379,6 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
           </h2>
         </StaggeredEl>
 
-        {/* Element 6 */}
         <StaggeredEl delay={1900} active={active} isMobile={isMobile}>
           <p
             style={{
@@ -443,15 +401,12 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
 // ─── FRAME 03 — THE WINDOW ────────────────────────────────────────────────────
 function Frame03({ isMobile }: { isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const state = useFrameState(ref as React.RefObject<HTMLElement>);
-  const active = state === 'active';
+  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
   return (
     <div
       ref={ref}
       style={{
-        position: 'sticky',
-        top: 0,
         height: '100vh',
         width: '100%',
         overflow: 'hidden',
@@ -459,9 +414,10 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
     >
-      {/* Background image */}
+      {/* Background image — always visible */}
       <div
         style={{
           position: 'absolute',
@@ -469,11 +425,10 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           backgroundImage: 'url(/images/frame-03.png)',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: active ? 0.85 : 0,
-          transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
+          opacity: 0.85,
         }}
       />
-      {/* Lighter teal-tinted overlay */}
+      {/* Overlay */}
       <div
         style={{
           position: 'absolute',
@@ -483,7 +438,7 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
         }}
       />
 
-      {/* Teal scan line — Element 3 */}
+      {/* Teal scan line */}
       <TealLine delay={isMobile ? 600 : 1200} active={active} isMobile={isMobile} />
 
       {/* Text layer */}
@@ -500,7 +455,6 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           maxWidth: '900px',
         }}
       >
-        {/* Element 1 */}
         <StaggeredEl delay={0} active={active} isMobile={isMobile}>
           <h2
             style={{
@@ -517,7 +471,6 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           </h2>
         </StaggeredEl>
 
-        {/* Element 2 */}
         <StaggeredEl delay={600} active={active} isMobile={isMobile}>
           <h3
             style={{
@@ -532,7 +485,6 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
           </h3>
         </StaggeredEl>
 
-        {/* Element 4 — after line completes */}
         <StaggeredEl delay={isMobile ? 1400 : 2800} active={active} isMobile={isMobile}>
           <p
             style={{
@@ -555,15 +507,12 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
 // ─── FRAME 04 — THE SPLIT ─────────────────────────────────────────────────────
 function Frame04({ isMobile }: { isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const state = useFrameState(ref as React.RefObject<HTMLElement>);
-  const active = state === 'active';
+  const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
   return (
     <div
       ref={ref}
       style={{
-        position: 'sticky',
-        top: 0,
         height: '100vh',
         width: '100%',
         overflow: 'hidden',
@@ -571,9 +520,10 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
     >
-      {/* Background image */}
+      {/* Background image — always visible */}
       <div
         style={{
           position: 'absolute',
@@ -581,8 +531,7 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           backgroundImage: 'url(/images/frame-04.png)',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center 20%' : 'center',
-          opacity: active ? 0.85 : 0,
-          transition: 'opacity 800ms cubic-bezier(0.4,0,0.2,1)',
+          opacity: 0.85,
         }}
       />
       {/* Overlay */}
@@ -595,7 +544,7 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
         }}
       />
 
-      {/* Element 1 — far left */}
+      {/* Far left label */}
       {!isMobile && (
         <StaggeredEl
           delay={0}
@@ -626,7 +575,7 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
         </StaggeredEl>
       )}
 
-      {/* Element 2 — far right */}
+      {/* Far right label */}
       {!isMobile && (
         <StaggeredEl
           delay={0}
@@ -671,7 +620,6 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           maxWidth: '700px',
         }}
       >
-        {/* Element 3 */}
         <StaggeredEl delay={800} active={active} isMobile={isMobile}>
           <h2
             style={{
@@ -686,7 +634,6 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           </h2>
         </StaggeredEl>
 
-        {/* Element 4 */}
         <StaggeredEl delay={1600} active={active} isMobile={isMobile}>
           <p
             style={{
@@ -702,7 +649,6 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           </p>
         </StaggeredEl>
 
-        {/* Element 5 */}
         <StaggeredEl delay={isMobile ? 1200 : 2400} active={active} isMobile={isMobile}>
           <div
             style={{
@@ -719,34 +665,6 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
           </div>
         </StaggeredEl>
       </div>
-    </div>
-  );
-}
-
-// ─── BLACK GAP ────────────────────────────────────────────────────────────────
-function BlackGap() {
-  return (
-    <div
-      style={{
-        height: '500px',
-        background: '#000000',
-        position: 'relative',
-        zIndex: 1,
-      }}
-    />
-  );
-}
-
-// ─── FRAME WRAPPER (sticky scroll container) ──────────────────────────────────
-function FrameWrapper({ children, isMobile }: { children: React.ReactNode; isMobile: boolean }) {
-  return (
-    <div
-      style={{
-        height: isMobile ? '100vh' : '200vh',
-        position: 'relative',
-      }}
-    >
-      {children}
     </div>
   );
 }
@@ -831,31 +749,11 @@ export default function ImmersiveFrames() {
         </div>
       </div>
 
-      {/* Frame 01 */}
-      <FrameWrapper isMobile={isMobile}>
-        <Frame01 isMobile={isMobile} />
-      </FrameWrapper>
-
-      <BlackGap />
-
-      {/* Frame 02 */}
-      <FrameWrapper isMobile={isMobile}>
-        <Frame02 isMobile={isMobile} />
-      </FrameWrapper>
-
-      <BlackGap />
-
-      {/* Frame 03 */}
-      <FrameWrapper isMobile={isMobile}>
-        <Frame03 isMobile={isMobile} />
-      </FrameWrapper>
-
-      <BlackGap />
-
-      {/* Frame 04 */}
-      <FrameWrapper isMobile={isMobile}>
-        <Frame04 isMobile={isMobile} />
-      </FrameWrapper>
+      {/* Frames — 100vh each, normal scroll, stacked vertically */}
+      <Frame01 isMobile={isMobile} />
+      <Frame02 isMobile={isMobile} />
+      <Frame03 isMobile={isMobile} />
+      <Frame04 isMobile={isMobile} />
     </section>
   );
 }
