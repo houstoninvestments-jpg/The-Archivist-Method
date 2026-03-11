@@ -152,13 +152,17 @@ function Frame01({ isMobile }: { isMobile: boolean }) {
       }}
     >
       {/* Background image — always visible */}
-      <div
+      <img
+        src="/images/frame-01.png"
+        alt=""
+        onError={(e) => console.error('[ImmersiveFrames] frame-01 failed to load', e)}
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/images/frame-01.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 10%',
           opacity: 0.85,
         }}
       />
@@ -278,13 +282,17 @@ function Frame02({ isMobile }: { isMobile: boolean }) {
       }}
     >
       {/* Background image — always visible */}
-      <div
+      <img
+        src="/images/frame-02.png"
+        alt=""
+        onError={(e) => console.error('[ImmersiveFrames] frame-02 failed to load', e)}
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/images/frame-02.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 10%',
           opacity: 0.85,
         }}
       />
@@ -418,13 +426,17 @@ function Frame03({ isMobile }: { isMobile: boolean }) {
       }}
     >
       {/* Background image — always visible */}
-      <div
+      <img
+        src="/images/frame-03.png"
+        alt=""
+        onError={(e) => console.error('[ImmersiveFrames] frame-03 failed to load', e)}
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/images/frame-03.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 10%',
           opacity: 0.85,
         }}
       />
@@ -524,13 +536,17 @@ function Frame04({ isMobile }: { isMobile: boolean }) {
       }}
     >
       {/* Background image — always visible */}
-      <div
+      <img
+        src="/images/frame-04.png"
+        alt=""
+        onError={(e) => console.error('[ImmersiveFrames] frame-04 failed to load', e)}
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'url(/images/frame-04.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center 20%' : 'center',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 10%',
           opacity: 0.85,
         }}
       />
@@ -679,6 +695,22 @@ export default function ImmersiveFrames() {
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    const paths = [
+      '/images/frame-01.png',
+      '/images/frame-02.png',
+      '/images/frame-03.png',
+      '/images/frame-04.png',
+    ];
+    console.log('[ImmersiveFrames] Image paths:', paths);
+    paths.forEach((src) => {
+      const img = new Image();
+      img.onload = () => console.log(`[ImmersiveFrames] LOADED: ${src}`);
+      img.onerror = () => console.error(`[ImmersiveFrames] FAILED: ${src} — trying /assets${src}`);
+      img.src = src;
+    });
   }, []);
 
   return (
