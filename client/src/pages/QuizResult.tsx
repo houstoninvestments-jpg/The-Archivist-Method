@@ -206,8 +206,14 @@ export default function QuizResult() {
       });
 
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to save results');
+        const text = await response.text();
+        console.error('Signup error:', text);
+        let message = 'Failed to save results';
+        try {
+          const data = JSON.parse(text);
+          message = data.error || message;
+        } catch {}
+        throw new Error(message);
       }
 
       const data = await response.json();
