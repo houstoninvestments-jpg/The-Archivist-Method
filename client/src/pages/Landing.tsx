@@ -1172,11 +1172,12 @@ function PatternCard({ card, index, isOpen, onToggle }: { card: typeof patternCa
             marginBottom: "0.4rem",
           }}>THE SIGNAL:</p>
           <p style={{
-            fontFamily: "'EB Garamond', serif",
-            fontStyle: "italic",
-            color: "#FAFAFA",
+            fontFamily: "'Inter', sans-serif",
+            fontStyle: "normal",
+            color: "#CBD5E1",
             fontSize: "0.85rem",
-            lineHeight: 1.6,
+            lineHeight: 1.7,
+            fontWeight: 400,
             marginBottom: "0.75rem",
           }}>{card.signal}</p>
           <p style={{
@@ -1188,11 +1189,12 @@ function PatternCard({ card, index, isOpen, onToggle }: { card: typeof patternCa
             marginBottom: "0.4rem",
           }}>THE INTERRUPT:</p>
           <p style={{
-            fontFamily: "'EB Garamond', serif",
-            fontStyle: "italic",
-            color: "#FAFAFA",
+            fontFamily: "'Inter', sans-serif",
+            fontStyle: "normal",
+            color: "#CBD5E1",
             fontSize: "0.85rem",
-            lineHeight: 1.6,
+            lineHeight: 1.7,
+            fontWeight: 400,
           }}>{card.interrupt}</p>
         </div>
       </div>
@@ -1828,7 +1830,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
-      <section className="py-24 md:py-32" data-testid="section-patterns" style={{ position: "relative", paddingLeft: "3rem" }}>
+      <section className="py-24 md:py-32" data-testid="section-patterns" style={{ position: "relative" }}>
         <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
         <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "1100px", width: "100%", paddingLeft: "2rem", paddingRight: "2rem" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
