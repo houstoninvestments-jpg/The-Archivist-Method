@@ -280,6 +280,28 @@ export default function Quiz() {
   const hasSelection = currentSelections.length > 0;
   const meterProgress = currentQuestion / 19;
 
+  // ── Dev shortcut: ?skip=true fills all answers with first option and jumps to results
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('skip') !== 'true') return;
+
+    const autoAnswers: Record<number, string[]> = {};
+    quizQuestions.forEach(q => {
+      autoAnswers[q.id] = [q.options[0].id];
+    });
+
+    const rawScores = calculatePatternScores(autoAnswers);
+    const result = determineQuizResult(rawScores);
+
+    if (result.primaryPattern) {
+      localStorage.setItem('quizResultPattern', result.primaryPattern);
+    }
+    localStorage.setItem('quizScores', JSON.stringify(result.scores));
+    const resultData = encodeURIComponent(JSON.stringify(result));
+    setLocation(`/results?data=${resultData}`);
+  }, [setLocation]);
+
   // ── Start question slide-in + typing on question change
   useEffect(() => {
     if (screen !== 'quiz') return;
