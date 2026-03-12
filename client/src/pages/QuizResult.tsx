@@ -10,43 +10,6 @@ import {
 } from '@/lib/quizData';
 
 // ─────────────────────────────────────────────
-// COUNT-UP HOOK
-// ─────────────────────────────────────────────
-function useCountUp(target: number, duration: number, onComplete?: () => void) {
-  const [value, setValue] = useState(0);
-  const rafRef = useRef<number>(0);
-  const startRef = useRef<number>(0);
-  const completedRef = useRef(false);
-
-  useEffect(() => {
-    if (target === 0) {
-      onComplete?.();
-      return;
-    }
-    completedRef.current = false;
-    startRef.current = performance.now();
-
-    const tick = (now: number) => {
-      const elapsed = now - startRef.current;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-      setValue(Math.round(eased * target));
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else if (!completedRef.current) {
-        completedRef.current = true;
-        onComplete?.();
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [target, duration]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return value;
-}
-
-// ─────────────────────────────────────────────
 // MAIN RESULTS PAGE
 // ─────────────────────────────────────────────
 export default function QuizResult() {
@@ -81,7 +44,7 @@ export default function QuizResult() {
   const primaryScore = scores[primaryPattern] || 0;
 
   // ── Reveal sequence state
-  // 0 = counting up
+  // 0 = bars animating
   // 1 = "PATTERN IDENTIFIED" label appears
   // 2 = name crashes in
   // 3 = secondary patterns
@@ -97,16 +60,22 @@ export default function QuizResult() {
   // Name crash-in state
   const [nameCrashed, setNameCrashed] = useState(false);
 
+  // Bar animation state
+  const [barsReady, setBarsReady] = useState(false);
+
   // Content visibility
   const [breadcrumbsVisible, setBreadcrumbsVisible] = useState(false);
   const [circuitVisible, setCircuitVisible] = useState(false);
   const [gateVisible, setGateVisible] = useState(false);
 
-  // ── Count-up
-  const displayedPct = useCountUp(primaryScore, 1200, () => {
-    // After count-up: show label
-    setTimeout(() => setRevealStep(1), 100);
-  });
+  // ── Bar fill trigger
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setBarsReady(true);
+      setTimeout(() => setRevealStep(1), 1200);
+    }, 200);
+    return () => clearTimeout(t);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── After label: name crashes in
   useEffect(() => {
@@ -205,6 +174,13 @@ export default function QuizResult() {
   const circuitBreak = circuitBreakData[activePattern];
   const feelSeen = feelSeenCopy[activePattern];
 
+  // Proportional bar widths — primary is always 100%, secondaries relative to it
+  const maxScore = primaryScore || 1;
+  const secondary1Score = secondaryPattern1 ? (scores[secondaryPattern1] || 0) : 0;
+  const secondary2Score = secondaryPattern2 ? (scores[secondaryPattern2] || 0) : 0;
+  const secondary1BarPct = Math.round((secondary1Score / maxScore) * 100);
+  const secondary2BarPct = Math.round((secondary2Score / maxScore) * 100);
+
   // Three patterns to offer as focus choices
   const focusChoices: PatternKey[] = [
     primaryPattern,
@@ -223,106 +199,164 @@ export default function QuizResult() {
         justifyContent: 'center',
         padding: '40px 24px',
       }}>
-        <div style={{ maxWidth: '600px', width: '100%', textAlign: 'center' }}>
-
-          {/* Count-up percentage */}
-          <div style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 'clamp(6rem, 20vw, 14rem)',
-            color: '#00FFD1',
-            lineHeight: 1,
-            marginBottom: '24px',
-            letterSpacing: '-0.02em',
-          }}>
-            {displayedPct}%
-          </div>
+        <div style={{ maxWidth: '560px', width: '100%' }}>
 
           {/* "PATTERN IDENTIFIED" label */}
           <p
             data-testid="text-pattern-label"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.75rem',
-              color: '#00FFD1',
+              fontSize: '0.7rem',
+              color: '#00d4aa',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               marginBottom: '20px',
               opacity: revealStep >= 1 ? 1 : 0,
               transition: 'opacity 400ms ease',
+              textAlign: 'center',
             }}
           >
             PATTERN IDENTIFIED
           </p>
 
-          {/* Pattern name — crashes in */}
-          <h1
-            data-testid="text-pattern-name"
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-              color: 'white',
-              lineHeight: 1.05,
-              marginBottom: '32px',
-              opacity: revealStep >= 2 ? 1 : 0,
-              transform: nameCrashed ? 'translateY(0)' : 'translateY(-40px)',
-              transition: 'opacity 300ms ease, transform 500ms cubic-bezier(0.16,1,0.3,1)',
-            }}
-          >
-            {patternDisplayNames[primaryPattern]}
-          </h1>
-
-          {/* Secondary patterns */}
-          {revealStep >= 3 && (secondaryPattern1 || secondaryPattern2) && (
-            <div style={{
-              marginBottom: '32px',
-              opacity: revealStep >= 3 ? 1 : 0,
-              transition: 'opacity 600ms ease',
+          {/* ── PRIMARY SIGNAL card */}
+          <div style={{
+            background: '#0a0a0a',
+            border: '1px solid rgba(0, 212, 170, 0.2)',
+            borderRadius: '4px',
+            padding: '28px',
+            marginBottom: '10px',
+          }}>
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.6rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#00d4aa',
+              marginBottom: '14px',
             }}>
+              PRIMARY SIGNAL
+            </p>
+
+            {/* Pattern name — crashes in */}
+            <h1
+              data-testid="text-pattern-name"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 'clamp(2.2rem, 7vw, 4.5rem)',
+                color: 'white',
+                lineHeight: 1.0,
+                marginBottom: '20px',
+                opacity: revealStep >= 2 ? 1 : 0,
+                transform: nameCrashed ? 'translateY(0)' : 'translateY(-30px)',
+                transition: 'opacity 300ms ease, transform 500ms cubic-bezier(0.16,1,0.3,1)',
+              }}
+            >
+              {patternDisplayNames[primaryPattern]}
+            </h1>
+
+            {/* Bar track */}
+            <div style={{
+              height: '3px',
+              background: 'rgba(0, 212, 170, 0.1)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+              marginBottom: '10px',
+            }}>
+              <div style={{
+                height: '100%',
+                width: barsReady ? '100%' : '0%',
+                background: '#00d4aa',
+                borderRadius: '2px',
+                transition: 'width 1200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 0 6px rgba(0, 212, 170, 0.4)',
+              }} />
+            </div>
+
+            {/* Percentage — supporting data */}
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.6rem',
+              color: 'rgba(0, 212, 170, 0.45)',
+              letterSpacing: '0.15em',
+            }}>
+              {primaryScore}%
+            </p>
+          </div>
+
+          {/* ── SECONDARY pattern cards */}
+          {[
+            secondaryPattern1 ? { pattern: secondaryPattern1, barPct: secondary1BarPct, score: secondary1Score } : null,
+            secondaryPattern2 ? { pattern: secondaryPattern2, barPct: secondary2BarPct, score: secondary2Score } : null,
+          ].filter(Boolean).map((item, idx) => (
+            <div
+              key={item!.pattern}
+              style={{
+                background: '#0a0a0a',
+                border: '1px solid #161616',
+                borderRadius: '4px',
+                padding: '20px 28px',
+                marginBottom: '10px',
+                opacity: revealStep >= 3 ? 1 : 0,
+                transition: `opacity 500ms ease ${idx * 150}ms`,
+              }}
+            >
               <p style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.7rem',
-                color: '#475569',
+                fontSize: '0.6rem',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                marginBottom: '16px',
+                color: '#3d4f5c',
+                marginBottom: '10px',
               }}>
-                ALSO ACTIVE IN YOUR SYSTEM:
+                ALSO ACTIVE
               </p>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '24px',
-                flexWrap: 'wrap',
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 'clamp(1.4rem, 4vw, 2rem)',
+                color: '#7A8FA6',
+                lineHeight: 1.0,
+                marginBottom: '14px',
               }}>
-                {[secondaryPattern1, secondaryPattern2].filter(Boolean).map(p => (
-                  <div key={p} style={{ textAlign: 'center' }}>
-                    <span style={{
-                      fontFamily: "'Bebas Neue', sans-serif",
-                      fontSize: '1.1rem',
-                      color: '#00FFD1',
-                      display: 'block',
-                    }}>
-                      {scores[p!] || 0}%
-                    </span>
-                    <span style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.7rem',
-                      color: 'white',
-                      letterSpacing: '0.1em',
-                    }}>
-                      {patternDisplayNames[p!]}
-                    </span>
-                  </div>
-                ))}
+                {patternDisplayNames[item!.pattern]}
+              </h3>
+
+              {/* Bar track */}
+              <div style={{
+                height: '2px',
+                background: 'rgba(61, 79, 92, 0.3)',
+                borderRadius: '2px',
+                overflow: 'hidden',
+                marginBottom: '8px',
+              }}>
+                <div style={{
+                  height: '100%',
+                  width: revealStep >= 3 ? `${item!.barPct}%` : '0%',
+                  background: '#2a6b5e',
+                  borderRadius: '2px',
+                  transition: `width 1000ms cubic-bezier(0.16, 1, 0.3, 1) ${200 + idx * 150}ms`,
+                }} />
               </div>
+
+              {/* Percentage — supporting data */}
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.6rem',
+                color: '#3d4f5c',
+                letterSpacing: '0.1em',
+              }}>
+                {item!.score}%
+              </p>
             </div>
-          )}
+          ))}
 
           {/* Pattern selection question */}
           {revealStep >= 4 && (
             <div style={{
               opacity: revealStep >= 4 ? 1 : 0,
               transition: 'opacity 600ms ease',
+              textAlign: 'center',
+              paddingTop: '8px',
             }}>
               <p style={{
                 fontFamily: "'EB Garamond', Georgia, serif",
