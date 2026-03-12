@@ -281,6 +281,11 @@ export const quizQuestions: QuizQuestion[] = [
 // Max possible score: (19 questions × 3 max answers × 1 point) + (1 question × 1 answer × 3 points) = 60
 export const MAX_POSSIBLE_SCORE = 60;
 
+export function calculateMatchPercent(patternScore: number, totalAnswered: number): number {
+  if (totalAnswered === 0) return 0;
+  return Math.round((patternScore / totalAnswered) * 100);
+}
+
 export function calculatePatternScores(answers: Record<number, string[]>): Record<PatternKey, number> {
   const scores: Record<PatternKey, number> = {
     disappearing: 0,
