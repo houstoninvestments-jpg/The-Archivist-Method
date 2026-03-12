@@ -449,15 +449,28 @@ function Frame04() {
         {/* "[ THIS IS LEARNABLE ]" */}
         <StaggeredEl delay={1200} active={active}>
           <div
+            onClick={() => {
+              document.querySelector('[data-testid="section-cta-break"]')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.9rem',
-              color: TEAL,
+              color: 'rgba(0, 255, 209, 0.45)',
               letterSpacing: '0.3em',
-              border: `1px solid ${TEAL}`,
+              border: '1px solid rgba(0, 255, 209, 0.2)',
               padding: '10px 28px',
               display: 'inline-block',
               textTransform: 'uppercase',
+              cursor: 'pointer',
+              transition: 'color 300ms ease, border-color 300ms ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLDivElement).style.color = 'rgba(0, 255, 209, 0.7)';
+              (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0, 255, 209, 0.4)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLDivElement).style.color = 'rgba(0, 255, 209, 0.45)';
+              (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0, 255, 209, 0.2)';
             }}
           >
             [ THIS IS LEARNABLE ]

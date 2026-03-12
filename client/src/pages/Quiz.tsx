@@ -495,10 +495,10 @@ export default function Quiz() {
               transform: 'translate(-50%, -50%)',
               width: '8px',
               height: '8px',
-              background: '#00FFD1',
+              background: '#EC4899',
               borderRadius: '50%',
               transition: 'top 600ms ease',
-              boxShadow: '0 0 6px rgba(0,255,209,0.6)',
+              boxShadow: '0 0 6px rgba(236,72,153,0.6)',
             }} />
           </div>
           <span style={{
@@ -724,8 +724,17 @@ export default function Quiz() {
               {!isQ20 && typingComplete && (
                 <button
                   onClick={() => {
-                    setAnswers(prev => ({ ...prev, [question.id]: [] }));
+                    const newAnswers = { ...answers, [question.id]: [] };
+                    setAnswers(newAnswers);
                     setRecognition(null);
+                    if (currentQuestion < quizQuestions.length - 1) {
+                      setTimeout(() => setCurrentQuestion(prev => prev + 1), 80);
+                    } else {
+                      const rawScores = calculatePatternScores(newAnswers);
+                      const result = determineQuizResult(rawScores);
+                      setQuizResult(result);
+                      setScreen('calculating');
+                    }
                   }}
                   style={{
                     width: '100%',
