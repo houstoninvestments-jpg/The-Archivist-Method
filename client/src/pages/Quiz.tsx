@@ -280,9 +280,8 @@ export default function Quiz() {
   const hasSelection = currentSelections.length > 0;
   const meterProgress = currentQuestion / 19;
 
-  // ── Dev shortcut: ?skip=true fills all answers with first option and jumps to results
+  // ── Shortcut: ?skip=true fills all answers with first option and jumps to results
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const params = new URLSearchParams(window.location.search);
     if (params.get('skip') !== 'true') return;
 
