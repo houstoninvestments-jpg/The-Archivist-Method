@@ -450,8 +450,7 @@ function Frame04() {
         <StaggeredEl delay={1200} active={active}>
           <button
             onClick={() => {
-              const quizSection = document.querySelector('[data-testid="section-final-cta"]');
-              if (quizSection) quizSection.scrollIntoView({ behavior: 'smooth' });
+              document.querySelector('[data-testid="section-cta-break"]')?.scrollIntoView({ behavior: 'smooth' });
             }}
             style={{
               fontFamily: "'JetBrains Mono', monospace",
@@ -464,7 +463,7 @@ function Frame04() {
               textTransform: 'uppercase',
               background: 'transparent',
               cursor: 'pointer',
-              transition: 'color 200ms ease, border-color 200ms ease',
+              transition: 'color 300ms ease, border-color 300ms ease',
             }}
             onMouseEnter={e => {
               e.currentTarget.style.color = 'rgba(0, 255, 209, 0.7)';

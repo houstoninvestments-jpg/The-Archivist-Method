@@ -724,9 +724,17 @@ export default function Quiz() {
               {!isQ20 && typingComplete && (
                 <button
                   onClick={() => {
-                    setAnswers(prev => ({ ...prev, [question.id]: [] }));
+                    const newAnswers = { ...answers, [question.id]: [] };
+                    setAnswers(newAnswers);
                     setRecognition(null);
-                    goToNext();
+                    if (currentQuestion < quizQuestions.length - 1) {
+                      setTimeout(() => setCurrentQuestion(prev => prev + 1), 80);
+                    } else {
+                      const rawScores = calculatePatternScores(newAnswers);
+                      const result = determineQuizResult(rawScores);
+                      setQuizResult(result);
+                      setScreen('calculating');
+                    }
                   }}
                   style={{
                     width: '100%',
