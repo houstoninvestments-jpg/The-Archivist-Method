@@ -130,6 +130,7 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
 
     console.log(`Magic link for ${email}: ${magicLink}`);
 
+    // Send magic link email
     try {
       await resend.emails.send({
         from: 'The Archivist <hello@archiebase.com>',
@@ -152,7 +153,6 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
       });
     } catch (err) {
       console.error('Email send failed:', err);
-      // never block the main flow
     }
 
     // For development, also return the link

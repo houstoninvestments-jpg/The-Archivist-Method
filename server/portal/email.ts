@@ -105,12 +105,13 @@ export async function sendPurchaseConfirmationEmail(data: PurchaseEmailData): Pr
     return true;
   }
 
+  // Production: send via Resend
   try {
     await resend.emails.send({
       from: 'The Archivist <hello@archiebase.com>',
       to: [data.email],
       subject: subject,
-      html: html
+      html: html,
     });
     return true;
   } catch (err) {
