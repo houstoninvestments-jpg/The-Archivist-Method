@@ -448,20 +448,35 @@ function Frame04() {
 
         {/* "[ THIS IS LEARNABLE ]" */}
         <StaggeredEl delay={1200} active={active}>
-          <div
+          <button
+            onClick={() => {
+              const quizSection = document.querySelector('[data-testid="section-final-cta"]');
+              if (quizSection) quizSection.scrollIntoView({ behavior: 'smooth' });
+            }}
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.9rem',
-              color: TEAL,
+              color: 'rgba(0, 255, 209, 0.45)',
               letterSpacing: '0.3em',
-              border: `1px solid ${TEAL}`,
+              border: '1px solid rgba(0, 255, 209, 0.2)',
               padding: '10px 28px',
               display: 'inline-block',
               textTransform: 'uppercase',
+              background: 'transparent',
+              cursor: 'pointer',
+              transition: 'color 200ms ease, border-color 200ms ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color = 'rgba(0, 255, 209, 0.7)';
+              e.currentTarget.style.borderColor = 'rgba(0, 255, 209, 0.4)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color = 'rgba(0, 255, 209, 0.45)';
+              e.currentTarget.style.borderColor = 'rgba(0, 255, 209, 0.2)';
             }}
           >
             [ THIS IS LEARNABLE ]
-          </div>
+          </button>
         </StaggeredEl>
       </div>
     </div>

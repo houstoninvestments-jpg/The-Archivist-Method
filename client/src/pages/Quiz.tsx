@@ -484,7 +484,7 @@ export default function Quiz() {
               position: 'absolute',
               top: 0, left: 0, right: 0,
               height: `${meterProgress * 100}%`,
-              background: '#00FFD1',
+              background: '#EC4899',
               transition: 'height 600ms ease',
             }} />
             {/* Position dot */}
@@ -495,10 +495,10 @@ export default function Quiz() {
               transform: 'translate(-50%, -50%)',
               width: '8px',
               height: '8px',
-              background: '#00FFD1',
+              background: '#EC4899',
               borderRadius: '50%',
               transition: 'top 600ms ease',
-              boxShadow: '0 0 6px rgba(0,255,209,0.6)',
+              boxShadow: '0 0 6px rgba(236,72,153,0.6)',
             }} />
           </div>
           <span style={{
@@ -726,6 +726,7 @@ export default function Quiz() {
                   onClick={() => {
                     setAnswers(prev => ({ ...prev, [question.id]: [] }));
                     setRecognition(null);
+                    goToNext();
                   }}
                   style={{
                     width: '100%',
