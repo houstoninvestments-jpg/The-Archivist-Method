@@ -1814,7 +1814,7 @@ export default function Landing() {
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
-            Which one makes your stomach drop?
+            You already know which one is yours.
           </h2>
 
           <div style={{ marginBottom: "48px" }}>
@@ -1824,7 +1824,7 @@ export default function Landing() {
           </div>
 
           <p className="fade-section" style={{ fontFamily: "'Inter', sans-serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
-            If you felt something reading one of those — that's your body signal. That's the thread.
+            That feeling isn't guilt. It's recognition. It's the starting gun for everything that comes next.
           </p>
         </div>
       </section>
@@ -1968,11 +1968,11 @@ export default function Landing() {
           </p>
 
           <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
-            EVERY PATTERN THAT RUNS TO COMPLETION TAKES SOMETHING FROM YOU.
+            THE PATTERN ISN'T GETTING WORSE. YOU'RE JUST GETTING BETTER AT HIDING IT.
           </h2>
 
           <p className="fade-section fade-delay-2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
-            The promotion you didn't take. The person you pushed away. The apology that came three years too late. The version of yourself you keep promising to become.
+            Every year it runs, the cost compounds. Not in money. In the relationships you kept at arm's length. The versions of yourself you abandoned right before breakthrough.
           </p>
 
           <div className="fade-section fade-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
@@ -1990,11 +1990,11 @@ export default function Landing() {
           </div>
 
           <h2 className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
-            HOW MANY MORE TIMES BEFORE SOMETHING CHANGES?
+            YOU KNOW EXACTLY WHAT IT'S COSTING YOU.
           </h2>
 
           <p className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
-            The Archivist Method exists for this moment. Not interrupting it costs everything.
+            The method doesn't ask you to change who you are. It asks you to catch the signal before the pattern does.
           </p>
 
           <div className="fade-section">
@@ -2182,12 +2182,12 @@ export default function Landing() {
       <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "56px" }}>
-            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>INSIDE THE ARCHIVE</p>
+            <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>WHAT YOU GET</p>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "white", marginBottom: "16px" }} data-testid="text-bento-headline">
-              FOUR TOOLS. ONE WINDOW.
+              BUILT FOR THE MOMENT. NOT THE MORNING AFTER.
             </h2>
             <p className="fade-section fade-delay-2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.25rem)", maxWidth: "580px", margin: "0 auto" }}>
-              Everything in this system was built for the moment the pattern fires.
+              Most systems teach you what happened. This one intercepts what's about to.
             </p>
           </div>
 
@@ -2206,11 +2206,11 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE PATTERN FILE</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. DOCUMENTED.</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. FULLY MAPPED.</p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Your pattern documented in full. Body signature mapped. Trigger sequence identified.
+                Not a label. A complete behavioral map — your triggers, your body signals, your specific interrupt sequence. Documented so you can use it in real time, not reconstruct it after.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in all tiers</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in all tiers · Pattern-specific</p>
             </div>
 
             {/* PANEL 2: The Pocket Archivist */}
@@ -2226,11 +2226,16 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS YOUR PATTERN.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Real-time AI trained on your pattern. Knows your triggers. Asks the right question at the right moment.
-              </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
+              <div style={{ marginBottom: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", background: "#1e1e1e", borderRadius: "12px 12px 2px 12px", padding: "8px 12px", maxWidth: "80%", lineHeight: 1.5 }}>I almost walked out again</p>
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#14B8A6", background: "rgba(20,184,166,0.08)", border: "1px solid rgba(20,184,166,0.2)", borderRadius: "2px 12px 12px 12px", padding: "8px 12px", maxWidth: "90%", lineHeight: 1.5 }}>That's the Disappearing pattern loading. What did you feel in your chest the second before you stood up?</p>
+                </div>
+              </div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Trained on your pattern. Deployed in the window. · $47 and $197</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -2246,14 +2251,22 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR EARLY WARNING SYSTEM.</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
               <svg viewBox="0 0 280 24" width="100%" height="24" style={{ marginBottom: "18px", display: "block" }} preserveAspectRatio="none">
                 <polyline points="0,12 60,12 80,12 90,4 100,20 110,8 120,16 130,12 140,12 280,12" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
+              <div style={{ marginBottom: "14px" }}>
+                {["THROAT CLOSES", "CHEST DROPS", "HANDS GO COLD"].map((signal) => (
+                  <div key={signal} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#14B8A6", flexShrink: 0, display: "inline-block" }} />
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", letterSpacing: "0.1em" }}>{signal}</span>
+                  </div>
+                ))}
+              </div>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Your nervous system's early warning system. Mapped to your specific pattern. You'll never miss the signal again.
+                Your nervous system broadcasts the pattern 3–7 seconds before your conscious mind catches up. That gap is the only place interruption is possible. This map teaches you to live in it.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197 · Pattern-specific</p>
             </div>
 
             {/* PANEL 4: The Interrupt Protocol */}
@@ -2269,11 +2282,17 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>NOT WILLPOWER. MECHANICS.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                A practiced physical sequence that fires before the pattern executes. Not willpower. Mechanics.
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "13px", color: "#14B8A6", lineHeight: 1.5, marginBottom: "12px" }}>
+                "The pattern is running. I feel the tightness. I'm choosing to stay."
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
+              <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden", marginBottom: "14px" }}>
+                <div style={{ width: "62%", height: "100%", background: "#14B8A6", borderRadius: "2px" }} />
+              </div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
+                Not a mantra. Not a reframe. A physical sequence trained into the nervous system through repetition — so that when the signal fires, the response is already loaded.
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197 · Pattern-specific</p>
             </div>
           </div>
         </div>
@@ -2285,7 +2304,7 @@ export default function Landing() {
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
-              Know It. Stop It. Own All of Them.
+              START WITH YOUR PATTERN. GO AS DEEP AS YOU NEED.
             </h2>
           </div>
 
@@ -2297,20 +2316,20 @@ export default function Landing() {
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>START HERE</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
+                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE CRASH COURSE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Know your pattern in 7 days.
+                  Name the thing you keep doing. Understand why it won't stop on its own.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Primary pattern revealed", "7-day pattern-specific email sequence", "Body signal primer"].map((item, i) => (
+                  {["Pattern identification quiz", "Primary pattern identified + named", "7-day pattern-specific email sequence", "Body signal primer"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
                     </div>
                   ))}
-                  {["Pocket Archivist", "Interrupt protocols", "Body signature map"].map((item, i) => (
+                  {["Pocket Archivist", "Full interrupt protocol", "Body signature map"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
                       <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
@@ -2342,9 +2361,9 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$47</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
+                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE FIELD GUIDE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  You know what it is. Now get the tools to stop it.
+                  You know what it is. Now get everything you need to stop it — before it fires.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
                   {["Everything in the Crash Course", "Full interrupt protocol (your pattern)", "Body signature map (your pattern)", "Pocket Archivist — your pattern only"].map((item, i) => (
@@ -2384,9 +2403,9 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$197</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
+                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE COMPLETE ARCHIVE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  You've handled yours. Now understand everyone in your life.
+                  You've handled yours. Now you can see everyone else's — and your own from every angle.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
                   {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "Pocket Archivist — all 9 patterns", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
@@ -2415,7 +2434,7 @@ export default function Landing() {
             One-time purchase. No subscriptions. Yours forever.
           </p>
           <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
-            If you can't identify your primary body signature within 7 days, full refund. No explanation needed.
+            If you can't name your primary body signal within 7 days, full refund. No explanation needed. No searching required.
           </p>
 
           {import.meta.env.DEV && (
