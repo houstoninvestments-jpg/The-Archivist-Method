@@ -253,8 +253,8 @@ export default function QuizResult() {
 
             {/* Bar track */}
             <div style={{
-              height: '3px',
-              background: 'rgba(0, 212, 170, 0.1)',
+              height: '12px',
+              background: 'rgba(236, 72, 153, 0.1)',
               borderRadius: '2px',
               overflow: 'hidden',
               marginBottom: '10px',
@@ -262,10 +262,10 @@ export default function QuizResult() {
               <div style={{
                 height: '100%',
                 width: barsReady ? '100%' : '0%',
-                background: '#00d4aa',
+                background: '#EC4899',
                 borderRadius: '2px',
                 transition: 'width 1200ms cubic-bezier(0.16, 1, 0.3, 1)',
-                boxShadow: '0 0 6px rgba(0, 212, 170, 0.4)',
+                boxShadow: '0 0 6px rgba(236, 72, 153, 0.4)',
               }} />
             </div>
 
@@ -319,8 +319,8 @@ export default function QuizResult() {
 
               {/* Bar track */}
               <div style={{
-                height: '2px',
-                background: 'rgba(61, 79, 92, 0.3)',
+                height: '12px',
+                background: 'rgba(236, 72, 153, 0.1)',
                 borderRadius: '2px',
                 overflow: 'hidden',
                 marginBottom: '8px',
@@ -328,7 +328,7 @@ export default function QuizResult() {
                 <div style={{
                   height: '100%',
                   width: revealStep >= 3 ? `${item!.barPct}%` : '0%',
-                  background: '#2a6b5e',
+                  background: '#EC4899',
                   borderRadius: '2px',
                   transition: `width 1000ms cubic-bezier(0.16, 1, 0.3, 1) ${200 + idx * 150}ms`,
                 }} />
