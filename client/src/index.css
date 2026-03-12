@@ -677,14 +677,15 @@
 .cta-glow-inner {
   position: relative;
   z-index: 1;
-  background: #000;
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(20, 184, 166, 0.08);
+  border: 1px solid rgba(20, 184, 166, 0.45);
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.12);
   transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, filter 0.2s ease;
 }
 .cta-glow-inner:hover {
-  background: rgba(20, 184, 166, 0.12);
-  border-color: rgba(20, 184, 166, 0.6);
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
+  background: rgba(20, 184, 166, 0.16);
+  border-color: rgba(20, 184, 166, 0.75);
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.35);
   transform: scale(1.03);
   filter: brightness(1.15);
 }
@@ -818,6 +819,13 @@
     display: none !important;
   }
   .fade-section { transition-delay: 0s !important; transition-duration: 0.7s; }
+}
+
+/* Safe zone for scroll-progress-thread nav labels (visible on >1024px) */
+@media (min-width: 1025px) {
+  .thread-page > section {
+    padding-left: 140px;
+  }
 }
 
 @media (max-width: 767px) {

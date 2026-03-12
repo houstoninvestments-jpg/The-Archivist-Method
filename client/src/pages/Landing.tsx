@@ -2192,7 +2192,7 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* PANEL 1: Pattern Dashboard — teal glow border */}
+            {/* PANEL 1: The Pattern File — teal glow border */}
             <div
               className="bento-panel"
               data-testid="panel-dashboard"
@@ -2205,12 +2205,12 @@ export default function Landing() {
                 transitionDelay: "0s",
               }}
             >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>YOUR PATTERN DASHBOARD</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>THE DISAPPEARING PATTERN</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE PATTERN FILE</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. DOCUMENTED.</p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Your pattern documented in full. Body signature mapped. Trigger sequence identified. Yours permanently.
+                Your pattern documented in full. Body signature mapped. Trigger sequence identified.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA" }}>Chest tightness — active &middot; 12 day streak</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in all tiers</p>
             </div>
 
             {/* PANEL 2: The Pocket Archivist */}
@@ -2226,16 +2226,11 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "14px" }}>
-                <div style={{ alignSelf: "flex-end", background: "rgba(255,255,255,0.06)", padding: "10px 14px", borderRadius: "8px", maxWidth: "85%" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc" }}>I just ghosted her again</p>
-                </div>
-                <div style={{ alignSelf: "flex-start", borderLeft: "2px solid #14B8A6", padding: "10px 14px", maxWidth: "85%", background: "rgba(20,184,166,0.04)", borderRadius: "0 8px 8px 0" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc" }}>Disappearing pattern. What did you feel in your chest right before you pulled away?</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#AAAAAA" }}>Not a chatbot. A precision tool.</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS YOUR PATTERN.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
+                Real-time AI trained on your pattern. Knows your triggers. Asks the right question at the right moment.
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -2251,26 +2246,14 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR EARLY WARNING SYSTEM.</p>
               <svg viewBox="0 0 280 24" width="100%" height="24" style={{ marginBottom: "18px", display: "block" }} preserveAspectRatio="none">
                 <polyline points="0,12 60,12 80,12 90,4 100,20 110,8 120,16 130,12 140,12 280,12" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "18px" }}>
-                {[
-                  { signal: "THROAT CLOSES", desc: "Pattern is loading" },
-                  { signal: "CHEST DROPS", desc: "Signal is firing" },
-                  { signal: "HANDS GO COLD", desc: "You have 3-7 seconds" },
-                ].map((row, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <svg viewBox="0 0 24 16" width="24" height="16" style={{ flexShrink: 0 }}>
-                      <polyline points="0,8 6,8 9,3 12,13 15,6 18,10 21,8 24,8" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "white", letterSpacing: "0.05em" }}>{row.signal}</span>
-                    <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "#EC4899", marginLeft: "auto", whiteSpace: "nowrap" }}>{row.desc}</span>
-                  </div>
-                ))}
-              </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>Most people call this anxiety. It isn't. It's your nervous system announcing the pattern 3-7 seconds before your conscious mind knows anything is wrong. That signal is your window.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
+                Your nervous system's early warning system. Mapped to your specific pattern. You'll never miss the signal again.
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
             </div>
 
             {/* PANEL 4: The Interrupt Protocol */}
@@ -2286,21 +2269,11 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>DISAPPEARING PATTERN</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "14px", color: "#ccc", lineHeight: 1.6, marginBottom: "14px" }}>
-                "The pattern is running. I feel the tightness. I'm choosing to stay."
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>NOT WILLPOWER. MECHANICS.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
+                A practiced physical sequence that fires before the pattern executes. Not willpower. Mechanics.
               </p>
-              <div style={{ marginBottom: "14px" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: "4px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999" }}>Progress</span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Day 11 of 90</span>
-                </div>
-                <div style={{ height: "3px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden" }}>
-                  <div style={{ width: "12%", height: "100%", background: "#14B8A6", borderRadius: "2px" }} />
-                </div>
-              </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#AAAAAA", lineHeight: 1.6 }}>A trained sequence. Not a thought. Not a reframe. A practiced physical response that fires before the pattern executes.</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197</p>
             </div>
           </div>
         </div>
@@ -2312,7 +2285,7 @@ export default function Landing() {
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
-              Start Free. Go Deeper When You're Ready.
+              Know It. Stop It. Own All of Them.
             </h2>
           </div>
 
@@ -2324,20 +2297,20 @@ export default function Landing() {
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 30%, #0D0D0D 100%)" }} />
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>START HERE</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Crash Course</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Identify your pattern in 7 days.
+                  Know your pattern in 7 days.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer"].map((item, i) => (
+                  {["Pattern identification quiz", "Primary pattern revealed", "7-day pattern-specific email sequence", "Body signal primer"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
                     </div>
                   ))}
-                  {["Pocket Archivist access", "Interrupt protocols", "Full body signature map"].map((item, i) => (
+                  {["Pocket Archivist", "Interrupt protocols", "Body signature map"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
                       <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
@@ -2371,16 +2344,16 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Field Guide</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Your complete interrupt protocol — ready to use the moment the pattern fires.
+                  You know what it is. Now get the tools to stop it.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer", "Pocket Archivist (your pattern)", "Full interrupt protocol", "Body signature map"].map((item, i) => (
+                  {["Everything in the Crash Course", "Full interrupt protocol (your pattern)", "Body signature map (your pattern)", "Pocket Archivist — your pattern only"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
                     </div>
                   ))}
-                  {["All 9 pattern protocols"].map((item, i) => (
+                  {["All 9 pattern protocols", "Cross-pattern reference guide"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
                       <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
@@ -2413,10 +2386,10 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>The Complete Archive</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Every pattern. Every scenario. The complete system.
+                  You've handled yours. Now understand everyone in your life.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Your primary pattern revealed", "7-day email sequence", "Body signal primer", "Pocket Archivist (all 9 patterns)", "Full interrupt protocols (all 9)", "Body signature maps (all 9)", "Complete pattern cross-reference"].map((item, i) => (
+                  {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "Pocket Archivist — all 9 patterns", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
