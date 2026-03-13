@@ -87,9 +87,12 @@ export class MemStorage implements IStorage {
           })
           .where(eq(quizUsers.email, data.email))
           .returning();
+        if (!updated[0]) {
+          throw new Error(`DB update returned no rows for email: ${data.email}`);
+        }
         return updated[0];
       }
-      
+
       const result = await db.insert(quizUsers).values({
         email: data.email,
         primaryPattern: data.primaryPattern,
@@ -99,7 +102,10 @@ export class MemStorage implements IStorage {
         magicLinkToken: token,
         magicLinkExpires: tokenExpires,
       }).returning();
-      
+
+      if (!result[0]) {
+        throw new Error(`DB insert returned no rows for email: ${data.email}`);
+      }
       return result[0];
     } catch (error) {
       console.error("Error creating quiz user:", error);
