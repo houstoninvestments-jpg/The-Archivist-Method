@@ -692,6 +692,7 @@ export default function QuizResult() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
+                  pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                   data-testid="input-email"
                   style={{
                     width: '100%',
