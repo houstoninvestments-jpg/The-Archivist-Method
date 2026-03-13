@@ -118,10 +118,7 @@ export default function QuizResult() {
   // ── Email submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.includes('@') || !email.includes('.')) {
-      setError('Please enter a valid email address');
-      return;
-    }
+    if (!email.includes('@')) return;
     const finalPattern = focusPattern || primaryPattern;
     setSubmitting(true);
     setError('');
