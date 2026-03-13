@@ -2191,6 +2191,63 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ========== SECTION 10.5: THE POCKET ARCHIVIST ========== */}
+      <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <SectorLabel text="THE POCKET ARCHIVIST" />
+        <div className="max-w-3xl mx-auto">
+          <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "24px" }}>
+            THE POCKET ARCHIVIST
+          </p>
+          <h2 className="fade-section text-center" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+            IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
+          </h2>
+          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+            This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it.
+          </p>
+
+          <div className="fade-section" style={{ maxWidth: "700px", margin: "0 auto" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              You already know the feeling. The chest drop. The throat tighten. The pull toward the thing you said you wouldn't do again. Most tools want to talk about it later. The Pocket Archivist is built for right now.
+            </p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              It's been trained exclusively on The Archivist Method framework — pattern architecture, body signal sequencing, interrupt protocols, and circuit break language. It doesn't give you generic advice. It knows your pattern's specific trigger sequence and responds with the exact language your nervous system can actually use in that moment.
+            </p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
+              The problems it solves are the ones nobody names. The 11pm spiral. The shutdown before the conversation starts. The moment you watch yourself do it anyway. That's what it was built for.
+            </p>
+          </div>
+
+          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
+            Not a companion. A circuit breaker.
+          </p>
+
+          <div className="fade-section text-center" style={{ marginTop: "40px" }}>
+            <button
+              onClick={() => setDemoModalOpen(true)}
+              style={{
+                background: "transparent",
+                border: "1px solid #14B8A6",
+                borderRadius: "8px",
+                padding: "14px 32px",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                color: "#14B8A6",
+                cursor: "pointer",
+                textTransform: "uppercase",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,184,166,0.1)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+              data-testid="button-experience-demo"
+            >
+              EXPERIENCE IT FREE <ArrowRight className="inline w-3 h-3 ml-1" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* ========== SECTION 8.7: BENTO — INSIDE THE ARCHIVE ========== */}
       <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
@@ -2239,16 +2296,17 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>TRAINED ON THE METHOD. DEPLOYED IN THE WINDOW.</p>
               <div style={{ marginBottom: "16px" }}>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", background: "#1e1e1e", borderRadius: "12px 12px 2px 12px", padding: "8px 12px", maxWidth: "80%", lineHeight: 1.5 }}>I almost walked out again</p>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", background: "#1e1e1e", borderRadius: "12px 12px 2px 12px", padding: "8px 12px", maxWidth: "80%", lineHeight: 1.5 }}>I can feel it starting again</p>
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#14B8A6", background: "rgba(20,184,166,0.08)", border: "1px solid rgba(20,184,166,0.2)", borderRadius: "2px 12px 12px 12px", padding: "8px 12px", maxWidth: "90%", lineHeight: 1.5 }}>That's the Disappearing pattern loading. What did you feel in your chest the second before you stood up?</p>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#14B8A6", background: "rgba(20,184,166,0.08)", border: "1px solid rgba(20,184,166,0.2)", borderRadius: "2px 12px 12px 12px", padding: "8px 12px", maxWidth: "90%", lineHeight: 1.5 }}>That's the signal, not the pattern.<br />You're already in the window.<br />What's happening in your body right now?</p>
                 </div>
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Trained on your pattern. Deployed in the window. · $47 and $197</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "12px" }}>Not a chatbot. A trained extension of The Archivist Method that knows your pattern, speaks its language, and meets you in the 3–7 second window when it matters. Ask it anything. Use it mid-moment.</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Trained on the complete Archivist Method library · $47+</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -2510,63 +2568,6 @@ export default function Landing() {
               </div>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* ========== SECTION 10.5: THE POCKET ARCHIVIST ========== */}
-      <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <SectorLabel text="THE POCKET ARCHIVIST" />
-        <div className="max-w-3xl mx-auto">
-          <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "24px" }}>
-            THE POCKET ARCHIVIST
-          </p>
-          <h2 className="fade-section text-center" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
-            IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
-          </h2>
-          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
-            This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it.
-          </p>
-
-          <div className="fade-section" style={{ maxWidth: "700px", margin: "0 auto" }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              You already know the feeling. The chest drop. The throat tighten. The pull toward the thing you said you wouldn't do again. Most tools want to talk about it later. The Pocket Archivist is built for right now.
-            </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              It's been trained exclusively on The Archivist Method framework — pattern architecture, body signal sequencing, interrupt protocols, and circuit break language. It doesn't give you generic advice. It knows your pattern's specific trigger sequence and responds with the exact language your nervous system can actually use in that moment.
-            </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              The problems it solves are the ones nobody names. The 11pm spiral. The shutdown before the conversation starts. The moment you watch yourself do it anyway. That's what it was built for.
-            </p>
-          </div>
-
-          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
-            Not a companion. A circuit breaker.
-          </p>
-
-          <div className="fade-section text-center" style={{ marginTop: "40px" }}>
-            <button
-              onClick={() => setDemoModalOpen(true)}
-              style={{
-                background: "transparent",
-                border: "1px solid #14B8A6",
-                borderRadius: "8px",
-                padding: "14px 32px",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                color: "#14B8A6",
-                cursor: "pointer",
-                textTransform: "uppercase",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,184,166,0.1)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
-              data-testid="button-experience-demo"
-            >
-              EXPERIENCE IT FREE <ArrowRight className="inline w-3 h-3 ml-1" />
-            </button>
-          </div>
         </div>
       </section>
 
