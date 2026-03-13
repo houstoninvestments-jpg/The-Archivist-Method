@@ -119,7 +119,7 @@ export default function QuizResult() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.includes('@')) return;
-    const finalPattern = focusPattern || primaryPattern;
+    const finalPattern = focusPattern || primaryPattern || 'disappearing';
     setSubmitting(true);
     setError('');
     try {
