@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { Resend } from 'resend';
 import { patternDisplayNames } from './portal/email';
+import { generateAuthToken } from "./portal/auth";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -128,7 +129,11 @@ export async function registerRoutes(
         secondaryPatterns: secondaryPatterns || [],
         patternScores: patternScores || {},
       });
-      
+
+      if (!user) {
+        return res.status(500).json({ error: "Failed to create or update quiz user" });
+      }
+
       console.log(`Quiz submission: ${email} - Primary: ${primaryPattern}`);
 
       const patternName = patternDisplayNames[primaryPattern] || primaryPattern;
@@ -153,7 +158,6 @@ export async function registerRoutes(
         console.error('Email send failed:', err);
       }
 
-      const { generateAuthToken } = await import("./portal/auth");
       const jwtToken = generateAuthToken(user.id, email);
       
       res.cookie("quiz_token", jwtToken, {
