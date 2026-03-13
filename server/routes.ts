@@ -118,19 +118,29 @@ export async function registerRoutes(
   app.post("/api/quiz/submit", async (req, res) => {
     try {
       const { email, primaryPattern, secondaryPatterns, patternScores } = req.body;
-      
+      console.log("[quiz/submit] Request body received:", {
+        email,
+        primaryPattern,
+        secondaryPatterns,
+        patternScores,
+        rawBody: req.body,
+      });
+
       if (!email || !primaryPattern) {
+        console.log("[quiz/submit] Validation failed — sending 400:", { email, primaryPattern });
         return res.status(400).json({ error: "Email and pattern are required" });
       }
-      
+
       const user = await storage.createQuizUser({
         email,
         primaryPattern,
         secondaryPatterns: secondaryPatterns || [],
         patternScores: patternScores || {},
       });
+      console.log("[quiz/submit] DB createQuizUser result:", user);
 
       if (!user) {
+        console.log("[quiz/submit] createQuizUser returned falsy — sending 500");
         return res.status(500).json({ error: "Failed to create or update quiz user" });
       }
 
@@ -159,7 +169,7 @@ export async function registerRoutes(
       }
 
       const jwtToken = generateAuthToken(user.id, email);
-      
+
       res.cookie("quiz_token", jwtToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -167,14 +177,12 @@ export async function registerRoutes(
         path: "/",
         maxAge: 60 * 60 * 24 * 7 * 1000,
       });
-      
-      res.json({ 
-        success: true, 
-        token: jwtToken,
-        userId: user.id,
-      });
+
+      const successPayload = { success: true, token: jwtToken, userId: user.id };
+      console.log("[quiz/submit] Sending 200 success response:", { ...successPayload, token: jwtToken ? "[present]" : "[missing]" });
+      res.json(successPayload);
     } catch (error) {
-      console.error("Quiz submission error:", error);
+      console.error("[quiz/submit] Caught error — sending 500:", error);
       res.status(500).json({ error: "Failed to save quiz submission" });
     }
   });
