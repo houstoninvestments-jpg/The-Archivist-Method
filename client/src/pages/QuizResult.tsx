@@ -686,7 +686,7 @@ export default function QuizResult() {
                 Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-3" noValidate>
                 <input
                   type="text"
                   value={email}
