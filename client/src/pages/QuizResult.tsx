@@ -692,7 +692,6 @@ export default function QuizResult() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  required
                   data-testid="input-email"
                   style={{
                     width: '100%',
