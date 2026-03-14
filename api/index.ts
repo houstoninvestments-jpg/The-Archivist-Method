@@ -1,13 +1,188 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import express from "express";
 import cookieParser from "cookie-parser";
-import { storage } from "../server/storage";
 import { Resend } from "resend";
-import { patternDisplayNames } from "../server/portal/email";
-import { generateAuthToken } from "../server/portal/auth";
-import portalRoutes from "../server/portal/routes";
-import adminRoutes from "../server/admin/routes";
+import jwt from "jsonwebtoken";
+import pg from "pg";
+import portalRoutes from "./portal-routes";
+import adminRoutes from "./admin-routes";
 
+// ── DB setup (inline, no server/ imports) ────────────────────────────────────
+const { Pool } = pg;
+let _pool: pg.Pool | null = null;
+
+function getPool(): pg.Pool {
+  if (!_pool) {
+    if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL must be set");
+    _pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  }
+  return _pool;
+}
+
+// ── Auth helpers (inline) ────────────────────────────────────────────────────
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+
+function generateAuthToken(userId: string, email: string): string {
+  return jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: "7d" });
+}
+
+function verifyAuthToken(token: string): { userId: string; email: string } | null {
+  try {
+    return jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
+  } catch {
+    return null;
+  }
+}
+
+// ── Pattern display names (inline) ───────────────────────────────────────────
+const patternDisplayNames: Record<string, string> = {
+  disappearing: "The Disappearing Pattern",
+  apologyLoop: "The Apology Loop",
+  testing: "The Testing Pattern",
+  attractionToHarm: "Attraction to Harm",
+  complimentDeflection: "Compliment Deflection",
+  drainingBond: "The Draining Bond",
+  successSabotage: "Success Sabotage",
+  perfectionism: "The Perfectionism Pattern",
+  rage: "The Rage Pattern",
+};
+
+// ── Quiz DB helpers (raw SQL, no Drizzle) ────────────────────────────────────
+interface QuizUser {
+  id: string;
+  email: string;
+  name: string | null;
+  primaryPattern: string;
+  secondaryPatterns: string[];
+  patternScores: Record<string, number>;
+  accessLevel: string;
+  crashCourseDay: number | null;
+  crashCourseStarted: Date | null;
+  magicLinkToken: string | null;
+  magicLinkExpires: Date | null;
+}
+
+async function createOrUpdateQuizUser(data: {
+  email: string;
+  primaryPattern: string;
+  secondaryPatterns: string[];
+  patternScores: Record<string, number>;
+}): Promise<QuizUser> {
+  const pool = getPool();
+  const token = require("crypto").randomUUID();
+  const tokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  const existing = await pool.query(
+    `SELECT id FROM quiz_users WHERE email = $1 LIMIT 1`,
+    [data.email]
+  );
+
+  let row: any;
+  if (existing.rows.length > 0) {
+    const result = await pool.query(
+      `UPDATE quiz_users
+       SET primary_pattern = $1, secondary_patterns = $2, pattern_scores = $3,
+           magic_link_token = $4, magic_link_expires = $5
+       WHERE email = $6
+       RETURNING *`,
+      [
+        data.primaryPattern,
+        JSON.stringify(data.secondaryPatterns),
+        JSON.stringify(data.patternScores),
+        token,
+        tokenExpires,
+        data.email,
+      ]
+    );
+    row = result.rows[0];
+  } else {
+    const result = await pool.query(
+      `INSERT INTO quiz_users
+         (email, primary_pattern, secondary_patterns, pattern_scores, access_level,
+          magic_link_token, magic_link_expires)
+       VALUES ($1, $2, $3, $4, 'free', $5, $6)
+       RETURNING *`,
+      [
+        data.email,
+        data.primaryPattern,
+        JSON.stringify(data.secondaryPatterns),
+        JSON.stringify(data.patternScores),
+        token,
+        tokenExpires,
+      ]
+    );
+    row = result.rows[0];
+  }
+
+  return rowToQuizUser(row);
+}
+
+async function getQuizUserByToken(token: string): Promise<QuizUser | null> {
+  const pool = getPool();
+  // First try magic_link_token
+  const result = await pool.query(
+    `SELECT * FROM quiz_users WHERE magic_link_token = $1 LIMIT 1`,
+    [token]
+  );
+  if (result.rows.length > 0) {
+    const user = rowToQuizUser(result.rows[0]);
+    if (user.magicLinkExpires && new Date(user.magicLinkExpires) > new Date()) {
+      return user;
+    }
+  }
+
+  // Fall back to JWT verification
+  const authData = verifyAuthToken(token);
+  if (!authData) return null;
+
+  const jwtResult = await pool.query(
+    `SELECT * FROM quiz_users WHERE id = $1 LIMIT 1`,
+    [authData.userId]
+  );
+  return jwtResult.rows.length > 0 ? rowToQuizUser(jwtResult.rows[0]) : null;
+}
+
+async function updateQuizUser(id: string, data: Partial<QuizUser>): Promise<void> {
+  const pool = getPool();
+  const sets: string[] = [];
+  const vals: any[] = [];
+  let i = 1;
+
+  if (data.crashCourseStarted !== undefined) {
+    sets.push(`crash_course_started = $${i++}`);
+    vals.push(data.crashCourseStarted);
+  }
+  if (data.crashCourseDay !== undefined) {
+    sets.push(`crash_course_day = $${i++}`);
+    vals.push(data.crashCourseDay);
+  }
+
+  if (sets.length === 0) return;
+  vals.push(id);
+  await pool.query(`UPDATE quiz_users SET ${sets.join(", ")} WHERE id = $${i}`, vals);
+}
+
+function rowToQuizUser(row: any): QuizUser {
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name ?? null,
+    primaryPattern: row.primary_pattern,
+    secondaryPatterns: Array.isArray(row.secondary_patterns)
+      ? row.secondary_patterns
+      : (row.secondary_patterns ? JSON.parse(row.secondary_patterns) : []),
+    patternScores: typeof row.pattern_scores === "object" && !Array.isArray(row.pattern_scores)
+      ? row.pattern_scores
+      : (row.pattern_scores ? JSON.parse(row.pattern_scores) : {}),
+    accessLevel: row.access_level ?? "free",
+    crashCourseDay: row.crash_course_day ?? null,
+    crashCourseStarted: row.crash_course_started ? new Date(row.crash_course_started) : null,
+    magicLinkToken: row.magic_link_token ?? null,
+    magicLinkExpires: row.magic_link_expires ? new Date(row.magic_link_expires) : null,
+  };
+}
+
+// ── Express app ───────────────────────────────────────────────────────────────
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
@@ -15,7 +190,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Portal and admin sub-routers
+// Portal and admin sub-routers (self-contained, no server/ imports)
 app.use("/api/portal", portalRoutes);
 app.use("/api/admin", adminRoutes);
 
@@ -124,27 +299,23 @@ app.post("/api/archivist-demo", async (req, res) => {
   }
 });
 
+// ── /api/quiz/submit — fully inlined, no server/ imports ─────────────────────
 app.post("/api/quiz/submit", async (req, res) => {
   try {
-    const { email, primaryPattern, secondaryPatterns, patternScores } =
-      req.body;
+    const { email, primaryPattern, secondaryPatterns, patternScores } = req.body;
     if (!email || !primaryPattern) {
       return res.status(400).json({ error: "Email and pattern are required" });
     }
 
-    const user = await storage.createQuizUser({
+    // 1. Upsert quiz user directly via pg
+    const user = await createOrUpdateQuizUser({
       email,
       primaryPattern,
       secondaryPatterns: secondaryPatterns || [],
       patternScores: patternScores || {},
     });
 
-    if (!user) {
-      return res
-        .status(500)
-        .json({ error: "Failed to create or update quiz user" });
-    }
-
+    // 2. Send welcome email via Resend
     const patternName = patternDisplayNames[primaryPattern] || primaryPattern;
     try {
       await resend.emails.send({
@@ -167,6 +338,7 @@ app.post("/api/quiz/submit", async (req, res) => {
       console.error("Email send failed:", err);
     }
 
+    // 3. Generate JWT and set cookie
     const jwtToken = generateAuthToken(user.id, email);
 
     res.cookie("quiz_token", jwtToken, {
@@ -192,7 +364,7 @@ app.get("/api/quiz/user", async (req, res) => {
     if (!token) {
       return res.status(401).json({ error: "Not authenticated" });
     }
-    const user = await storage.getQuizUserByToken(token);
+    const user = await getQuizUserByToken(token);
     if (!user) {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
@@ -221,12 +393,12 @@ app.post("/api/quiz/start-crash-course", async (req, res) => {
     if (!token) {
       return res.status(401).json({ error: "Not authenticated" });
     }
-    const user = await storage.getQuizUserByToken(token);
+    const user = await getQuizUserByToken(token);
     if (!user) {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
     if (!user.crashCourseStarted) {
-      await storage.updateQuizUser(user.id, {
+      await updateQuizUser(user.id, {
         crashCourseStarted: new Date(),
         crashCourseDay: 1,
       });
@@ -247,16 +419,13 @@ app.get("/api/portal/user-data", async (req, res) => {
     if (!token) {
       return res.status(401).json({ error: "Not authenticated" });
     }
-    const user = await storage.getQuizUserByToken(token);
+    const user = await getQuizUserByToken(token);
     if (!user) {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
     const purchases = [];
-    if (
-      user.accessLevel === "quickstart" ||
-      user.accessLevel === "archive"
-    ) {
+    if (user.accessLevel === "quickstart" || user.accessLevel === "archive") {
       purchases.push({
         productId: "quickstart",
         productName: "The Field Guide",
@@ -277,8 +446,7 @@ app.get("/api/portal/user-data", async (req, res) => {
         id: "quickstart",
         name: "The Field Guide",
         price: 47,
-        description:
-          "Your pattern-specific Field Guide, all 9 patterns, crisis protocols",
+        description: "Your pattern-specific Field Guide, all 9 patterns, crisis protocols",
       });
     }
     if (user.accessLevel !== "archive") {
@@ -286,8 +454,7 @@ app.get("/api/portal/user-data", async (req, res) => {
         id: "archive",
         name: "Complete Archive",
         price: user.accessLevel === "quickstart" ? 150 : 197,
-        description:
-          "Pattern combinations, long-term maintenance, advanced applications",
+        description: "Pattern combinations, long-term maintenance, advanced applications",
       });
     }
 
