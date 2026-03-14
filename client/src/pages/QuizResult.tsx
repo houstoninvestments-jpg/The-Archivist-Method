@@ -23,13 +23,8 @@ export default function QuizResult() {
     if (resultData) result = JSON.parse(decodeURIComponent(resultData));
   } catch {}
 
-  const primaryPattern = (result?.primaryPattern || localStorage.getItem('quizResultPattern') || '') as PatternKey;
-  const scores: Record<PatternKey, number> = result?.scores || (() => {
-    try {
-      const cached = localStorage.getItem('quizScores');
-      return cached ? JSON.parse(cached) : {};
-    } catch { return {}; }
-  })();
+  const primaryPattern = (result?.primaryPattern || '') as PatternKey;
+  const scores: Record<PatternKey, number> = result?.scores || {};
 
   // Build sorted pattern list for display
   const sortedPatterns = (Object.entries(scores) as [PatternKey, number][])
