@@ -10,6 +10,7 @@
     }
   },
   "rewrites": [
+    { "source": "/api/quiz/submit", "destination": "/api/quiz-submit" },
     { "source": "/api/:path*", "destination": "/api/index" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
