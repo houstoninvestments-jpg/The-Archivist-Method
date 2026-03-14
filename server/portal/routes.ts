@@ -1109,12 +1109,7 @@ router.post("/chat", async (req: Request, res: Response) => {
     const streakCount = streak || 0;
 
     let tierAccess = "";
-    if (userTier === "free") {
-      tierAccess = `If user_tier == "free":
-- You know their PRIMARY pattern deeply
-- If they ask about other patterns, give a 1-sentence answer, then: "I can go deeper on that when you unlock the Field Guide."
-- If they ask about advanced topics (combinations, relationships, workplace): "That's covered in the Complete Archive. Want me to give you the basics for now?"`;
-    } else if (userTier === "quick-start") {
+    if (userTier === "quick-start") {
       tierAccess = `If user_tier == "field_guide":
 - You know ALL 9 patterns fully
 - You can help with implementation, circuit breaks, 90-day protocol
