@@ -239,6 +239,7 @@ router.get("/user-data", async (req: Request, res: Response) => {
         getUserPurchases(authData.userId),
         getUserById(authData.userId),
       ]);
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
       const userAccess = calculateUserAccess(purchases);
       const availableUpgrades = getAvailableUpgrades(userAccess);
 
@@ -652,6 +653,8 @@ router.post(
           user = await createUser(customerEmail, stripeCustomerId, customerName || undefined);
           console.log(`Created new user: ${user.id} (${customerName || 'no name'})`);
         }
+
+        if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
         await createPurchase(
           user.id,
@@ -1106,7 +1109,7 @@ router.post("/chat", async (req: Request, res: Response) => {
     const streakCount = streak || 0;
 
     let tierAccess = "";
-    if (userTier === "free" || userTier === "crash-course") {
+    if (userTier === "free") {
       tierAccess = `If user_tier == "free":
 - You know their PRIMARY pattern deeply
 - If they ask about other patterns, give a 1-sentence answer, then: "I can go deeper on that when you unlock the Field Guide."
