@@ -685,7 +685,11 @@ export default function QuizResult() {
                   type="text"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="your@email.com"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
                   data-testid="input-email"
                   style={{
                     width: '100%',
