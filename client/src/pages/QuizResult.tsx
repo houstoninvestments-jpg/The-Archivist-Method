@@ -16,7 +16,7 @@ export default function QuizResult() {
   const [location, setLocation] = useLocation();
 
   // ── Parse result data
-  const searchParams = new URLSearchParams(location.split('?')[1] || '');
+  const searchParams = new URLSearchParams(window.location.search);
   const resultData = searchParams.get('data');
   let result: QuizResultType | null = null;
   try {
