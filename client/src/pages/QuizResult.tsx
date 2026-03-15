@@ -111,8 +111,7 @@ export default function QuizResult() {
   }, [focusPattern]);
 
   // ── Email submit
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!email.includes('@')) return;
     const finalPattern = focusPattern || primaryPattern || 'disappearing';
     setSubmitting(true);
@@ -681,7 +680,7 @@ export default function QuizResult() {
                 Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+              <div className="space-y-3">
                 <input
                   type="text"
                   value={email}
@@ -724,7 +723,8 @@ export default function QuizResult() {
                 <div className="cta-glow-wrap cta-glow-full" style={{ display: 'block', width: '100%' }}>
                   <div className="cta-glow-border" />
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleSubmit}
                     disabled={submitting}
                     data-testid="button-submit-email"
                     className="cta-glow-inner results-cta-btn w-full"
@@ -750,7 +750,7 @@ export default function QuizResult() {
                     {error}
                   </p>
                 )}
-              </form>
+              </div>
 
               <p
                 data-testid="text-no-spam"
