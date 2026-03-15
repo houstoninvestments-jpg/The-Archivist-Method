@@ -1,6 +1,9 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { IncomingMessage, ServerResponse } from 'http';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
+
+type NodeRequest = IncomingMessage & { method?: string; body?: any };
+type NodeResponse = ServerResponse & { status: (code: number) => NodeResponse; json: (data: any) => void };
 
 const patternDisplayNames: Record<string, string> = {
   disappearing: 'The Disappearing Pattern',
@@ -14,7 +17,7 @@ const patternDisplayNames: Record<string, string> = {
   rage: 'The Rage Pattern',
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: NodeRequest, res: NodeResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
