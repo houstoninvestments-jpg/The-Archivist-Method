@@ -112,30 +112,31 @@ export default function QuizResult() {
 
   // ── Email submit
   const handleSubmit = async () => {
-    if (!email.includes('@')) return;
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail.includes('@')) return;
     const finalPattern = focusPattern || primaryPattern || 'disappearing';
     setSubmitting(true);
     setError('');
     try {
-      const response = await fetch('/api/quiz/submit', {
+      const response = await fetch(new URL('/api/quiz/submit', window.location.origin).toString(), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          email,
+          email: trimmedEmail,
           primaryPattern: finalPattern,
           secondaryPatterns: result?.secondaryPatterns || [],
           patternScores: scores,
         }),
       });
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to save results');
+        const raw = await response.text(); let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
+        throw new Error(data?.error || 'Failed to save results');
       }
       localStorage.setItem('quizResultPattern', finalPattern);
-      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userEmail', trimmedEmail);
       if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
-      setLocation('/portal');
+      window.location.assign('/portal');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setSubmitting(false);
