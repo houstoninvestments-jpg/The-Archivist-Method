@@ -280,22 +280,30 @@ export default function Quiz() {
   const hasSelection = currentSelections.length > 0;
   const meterProgress = currentQuestion / 19;
 
-  // ── Shortcut: ?skip=true fills all answers with first option and jumps to results
+  // ── Shortcut: ?skip=true bypasses the quiz and navigates directly to results
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('skip') !== 'true') return;
 
-    const autoAnswers: Record<number, string[]> = {};
-    quizQuestions.forEach(q => {
-      autoAnswers[q.id] = [q.options[0].id];
-    });
+    const result = {
+      type: 'primary' as const,
+      primaryPattern: 'successSabotage' as PatternKey,
+      secondaryPatterns: ['perfectionism', 'disappearing'] as PatternKey[],
+      scores: {
+        disappearing: 42,
+        apologyLoop: 38,
+        testing: 35,
+        attractionToHarm: 30,
+        complimentDeflection: 28,
+        drainingBond: 25,
+        successSabotage: 75,
+        perfectionism: 60,
+        rage: 20,
+      } as Record<PatternKey, number>,
+      totalScore: 353,
+    };
 
-    const rawScores = calculatePatternScores(autoAnswers);
-    const result = determineQuizResult(rawScores);
-
-    if (result.primaryPattern) {
-      localStorage.setItem('quizResultPattern', result.primaryPattern);
-    }
+    localStorage.setItem('quizResultPattern', result.primaryPattern);
     localStorage.setItem('quizScores', JSON.stringify(result.scores));
     const resultData = encodeURIComponent(JSON.stringify(result));
     setLocation(`/results?data=${resultData}`);
