@@ -311,7 +311,7 @@ router.get("/user-data", async (req: Request, res: Response) => {
         getUserPurchases(authData.userId),
         getUserById(authData.userId),
       ]);
-      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      if (!user) throw new Error('Not a portal user');
       const userAccess = calculateUserAccess(purchases);
       const availableUpgrades = getAvailableUpgrades(userAccess);
 
