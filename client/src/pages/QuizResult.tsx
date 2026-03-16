@@ -117,8 +117,13 @@ export default function QuizResult() {
     const finalPattern = focusPattern || primaryPattern || 'disappearing';
     setSubmitting(true);
     setError('');
+    // Save locally first so /portal works regardless of API result
+    localStorage.setItem('quizResultPattern', finalPattern);
+    localStorage.setItem('userEmail', trimmedEmail);
+    if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
+
     try {
-      const response = await fetch('/api/quiz/submit', {
+      await fetch('/api/quiz/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         credentials: 'include',
@@ -129,18 +134,12 @@ export default function QuizResult() {
           patternScores: scores,
         }),
       });
-      if (!response.ok) {
-        const raw = await response.text(); let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
-        throw new Error(data?.error || 'Failed to save results');
-      }
-      localStorage.setItem('quizResultPattern', finalPattern);
-      localStorage.setItem('userEmail', trimmedEmail);
-      if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
-      window.location.assign('/portal');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
-      setSubmitting(false);
+      // Network failure — log but don't block redirect
+      console.error('[quiz/submit] fetch error:', err);
     }
+
+    window.location.assign('/portal');
   };
 
   // ── No pattern guard
