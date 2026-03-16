@@ -72,6 +72,10 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
     .select('id, email')
     .single();
 
+  if (!user) {
+    return res.status(500).json({ error: 'Failed to create user' });
+  }
+
   if (upsertError || !user) {
     console.error('[quiz/submit] upsert error:', upsertError);
     return res.status(500).json({ error: 'Failed to save quiz submission' });
