@@ -118,7 +118,7 @@ export default function QuizResult() {
     setSubmitting(true);
     setError('');
     try {
-      const response = await fetch(new URL('/api/quiz/submit', window.location.origin).toString(), {
+      const response = await fetch('/api/quiz/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         credentials: 'include',
