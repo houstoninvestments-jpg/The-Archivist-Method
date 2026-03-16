@@ -55,7 +55,7 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
     return res.status(500).json({ error: 'Supabase not configured' });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = createClient(supabaseUrl!, supabaseKey!);
 
   // Upsert the quiz user
   const { data: user, error: upsertError } = await supabase
@@ -81,11 +81,11 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {
     const resend = new Resend(resendKey);
-    const patternName = patternDisplayNames[primaryPattern] ?? primaryPattern;
+    const patternName = patternDisplayNames[primaryPattern!] ?? primaryPattern;
     try {
       await resend.emails.send({
         from: 'The Archivist <hello@archiebase.com>',
-        to: [email],
+        to: [email!],
         subject: `Your pattern has been identified — ${patternName}`,
         html: `
           <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
@@ -104,5 +104,8 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
     }
   }
 
+  if (!user) {
+    return res.status(500).json({ error: 'User not found after upsert' });
+  }
   return res.status(200).json({ success: true, userId: user.id });
 }
