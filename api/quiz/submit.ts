@@ -43,7 +43,7 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
 
   // Upsert the quiz user
   const { data: user, error: upsertError } = await supabase
-    .from('quiz_users')
+    .from('test_users')
     .upsert(
       {
         email,
