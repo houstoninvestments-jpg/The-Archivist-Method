@@ -22,11 +22,12 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, primaryPattern, secondaryPatterns, patternScores } = req.body as {
+  const { email, primaryPattern, secondaryPatterns, patternScores, submittedAt } = req.body as {
     email?: string;
     primaryPattern?: string;
     secondaryPatterns?: string[];
     patternScores?: Record<string, number>;
+    submittedAt?: string;
   };
 
   if (!email || !primaryPattern) {
@@ -41,15 +42,23 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
 
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  // Upsert the quiz user
-  // test_users columns: id, email, access_level (NOT NULL), god_mode, note, created_at
-  // primary_pattern / secondary_patterns do not exist on this table
+  // test_users supports:
+  // id, email, access_level, god_mode, note, created_at
+  // store quiz metadata in `note` because quiz-specific columns do not exist
+  const quizSnapshot = JSON.stringify({
+    primaryPattern,
+    secondaryPatterns: secondaryPatterns ?? [],
+    patternScores: patternScores ?? {},
+    submittedAt: submittedAt ?? new Date().toISOString(),
+  });
+
   const { data: user, error: upsertError } = await supabase
     .from('test_users')
     .upsert(
       {
         email,
         access_level: 'crash-course',
+        note: quizSnapshot,
       },
       { onConflict: 'email' }
     )
