@@ -726,7 +726,7 @@ router.post(
           console.log(`Created new user: ${user.id} (${customerName || 'no name'})`);
         }
 
-        if (!user) return res.status(401).json({ error: 'Unauthorized' });
+        if (!user) throw new Error('Not a portal user');
 
         await createPurchase(
           user.id,
