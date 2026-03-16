@@ -49,7 +49,6 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
         email,
         primary_pattern: primaryPattern,
         secondary_patterns: secondaryPatterns ?? [],
-        pattern_scores: patternScores ?? {},
       },
       { onConflict: 'email' }
     )
