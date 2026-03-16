@@ -42,13 +42,14 @@ export default async function handler(req: NodeRequest, res: NodeResponse) {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   // Upsert the quiz user
+  // test_users columns: id, email, access_level (NOT NULL), god_mode, note, created_at
+  // primary_pattern / secondary_patterns do not exist on this table
   const { data: user, error: upsertError } = await supabase
     .from('test_users')
     .upsert(
       {
         email,
-        primary_pattern: primaryPattern,
-        secondary_patterns: secondaryPatterns ?? [],
+        access_level: 'crash-course',
       },
       { onConflict: 'email' }
     )
