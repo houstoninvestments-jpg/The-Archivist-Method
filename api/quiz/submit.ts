@@ -18,10 +18,20 @@ const patternDisplayNames: Record<string, string> = {
 };
 
 export default async function handler(req: NodeRequest, res: NodeResponse) {
-  console.log('ENV CHECK:', {
-    hasUrl: !!process.env.SUPABASE_URL,
-    hasKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-    hasResend: !!process.env.RESEND_API_KEY
+  console.log('quiz submit hit', {
+    hasSupabaseUrl: !!process.env.SUPABASE_URL,
+    hasServiceRoleKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    hasResendKey: !!process.env.RESEND_API_KEY
+  });
+
+  // TODO: remove after routing is confirmed working
+  return res.status(200).json({
+    ok: true,
+    env: {
+      hasSupabaseUrl: !!process.env.SUPABASE_URL,
+      hasServiceRoleKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+      hasResendKey: !!process.env.RESEND_API_KEY
+    }
   });
 
   if (req.method !== 'POST') {
