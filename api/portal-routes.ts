@@ -21,7 +21,7 @@ function verifyAuthToken(token: string): { userId: string; email: string } | nul
 }
 async function generateMagicLink(email: string, userId: string, baseUrl: string): Promise<string> {
   const token = generateAuthToken(userId, email);
-  return `${baseUrl}/portal/auth?token=${token}`;
+  return `${baseUrl}/api/portal/auth/verify?token=${token}`;
 }
 
 // ── Inline: products ──────────────────────────────────────────────────────────
