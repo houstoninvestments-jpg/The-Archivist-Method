@@ -54,3 +54,31 @@ Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, running on
 - STRIPE_SECRET_KEY must be a `sk_test_` key for testing (current live key is expired)
 - PDF downloads served from `public/downloads/` via authenticated routes
 - God mode activated per-user from admin dashboard only
+
+## Automation Permissions
+
+Claude is authorized to perform the following without asking for confirmation:
+
+**GitHub (via `gh` CLI)**
+- Merge PRs once a fix is complete and CI passes
+- Create PRs, check PR status, view CI/build logs
+- Push branches and force-push `claude/*` branches only
+
+**Vercel (via `vercel` CLI)**
+- Check environment variable status (`vercel env ls`)
+- Report missing env vars and suggest values
+- View deployment status and logs after a push
+
+**General**
+- Run `npm run build` and `npm run db:push` after schema/dependency changes
+- Retry failed git pushes up to 4 times with exponential backoff
+- Self-diagnose deployment failures using CLI tools before asking the user
+
+## Setup Checklist (one-time, on developer machine)
+
+```bash
+brew install gh && gh auth login        # GitHub CLI
+npm i -g vercel && vercel login         # Vercel CLI
+```
+
+Once both CLIs are authenticated, Claude handles the full deploy-and-verify loop automatically.
