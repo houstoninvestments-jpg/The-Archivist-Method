@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import { testUsers } from "@shared/schema";
+import { testUsers } from "../shared/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import crypto from "crypto";
