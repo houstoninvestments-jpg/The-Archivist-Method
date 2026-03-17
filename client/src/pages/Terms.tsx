@@ -65,7 +65,7 @@ export default function Terms() {
               The Archivist Method is a pattern interruption education system. It provides behavioral pattern recognition training, self-directed exercises, and digital tools for personal development.
             </p>
             <p>
-              This is not therapy. This is not medical advice. This is not a substitute for professional mental health treatment. If you are in crisis, contact a licensed professional or call 988 (Suicide &amp; Crisis Lifeline).
+              The Archivist Method isn't therapy — and that's the point. Therapy processes your past. This excavates the patterns running your present. It's built for people who already understand themselves and still can't stop. If you're in crisis or need clinical support, we'll always point you there first.
             </p>
           </div>
 

@@ -81,6 +81,19 @@ function OpeningRitual({ onComplete }: { onComplete: () => void }) {
           }} />
         </div>
 
+        {/* Crisis redirect */}
+        <p style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: '0.85rem',
+          color: '#999',
+          lineHeight: 1.6,
+          textAlign: 'center',
+          maxWidth: '480px',
+          marginBottom: '32px',
+        }}>
+          Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the 988 Suicide &amp; Crisis Lifeline first. The archive will be here when you're ready.
+        </p>
+
         {/* Text sequence */}
         <p style={{
           fontFamily: "'JetBrains Mono', monospace",

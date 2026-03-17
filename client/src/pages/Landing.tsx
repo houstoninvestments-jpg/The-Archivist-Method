@@ -1497,7 +1497,7 @@ function TheWindowSection() {
         </h2>
 
         <p className="fade-section" data-testid="text-window-line4" style={{ fontFamily: "'Inter', sans-serif", fontSize: "18px", color: "#F5F5F5", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
-          That's the gap between the signal and the pattern executing. Neuroscientist Benjamin Libet identified it in 1985. He called it the brain's veto window — the only moment where an automated response can be stopped. It exists in every person. In every pattern. Every single time.
+          When a pattern activates, your amygdala fires before your conscious mind catches up. In the seconds that follow — while your brain is fighting to regain control — there's a window. Most people never learn to use it. The Archivist Method is built for exactly that moment.
         </p>
 
         <h3 className="fade-section" data-testid="text-window-line5" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
