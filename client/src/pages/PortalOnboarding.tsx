@@ -56,6 +56,9 @@ function StepOne({
 
   return (
     <div style={{ animation: "fadeInUp 0.5s ease-out" }}>
+      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#999", lineHeight: 1.6, marginBottom: "32px", maxWidth: "520px" }}>
+        Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the 988 Suicide &amp; Crisis Lifeline first. The archive will be here when you're ready.
+      </p>
       <p style={{ fontFamily: FONT_MONO, fontSize: "11px", color: COLOR_TEAL, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
         YOUR PATTERN
       </p>
