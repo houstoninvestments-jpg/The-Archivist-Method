@@ -129,9 +129,11 @@ const chatSchema = z.object({
 });
 
 const router = express.Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2025-11-17.clover" as const,
-});
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
+  return new Stripe(key, { apiVersion: "2025-11-17.clover" as const });
+}
 
 // Send magic login link
 router.post("/auth/send-login-link", async (req: Request, res: Response) => {
@@ -468,7 +470,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
         ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
         : "http://localhost:5000";
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
@@ -502,7 +504,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
         ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
         : "http://localhost:5000";
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
@@ -535,7 +537,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
         ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
         : "http://localhost:5000";
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
@@ -569,7 +571,7 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
         : "http://localhost:5000";
 
     // Use price_data to create a one-time $150 upgrade price
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
@@ -683,7 +685,7 @@ router.post(
       let event: Stripe.Event;
 
       try {
-        event = stripe.webhooks.constructEvent(
+        event = getStripe().webhooks.constructEvent(
           req.body,
           signature,
           webhookSecret,
