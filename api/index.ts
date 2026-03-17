@@ -188,7 +188,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() { return new Resend(process.env.RESEND_API_KEY || "placeholder"); }
 
 // Portal and admin sub-routers (self-contained, no server/ imports)
 app.use("/api/portal", portalRoutes);
@@ -318,7 +318,7 @@ app.post("/api/quiz/submit", async (req, res) => {
     // 2. Send welcome email via Resend
     const patternName = patternDisplayNames[primaryPattern] || primaryPattern;
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: "The Archivist <hello@archiebase.com>",
         to: [email],
         subject: `Your pattern has been identified — ${patternName}`,

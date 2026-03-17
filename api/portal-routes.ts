@@ -96,7 +96,7 @@ async function sendPurchaseConfirmationEmail(data: { email: string; firstName?: 
   } catch (err) { console.error("Email send failed:", err); return false; }
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() { return new Resend(process.env.RESEND_API_KEY || "placeholder"); }
 
 // Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
@@ -206,7 +206,7 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
 
     // Send magic link email
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: 'The Archivist <hello@archiebase.com>',
         to: [email],
         subject: 'Your access link — The Archivist Method',
