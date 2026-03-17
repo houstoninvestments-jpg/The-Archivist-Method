@@ -62,6 +62,21 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  console.log("building api function...");
+  await esbuild({
+    entryPoints: ["api/[...all].ts"],
+    platform: "node",
+    bundle: true,
+    format: "cjs",
+    outfile: "api/[...all].js",
+    define: {
+      "process.env.NODE_ENV": '"production"',
+    },
+    // exclude native/heavy modules that can't be bundled
+    external: ["sharp", "puppeteer", "canvas", "bufferutil", "utf-8-validate"],
+    logLevel: "info",
+  });
 }
 
 buildAll().catch((err) => {
