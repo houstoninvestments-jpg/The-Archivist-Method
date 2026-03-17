@@ -2629,7 +2629,7 @@ export default function Landing() {
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: "28px" }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "white", lineHeight: 1.6, marginBottom: "10px" }} data-testid="text-evidence-statement">The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "white", lineHeight: 1.6, marginBottom: "10px" }} data-testid="text-evidence-statement">When a pattern activates, your amygdala fires before your conscious mind catches up. In the seconds that follow — while your brain is fighting to regain control — there's a window. Most people never learn to use it. The Archivist Method is built for exactly that moment.</p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "#666", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto" }} data-testid="text-evidence-detail">Every protocol in The Archivist Method is designed to operate inside this window — not before it, not after it. Inside it.</p>
           </div>
           <div style={{ width: "80px", height: "1px", background: "#14B8A6", margin: "32px auto", opacity: 0.4 }} />

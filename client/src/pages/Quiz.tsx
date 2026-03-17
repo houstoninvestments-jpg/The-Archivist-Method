@@ -423,7 +423,16 @@ export default function Quiz() {
   // SCREENS
   // ─────────────────
   if (screen === 'opening') {
-    return <OpeningRitual onComplete={() => setScreen('quiz')} />;
+    return (
+      <>
+        <div style={{ background: "#1a0a0a", borderBottom: "1px solid rgba(236,72,153,0.25)", padding: "14px 24px", textAlign: "center" }}>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#aaa", lineHeight: 1.6, maxWidth: "640px", margin: "0 auto" }}>
+            Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the <a href="tel:988" style={{ color: "#EC4899", textDecoration: "none" }}>988 Suicide &amp; Crisis Lifeline</a> first. The archive will be here when you're ready.
+          </p>
+        </div>
+        <OpeningRitual onComplete={() => setScreen('quiz')} />
+      </>
+    );
   }
 
   if (screen === 'calculating') {

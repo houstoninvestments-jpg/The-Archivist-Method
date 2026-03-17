@@ -534,6 +534,11 @@ export default function PortalOnboarding() {
 
   return (
     <div style={{ background: "#0A0A0A", minHeight: "100vh", color: "white" }}>
+      <div style={{ background: "#1a0a0a", borderBottom: "1px solid rgba(236,72,153,0.25)", padding: "14px 24px", textAlign: "center" }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#aaa", lineHeight: 1.6, maxWidth: "640px", margin: "0 auto" }}>
+          Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the <a href="tel:988" style={{ color: "#EC4899", textDecoration: "none" }}>988 Suicide &amp; Crisis Lifeline</a> first. The archive will be here when you're ready.
+        </p>
+      </div>
       <StepIndicator current={step} />
 
       <div style={{ maxWidth: "640px", margin: "0 auto", padding: "0 24px 80px" }}>

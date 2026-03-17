@@ -62,7 +62,7 @@ The system everything else builds on. Four sequential doors:
 
 The operational framework applied at every level:
 
-- **F — FOCUS:** Observe the pattern without judgment. See it running.
+- **F — FOCUS:** Observe the pattern without judgment. See it running. Name it fast. You have 10 seconds. The Archivist doesn't linger — lingering IS the pattern. Name it and move.
 - **E — EXCAVATION:** Find the Original Room where the pattern was installed.
 - **I — INTERRUPTION:** Identify the circuit break point (the 3–7 second window between trigger and behavior).
 - **R — REWRITE:** Install a new behavioral response.
