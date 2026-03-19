@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema";
+import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema.js";
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
@@ -47,7 +47,7 @@ function getAvailableUpgrades(userAccess: UserAccess): Product[] {
 }
 
 // ── Inline: supabase helpers ──────────────────────────────────────────────────
-import { portalUsers, purchases } from "../shared/schema";
+import { portalUsers, purchases } from "../shared/schema.js";
 interface PortalUser { id: string; email: string; name?: string | null; created_at: string; stripe_customer_id?: string | null; }
 interface Purchase { id: string; user_id: string; product_id: string; product_name: string; amount_paid: number; purchased_at: string; stripe_payment_intent_id: string; }
 function toPortalUser(row: typeof portalUsers.$inferSelect): PortalUser {
@@ -332,7 +332,7 @@ router.get("/user-data", async (req: Request, res: Response) => {
         })),
       };
     } catch {
-      const { quizUsers } = await import("../shared/schema");
+      const { quizUsers } = await import("../shared/schema.js");
       const [quizUser] = await db
         .select()
         .from(quizUsers)
@@ -427,7 +427,7 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
       };
 
       try {
-        const { quizUsers } = await import("../shared/schema");
+        const { quizUsers } = await import("../shared/schema.js");
         const [quizUser] = await db
           .select()
           .from(quizUsers)
@@ -646,7 +646,7 @@ router.post("/test-purchase", async (req: Request, res: Response) => {
 
     const magicLink = await generateMagicLink(email, user.id, baseUrl);
 
-    const { quizUsers } = await import("../shared/schema");
+    const { quizUsers } = await import("../shared/schema.js");
     const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, email));
 
     await sendPurchaseConfirmationEmail({
@@ -751,7 +751,7 @@ router.post(
         );
         console.log(`Magic link for ${customerEmail}: ${magicLink}`);
 
-        const { quizUsers } = await import("../shared/schema");
+        const { quizUsers } = await import("../shared/schema.js");
         const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, customerEmail));
 
         await sendPurchaseConfirmationEmail({
@@ -1394,7 +1394,7 @@ router.get("/user-pattern", async (req: Request, res: Response) => {
     if (!authData) return res.status(401).json({ error: "Invalid token" });
 
     // Try quiz_users table for pattern data
-    const { quizUsers } = await import("../shared/schema");
+    const { quizUsers } = await import("../shared/schema.js");
     const [quizUser] = await db
       .select()
       .from(quizUsers)
@@ -1422,7 +1422,7 @@ router.get("/onboarding-status", async (req: Request, res: Response) => {
     const authData = verifyAuthToken(token);
     if (!authData) return res.status(401).json({ error: "Invalid token" });
 
-    const { quizUsers } = await import("../shared/schema");
+    const { quizUsers } = await import("../shared/schema.js");
     const [quizUser] = await db
       .select()
       .from(quizUsers)
@@ -1445,7 +1445,7 @@ router.post("/onboarding-complete", async (req: Request, res: Response) => {
     const authData = verifyAuthToken(token);
     if (!authData) return res.status(401).json({ error: "Invalid token" });
 
-    const { quizUsers } = await import("../shared/schema");
+    const { quizUsers } = await import("../shared/schema.js");
     await db
       .update(quizUsers)
       .set({ onboardingCompleted: true })
@@ -1470,7 +1470,7 @@ router.post("/onboarding-update-pattern", async (req: Request, res: Response) =>
       return res.status(400).json({ error: "Valid pattern required" });
     }
 
-    const { quizUsers } = await import("../shared/schema");
+    const { quizUsers } = await import("../shared/schema.js");
     await db
       .update(quizUsers)
       .set({ primaryPattern: pattern })
@@ -1496,7 +1496,7 @@ import {
   getAdjacentSections,
   getFirstSectionId,
 } from "./_content";
-import { readerNotes, readingProgress } from "../shared/schema";
+import { readerNotes, readingProgress } from "../shared/schema.js";
 
 function getAuthToken(req: Request): string | null {
   return req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '') || null;
@@ -1514,7 +1514,7 @@ async function resolveUserTier(authData: { userId: string; email: string }): Pro
     const [testUser] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
     if (testUser) {
       const tier = testUser.godMode ? "archive" : testUser.accessLevel === "archive" ? "archive" : testUser.accessLevel === "quick-start" ? "quick-start" : "free";
-      const { quizUsers } = await import("../shared/schema");
+      const { quizUsers } = await import("../shared/schema.js");
       const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
       return { tier: tier as "free" | "quick-start" | "archive", primaryPattern: qu?.primaryPattern || null, userId };
     }
@@ -1531,7 +1531,7 @@ async function resolveUserTier(authData: { userId: string; email: string }): Pro
 
   const tier = hasCompleteArchive ? "archive" : hasQuickStart ? "quick-start" : "free";
 
-  const { quizUsers } = await import("../shared/schema");
+  const { quizUsers } = await import("../shared/schema.js");
   const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
 
   return { tier: tier as "free" | "quick-start" | "archive", primaryPattern: qu?.primaryPattern || null, userId };
