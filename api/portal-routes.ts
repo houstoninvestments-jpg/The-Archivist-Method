@@ -7,7 +7,7 @@ import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { Resend } from "resend";
-import { db } from "./_db";
+import { db } from "./_db.js";
 
 // ── Inline: auth ──────────────────────────────────────────────────────────────
 import jwt from "jsonwebtoken";
@@ -1495,7 +1495,7 @@ import {
   findSectionById,
   getAdjacentSections,
   getFirstSectionId,
-} from "./_content";
+} from "./_content.js";
 import { readerNotes, readingProgress } from "../shared/schema.js";
 
 function getAuthToken(req: Request): string | null {

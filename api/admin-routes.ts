@@ -5,7 +5,7 @@ import { z } from "zod";
 import crypto from "crypto";
 import { stat, readFile } from "fs/promises";
 import { join } from "path";
-import { db } from "./_db";
+import { db } from "./_db.js";
 
 // ── Inline: getCompleteArchiveToc ─────────────────────────────────────────────
 interface Section { id: string; title: string; filePath: string; module: string; }
