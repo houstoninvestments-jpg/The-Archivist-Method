@@ -1,1 +1,2 @@
-export { default } from "./index";
+const handler = require("./index");
+module.exports = handler.default || handler;
