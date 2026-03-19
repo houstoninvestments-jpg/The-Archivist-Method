@@ -4,8 +4,8 @@ import cookieParser from "cookie-parser";
 import { Resend } from "resend";
 import jwt from "jsonwebtoken";
 import pg from "pg";
-import portalRoutes from "./portal-routes";
-import adminRoutes from "./admin-routes";
+import portalRoutes from "./portal-routes.js";
+import adminRoutes from "./admin-routes.js";
 
 // ── DB setup (inline, no server/ imports) ────────────────────────────────────
 const { Pool } = pg;
