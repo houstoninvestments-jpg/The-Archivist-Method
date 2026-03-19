@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema";
+import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema.js";
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
@@ -47,7 +47,7 @@ function getAvailableUpgrades(userAccess: UserAccess): Product[] {
 }
 
 // ── Inline: supabase helpers ──────────────────────────────────────────────────
-import { portalUsers, purchases } from "../shared/schema";
+import { portalUsers, purchases } from "../shared/schema.js";
 interface PortalUser { id: string; email: string; name?: string | null; created_at: string; stripe_customer_id?: string | null; }
 interface Purchase { id: string; user_id: string; product_id: string; product_name: string; amount_paid: number; purchased_at: string; stripe_payment_intent_id: string; }
 function toPortalUser(row: typeof portalUsers.$inferSelect): PortalUser {
@@ -1496,7 +1496,7 @@ import {
   getAdjacentSections,
   getFirstSectionId,
 } from "./_content";
-import { readerNotes, readingProgress } from "../shared/schema";
+import { readerNotes, readingProgress } from "../shared/schema.js";
 
 function getAuthToken(req: Request): string | null {
   return req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '') || null;
