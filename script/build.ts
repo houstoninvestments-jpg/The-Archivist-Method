@@ -65,11 +65,11 @@ async function buildAll() {
 
   console.log("building api function...");
   await esbuild({
-    entryPoints: ["api/[...all].ts"],
+    entryPoints: ["api/index.ts"],
     platform: "node",
     bundle: true,
     format: "esm",
-    outfile: "api/[...all].js",
+    outfile: "api/index.js",
     define: {
       "process.env.NODE_ENV": '"production"',
     },
