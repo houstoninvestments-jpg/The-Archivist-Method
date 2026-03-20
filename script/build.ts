@@ -68,7 +68,7 @@ async function buildAll() {
     entryPoints: ["api/[...all].ts"],
     platform: "node",
     bundle: true,
-    format: "cjs",
+    format: "esm",
     outfile: "api/[...all].js",
     define: {
       "process.env.NODE_ENV": '"production"',
