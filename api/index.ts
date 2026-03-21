@@ -87,7 +87,7 @@ async function createOrUpdateQuizUser(data: {
        RETURNING *`,
       [
         data.primaryPattern,
-        JSON.stringify(data.secondaryPatterns),
+        data.secondaryPatterns,
         JSON.stringify(data.patternScores),
         token,
         tokenExpires,
@@ -105,7 +105,7 @@ async function createOrUpdateQuizUser(data: {
       [
         data.email,
         data.primaryPattern,
-        JSON.stringify(data.secondaryPatterns),
+        data.secondaryPatterns,
         JSON.stringify(data.patternScores),
         token,
         tokenExpires,
