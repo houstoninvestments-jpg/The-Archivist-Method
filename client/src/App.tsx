@@ -13,6 +13,8 @@ const Landing = lazy(() => import("@/pages/Landing"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
 const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
+const NewPortal = lazy(() => import("@/pages/NewPortal"));
+const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
@@ -37,7 +39,8 @@ function Router() {
       <Route path="/results" component={QuizResult} />
       <Route path="/portal/onboarding" component={PortalOnboarding} />
       <Route path="/portal/reader" component={ContentReader} />
-      <Route path="/portal" component={PortalDashboard} />
+      <Route path="/portal/login" component={PortalLogin} />
+      <Route path="/portal" component={NewPortal} />
       <Route path="/vault/workbench" component={VaultWorkbench} />
       <Route path="/vault/archive" component={VaultArchive} />
       <Route path="/admin" component={AdminLogin} />
