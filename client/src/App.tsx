@@ -12,7 +12,6 @@ import NotFound from "@/pages/not-found";
 const Landing = lazy(() => import("@/pages/Landing"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
-const PortalDashboard = lazy(() => import("@/pages/PortalDashboard"));
 const NewPortal = lazy(() => import("@/pages/NewPortal"));
 const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const Terms = lazy(() => import("@/pages/Terms"));
@@ -20,10 +19,6 @@ const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
-const VaultWorkbench = lazy(() => import("@/pages/VaultWorkbench"));
-const VaultArchive = lazy(() => import("@/pages/VaultArchive"));
-const ContentReader = lazy(() => import("@/pages/ContentReader"));
-const PortalOnboarding = lazy(() => import("@/pages/PortalOnboarding"));
 
 function PageLoader() {
   return (
@@ -37,12 +32,8 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/quiz" component={Quiz} />
       <Route path="/results" component={QuizResult} />
-      <Route path="/portal/onboarding" component={PortalOnboarding} />
-      <Route path="/portal/reader" component={ContentReader} />
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal" component={NewPortal} />
-      <Route path="/vault/workbench" component={VaultWorkbench} />
-      <Route path="/vault/archive" component={VaultArchive} />
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/terms" component={Terms} />
