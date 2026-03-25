@@ -13,6 +13,7 @@ const Landing = lazy(() => import("@/pages/Landing"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
 const NewPortal = lazy(() => import("@/pages/NewPortal"));
+const CrashCourse = lazy(() => import("@/pages/CrashCourse"));
 const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/quiz" component={Quiz} />
       <Route path="/results" component={QuizResult} />
       <Route path="/portal/login" component={PortalLogin} />
+      <Route path="/portal/crash-course" component={CrashCourse} />
       <Route path="/portal" component={NewPortal} />
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
@@ -49,11 +51,10 @@ function AppContent() {
 
   const isLanding = location === "/";
   const isPortal = location.startsWith("/portal");
-  const isVault = location.startsWith("/vault");
   const isQuiz = location.startsWith("/quiz");
   const isResults = location.startsWith("/results");
   const isAdmin = location.startsWith("/admin");
-  const hideHeaderFooter = isPortal || isVault || isQuiz || isLanding || isResults || isAdmin;
+  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin;
 
   return (
     <div className="min-h-screen flex flex-col">
