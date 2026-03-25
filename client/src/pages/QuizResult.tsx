@@ -450,6 +450,57 @@ export default function QuizResult() {
         {/* Feel-seen copy */}
         {focusPattern && feelSeen && (
           <section style={{ padding: '64px 24px', maxWidth: '600px', margin: '0 auto' }}>
+            {/* Spirit layer — comfort before data */}
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#00FFD1',
+              marginBottom: '24px',
+              opacity: 0.7,
+            }}>
+              Before we go further
+            </p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '1.35rem',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              color: '#ffffff',
+              lineHeight: 1.7,
+              marginBottom: '32px',
+            }}>
+              What you're about to read is not a verdict.
+              It is not a flaw. It is not who you are.
+            </p>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '1.05rem',
+              color: '#CBD5E1',
+              lineHeight: 1.75,
+              marginBottom: '20px',
+            }}>
+              It is a pattern. And patterns can be interrupted.
+            </p>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '1.05rem',
+              color: '#CBD5E1',
+              lineHeight: 1.75,
+              marginBottom: '40px',
+            }}>
+              You came here because something in you already knew that.
+              That part of you was right.
+            </p>
+            {/* Divider */}
+            <div style={{
+              width: '40px',
+              height: '1px',
+              background: '#00FFD1',
+              marginBottom: '40px',
+              opacity: 0.4,
+            }} />
             {feelSeen.map((para, i) => (
               <p key={i} style={{
                 fontFamily: "'Inter', sans-serif",
@@ -461,6 +512,19 @@ export default function QuizResult() {
                 {para}
               </p>
             ))}
+            {/* Spirit fingerprint */}
+            <p style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '1.15rem',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              color: '#94A3B8',
+              lineHeight: 1.7,
+              marginTop: '32px',
+            }}>
+              This pattern has been protecting you in the only way it knew how.
+              It was never the enemy. It was just waiting to be understood.
+            </p>
           </section>
         )}
 
