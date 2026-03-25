@@ -20602,14 +20602,14 @@ var require_etag = __commonJS({
   "node_modules/etag/index.js"(exports2, module2) {
     "use strict";
     module2.exports = etag;
-    var crypto9 = require("crypto");
+    var crypto10 = require("crypto");
     var Stats = require("fs").Stats;
     var toString = Object.prototype.toString;
     function entitytag(entity) {
       if (entity.length === 0) {
         return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"';
       }
-      var hash = crypto9.createHash("sha1").update(entity, "utf8").digest("base64").substring(0, 27);
+      var hash = crypto10.createHash("sha1").update(entity, "utf8").digest("base64").substring(0, 27);
       var len = typeof entity === "string" ? Buffer.byteLength(entity, "utf8") : entity.length;
       return '"' + len.toString(16) + "-" + hash + '"';
     }
@@ -23501,11 +23501,11 @@ var require_request = __commonJS({
 // node_modules/cookie-signature/index.js
 var require_cookie_signature = __commonJS({
   "node_modules/cookie-signature/index.js"(exports2) {
-    var crypto9 = require("crypto");
+    var crypto10 = require("crypto");
     exports2.sign = function(val, secret) {
       if ("string" != typeof val) throw new TypeError("Cookie value must be provided as a string.");
       if ("string" != typeof secret) throw new TypeError("Secret string must be provided.");
-      return val + "." + crypto9.createHmac("sha256", secret).update(val).digest("base64").replace(/\=+$/, "");
+      return val + "." + crypto10.createHmac("sha256", secret).update(val).digest("base64").replace(/\=+$/, "");
     };
     exports2.unsign = function(val, secret) {
       if ("string" != typeof val) throw new TypeError("Signed cookie string must be provided.");
@@ -23514,7 +23514,7 @@ var require_cookie_signature = __commonJS({
       return sha12(mac) == sha12(val) ? str : false;
     };
     function sha12(str) {
-      return crypto9.createHash("sha1").update(str).digest("hex");
+      return crypto10.createHash("sha1").update(str).digest("hex");
     }
   }
 });
@@ -33452,14 +33452,14 @@ var require_buffer_equal_constant_time = __commonJS({
 var require_jwa = __commonJS({
   "node_modules/jwa/index.js"(exports2, module2) {
     var Buffer2 = require_safe_buffer().Buffer;
-    var crypto9 = require("crypto");
+    var crypto10 = require("crypto");
     var formatEcdsa = require_ecdsa_sig_formatter();
     var util2 = require("util");
     var MSG_INVALID_ALGORITHM = '"%s" is not a valid algorithm.\n  Supported algorithms are:\n  "HS256", "HS384", "HS512", "RS256", "RS384", "RS512", "PS256", "PS384", "PS512", "ES256", "ES384", "ES512" and "none".';
     var MSG_INVALID_SECRET = "secret must be a string or buffer";
     var MSG_INVALID_VERIFIER_KEY = "key must be a string or a buffer";
     var MSG_INVALID_SIGNER_KEY = "key must be a string, a buffer or an object";
-    var supportsKeyObjects = typeof crypto9.createPublicKey === "function";
+    var supportsKeyObjects = typeof crypto10.createPublicKey === "function";
     if (supportsKeyObjects) {
       MSG_INVALID_VERIFIER_KEY += " or a KeyObject";
       MSG_INVALID_SECRET += "or a KeyObject";
@@ -33549,17 +33549,17 @@ var require_jwa = __commonJS({
       return function sign(thing, secret) {
         checkIsSecretKey(secret);
         thing = normalizeInput(thing);
-        var hmac = crypto9.createHmac("sha" + bits, secret);
+        var hmac = crypto10.createHmac("sha" + bits, secret);
         var sig = (hmac.update(thing), hmac.digest("base64"));
         return fromBase64(sig);
       };
     }
     var bufferEqual;
-    var timingSafeEqual2 = "timingSafeEqual" in crypto9 ? function timingSafeEqual3(a2, b2) {
+    var timingSafeEqual2 = "timingSafeEqual" in crypto10 ? function timingSafeEqual3(a2, b2) {
       if (a2.byteLength !== b2.byteLength) {
         return false;
       }
-      return crypto9.timingSafeEqual(a2, b2);
+      return crypto10.timingSafeEqual(a2, b2);
     } : function timingSafeEqual3(a2, b2) {
       if (!bufferEqual) {
         bufferEqual = require_buffer_equal_constant_time();
@@ -33576,7 +33576,7 @@ var require_jwa = __commonJS({
       return function sign(thing, privateKey) {
         checkIsPrivateKey(privateKey);
         thing = normalizeInput(thing);
-        var signer = crypto9.createSign("RSA-SHA" + bits);
+        var signer = crypto10.createSign("RSA-SHA" + bits);
         var sig = (signer.update(thing), signer.sign(privateKey, "base64"));
         return fromBase64(sig);
       };
@@ -33586,7 +33586,7 @@ var require_jwa = __commonJS({
         checkIsPublicKey(publicKey);
         thing = normalizeInput(thing);
         signature = toBase64(signature);
-        var verifier = crypto9.createVerify("RSA-SHA" + bits);
+        var verifier = crypto10.createVerify("RSA-SHA" + bits);
         verifier.update(thing);
         return verifier.verify(publicKey, signature, "base64");
       };
@@ -33595,11 +33595,11 @@ var require_jwa = __commonJS({
       return function sign(thing, privateKey) {
         checkIsPrivateKey(privateKey);
         thing = normalizeInput(thing);
-        var signer = crypto9.createSign("RSA-SHA" + bits);
+        var signer = crypto10.createSign("RSA-SHA" + bits);
         var sig = (signer.update(thing), signer.sign({
           key: privateKey,
-          padding: crypto9.constants.RSA_PKCS1_PSS_PADDING,
-          saltLength: crypto9.constants.RSA_PSS_SALTLEN_DIGEST
+          padding: crypto10.constants.RSA_PKCS1_PSS_PADDING,
+          saltLength: crypto10.constants.RSA_PSS_SALTLEN_DIGEST
         }, "base64"));
         return fromBase64(sig);
       };
@@ -33609,12 +33609,12 @@ var require_jwa = __commonJS({
         checkIsPublicKey(publicKey);
         thing = normalizeInput(thing);
         signature = toBase64(signature);
-        var verifier = crypto9.createVerify("RSA-SHA" + bits);
+        var verifier = crypto10.createVerify("RSA-SHA" + bits);
         verifier.update(thing);
         return verifier.verify({
           key: publicKey,
-          padding: crypto9.constants.RSA_PKCS1_PSS_PADDING,
-          saltLength: crypto9.constants.RSA_PSS_SALTLEN_DIGEST
+          padding: crypto10.constants.RSA_PKCS1_PSS_PADDING,
+          saltLength: crypto10.constants.RSA_PSS_SALTLEN_DIGEST
         }, signature, "base64");
       };
     }
@@ -38263,7 +38263,7 @@ var require_cert_signatures = __commonJS({
 var require_sasl = __commonJS({
   "node_modules/pg/lib/crypto/sasl.js"(exports2, module2) {
     "use strict";
-    var crypto9 = require_utils4();
+    var crypto10 = require_utils4();
     var { signatureAlgorithmHashFromCertificate } = require_cert_signatures();
     function startSession(mechanisms, stream) {
       const candidates = ["SCRAM-SHA-256"];
@@ -38275,7 +38275,7 @@ var require_sasl = __commonJS({
       if (mechanism === "SCRAM-SHA-256-PLUS" && typeof stream.getPeerCertificate !== "function") {
         throw new Error("SASL: Mechanism SCRAM-SHA-256-PLUS requires a certificate");
       }
-      const clientNonce = crypto9.randomBytes(18).toString("base64");
+      const clientNonce = crypto10.randomBytes(18).toString("base64");
       const gs2Header = mechanism === "SCRAM-SHA-256-PLUS" ? "p=tls-server-end-point" : stream ? "y" : "n";
       return {
         mechanism,
@@ -38310,20 +38310,20 @@ var require_sasl = __commonJS({
         const peerCert = stream.getPeerCertificate().raw;
         let hashName = signatureAlgorithmHashFromCertificate(peerCert);
         if (hashName === "MD5" || hashName === "SHA-1") hashName = "SHA-256";
-        const certHash = await crypto9.hashByName(hashName, peerCert);
+        const certHash = await crypto10.hashByName(hashName, peerCert);
         const bindingData = Buffer.concat([Buffer.from("p=tls-server-end-point,,"), Buffer.from(certHash)]);
         channelBinding = bindingData.toString("base64");
       }
       const clientFinalMessageWithoutProof = "c=" + channelBinding + ",r=" + sv.nonce;
       const authMessage = clientFirstMessageBare + "," + serverFirstMessage + "," + clientFinalMessageWithoutProof;
       const saltBytes = Buffer.from(sv.salt, "base64");
-      const saltedPassword = await crypto9.deriveKey(password, saltBytes, sv.iteration);
-      const clientKey = await crypto9.hmacSha256(saltedPassword, "Client Key");
-      const storedKey = await crypto9.sha256(clientKey);
-      const clientSignature = await crypto9.hmacSha256(storedKey, authMessage);
+      const saltedPassword = await crypto10.deriveKey(password, saltBytes, sv.iteration);
+      const clientKey = await crypto10.hmacSha256(saltedPassword, "Client Key");
+      const storedKey = await crypto10.sha256(clientKey);
+      const clientSignature = await crypto10.hmacSha256(storedKey, authMessage);
       const clientProof = xorBuffers(Buffer.from(clientKey), Buffer.from(clientSignature)).toString("base64");
-      const serverKey = await crypto9.hmacSha256(saltedPassword, "Server Key");
-      const serverSignatureBytes = await crypto9.hmacSha256(serverKey, authMessage);
+      const serverKey = await crypto10.hmacSha256(saltedPassword, "Server Key");
+      const serverSignatureBytes = await crypto10.hmacSha256(serverKey, authMessage);
       session.message = "SASLResponse";
       session.serverSignature = Buffer.from(serverSignatureBytes).toString("base64");
       session.response = clientFinalMessageWithoutProof + ",p=" + clientProof;
@@ -40459,7 +40459,7 @@ var require_client = __commonJS({
     var Query2 = require_query2();
     var defaults2 = require_defaults();
     var Connection2 = require_connection();
-    var crypto9 = require_utils4();
+    var crypto10 = require_utils4();
     var Client2 = class extends EventEmitter2 {
       constructor(config) {
         super();
@@ -40654,7 +40654,7 @@ var require_client = __commonJS({
       _handleAuthMD5Password(msg) {
         this._checkPgPass(async () => {
           try {
-            const hashedPassword = await crypto9.postgresMd5PasswordHash(this.user, this.password, msg.salt);
+            const hashedPassword = await crypto10.postgresMd5PasswordHash(this.user, this.password, msg.salt);
             this.connection.password(hashedPassword);
           } catch (e2) {
             this.emit("error", e2);
@@ -70369,6 +70369,7 @@ var stripe_esm_node_default = Stripe;
 // api/portal-routes.ts
 var import_promises2 = require("fs/promises");
 var import_path3 = require("path");
+var import_crypto = __toESM(require("crypto"));
 init_schema2();
 init_drizzle_orm();
 
@@ -74466,8 +74467,14 @@ function verifyAuthToken(token) {
     return null;
   }
 }
+function hashToken(token) {
+  return import_crypto.default.createHash("sha256").update(token).digest("hex");
+}
 async function generateMagicLink(email, userId, baseUrl2) {
   const token = generateAuthToken(userId, email);
+  const expires = new Date(Date.now() + 60 * 60 * 1e3);
+  await db.update(quizUsers).set({ magicLinkToken: hashToken(token), magicLinkExpires: expires }).where(eq(quizUsers.email, email.toLowerCase())).catch(() => {
+  });
   return `${baseUrl2}/api/portal/auth/verify?token=${token}`;
 }
 var PRODUCTS = {
@@ -74644,16 +74651,28 @@ router.post("/auth/send-login-link", async (req, res) => {
     res.status(500).json({ error: "Failed to send login link" });
   }
 });
-router.get("/auth/verify", (req, res) => {
+router.get("/auth/verify", async (req, res) => {
   const { token } = req.query;
   if (!token || typeof token !== "string") {
-    return res.redirect("/portal?error=invalid");
+    return res.redirect("/portal/login?error=invalid");
   }
   const authData = verifyAuthToken(token);
   if (!authData) {
-    return res.redirect("/portal?error=expired");
+    return res.redirect("/portal/login?error=expired");
   }
-  res.cookie("auth_token", token, {
+  if (!authData.userId.startsWith("test_")) {
+    const [user] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (user) {
+      const tokenHash = hashToken(token);
+      const now = /* @__PURE__ */ new Date();
+      if (user.magicLinkToken !== tokenHash || !user.magicLinkExpires || user.magicLinkExpires < now) {
+        return res.redirect("/portal/login?error=expired");
+      }
+      await db.update(quizUsers).set({ magicLinkToken: null, magicLinkExpires: null }).where(eq(quizUsers.email, authData.email));
+    }
+  }
+  const sessionToken = generateAuthToken(authData.userId, authData.email);
+  res.cookie("auth_token", sessionToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
@@ -74690,18 +74709,23 @@ router.get("/user-data", async (req, res) => {
         availableUpgrades: []
       });
     }
+    const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    const primaryPattern = quizUser?.primaryPattern || null;
+    const accessLevel = quizUser?.accessLevel || "free";
     let userData;
     try {
-      const [purchases2, user] = await Promise.all([
+      const [userPurchases, user] = await Promise.all([
         getUserPurchases(authData.userId),
         getUserById(authData.userId)
       ]);
       if (!user) throw new Error("Not a portal user");
-      const userAccess = calculateUserAccess(purchases2);
+      const userAccess = calculateUserAccess(userPurchases);
       const availableUpgrades = getAvailableUpgrades(userAccess);
       userData = {
         email: authData.email,
         name: user.name || null,
+        primaryPattern,
+        accessLevel,
         purchases: userAccess.purchases,
         hasQuickStart: userAccess.hasQuickStart,
         hasCompleteArchive: userAccess.hasCompleteArchive,
@@ -74714,14 +74738,14 @@ router.get("/user-data", async (req, res) => {
         }))
       };
     } catch {
-      const { quizUsers: quizUsers2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
-      const [quizUser] = await db.select().from(quizUsers2).where(eq(quizUsers2.id, authData.userId));
       if (!quizUser) {
         return res.status(401).json({ error: "User not found" });
       }
       userData = {
         email: quizUser.email,
         name: quizUser.name || null,
+        primaryPattern,
+        accessLevel,
         purchases: [],
         hasQuickStart: false,
         hasCompleteArchive: false,
@@ -75800,6 +75824,49 @@ router.get("/reader/progress", async (req, res) => {
     res.status(500).json({ error: "Failed to load progress" });
   }
 });
+router.get("/crash-course/status", async (req, res) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace("Bearer ", "");
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+    const [user] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (!user) return res.status(401).json({ error: "User not found" });
+    res.json({
+      primaryPattern: user.primaryPattern || null,
+      accessLevel: user.accessLevel || "free",
+      crashCourseDay: user.crashCourseDay || 0,
+      crashCourseStarted: user.crashCourseStarted || null
+    });
+  } catch (error) {
+    console.error("Crash course status error:", error);
+    res.status(500).json({ error: "Failed to load crash course status" });
+  }
+});
+router.post("/crash-course/progress", async (req, res) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace("Bearer ", "");
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+    const { day } = req.body;
+    if (typeof day !== "number" || day < 1 || day > 7) {
+      return res.status(400).json({ error: "Invalid day" });
+    }
+    const [user] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (!user) return res.status(401).json({ error: "User not found" });
+    const currentDay = user.crashCourseDay || 0;
+    const newDay = Math.max(currentDay, day);
+    await db.update(quizUsers).set({
+      crashCourseDay: newDay,
+      crashCourseStarted: user.crashCourseStarted || /* @__PURE__ */ new Date()
+    }).where(eq(quizUsers.email, authData.email));
+    res.json({ crashCourseDay: newDay });
+  } catch (error) {
+    console.error("Crash course progress error:", error);
+    res.status(500).json({ error: "Failed to save progress" });
+  }
+});
 var portal_routes_default = router;
 
 // api/admin-routes.ts
@@ -75807,7 +75874,7 @@ var import_express2 = __toESM(require_express2());
 init_schema2();
 init_drizzle_orm();
 init_lib();
-var import_crypto = __toESM(require("crypto"));
+var import_crypto2 = __toESM(require("crypto"));
 var import_promises3 = require("fs/promises");
 var import_path4 = require("path");
 var patternKeyToDirMap2 = {
@@ -75934,7 +76001,7 @@ function getAdminPassword() {
   return process.env.ADMIN_PASSWORD || null;
 }
 function generateAdminToken() {
-  const token = import_crypto.default.randomBytes(32).toString("hex");
+  const token = import_crypto2.default.randomBytes(32).toString("hex");
   adminTokens.set(token, { expires: Date.now() + 60 * 60 * 1e3 });
   return token;
 }

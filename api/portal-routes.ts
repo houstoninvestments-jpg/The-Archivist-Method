@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import Stripe from "stripe";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import crypto from "crypto";
 import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema.js";
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
@@ -19,8 +20,18 @@ function verifyAuthToken(token: string): { userId: string; email: string } | nul
   try { return jwt.verify(token, JWT_SECRET) as { userId: string; email: string }; }
   catch { return null; }
 }
+function hashToken(token: string): string {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
 async function generateMagicLink(email: string, userId: string, baseUrl: string): Promise<string> {
   const token = generateAuthToken(userId, email);
+  // Store hashed token + 1hr expiry so we can invalidate after single use
+  const expires = new Date(Date.now() + 60 * 60 * 1000);
+  await db
+    .update(quizUsers)
+    .set({ magicLinkToken: hashToken(token), magicLinkExpires: expires })
+    .where(eq(quizUsers.email, email.toLowerCase()))
+    .catch(() => {}); // non-fatal if user not in quiz_users (test users)
   return `${baseUrl}/api/portal/auth/verify?token=${token}`;
 }
 
@@ -47,7 +58,7 @@ function getAvailableUpgrades(userAccess: UserAccess): Product[] {
 }
 
 // ── Inline: supabase helpers ──────────────────────────────────────────────────
-import { portalUsers, purchases } from "../shared/schema.js";
+import { portalUsers, purchases, quizUsers } from "../shared/schema.js";
 interface PortalUser { id: string; email: string; name?: string | null; created_at: string; stripe_customer_id?: string | null; }
 interface Purchase { id: string; user_id: string; product_id: string; product_name: string; amount_paid: number; purchased_at: string; stripe_payment_intent_id: string; }
 function toPortalUser(row: typeof portalUsers.$inferSelect): PortalUser {
@@ -244,21 +255,50 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
   }
 });
 
-// Verify magic link token
-router.get("/auth/verify", (req: Request, res: Response) => {
+// Verify magic link token — single-use
+router.get("/auth/verify", async (req: Request, res: Response) => {
   const { token } = req.query;
 
   if (!token || typeof token !== "string") {
-    return res.redirect("/portal?error=invalid");
+    return res.redirect("/portal/login?error=invalid");
   }
 
   const authData = verifyAuthToken(token);
 
   if (!authData) {
-    return res.redirect("/portal?error=expired");
+    return res.redirect("/portal/login?error=expired");
   }
 
-  res.cookie("auth_token", token, {
+  // For real users: verify token hasn't been used and isn't expired
+  if (!authData.userId.startsWith("test_")) {
+    const [user] = await db
+      .select()
+      .from(quizUsers)
+      .where(eq(quizUsers.email, authData.email));
+
+    if (user) {
+      const tokenHash = hashToken(token);
+      const now = new Date();
+
+      if (
+        user.magicLinkToken !== tokenHash ||
+        !user.magicLinkExpires ||
+        user.magicLinkExpires < now
+      ) {
+        return res.redirect("/portal/login?error=expired");
+      }
+
+      // Invalidate — token is now single-use
+      await db
+        .update(quizUsers)
+        .set({ magicLinkToken: null, magicLinkExpires: null })
+        .where(eq(quizUsers.email, authData.email));
+    }
+  }
+
+  // Issue a fresh 7-day session cookie
+  const sessionToken = generateAuthToken(authData.userId, authData.email);
+  res.cookie("auth_token", sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -307,19 +347,30 @@ router.get("/user-data", async (req: Request, res: Response) => {
       });
     }
 
+    // Always fetch quiz user for primaryPattern and accessLevel
+    const [quizUser] = await db
+      .select()
+      .from(quizUsers)
+      .where(eq(quizUsers.email, authData.email));
+
+    const primaryPattern = quizUser?.primaryPattern || null;
+    const accessLevel = quizUser?.accessLevel || 'free';
+
     let userData;
     try {
-      const [purchases, user] = await Promise.all([
+      const [userPurchases, user] = await Promise.all([
         getUserPurchases(authData.userId),
         getUserById(authData.userId),
       ]);
       if (!user) throw new Error('Not a portal user');
-      const userAccess = calculateUserAccess(purchases);
+      const userAccess = calculateUserAccess(userPurchases);
       const availableUpgrades = getAvailableUpgrades(userAccess);
 
       userData = {
         email: authData.email,
         name: user.name || null,
+        primaryPattern,
+        accessLevel,
         purchases: userAccess.purchases,
         hasQuickStart: userAccess.hasQuickStart,
         hasCompleteArchive: userAccess.hasCompleteArchive,
@@ -332,12 +383,6 @@ router.get("/user-data", async (req: Request, res: Response) => {
         })),
       };
     } catch {
-      const { quizUsers } = await import("../shared/schema.js");
-      const [quizUser] = await db
-        .select()
-        .from(quizUsers)
-        .where(eq(quizUsers.id, authData.userId));
-
       if (!quizUser) {
         return res.status(401).json({ error: "User not found" });
       }
@@ -345,6 +390,8 @@ router.get("/user-data", async (req: Request, res: Response) => {
       userData = {
         email: quizUser.email,
         name: quizUser.name || null,
+        primaryPattern,
+        accessLevel,
         purchases: [],
         hasQuickStart: false,
         hasCompleteArchive: false,
@@ -1794,6 +1841,63 @@ router.get("/reader/progress", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Get progress error:", error);
     res.status(500).json({ error: "Failed to load progress" });
+  }
+});
+
+// ─── Crash Course: Get Status ────────────────────────────────────────────────
+router.get("/crash-course/status", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+
+    const [user] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (!user) return res.status(401).json({ error: "User not found" });
+
+    res.json({
+      primaryPattern: user.primaryPattern || null,
+      accessLevel: user.accessLevel || 'free',
+      crashCourseDay: user.crashCourseDay || 0,
+      crashCourseStarted: user.crashCourseStarted || null,
+    });
+  } catch (error) {
+    console.error("Crash course status error:", error);
+    res.status(500).json({ error: "Failed to load crash course status" });
+  }
+});
+
+// ─── Crash Course: Save Progress ─────────────────────────────────────────────
+router.post("/crash-course/progress", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+
+    const { day } = req.body;
+    if (typeof day !== 'number' || day < 1 || day > 7) {
+      return res.status(400).json({ error: "Invalid day" });
+    }
+
+    const [user] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (!user) return res.status(401).json({ error: "User not found" });
+
+    const currentDay = user.crashCourseDay || 0;
+    const newDay = Math.max(currentDay, day);
+
+    await db
+      .update(quizUsers)
+      .set({
+        crashCourseDay: newDay,
+        crashCourseStarted: user.crashCourseStarted || new Date(),
+      })
+      .where(eq(quizUsers.email, authData.email));
+
+    res.json({ crashCourseDay: newDay });
+  } catch (error) {
+    console.error("Crash course progress error:", error);
+    res.status(500).json({ error: "Failed to save progress" });
   }
 });
 
