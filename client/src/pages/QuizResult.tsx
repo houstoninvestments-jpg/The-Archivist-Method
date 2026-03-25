@@ -669,6 +669,18 @@ export default function QuizResult() {
               >
                 The pattern has a name. The exit has a door.
               </h2>
+              {/* Spirit fingerprint */}
+              <p style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '1.1rem',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                color: '#94A3B8',
+                lineHeight: 1.7,
+                marginBottom: '12px',
+              }}>
+                You were never as lost as you felt.
+              </p>
               <p style={{
                 fontFamily: "'Inter', sans-serif",
                 color: '#64748B',
