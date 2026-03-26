@@ -423,55 +423,17 @@ function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal";
 
   if (isTeal) {
     return (
-      <>
-        <style>{`
-          @keyframes pulse-glow {
-            0%, 100% {
-              box-shadow: 0 0 40px rgba(0,255,209,0.4),
-                          0 0 80px rgba(0,255,209,0.15);
-            }
-            50% {
-              box-shadow: 0 0 60px rgba(0,255,209,0.7),
-                          0 0 120px rgba(0,255,209,0.3);
-            }
-          }
-        `}</style>
-        <div
-          data-testid="button-cta-wrap"
-          ref={glowRef || undefined}
-          style={{ display: 'inline-block', animation: 'pulse-glow 2.5s ease-in-out infinite' }}
+      <div className={`cta-glow-wrap ${glowRef ? "cta-proximity-glow" : ""}`} data-testid="button-cta-wrap" ref={glowRef || undefined}>
+        <div className="cta-glow-border" />
+        <Link
+          href="/quiz"
+          data-testid="button-cta"
+          className="cta-glow-inner block text-center tracking-[0.15em] uppercase"
+          style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
         >
-          <Link
-            href="/quiz"
-            data-testid="button-cta"
-            style={{
-              display: 'block',
-              background: 'linear-gradient(135deg, #00FFD1 0%, #00C9A7 100%)',
-              color: '#0a0a0a',
-              fontFamily: "'JetBrains Mono', monospace",
-              fontWeight: 700,
-              fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-              letterSpacing: '0.2em',
-              padding: '20px 48px',
-              border: 'none',
-              cursor: 'pointer',
-              position: 'relative',
-              overflow: 'hidden',
-              boxShadow: hovered
-                ? '0 0 60px rgba(0,255,209,0.7), 0 0 120px rgba(0,255,209,0.3)'
-                : '0 0 40px rgba(0,255,209,0.4), 0 0 80px rgba(0,255,209,0.15)',
-              transition: 'all 300ms ease',
-              transform: hovered ? 'translateY(-2px) scale(1.02)' : 'none',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-            }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          >
-            {text}
-          </Link>
-        </div>
-      </>
+          {text}
+        </Link>
+      </div>
     );
   }
 
