@@ -481,7 +481,7 @@ function CTAButton({ text, variant, glowRef }: { text: string; variant?: "teal";
       <Link
         href="/quiz"
         data-testid="button-cta"
-        className="cta-glow-inner block text-center tracking-[0.15em] uppercase text-white"
+        className="cta-glow-inner block text-center tracking-[0.15em] uppercase"
         style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "15px", padding: "18px 48px" }}
       >
         {text}
