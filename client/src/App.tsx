@@ -20,6 +20,7 @@ const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const Checkout = lazy(() => import("@/pages/Checkout"));
 
 function PageLoader() {
   return (
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
+      <Route path="/checkout" component={Checkout} />
       <Route component={NotFound} />
     </Switch>
   );
