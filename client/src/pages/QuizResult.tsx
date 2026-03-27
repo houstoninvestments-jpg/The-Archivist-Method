@@ -133,6 +133,10 @@ export default function QuizResult() {
         const raw = await response.text(); let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
         throw new Error(data?.error || 'Failed to save results');
       }
+      try {
+        const data = await response.json();
+        if (data.token) localStorage.setItem('quiz_auth_token', data.token);
+      } catch {}
       localStorage.setItem('quizResultPattern', finalPattern);
       localStorage.setItem('userEmail', trimmedEmail);
       if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
