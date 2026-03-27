@@ -491,7 +491,7 @@ function PatternFileScreen({ userData, isReturn }: { userData: UserData; isRetur
 
         {/* ── CTA Button ─────────────────────────── */}
         <a
-          href="/portal/reader"
+          href="/portal/crash-course"
           style={{
             display: 'block',
             width: '100%',
