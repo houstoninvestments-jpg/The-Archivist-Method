@@ -828,26 +828,46 @@
   transition: opacity 0.3s linear;
 }
 
-@keyframes fogDrift {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(15px, -10px); }
-  66% { transform: translate(-10px, 10px); }
+@keyframes auroraDrift1 {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(20px, -14px); }
+  50%  { transform: translate(-14px, 10px); }
+  75%  { transform: translate(12px, 18px); }
   100% { transform: translate(0, 0); }
 }
 
-.bg-fog {
+@keyframes auroraDrift2 {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-18px, 12px); }
+  50%  { transform: translate(22px, -10px); }
+  75%  { transform: translate(-10px, -16px); }
+  100% { transform: translate(0, 0); }
+}
+
+.aurora-blob-teal {
   position: fixed;
-  inset: -20px;
+  left: calc(28% - 180px);
+  top: calc(72% - 140px);
+  width: 360px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, rgba(0,255,194,0.15) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
-  background-image:
-    radial-gradient(ellipse 60% 50% at 0% 50%, rgba(20,184,166,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 100% 50%, rgba(236,72,153,0.05) 0%, transparent 70%);
-  background-size: 100% 100%;
   will-change: transform;
-  animation: fogDrift 35s ease-in-out infinite;
-  opacity: calc(1 - var(--scroll-progress, 0) * 2);
-  transition: opacity 0.3s linear;
+  animation: auroraDrift1 52s ease-in-out infinite;
+}
+
+.aurora-blob-magenta {
+  position: fixed;
+  left: calc(70% - 150px);
+  top: calc(80% - 120px);
+  width: 300px;
+  height: 240px;
+  background: radial-gradient(ellipse at center, rgba(255,45,155,0.15) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+  animation: auroraDrift2 67s ease-in-out infinite;
 }
 
 .bg-grid {
@@ -1011,7 +1031,7 @@
   .interrupt-pulse { animation: none !important; opacity: 1 !important; }
   .thread-page::before, .thread-page::after { transition: none !important; display: none !important; }
   .scroll-progress-thread { display: none !important; }
-  .bg-grain, .bg-grid, .bg-fog { display: none !important; }
+  .bg-grain, .bg-grid, .aurora-blob-teal, .aurora-blob-magenta { display: none !important; }
   .hero-section-fade { animation: none !important; opacity: 1 !important; }
   .hero-stagger { opacity: 1 !important; animation: none !important; transform: none !important; }
   .hero-word { opacity: 1 !important; animation: none !important; }

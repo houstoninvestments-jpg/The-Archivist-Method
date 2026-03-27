@@ -281,6 +281,13 @@ const StarField = ({ count = 40 }: { count?: number }) => {
   );
 };
 
+const AuroraBlobs = () => (
+  <>
+    <div className="aurora-blob-teal" />
+    <div className="aurora-blob-magenta" />
+  </>
+);
+
 const PARTICLE_COLORS = ["#ffffff", "#ffffff", "#14B8A6", "#14B8A6", "#EC4899"];
 
 const FloatingParticles = ({ count = 12 }: { count?: number }) => {
@@ -1703,7 +1710,7 @@ export default function Landing() {
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Inter', sans-serif", overflowX: "hidden" }}>
       <StarField />
       <FloatingParticles />
-      <div className="bg-fog" />
+      <AuroraBlobs />
       <div className="bg-grain" />
       <div className="bg-grid" />
       <ScrollProgressThread />
