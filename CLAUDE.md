@@ -74,6 +74,24 @@ Claude is authorized to perform the following without asking for confirmation:
 - Retry failed git pushes up to 4 times with exponential backoff
 - Self-diagnose deployment failures using CLI tools before asking the user
 
+## Image Generation
+
+The `/generate-image` slash command generates an image via the Google Gemini API (`gemini-3-pro-image-preview`) and saves it as a PNG to `public/images/generated/` with a timestamp filename.
+
+**Usage (in Claude Code):**
+```
+/generate-image A dark minimalist psychology journal cover with teal accents
+```
+
+**Requirements:**
+- `GEMINI_API_KEY` must be present in `.env` at the project root.
+- Node 18+ (uses native `fetch` + top-level `await`).
+
+The underlying script is `scripts/generate-image.js` and can also be run directly:
+```bash
+node scripts/generate-image.js "your prompt here"
+```
+
 ## Setup Checklist (one-time, on developer machine)
 
 ```bash
