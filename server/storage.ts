@@ -2,6 +2,7 @@ import { type User, type InsertUser, type QuizUser, quizUsers } from "@shared/sc
 import { randomUUID } from "crypto";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { verifyAuthToken } from "./portal/auth";
 
 export interface QuizSubmission {
   id: string;
@@ -125,6 +126,11 @@ export class MemStorage implements IStorage {
 
   async getQuizUserByToken(token: string): Promise<QuizUser | null> {
     try {
+      const decoded = verifyAuthToken(token);
+      if (decoded?.userId) {
+        const result = await db.select().from(quizUsers).where(eq(quizUsers.id, decoded.userId)).limit(1);
+        return result[0] || null;
+      }
       const result = await db.select().from(quizUsers).where(eq(quizUsers.magicLinkToken, token)).limit(1);
       const user = result[0];
       if (user && user.magicLinkExpires && new Date(user.magicLinkExpires) > new Date()) {
