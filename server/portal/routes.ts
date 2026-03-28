@@ -239,7 +239,7 @@ router.get("/user-data", async (req: Request, res: Response) => {
         getUserPurchases(authData.userId),
         getUserById(authData.userId),
       ]);
-      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      if (!user) throw new Error('User not found in Supabase — checking quiz_users');
       const userAccess = calculateUserAccess(purchases);
       const availableUpgrades = getAvailableUpgrades(userAccess);
 
@@ -271,6 +271,10 @@ router.get("/user-data", async (req: Request, res: Response) => {
       userData = {
         email: quizUser.email,
         name: quizUser.name || null,
+        primaryPattern: quizUser.primaryPattern || null,
+        patternScores: quizUser.patternScores || null,
+        accessLevel: quizUser.accessLevel || 'free',
+        createdAt: quizUser.createdAt?.toISOString(),
         purchases: [],
         hasQuickStart: false,
         hasCompleteArchive: false,
