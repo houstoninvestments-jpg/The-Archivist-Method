@@ -10,112 +10,6 @@ import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
 
-// ── Hero Typewriter ──────────────────────────────────────────────
-const TYPEWRITER_LINES = [
-  { text: "You've done it a hundred times.", color: "#F5F5F5", delay: 0 },
-  { text: "You saw it coming.", color: "#A3A3A3", delay: 900 },
-  { text: "You did it anyway.", color: "#A3A3A3", delay: 1700 },
-  { text: "That's not weakness.", color: "#F5F5F5", delay: 2800 },
-  { text: "That's a pattern running.", color: "#00FFC2", delay: 3600 },
-];
-function HeroTypewriter({ onComplete }) {
-  const [visibleLines, setVisibleLines] = React.useState([]);
-  React.useEffect(() => {
-    const timers = [];
-    TYPEWRITER_LINES.forEach((line, i) => {
-      const t = setTimeout(() => {
-        setVisibleLines(prev => [...prev, i]);
-        if (i === TYPEWRITER_LINES.length - 1) setTimeout(() => onComplete?.(), 400);
-      }, line.delay);
-      timers.push(t);
-    });
-    return () => timers.forEach(clearTimeout);
-  }, []);
-  return (
-    <div data-testid='text-brand-title' style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(1.8rem,5vw,4.5rem)', lineHeight: 1.15, letterSpacing: '0.04em', textTransform: 'uppercase', minHeight: '280px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2px' }}>
-      {TYPEWRITER_LINES.map((line, i) => (
-        <div key={i} style={{ color: line.color, opacity: visibleLines.includes(i) ? 1 : 0, transform: visibleLines.includes(i) ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)' }}>{line.text}</div>
-      ))}
-    </div>
-  );
-}
-function HeroCTAButton({ glowRef }) {
-  return (
-    <a href='/quiz'>
-      <div ref={glowRef} style={{ display: 'inline-block', cursor: 'pointer' }}>
-        <div data-testid='button-cta' style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#00FFC2', border: '1px solid rgba(0,255,194,0.5)', padding: '18px 48px', background: 'rgba(0,255,194,0.04)', transition: 'all 0.2s ease', minWidth: '280px', textAlign: 'center' }}
-          onMouseEnter={e => { e.currentTarget.style.background='rgba(0,255,194,0.08)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.9)'; e.currentTarget.style.boxShadow='0 0 24px rgba(0,255,194,0.15)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background='rgba(0,255,194,0.04)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.5)'; e.currentTarget.style.boxShadow='none'; }}>
-          IDENTIFY MY PATTERN →
-        </div>
-      </div>
-    </a>
-  );
-}
-function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
-  const words = text.split(" ");
-  const stagger = 0.15;
-  const duration = 0.6;
-  const totalMs = ((words.length - 1) * stagger + duration) * 1000;
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isBot = document.documentElement.classList.contains("is-bot");
-    const delay = prefersReduced || isBot ? 0 : totalMs;
-    const timer = setTimeout(() => onComplete?.(), delay);
-    return () => clearTimeout(timer);
-  }, [onComplete, totalMs]);
-
-  return (
-    <span style={{ display: "inline" }}>
-      {words.map((word, i) => (
-        <span key={i} style={{ display: "inline-block", whiteSpace: "nowrap", marginRight: "0.3em" }}>
-          <span className="hero-word-drop" style={{ display: "inline-block", color, animationDelay: `${i * stagger}s` }}>
-            {word}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function useProximityGlow(ctaRef: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isMobile = window.matchMedia("(hover: none)").matches;
-    if (prefersReduced || isMobile) return;
-
-    const el = ctaRef.current;
-    if (!el) return;
-
-    let frame: number;
-    const onMove = (e: MouseEvent) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
-        const maxDist = 150;
-        if (dist > maxDist) {
-          el.style.boxShadow = "";
-          return;
-        }
-        const intensity = 1 - dist / maxDist;
-        const spread = 8 + intensity * 20;
-        const alpha = 0.08 + intensity * 0.35;
-        el.style.boxShadow = `0 0 ${spread}px rgba(0, 212, 170, ${alpha})`;
-      });
-    };
-
-    document.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      document.removeEventListener("mousemove", onMove);
-      if (el) el.style.boxShadow = "";
-    };
-  }, [ctaRef]);
-}
 
 function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [step, setStep] = useState<1 | 2 | 3 | 'done'>(1);
@@ -1712,10 +1606,7 @@ function ScrollProgressThread() {
 export default function Landing() {
   useGlobalFadeIn();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
-  const [scrambleDone, setScrambleDone] = useState(false);
   const [openCardNum, setOpenCardNum] = useState<string | null>(null);
-  const ctaGlowRef = useRef<HTMLDivElement>(null);
-  useProximityGlow(ctaGlowRef);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -1780,60 +1671,104 @@ export default function Landing() {
           />
         </div>
         <div className="absolute inset-0 z-0 hero-overlay" />
-        <div className="text-center max-w-3xl mx-auto relative z-10">
+
+        {/* Scanline — single 1px line drifting top to bottom */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
+          <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
+        </div>
+
+        <div className="text-center max-w-3xl mx-auto relative z-10" style={{ padding: "80px 0" }}>
+
+          {/* Brand label */}
           <p
-            className="hero-stagger tracking-[0.3em] uppercase"
-            style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", marginBottom: "48px" }}
             data-testid="text-brand-name"
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}
           >
-            THE ARCHIVIST METHOD&trade;
+            THE ARCHIVIST METHOD™
           </p>
 
+          {/* Top teal rule — draws left to right */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
+            <div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 0.6s forwards" }} />
+          </div>
+
+          {/* // SUBJECT FILE LOADING... — slides in from left */}
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "rgba(20,184,166,0.55)", letterSpacing: "0.1em", marginBottom: "32px", opacity: 0, animation: "heroSlideLeft 0.5s ease 1.0s forwards" }}>
+            // SUBJECT FILE LOADING...
+          </p>
+
+          {/* Confessional lines — reveal upward */}
+          {(["You\u2019ve watched yourself do it.", "You\u2019ve tried to stop.", "You did it anyway."] as const).map((line, i) => (
+            <p key={line} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(0.9rem, 2vw, 1.05rem)", color: "rgba(250,250,250,0.6)", letterSpacing: "0.02em", lineHeight: 1.9, marginBottom: "4px", opacity: 0, animation: `heroRevealUp 0.5s ease ${1.5 + i * 0.4}s forwards` }}>
+              {line}
+            </p>
+          ))}
+
+          {/* First separator */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
+            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 2.7s forwards" }} />
+          </div>
+
+          {/* Reframe lines — drop in from above */}
+          {(["THAT\u2019S NOT WHO YOU ARE.", "THAT\u2019S A PATTERN RUNNING."] as const).map((line, i) => (
+            <p key={line} style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)", color: "#FAFAFA", fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "4px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${3.0 + i * 0.4}s forwards` }}>
+              {line}
+            </p>
+          ))}
+
+          {/* Second separator */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
+            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 3.8s forwards" }} />
+          </div>
+
+          {/* Final line — CRT flicker + blinking cursor */}
+          <div style={{ marginBottom: "32px" }}>
+            <span
+              data-testid="text-brand-title"
+              style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2rem, 5vw, 3.8rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 4.2s forwards" }}
+            >
+              THE PATTERN HAS A NAME.
+            </span>
+            <span
+              style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 4.8s forwards, heroCursorBlink 0.9s step-end 4.8s infinite" }}
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Subtext */}
           <p
-            style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(2rem, 5.5vw, 6rem)", lineHeight: 1, whiteSpace: "normal", wordBreak: "break-word" }}
-            data-testid="text-brand-title"
+            data-testid="text-hero-positioning"
+            style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 44px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 5.0s forwards" }}
           >
-          <HeroTypewriter onComplete={() => setScrambleDone(true)} />
-          </p>
-          <p className="hero-stagger leading-relaxed mx-auto" style={{ color: "rgba(255,255,255,0.55)", fontSize: "1.05rem", maxWidth: "500px", marginTop: "28px", marginBottom: "44px", fontFamily: "'Inter', sans-serif", lineHeight: 1.8 }} data-testid="text-hero-positioning">
-            Something keeps happening. You see it coming. You do it anyway.
-            Your body knew 3 to 7 seconds before you did.
-            That window is where everything changes.
-          </p>
-          <div className="hero-stagger"><HeroCTAButton glowRef={ctaGlowRef} /></div>
-
-          <p className="hero-stagger" style={{ color: "#999999", fontFamily: "'Inter', sans-serif", fontSize: "13px", marginTop: "16px" }}>
-            Free · 2 Minutes · Instant Results
-          </p>
-          <p className="hero-stagger" style={{ color: "#999", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", marginTop: "8px" }}>
-            A self-paced digital system. No sessions. No subscriptions. Works in real time.
+            Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method.
           </p>
 
-          <p className="hero-stagger" style={{ marginTop: "20px" }}>
-            <a
-              href="#section-window"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector('[data-testid="section-window"]')?.scrollIntoView({ behavior: "smooth" });
-              }}
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", cursor: "pointer", textDecoration: "none", opacity: 0.8, transition: "opacity 0.3s" }}
-              onMouseOver={(e) => { e.currentTarget.style.opacity = "1"; }}
-              onMouseOut={(e) => { e.currentTarget.style.opacity = "0.8"; }}
-              data-testid="link-science-first"
+          {/* CTA button */}
+          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 5.5s forwards", marginBottom: "20px" }}>
+            <Link
+              href="/quiz"
+              data-testid="button-cta"
+              style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.15)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
             >
-              I want to understand the science first <ArrowRight className="inline w-3 h-3 ml-1" style={{ verticalAlign: "middle" }} />
-            </a>
-          </p>
+              IDENTIFY MY PATTERN — FREE →
+            </Link>
+          </div>
 
-          <div className="hero-stagger" style={{ marginTop: "48px" }}>
+          {/* Meta + tagline */}
+          <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 6.0s forwards" }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px" }}>
+              2 MINUTES · 9 PATTERNS · INSTANT RESULTS
+            </p>
             <p
-              className="tracking-[0.2em] uppercase"
-              style={{ color: "#14B8A6", fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", opacity: 0.7 }}
               data-testid="text-brand-tagline"
+              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em" }}
             >
-              Pattern archaeology, <span style={{ color: "#EC4899" }}>not</span> therapy.
+              PATTERN ARCHAEOLOGY, <span style={{ color: "#EC4899" }}>NOT</span> THERAPY.
             </p>
           </div>
+
         </div>
       </section>
 
