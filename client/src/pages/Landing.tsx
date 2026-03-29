@@ -1,6 +1,6 @@
 import { Link } from "wouter"; //
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import ImmersiveFrames from "@/components/ImmersiveFrames";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
