@@ -263,6 +263,29 @@ const FloatingParticles = ({ count = 12 }: { count?: number }) => {
   );
 };
 
+function RotatingWord() {
+  const words = ["NAME", "SIGNAL", "WINDOW", "INTERRUPTION"];
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex(prev => (prev + 1) % words.length);
+        setVisible(true);
+      }, 400);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span style={{ color: "#00FFC2", transition: "opacity 400ms ease", opacity: visible ? 1 : 0, display: "inline-block" }}>
+      {words[index]}
+    </span>
+  );
+}
+
 const patternCards = [
   { num: "01", name: "DISAPPEARING", desc: "You leave before they can.\nNot physically — emotionally.\nThe door closes inside you first.", trigger: "They're getting too close. I need to leave before they see the real me.", signal: "Your chest tightens the moment they say 'we need to talk.' You're already planning the exit.", interrupt: "Notice the tightening. Name it. You don't have to move yet." },
   { num: "02", name: "APOLOGY LOOP", desc: "You say sorry before you know\nwhat you did. Their discomfort\nfeels like your fault by default.", trigger: "I'm sorry. I shouldn't have said anything. I'm sorry for being sorry.", signal: "You feel their mood shift and your stomach drops. The apology forms before you know what you did.", interrupt: "Ask yourself — did I actually do something wrong? Wait for the answer." },
@@ -1666,7 +1689,7 @@ export default function Landing() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "center top",
+              objectPosition: "center center",
             }}
           />
         </div>
@@ -1677,60 +1700,60 @@ export default function Landing() {
           <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
         </div>
 
-        <div className="text-center max-w-3xl mx-auto relative z-10" style={{ padding: "80px 0" }}>
+        <div className="text-center max-w-3xl mx-auto relative z-10" style={{ padding: "32px 0" }}>
 
           {/* Brand label */}
           <p
             data-testid="text-brand-name"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "16px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.26s forwards" }}
           >
             THE ARCHIVIST METHOD™
           </p>
 
           {/* Top teal rule — draws left to right */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
-            <div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 0.6s forwards" }} />
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+            <div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 0.78s forwards" }} />
           </div>
 
           {/* // SUBJECT FILE LOADING... — slides in from left */}
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "rgba(20,184,166,0.55)", letterSpacing: "0.1em", marginBottom: "32px", opacity: 0, animation: "heroSlideLeft 0.5s ease 1.0s forwards" }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "rgba(20,184,166,0.55)", letterSpacing: "0.1em", marginBottom: "16px", opacity: 0, animation: "heroSlideLeft 0.5s ease 1.3s forwards" }}>
             // SUBJECT FILE LOADING...
           </p>
 
           {/* Confessional lines — reveal upward */}
           {(["You\u2019ve watched yourself do it.", "You\u2019ve tried to stop.", "You did it anyway."] as const).map((line, i) => (
-            <p key={line} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(0.9rem, 2vw, 1.05rem)", color: "rgba(250,250,250,0.6)", letterSpacing: "0.02em", lineHeight: 1.9, marginBottom: "4px", opacity: 0, animation: `heroRevealUp 0.5s ease ${1.5 + i * 0.4}s forwards` }}>
+            <p key={line} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(0.76rem, 1.7vw, 0.9rem)", color: "rgba(250,250,250,0.6)", letterSpacing: "0.02em", lineHeight: 1.7, marginBottom: "2px", opacity: 0, animation: `heroRevealUp 0.5s ease ${1.95 + i * 0.52}s forwards` }}>
               {line}
             </p>
           ))}
 
           {/* First separator */}
-          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 2.7s forwards" }} />
+          <div style={{ display: "flex", justifyContent: "center", margin: "14px 0" }}>
+            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 3.51s forwards" }} />
           </div>
 
           {/* Reframe lines — drop in from above */}
           {(["THAT\u2019S NOT WHO YOU ARE.", "THAT\u2019S A PATTERN RUNNING."] as const).map((line, i) => (
-            <p key={line} style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)", color: "#FAFAFA", fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "4px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${3.0 + i * 0.4}s forwards` }}>
+            <p key={line} style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(0.94rem, 2.1vw, 1.36rem)", color: "rgba(255,255,255,0.85)", fontWeight: 300, letterSpacing: "0.01em", lineHeight: 1.3, marginBottom: "2px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${3.9 + i * 0.52}s forwards` }}>
               {line}
             </p>
           ))}
 
           {/* Second separator */}
-          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 3.8s forwards" }} />
+          <div style={{ display: "flex", justifyContent: "center", margin: "14px 0" }}>
+            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 4.94s forwards" }} />
           </div>
 
-          {/* Final line — CRT flicker + blinking cursor */}
-          <div style={{ marginBottom: "32px" }}>
+          {/* Final line — CRT flicker + rotating word + blinking cursor */}
+          <div style={{ marginBottom: "16px" }}>
             <span
               data-testid="text-brand-title"
-              style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2rem, 5vw, 3.8rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 4.2s forwards" }}
+              style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2rem, 5vw, 3.8rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 5.46s forwards" }}
             >
-              THE PATTERN HAS A NAME.
+              THE PATTERN HAS A <RotatingWord />.
             </span>
             <span
-              style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 4.8s forwards, heroCursorBlink 0.9s step-end 4.8s infinite" }}
+              style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 6.24s forwards, heroCursorBlink 0.9s step-end 6.24s infinite" }}
               aria-hidden="true"
             />
           </div>
@@ -1738,13 +1761,13 @@ export default function Landing() {
           {/* Subtext */}
           <p
             data-testid="text-hero-positioning"
-            style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 44px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 5.0s forwards" }}
+            style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 24px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 6.5s forwards" }}
           >
             Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method.
           </p>
 
           {/* CTA button */}
-          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 5.5s forwards", marginBottom: "20px" }}>
+          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 7.15s forwards", marginBottom: "12px" }}>
             <Link
               href="/quiz"
               data-testid="button-cta"
@@ -1757,7 +1780,7 @@ export default function Landing() {
           </div>
 
           {/* Meta + tagline */}
-          <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 6.0s forwards" }}>
+          <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 7.8s forwards" }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px" }}>
               2 MINUTES · 9 PATTERNS · INSTANT RESULTS
             </p>
