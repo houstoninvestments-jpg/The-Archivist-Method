@@ -1794,6 +1794,7 @@ export default function Landing() {
             data-testid="text-brand-title"
           >
           <HeroTypewriter onComplete={() => setScrambleDone(true)} />
+          </p>
           <p className="hero-stagger leading-relaxed mx-auto" style={{ color: "rgba(255,255,255,0.55)", fontSize: "1.05rem", maxWidth: "500px", marginTop: "28px", marginBottom: "44px", fontFamily: "'Inter', sans-serif", lineHeight: 1.8 }} data-testid="text-hero-positioning">
             Something keeps happening. You see it coming. You do it anyway.
             Your body knew 3 to 7 seconds before you did.
