@@ -1033,3 +1033,51 @@ html.is-bot .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.
 html.is-bot .fade-section, html.is-bot .bento-panel { opacity: 1 !important; transform: none !important; transition: none !important; }
 html.is-bot .hero-parallax-bg { transform: none !important; }
 html.is-bot .hero-scramble-char { opacity: 1 !important; }
+
+/* ── Hero Sequence Animations ──────────────────────────────────── */
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes heroSlideLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes heroRevealUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroDropIn {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroDrawLine {
+  from { width: 0; }
+  to { width: 40px; }
+}
+@keyframes heroCrtFlicker {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.9; }
+  14%  { opacity: 0.1; }
+  22%  { opacity: 0.95; }
+  28%  { opacity: 0.2; }
+  36%  { opacity: 1; }
+  44%  { opacity: 0.6; }
+  52%  { opacity: 1; }
+  62%  { opacity: 0.8; }
+  74%  { opacity: 1; }
+  86%  { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+@keyframes heroCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes heroScanline {
+  0%   { top: -1px; }
+  100% { top: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="hero-seq-"] { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+html.is-bot [class*="hero-seq-"] { opacity: 1 !important; transform: none !important; animation: none !important; }
