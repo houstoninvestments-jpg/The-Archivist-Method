@@ -82,3 +82,17 @@ npm i -g vercel && vercel login         # Vercel CLI
 ```
 
 Once both CLIs are authenticated, Claude handles the full deploy-and-verify loop automatically.
+
+## Approved Hero Section (do not revert)
+COPY (in order):
+- Brand: "THE ARCHIVIST METHOD™"
+- File tag: "// SUBJECT FILE LOADING..."
+- Confessional lines: "You've watched yourself do it." / "You've tried to stop." / "You did it anyway."
+- Reframe: "THAT'S NOT WHO YOU ARE." / "THAT'S A PATTERN RUNNING."
+- Final: "THE PATTERN HAS A NAME." + blinking cursor
+- Subtext: "Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method."
+- CTA: "IDENTIFY MY PATTERN — FREE →"
+- Meta: "2 MINUTES · 9 PATTERNS · INSTANT RESULTS"
+- Tagline: "PATTERN ARCHAEOLOGY, NOT THERAPY." — NOT in magenta #EC4899
+ANIMATION: Sequential reveal — brand → divider draws → file tag slides from left → confessional lines reveal upward → separator → reframe drops in bold → separator → final line flickers (CRT effect) → cursor blinks → subtext → CTA → meta
+DESIGN: Archivist seated image background with parallax. Scanline effect rgba(0,255,194,0.04). Dark background. No solid fill on CTA button — teal border only.
