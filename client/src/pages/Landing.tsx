@@ -10,6 +10,48 @@ import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
 
+// ── Hero Typewriter ──────────────────────────────────────────────
+const TYPEWRITER_LINES = [
+  { text: "You've done it a hundred times.", color: "#F5F5F5", delay: 0 },
+  { text: "You saw it coming.", color: "#A3A3A3", delay: 900 },
+  { text: "You did it anyway.", color: "#A3A3A3", delay: 1700 },
+  { text: "That's not weakness.", color: "#F5F5F5", delay: 2800 },
+  { text: "That's a pattern running.", color: "#00FFC2", delay: 3600 },
+];
+function HeroTypewriter({ onComplete }) {
+  const [visibleLines, setVisibleLines] = React.useState([]);
+  React.useEffect(() => {
+    const timers = [];
+    TYPEWRITER_LINES.forEach((line, i) => {
+      const t = setTimeout(() => {
+        setVisibleLines(prev => [...prev, i]);
+        if (i === TYPEWRITER_LINES.length - 1) setTimeout(() => onComplete?.(), 400);
+      }, line.delay);
+      timers.push(t);
+    });
+    return () => timers.forEach(clearTimeout);
+  }, []);
+  return (
+    <div data-testid='text-brand-title' style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(1.8rem,5vw,4.5rem)', lineHeight: 1.15, letterSpacing: '0.04em', textTransform: 'uppercase', minHeight: '280px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2px' }}>
+      {TYPEWRITER_LINES.map((line, i) => (
+        <div key={i} style={{ color: line.color, opacity: visibleLines.includes(i) ? 1 : 0, transform: visibleLines.includes(i) ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)' }}>{line.text}</div>
+      ))}
+    </div>
+  );
+}
+function HeroCTAButton({ glowRef }) {
+  return (
+    <a href='/quiz'>
+      <div ref={glowRef} style={{ display: 'inline-block', cursor: 'pointer' }}>
+        <div data-testid='button-cta' style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#00FFC2', border: '1px solid rgba(0,255,194,0.5)', padding: '18px 48px', background: 'rgba(0,255,194,0.04)', transition: 'all 0.2s ease', minWidth: '280px', textAlign: 'center' }}
+          onMouseEnter={e => { e.currentTarget.style.background='rgba(0,255,194,0.08)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.9)'; e.currentTarget.style.boxShadow='0 0 24px rgba(0,255,194,0.15)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background='rgba(0,255,194,0.04)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.5)'; e.currentTarget.style.boxShadow='none'; }}>
+          IDENTIFY MY PATTERN →
+        </div>
+      </div>
+    </a>
+  );
+}
 function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
   const words = text.split(" ");
   const stagger = 0.15;
@@ -1751,28 +1793,14 @@ export default function Landing() {
             style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.05em", color: "#ffffff", fontSize: "clamp(2rem, 5.5vw, 6rem)", lineHeight: 1, whiteSpace: "normal", wordBreak: "break-word" }}
             data-testid="text-brand-title"
           >
-            <HeroWordReveal text="YOU KNOW EXACTLY WHAT YOU'RE DOING." color="#ffffff" onComplete={() => setScrambleDone(true)} />
+          <HeroTypewriter onComplete={() => setScrambleDone(true)} />
           </p>
-          <p
-            style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(1.5rem, 3vw, 3rem)", color: "#00FFC2", textShadow: "0 0 10px rgba(0, 255, 194, 0.5)", marginTop: "-8px", opacity: scrambleDone ? 1 : 0, transition: "opacity 0.6s ease" }}
-            data-testid="text-brand-title-2"
-          >
-            {["You", "just", "can't", "stop."].map((word, i) => (
-              <span key={i} className="hero-word" style={{ marginRight: "0.3em" }}>{word}</span>
-            ))}
+          <p className="hero-stagger leading-relaxed mx-auto" style={{ color: "rgba(255,255,255,0.55)", fontSize: "1.05rem", maxWidth: "500px", marginTop: "28px", marginBottom: "44px", fontFamily: "'Inter', sans-serif", lineHeight: 1.8 }} data-testid="text-hero-positioning">
+            Something keeps happening. You see it coming. You do it anyway.
+            Your body knew 3 to 7 seconds before you did.
+            That window is where everything changes.
           </p>
-
-          <p
-            className="hero-stagger leading-relaxed mx-auto"
-            style={{ color: "#999", fontSize: "1.15rem", maxWidth: "580px", marginTop: "32px", marginBottom: "48px" }}
-            data-testid="text-hero-positioning"
-          >
-            Your body sends a signal 3 to 7 seconds before the pattern executes. The Archivist Method teaches you to read it — and what to do inside that window.
-          </p>
-
-          <div className="hero-stagger">
-            <CTAButton text="FIND MY PATTERN →" variant="teal" glowRef={ctaGlowRef} />
-          </div>
+          <div className="hero-stagger"><HeroCTAButton glowRef={ctaGlowRef} /></div>
 
           <p className="hero-stagger" style={{ color: "#999999", fontFamily: "'Inter', sans-serif", fontSize: "13px", marginTop: "16px" }}>
             Free · 2 Minutes · Instant Results
@@ -1954,7 +1982,6 @@ export default function Landing() {
             FREE · NO ACCOUNT · NO EMAIL REQUIRED
           </div>
 
-          <EmbeddedQuiz />
         </div>
       </section>
 

@@ -491,7 +491,7 @@ function PatternFileScreen({ userData, isReturn }: { userData: UserData; isRetur
 
         {/* ── CTA Button ─────────────────────────── */}
         <a
-          href="/portal/reader"
+          href="/portal/crash-course"
           style={{
             display: 'block',
             width: '100%',
@@ -625,7 +625,11 @@ export default function NewPortal() {
   useEffect(() => {
     const isFirstVisit = !localStorage.getItem(LS_FIRST_VISIT_KEY);
 
-    fetch('/api/portal/user-data', { credentials: 'include' })
+    const savedToken = localStorage.getItem('quiz_auth_token');
+    fetch('/api/portal/user-data', {
+      credentials: 'include',
+      headers: savedToken ? { Authorization: `Bearer ${savedToken}` } : {},
+    })
       .then(res => {
         if (!res.ok) throw new Error('unauthorized');
         return res.json();
