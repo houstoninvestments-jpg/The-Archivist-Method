@@ -399,12 +399,12 @@ export default function QuizResult() {
     const caption = `I just identified my ${patternDisplayNames[submittedPattern || primaryPattern]} with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`;
     navigator.clipboard.writeText(caption).then(() => {
       toast({
-        description: 'Caption copied — open Instagram to share',
+        description: 'Caption copied — open Instagram',
         duration: 3000,
       });
     }).catch(() => {
       toast({
-        description: 'Caption copied — open Instagram to share',
+        description: 'Caption copied — open Instagram',
         duration: 3000,
       });
     });
@@ -446,7 +446,7 @@ export default function QuizResult() {
   ].slice(0, 3);
 
   const sharePatternName = patternDisplayNames[submittedPattern || primaryPattern];
-  const xShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified my ${sharePatternName} with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`)}`;
+  const xShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified my ${sharePatternName} with The Archivist Method. thearchivistmethod.com`)}`;
 
   return (
     <div style={{ background: '#000000', minHeight: '100vh' }}>
@@ -923,24 +923,15 @@ export default function QuizResult() {
                 <button
                   onClick={() => setShowDemoModal(true)}
                   style={{
-                    border: '1px solid #1a1a1a',
-                    background: 'transparent',
-                    color: '#94A3B8',
+                    border: '1px solid rgba(0,212,170,0.6)',
+                    background: '#0d1a18',
+                    color: '#00d4aa',
                     padding: '12px 28px',
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: '0.75rem',
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     cursor: 'pointer',
-                    transition: 'all 200ms ease',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'rgba(0,212,170,0.3)';
-                    e.currentTarget.style.color = '#00d4aa';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = '#1a1a1a';
-                    e.currentTarget.style.color = '#94A3B8';
                   }}
                 >
                   TRY A SESSION →
@@ -962,29 +953,6 @@ export default function QuizResult() {
                 >
                   The pattern has a name. The exit has a door.
                 </h2>
-                <p style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontSize: '1.1rem',
-                  fontStyle: 'italic',
-                  fontWeight: 300,
-                  color: '#94A3B8',
-                  lineHeight: 1.7,
-                  marginBottom: '12px',
-                }}>
-                  You were never as lost as you felt.
-                </p>
-                <p style={{
-                  fontFamily: "'Inter', sans-serif",
-                  color: '#64748B',
-                  fontSize: '1rem',
-                  lineHeight: 1.6,
-                  marginBottom: '32px',
-                  maxWidth: '480px',
-                  margin: '0 auto 32px',
-                }}>
-                  Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
-                </p>
-
                 <div className="space-y-3">
                   <input
                     type="text"
@@ -1011,24 +979,6 @@ export default function QuizResult() {
                     onFocus={e => { e.currentTarget.style.borderColor = '#00FFD1'; }}
                     onBlur={e => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
                   />
-                  <div style={{ marginTop: '16px', marginBottom: '16px', textAlign: 'left' }}>
-                    <p style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.65rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
-                      color: '#475569',
-                      marginBottom: '10px',
-                    }}>
-                      What you'll receive:
-                    </p>
-                    {["Your pattern's trigger sequence", "Your body signal map", "Your first interrupt protocol"].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2" style={{ marginBottom: '6px' }}>
-                        <span style={{ color: '#00FFD1', fontSize: '13px', fontWeight: 700 }}>&#10003;</span>
-                        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: '#94A3B8' }}>{item}</span>
-                      </div>
-                    ))}
-                  </div>
                   <div className="cta-glow-wrap cta-glow-full" style={{ display: 'block', width: '100%' }}>
                     <div className="cta-glow-border" />
                     <button
