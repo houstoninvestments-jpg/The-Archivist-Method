@@ -1,19 +1,254 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
+import { Share2, Copy } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import {
   PatternKey,
   patternDisplayNames,
   QuizResult as QuizResultType,
-  feelSeenCopy,
-  breadcrumbData,
   circuitBreakData,
 } from '@/lib/quizData';
+
+// ─────────────────────────────────────────────
+// POCKET ARCHIVIST MODAL
+// ─────────────────────────────────────────────
+interface DemoMessage { role: 'user' | 'assistant'; content: string; }
+
+function PocketArchivistModal({
+  patternName,
+  onClose,
+}: {
+  patternName: string;
+  onClose: () => void;
+}) {
+  const [step, setStep] = useState<1 | 2 | 'done'>(1);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState<DemoMessage[]>([]);
+  const [apiError, setApiError] = useState('');
+
+  const sendStep = async (stepNum: 1 | 2, userInput: string) => {
+    setLoading(true);
+    setApiError('');
+    try {
+      const history = messages.map(m => ({ role: m.role, content: m.content }));
+      const res = await fetch('/api/archivist-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step: stepNum, userInput, history }),
+      });
+      const data = await res.json();
+      const assistantText = data.response || 'Your pattern is speaking. The method is listening.';
+      setMessages(prev => [
+        ...prev,
+        { role: 'user', content: userInput },
+        { role: 'assistant', content: assistantText },
+      ]);
+      setStep(stepNum === 1 ? 2 : 'done');
+    } catch {
+      setApiError('Something went wrong. Try again.');
+    } finally {
+      setLoading(false);
+      setInput('');
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!input.trim() || step === 'done') return;
+    sendStep(step, input.trim());
+  };
+
+  return (
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0,0,0,0.93)',
+      zIndex: 1000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+    }}>
+      <div style={{
+        background: '#0a0a0a',
+        border: '1px solid rgba(0,212,170,0.25)',
+        borderRadius: '4px',
+        padding: '40px',
+        maxWidth: '520px',
+        width: '100%',
+      }}>
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.6rem',
+          letterSpacing: '0.3em',
+          textTransform: 'uppercase',
+          color: '#00d4aa',
+          marginBottom: '4px',
+        }}>
+          THE POCKET ARCHIVIST
+        </p>
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.6rem',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#475569',
+          marginBottom: '28px',
+        }}>
+          {patternName} PATTERN — FREE SESSION
+        </p>
+
+        {/* Initial prompt (step 1, no messages yet) */}
+        {messages.length === 0 && (
+          <p style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '1rem',
+            color: '#CBD5E1',
+            lineHeight: 1.7,
+            marginBottom: '20px',
+          }}>
+            What do you feel in your body right before your {patternName} pattern fires?
+          </p>
+        )}
+
+        {/* Conversation */}
+        {messages.map((m, i) => (
+          m.role === 'assistant' && (
+            <p key={i} style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '1rem',
+              color: '#CBD5E1',
+              lineHeight: 1.7,
+              marginBottom: '20px',
+            }}>
+              {m.content}
+            </p>
+          )
+        ))}
+
+        {/* Input area */}
+        {step !== 'done' && (
+          <div>
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="Type your response..."
+              rows={3}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              style={{
+                width: '100%',
+                padding: '12px 14px',
+                background: '#111',
+                border: '1px solid #1a1a1a',
+                borderRadius: '2px',
+                color: 'white',
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.95rem',
+                outline: 'none',
+                resize: 'none',
+                marginBottom: '12px',
+                boxSizing: 'border-box',
+              }}
+              onFocus={e => { e.currentTarget.style.borderColor = '#00d4aa'; }}
+              onBlur={e => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
+            />
+            {apiError && (
+              <p style={{ color: '#f87171', fontSize: '0.8rem', marginBottom: '8px' }}>{apiError}</p>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <button
+                onClick={handleSubmit}
+                disabled={loading || !input.trim()}
+                style={{
+                  border: '1px solid rgba(0,212,170,0.4)',
+                  background: 'transparent',
+                  color: '#00d4aa',
+                  padding: '10px 24px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
+                  opacity: loading || !input.trim() ? 0.5 : 1,
+                }}
+              >
+                {loading ? 'READING...' : 'SEND →'}
+              </button>
+              <button
+                onClick={onClose}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#475569',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.65rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Done state */}
+        {step === 'done' && (
+          <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: '28px', marginTop: '8px' }}>
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.65rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: '#00d4aa',
+              marginBottom: '12px',
+            }}>
+              FULL ACCESS INCLUDED WITH THE FIELD GUIDE
+            </p>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '0.9rem',
+              color: '#64748B',
+              lineHeight: 1.6,
+              marginBottom: '20px',
+            }}>
+              Unlimited sessions, all 47 interrupt protocols, and the complete pattern map for your sequence.
+            </p>
+            <button
+              onClick={onClose}
+              style={{
+                border: '1px solid #1a1a1a',
+                background: 'transparent',
+                color: '#94A3B8',
+                padding: '10px 24px',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+              }}
+            >
+              CLOSE →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 // ─────────────────────────────────────────────
 // MAIN RESULTS PAGE
 // ─────────────────────────────────────────────
 export default function QuizResult() {
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
 
   // ── Parse result data
   const searchParams = new URLSearchParams(window.location.search);
@@ -59,9 +294,15 @@ export default function QuizResult() {
   const [barsReady, setBarsReady] = useState(false);
 
   // Content visibility
-  const [breadcrumbsVisible, setBreadcrumbsVisible] = useState(false);
   const [circuitVisible, setCircuitVisible] = useState(false);
   const [gateVisible, setGateVisible] = useState(false);
+
+  // Demo modal
+  const [showDemoModal, setShowDemoModal] = useState(false);
+
+  // Post-submission share prompt
+  const [showSharePrompt, setShowSharePrompt] = useState(false);
+  const [submittedPattern, setSubmittedPattern] = useState<PatternKey | null>(null);
 
   // ── Bar fill trigger
   useEffect(() => {
@@ -94,10 +335,9 @@ export default function QuizResult() {
   // ── Show content sections when focus pattern selected
   useEffect(() => {
     if (!focusPattern) return;
-    const t1 = setTimeout(() => setBreadcrumbsVisible(true), 300);
-    const t2 = setTimeout(() => setCircuitVisible(true), 700);
-    const t3 = setTimeout(() => setGateVisible(true), 1200);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t1 = setTimeout(() => setCircuitVisible(true), 300);
+    const t2 = setTimeout(() => setGateVisible(true), 800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [focusPattern]);
 
   // ── Scroll to content when focus pattern selected
@@ -109,6 +349,13 @@ export default function QuizResult() {
       }, 200);
     }
   }, [focusPattern]);
+
+  // ── Auto-redirect after share prompt
+  useEffect(() => {
+    if (!showSharePrompt) return;
+    const t = setTimeout(() => window.location.assign('/portal'), 3000);
+    return () => clearTimeout(t);
+  }, [showSharePrompt]);
 
   // ── Email submit
   const handleSubmit = async () => {
@@ -140,11 +387,27 @@ export default function QuizResult() {
       localStorage.setItem('quizResultPattern', finalPattern);
       localStorage.setItem('userEmail', trimmedEmail);
       if (scores) localStorage.setItem('quizScores', JSON.stringify(scores));
-      window.location.assign('/portal');
+      setSubmittedPattern(finalPattern as PatternKey);
+      setShowSharePrompt(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setSubmitting(false);
     }
+  };
+
+  const handleInstagramShare = () => {
+    const caption = `I just identified my ${patternDisplayNames[submittedPattern || primaryPattern]} with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`;
+    navigator.clipboard.writeText(caption).then(() => {
+      toast({
+        description: 'Caption copied — open Instagram to share',
+        duration: 3000,
+      });
+    }).catch(() => {
+      toast({
+        description: 'Caption copied — open Instagram to share',
+        duration: 3000,
+      });
+    });
   };
 
   // ── No pattern guard
@@ -166,9 +429,7 @@ export default function QuizResult() {
   }
 
   const activePattern = focusPattern || primaryPattern;
-  const crumbs = breadcrumbData[activePattern];
   const circuitBreak = circuitBreakData[activePattern];
-  const feelSeen = feelSeenCopy[activePattern];
 
   // Proportional bar widths — primary is always 100%, secondaries relative to it
   const maxScore = primaryScore || 1;
@@ -184,8 +445,128 @@ export default function QuizResult() {
     ...(secondaryPattern2 ? [secondaryPattern2] : []),
   ].slice(0, 3);
 
+  const sharePatternName = patternDisplayNames[submittedPattern || primaryPattern];
+  const xShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified my ${sharePatternName} with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`)}`;
+
   return (
     <div style={{ background: '#000000', minHeight: '100vh' }}>
+
+      {/* ── DEMO MODAL */}
+      {showDemoModal && (
+        <PocketArchivistModal
+          patternName={patternDisplayNames[activePattern]}
+          onClose={() => setShowDemoModal(false)}
+        />
+      )}
+
+      {/* ── SHARE PROMPT OVERLAY */}
+      {showSharePrompt && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.95)',
+          zIndex: 999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+        }}>
+          <div style={{ maxWidth: '440px', width: '100%', textAlign: 'center' }}>
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.65rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: '#00d4aa',
+              marginBottom: '20px',
+            }}>
+              FILED
+            </p>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 'clamp(1.8rem, 5vw, 2.8rem)',
+              color: 'white',
+              lineHeight: 1.1,
+              marginBottom: '12px',
+            }}>
+              Your pattern has been filed.
+            </h2>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '1.2rem',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              color: '#94A3B8',
+              lineHeight: 1.6,
+              marginBottom: '36px',
+            }}>
+              Tell someone.
+            </p>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '32px', flexWrap: 'wrap' }}>
+              <a
+                href={xShareUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  border: '1px solid rgba(0,212,170,0.4)',
+                  background: 'transparent',
+                  color: '#00d4aa',
+                  padding: '12px 24px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <Share2 size={14} />
+                SHARE TO X
+              </a>
+              <button
+                onClick={handleInstagramShare}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  border: '1px solid #1a1a1a',
+                  background: 'transparent',
+                  color: '#64748B',
+                  padding: '12px 24px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                }}
+              >
+                <Copy size={14} />
+                INSTAGRAM STORIES
+              </button>
+            </div>
+
+            <button
+              onClick={() => window.location.assign('/portal')}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#475569',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.65rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+              }}
+            >
+              Continue to portal →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── SECTION 1: Reveal */}
       <section style={{
@@ -269,7 +650,6 @@ export default function QuizResult() {
               }} />
             </div>
 
-            {/* Percentage — supporting data */}
             <p style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.6rem',
@@ -317,7 +697,6 @@ export default function QuizResult() {
                 {patternDisplayNames[item!.pattern]}
               </h3>
 
-              {/* Bar track */}
               <div style={{
                 height: '12px',
                 background: 'rgba(236, 72, 153, 0.08)',
@@ -334,7 +713,6 @@ export default function QuizResult() {
                 }} />
               </div>
 
-              {/* Percentage — supporting data */}
               <p style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: '0.6rem',
@@ -349,7 +727,7 @@ export default function QuizResult() {
           {/* Pattern selection question */}
           {revealStep >= 4 && (
             <div style={{
-              opacity: revealStep >= 4 ? 1 : 0,
+              opacity: 1,
               transition: 'opacity 600ms ease',
               textAlign: 'center',
               paddingTop: '8px',
@@ -408,41 +786,6 @@ export default function QuizResult() {
                   </button>
                 ))}
               </div>
-
-              {/* Share */}
-              <div style={{ marginTop: '32px' }}>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just discovered my ${patternDisplayNames[primaryPattern]} pattern with The Archivist Method. It named something I've never been able to explain. thearchivistmethod.com`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="button-share-pattern"
-                  style={{
-                    display: 'inline-block',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.7rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    border: '1px solid rgba(0,255,209,0.4)',
-                    color: '#00FFD1',
-                    padding: '10px 24px',
-                    cursor: 'pointer',
-                    transition: 'all 200ms ease',
-                    textDecoration: 'none',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,255,209,0.08)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                >
-                  Share Your Pattern
-                </a>
-                <p style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.65rem',
-                  color: '#475569',
-                  marginTop: '8px',
-                }}>
-                  Share anonymously — no name, just your pattern.
-                </p>
-              </div>
             </div>
           )}
         </div>
@@ -451,191 +794,7 @@ export default function QuizResult() {
       {/* ── SECTIONS BELOW: appear after focusPattern selected */}
       <div ref={contentRef}>
 
-        {/* Feel-seen copy */}
-        {focusPattern && feelSeen && (
-          <section style={{ padding: '64px 24px', maxWidth: '600px', margin: '0 auto' }}>
-            {/* Spirit layer — comfort before data */}
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.75rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#00FFD1',
-              marginBottom: '24px',
-              opacity: 0.7,
-            }}>
-              Before we go further
-            </p>
-            <p style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '1.35rem',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              color: '#ffffff',
-              lineHeight: 1.7,
-              marginBottom: '32px',
-            }}>
-              What you're about to read is not a verdict.
-              It is not a flaw. It is not who you are.
-            </p>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.05rem',
-              color: '#CBD5E1',
-              lineHeight: 1.75,
-              marginBottom: '20px',
-            }}>
-              It is a pattern. And patterns can be interrupted.
-            </p>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.05rem',
-              color: '#CBD5E1',
-              lineHeight: 1.75,
-              marginBottom: '40px',
-            }}>
-              You came here because something in you already knew that.
-              That part of you was right.
-            </p>
-            {/* Divider */}
-            <div style={{
-              width: '40px',
-              height: '1px',
-              background: '#00FFD1',
-              marginBottom: '40px',
-              opacity: 0.4,
-            }} />
-            {feelSeen.map((para, i) => (
-              <p key={i} style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '1.05rem',
-                color: '#CBD5E1',
-                lineHeight: 1.75,
-                marginBottom: '20px',
-              }}>
-                {para}
-              </p>
-            ))}
-            {/* Spirit fingerprint */}
-            <p style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '1.15rem',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              color: '#94A3B8',
-              lineHeight: 1.7,
-              marginTop: '32px',
-            }}>
-              This pattern has been protecting you in the only way it knew how.
-              It was never the enemy. It was just waiting to be understood.
-            </p>
-          </section>
-        )}
-
-        {/* ── SECTION 2: Breadcrumb cards */}
-        {focusPattern && crumbs && (
-          <section
-            className="px-4 py-16 md:py-24"
-            style={{
-              opacity: breadcrumbsVisible ? 1 : 0,
-              transform: breadcrumbsVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'opacity 0.6s ease, transform 0.6s ease',
-            }}
-          >
-            <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div
-                  data-testid="card-breadcrumb-triggers"
-                  style={{
-                    background: '#0a0a0a',
-                    border: '1px solid #1a1a1a',
-                    borderRadius: '16px',
-                    padding: '32px',
-                  }}
-                >
-                  <p style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.65rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    color: '#00FFD1',
-                    marginBottom: '16px',
-                  }}>
-                    WHAT TRIGGERS IT
-                  </p>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    color: '#CBD5E1',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.7,
-                  }}>
-                    {crumbs.triggers}
-                  </p>
-                </div>
-
-                <div
-                  data-testid="card-breadcrumb-costs"
-                  style={{
-                    background: '#0a0a0a',
-                    border: '1px solid #1a1a1a',
-                    borderRadius: '16px',
-                    padding: '32px',
-                  }}
-                >
-                  <p style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.65rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    color: '#EC4899',
-                    marginBottom: '16px',
-                  }}>
-                    WHAT IT COSTS YOU
-                  </p>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    color: '#CBD5E1',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.7,
-                  }}>
-                    {crumbs.costs}
-                  </p>
-                </div>
-
-                <div
-                  data-testid="card-breadcrumb-willpower"
-                  style={{
-                    background: '#0a0a0a',
-                    border: '1px solid #1a1a1a',
-                    borderRadius: '16px',
-                    padding: '32px',
-                  }}
-                >
-                  <p style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.65rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    color: 'white',
-                    marginBottom: '16px',
-                  }}>
-                    WHY WILLPOWER FAILS
-                  </p>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    color: '#CBD5E1',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.7,
-                  }}>
-                    {crumbs.whyWillpowerFails}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ── SECTION 3: Circuit Break */}
+        {/* ── SECTION 2: Circuit Break */}
         {focusPattern && circuitBreak && (
           <section
             className="px-4 py-16 md:py-24"
@@ -713,7 +872,7 @@ export default function QuizResult() {
           </section>
         )}
 
-        {/* ── SECTION 4: Email gate */}
+        {/* ── SECTION 3: Pocket Archivist preview + Email gate */}
         {focusPattern && (
           <section
             className="px-4 py-16 md:py-24"
@@ -723,131 +882,197 @@ export default function QuizResult() {
               transition: 'opacity 0.6s ease, transform 0.6s ease',
             }}
           >
-            <div className="max-w-lg mx-auto text-center">
-              <h2
-                data-testid="text-gate-headline"
-                style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
-                  textTransform: 'uppercase',
-                  color: 'white',
-                  fontSize: 'clamp(1.4rem, 3vw, 2rem)',
-                  lineHeight: 1.2,
-                  marginBottom: '16px',
-                }}
-              >
-                The pattern has a name. The exit has a door.
-              </h2>
-              {/* Spirit fingerprint */}
-              <p style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: '1.1rem',
-                fontStyle: 'italic',
-                fontWeight: 300,
-                color: '#94A3B8',
-                lineHeight: 1.7,
-                marginBottom: '12px',
-              }}>
-                You were never as lost as you felt.
-              </p>
-              <p style={{
-                fontFamily: "'Inter', sans-serif",
-                color: '#64748B',
-                fontSize: '1rem',
-                lineHeight: 1.6,
-                marginBottom: '32px',
-                maxWidth: '480px',
-                margin: '0 auto 32px',
-              }}>
-                Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
-              </p>
+            <div className="max-w-lg mx-auto">
 
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck={false}
-                  data-testid="input-email"
+              {/* ── Pocket Archivist preview */}
+              <div style={{
+                background: '#0a0a0a',
+                border: '1px solid #1a1a1a',
+                borderRadius: '4px',
+                padding: '28px',
+                marginBottom: '48px',
+              }}>
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#00d4aa',
+                  marginBottom: '12px',
+                }}>
+                  THE POCKET ARCHIVIST
+                </p>
+                <h3 style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
+                  color: 'white',
+                  lineHeight: 1.1,
+                  marginBottom: '10px',
+                }}>
+                  The only tool built for the moment it fires.
+                </h3>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.95rem',
+                  color: '#64748B',
+                  lineHeight: 1.6,
+                  marginBottom: '20px',
+                }}>
+                  One free session. No email required.
+                </p>
+                <button
+                  onClick={() => setShowDemoModal(true)}
                   style={{
-                    width: '100%',
-                    padding: '14px 16px',
-                    background: '#0a0a0a',
                     border: '1px solid #1a1a1a',
-                    borderRadius: '2px',
-                    color: 'white',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 200ms ease',
-                  }}
-                  onFocus={e => { e.currentTarget.style.borderColor = '#00FFD1'; }}
-                  onBlur={e => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
-                />
-                <div style={{ marginTop: '16px', marginBottom: '16px', textAlign: 'left' }}>
-                  <p style={{
+                    background: 'transparent',
+                    color: '#94A3B8',
+                    padding: '12px 28px',
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.65rem',
-                    textTransform: 'uppercase',
+                    fontSize: '0.75rem',
                     letterSpacing: '0.15em',
-                    color: '#475569',
-                    marginBottom: '10px',
-                  }}>
-                    What you'll receive:
-                  </p>
-                  {["Your pattern's trigger sequence", "Your body signal map", "Your first interrupt protocol"].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2" style={{ marginBottom: '6px' }}>
-                      <span style={{ color: '#00FFD1', fontSize: '13px', fontWeight: 700 }}>&#10003;</span>
-                      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: '#94A3B8' }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="cta-glow-wrap cta-glow-full" style={{ display: 'block', width: '100%' }}>
-                  <div className="cta-glow-border" />
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={submitting}
-                    data-testid="button-submit-email"
-                    className="cta-glow-inner results-cta-btn w-full"
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: 'white',
-                      fontWeight: 700,
-                      padding: '14px 24px',
-                      cursor: submitting ? 'not-allowed' : 'pointer',
-                      opacity: submitting ? 0.5 : 1,
-                      width: '100%',
-                      transition: 'all 200ms ease',
-                    }}
-                  >
-                    {submitting ? 'Opening Archive...' : 'SEND ME THE FIRST STEP'}
-                  </button>
-                </div>
-                {error && (
-                  <p style={{ color: '#f87171', fontSize: '0.875rem', textAlign: 'center' }} role="alert">
-                    {error}
-                  </p>
-                )}
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'all 200ms ease',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'rgba(0,212,170,0.3)';
+                    e.currentTarget.style.color = '#00d4aa';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = '#1a1a1a';
+                    e.currentTarget.style.color = '#94A3B8';
+                  }}
+                >
+                  TRY A SESSION →
+                </button>
               </div>
 
-              <p
-                data-testid="text-no-spam"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.65rem',
-                  color: '#475569',
-                  marginTop: '20px',
-                }}
-              >
-                No sales sequence. Just the work.
-              </p>
+              {/* ── Email gate */}
+              <div className="text-center">
+                <h2
+                  data-testid="text-gate-headline"
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    textTransform: 'uppercase',
+                    color: 'white',
+                    fontSize: 'clamp(1.4rem, 3vw, 2rem)',
+                    lineHeight: 1.2,
+                    marginBottom: '16px',
+                  }}
+                >
+                  The pattern has a name. The exit has a door.
+                </h2>
+                <p style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '1.1rem',
+                  fontStyle: 'italic',
+                  fontWeight: 300,
+                  color: '#94A3B8',
+                  lineHeight: 1.7,
+                  marginBottom: '12px',
+                }}>
+                  You were never as lost as you felt.
+                </p>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif",
+                  color: '#64748B',
+                  fontSize: '1rem',
+                  lineHeight: 1.6,
+                  marginBottom: '32px',
+                  maxWidth: '480px',
+                  margin: '0 auto 32px',
+                }}>
+                  Your free Crash Course walks you through the first step of the FEIR method &mdash; built specifically for your pattern.
+                </p>
+
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    data-testid="input-email"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      background: '#0a0a0a',
+                      border: '1px solid #1a1a1a',
+                      borderRadius: '2px',
+                      color: 'white',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '1rem',
+                      outline: 'none',
+                      transition: 'border-color 200ms ease',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderColor = '#00FFD1'; }}
+                    onBlur={e => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
+                  />
+                  <div style={{ marginTop: '16px', marginBottom: '16px', textAlign: 'left' }}>
+                    <p style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.65rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.15em',
+                      color: '#475569',
+                      marginBottom: '10px',
+                    }}>
+                      What you'll receive:
+                    </p>
+                    {["Your pattern's trigger sequence", "Your body signal map", "Your first interrupt protocol"].map((item, i) => (
+                      <div key={i} className="flex items-center gap-2" style={{ marginBottom: '6px' }}>
+                        <span style={{ color: '#00FFD1', fontSize: '13px', fontWeight: 700 }}>&#10003;</span>
+                        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: '#94A3B8' }}>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="cta-glow-wrap cta-glow-full" style={{ display: 'block', width: '100%' }}>
+                    <div className="cta-glow-border" />
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={submitting}
+                      data-testid="button-submit-email"
+                      className="cta-glow-inner results-cta-btn w-full"
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: '0.85rem',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'white',
+                        fontWeight: 700,
+                        padding: '14px 24px',
+                        cursor: submitting ? 'not-allowed' : 'pointer',
+                        opacity: submitting ? 0.5 : 1,
+                        width: '100%',
+                        transition: 'all 200ms ease',
+                      }}
+                    >
+                      {submitting ? 'Opening Archive...' : 'SEND ME THE FIRST STEP'}
+                    </button>
+                  </div>
+                  {error && (
+                    <p style={{ color: '#f87171', fontSize: '0.875rem', textAlign: 'center' }} role="alert">
+                      {error}
+                    </p>
+                  )}
+                </div>
+
+                <p
+                  data-testid="text-no-spam"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.65rem',
+                    color: '#475569',
+                    marginTop: '20px',
+                  }}
+                >
+                  No sales sequence. Just the work.
+                </p>
+              </div>
             </div>
           </section>
         )}
