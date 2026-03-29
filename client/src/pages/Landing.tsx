@@ -10,6 +10,48 @@ import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
 
+// ── Hero Typewriter ──────────────────────────────────────────────
+const TYPEWRITER_LINES = [
+  { text: "You've done it a hundred times.", color: "#F5F5F5", delay: 0 },
+  { text: "You saw it coming.", color: "#A3A3A3", delay: 900 },
+  { text: "You did it anyway.", color: "#A3A3A3", delay: 1700 },
+  { text: "That's not weakness.", color: "#F5F5F5", delay: 2800 },
+  { text: "That's a pattern running.", color: "#00FFC2", delay: 3600 },
+];
+function HeroTypewriter({ onComplete }) {
+  const [visibleLines, setVisibleLines] = React.useState([]);
+  React.useEffect(() => {
+    const timers = [];
+    TYPEWRITER_LINES.forEach((line, i) => {
+      const t = setTimeout(() => {
+        setVisibleLines(prev => [...prev, i]);
+        if (i === TYPEWRITER_LINES.length - 1) setTimeout(() => onComplete?.(), 400);
+      }, line.delay);
+      timers.push(t);
+    });
+    return () => timers.forEach(clearTimeout);
+  }, []);
+  return (
+    <div data-testid='text-brand-title' style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(1.8rem,5vw,4.5rem)', lineHeight: 1.15, letterSpacing: '0.04em', textTransform: 'uppercase', minHeight: '280px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2px' }}>
+      {TYPEWRITER_LINES.map((line, i) => (
+        <div key={i} style={{ color: line.color, opacity: visibleLines.includes(i) ? 1 : 0, transform: visibleLines.includes(i) ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)' }}>{line.text}</div>
+      ))}
+    </div>
+  );
+}
+function HeroCTAButton({ glowRef }) {
+  return (
+    <a href='/quiz'>
+      <div ref={glowRef} style={{ display: 'inline-block', cursor: 'pointer' }}>
+        <div data-testid='button-cta' style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#00FFC2', border: '1px solid rgba(0,255,194,0.5)', padding: '18px 48px', background: 'rgba(0,255,194,0.04)', transition: 'all 0.2s ease', minWidth: '280px', textAlign: 'center' }}
+          onMouseEnter={e => { e.currentTarget.style.background='rgba(0,255,194,0.08)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.9)'; e.currentTarget.style.boxShadow='0 0 24px rgba(0,255,194,0.15)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background='rgba(0,255,194,0.04)'; e.currentTarget.style.borderColor='rgba(0,255,194,0.5)'; e.currentTarget.style.boxShadow='none'; }}>
+          IDENTIFY MY PATTERN →
+        </div>
+      </div>
+    </a>
+  );
+}
 function HeroWordReveal({ text, color, onComplete }: { text: string; color: string; onComplete?: () => void }) {
   const words = text.split(" ");
   const stagger = 0.15;
