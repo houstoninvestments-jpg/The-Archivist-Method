@@ -21,6 +21,7 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const Checkout = lazy(() => import("@/pages/Checkout"));
+const Transcribe = lazy(() => import("@/pages/Transcribe"));
 
 function PageLoader() {
   return (
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/transcribe" component={Transcribe} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -56,7 +58,8 @@ function AppContent() {
   const isQuiz = location.startsWith("/quiz");
   const isResults = location.startsWith("/results");
   const isAdmin = location.startsWith("/admin");
-  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin;
+  const isTranscribe = location.startsWith("/transcribe");
+  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin || isTranscribe;
 
   return (
     <div className="min-h-screen flex flex-col">

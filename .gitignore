@@ -34,3 +34,4 @@ outputs/*.pdf
 
 # Replit
 .replit
+tmp_transcribe/

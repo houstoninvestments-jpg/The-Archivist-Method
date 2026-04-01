@@ -6,6 +6,7 @@ import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import portalRoutes from "./portal/routes";
 import adminRoutes from "./admin/routes";
+import transcribeRoutes from "./transcribe";
 import path from "path";
 
 export function log(message: string, source = "express") {
@@ -63,6 +64,9 @@ export async function createApp() {
 
   // ADMIN ROUTES
   app.use("/api/admin", adminRoutes);
+
+  // TRANSCRIBE ROUTES
+  app.use("/api/transcribe", transcribeRoutes);
 
   // Serve robots.txt from public directory
   app.get("/robots.txt", (_req, res) => {
