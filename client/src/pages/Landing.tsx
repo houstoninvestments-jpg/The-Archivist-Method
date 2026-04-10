@@ -1154,8 +1154,32 @@ function PatternCard({ card, index, isOpen, onToggle }: { card: typeof patternCa
 
 
 function SectorLabel({ text }: { text: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setRevealed(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <span
+      ref={ref}
       className="hidden md:block"
       style={{
         position: "absolute",
@@ -1169,7 +1193,10 @@ function SectorLabel({ text }: { text: string }) {
         zIndex: 1,
       }}
     >
-      {text}
+      <span className={`sector-redacted${revealed ? " is-revealed" : ""}`}>
+        <span className="sector-redacted-text">{text}</span>
+        <span className="sector-redacted-bar" aria-hidden="true" />
+      </span>
     </span>
   );
 }
@@ -1682,8 +1709,8 @@ export default function Landing() {
           {(["THAT\u2019S NOT WHO YOU ARE.", "THAT\u2019S A PATTERN RUNNING."] as const).map((line, i) => (<p key={i} style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.2rem, 5.5vw, 4rem)", color: "#FAFAFA", fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "4px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${5.2 + i * 0.4}s forwards` }}>{line}</p>))}
           <div style={{ display: "flex", justifyContent: "center", margin: "24px 0" }}><div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 6.8s forwards" }} /></div>
           <div style={{ marginBottom: "28px" }}><span data-testid="text-brand-title" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 7.5s forwards" }}>THE PATTERN HAS A NAME.</span><span style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 8.0s forwards, heroCursorBlink 0.9s step-end 8.0s infinite" }} aria-hidden="true" /></div>
-          <p data-testid="text-hero-positioning" style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 32px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 9.0s forwards" }}>Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method.</p>
-          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 10.5s forwards", marginBottom: "16px" }}><Link href="/quiz" data-testid="button-cta" style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.15)"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>IDENTIFY MY PATTERN — FREE →</Link></div>
+          <p data-testid="text-hero-positioning" style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 32px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 9.0s forwards" }}>Your body sends a signal <span className="hero-searchlight">3 to 7 seconds</span> before it fires. That signal is learnable. This is the method.</p>
+          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 10.5s forwards", marginBottom: "16px" }}><Link href="/quiz" data-testid="button-cta" className="hero-cta-pulse" style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "background 0.2s ease, border-color 0.2s ease", textDecoration: "none" }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.25)"; (e.currentTarget as HTMLElement).style.animationPlayState = "paused"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = ""; (e.currentTarget as HTMLElement).style.animationPlayState = "running"; }}>IDENTIFY MY PATTERN — FREE →</Link></div>
           <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 11.5s forwards" }}><p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em" }}>2 MINUTES · 9 PATTERNS · INSTANT RESULTS</p></div>
         </div>
       </section>
