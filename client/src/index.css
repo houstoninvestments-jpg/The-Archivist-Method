@@ -1054,15 +1054,15 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
 }
 @keyframes heroTypewriter1 {
   from { width: 0; }
-  to { width: 32ch; }
+  to { width: 34ch; }
 }
 @keyframes heroTypewriter2 {
   from { width: 0; }
-  to { width: 22ch; }
+  to { width: 25ch; }
 }
 @keyframes heroTypewriter3 {
   from { width: 0; }
-  to { width: 20ch; }
+  to { width: 22ch; }
 }
 @keyframes heroCursorFade {
   0% { border-color: rgba(250,250,250,0.5); }
@@ -1154,7 +1154,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   }
   .hero-content-col {
     text-align: left;
-    padding: 40px 24px 80px 10%;
+    padding: 20px 24px 20px 10% !important;
   }
   .hero-rule {
     margin-left: 0;
@@ -1164,6 +1164,30 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
     margin-left: 0;
     margin-right: 0;
   }
+  /* Desktop-only compression so the hero fits in one 1080p viewport */
+  .hero-brand { margin-bottom: 2px !important; }
+  .hero-tagline { margin-bottom: 12px !important; }
+  .hero-rule-1 { margin: 8px 0 !important; }
+  .hero-confession { line-height: 1.5 !important; margin-bottom: 0 !important; }
+  .hero-rule-2 { margin: 6px 0 !important; }
+  .hero-reframe-line {
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    line-height: 0.85 !important;
+    margin-bottom: 0 !important;
+  }
+  .hero-rule-3 { margin: 6px 0 !important; }
+  .hero-pivot-line {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem) !important;
+  }
+  .hero-pivot-wrap { margin-bottom: 8px !important; }
+  .hero-subtext {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 12px !important;
+  }
+  .hero-cta-compact { padding: 14px 36px !important; }
+  .hero-cta-wrap { margin-bottom: 0 !important; }
+  .hero-meta-wrap { margin-top: 6px !important; }
 }
 @media (max-width: 768px) {
   .hero-reframe-line {
