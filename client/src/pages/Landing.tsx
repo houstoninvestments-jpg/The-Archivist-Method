@@ -1700,6 +1700,8 @@ export default function Landing() {
         <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
           <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
         </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 3, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
           <p data-testid="text-brand-name" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}>THE ARCHIVIST METHOD™</p>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "rgba(20,184,166,0.5)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.5s forwards" }}>PATTERN ARCHAEOLOGY, NOT THERAPY</p>
