@@ -1079,7 +1079,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
 }
 @media (max-width: 768px) {
   .hero-video {
-    object-position: 60% center !important;
+    object-position: 70% center !important;
   }
 }
 @media (min-width: 769px) {
