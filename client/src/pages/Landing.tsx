@@ -5,7 +5,8 @@ import ImmersiveFrames from "@/components/ImmersiveFrames";
 import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
-const heroSeatedImg = "/hero-archivist-seated.webp";
+const heroVideoSrc = "/hero-loop-final.mp4";
+const heroPosterImg = "/hero-poster.jpg";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
@@ -1651,124 +1652,27 @@ export default function Landing() {
 
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
-        <div className="hero-parallax-bg" style={{ position: "absolute", inset: "-30% 0", zIndex: 0, willChange: "transform" }}>
-          <img
-            src={heroSeatedImg}
-            loading="eager"
-            decoding="sync"
-            // @ts-ignore - fetchpriority is valid HTML but React doesn't recognize it
-            fetchpriority="high"
-            width={1920}
-            height={1080}
-            alt="The Archivist Method"
-            className="lcp-image"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center top",
-            }}
-          />
+        <div style={{ position: "absolute", inset: "-5% 0", zIndex: 0, willChange: "transform" }}>
+          <video autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}>
+            <source src={heroVideoSrc} type="video/mp4" />
+          </video>
         </div>
-        <div className="absolute inset-0 z-0 hero-overlay" />
-
-        {/* Scanline — single 1px line drifting top to bottom */}
-        <div style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.5) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
           <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
         </div>
-
         <div className="text-center max-w-3xl mx-auto relative z-10" style={{ padding: "80px 0" }}>
-
-          {/* Brand label */}
-          <p
-            data-testid="text-brand-name"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}
-          >
-            THE ARCHIVIST METHOD™
-          </p>
-
-          {/* Top teal rule — draws left to right */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
-            <div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 0.6s forwards" }} />
-          </div>
-
-          {/* // SUBJECT FILE LOADING... — slides in from left */}
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "rgba(20,184,166,0.55)", letterSpacing: "0.1em", marginBottom: "32px", opacity: 0, animation: "heroSlideLeft 0.5s ease 1.0s forwards" }}>
-            // SUBJECT FILE LOADING...
-          </p>
-
-          {/* Confessional lines — reveal upward */}
-          {(["You\u2019ve watched yourself do it.", "You\u2019ve tried to stop.", "You did it anyway."] as const).map((line, i) => (
-            <p key={line} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(0.9rem, 2vw, 1.05rem)", color: "rgba(250,250,250,0.6)", letterSpacing: "0.02em", lineHeight: 1.9, marginBottom: "4px", opacity: 0, animation: `heroRevealUp 0.5s ease ${1.5 + i * 0.4}s forwards` }}>
-              {line}
-            </p>
-          ))}
-
-          {/* First separator */}
-          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 2.7s forwards" }} />
-          </div>
-
-          {/* Reframe lines — drop in from above */}
-          {(["THAT\u2019S NOT WHO YOU ARE.", "THAT\u2019S A PATTERN RUNNING."] as const).map((line, i) => (
-            <p key={line} style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)", color: "#FAFAFA", fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "4px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${3.0 + i * 0.4}s forwards` }}>
-              {line}
-            </p>
-          ))}
-
-          {/* Second separator */}
-          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-            <div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 3.8s forwards" }} />
-          </div>
-
-          {/* Final line — CRT flicker + blinking cursor */}
-          <div style={{ marginBottom: "32px" }}>
-            <span
-              data-testid="text-brand-title"
-              style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2rem, 5vw, 3.8rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 4.2s forwards" }}
-            >
-              THE PATTERN HAS A NAME.
-            </span>
-            <span
-              style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 4.8s forwards, heroCursorBlink 0.9s step-end 4.8s infinite" }}
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Subtext */}
-          <p
-            data-testid="text-hero-positioning"
-            style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 44px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 5.0s forwards" }}
-          >
-            Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method.
-          </p>
-
-          {/* CTA button */}
-          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 5.5s forwards", marginBottom: "20px" }}>
-            <Link
-              href="/quiz"
-              data-testid="button-cta"
-              style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.15)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
-            >
-              IDENTIFY MY PATTERN — FREE →
-            </Link>
-          </div>
-
-          {/* Meta + tagline */}
-          <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 6.0s forwards" }}>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px" }}>
-              2 MINUTES · 9 PATTERNS · INSTANT RESULTS
-            </p>
-            <p
-              data-testid="text-brand-tagline"
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em" }}
-            >
-              PATTERN ARCHAEOLOGY, <span style={{ color: "#EC4899" }}>NOT</span> THERAPY.
-            </p>
-          </div>
-
+          <p data-testid="text-brand-name" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}>THE ARCHIVIST METHOD™</p>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "rgba(20,184,166,0.5)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.5s forwards" }}>PATTERN ARCHAEOLOGY, NOT THERAPY</p>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}><div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 0.8s forwards" }} /></div>
+          {(["\u201CYou\u2019ve watched yourself do it.\u201D", "\u201CYou\u2019ve tried to stop.\u201D", "\u201CYou did it anyway.\u201D"] as const).map((line, i) => (<p key={i} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(0.9rem, 2vw, 1.05rem)", color: "rgba(250,250,250,0.65)", letterSpacing: "0.02em", lineHeight: 1.9, marginBottom: "4px", opacity: 0, animation: `heroRevealUp 0.5s ease ${1.2 + i * 0.35}s forwards` }}>{line}</p>))}
+          <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}><div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 2.3s forwards" }} /></div>
+          {(["THAT\u2019S NOT WHO YOU ARE.", "THAT\u2019S A PATTERN RUNNING."] as const).map((line, i) => (<p key={i} style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.2rem, 5.5vw, 4rem)", color: "#FAFAFA", fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "4px", opacity: 0, animation: `heroDropIn 0.5s cubic-bezier(0.16,1,0.3,1) ${2.6 + i * 0.4}s forwards` }}>{line}</p>))}
+          <div style={{ display: "flex", justifyContent: "center", margin: "24px 0" }}><div style={{ height: "1px", width: "40px", background: "#14B8A6", opacity: 0, animation: "heroFadeIn 0.4s ease 3.4s forwards" }} /></div>
+          <div style={{ marginBottom: "28px" }}><span data-testid="text-brand-title" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", color: "#14B8A6", letterSpacing: "0.04em", opacity: 0, animation: "heroCrtFlicker 0.7s ease 3.8s forwards" }}>THE PATTERN HAS A NAME.</span><span style={{ display: "inline-block", width: "0.55em", height: "0.8em", background: "#14B8A6", marginLeft: "6px", verticalAlign: "middle", opacity: 0, animation: "heroFadeIn 0.01s ease 4.4s forwards, heroCursorBlink 0.9s step-end 4.4s infinite" }} aria-hidden="true" /></div>
+          <p data-testid="text-hero-positioning" style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "rgba(250,250,250,0.55)", maxWidth: "500px", margin: "0 auto 32px", lineHeight: 1.8, opacity: 0, animation: "heroRevealUp 0.6s ease 4.6s forwards" }}>Your body sends a signal 3 to 7 seconds before it fires. That signal is learnable. This is the method.</p>
+          <div style={{ opacity: 0, animation: "heroRevealUp 0.6s ease 5.0s forwards", marginBottom: "16px" }}><Link href="/quiz" data-testid="button-cta" style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.15)"; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>IDENTIFY MY PATTERN — FREE →</Link></div>
+          <div style={{ opacity: 0, animation: "heroFadeIn 0.6s ease 5.4s forwards" }}><p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "0.2em" }}>2 MINUTES · 9 PATTERNS · INSTANT RESULTS</p></div>
         </div>
       </section>
 
