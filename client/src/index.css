@@ -1048,8 +1048,22 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes heroClipReveal {
-  from { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); opacity: 1; }
-  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); opacity: 1; }
+  0% { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); opacity: 0; }
+  1% { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); opacity: 1; }
+  100% { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@keyframes heroTypewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes heroCursorFade {
+  0% { border-color: rgba(250,250,250,0.5); }
+  50% { border-color: transparent; }
+  100% { border-color: rgba(250,250,250,0.5); }
+}
+@keyframes heroCursorHide {
+  from { border-color: transparent; }
+  to { border-color: transparent; }
 }
 @keyframes heroTealPulse {
   0% { opacity: 0; text-shadow: 0 0 40px rgba(20,184,166,0.8); }
@@ -1214,7 +1228,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   50%      { box-shadow: 0 0 22px 2px rgba(0, 255, 194, 0); }
 }
 .hero-cta-pulse {
-  animation: heroCtaPulse 1.8s ease-in-out 11.1s infinite;
+  animation: heroCtaPulse 1.8s ease-in-out 10.6s infinite;
 }
 .hero-searchlight {
   color: rgba(250, 250, 250, 0.85);
