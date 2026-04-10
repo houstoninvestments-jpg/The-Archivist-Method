@@ -1225,6 +1225,19 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   color: #00FFC2;
   text-shadow: 0 0 12px rgba(0, 255, 194, 0.6), 0 0 26px rgba(0, 255, 194, 0.25);
 }
+.feir-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .feir-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .sector-redacted {
   position: relative;
   display: inline-block;

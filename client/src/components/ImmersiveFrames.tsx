@@ -567,17 +567,38 @@ export default function ImmersiveFrames() {
 
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.9rem',
-              color: '#94A3B8',
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 400,
+              fontSize: '1.15rem',
+              color: 'rgba(250,250,250,0.5)',
               textAlign: 'center',
               maxWidth: '480px',
-              margin: '0 auto',
-              lineHeight: 1.7,
+              margin: '0 auto 48px',
+              lineHeight: 1.5,
             }}
           >
             Four moments. Each one lives in your nervous system right now.
           </p>
+
+          <div className="feir-grid">
+            <div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#14B8A6', letterSpacing: '-0.02em', marginBottom: '8px' }}>01 FOCUS</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.8rem', color: 'rgba(250,250,250,0.5)', lineHeight: 1.6 }}>Name the pattern. See it clearly for the first time.</p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#14B8A6', letterSpacing: '-0.02em', marginBottom: '8px' }}>02 EXCAVATE</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.8rem', color: 'rgba(250,250,250,0.5)', lineHeight: 1.6 }}>Trace it back. Find the root signal your body learned.</p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#14B8A6', letterSpacing: '-0.02em', marginBottom: '8px' }}>03 INTERRUPT</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.8rem', color: 'rgba(250,250,250,0.5)', lineHeight: 1.6 }}>Catch the 3-7 second window. Break the circuit before it fires.</p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#14B8A6', letterSpacing: '-0.02em', marginBottom: '8px' }}>04 REWRITE</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.8rem', color: 'rgba(250,250,250,0.5)', lineHeight: 1.6 }}>Install a new response. The pattern loses its grip.</p>
+            </div>
+          </div>
         </div>
       </div>
 

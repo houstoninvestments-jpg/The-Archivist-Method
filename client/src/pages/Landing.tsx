@@ -1330,7 +1330,7 @@ function ExitInterviewSection() {
   const isHeadlineBeat = currentBeat?.number === "HEADLINE" || sequenceComplete;
 
   return (
-    <section ref={sectionObserverRef} className="py-24 md:py-32 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
+    <section ref={sectionObserverRef} className="py-20 px-6" data-testid="section-final-cta" style={{ position: "relative" }}>
       <div className="max-w-3xl mx-auto text-center" style={{ minHeight: "280px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
 
         {!sequenceComplete && currentBeat && !isBlankBeat && !isHeadlineBeat && (
@@ -1449,8 +1449,8 @@ function TheWindowSection() {
       style={{
         position: "relative",
         background: "#000",
-        paddingTop: "120px",
-        paddingBottom: "120px",
+        paddingTop: "80px",
+        paddingBottom: "80px",
       }}
     >
       <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
@@ -1730,7 +1730,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 2: GUT CHECK ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
@@ -1750,7 +1750,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 3: THE 9 PATTERNS ========== */}
-      <section className="py-24 md:py-32" data-testid="section-patterns" style={{ position: "relative" }}>
+      <section className="py-20" data-testid="section-patterns" style={{ position: "relative" }}>
         <SectorLabel text="ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY" />
         <div className="px-8 md:px-16" style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "1100px", width: "100%" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
@@ -1782,7 +1782,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 4: CTA BREAK ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
           <div
             style={{
@@ -1884,7 +1884,7 @@ export default function Landing() {
 
 
       {/* ========== SECTION 4.75: THE COST OF WAITING ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
+      <section className="py-20 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
           <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
@@ -1931,38 +1931,38 @@ export default function Landing() {
       <TheWindowSection />
 
       {/* ========== SECTION 6: THIS IS FOR YOU / NOT FOR YOU ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-who-for" style={{ position: "relative" }}>
         <div className="max-w-5xl mx-auto">
-          <div className="text-center" style={{ marginBottom: "48px" }}>
+          <div className="text-center" style={{ marginBottom: "32px" }}>
             <SectionLabel>WHO THIS IS FOR</SectionLabel>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
             {/* For You */}
-            <div className="fade-section" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+            <div className="fade-section flex flex-col" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
+              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "20px" }}>
                 This Is For You If:
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-4" style={{ flex: 1 }}>
                 {forYouProse.map((item, i) => (
-                  <p key={i} style={{ fontFamily: "'Inter', sans-serif", color: "#bbb", fontSize: "0.95rem", lineHeight: 1.7 }}>
+                  <p key={i} style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#bbb", fontSize: "0.95rem", lineHeight: 1.7 }}>
                     {item}
                   </p>
                 ))}
               </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "32px", opacity: 0.7 }}>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "24px", opacity: 0.7 }}>
                 — Field Notes, The Archivist
               </p>
             </div>
 
             {/* Not For You */}
-            <div className="fade-section fade-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+            <div className="fade-section fade-delay-2 flex flex-col" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
+              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "20px" }}>
                 This Is Not For You If:
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-4" style={{ flex: 1 }}>
                 {notForYou.map((item, i) => (
-                  <p key={i} style={{ color: "#999", fontSize: "1rem", lineHeight: 1.6 }}>
+                  <p key={i} style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#bbb", fontSize: "0.95rem", lineHeight: 1.7 }}>
                     <span style={{ color: "#EC4899", marginRight: "8px" }}>&mdash;</span>
                     {item}
                   </p>
@@ -1974,17 +1974,17 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 7: HOW IT WORKS ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
         <SectorLabel text="PROTOCOL: FEIR-4 // CLEARANCE: STANDARD" />
         <div className="max-w-6xl mx-auto">
-          <div className="text-center" style={{ marginBottom: "48px" }}>
+          <div className="text-center" style={{ marginBottom: "32px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(2rem, 4vw, 3rem)", color: "white" }} data-testid="text-method-headline">
               The Method
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               { num: "1", name: "MAP THE PATTERN", desc: "Take the free quiz. Find out which of the 9 patterns is running your life. See your triggers, your body signals, and where the pattern started." },
               { num: "2", name: "CATCH THE SIGNATURE", desc: "Learn your 3-second window. Spot the body signal. Apply the circuit break before the pattern runs. One clean interrupt changes everything." },
@@ -1993,12 +1993,12 @@ export default function Landing() {
               <div
                 key={step.num}
                 className={`fade-section fade-delay-${i + 1}`}
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "28px" }}
                 data-testid={`card-step-${step.num}`}
               >
-                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{step.name}</p>
-                <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{step.desc}</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", fontSize: "2.25rem", color: "#14B8A6", marginBottom: "12px", lineHeight: 1 }}>{step.num}</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "0.85rem", color: "white", marginBottom: "12px" }}>{step.name}</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(250,250,250,0.6)", fontSize: "0.9rem", lineHeight: 1.7 }}>{step.desc}</p>
               </div>
             ))}
           </div>
@@ -2010,7 +2010,7 @@ export default function Landing() {
 
 
       {/* ========== SECTION 8.6: THE ARCHIVES ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-credibility" style={{ position: "relative", background: "#0A0A0A", overflow: "hidden" }}>
+      <section className="py-20 px-6" data-testid="section-credibility" style={{ position: "relative", background: "#0A0A0A", overflow: "hidden" }}>
         {/* Subtle dot-grid background */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(20,184,166,0.07) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
         {/* Teal radial glow, top-right */}
@@ -2074,7 +2074,7 @@ export default function Landing() {
 
                 {/* Stat rows */}
                 {[
-                  { value: "4",    label: "FEIR DOORS",           desc: "The four entry points of pattern intervention" },
+                  { value: "4",    label: "THE FOUR DOORS",       desc: "The real-time interruption protocol: Focus, Excavation, Interruption, Rewrite" },
                   { value: "9",    label: "DOCUMENTED PATTERNS",  desc: "Catalogued behavioral sequences, fully mapped" },
                   { value: "3–7",  label: "SECOND WINDOW",        desc: "The only moment where the pattern can be broken" },
                   { value: "24/7", label: "POCKET ARCHIVIST",     desc: "Precision AI deployed inside the window, in real time" },
@@ -2116,7 +2116,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 8.7: BENTO — INSIDE THE ARCHIVE ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-bento-preview" style={{ position: "relative" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "56px" }}>
             <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>WHAT YOU GET</p>
@@ -2163,16 +2163,11 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
-              <div style={{ marginBottom: "16px" }}>
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", background: "#1e1e1e", borderRadius: "12px 12px 2px 12px", padding: "8px 12px", maxWidth: "80%", lineHeight: 1.5 }}>I almost walked out again</p>
-                </div>
-                <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#14B8A6", background: "rgba(20,184,166,0.08)", border: "1px solid rgba(20,184,166,0.2)", borderRadius: "2px 12px 12px 12px", padding: "8px 12px", maxWidth: "90%", lineHeight: 1.5 }}>That's the Disappearing pattern loading. What did you feel in your chest the second before you stood up?</p>
-                </div>
-              </div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Trained on your pattern. Deployed in the window. · $47 and $197</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR PATTERN. IN REAL TIME.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", lineHeight: 1.6, marginBottom: "16px" }}>
+                An AI trained on your specific pattern. It knows your triggers, your body signals, and your circuit break sequence. When the pattern runs, it meets you inside The Gap with the exact interrupt you need. Not generic advice. Your interrupt. Your pattern. Your window.
+              </p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Available in the Field Guide ($67) and Complete Archive ($297)</p>
             </div>
 
             {/* PANEL 3: Body Signature Map */}
@@ -2203,7 +2198,7 @@ export default function Landing() {
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
                 Your nervous system broadcasts the pattern 3–7 seconds before your conscious mind catches up. That gap is the only place interruption is possible. This map teaches you to live in it.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197 · Pattern-specific</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $67 and $297 · Pattern-specific</p>
             </div>
 
             {/* PANEL 4: The Interrupt Protocol */}
@@ -2229,14 +2224,14 @@ export default function Landing() {
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
                 Not a mantra. Not a reframe. A physical sequence trained into the nervous system through repetition — so that when the signal fires, the response is already loaded.
               </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $47 and $197 · Pattern-specific</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $67 and $297 · Pattern-specific</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* ========== SECTION 9: PRICING ========== */}
-      <section className="py-24 md:py-32 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
+      <section className="py-20 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
@@ -2296,7 +2291,7 @@ export default function Landing() {
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$47</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$67</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE FIELD GUIDE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
@@ -2338,7 +2333,7 @@ export default function Landing() {
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$197</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$297</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE COMPLETE ARCHIVE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
@@ -2385,8 +2380,8 @@ export default function Landing() {
               <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
                 {([
                   { id: "crash-course", name: "The Crash Course", amount: 0, label: "FREE" },
-                  { id: "quick-start", name: "The Field Guide", amount: 47, label: "$47" },
-                  { id: "complete-archive", name: "The Complete Archive", amount: 197, label: "$197" },
+                  { id: "quick-start", name: "The Field Guide", amount: 67, label: "$67" },
+                  { id: "complete-archive", name: "The Complete Archive", amount: 297, label: "$297" },
                 ] as const).map((product) => (
                   <button
                     key={product.id}
@@ -2438,7 +2433,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 10.5: THE POCKET ARCHIVIST ========== */}
-      <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <section className="px-6" data-testid="section-pocket-archivist" style={{ position: "relative", paddingTop: "80px", paddingBottom: "80px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <SectorLabel text="THE POCKET ARCHIVIST" />
         <div className="max-w-3xl mx-auto">
           <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "24px" }}>
@@ -2497,7 +2492,7 @@ export default function Landing() {
       <ArchivistDemoModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
 
       {/* ========== SECTION 11: FOUNDER ========== */}
-      <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "120px", paddingBottom: "120px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
+      <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "80px", paddingBottom: "80px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
