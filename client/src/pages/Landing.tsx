@@ -1665,7 +1665,7 @@ export default function Landing() {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-5% 0", zIndex: 0, willChange: "transform" }}>
-          <video id="hero-video" autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}>
+          <video id="hero-video" autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "65% center" }}>
             <source src={heroVideoSrc} type="video/mp4" />
           </video>
         </div>
