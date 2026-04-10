@@ -74870,7 +74870,7 @@ router.post("/checkout/quick-start", async (req, res) => {
       line_items: [
         {
           price: "price_1Scurl11kGDis0LrLDIjwDc9",
-          // Quick-Start $47
+          // Quick-Start $67
           quantity: 1
         }
       ],
@@ -74896,7 +74896,7 @@ router.post("/checkout/complete-archive", async (req, res) => {
       line_items: [
         {
           price: "price_1ScuuG11kGDis0LrWdBlpZ5w",
-          // Complete Archive $197
+          // Complete Archive $297
           quantity: 1
         }
       ],

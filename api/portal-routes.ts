@@ -542,7 +542,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
   }
 });
 
-// Create checkout session for Quick-Start regular ($47)
+// Create checkout session for Quick-Start regular ($67)
 router.post("/checkout/quick-start", async (req: Request, res: Response) => {
   try {
     const baseUrl = process.env.REPLIT_DEV_DOMAIN
@@ -555,7 +555,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $47
+          price: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $67
           quantity: 1,
         },
       ],
@@ -575,7 +575,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
   }
 });
 
-// Create checkout session for Complete Archive ($197)
+// Create checkout session for Complete Archive ($297)
 router.post("/checkout/complete-archive", async (req: Request, res: Response) => {
   try {
     const baseUrl = process.env.REPLIT_DEV_DOMAIN
@@ -588,7 +588,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $197
+          price: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $297
           quantity: 1,
         },
       ],

@@ -149,8 +149,8 @@ function OverviewTab({ stats, users }: { stats: Stats; users: TestUser[] }) {
       >
         <StatCard value={stats.total} label="Total Users" />
         <StatCard value={stats.crashCourse} label="Free Tier" />
-        <StatCard value={stats.quickStart} label="Field Guide ($47)" />
-        <StatCard value={stats.archive} label="Complete Archive ($197)" />
+        <StatCard value={stats.quickStart} label="Field Guide ($67)" />
+        <StatCard value={stats.archive} label="Complete Archive ($297)" />
       </div>
 
       <h3
@@ -493,8 +493,8 @@ function UsersTab({
               data-testid="select-add-tier"
             >
               <option value="crash-course">Free (Crash Course)</option>
-              <option value="quick-start">Field Guide ($47)</option>
-              <option value="archive">Complete Archive ($197)</option>
+              <option value="quick-start">Field Guide ($67)</option>
+              <option value="archive">Complete Archive ($297)</option>
             </select>
             <div style={{ display: "flex", gap: "8px" }}>
               <button

@@ -86,11 +86,11 @@ export default function Terms() {
               </li>
               <li className="flex items-start gap-3">
                 <span style={{ color: COLOR_TEAL }} className="mt-1.5 text-xs">&#9642;</span>
-                <span><strong style={{ color: COLOR_TEXT }}>The Field Guide ($47)</strong> — One-time purchase. Includes your pattern-specific field guide, body signature mapping, interrupt scripts, and AI access.</span>
+                <span><strong style={{ color: COLOR_TEXT }}>The Field Guide ($67)</strong> — One-time purchase. Includes your pattern-specific field guide, body signature mapping, interrupt scripts, and AI access.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span style={{ color: COLOR_TEAL }} className="mt-1.5 text-xs">&#9642;</span>
-                <span><strong style={{ color: COLOR_TEXT }}>The Complete Archive ($197)</strong> — One-time purchase. Includes all 9 patterns fully documented, all four doors, cross-pattern analysis, advanced protocols, and full Vault access.</span>
+                <span><strong style={{ color: COLOR_TEXT }}>The Complete Archive ($297)</strong> — One-time purchase. Includes all 9 patterns fully documented, all four doors, cross-pattern analysis, advanced protocols, and full Vault access.</span>
               </li>
             </ul>
             <p>

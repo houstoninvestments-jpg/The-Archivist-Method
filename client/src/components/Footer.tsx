@@ -9,8 +9,8 @@ const footerLinks = {
   ],
   products: [
     { label: "The Crash Course (Free)", href: "/quiz" },
-    { label: "The Field Guide ($47)", href: "/portal" },
-    { label: "The Complete Archive ($197)", href: "/portal" },
+    { label: "The Field Guide ($67)", href: "/portal" },
+    { label: "The Complete Archive ($297)", href: "/portal" },
   ],
   legal: [
     { label: "Terms of Service", href: "/terms" },

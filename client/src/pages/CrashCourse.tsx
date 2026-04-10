@@ -262,7 +262,7 @@ function UpgradeScreen({ pattern }: { pattern: string }) {
         Your pattern. Full depth. One permanent interrupt at a time.
       </p>
       <p style={{ fontFamily: FONT_BODY, fontSize: '15px', color: C_MUTED, margin: '0 0 32px', lineHeight: 1.75 }}>
-        $47. One time. Yours forever.
+        $67. One time. Yours forever.
       </p>
 
       <a
@@ -283,7 +283,7 @@ function UpgradeScreen({ pattern }: { pattern: string }) {
           boxSizing: 'border-box',
         }}
       >
-        CONTINUE THE WORK — $47 →
+        CONTINUE THE WORK — $67 →
       </a>
 
       <button

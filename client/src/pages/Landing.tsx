@@ -2455,32 +2455,38 @@ export default function Landing() {
 
       {/* ========== SECTION 11: FOUNDER ========== */}
       <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "80px", paddingBottom: "80px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
+        <div style={{ width: "40px", height: "1px", background: "#14B8A6", margin: "0 auto 48px" }} />
         <div className="max-w-3xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
             <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
-              About The Founder
+              WHY THIS EXISTS.
             </h2>
           </div>
 
-          <div className="fade-section fade-delay-2 text-center" style={{ lineHeight: 1.8 }}>
-            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
+          <div className="fade-section fade-delay-2 text-center">
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", lineHeight: 1.8, color: "rgba(250,250,250,0.7)", maxWidth: "640px", margin: "0 auto 24px" }}>
               I built this because I was watching patterns tear apart something I cared about deeply. Someone I love was stuck in the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't break the cycle.
             </p>
-            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "24px" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", lineHeight: 1.8, color: "rgba(250,250,250,0.7)", maxWidth: "640px", margin: "0 auto 24px" }}>
               So I started digging. Hard. Pulling apart every system I could find. Looking for the one thing under all of it that actually worked. Not in six months. Not in theory. Right now. In the middle of the fight. In the middle of the flood.
             </p>
-            <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", lineHeight: 1.8, color: "rgba(250,250,250,0.7)", maxWidth: "640px", margin: "0 auto 48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.4rem", color: "#14B8A6", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.15rem", color: "#AAAAAA", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.15rem", color: "rgba(250,250,250,0.4)", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
+            <div style={{ marginTop: "48px" }}>
+              <Link href="/quiz" style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }} data-testid="link-founder-cta">
+                IDENTIFY MY <span style={{ background: "#14B8A6", color: "#0a0a0a", padding: "0 0.12em" }}>PATTERN</span> — FREE →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -2503,14 +2509,14 @@ export default function Landing() {
               { year: "2000", finding: "The window between stimulus and response is where all change lives.", researcher: "Schwartz, J. · The Mind and the Brain" },
             ].map((card, i) => (
               <div key={i} style={{ background: "#111", borderRadius: "12px", padding: "24px" }} data-testid={`card-evidence-${i}`}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "1.1rem", color: "#14B8A6", fontWeight: 700, marginBottom: "10px" }}>{card.year}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", color: "white", lineHeight: 1.55, marginBottom: "12px" }}>"{card.finding}"</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.5rem", color: "#14B8A6", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "10px" }}>{card.year}</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.9rem", color: "white", lineHeight: 1.55, marginBottom: "12px" }}>"{card.finding}"</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#EC4899", letterSpacing: "0.05em" }}>— {card.researcher}</p>
               </div>
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: "28px" }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "white", lineHeight: 1.6, marginBottom: "10px" }} data-testid="text-evidence-statement">The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", letterSpacing: "-0.02em", color: "white", lineHeight: 1.4, marginBottom: "14px" }} data-testid="text-evidence-statement">The 3-7 second window is not a metaphor. It is a measurable neurological event.</p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "#666", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto" }} data-testid="text-evidence-detail">Every protocol in The Archivist Method is designed to operate inside this window — not before it, not after it. Inside it.</p>
           </div>
           <div style={{ width: "80px", height: "1px", background: "#14B8A6", margin: "32px auto", opacity: 0.4 }} />
@@ -2526,14 +2532,14 @@ export default function Landing() {
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textAlign: "center", marginTop: "24px", letterSpacing: "0.05em" }} data-testid="text-evidence-tagline">This is not self-help. This is applied neuroscience.</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.1rem", color: "#14B8A6", textAlign: "center", marginTop: "24px" }} data-testid="text-evidence-tagline">This is not self-help. This is applied neuroscience.</p>
         </div>
       </section>
 
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
         <div className="max-w-4xl mx-auto text-center">
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.1rem", color: "#14B8A6", fontStyle: "italic", opacity: 0.8 }}>
             "The archive is open. Don't close the door."
           </p>
 

@@ -555,7 +555,7 @@ function PatternFileScreen({ userData, isReturn }: { userData: UserData; isRetur
                   textDecoration: 'none',
                 }}
               >
-                UNLOCK FIELD GUIDE — $47 →
+                UNLOCK FIELD GUIDE — $67 →
               </a>
             </>
           ) : (
