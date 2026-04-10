@@ -1086,9 +1086,6 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   .hero-video {
     object-position: center top !important;
   }
-  .hero-content {
-    transform: translateX(-40px);
-  }
 }
 @keyframes heroCtaPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 194, 0.35); }

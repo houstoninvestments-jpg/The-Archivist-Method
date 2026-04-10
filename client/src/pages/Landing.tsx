@@ -1700,7 +1700,7 @@ export default function Landing() {
         <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
           <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
         </div>
-        <div className="text-center max-w-3xl mx-auto relative z-10 hero-content" style={{ padding: "80px 0" }}>
+        <div className="text-center relative z-10" style={{ padding: "80px 0", position: "absolute", left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: "48rem" }}>
           <p data-testid="text-brand-name" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.2s forwards" }}>THE ARCHIVIST METHOD™</p>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "rgba(20,184,166,0.5)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.4s ease 0.5s forwards" }}>PATTERN ARCHAEOLOGY, NOT THERAPY</p>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}><div style={{ height: "1px", background: "#14B8A6", width: 0, animation: "heroDrawLine 0.5s ease 1.0s forwards" }} /></div>
