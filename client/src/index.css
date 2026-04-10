@@ -1118,6 +1118,15 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   .hero-pivot-line {
     font-size: clamp(1.5rem, 5vw, 2rem) !important;
   }
+  .hero-content-col {
+    padding-top: 50px !important;
+    padding-bottom: 30px !important;
+    gap: 0 !important;
+  }
+  .hero-content-col p,
+  .hero-content-col div {
+    margin-bottom: 8px !important;
+  }
 }
 @keyframes heroDropIn {
   from { opacity: 0; transform: translateY(-18px); }
@@ -1151,7 +1160,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
 }
 @media (max-width: 768px) {
   .hero-video {
-    object-position: 70% center !important;
+    object-position: 75% bottom !important;
   }
 }
 @media (min-width: 769px) {
