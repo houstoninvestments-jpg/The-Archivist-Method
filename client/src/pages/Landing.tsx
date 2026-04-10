@@ -1632,6 +1632,18 @@ export default function Landing() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    if (video) {
+      video.addEventListener('timeupdate', () => {
+        if (video.duration - video.currentTime < 0.3) {
+          video.currentTime = 0;
+          video.play();
+        }
+      });
+    }
+  }, []);
+
 
   return (
     <div ref={pageRef} className="min-h-screen thread-page" style={{ background: "#0A0A0A", color: "#F5F5F5", fontFamily: "'Inter', sans-serif", overflowX: "hidden" }}>
@@ -1653,7 +1665,7 @@ export default function Landing() {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen flex items-center justify-center relative px-6 hero-section-fade" data-testid="section-hero" style={{ overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-5% 0", zIndex: 0, willChange: "transform" }}>
-          <video autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}>
+          <video id="hero-video" autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}>
             <source src={heroVideoSrc} type="video/mp4" />
           </video>
         </div>
