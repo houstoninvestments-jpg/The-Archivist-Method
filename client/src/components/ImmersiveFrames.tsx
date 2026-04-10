@@ -144,11 +144,16 @@ function Frame01() {
           </div>
         </StaggeredEl>
 
-        {/* Line 2 — Bebas Neue headline */}
+        {/* Line 2 — Inter 800 headline */}
         <StaggeredEl delay={400} active={active}>
           <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(3rem, 10vw, 7rem)',
               color: '#FAFAFA',
               lineHeight: 0.95,
@@ -160,12 +165,13 @@ function Frame01() {
           </div>
         </StaggeredEl>
 
-        {/* Line 3 — EB Garamond italic */}
+        {/* Line 3 — Cormorant Garamond italic */}
         <StaggeredEl delay={800} active={active} style={{ marginTop: '2rem' }}>
           <div
             style={{
-              fontFamily: "'EB Garamond', serif",
+              fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
+              fontWeight: 400,
               fontSize: 'clamp(1rem, 2vw, 1.3rem)',
               color: '#FAFAFA',
             }}
@@ -294,7 +300,12 @@ function Frame02() {
         <StaggeredEl delay={1200} active={active}>
           <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(2.5rem, 8vw, 6rem)',
               color: '#FAFAFA',
               lineHeight: 1,
@@ -307,7 +318,12 @@ function Frame02() {
         <StaggeredEl delay={1400} active={active}>
           <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(1.5rem, 5vw, 4rem)',
               color: TEAL,
               lineHeight: 1,
@@ -353,11 +369,15 @@ function Frame03() {
         <StaggeredEl delay={0} active={active}>
           <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(4rem, 14vw, 10rem)',
               color: '#FAFAFA',
               lineHeight: 1,
-              letterSpacing: '0.02em',
+              letterSpacing: '-0.04em',
             }}
           >
             <div>3 TO 7</div>
@@ -389,10 +409,14 @@ function Frame03() {
             <StaggeredEl key={text} delay={delay} active={active}>
               <div
                 style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 800,
+                  fontVariationSettings: "'opsz' 96",
+                  WebkitFontSmoothing: 'antialiased',
+                  textTransform: 'uppercase',
                   fontSize: 'clamp(1rem, 3.5vw, 2.5rem)',
                   color: '#FAFAFA',
-                  letterSpacing: '0.05em',
+                  letterSpacing: '-0.04em',
                 }}
               >
                 {text}
@@ -431,7 +455,12 @@ function Frame04() {
         <StaggeredEl delay={0} active={active}>
           <div
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(3rem, 11vw, 8rem)',
               color: '#FAFAFA',
               lineHeight: 0.9,
@@ -519,7 +548,12 @@ export default function ImmersiveFrames() {
 
           <h2
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
+              textTransform: 'uppercase',
               fontSize: 'clamp(2rem, 5vw, 3rem)',
               color: '#FAFAFA',
               textAlign: 'center',

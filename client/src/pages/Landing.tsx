@@ -90,10 +90,10 @@ function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
       <div style={{ maxWidth: "640px", width: "100%", padding: "80px 24px 64px", margin: "0 auto" }}>
         <div className="text-center" style={{ marginBottom: "48px" }}>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }}>
+          <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2rem, 5vw, 3rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "16px" }}>
             MEET YOUR PATTERN.
           </h2>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.05rem", color: "#14B8A6", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.05rem", color: "#14B8A6", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}>
             Three questions. That's all it takes to feel the difference between insight and interruption.
           </p>
         </div>
@@ -103,7 +103,7 @@ function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
             {aiResponses[1] && aiResponses[1] !== "__ERROR__" && (
               <div style={{ ...aiStyle, textAlign: "left", marginBottom: "48px" }}>{aiResponses[1]}</div>
             )}
-            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(1.5rem, 4vw, 2.25rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
+            <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(1.5rem, 4vw, 2.25rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "32px" }}>
               Your pattern has a name. The exit has a door.
             </h3>
             <div style={{ maxWidth: "320px", margin: "0 auto 16px" }}>
@@ -162,7 +162,7 @@ function ArchivistDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
             {loading ? (
               <div className="text-center" style={{ padding: "20px 0" }}>
-                <span className="animate-pulse" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1rem", color: "#14B8A6" }}>
+                <span className="animate-pulse" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1rem", color: "#14B8A6" }}>
                   Reading your signal...
                 </span>
               </div>
@@ -566,8 +566,9 @@ function EmbeddedSequentialLoading({ containerStyle }: { containerStyle: React.C
         >
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
+              fontWeight: 400,
               fontSize: '1rem',
               color: '#14B8A6',
               lineHeight: 1.6,
@@ -777,7 +778,7 @@ function EmbeddedQuiz() {
       return (
         <div style={containerStyle} data-testid="embedded-quiz-manual-select">
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1.3rem", color: "white", marginBottom: "8px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.3rem", color: "white", marginBottom: "8px" }}>
               Which pattern do you recognize?
             </p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", color: "#999" }}>
@@ -894,7 +895,7 @@ function EmbeddedQuiz() {
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.2em", color: "#14B8A6", fontWeight: 600, marginBottom: "12px" }}>
             Pattern Confirmed
           </p>
-          <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "white", marginBottom: "8px" }}>
+          <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "8px" }}>
             {finalName}
           </h3>
           <div style={{ height: "2px", width: "48px", background: "#14B8A6", margin: "0 auto 12px" }} />
@@ -1080,10 +1081,11 @@ function PatternCard({ card, index, isOpen, onToggle }: { card: typeof patternCa
         marginBottom: "12px",
         letterSpacing: "0.05em",
       }}>{card.num}</p>
-      <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "1rem", color: "white", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "12px" }}>{card.name}</p>
+      <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: "12px" }}>{card.name}</p>
       <p style={{
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "'Cormorant Garamond', serif",
         fontStyle: "italic",
+        fontWeight: 400,
         color: "#14B8A6",
         fontSize: "1rem",
         lineHeight: 1.6,
@@ -1220,8 +1222,9 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
       >
         <p
           style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontWeight: 900,
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 700,
+            letterSpacing: "-0.02em",
             fontSize: "1.2rem",
             textTransform: "uppercase",
             color: hovered ? "#00FFD1" : "white",
@@ -1234,8 +1237,9 @@ function GutCheckItem({ pattern, index, isLast }: { pattern: typeof gutCheckPatt
         <p
           data-testid={`text-gut-desc-${index}`}
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Cormorant Garamond', serif",
             fontStyle: "italic",
+            fontWeight: 400,
             fontSize: "1rem",
             color: hovered ? "#FF2D9B" : "#14B8A6",
             marginTop: "6px",
@@ -1339,8 +1343,11 @@ function ExitInterviewSection() {
           >
             <h2
               style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontWeight: 900,
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                fontVariationSettings: "'opsz' 96",
+                WebkitFontSmoothing: "antialiased",
                 textTransform: "uppercase",
                 fontSize: "clamp(3rem, 8vw, 5rem)",
                 color: "white",
@@ -1373,8 +1380,11 @@ function ExitInterviewSection() {
           <>
             <h2
               style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontWeight: 900,
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                fontVariationSettings: "'opsz' 96",
+                WebkitFontSmoothing: "antialiased",
                 textTransform: "uppercase",
                 fontSize: "clamp(2.5rem, 6vw, 4rem)",
                 color: "white",
@@ -1389,8 +1399,9 @@ function ExitInterviewSection() {
             </h2>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: "italic",
+                fontWeight: 400,
                 fontSize: "1.2rem",
                 color: "#14B8A6",
                 maxWidth: "520px",
@@ -1420,7 +1431,7 @@ function ExitInterviewSection() {
 
         {beatIndex < 0 && (
           <div style={{ opacity: 0 }}>
-            <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white" }}>
+            <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "white" }}>
               The window is closing.
             </h2>
           </div>
@@ -1448,15 +1459,15 @@ function TheWindowSection() {
           THE WINDOW
         </p>
 
-        <h2 className="fade-section" data-testid="text-window-line1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(52px, 8vw, 72px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
+        <h2 className="fade-section" data-testid="text-window-line1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(52px, 8vw, 72px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           YOUR BODY KNEW.
         </h2>
 
-        <p className="fade-section" data-testid="text-window-line2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-line2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto", paddingBottom: "80px" }}>
           Before the thought formed. Before the words came out. Before you did the thing you swore you wouldn't do again.
         </p>
 
-        <h2 className="fade-section" data-testid="text-window-line3" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(64px, 10vw, 96px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
+        <h2 className="fade-section" data-testid="text-window-line3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(64px, 10vw, 96px)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "48px" }}>
           3 TO 7 SECONDS.
         </h2>
 
@@ -1464,15 +1475,15 @@ function TheWindowSection() {
           When a pattern activates, your amygdala fires before your conscious mind catches up. In the seconds that follow — while your brain is fighting to regain control — there's a window. Most people never learn to use it. The Archivist Method is built for exactly that moment.
         </p>
 
-        <h3 className="fade-section" data-testid="text-window-line5" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
+        <h3 className="fade-section" data-testid="text-window-line5" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2, marginBottom: "48px" }}>
           WILLPOWER LIVES IN THE THINKING PART OF YOUR BRAIN.
         </h3>
 
-        <p className="fade-section" data-testid="text-window-line6" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
+        <p className="fade-section" data-testid="text-window-line6" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(20px, 3vw, 24px)", color: "#14B8A6", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto", paddingBottom: "80px" }}>
           Your pattern doesn't live in your thoughts. It lives in your body — processed by the Insular Cortex before a single conscious word loads. Antonio Damasio proved this in 1994. Your body signal isn't anxiety. It's the announcement.
         </p>
 
-        <h3 className="fade-section" data-testid="text-window-line7" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
+        <h3 className="fade-section" data-testid="text-window-line7" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(36px, 5vw, 48px)", color: "white", textTransform: "uppercase", lineHeight: 1.2 }}>
           THE ARCHIVIST METHOD TEACHES YOU WHAT TO DO INSIDE THAT WINDOW.
         </h3>
 
@@ -1722,7 +1733,7 @@ export default function Landing() {
       <section className="py-24 md:py-32 px-6" data-testid="section-gut-check" style={{ position: "relative" }}>
         <SectorLabel text="SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE" />
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
+          <h2 className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "2rem", color: "white", marginBottom: "48px" }} data-testid="text-gut-check-headline">
             You already know which one is yours.
           </h2>
 
@@ -1732,7 +1743,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="fade-section" style={{ fontFamily: "'Inter', sans-serif", color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
+          <p className="fade-section" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, color: "#14B8A6", fontStyle: "italic", fontSize: "1.125rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.5 }}>
             That feeling isn't guilt. It's recognition. It's the starting gun for everything that comes next.
           </p>
         </div>
@@ -1744,10 +1755,10 @@ export default function Landing() {
         <div className="px-8 md:px-16" style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "1100px", width: "100%" }}>
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE PATTERNS</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-patterns-headline">
               9 Destructive Patterns. You're Running at Least One.
             </h2>
-            <p className="fade-section fade-delay-2 mx-auto" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
+            <p className="fade-section fade-delay-2 mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "500px", marginTop: "20px", marginBottom: "40px" }} data-testid="text-patterns-subline">
               "The pattern is not you. It is a program that runs through you. It was installed to protect a child. You are no longer that child."
             </p>
           </div>
@@ -1764,7 +1775,7 @@ export default function Landing() {
             ))}
           </div>
 
-          <p className="fade-section fade-delay-3 text-center mx-auto" style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
+          <p className="fade-section fade-delay-3 text-center mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", fontStyle: "italic", maxWidth: "500px", marginTop: "48px" }} data-testid="text-patterns-footer">
             If you felt something reading one of those — that's your body signal firing right now.
           </p>
         </div>
@@ -1790,7 +1801,11 @@ export default function Landing() {
           <h2
             className="fade-section"
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              fontVariationSettings: "'opsz' 96",
+              WebkitFontSmoothing: 'antialiased',
               fontSize: 'clamp(2.5rem, 6vw, 5rem)',
               color: '#ffffff',
               lineHeight: 0.95,
@@ -1805,8 +1820,9 @@ export default function Landing() {
           <p
             className="fade-section"
             style={{
-              fontFamily: "'EB Garamond', serif",
+              fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
+              fontWeight: 400,
               fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
               color: '#FF2D9B',
               marginBottom: '2rem',
@@ -1875,11 +1891,11 @@ export default function Landing() {
             THE COST
           </p>
 
-          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
+          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
             THE PATTERN ISN'T GETTING WORSE. YOU'RE JUST GETTING BETTER AT HIDING IT.
           </h2>
 
-          <p className="fade-section fade-delay-2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
+          <p className="fade-section fade-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
             Every year it runs, the cost compounds. Not in money. In the relationships you kept at arm's length. The versions of yourself you abandoned right before breakthrough.
           </p>
 
@@ -1897,11 +1913,11 @@ export default function Landing() {
             ))}
           </div>
 
-          <h2 className="fade-section" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
+          <h2 className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
             YOU KNOW EXACTLY WHAT IT'S COSTING YOU.
           </h2>
 
-          <p className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
+          <p className="fade-section" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
             The method doesn't ask you to change who you are. It asks you to catch the signal before the pattern does.
           </p>
 
@@ -1924,7 +1940,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* For You */}
             <div className="fade-section" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is For You If:
               </h3>
               <div className="space-y-5">
@@ -1941,7 +1957,7 @@ export default function Landing() {
 
             {/* Not For You */}
             <div className="fade-section fade-delay-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
+              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "1.5rem", color: "white", marginBottom: "24px" }}>
                 This Is Not For You If:
               </h3>
               <div className="space-y-4">
@@ -1963,7 +1979,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-method-headline">
               The Method
             </h2>
           </div>
@@ -1980,7 +1996,7 @@ export default function Landing() {
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}
                 data-testid={`card-step-${step.num}`}
               >
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "3rem", color: "#14B8A6", marginBottom: "16px" }}>{step.num}</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: "white", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>{step.name}</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6 }}>{step.desc}</p>
               </div>
@@ -2016,11 +2032,11 @@ export default function Landing() {
             {/* LEFT: Headline + copy */}
             <div className="fade-section">
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "20px" }}>THE ARCHIVES</p>
-              <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.75rem, 5.5vw, 4rem)", color: "white", lineHeight: 1.0, marginBottom: "28px" }}>
+              <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(2.75rem, 5.5vw, 4rem)", color: "white", lineHeight: 1.0, marginBottom: "28px" }}>
                 BUILT<br />AROUND<br />ONE THING.
               </h2>
               <div style={{ width: "40px", height: "2px", background: "#14B8A6", marginBottom: "28px" }} />
-              <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.15rem", color: "#14B8A6", lineHeight: 1.65, marginBottom: "20px" }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.15rem", color: "#14B8A6", lineHeight: 1.65, marginBottom: "20px" }}>
                 The moment before you do it again.
               </p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.95rem", color: "#888", lineHeight: 1.75 }}>
@@ -2073,7 +2089,7 @@ export default function Landing() {
                       borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.05)" : "none",
                     }}
                   >
-                    <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2.2rem, 4vw, 2.8rem)", color: "white", lineHeight: 1, minWidth: "72px" }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2.2rem, 4vw, 2.8rem)", color: "white", lineHeight: 1, minWidth: "72px" }}>
                       {item.value}
                     </p>
                     <div>
@@ -2104,10 +2120,10 @@ export default function Landing() {
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <div className="text-center" style={{ marginBottom: "56px" }}>
             <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>WHAT YOU GET</p>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "white", marginBottom: "16px" }} data-testid="text-bento-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", color: "white", marginBottom: "16px" }} data-testid="text-bento-headline">
               BUILT FOR THE MOMENT. NOT THE MORNING AFTER.
             </h2>
-            <p className="fade-section fade-delay-2" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.25rem)", maxWidth: "580px", margin: "0 auto" }}>
+            <p className="fade-section fade-delay-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, color: "#14B8A6", fontSize: "clamp(1.1rem, 2.5vw, 1.25rem)", maxWidth: "580px", margin: "0 auto" }}>
               Most systems teach you what happened. This one intercepts what's about to.
             </p>
           </div>
@@ -2127,7 +2143,7 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE PATTERN FILE</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. FULLY MAPPED.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. FULLY MAPPED.</p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
                 Not a label. A complete behavioral map — your triggers, your body signals, your specific interrupt sequence. Documented so you can use it in real time, not reconstruct it after.
               </p>
@@ -2147,7 +2163,7 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>IT ALREADY KNOWS.</p>
               <div style={{ marginBottom: "16px" }}>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
                   <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", background: "#1e1e1e", borderRadius: "12px 12px 2px 12px", padding: "8px 12px", maxWidth: "80%", lineHeight: 1.5 }}>I almost walked out again</p>
@@ -2172,7 +2188,7 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
               <svg viewBox="0 0 280 24" width="100%" height="24" style={{ marginBottom: "18px", display: "block" }} preserveAspectRatio="none">
                 <polyline points="0,12 60,12 80,12 90,4 100,20 110,8 120,16 130,12 140,12 280,12" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -2203,8 +2219,8 @@ export default function Landing() {
               }}
             >
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 700, fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "13px", color: "#14B8A6", lineHeight: 1.5, marginBottom: "12px" }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "13px", color: "#14B8A6", lineHeight: 1.5, marginBottom: "12px" }}>
                 "The pattern is running. I feel the tightness. I'm choosing to stay."
               </p>
               <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden", marginBottom: "14px" }}>
@@ -2224,7 +2240,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "48px" }}>
             <SectionLabel>CHOOSE YOUR DEPTH</SectionLabel>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-pricing-headline">
               START WITH YOUR PATTERN. GO AS DEEP AS YOU NEED.
             </h2>
           </div>
@@ -2238,8 +2254,8 @@ export default function Landing() {
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>FREE</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE CRASH COURSE</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE CRASH COURSE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   Name the thing you keep doing. Understand why it won't stop on its own.
                 </p>
@@ -2280,9 +2296,9 @@ export default function Landing() {
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>YOUR PATTERN</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$47</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$47</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE FIELD GUIDE</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE FIELD GUIDE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   You know what it is. Now get everything you need to stop it — before it fires.
                 </p>
@@ -2322,9 +2338,9 @@ export default function Landing() {
               </div>
               <div style={{ padding: "0 32px 40px", position: "relative", zIndex: 1, marginTop: "-40px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "8px" }}>ALL 9 PATTERNS</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$197</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "4px" }}>$197</p>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
-                <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE COMPLETE ARCHIVE</p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE COMPLETE ARCHIVE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
                   You've handled yours. Now you can see everyone else's — and your own from every angle.
                 </p>
@@ -2351,10 +2367,10 @@ export default function Landing() {
             </div>
           </div>
 
-          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "0.05em" }} data-testid="text-one-time">
+          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, color: "white", fontSize: "1.1rem", textTransform: "uppercase", marginTop: "40px", letterSpacing: "-0.02em" }} data-testid="text-one-time">
             One-time purchase. No subscriptions. Yours forever.
           </p>
-          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
+          <p className="fade-section fade-delay-3 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", marginTop: "16px", opacity: 0.8 }} data-testid="text-guarantee">
             If you can't name your primary body signal within 7 days, full refund. No explanation needed. No searching required.
           </p>
 
@@ -2428,10 +2444,10 @@ export default function Landing() {
           <p className="fade-section text-center" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "24px" }}>
             THE POCKET ARCHIVIST
           </p>
-          <h2 className="fade-section text-center" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
+          <h2 className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
             IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
           </h2>
-          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
             This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it.
           </p>
 
@@ -2447,7 +2463,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <p className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontStyle: "italic", fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
+          <p className="fade-section text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
             Not a companion. A circuit breaker.
           </p>
 
@@ -2487,7 +2503,7 @@ export default function Landing() {
             <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "#999999", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "16px" }}>
               FIELD NOTES
             </p>
-            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 900, textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
+            <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "2rem", color: "white" }} data-testid="text-founder-headline">
               About The Founder
             </h2>
           </div>
@@ -2502,10 +2518,10 @@ export default function Landing() {
             <p style={{ color: "#ccc", fontSize: "1.1rem", marginBottom: "48px" }}>
               This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones.
             </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.4rem", color: "#F5F5F5", fontStyle: "italic", marginBottom: "20px", letterSpacing: "0.02em" }}>
               For her.
             </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.15rem", color: "#AAAAAA", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "1.15rem", color: "#AAAAAA", fontStyle: "italic", letterSpacing: "0.04em", transform: "rotate(-1.5deg)", display: "inline-block" }}>
               — Aaron
             </p>
           </div>
@@ -2560,7 +2576,7 @@ export default function Landing() {
       {/* ========== FOOTER ========== */}
       <footer style={{ padding: "48px 24px" }}>
         <div className="max-w-4xl mx-auto text-center">
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "13px", color: "#14B8A6", fontStyle: "italic", opacity: 0.6 }}>
             "The archive is open. Don't close the door."
           </p>
 
