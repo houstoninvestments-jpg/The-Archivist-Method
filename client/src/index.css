@@ -1096,7 +1096,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
 }
 @media (min-width: 769px) {
   .hero-grid {
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .hero-content-col {
     text-align: left;
