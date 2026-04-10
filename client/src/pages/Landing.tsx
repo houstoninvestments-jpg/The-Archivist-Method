@@ -1782,7 +1782,7 @@ export default function Landing() {
       </section>
 
       {/* ========== SECTION 4: CTA BREAK ========== */}
-      <section className="py-20 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
+      <section className="pt-20 pb-10 px-6" data-testid="section-cta-break" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto text-center">
           <div
             style={{
@@ -1817,54 +1817,9 @@ export default function Landing() {
             WHY YOU KEEP DOING IT.
           </h2>
 
-          <p
-            className="fade-section"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 400,
-              fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-              color: '#FF2D9B',
-              marginBottom: '2rem',
-              lineHeight: 1.6,
-            }}
-          >
-            Not a personality type. Not a diagnosis.<br />
-            The exact pattern wired into your nervous system —<br />
-            and the interrupt that stops it.
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.15rem", color: "#14B8A6", lineHeight: 1.7, maxWidth: "600px", margin: "0 auto 32px" }}>
+            Your dominant pattern, identified by name. The body signal that fires before it runs. One interrupt you can use in the next 24 hours.
           </p>
-
-          <div
-            className="fade-section"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '0.6rem',
-              marginBottom: '2rem',
-            }}
-          >
-            {[
-              '› Your dominant pattern — identified by name',
-              '› The body signal that fires 3 seconds before it runs',
-              '› One interrupt you can use in the next 24 hours',
-            ].map((item) => (
-              <div
-                key={item}
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.78rem',
-                  color: '#00FFD1',
-                  letterSpacing: '0.1em',
-                  textAlign: 'left',
-                  width: '100%',
-                  maxWidth: '400px',
-                }}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
 
           <div
             style={{
@@ -1872,11 +1827,18 @@ export default function Landing() {
               fontSize: '0.65rem',
               color: '#475569',
               letterSpacing: '0.2em',
-              marginBottom: '2.5rem',
               textTransform: 'uppercase',
             }}
           >
             FREE · NO ACCOUNT · NO EMAIL REQUIRED
+          </div>
+
+          <div style={{ marginTop: "32px" }}>
+            <Link href="/quiz" style={{ display: "inline-block", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFC2", border: "1px solid rgba(0,255,194,0.5)", padding: "18px 48px", background: "rgba(0,255,194,0.04)", transition: "all 0.2s ease", textDecoration: "none" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.9)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 0 24px rgba(0,255,194,0.15)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,255,194,0.04)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,255,194,0.5)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>
+              IDENTIFY MY <span style={{ background: "#14B8A6", color: "#0a0a0a", padding: "0 0.12em" }}>PATTERN</span> — FREE →
+            </Link>
           </div>
 
         </div>
