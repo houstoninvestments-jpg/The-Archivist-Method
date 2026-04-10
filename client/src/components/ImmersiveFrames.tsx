@@ -165,11 +165,11 @@ function Frame01() {
           </div>
         </StaggeredEl>
 
-        {/* Line 3 — Cormorant Garamond italic */}
+        {/* Line 3 — DM Serif Display italic */}
         <StaggeredEl delay={800} active={active} style={{ marginTop: '2rem' }}>
           <div
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'DM Serif Display', serif",
               fontStyle: 'italic',
               fontWeight: 400,
               fontSize: 'clamp(1rem, 2vw, 1.3rem)',
@@ -567,7 +567,7 @@ export default function ImmersiveFrames() {
 
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'DM Serif Display', serif",
               fontStyle: 'italic',
               fontWeight: 400,
               fontSize: '1.15rem',

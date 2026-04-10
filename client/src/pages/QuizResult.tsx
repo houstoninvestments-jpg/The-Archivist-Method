@@ -492,7 +492,7 @@ export default function QuizResult() {
               Your pattern has been filed.
             </h2>
             <p style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontFamily: "'DM Serif Display', Georgia, serif",
               fontSize: '1.2rem',
               fontStyle: 'italic',
               fontWeight: 300,

@@ -34,106 +34,116 @@ function OpeningRitual({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setStep(1), 800),
-      setTimeout(() => setStep(2), 1600),
-      setTimeout(() => setStep(3), 2200),
-      setTimeout(() => { setStep(4); onComplete(); }, 3500),
+      setTimeout(() => setStep(1), 400),   // dot fades in
+      setTimeout(() => setStep(2), 900),   // disclaimer fades in
+      setTimeout(() => setStep(3), 1500),  // PATTERN ARCHAEOLOGY INITIATED
+      setTimeout(() => setStep(4), 2100),  // nervous system line
+      setTimeout(() => setStep(5), 2800),  // BEGIN button
     ];
     return () => timers.forEach(clearTimeout);
-  }, [onComplete]);
+  }, []);
 
   return (
-    <>
-      <style>{`
-        @keyframes pulseRing {
-          0% { transform: translate(-50%,-50%) scale(0.3); opacity: 0.7; }
-          100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
-        }
-      `}</style>
-      <div
+    <div
+      style={{
+        position: 'fixed', inset: 0,
+        background: '#0a0a0a',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        padding: '40px 24px',
+        zIndex: 100,
+      }}
+    >
+      {/* Simple teal dot */}
+      <div style={{
+        width: '10px',
+        height: '10px',
+        borderRadius: '50%',
+        background: '#14B8A6',
+        boxShadow: '0 0 20px rgba(20,184,166,0.5)',
+        marginBottom: '48px',
+        opacity: step >= 1 ? 1 : 0,
+        transition: 'opacity 700ms ease',
+      }} />
+
+      {/* Crisis disclaimer */}
+      <p style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        color: 'rgba(250,250,250,0.6)',
+        lineHeight: 1.8,
+        textAlign: 'center',
+        maxWidth: '520px',
+        margin: '0 auto 40px',
+        opacity: step >= 2 ? 1 : 0,
+        transition: 'opacity 700ms ease',
+      }}>
+        Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the 988 Suicide &amp; Crisis Lifeline first. The archive will be here when you're ready.
+      </p>
+
+      {/* Label */}
+      <p style={{
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: '0.75rem',
+        color: '#14B8A6',
+        letterSpacing: '0.3em',
+        textTransform: 'uppercase',
+        marginBottom: '20px',
+        opacity: step >= 3 ? 1 : 0,
+        transition: 'opacity 700ms ease',
+      }}>
+        PATTERN ARCHAEOLOGY INITIATED
+      </p>
+
+      {/* Nervous system line */}
+      <p style={{
+        fontFamily: "'DM Serif Display', serif",
+        fontStyle: 'italic',
+        fontWeight: 400,
+        fontSize: 'clamp(1.3rem, 3vw, 1.7rem)',
+        color: '#FAFAFA',
+        textAlign: 'center',
+        marginBottom: '56px',
+        maxWidth: '560px',
+        lineHeight: 1.4,
+        opacity: step >= 4 ? 1 : 0,
+        transform: step >= 4 ? 'translateY(0)' : 'translateY(8px)',
+        transition: 'opacity 700ms ease, transform 700ms ease',
+      }}>
+        Your nervous system already knows the answers.
+      </p>
+
+      {/* BEGIN button */}
+      <button
+        type="button"
         onClick={onComplete}
+        data-testid="button-opening-begin"
         style={{
-          position: 'fixed', inset: 0,
-          background: '#000000',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', zIndex: 100,
+          display: 'inline-block',
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.8rem',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: '#00FFC2',
+          border: '1px solid rgba(0,255,194,0.5)',
+          padding: '18px 48px',
+          background: 'rgba(0,255,194,0.04)',
+          cursor: 'pointer',
+          opacity: step >= 5 ? 1 : 0,
+          transition: 'opacity 700ms ease, background 0.2s ease, border-color 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,194,0.08)';
+          (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,255,194,0.9)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = 'rgba(0,255,194,0.04)';
+          (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,255,194,0.5)';
         }}
       >
-        {/* Pulse rings */}
-        <div style={{ position: 'relative', width: '120px', height: '120px', marginBottom: '48px' }}>
-          {[0, 1, 2].map(i => (
-            <div key={i} style={{
-              position: 'absolute',
-              top: '50%', left: '50%',
-              width: '80px', height: '80px',
-              border: '1px solid #00FFD1',
-              borderRadius: '50%',
-              animation: 'pulseRing 2s ease-out infinite',
-              animationDelay: `${i * 0.6}s`,
-            }} />
-          ))}
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: '8px', height: '8px',
-            background: '#00FFD1', borderRadius: '50%',
-          }} />
-        </div>
-
-        {/* Crisis redirect */}
-        <p style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: '0.85rem',
-          color: '#999',
-          lineHeight: 1.6,
-          textAlign: 'center',
-          maxWidth: '480px',
-          marginBottom: '32px',
-        }}>
-          Before we begin — if you're currently experiencing thoughts of self-harm or suicide, this isn't the right starting point. Please reach out to the 988 Suicide &amp; Crisis Lifeline first. The archive will be here when you're ready.
-        </p>
-
-        {/* Text sequence */}
-        <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.75rem',
-          color: '#00FFD1',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          marginBottom: '24px',
-          opacity: step >= 1 ? 1 : 0,
-          transition: 'opacity 600ms ease',
-        }}>
-          PATTERN ARCHAEOLOGY INITIATED
-        </p>
-
-        <p style={{
-          fontFamily: "'EB Garamond', Georgia, serif",
-          fontStyle: 'italic',
-          fontSize: '1.3rem',
-          color: '#FAFAFA',
-          marginBottom: '12px',
-          opacity: step >= 2 ? 1 : 0,
-          transform: step >= 2 ? 'translateY(0)' : 'translateY(8px)',
-          transition: 'opacity 600ms ease, transform 600ms ease',
-        }}>
-          Your nervous system already knows the answers.
-        </p>
-
-        <p style={{
-          fontFamily: "'EB Garamond', Georgia, serif",
-          fontStyle: 'italic',
-          fontSize: '1.3rem',
-          color: '#EC4899',
-          opacity: step >= 3 ? 1 : 0,
-          transform: step >= 3 ? 'translateY(0)' : 'translateY(8px)',
-          transition: 'opacity 600ms ease, transform 600ms ease',
-        }}>
-          Just tell the truth.
-        </p>
-      </div>
-    </>
+        BEGIN →
+      </button>
+    </div>
   );
 }
 

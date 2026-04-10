@@ -1052,9 +1052,17 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   1% { clip-path: inset(100% 0 0 0); -webkit-clip-path: inset(100% 0 0 0); opacity: 1; }
   100% { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); opacity: 1; }
 }
-@keyframes heroTypewriter {
+@keyframes heroTypewriter1 {
   from { width: 0; }
-  to { width: var(--tw-target, 100%); }
+  to { width: 32ch; }
+}
+@keyframes heroTypewriter2 {
+  from { width: 0; }
+  to { width: 22ch; }
+}
+@keyframes heroTypewriter3 {
+  from { width: 0; }
+  to { width: 20ch; }
 }
 @keyframes heroCursorFade {
   0% { border-color: rgba(250,250,250,0.5); }
@@ -1066,9 +1074,9 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   to { border-color: transparent; }
 }
 @keyframes heroTealPulse {
-  0% { opacity: 0; text-shadow: 0 0 40px rgba(20,184,166,0.8); }
-  50% { opacity: 1; text-shadow: 0 0 20px rgba(20,184,166,0.4); }
-  100% { opacity: 1; text-shadow: none; }
+  0% { opacity: 0; visibility: visible; text-shadow: 0 0 40px rgba(20,184,166,0.8); }
+  50% { opacity: 1; visibility: visible; text-shadow: 0 0 20px rgba(20,184,166,0.4); }
+  100% { opacity: 1; visibility: visible; text-shadow: none; }
 }
 @keyframes ambientEdgeGlow {
   0% {

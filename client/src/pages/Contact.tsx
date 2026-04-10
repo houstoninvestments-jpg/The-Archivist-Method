@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { Mail, Send, ArrowRight } from 'lucide-react';
-import ArchivistIcon from '@/components/ArchivistIcon';
 
-const FONT_PLAYFAIR = "'Bebas Neue', sans-serif";
 const FONT_BODY = "'Inter', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
-const COLOR_BG = "#0A0A0A";
-const COLOR_TEXT = "#F5F5F5";
+const COLOR_BG = "#0a0a0a";
+const COLOR_TEXT = "#FAFAFA";
 const COLOR_MUTED = "#999999";
 const COLOR_TEAL = "#14B8A6";
 const COLOR_PINK = "#EC4899";
 const CARD_BG = "rgba(255,255,255,0.03)";
 const CARD_BORDER = "rgba(255,255,255,0.06)";
+const BODY_COLOR = "rgba(250,250,250,0.7)";
+
+const bodyParagraphStyle = {
+  fontFamily: FONT_BODY,
+  fontWeight: 400,
+  fontSize: "0.95rem",
+  lineHeight: 1.8,
+  color: BODY_COLOR,
+};
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -31,33 +38,30 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: COLOR_BG, fontFamily: FONT_BODY }}>
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm" style={{ background: "rgba(10,10,10,0.95)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-[800px] mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <ArchivistIcon size={36} />
-            <span className="font-bold text-lg" style={{ color: COLOR_TEXT, fontFamily: FONT_PLAYFAIR }}>
-              The Archivist Method
-            </span>
-          </a>
-        </div>
-      </nav>
-
       <main className="flex-1 pt-28 pb-20 px-6">
         <div className="max-w-[800px] mx-auto">
           <p
-            className="text-xs tracking-[0.3em] uppercase mb-4"
-            style={{ color: COLOR_MUTED, fontFamily: FONT_MONO }}
+            className="mb-4"
+            style={{ color: COLOR_MUTED, fontFamily: FONT_MONO, fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase" }}
           >
             GET IN TOUCH
           </p>
           <h1
-            className="text-4xl md:text-5xl font-bold mb-6"
-            style={{ fontFamily: FONT_PLAYFAIR, color: COLOR_TEXT }}
+            className="mb-6"
+            style={{
+              fontFamily: FONT_BODY,
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              textTransform: "uppercase",
+              fontSize: "clamp(2rem, 5vw, 3.25rem)",
+              color: COLOR_TEXT,
+              lineHeight: 1.05,
+            }}
             data-testid="text-contact-headline"
           >
             Contact
           </h1>
-          <p className="text-base leading-relaxed mb-12" style={{ color: "#A3A3A3" }}>
+          <p className="mb-12" style={bodyParagraphStyle}>
             Questions about your pattern, your access tier, or how the method works? Reach out directly.
           </p>
 
@@ -176,21 +180,21 @@ export default function Contact() {
 
       <footer className="py-16 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-[800px] mx-auto text-center space-y-4">
-          <p className="text-sm leading-relaxed" style={{ color: COLOR_MUTED }}>
+          <p style={{ ...bodyParagraphStyle, fontSize: "0.85rem", color: COLOR_MUTED }}>
             Built in the fire. Years of observation. Systematized December 2025.
           </p>
-          <p className="text-xs italic" style={{ color: "#525252" }}>
+          <p style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontSize: "0.85rem", color: "#525252" }}>
             — The Archivist
           </p>
           <div className="pt-6">
-            <p className="text-xs" style={{ color: "#525252" }}>
+            <p className="text-xs" style={{ color: "#525252", fontFamily: FONT_BODY }}>
               &copy; 2026 The Archivist Method&trade;. Pattern archaeology, <span style={{ color: COLOR_PINK }}>not</span> therapy.
             </p>
           </div>
           <div className="flex justify-center gap-6 pt-2">
-            <Link href="/terms" className="text-xs transition-colors" style={{ color: "#525252" }}>Terms</Link>
-            <Link href="/privacy" className="text-xs transition-colors" style={{ color: "#525252" }}>Privacy</Link>
-            <Link href="/contact" className="text-xs transition-colors" style={{ color: "#525252" }}>Contact</Link>
+            <Link href="/terms" className="text-xs transition-colors" style={{ color: "#525252", fontFamily: FONT_BODY }}>Terms</Link>
+            <Link href="/privacy" className="text-xs transition-colors" style={{ color: "#525252", fontFamily: FONT_BODY }}>Privacy</Link>
+            <Link href="/contact" className="text-xs transition-colors" style={{ color: "#525252", fontFamily: FONT_BODY }}>Contact</Link>
           </div>
         </div>
       </footer>
