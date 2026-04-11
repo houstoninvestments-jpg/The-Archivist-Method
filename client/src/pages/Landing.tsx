@@ -1714,8 +1714,19 @@ export default function Landing() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 3, pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
-          <p className="hero-brand" data-testid="text-brand-name" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", letterSpacing: "0.3em", textTransform: "uppercase", fontVariant: "small-caps", marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.5s ease 0s forwards" }}>THE ARCHIVIST METHOD™</p>
-          <p className="hero-tagline" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "rgba(20,184,166,0.5)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "36px", opacity: 0, animation: "heroFadeIn 0.5s ease 0.3s forwards" }}>PATTERN ARCHAEOLOGY, NOT THERAPY</p>
+          <img
+            className="hero-logo"
+            src="/logo-stacked-transparent.svg"
+            alt="The Archivist Method - Pattern Archaeology, Not Therapy"
+            data-testid="img-hero-logo"
+            style={{
+              width: "clamp(280px, 35vw, 420px)",
+              height: "auto",
+              marginBottom: "24px",
+              opacity: 0,
+              animation: "heroFadeIn 0.6s ease 0.2s forwards",
+            }}
+          />
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 1.0s both, heroTypewriter1 1.2s steps(32, end) 1.0s both, heroCursorFade 0.5s linear 1.0s infinite, heroCursorHide 0.01s linear 2.5s forwards" }}>{"\u201CYou\u2019ve watched yourself do it.\u201D"}</span></p>
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 2.5s both, heroTypewriter2 0.8s steps(23, end) 2.5s both, heroCursorFade 0.5s linear 2.5s infinite, heroCursorHide 0.01s linear 3.8s forwards" }}>{"\u201CYou\u2019ve tried to stop.\u201D"}</span></p>
