@@ -1714,13 +1714,13 @@ export default function Landing() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 3, pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
-          <div className="hero-brand-block" data-testid="hero-brand-block" style={{ marginBottom: "16px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
-            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.7rem", color: "rgba(240,244,248,0.45)", letterSpacing: "1.2em", textTransform: "uppercase", marginBottom: "4px" }}>THE</p>
-            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "2px" }}>ARCHIVIST</p>
-            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2.2rem, 6vw, 3.8rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "8px" }}>METHOD</p>
+          <div className="hero-brand-block" data-testid="hero-brand-block" style={{ marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
+            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.6rem, 4.5vw, 2.8rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "6px" }}>
+              <span style={{ fontSize: "0.5em", color: "rgba(240,244,248,0.45)", letterSpacing: "0.8em", marginRight: "0.3em" }}>THE</span>ARCHIVIST METHOD
+            </p>
             <p style={{ marginBottom: "0" }}>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.55rem", fontWeight: 300, color: "rgba(240,244,248,0.35)", letterSpacing: "0.4em", textTransform: "uppercase" }}>PATTERN ARCHAEOLOGY, </span>
-              <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "0.75rem", fontStyle: "italic", color: "#EC4899", letterSpacing: "0.05em" }}>not therapy</span>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.5rem", fontWeight: 300, color: "rgba(240,244,248,0.35)", letterSpacing: "0.4em", textTransform: "uppercase" }}>PATTERN ARCHAEOLOGY, </span>
+              <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "0.7rem", fontStyle: "italic", color: "#EC4899", letterSpacing: "0.05em" }}>not therapy</span>
             </p>
           </div>
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />

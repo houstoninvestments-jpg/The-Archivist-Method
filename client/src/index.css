@@ -1249,6 +1249,12 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   0%   { top: -1px; }
   100% { top: 100%; }
 }
+video::-webkit-media-controls {
+  display: none !important;
+}
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+}
 @media (max-width: 768px) {
   .hero-video {
     object-position: 65% 85% !important;
