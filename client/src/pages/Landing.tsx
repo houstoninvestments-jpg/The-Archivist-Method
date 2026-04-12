@@ -1703,7 +1703,25 @@ export default function Landing() {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="min-h-screen relative hero-section-fade hero-grid" data-testid="section-hero" style={{ overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-5% 0", zIndex: 0, willChange: "transform" }}>
-          <video id="hero-video" className="hero-video" autoPlay muted loop playsInline poster={heroPosterImg} style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            webkit-playsinline="true"
+            x-webkit-airplay="deny"
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+            id="hero-video"
+            className="hero-video"
+            poster={heroPosterImg}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              pointerEvents: "none",
+            }}
+          >
             <source src={heroVideoSrc} type="video/mp4" />
           </video>
         </div>
