@@ -1714,19 +1714,15 @@ export default function Landing() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 3, pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
-          <img
-            className="hero-logo"
-            src="/03-primary-stacked-transparent.svg"
-            alt="The Archivist Method - Pattern Archaeology, Not Therapy"
-            data-testid="img-hero-logo"
-            style={{
-              width: "clamp(280px, 35vw, 420px)",
-              height: "auto",
-              marginBottom: "24px",
-              opacity: 0,
-              animation: "heroFadeIn 0.6s ease 0.2s forwards",
-            }}
-          />
+          <div className="hero-brand-block" data-testid="hero-brand-block" style={{ marginBottom: "16px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
+            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.7rem", color: "rgba(240,244,248,0.45)", letterSpacing: "1.2em", textTransform: "uppercase", marginBottom: "4px" }}>THE</p>
+            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2.5rem, 7vw, 4.5rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "2px" }}>ARCHIVIST</p>
+            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2.2rem, 6vw, 3.8rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "8px" }}>METHOD</p>
+            <p style={{ marginBottom: "0" }}>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.55rem", fontWeight: 300, color: "rgba(240,244,248,0.35)", letterSpacing: "0.4em", textTransform: "uppercase" }}>PATTERN ARCHAEOLOGY, </span>
+              <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "0.75rem", fontStyle: "italic", color: "#EC4899", letterSpacing: "0.05em" }}>not therapy</span>
+            </p>
+          </div>
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 1.0s both, heroTypewriter1 1.2s steps(32, end) 1.0s both, heroCursorFade 0.5s linear 1.0s infinite, heroCursorHide 0.01s linear 2.5s forwards" }}>{"\u201CYou\u2019ve watched yourself do it.\u201D"}</span></p>
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 2.5s both, heroTypewriter2 0.8s steps(23, end) 2.5s both, heroCursorFade 0.5s linear 2.5s infinite, heroCursorHide 0.01s linear 3.8s forwards" }}>{"\u201CYou\u2019ve tried to stop.\u201D"}</span></p>
