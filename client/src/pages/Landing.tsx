@@ -1707,12 +1707,13 @@ export default function Landing() {
             <source src={heroVideoSrc} type="video/mp4" />
           </video>
         </div>
-        <div className="hero-overlay-gradient" style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 100%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.5) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "transparent" }} />
+        <div className="hero-overlay-gradient" style={{ position: "absolute", inset: 0, zIndex: 2, background: "linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 100%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.5) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none", overflow: "hidden" }}>
           <div style={{ position: "absolute", left: 0, right: 0, height: "1px", background: "rgba(0,255,194,0.04)", animation: "heroScanline 12s linear infinite" }} />
         </div>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 3, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 4, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
           <div className="hero-brand-block" data-testid="hero-brand-block" style={{ marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
             <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.6rem, 4.5vw, 2.8rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "6px" }}>
