@@ -1716,7 +1716,7 @@ export default function Landing() {
         <div className="hero-content-col">
           <img
             className="hero-logo"
-            src="/logo-stacked-transparent.svg"
+            src="/03-primary-stacked-transparent.svg"
             alt="The Archivist Method - Pattern Archaeology, Not Therapy"
             data-testid="img-hero-logo"
             style={{
