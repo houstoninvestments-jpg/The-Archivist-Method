@@ -1733,14 +1733,41 @@ export default function Landing() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 4, pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
-          <div className="hero-brand-block" data-testid="hero-brand-block" style={{ marginBottom: "12px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
-            <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.6rem, 4.5vw, 2.8rem)", color: "#F0F4F8", letterSpacing: "0.08em", lineHeight: 1.0, marginBottom: "6px" }}>
-              <span style={{ fontSize: "0.5em", color: "rgba(240,244,248,0.45)", letterSpacing: "0.8em", marginRight: "0.3em" }}>THE</span>ARCHIVIST METHOD
-            </p>
-            <p style={{ marginBottom: "0" }}>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.5rem", fontWeight: 300, color: "rgba(240,244,248,0.35)", letterSpacing: "0.4em", textTransform: "uppercase" }}>PATTERN ARCHAEOLOGY, </span>
-              <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "0.7rem", fontStyle: "italic", color: "#EC4899", letterSpacing: "0.05em" }}>not therapy</span>
-            </p>
+          <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'left', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
+            <div style={{
+              fontFamily: "'Cinzel', 'Times New Roman', serif",
+              fontSize: '11px',
+              fontWeight: 400,
+              letterSpacing: '20px',
+              color: 'rgba(240,244,248,0.25)',
+              marginBottom: '8px'
+            }}>THE</div>
+            <div style={{
+              fontFamily: "'Cinzel', 'Times New Roman', serif",
+              fontSize: 'clamp(42px, 7vw, 80px)',
+              fontWeight: 400,
+              letterSpacing: '8px',
+              color: '#F0F4F8',
+              lineHeight: 1.05
+            }}>ARCHIVIST</div>
+            <div style={{
+              fontFamily: "'Cinzel', 'Times New Roman', serif",
+              fontSize: 'clamp(36px, 6vw, 70px)',
+              fontWeight: 400,
+              letterSpacing: '8px',
+              color: '#F0F4F8',
+              lineHeight: 1.05
+            }}>METHOD</div>
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: '10px',
+              fontWeight: 300,
+              letterSpacing: '5px',
+              color: 'rgba(240,244,248,0.22)',
+              marginTop: '16px'
+            }}>
+              PATTERN ARCHAEOLOGY, <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '12px', color: '#FF2D9B', letterSpacing: '1px' }}>not therapy</em>
+            </div>
           </div>
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 1.0s both, heroTypewriter1 1.2s steps(32, end) 1.0s both, heroCursorFade 0.5s linear 1.0s infinite, heroCursorHide 0.01s linear 2.5s forwards" }}>{"\u201CYou\u2019ve watched yourself do it.\u201D"}</span></p>
