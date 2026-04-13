@@ -2030,7 +2030,7 @@ export default function Landing() {
                 The moment before you do it again.
               </p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.95rem", color: "#888", lineHeight: 1.75 }}>
-                Every component exists for one purpose — to give you what you need in the 7 seconds that decide everything. The science behind this window has been documented across decades of peer-reviewed research. TAM is the first consumer system built specifically to use it.
+                Every component exists for one purpose — to give you what you need in the 7 seconds that decide everything. The science behind this window has been documented across decades of peer-reviewed research. The Archivist Method is the first consumer system built specifically to use it.
               </p>
               <div style={{ marginTop: "28px", display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
@@ -2448,10 +2448,6 @@ export default function Landing() {
             </p>
           </div>
 
-          <p className="fade-section text-center" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "600px", margin: "64px auto 0", lineHeight: 1.7 }}>
-            Not a companion. A circuit breaker.
-          </p>
-
           <div className="fade-section text-center" style={{ marginTop: "40px" }}>
             <button
               onClick={() => setDemoModalOpen(true)}
@@ -2496,22 +2492,12 @@ export default function Landing() {
 
           <div className="fade-section fade-delay-2 text-center">
             {[
-              "I was born on a beanbag in a mobile home in Wasilla, Alaska.",
-              "By 11 I was trying to sell things. By 20 I'd been through Christian school, graphic design college, and children's ministry. I built full skateparks on missions trips in Guatemala and Panama with my bare hands. Opened a juice bar and a craft cocktail bar at an eco resort in the Andes mountains of Ecuador. Held my son Bodhi the night he was born in a jungle cabin in Hawaii while lightning cracked outside.",
-              "I drove the country in an RV with my eight kids. Bartended one of the biggest beach bar complexes on South Padre Island. Backpacked through Malaysia and Thailand alone for a month. Got scuba certified in Thai waters. Went rockhounding in Alaska and shipped priority mail boxes of rocks back home because I couldn't leave them. Walked out onto a glacier in Montana and felt something I still can't put into words.",
-              "I jumped out of planes 11 times. One of those jumps, I lost communications in high winds on my first solo and crash landed into a field of wood piles. My instructor told me I handled it perfectly. I was shaking for an hour after.",
-              "I've sat in masterminds, investor pitch dinners, seminars, conferences, NA meetings, trauma therapy offices, and jail. Twice. I've had a very public business failure. I've rebuilt quietly more times than most people have started. I've been in every kind of room you can walk into, and a few you can't walk out of easily.",
-              "Through all of it, I never stopped watching people.",
-              "Nineteen years behind a bar is where it crystallized. People tell bartenders things they won't tell their therapist. There's no clock, no copay, no notes being taken. Just the truth coming out sideways over a drink at 1am because the person across the bar has already seen everything and nothing shocks them anymore.",
-              "After a few thousand of those conversations, across cities and countries and years, the patterns became impossible to miss. The same nine patterns. Running in different people, different decades, different tax brackets. The person who apologizes for ordering a drink. The person who disappears the moment a relationship becomes real. The person who tests the people closest to them until they leave, then calls it proof.",
-              "I was running them too.",
-              "Every pattern I catalogued in other people, I eventually found in myself. I'd build something and burn it right before it worked. Push people away the moment they got close. Overcomplicate the thing that was almost finished. I just didn't have a name for any of it.",
-              "Then I met someone whose patterns were as loud as mine. We could see it happening to each other in real time. Name it mid-sentence. Laugh about it sometimes. And still not stop it. I watched someone I deeply care about suffer under cycles neither of us knew how to break. I could see the pain underneath the behavior, the survival logic that installed it decades ago, the childhood that wrote the code. And I knew, the way you know something in your chest before your brain catches up, that the patterns weren't her. And they weren't me.",
-              "But understanding wasn't the solution. That's the part nobody tells you. You can see the cycle with perfect clarity and still watch yourself complete it. Every therapy model I could find was built for the conversation after. The reflection. The processing. None of them were built for the 3 to 7 seconds before the pattern fires, when your body has already decided and your brain is just along for the ride.",
+              "Nineteen years behind a bar. Thousands of conversations at 1am with people who said things they'd never tell their therapist. No clock, no copay, no notes. Just the truth coming out sideways because the person across the bar had already seen everything.",
+              "After enough of those nights, the patterns became impossible to miss. The same nine loops running in different people, different cities, different decades. The person who apologizes for existing. The one who disappears the moment something gets real. The one who tests everyone closest to them until they leave, then calls it proof.",
+              "I was running them too. Every pattern I catalogued in other people, I eventually found in myself. But understanding wasn't the fix. That's the part nobody tells you. You can see the cycle with perfect clarity and still watch yourself complete it.",
+              "Every therapy model I could find was built for the conversation after. The reflection. The processing. None of them were built for the 3 to 7 seconds before the pattern fires, when your body has already decided and your brain is just along for the ride.",
               "So I stopped looking for more insight and started looking for the interrupt.",
-              "I built The Archivist Method in a van. In an Idaho winter. On bartending tips and a hotspot connection. Between shifts. With ADHD. While broke. While running every single pattern this system is designed to interrupt.",
-              "I didn't build it because I had it figured out. I built it because I was drowning in the same water as everyone else and I needed something that worked in the flood, not after it receded.",
-              "That's not a pitch. That's just what happened.",
+              "I built The Archivist Method in a van, in an Idaho winter, on bartending tips and a hotspot connection. I didn't build it because I had it figured out. I built it because I needed something that worked in the flood, not after it receded.",
             ].map((paragraph, i, arr) => (
               <p key={i} style={{
                 fontFamily: "'DM Serif Display', serif",
