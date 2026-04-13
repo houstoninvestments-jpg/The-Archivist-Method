@@ -1745,7 +1745,7 @@ export default function Landing() {
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
               fontSize: 'clamp(36px, 5.5vw, 64px)',
-              fontWeight: 400,
+              fontWeight: 600,
               letterSpacing: '8px',
               color: '#F0F4F8',
               lineHeight: 1.05
@@ -1753,7 +1753,7 @@ export default function Landing() {
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
               fontSize: 'clamp(30px, 4.8vw, 56px)',
-              fontWeight: 400,
+              fontWeight: 600,
               letterSpacing: '8px',
               color: '#F0F4F8',
               lineHeight: 1.05
