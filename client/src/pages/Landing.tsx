@@ -1740,11 +1740,11 @@ export default function Landing() {
               fontWeight: 400,
               letterSpacing: '20px',
               color: 'rgba(240,244,248,0.25)',
-              marginBottom: '8px'
+              marginBottom: '18px'
             }}>THE</div>
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: 'clamp(42px, 7vw, 80px)',
+              fontSize: 'clamp(36px, 5.5vw, 64px)',
               fontWeight: 400,
               letterSpacing: '8px',
               color: '#F0F4F8',
@@ -1752,7 +1752,7 @@ export default function Landing() {
             }}>ARCHIVIST</div>
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: 'clamp(36px, 6vw, 70px)',
+              fontSize: 'clamp(30px, 4.8vw, 56px)',
               fontWeight: 400,
               letterSpacing: '8px',
               color: '#F0F4F8',
