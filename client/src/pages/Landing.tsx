@@ -1760,13 +1760,13 @@ export default function Landing() {
             }}>METHOD</div>
             <div style={{
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '10px',
+              fontSize: '11.5px',
               fontWeight: 300,
-              letterSpacing: '5px',
-              color: 'rgba(240,244,248,0.22)',
-              marginTop: '16px'
+              letterSpacing: '4px',
+              color: 'rgba(240,244,248,0.45)',
+              marginTop: '12px'
             }}>
-              PATTERN ARCHAEOLOGY, <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '12px', color: '#FF2D9B', letterSpacing: '1px' }}>not therapy</em>
+              PATTERN ARCHAEOLOGY, <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '13.5px', color: '#FF2D9B', letterSpacing: '1px' }}>not therapy</em>
             </div>
           </div>
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />
