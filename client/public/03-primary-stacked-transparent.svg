@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" width="700" height="300">
   <defs>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400&amp;family=Cormorant+Garamond:ital@1&amp;family=IBM+Plex+Mono:wght@300;400&amp;display=swap');</style>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Cormorant+Garamond:ital@1&family=IBM+Plex+Mono:wght@300&display=swap');
+    </style>
   </defs>
-  
-  
-  <text x="400" y="44" font-family="Cinzel, 'Times New Roman', serif" font-size="13" font-weight="400"
-    fill="rgba(240,244,248,0.5)" text-anchor="middle" letter-spacing="22">THE</text>
-  <text x="400" y="156" font-family="Cinzel, 'Times New Roman', serif" font-size="106" font-weight="400"
-    fill="#F0F4F8" text-anchor="middle" letter-spacing="5">ARCHIVIST</text>
-  <text x="400" y="260" font-family="Cinzel, 'Times New Roman', serif" font-size="92" font-weight="400"
-    fill="#F0F4F8" text-anchor="middle" letter-spacing="5">METHOD</text>
-  <text x="310" y="302" font-family="'IBM Plex Mono', 'Courier New', monospace" font-size="10" font-weight="300"
-    fill="rgba(240,244,248,0.4)" text-anchor="middle" letter-spacing="6">PATTERN ARCHAEOLOGY, </text>
-  <text x="490" y="302" font-family="Cormorant Garamond, Georgia, serif" font-size="12" font-style="italic"
-    fill="#EC4899" text-anchor="start" letter-spacing="1">not therapy</text>
-
+  <text x="350" y="38" font-family="Cinzel, 'Times New Roman', serif" font-size="11" font-weight="400" fill="rgba(240,244,248,0.22)" text-anchor="middle" letter-spacing="24">THE</text>
+  <text x="350" y="148" font-family="Cinzel, 'Times New Roman', serif" font-size="104" font-weight="400" fill="#F0F4F8" text-anchor="middle" letter-spacing="10">ARCHIVIST</text>
+  <text x="350" y="248" font-family="Cinzel, 'Times New Roman', serif" font-size="90" font-weight="400" fill="#F0F4F8" text-anchor="middle" letter-spacing="10">METHOD</text>
+  <text x="246" y="286" font-family="'IBM Plex Mono', 'Courier New', monospace" font-size="10" font-weight="300" fill="rgba(240,244,248,0.2)" text-anchor="start" letter-spacing="6">PATTERN ARCHAEOLOGY, </text>
+  <text x="446" y="286" font-family="'Cormorant Garamond', Georgia, serif" font-size="12" font-style="italic" fill="#FF2D9B" text-anchor="start" letter-spacing="1">not therapy</text>
 </svg>

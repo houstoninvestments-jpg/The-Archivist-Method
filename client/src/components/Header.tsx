@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "wouter";
-import ArchivistIcon from "@/components/ArchivistIcon";
 import { Menu, X } from "lucide-react";
 
 const mobileNavLinks = [
@@ -80,11 +79,11 @@ export default function Header() {
         }`}
         data-testid="header"
       >
-        <Link href="/" className="flex items-center gap-3 no-underline group">
-          <ArchivistIcon size={36} />
-          <span className="font-['Bebas_Neue',Oswald,sans-serif] text-base md:text-xl font-bold tracking-wide text-white uppercase">
-            THE ARCHIVIST METHOD™
-          </span>
+        <Link href="/" className="flex items-center no-underline group" data-testid="link-header-home">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 52" height="36" aria-label="The Archivist Method">
+            <text x="0" y="13" fontFamily="Cinzel, 'Times New Roman', serif" fontSize="8" fontWeight="400" fill="rgba(240,244,248,0.25)" letterSpacing="7">THE</text>
+            <text x="0" y="46" fontFamily="Cinzel, 'Times New Roman', serif" fontSize="32" fontWeight="400" fill="#F0F4F8" letterSpacing="3">ARCHIVIST  METHOD</text>
+          </svg>
         </Link>
 
         <nav className="hidden md:flex items-center gap-4 md:gap-6">
