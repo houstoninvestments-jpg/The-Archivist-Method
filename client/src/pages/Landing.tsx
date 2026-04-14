@@ -1733,7 +1733,7 @@ export default function Landing() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "200px", background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 60%, #0a0a0a 100%)", zIndex: 4, pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
-          <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'left', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
+          <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'center', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
               fontSize: '11px',
