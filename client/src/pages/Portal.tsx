@@ -179,6 +179,112 @@ function NextChapterCard({ nextId, groups, onSelect }: { nextId: string; groups:
   );
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// TEMP DEV BYPASS — remove before launch.
+// If the URL has ?dev=true we skip the auth check and load mocked TOC + section
+// content so the reader UI can be previewed without real portal credentials.
+// ────────────────────────────────────────────────────────────────────────────
+const DEV_MOCK_MARKDOWN = `# PREVIEW: PATTERN RECOGNITION
+
+This section is mock content served by the dev bypass. The real content loads from the content API once auth is restored.
+
+---
+
+## WHAT TO NOTICE FIRST
+
+Something triggered you. A word. A tone. A silence. A look on someone's face. Something that matched a file in your archive.
+
+Your body responded before your brain caught up. Chest tightened. Stomach dropped. Heat rose. Throat closed. Something physical happened in under three seconds.
+
+### THE THREE-SECOND WINDOW
+
+Then a thought fired. Automatic. Fast. Familiar.
+
+- "Here we go again."
+- "I knew this would happen."
+- "I have to get out."
+
+Then you did the thing. The pattern ran. Start to finish. Three seconds to three minutes. Automatic.
+
+💎 GOLD NUGGET
+═══════════════════════════════════════════════
+The pattern ran. You noticed. That is not failure.
+That is the beginning of the end of automatic.
+═══════════════════════════════════════════════
+
+⚡ QUICK WIN
+═══════════════════════════════════════════════
+Place your hand where the sensation is. Name it out loud. "A pattern just ran." You have already interrupted the next one.
+═══════════════════════════════════════════════
+
+🔌 CIRCUIT BREAK
+═══════════════════════════════════════════════
+When you feel the pull to vanish, name it: "The pattern is running."
+Stay 5 more minutes. That is the interrupt.
+═══════════════════════════════════════════════
+
+> You are not broken. You are running a program that installed itself a long time ago.
+
+That's enough for right now.
+`;
+
+function isDevMode(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get("dev") === "true";
+  } catch {
+    return false;
+  }
+}
+
+function buildDevMockToc(): TocResponse {
+  return {
+    tier: "archive",
+    primaryPattern: "disappearing",
+    firstSectionId: "m0-0.1",
+    stats: { completedSections: 0, totalSections: 4, percentComplete: 0 },
+    progress: {},
+    groups: [
+      {
+        id: "emergency",
+        title: "Emergency Protocol",
+        sections: [
+          { id: "m0-0.1", title: "You Just Ran Your Pattern", locked: false },
+          { id: "m0-0.2", title: "Five-Minute Emergency", locked: false },
+        ],
+      },
+      {
+        id: "four-doors",
+        title: "The Four Doors",
+        sections: [
+          { id: "m2-2.3", title: "Door 2: Excavation", locked: false },
+        ],
+      },
+      {
+        id: "implementation",
+        title: "90-Day Implementation",
+        sections: [
+          { id: "m4-4.4", title: "Weeks 5-8: Interruption", locked: false },
+        ],
+      },
+    ],
+  };
+}
+
+function buildDevMockSection(sectionId: string): SectionResponse {
+  const ids = ["m0-0.1", "m0-0.2", "m2-2.3", "m4-4.4"];
+  const idx = ids.indexOf(sectionId);
+  return {
+    sectionId,
+    title: "Preview Section",
+    content: DEV_MOCK_MARKDOWN,
+    readMinutes: 3,
+    locked: false,
+    prev: idx > 0 ? ids[idx - 1] : null,
+    next: idx >= 0 && idx < ids.length - 1 ? ids[idx + 1] : null,
+  };
+}
+// ── END TEMP DEV BYPASS ─────────────────────────────────────────────────────
+
 export default function Portal() {
   const [, navigate] = useLocation();
 
@@ -192,8 +298,20 @@ export default function Portal() {
   const [chatOpen, setChatOpen] = useState(false);
   const [interruptOpen, setInterruptOpen] = useState(false);
 
+  // TEMP DEV BYPASS — remove before launch
+  const devMode = useMemo(() => isDevMode(), []);
+
   // Load TOC
   useEffect(() => {
+    if (devMode) {
+      const mock = buildDevMockToc();
+      setToc(mock);
+      const hash = window.location.hash.replace(/^#\/?/, "");
+      const initial = hash && /^(m\d|p\d|ep-)/.test(hash) ? hash : mock.firstSectionId;
+      setActiveId(initial);
+      setLoadingToc(false);
+      return;
+    }
     (async () => {
       try {
         const res = await fetch("/api/portal/reader/toc", { credentials: "include" });
@@ -214,15 +332,23 @@ export default function Portal() {
         setLoadingToc(false);
       }
     })();
-  }, []);
+  }, [devMode]);
 
   useEffect(() => {
-    if (authError) navigate("/portal/login");
-  }, [authError, navigate]);
+    if (authError && !devMode) navigate("/portal/login");
+  }, [authError, navigate, devMode]);
 
   // Load section when activeId changes
   useEffect(() => {
     if (!activeId) return;
+    if (devMode) {
+      setSection(buildDevMockSection(activeId));
+      setLoadingSection(false);
+      try {
+        window.history.replaceState(null, "", `?dev=true#/${activeId}`);
+      } catch { /* ignore */ }
+      return;
+    }
     let cancelled = false;
     setLoadingSection(true);
     (async () => {
