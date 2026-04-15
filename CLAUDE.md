@@ -8,13 +8,13 @@
 - Push all changes directly to `main` with `git push -u origin main`
 - Do not create `claude/*` branches
 - Do not open pull requests
-- Changes pushed to `main` deploy automatically to thearchivistmethod.com via Replit
+- Changes pushed to `main` deploy automatically to thearchivistmethod.com via Vercel
 
 ## Project Overview
 
 The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. Three tiers: The Crash Course (free), The Field Guide ($47), The Complete Archive ($197).
 
-Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, running on Replit autoscale.
+Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, deployed on Vercel.
 
 ## Brand Rules
 
