@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-import { Menu, ChevronRight, Lock } from "lucide-react";
+import { Menu, ChevronRight, Lock, MessageSquare } from "lucide-react";
 import { Sidebar, TocGroup } from "./portal/Sidebar";
 import { Markdown } from "./portal/markdown";
 import { feirForSection, FEIR_COLORS, FeirDoor } from "./portal/feir";
 import { getPatternDetail } from "./portal/patterns";
-import { PresenceCard, ChatPanel, InterruptButton, InterruptScreen } from "./portal/Archivist";
+import { ArchivistPanel } from "./portal/Archivist";
 
 interface TocResponse {
   tier: "free" | "quick-start" | "archive";
@@ -320,7 +320,6 @@ export default function Portal() {
   const [authError, setAuthError] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [interruptOpen, setInterruptOpen] = useState(false);
 
   // TEMP DEV BYPASS — remove before launch
   const devMode = useMemo(() => isDevMode(), []);
@@ -449,31 +448,50 @@ export default function Portal() {
       }}
     >
       <style>{`
-        @keyframes archivistBreath {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,194,0.25); }
-          50% { box-shadow: 0 0 0 6px rgba(0,255,194,0); }
-        }
-        @keyframes interruptPulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.4), 0 8px 20px rgba(236,72,153,0.25); }
-          50% { box-shadow: 0 0 0 10px rgba(236,72,153,0), 0 8px 20px rgba(236,72,153,0.25); }
-        }
-        @keyframes archivistSlideIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
         }
         .portal-sidebar-desktop { display: block; }
-        .portal-main { margin-left: 290px; }
+        .portal-main {
+          margin-left: 290px;
+          transition: margin-right 0.28s ease;
+        }
+        .portal-main[data-archivist-open="true"] { margin-right: 300px; }
         @media (max-width: 900px) {
           .portal-sidebar-desktop { display: none; }
-          .portal-main { margin-left: 0; }
+          .portal-main, .portal-main[data-archivist-open="true"] {
+            margin-left: 0;
+            margin-right: 0;
+          }
         }
         .portal-mobile-hamburger { display: none; }
         @media (max-width: 900px) {
           .portal-mobile-hamburger { display: inline-flex; }
+        }
+
+        /* Pocket Archivist panel. Desktop: fixed right rail, 300px wide,
+           slides in/out. Mobile: full-screen overlay when open. */
+        .portal-archivist {
+          position: fixed;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 300px;
+          z-index: 40;
+          transform: translateX(100%);
+          transition: transform 0.28s ease;
+          pointer-events: none;
+        }
+        .portal-archivist.portal-archivist-open {
+          transform: translateX(0);
+          pointer-events: auto;
+        }
+        @media (max-width: 900px) {
+          .portal-archivist {
+            width: 100vw;
+            z-index: 80;
+          }
         }
       `}</style>
 
@@ -501,7 +519,11 @@ export default function Portal() {
         mobileOpen={mobileNavOpen}
       />
 
-      <main className="portal-main" style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <main
+        className="portal-main"
+        data-archivist-open={chatOpen ? "true" : "false"}
+        style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
         {/* Top bar */}
         <div
           style={{
@@ -540,8 +562,35 @@ export default function Portal() {
             </button>
             <Breadcrumb sectionId={activeId} groups={toc.groups} />
           </div>
-          <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <FeirPill door={feirDoor} />
+            <button
+              type="button"
+              onClick={() => setChatOpen((v) => !v)}
+              aria-label={chatOpen ? "Close Pocket Archivist" : "Open Pocket Archivist"}
+              aria-pressed={chatOpen}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "6px 12px",
+                height: 28,
+                background: chatOpen ? "rgba(0,255,194,0.12)" : "transparent",
+                border: `1px solid ${chatOpen ? "#00FFC2" : "#2A2830"}`,
+                borderRadius: 4,
+                color: chatOpen ? "#00FFC2" : "#C8C0B2",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 9,
+                letterSpacing: "0.2em",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                cursor: "pointer",
+                transition: "border-color 0.15s, color 0.15s, background 0.15s",
+              }}
+            >
+              <MessageSquare size={12} />
+              Archivist
+            </button>
           </div>
         </div>
 
@@ -593,11 +642,15 @@ export default function Portal() {
         </div>
       </main>
 
-      {/* Floating UI */}
-      <InterruptButton onOpen={() => setInterruptOpen(true)} hidden={chatOpen || interruptOpen} />
-      <PresenceCard onOpen={() => setChatOpen(true)} hidden={chatOpen || interruptOpen} />
-      <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} pattern={patternDetail} patternKey={toc.primaryPattern} tier={toc.tier} />
-      <InterruptScreen open={interruptOpen} onClose={() => setInterruptOpen(false)} onOpenChat={() => setChatOpen(true)} pattern={patternDetail} />
+      {/* Persistent Pocket Archivist panel — part of the layout, not a floating overlay.
+          Mounted always so conversation state persists across chapter navigation. */}
+      <ArchivistPanel
+        open={chatOpen}
+        onClose={() => setChatOpen(false)}
+        pattern={patternDetail}
+        patternKey={toc.primaryPattern}
+        tier={toc.tier}
+      />
     </div>
   );
 }

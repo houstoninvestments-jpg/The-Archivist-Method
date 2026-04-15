@@ -4,7 +4,7 @@
 
 You were not supposed to get this far.
 
-The pattern had a plan for this book. It was going to let you buy it. It was going to let you read the first chapter—maybe the first few. It was going to let you feel the recognition, the brief surge of "this is me," and then it was going to close the book. Put it on the shelf. Move on.
+The pattern had a plan for The Archivist Method. It was going to let you buy it. It was going to let you read the first chapter—maybe the first few. It was going to let you feel the recognition, the brief surge of "this is me," and then it was going to close the tab. Put it aside. Move on.
 
 It had a plan for the protocol too. Let you start it. Let you track for three days, maybe five. Then miss a day. Then two. Then tell you it was not working, that this was just another thing you tried that did not stick, that you are the kind of person who starts things but does not finish them.
 
@@ -16,13 +16,13 @@ You are reading the epilogue. The plan failed.
 
 ## What You Have Now
 
-You have something that did not exist when you opened this book: a name for the program.
+You have something that did not exist when you opened this file: a name for the program.
 
 Before, the pattern was you. Your withdrawing was "just how I am." Your apologizing was "just being polite." Your testing was "just being careful." Your rage was "just my temper." Your sabotage was "just bad luck."
 
 Now you know: it is not you. It is a program. It was installed. It runs automatically. And it can be interrupted.
 
-That knowledge—that separation between you and the pattern—is the most valuable thing in this book. More valuable than the Circuit Break. More valuable than the Override Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
+That knowledge—that separation between you and the pattern—is the most valuable thing in this method. More valuable than the Circuit Break. More valuable than the Override Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
 
 You no longer believe that. The pattern is not who you are. It is something that happens to you. And you are learning to make it happen less.
 
@@ -30,7 +30,7 @@ You no longer believe that. The pattern is not who you are. It is something that
 
 ## What Happens Next
 
-You will run the pattern again. Probably soon. Possibly today. The book does not prevent activation. It does not cure the circuit. What it does—what you now carry—is the ability to see the activation while it is happening and to choose differently.
+You will run the pattern again. Probably soon. Possibly today. The method does not prevent activation. It does not cure the circuit. What it does—what you now carry—is the ability to see the activation while it is happening and to choose differently.
 
 You will not always choose differently. Sometimes the pattern will be faster than the Circuit Break. Sometimes you will be too tired, too stressed, too depleted to interrupt. Sometimes you will watch yourself run the pattern in full, knowing exactly what is happening and unable to stop it.
 
@@ -58,9 +58,9 @@ That child was right—for that room. The learning was accurate. The adaptation 
 
 But the room changed. The child grew up. The threat ended—or transformed into something the adult could handle. And the program kept running. Not because you are broken. Because programs do not update themselves. They need to be updated manually. By you. One interrupt at a time.
 
-The child in the Original Room did not have this book. They did not have the Four Doors, the Circuit Break, the Override Scripts, or the 90-day protocol. They had only their nervous system and the desperate, creative intelligence of a young mind trying to survive.
+The child in the Original Room did not have The Archivist Method. They did not have the Four Doors, the Circuit Break, the Override Scripts, or the 90-day protocol. They had only their nervous system and the desperate, creative intelligence of a young mind trying to survive.
 
-You have everything they had, plus everything in this book. You are better equipped. You are more resourced. And you carry within you the child who deserves to see what happens when the program finally, after all these years, stops running the show.
+You have everything they had, plus everything in The Archivist Method. You are better equipped. You are more resourced. And you carry within you the child who deserves to see what happens when the program finally, after all these years, stops running the show.
 
 ---
 

@@ -1,8 +1,11 @@
 import { ReactNode } from "react";
 
-// Detects 💎 GOLD NUGGET / ⚡ QUICK WIN / 🔌 CIRCUIT BREAK blocks delimited by ═══ lines.
+// Detects specialty callouts delimited by ═══ lines. Label is an emoji + ALL CAPS
+// header line (e.g. "🔑 KEY TAKEAWAYS", "💎 GOLD NUGGET", "📜 THE ARCHIVIST OBSERVES").
 const SEP_CHAR = "═";
 const isSepLine = (l: string) => l.trim().length >= 6 && [...l.trim()].every((c) => c === SEP_CHAR);
+
+type SpecialVariant = "gold" | "quick" | "circuit" | "key" | "observes" | "warning";
 
 type Block =
   | { kind: "h1" | "h2" | "h3"; text: string }
@@ -11,13 +14,34 @@ type Block =
   | { kind: "ul" | "ol"; items: string[] }
   | { kind: "blockquote"; text: string }
   | { kind: "table"; headers: string[]; rows: string[][] }
-  | { kind: "special"; variant: "gold" | "quick" | "circuit"; label: string; text: string };
+  | { kind: "special"; variant: SpecialVariant; label: string; text: string };
 
-function detectSpecial(line: string): { variant: "gold" | "quick" | "circuit"; label: string } | null {
+// Strip the leading emoji/icon from a label line, returning just the caps text.
+function extractLabelText(line: string): string {
+  // Remove leading emoji(s) + whitespace. An emoji sequence may include modifiers
+  // like the variation selector U+FE0F, so we trim until we hit an ASCII letter.
+  let s = line.trim();
+  while (s.length > 0 && !/^[A-Za-z]/.test(s)) {
+    s = s.slice(1).trim();
+  }
+  return s;
+}
+
+function detectSpecial(line: string): { variant: SpecialVariant; label: string } | null {
   const t = line.trim();
+  // Known callouts with distinct styling.
   if (/^💎\s*GOLD NUGGET/i.test(t)) return { variant: "gold", label: "GOLD NUGGET" };
-  if (/^⚡\s*QUICK WIN/i.test(t)) return { variant: "quick", label: "QUICK WIN" };
+  if (/^⚡\s*QUICK WIN/i.test(t)) return { variant: "quick", label: extractLabelText(t) || "QUICK WIN" };
   if (/^🔌?\s*CIRCUIT BREAK/i.test(t)) return { variant: "circuit", label: "CIRCUIT BREAK" };
+  if (/^🔑\s*KEY TAKEAWAYS/i.test(t)) return { variant: "key", label: "KEY TAKEAWAYS" };
+  if (/^📜\s*THE ARCHIVIST OBSERVES/i.test(t)) return { variant: "observes", label: "THE ARCHIVIST OBSERVES" };
+  // Generic: any line starting with an emoji followed by an ALL-CAPS label.
+  // Catches ⚠️ BEFORE YOU EXCAVATE, ⚠️ THE GAP, ⚠️ IMPORTANT, etc.
+  // Unicode property escapes are supported in modern browsers — used here to
+  // match a leading pictographic / symbol codepoint.
+  if (/^[\p{Extended_Pictographic}\p{Emoji_Presentation}][\uFE0F\u200D]?\s+[A-Z][A-Z0-9 ,:()'\-—]{2,}/u.test(t)) {
+    return { variant: "warning", label: extractLabelText(t) || t };
+  }
   return null;
 }
 
@@ -276,16 +300,22 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
         if (b.kind === "special") {
           const palette =
             b.variant === "gold"
-              ? { border: "#D4A574", bg: "rgba(212,165,116,0.06)", label: "#D4A574", font: "'EB Garamond', serif", italic: true }
+              ? { border: "#D4A574", bg: "rgba(212,165,116,0.06)", label: "#D4A574", font: "'EB Garamond', serif", italic: true, fontSize: 19 }
               : b.variant === "quick"
-                ? { border: "#00FFC2", bg: "rgba(0,255,194,0.05)", label: "#00FFC2", font: "'Inter', sans-serif", italic: false }
-                : { border: "#EC4899", bg: "rgba(236,72,153,0.06)", label: "#EC4899", font: "'JetBrains Mono', monospace", italic: false };
+                ? { border: "#00FFC2", bg: "rgba(0,255,194,0.05)", label: "#00FFC2", font: "'Inter', sans-serif", italic: false, fontSize: 15 }
+                : b.variant === "circuit"
+                  ? { border: "#EC4899", bg: "rgba(236,72,153,0.06)", label: "#EC4899", font: "'JetBrains Mono', monospace", italic: false, fontSize: 15 }
+                  : b.variant === "key"
+                    ? { border: "#D4A574", bg: "rgba(212,165,116,0.05)", label: "#D4A574", font: "'Inter', sans-serif", italic: false, fontSize: 15 }
+                    : b.variant === "observes"
+                      ? { border: "#D4A574", bg: "rgba(212,165,116,0.04)", label: "#D4A574", font: "'EB Garamond', serif", italic: true, fontSize: 18 }
+                      : { border: "#EC4899", bg: "rgba(236,72,153,0.05)", label: "#EC4899", font: "'Inter', sans-serif", italic: false, fontSize: 15 };
           return (
             <div key={key} style={{ margin: "28px 0", padding: "22px 24px", borderLeft: `3px solid ${palette.border}`, background: palette.bg, borderRadius: "0 6px 6px 0" }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.28em", color: palette.label, marginBottom: 12, fontWeight: 500 }}>
                 // {b.label}
               </div>
-              <div style={{ fontFamily: palette.font, fontStyle: palette.italic ? "italic" : "normal", fontSize: b.variant === "gold" ? 19 : 15, lineHeight: 1.65, color: "#E8E3DC", whiteSpace: "pre-wrap" }}>
+              <div style={{ fontFamily: palette.font, fontStyle: palette.italic ? "italic" : "normal", fontSize: palette.fontSize, lineHeight: 1.65, color: "#E8E3DC", whiteSpace: "pre-wrap" }}>
                 {renderInline(b.text, key)}
               </div>
             </div>

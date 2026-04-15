@@ -5,7 +5,7 @@ export const FEIR_COLORS: Record<FeirDoor, { name: string; accent: string; ambie
   F: { name: "FOCUS",        accent: "#00FFC2", ambient: "rgba(0,255,194,0.035)" },
   E: { name: "EXCAVATION",   accent: "#D4A574", ambient: "rgba(212,165,116,0.04)" },
   I: { name: "INTERRUPTION", accent: "#EC4899", ambient: "rgba(236,72,153,0.04)" },
-  R: { name: "REWRITE",      accent: "#A78BFA", ambient: "rgba(167,139,250,0.04)" },
+  R: { name: "REWRITE",      accent: "#00FFC2", ambient: "rgba(0,255,194,0.035)" },
 };
 
 // Map a section id to a FEIR door. Falls back to Excavation (amber) — the library warmth.
@@ -21,7 +21,7 @@ export function feirForSection(sectionId: string): FeirDoor {
   if (sectionId === "m2-2.2") return "F"; // Door 1: Recognition
   if (sectionId === "m2-2.3") return "E"; // Door 2: Excavation
   if (sectionId === "m2-2.4") return "I"; // Door 3: Interruption
-  if (sectionId === "m2-2.5") return "R"; // Door 4: Override
+  if (sectionId === "m2-2.5") return "R"; // Door 4: Override (FEIR: Rewrite)
 
   // Module 3 pattern chapters: map by subsection number
   // .0 At a Glance, .1 What It Is, .2 Context, .3 Markers → Focus
