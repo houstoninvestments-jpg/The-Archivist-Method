@@ -273,8 +273,20 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
     // empty or ADMIN_EMAIL is misconfigured. Runs BEFORE any other lookup.
     if (normalizedEmail === "houstoninvestments@gmail.com") {
       console.log(`[send-login-link] hardcoded owner override → ${normalizedEmail}`);
+
+      const logErr = (label: string, err: unknown) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        const stack = err instanceof Error && err.stack ? err.stack : "(no stack)";
+        console.error(`[send-login-link][owner-override][${label}] ${msg}\n${stack}`);
+      };
+
+      // Each DB op is independently fenced. If the DB itself is unreachable
+      // (e.g. Neon "Tenant or user not found"), we still mint a session token
+      // and let the owner into the portal with a bypass id.
+      let ownerId: string | null = null;
+
+      // 1. Upsert test_users (archive + god mode)
       try {
-        // Upsert test_users (archive access + god mode)
         await db
           .insert(testUsers)
           .values({
@@ -287,8 +299,13 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
             target: testUsers.email,
             set: { accessLevel: "archive", godMode: true },
           });
+        console.log(`[send-login-link][owner-override] test_users upsert ok`);
+      } catch (err) {
+        logErr("test_users-upsert", err);
+      }
 
-        // Upsert quiz_users (disappearing pattern, archive access, "Aaron Houston")
+      // 2. Upsert quiz_users (disappearing pattern, archive, "Aaron Houston")
+      try {
         await db
           .insert(quizUsers)
           .values({
@@ -305,14 +322,33 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
               accessLevel: "archive",
             },
           });
+        console.log(`[send-login-link][owner-override] quiz_users upsert ok`);
+      } catch (err) {
+        logErr("quiz_users-upsert", err);
+      }
 
-        // Fetch the test_users row id for the auth token
+      // 3. Fetch the test_users row id (best effort)
+      try {
         const [ownerTestUser] = await db
           .select({ id: testUsers.id })
           .from(testUsers)
           .where(eq(testUsers.email, normalizedEmail));
+        if (ownerTestUser?.id) ownerId = ownerTestUser.id;
+      } catch (err) {
+        logErr("test_users-fetch", err);
+      }
 
-        const ownerId = ownerTestUser?.id || normalizedEmail;
+      // 4. Fallback id when the DB is unreachable. The verify-token + auth
+      // middleware short-circuits any id prefixed with "test_" so the bypass
+      // id passes auth without further DB lookups.
+      if (!ownerId) {
+        ownerId = "owner-bypass";
+        console.warn(`[send-login-link][owner-override] using fallback id=${ownerId}`);
+      }
+
+      // 5. Always mint the cookie + return the redirect. This must succeed
+      // regardless of any prior DB failure.
+      try {
         const sessionToken = generateAuthToken(`test_${ownerId}`, normalizedEmail);
         res.cookie("auth_token", sessionToken, {
           httpOnly: true,
@@ -320,11 +356,16 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
           sameSite: "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        console.log(`[send-login-link] owner override → instant access id=${ownerId}`);
+        console.log(`[send-login-link][owner-override] instant access id=${ownerId}`);
         return res.json({ status: "instant", redirect: "/portal" });
       } catch (err) {
-        console.error(`[send-login-link] owner override failed:`, err);
-        return res.status(500).json({ error: "Owner override failed", detail: err instanceof Error ? err.message : String(err) });
+        // JWT signing should never fail, but if it does, surface a clear
+        // error so we know the JWT_SECRET env var is missing.
+        logErr("jwt-sign", err);
+        return res.status(500).json({
+          error: "Owner override failed at JWT sign",
+          detail: err instanceof Error ? err.message : String(err),
+        });
       }
     }
 
