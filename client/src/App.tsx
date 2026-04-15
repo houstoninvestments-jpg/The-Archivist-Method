@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -12,8 +12,7 @@ import NotFound from "@/pages/not-found";
 const Landing = lazy(() => import("@/pages/Landing"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
 const QuizResult = lazy(() => import("@/pages/QuizResult"));
-const NewPortal = lazy(() => import("@/pages/NewPortal"));
-const CrashCourse = lazy(() => import("@/pages/CrashCourse"));
+const Portal = lazy(() => import("@/pages/Portal"));
 const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
@@ -28,6 +27,14 @@ function PageLoader() {
   );
 }
 
+function CrashCourseRedirect() {
+  const [, navigate] = useLocation();
+  useEffect(() => {
+    navigate("/portal", { replace: true });
+  }, [navigate]);
+  return <PageLoader />;
+}
+
 function Router() {
   return (
     <Switch>
@@ -35,8 +42,8 @@ function Router() {
       <Route path="/quiz" component={Quiz} />
       <Route path="/results" component={QuizResult} />
       <Route path="/portal/login" component={PortalLogin} />
-      <Route path="/portal/crash-course" component={CrashCourse} />
-      <Route path="/portal" component={NewPortal} />
+      <Route path="/portal/crash-course" component={CrashCourseRedirect} />
+      <Route path="/portal" component={Portal} />
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/terms" component={Terms} />
