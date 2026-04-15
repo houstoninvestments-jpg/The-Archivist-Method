@@ -267,6 +267,67 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
     const normalizedEmail = email.toLowerCase();
     console.log(`[send-login-link] attempt for ${normalizedEmail}`);
 
+    // ── Hardcoded owner override ─────────────────────────────────────────────
+    // Bypass all DB lookups + env-var allowlists for the owner account so we
+    // can always log in even if test_users / quiz_users / portal_users are
+    // empty or ADMIN_EMAIL is misconfigured. Runs BEFORE any other lookup.
+    if (normalizedEmail === "houstoninvestments@gmail.com") {
+      console.log(`[send-login-link] hardcoded owner override → ${normalizedEmail}`);
+      try {
+        // Upsert test_users (archive access + god mode)
+        await db
+          .insert(testUsers)
+          .values({
+            email: normalizedEmail,
+            accessLevel: "archive",
+            godMode: true,
+            note: "Hardcoded owner override",
+          })
+          .onConflictDoUpdate({
+            target: testUsers.email,
+            set: { accessLevel: "archive", godMode: true },
+          });
+
+        // Upsert quiz_users (disappearing pattern, archive access, "Aaron Houston")
+        await db
+          .insert(quizUsers)
+          .values({
+            email: normalizedEmail,
+            name: "Aaron Houston",
+            primaryPattern: "disappearing",
+            accessLevel: "archive",
+          })
+          .onConflictDoUpdate({
+            target: quizUsers.email,
+            set: {
+              name: "Aaron Houston",
+              primaryPattern: "disappearing",
+              accessLevel: "archive",
+            },
+          });
+
+        // Fetch the test_users row id for the auth token
+        const [ownerTestUser] = await db
+          .select({ id: testUsers.id })
+          .from(testUsers)
+          .where(eq(testUsers.email, normalizedEmail));
+
+        const ownerId = ownerTestUser?.id || normalizedEmail;
+        const sessionToken = generateAuthToken(`test_${ownerId}`, normalizedEmail);
+        res.cookie("auth_token", sessionToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        console.log(`[send-login-link] owner override → instant access id=${ownerId}`);
+        return res.json({ status: "instant", redirect: "/portal" });
+      } catch (err) {
+        console.error(`[send-login-link] owner override failed:`, err);
+        return res.status(500).json({ error: "Owner override failed", detail: err instanceof Error ? err.message : String(err) });
+      }
+    }
+
     // Resend + environment diagnostics
     const resendKey = process.env.RESEND_API_KEY;
     const resendConfigured = Boolean(
