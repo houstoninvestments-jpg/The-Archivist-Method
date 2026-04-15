@@ -13,8 +13,9 @@ const C_BORDER = "#2a2a2a";
 
 export default function PortalLogin() {
   const [email, setEmail]     = useState('');
-  const [status, setStatus]   = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [status, setStatus]   = useState<'idle' | 'sending' | 'sent' | 'error' | 'instant' | 'devlink'>('idle');
   const [errMsg, setErrMsg]   = useState('');
+  const [devLink, setDevLink] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ export default function PortalLogin() {
 
     setStatus('sending');
     setErrMsg('');
+    setDevLink(null);
 
     try {
       const res = await fetch('/api/portal/auth/send-login-link', {
@@ -33,7 +35,24 @@ export default function PortalLogin() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data?.error || 'Failed to send link.');
+        const detail = data?.detail ? ` (${data.detail})` : '';
+        throw new Error((data?.error || 'Failed to send link.') + detail);
+      }
+
+      const data = await res.json().catch(() => ({}));
+
+      // Test user: instant access — redirect straight into the portal
+      if (data?.instantAccess) {
+        setStatus('instant');
+        window.location.href = '/portal';
+        return;
+      }
+
+      // Dev / email unavailable: surface the link in the UI for click-through
+      if (data?.devLink) {
+        setDevLink(data.devLink);
+        setStatus('devlink');
+        return;
       }
 
       setStatus('sent');
@@ -115,7 +134,65 @@ export default function PortalLogin() {
               lineHeight: 1.6,
               margin: 0,
             }}>
-              Check your inbox. The link expires in 24 hours.
+              Check your inbox. The link expires in 1 hour.
+            </p>
+          </div>
+        ) : status === 'instant' ? (
+          <p style={{
+            fontFamily: FONT_HEADING,
+            fontSize: '28px',
+            color: C_TEAL,
+            margin: 0,
+            letterSpacing: '0.04em',
+          }}>
+            ACCESS GRANTED. REDIRECTING...
+          </p>
+        ) : status === 'devlink' && devLink ? (
+          <div>
+            <p style={{
+              fontFamily: FONT_HEADING,
+              fontSize: '28px',
+              color: C_TEAL,
+              margin: '0 0 12px',
+              letterSpacing: '0.04em',
+            }}>
+              LINK READY.
+            </p>
+            <p style={{
+              fontFamily: FONT_BODY,
+              fontSize: '13px',
+              color: C_MUTED,
+              lineHeight: 1.6,
+              margin: '0 0 20px',
+            }}>
+              Email delivery is unavailable right now. Click the button below to enter your portal (expires in 1 hour).
+            </p>
+            <a
+              href={devLink}
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                background: C_TEAL,
+                color: '#000',
+                fontFamily: FONT_HEADING,
+                fontSize: '16px',
+                letterSpacing: '0.15em',
+                borderRadius: '2px',
+                padding: '16px',
+                textDecoration: 'none',
+              }}
+            >
+              ENTER PORTAL →
+            </a>
+            <p style={{
+              fontFamily: FONT_MONO,
+              fontSize: '9px',
+              color: C_DIM,
+              marginTop: '16px',
+              letterSpacing: '0.12em',
+              wordBreak: 'break-all',
+            }}>
+              {devLink}
             </p>
           </div>
         ) : (

@@ -74581,74 +74581,116 @@ router.post("/auth/send-login-link", async (req, res) => {
       return res.status(400).json({ error: "Valid email required" });
     }
     const normalizedEmail = email.toLowerCase();
-    const [testUser] = await db.select().from(testUsers).where(eq(testUsers.email, normalizedEmail));
+    console.log(`[send-login-link] attempt for ${normalizedEmail}`);
+    const resendKey = process.env.RESEND_API_KEY;
+    const resendConfigured = Boolean(
+      resendKey && resendKey !== "placeholder" && resendKey.trim() !== ""
+    );
+    const isDev = false;
+    console.log(
+      `[send-login-link] resendConfigured=${resendConfigured} isDev=${isDev} NODE_ENV=${"production"}`
+    );
+    const proto = req.headers["x-forwarded-proto"] || req.protocol || "http";
+    const host = req.headers["x-forwarded-host"] || req.headers.host || process.env.PORTAL_BASE_URL?.replace(/^https?:\/\//, "") || "localhost:5000";
+    const baseUrl2 = process.env.PORTAL_BASE_URL || `${proto}://${host}`;
+    let testUser;
+    try {
+      [testUser] = await db.select().from(testUsers).where(eq(testUsers.email, normalizedEmail));
+      console.log(`[send-login-link] testUsers found=${!!testUser}`);
+    } catch (err) {
+      console.error(`[send-login-link] testUsers query failed:`, err);
+    }
     if (testUser) {
-      const baseUrl3 = process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : "http://localhost:5000";
-      const magicLink2 = await generateMagicLink(email, `test_${testUser.id}`, baseUrl3);
-      console.log(`Magic link for test user ${email}: ${magicLink2}`);
       const sessionToken = generateAuthToken(`test_${testUser.id}`, normalizedEmail);
       res.cookie("auth_token", sessionToken, {
         httpOnly: true,
         secure: true,
         sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1e3
-        // 7 days
       });
+      console.log(`[send-login-link] test user ${normalizedEmail} \u2192 instant access`);
       return res.json({
         message: "Access granted. Redirecting...",
         isTestUser: true,
         instantAccess: true
       });
     }
-    let user;
+    let userId = null;
     try {
-      user = await getUserByEmail(email);
-      if (!user) {
-        return res.status(404).json({
-          error: "No account found with this email. Please purchase a product first."
-        });
+      const portalUser = await getUserByEmail(email);
+      if (portalUser) {
+        userId = portalUser.id;
+        console.log(`[send-login-link] portal user match id=${userId}`);
       }
-    } catch (error) {
-      return res.status(404).json({
-        error: "No account found with this email. Please purchase a product first."
-      });
-    }
-    const baseUrl2 = process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : "http://localhost:5000";
-    const magicLink = await generateMagicLink(email, user.id, baseUrl2);
-    console.log(`Magic link for ${email}: ${magicLink}`);
-    try {
-      await getResend().emails.send({
-        from: "The Archivist <hello@archiebase.com>",
-        to: [email],
-        subject: "Your access link \u2014 The Archivist Method",
-        html: `
-          <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
-            <p style="color:#00FFD1;font-size:12px;letter-spacing:3px;">THE ARCHIVIST METHOD</p>
-            <h2 style="font-size:28px;">Your access link is ready.</h2>
-            <p style="color:#94A3B8;">Click below to access your portal. Link expires in 1 hour.</p>
-            <a href="${magicLink}"
-               style="display:inline-block;background:#00FFD1;color:#0a0a0a;padding:14px 32px;text-decoration:none;font-weight:bold;margin-top:20px;">
-              ACCESS MY PORTAL \u2192
-            </a>
-            <p style="color:#475569;font-size:12px;margin-top:40px;">
-              If you didn't request this, ignore it.
-            </p>
-          </div>
-        `
-      });
     } catch (err) {
-      console.error("Email send failed:", err);
+      console.error(`[send-login-link] portal users query failed:`, err);
     }
-    if (false) {
+    if (!userId) {
+      try {
+        const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, normalizedEmail));
+        if (quizUser) {
+          userId = quizUser.id;
+          console.log(`[send-login-link] quiz user match id=${userId}`);
+        }
+      } catch (err) {
+        console.error(`[send-login-link] quiz users query failed:`, err);
+      }
+    }
+    if (!userId) {
+      console.log(`[send-login-link] no account for ${normalizedEmail}`);
+      return res.status(404).json({
+        error: "No account found with this email. Take the quiz or purchase a product first."
+      });
+    }
+    const magicLink = await generateMagicLink(email, userId, baseUrl2);
+    console.log(`[send-login-link] magicLink generated for ${normalizedEmail}`);
+    let emailSent = false;
+    let emailError = null;
+    if (resendConfigured) {
+      try {
+        await getResend().emails.send({
+          from: "The Archivist <hello@archiebase.com>",
+          to: [email],
+          subject: "Your access link \u2014 The Archivist Method",
+          html: `
+            <div style="background:#0a0a0a;color:#fff;padding:40px;font-family:sans-serif;">
+              <p style="color:#00FFD1;font-size:12px;letter-spacing:3px;">THE ARCHIVIST METHOD</p>
+              <h2 style="font-size:28px;">Your access link is ready.</h2>
+              <p style="color:#94A3B8;">Click below to access your portal. Link expires in 1 hour.</p>
+              <a href="${magicLink}"
+                 style="display:inline-block;background:#00FFD1;color:#0a0a0a;padding:14px 32px;text-decoration:none;font-weight:bold;margin-top:20px;">
+                ACCESS MY PORTAL \u2192
+              </a>
+              <p style="color:#475569;font-size:12px;margin-top:40px;">
+                If you didn't request this, ignore it.
+              </p>
+            </div>
+          `
+        });
+        emailSent = true;
+        console.log(`[send-login-link] email dispatched to ${normalizedEmail}`);
+      } catch (err) {
+        emailError = err instanceof Error ? err.message : String(err);
+        console.error(`[send-login-link] email send failed:`, err);
+      }
+    } else {
+      console.warn(`[send-login-link] RESEND_API_KEY not configured \u2014 skipping email send`);
+    }
+    const includeDevLink = !emailSent || isDev || !resendConfigured;
+    if (includeDevLink) {
       return res.json({
-        message: "Login link generated",
-        devLink: magicLink
+        message: emailSent ? "Login link sent \u2014 check your email. (Dev preview link included below.)" : "Email delivery unavailable. Use the link below to enter your portal.",
+        devLink: magicLink,
+        emailSent,
+        emailError: isDev ? emailError : void 0,
+        resendConfigured
       });
     }
     res.json({ message: "Login link sent to your email" });
   } catch (error) {
-    console.error("Login link error:", error);
-    res.status(500).json({ error: "Failed to send login link" });
+    console.error("[send-login-link] fatal error:", error);
+    const detail = false ? error instanceof Error ? `${error.message}${error.stack ? "\n" + error.stack : ""}` : String(error) : void 0;
+    res.status(500).json({ error: "Failed to send login link", detail });
   }
 });
 router.get("/auth/verify", async (req, res) => {
