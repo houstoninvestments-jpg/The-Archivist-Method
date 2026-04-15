@@ -35,6 +35,115 @@ async function generateMagicLink(email: string, userId: string, baseUrl: string)
   return `${baseUrl}/api/portal/auth/verify?token=${token}`;
 }
 
+// ── Test-user allowlist ──────────────────────────────────────────────────────
+// If ADMIN_EMAIL or TEST_USER_EMAILS (comma-separated) matches a login attempt,
+// the user is auto-provisioned into test_users + quiz_users on the fly. This
+// survives database resets — set the env var once in Vercel and the owner can
+// always log in.
+function getAllowlistedEmails(): string[] {
+  const raw = [
+    process.env.ADMIN_EMAIL,
+    process.env.TEST_USER_EMAILS,
+    process.env.TEST_USER_EMAIL,
+  ]
+    .filter(Boolean)
+    .join(",");
+  return raw
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => s.includes("@"));
+}
+
+function isEmailAllowlisted(email: string): boolean {
+  return getAllowlistedEmails().includes(email.toLowerCase());
+}
+
+async function autoProvisionAllowlistedUser(
+  normalizedEmail: string,
+): Promise<{ id: string; email: string } | undefined> {
+  // Default pattern / name derivation
+  const defaultPattern =
+    process.env.TEST_USER_PRIMARY_PATTERN?.trim() || "disappearing";
+  const localPart = normalizedEmail.split("@")[0] || "admin";
+  const derivedName =
+    process.env.TEST_USER_NAME?.trim() ||
+    localPart
+      .split(/[._-]/)
+      .filter(Boolean)
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+      .join(" ") ||
+    "Test User";
+
+  // 1. Insert (or fetch existing) test_users row with archive access + god mode
+  let testUserRow:
+    | { id: string; email: string }
+    | undefined;
+  try {
+    const [inserted] = await db
+      .insert(testUsers)
+      .values({
+        email: normalizedEmail,
+        accessLevel: "archive",
+        godMode: true,
+        note: "Auto-provisioned from allowlist (ADMIN_EMAIL / TEST_USER_EMAILS)",
+      })
+      .onConflictDoNothing({ target: testUsers.email })
+      .returning({ id: testUsers.id, email: testUsers.email });
+    testUserRow = inserted;
+  } catch (err) {
+    console.error("[allowlist] testUsers insert failed:", err);
+  }
+
+  // If nothing inserted (already existed), fetch it
+  if (!testUserRow) {
+    try {
+      [testUserRow] = await db
+        .select({ id: testUsers.id, email: testUsers.email })
+        .from(testUsers)
+        .where(eq(testUsers.email, normalizedEmail));
+    } catch (err) {
+      console.error("[allowlist] testUsers fetch failed:", err);
+    }
+  }
+
+  // 2. Upsert quiz_users row so pattern + name populate the portal UI.
+  try {
+    const existing = await db
+      .select()
+      .from(quizUsers)
+      .where(eq(quizUsers.email, normalizedEmail));
+
+    if (existing.length === 0) {
+      await db.insert(quizUsers).values({
+        email: normalizedEmail,
+        name: derivedName,
+        primaryPattern: defaultPattern,
+        accessLevel: "archive",
+      });
+      console.log(
+        `[allowlist] quiz_users row created for ${normalizedEmail} pattern=${defaultPattern}`,
+      );
+    } else {
+      // Only fill missing fields — don't clobber whatever the owner set.
+      const [row] = existing;
+      const patch: Partial<typeof quizUsers.$inferInsert> = {};
+      if (!row.primaryPattern) patch.primaryPattern = defaultPattern;
+      if (!row.name) patch.name = derivedName;
+      if (!row.accessLevel || row.accessLevel === "free") patch.accessLevel = "archive";
+      if (Object.keys(patch).length > 0) {
+        await db.update(quizUsers).set(patch).where(eq(quizUsers.email, normalizedEmail));
+        console.log(
+          `[allowlist] quiz_users patched for ${normalizedEmail} keys=${Object.keys(patch).join(",")}`,
+        );
+      }
+    }
+  } catch (err) {
+    console.error("[allowlist] quiz_users upsert failed:", err);
+  }
+
+  return testUserRow;
+}
+
 // ── Inline: products ──────────────────────────────────────────────────────────
 interface Product {
   id: string; name: string; price: number;
@@ -184,6 +293,19 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
       console.log(`[send-login-link] testUsers found=${!!testUser}`);
     } catch (err) {
       console.error(`[send-login-link] testUsers query failed:`, err);
+    }
+
+    // 1b. Auto-provision test users on the allowlist. Safe to re-run on every
+    // call — we only insert if the user isn't already present.
+    if (!testUser && isEmailAllowlisted(normalizedEmail)) {
+      try {
+        testUser = await autoProvisionAllowlistedUser(normalizedEmail);
+        console.log(
+          `[send-login-link] auto-provisioned allowlisted user ${normalizedEmail} id=${testUser?.id}`,
+        );
+      } catch (err) {
+        console.error(`[send-login-link] auto-provision failed:`, err);
+      }
     }
 
     if (testUser) {

@@ -74477,6 +74477,70 @@ async function generateMagicLink(email, userId, baseUrl2) {
   });
   return `${baseUrl2}/api/portal/auth/verify?token=${token}`;
 }
+function getAllowlistedEmails() {
+  const raw = [
+    process.env.ADMIN_EMAIL,
+    process.env.TEST_USER_EMAILS,
+    process.env.TEST_USER_EMAIL
+  ].filter(Boolean).join(",");
+  return raw.split(",").map((s2) => s2.trim().toLowerCase()).filter((s2) => s2.includes("@"));
+}
+function isEmailAllowlisted(email) {
+  return getAllowlistedEmails().includes(email.toLowerCase());
+}
+async function autoProvisionAllowlistedUser(normalizedEmail) {
+  const defaultPattern = process.env.TEST_USER_PRIMARY_PATTERN?.trim() || "disappearing";
+  const localPart = normalizedEmail.split("@")[0] || "admin";
+  const derivedName = process.env.TEST_USER_NAME?.trim() || localPart.split(/[._-]/).filter(Boolean).map((p2) => p2.charAt(0).toUpperCase() + p2.slice(1)).join(" ") || "Test User";
+  let testUserRow;
+  try {
+    const [inserted] = await db.insert(testUsers).values({
+      email: normalizedEmail,
+      accessLevel: "archive",
+      godMode: true,
+      note: "Auto-provisioned from allowlist (ADMIN_EMAIL / TEST_USER_EMAILS)"
+    }).onConflictDoNothing({ target: testUsers.email }).returning({ id: testUsers.id, email: testUsers.email });
+    testUserRow = inserted;
+  } catch (err) {
+    console.error("[allowlist] testUsers insert failed:", err);
+  }
+  if (!testUserRow) {
+    try {
+      [testUserRow] = await db.select({ id: testUsers.id, email: testUsers.email }).from(testUsers).where(eq(testUsers.email, normalizedEmail));
+    } catch (err) {
+      console.error("[allowlist] testUsers fetch failed:", err);
+    }
+  }
+  try {
+    const existing = await db.select().from(quizUsers).where(eq(quizUsers.email, normalizedEmail));
+    if (existing.length === 0) {
+      await db.insert(quizUsers).values({
+        email: normalizedEmail,
+        name: derivedName,
+        primaryPattern: defaultPattern,
+        accessLevel: "archive"
+      });
+      console.log(
+        `[allowlist] quiz_users row created for ${normalizedEmail} pattern=${defaultPattern}`
+      );
+    } else {
+      const [row] = existing;
+      const patch = {};
+      if (!row.primaryPattern) patch.primaryPattern = defaultPattern;
+      if (!row.name) patch.name = derivedName;
+      if (!row.accessLevel || row.accessLevel === "free") patch.accessLevel = "archive";
+      if (Object.keys(patch).length > 0) {
+        await db.update(quizUsers).set(patch).where(eq(quizUsers.email, normalizedEmail));
+        console.log(
+          `[allowlist] quiz_users patched for ${normalizedEmail} keys=${Object.keys(patch).join(",")}`
+        );
+      }
+    }
+  } catch (err) {
+    console.error("[allowlist] quiz_users upsert failed:", err);
+  }
+  return testUserRow;
+}
 var PRODUCTS = {
   "crash-course": { id: "crash-course", name: "The Crash Course", price: 0, stripeProductId: "", stripePriceId: "", description: "Free pattern interruption crash course", features: ["Identify your destructive pattern", "Learn body signatures and triggers", "Circuit break scripts for all 9 patterns", "First interrupt attempt protocol", "Guided program"], pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf" },
   "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide \u2014 Your complete interrupt protocol.", features: ["Complete FEIR framework introduction", "Pattern-specific Field Guide PDF", "Quick-win strategies for immediate pattern interruption", "Essential worksheets and tracking tools", "Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
@@ -74599,6 +74663,16 @@ router.post("/auth/send-login-link", async (req, res) => {
       console.log(`[send-login-link] testUsers found=${!!testUser}`);
     } catch (err) {
       console.error(`[send-login-link] testUsers query failed:`, err);
+    }
+    if (!testUser && isEmailAllowlisted(normalizedEmail)) {
+      try {
+        testUser = await autoProvisionAllowlistedUser(normalizedEmail);
+        console.log(
+          `[send-login-link] auto-provisioned allowlisted user ${normalizedEmail} id=${testUser?.id}`
+        );
+      } catch (err) {
+        console.error(`[send-login-link] auto-provision failed:`, err);
+      }
     }
     if (testUser) {
       const sessionToken = generateAuthToken(`test_${testUser.id}`, normalizedEmail);
