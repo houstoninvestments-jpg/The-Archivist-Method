@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
-import { Lock, Lamp, ChevronDown } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { Lock, Lamp, ChevronDown, Repeat, ArrowUpRight } from "lucide-react";
 import type { PatternDetail } from "./patterns";
+import { PATTERN_DETAILS } from "./patterns";
 
 export interface TocSection {
   id: string;
@@ -19,9 +20,11 @@ interface SidebarProps {
   onSelect: (sectionId: string) => void;
   onClose: () => void;
   pattern: PatternDetail;
+  patternKey: string | null;
   tier: string;
   dayNumber: number | null;
   mobileOpen: boolean;
+  onPatternSwitched?: () => void;
 }
 
 const tierLabel = (tier: string): string => {
@@ -30,7 +33,7 @@ const tierLabel = (tier: string): string => {
   return "CRASH COURSE";
 };
 
-export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, tier, dayNumber, mobileOpen }: SidebarProps) {
+export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, patternKey, tier, dayNumber, mobileOpen, onPatternSwitched }: SidebarProps) {
   // Expanded groups: default to the active group, plus collapsed others
   const activeGroupId = useMemo(() => {
     for (const g of groups) if (g.sections.some((s) => s.id === activeSectionId)) return g.id;
@@ -42,6 +45,73 @@ export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, t
   const isOpen = (gid: string) => (expanded[gid] !== undefined ? expanded[gid] : gid === activeGroupId);
 
   const toggle = (gid: string) => setExpanded((p) => ({ ...p, [gid]: !isOpen(gid) }));
+
+  // ── Item 11: Switch Pattern (Field Guide tier only) ─────────────────────
+  // Field Guide buyers get one pattern deep-dive but should be able to swap
+  // to a secondary at any time without re-purchasing. Complete Archive sees
+  // all 9, so they don't need the switcher.
+  const [switcherOpen, setSwitcherOpen] = useState(false);
+  const [switching, setSwitching] = useState<string | null>(null);
+  const [switchError, setSwitchError] = useState<string | null>(null);
+
+  const allPatternKeys = useMemo(() => Object.keys(PATTERN_DETAILS), []);
+
+  const switchPattern = async (newKey: string) => {
+    if (newKey === patternKey || switching) return;
+    setSwitching(newKey);
+    setSwitchError(null);
+    try {
+      const res = await fetch("/api/portal/onboarding-update-pattern", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ pattern: newKey }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSwitcherOpen(false);
+      onPatternSwitched?.();
+    } catch (err) {
+      setSwitchError(err instanceof Error ? err.message : "Failed to switch pattern");
+    } finally {
+      setSwitching(null);
+    }
+  };
+
+  // ── Item 9: Upgrade-to-Archive CTA (Field Guide tier only) ──────────────
+  // Pull live price label so it reflects the $67 Field Guide credit.
+  const [upgradeLabel, setUpgradeLabel] = useState<string>("$230 (Field Guide credit applied)");
+  const [upgradePending, setUpgradePending] = useState(false);
+  useEffect(() => {
+    if (tier !== "quick-start") return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/portal/pricing/archive", { credentials: "include" });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled && data?.label) setUpgradeLabel(data.label);
+      } catch { /* keep default label */ }
+    })();
+    return () => { cancelled = true; };
+  }, [tier]);
+
+  const startUpgrade = async () => {
+    if (upgradePending) return;
+    setUpgradePending(true);
+    try {
+      const res = await fetch("/api/portal/checkout/archive-upgrade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data?.url) {
+        window.location.assign(data.url);
+        return;
+      }
+    } catch { /* fall through */ }
+    setUpgradePending(false);
+  };
 
   const sidebar = (
     <aside
@@ -98,7 +168,153 @@ export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, t
             </span>
           )}
         </div>
+
+        {/* Item 11: Switch Pattern — Field Guide tier only */}
+        {tier === "quick-start" && (
+          <div style={{ marginTop: 14 }}>
+            <button
+              type="button"
+              data-testid="button-switch-pattern"
+              onClick={() => setSwitcherOpen((v) => !v)}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "8px 12px",
+                background: switcherOpen ? "rgba(212,165,116,0.08)" : "transparent",
+                border: "1px solid rgba(212,165,116,0.35)",
+                borderRadius: 4,
+                color: "#D4A574",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 9,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            >
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <Repeat size={11} />
+                Switch Pattern
+              </span>
+              <ChevronDown
+                size={11}
+                style={{ transform: switcherOpen ? "rotate(0deg)" : "rotate(-90deg)", transition: "transform 0.2s", opacity: 0.6 }}
+              />
+            </button>
+            {switcherOpen && (
+              <div
+                style={{
+                  marginTop: 8,
+                  background: "#0E1014",
+                  border: "1px solid #1C1A24",
+                  borderRadius: 4,
+                  padding: "8px 6px",
+                  maxHeight: 280,
+                  overflowY: "auto",
+                }}
+              >
+                <p style={{
+                  fontFamily: "'EB Garamond', serif",
+                  fontStyle: "italic",
+                  fontSize: 12,
+                  color: "#8A857D",
+                  margin: "4px 8px 8px",
+                  lineHeight: 1.4,
+                }}>
+                  Field Guide includes one pattern. Switching replaces the chapters you see.
+                </p>
+                {allPatternKeys.map((k) => {
+                  const detail = PATTERN_DETAILS[k];
+                  const active = k === patternKey;
+                  return (
+                    <button
+                      type="button"
+                      key={k}
+                      onClick={() => switchPattern(k)}
+                      disabled={active || switching !== null}
+                      data-testid={`button-pattern-${k}`}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "8px 10px",
+                        margin: "1px 0",
+                        background: active ? "rgba(0,255,194,0.06)" : "transparent",
+                        border: 0,
+                        borderLeft: active ? "2px solid #00FFC2" : "2px solid transparent",
+                        borderRadius: 2,
+                        color: active ? "#00FFC2" : switching === k ? "#D4A574" : "#C8C0B2",
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 12,
+                        cursor: active || switching ? "default" : "pointer",
+                        opacity: switching && switching !== k ? 0.5 : 1,
+                      }}
+                    >
+                      {detail.name.charAt(0).toUpperCase() + detail.name.slice(1).toLowerCase()}
+                      {switching === k && (
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, marginLeft: 8, color: "#D4A574" }}>...</span>
+                      )}
+                    </button>
+                  );
+                })}
+                {switchError && (
+                  <p style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#ef4444",
+                    margin: "8px 10px 4px",
+                  }}>
+                    {switchError}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Item 9: Upgrade-to-Archive CTA — Field Guide tier only.
+          Renders inline above the chapter list so it stays visible on every
+          chapter, not just locked ones. */}
+      {tier === "quick-start" && (
+        <div style={{ padding: "14px 18px 0" }}>
+          <button
+            type="button"
+            data-testid="button-upgrade-archive"
+            onClick={startUpgrade}
+            disabled={upgradePending}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 10,
+              padding: "12px 14px",
+              background: "rgba(0,255,194,0.06)",
+              border: "1px solid rgba(0,255,194,0.4)",
+              borderRadius: 4,
+              color: "#00FFC2",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 9,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              cursor: upgradePending ? "wait" : "pointer",
+              fontWeight: 500,
+              opacity: upgradePending ? 0.7 : 1,
+              textAlign: "left",
+            }}
+          >
+            <span style={{ display: "flex", flexDirection: "column", gap: 4, lineHeight: 1.3 }}>
+              <span>UPGRADE TO COMPLETE ARCHIVE</span>
+              <span style={{ color: "#C8C0B2", fontSize: 9, letterSpacing: "0.12em", textTransform: "none" }}>
+                {upgradePending ? "Opening checkout…" : upgradeLabel}
+              </span>
+            </span>
+            <ArrowUpRight size={14} />
+          </button>
+        </div>
+      )}
 
       {/* Navigation list */}
       <nav style={{ flex: 1, overflowY: "auto", padding: "12px 10px 40px" }}>

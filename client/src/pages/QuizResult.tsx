@@ -350,10 +350,12 @@ export default function QuizResult() {
     }
   }, [focusPattern]);
 
-  // ── Auto-redirect after share prompt
+  // ── Auto-redirect after share prompt (give user 8s to share, then go).
+  // Auth cookie was already set by /api/quiz/submit, so /portal is reachable
+  // immediately. The "ENTER YOUR PORTAL" button below jumps there instantly.
   useEffect(() => {
     if (!showSharePrompt) return;
-    const t = setTimeout(() => window.location.assign('/portal'), 3000);
+    const t = setTimeout(() => window.location.assign('/portal'), 8000);
     return () => clearTimeout(t);
   }, [showSharePrompt]);
 
@@ -549,21 +551,39 @@ export default function QuizResult() {
               </button>
             </div>
 
+            {/* Primary CTA — straight into the portal. Cookie is already set
+                by /api/quiz/submit so the next page loads authenticated. */}
             <button
               onClick={() => window.location.assign('/portal')}
+              data-testid="button-enter-portal"
               style={{
-                background: 'none',
-                border: 'none',
-                color: '#475569',
+                display: 'inline-block',
+                background: '#00FFD1',
+                color: '#000',
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.1em',
+                fontSize: '0.85rem',
+                letterSpacing: '0.18em',
                 textTransform: 'uppercase',
+                fontWeight: 700,
+                padding: '14px 32px',
+                border: 'none',
+                borderRadius: '2px',
                 cursor: 'pointer',
+                marginBottom: '14px',
               }}
             >
-              Continue to portal →
+              ENTER YOUR PORTAL →
             </button>
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.6rem',
+              color: '#475569',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              margin: 0,
+            }}>
+              Auto-redirect in a few seconds
+            </p>
           </div>
         </div>
       )}

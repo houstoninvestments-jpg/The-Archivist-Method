@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import crypto from "crypto";
 import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema.js";
-import { eq, and, desc, asc } from "drizzle-orm";
+import { eq, and, desc, asc, sql } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { Resend } from "resend";
@@ -878,27 +878,59 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
   }
 });
 
-// Create checkout session for Archive Upgrade ($150 - for existing Quick-Start owners)
+// Create checkout session for Archive Upgrade.
+// Pricing rule (item 9):
+//   - Field Guide ($67) owners pay $297 - $67 = $230 (credit applied)
+//   - Anyone else (no Field Guide on file) pays the full $297
+// We authenticate the request, look up the buyer's purchase history, then
+// build a Stripe checkout session with the correct unit_amount.
 router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = (() => {
+      const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+      const host =
+        (req.headers["x-forwarded-host"] as string) ||
+        req.headers.host ||
+        process.env.PORTAL_BASE_URL?.replace(/^https?:\/\//, "") ||
+        "localhost:5000";
+      return process.env.PORTAL_BASE_URL || `${proto}://${host}`;
+    })();
 
-    // Use price_data to create a one-time $150 upgrade price
+    // Inspect auth so we know whether to apply the $67 Field Guide credit.
+    const token = getAuthToken(req);
+    let creditApplied = false;
+    let buyerEmail: string | undefined;
+    if (token) {
+      const authData = verifyAuthToken(token);
+      if (authData) {
+        buyerEmail = authData.email;
+        try {
+          const fieldGuideOwned = await userOwnsFieldGuide(authData);
+          creditApplied = fieldGuideOwned;
+        } catch (err) {
+          console.error("[archive-upgrade] purchase lookup failed:", err);
+        }
+      }
+    }
+
+    const fullPriceCents = 29700; // $297
+    const creditCents = 6700;     // $67 Field Guide credit
+    const unitAmount = creditApplied ? fullPriceCents - creditCents : fullPriceCents;
+
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
+      customer_email: buyerEmail,
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Complete Archive Upgrade",
-              description: "The Complete Archive — Every pattern. Every scenario. The complete system. (Upgrade pricing)",
+              name: creditApplied ? "Complete Archive (Field Guide credit applied)" : "The Complete Archive",
+              description: creditApplied
+                ? "The Complete Archive — Every pattern. Every scenario. $67 Field Guide credit applied."
+                : "The Complete Archive — Every pattern. Every scenario. The complete system.",
             },
-            unit_amount: 15000, // $150 in cents
+            unit_amount: unitAmount,
           },
           quantity: 1,
         },
@@ -908,16 +940,83 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
       cancel_url: `${baseUrl}/portal`,
       metadata: {
         product_id: "complete-archive",
-        product_name: "Complete Archive (Upgrade)",
-        upgrade_from: "quick-start",
+        product_name: creditApplied ? "Complete Archive (Upgrade)" : "The Complete Archive",
+        upgrade_from: creditApplied ? "quick-start" : "",
+        credit_applied_cents: creditApplied ? String(creditCents) : "0",
       },
     });
 
-    res.json({ url: session.url });
+    res.json({ url: session.url, creditApplied, unitAmount });
   } catch (error) {
     console.error("Upgrade checkout session error:", error);
     res.status(500).json({ error: "Failed to create upgrade checkout session" });
   }
+});
+
+// Helper used by the upgrade-pricing endpoint and by the /pricing/archive
+// preview below. Returns true if the authenticated user has a Field Guide
+// (quick-start) purchase on file (or an "archive" testUser/godMode flag,
+// which already implies access — those users won't see the upgrade button
+// anyway, but treat them defensively).
+async function userOwnsFieldGuide(authData: { userId: string; email: string }): Promise<boolean> {
+  // Test users / owner override
+  if (authData.userId.startsWith("test_")) {
+    const testUserId = authData.userId.replace("test_", "");
+    try {
+      const [t] = await db.select().from(testUsers).where(eq(testUsers.id, testUserId));
+      if (t && (t.accessLevel === "quick-start" || t.accessLevel === "archive" || t.godMode)) return true;
+    } catch {}
+    return false;
+  }
+  // Real users: check purchases table
+  try {
+    const userPurchases = await getUserPurchases(authData.userId);
+    if (userPurchases.some((p) => p.product_id === "quick-start")) return true;
+  } catch {}
+  // Quiz user accessLevel can also reflect Field Guide ownership when the
+  // Stripe webhook wrote it back to quiz_users.
+  try {
+    const [qu] = await db.select().from(quizUsers).where(eq(quizUsers.email, authData.email));
+    if (qu?.accessLevel === "quick-start" || qu?.accessLevel === "archive") return true;
+  } catch {}
+  return false;
+}
+
+// GET /pricing/archive — returns the current upgrade price for the authed
+// user so the portal can render the right CTA copy ($230 with credit, $297
+// without). Public-safe: returns the full price for unauthenticated callers.
+router.get("/pricing/archive", async (req: Request, res: Response) => {
+  const fullPriceCents = 29700;
+  const creditCents = 6700;
+  const token = getAuthToken(req);
+  if (!token) {
+    return res.json({
+      priceCents: fullPriceCents,
+      creditApplied: false,
+      creditCents: 0,
+      label: "$297",
+    });
+  }
+  const authData = verifyAuthToken(token);
+  if (!authData) {
+    return res.json({
+      priceCents: fullPriceCents,
+      creditApplied: false,
+      creditCents: 0,
+      label: "$297",
+    });
+  }
+  let creditApplied = false;
+  try {
+    creditApplied = await userOwnsFieldGuide(authData);
+  } catch {}
+  const priceCents = creditApplied ? fullPriceCents - creditCents : fullPriceCents;
+  res.json({
+    priceCents,
+    creditApplied,
+    creditCents: creditApplied ? creditCents : 0,
+    label: creditApplied ? "$230 (Field Guide credit applied)" : "$297",
+  });
 });
 
 // Test purchase endpoint (development only)
@@ -1495,9 +1594,66 @@ router.post("/chat", async (req: Request, res: Response) => {
     }
 
     const { pattern, tier: clientTier, streak } = req.body;
-    const patternName = pattern || "unknown";
+    const patternKey = pattern || "unknown";
     const userTier = tier || clientTier || "free";
     const streakCount = streak || 0;
+
+    // Pull pattern display data so the Archivist can reference the user's
+    // specific pattern by its proper name, body signature, and circuit break
+    // (item 10 — pattern persistence). Mirrors client/src/pages/portal/patterns.ts.
+    const PATTERN_DISPLAY: Record<string, { name: string; bodySignature: string; circuitBreak: string }> = {
+      disappearing: {
+        name: "The Disappearing Pattern",
+        bodySignature: "Tightness in chest, urge to physically leave, numbness spreading through limbs.",
+        circuitBreak: "When you feel the pull to vanish, name it: 'The pattern is running.' Stay 5 more minutes. That's the interrupt.",
+      },
+      apologyLoop: {
+        name: "The Apology Loop",
+        bodySignature: "Shoulders hunching, voice getting quieter, stomach dropping before speaking.",
+        circuitBreak: "Catch the 'sorry' before it leaves your mouth. Replace it with a statement: 'I need...' or 'I want...'",
+      },
+      testing: {
+        name: "The Testing Pattern",
+        bodySignature: "Restless energy, scanning for threats, jaw clenching during calm moments.",
+        circuitBreak: "When you create a test, ask: 'Am I testing or trusting?' Choose trust for 24 hours.",
+      },
+      attractionToHarm: {
+        name: "Attraction to Harm",
+        bodySignature: "Boredom with safety, excitement with instability, confusion between love and adrenaline.",
+        circuitBreak: "When 'boring' appears, reframe: 'This is what safe feels like.' Sit with safe for one hour.",
+      },
+      complimentDeflection: {
+        name: "Compliment Deflection",
+        bodySignature: "Heat in face, urge to look away, immediate mental list of why they're wrong.",
+        circuitBreak: "When a compliment lands, say only: 'Thank you.' Nothing else.",
+      },
+      drainingBond: {
+        name: "The Draining Bond",
+        bodySignature: "Guilt when considering boundaries, physical heaviness when near the person, exhaustion mistaken for love.",
+        circuitBreak: "Ask: 'If a friend described this exact situation, what would I tell them?' Listen to your own advice.",
+      },
+      successSabotage: {
+        name: "Success Sabotage",
+        bodySignature: "Anxiety increasing as deadline approaches, sudden urge to destroy what you've built, feeling like a fraud.",
+        circuitBreak: "When the urge to sabotage hits, finish one more step. Just one. Don't evaluate — execute.",
+      },
+      perfectionism: {
+        name: "The Perfectionism Pattern",
+        bodySignature: "Paralysis. Dread. A widening gap between the vision in your head and reality on the page.",
+        circuitBreak: "Perfectionism is telling you it's not ready. Done is better than perfect. Ship it.",
+      },
+      rage: {
+        name: "The Rage Pattern",
+        bodySignature: "Heat rising from chest to face. Jaw tight. Pressure building behind your eyes like a dam about to break.",
+        circuitBreak: "You feel the anger rising. This is the Rage Pattern. Don't say anything for 10 seconds. Breathe.",
+      },
+    };
+    const patternInfo = PATTERN_DISPLAY[patternKey] || {
+      name: "Unknown",
+      bodySignature: "Unknown — ask the user what they feel right before the pattern fires.",
+      circuitBreak: "Name it out loud: 'A pattern is running.'",
+    };
+    const patternName = patternInfo.name;
 
     let tierAccess = "";
     if (userTier === "quick-start") {
@@ -1516,8 +1672,11 @@ router.post("/chat", async (req: Request, res: Response) => {
 
 You are The Archivist. A pattern archaeologist. Not a therapist.
 
-USER CONTEXT:
+USER CONTEXT (use this — do not ask them to re-explain it):
 - Primary Pattern: ${patternName}
+- Pattern key: ${patternKey}
+- Body Signature (the 3-7s warning): ${patternInfo.bodySignature}
+- Circuit Break (the interrupt): ${patternInfo.circuitBreak}
 - Tier: ${userTier}
 - Streak: ${streakCount} days
 
@@ -1885,7 +2044,8 @@ router.get("/reader/toc", async (req: Request, res: Response) => {
     const progressRows = await db
       .select()
       .from(readingProgress)
-      .where(eq(readingProgress.userId, userId));
+      .where(eq(readingProgress.userId, userId))
+      .orderBy(desc(readingProgress.updatedAt));
 
     const progressMap: Record<string, { completed: boolean; lastPosition: number }> = {};
     for (const row of progressRows) {
@@ -1898,6 +2058,17 @@ router.get("/reader/toc", async (req: Request, res: Response) => {
     const completedCount = progressRows.filter((r) => r.completed).length;
     const totalAccessible = accessibleIds.size;
 
+    // Item 16: lastSectionId — the most recently-touched section the user
+    // can still access. This lets returning users land back on the chapter
+    // they were reading instead of the first chapter of the book.
+    let lastSectionId: string | null = null;
+    for (const row of progressRows) {
+      if (accessibleIds.has(row.sectionId)) {
+        lastSectionId = row.sectionId;
+        break;
+      }
+    }
+
     res.json({
       tier,
       primaryPattern,
@@ -1909,6 +2080,7 @@ router.get("/reader/toc", async (req: Request, res: Response) => {
         percentComplete: totalAccessible > 0 ? Math.round((completedCount / totalAccessible) * 100) : 0,
       },
       firstSectionId: getFirstSectionId(tier, primaryPattern || undefined),
+      lastSectionId,
     });
   } catch (error) {
     console.error("Reader TOC error:", error);
@@ -2228,6 +2400,161 @@ router.post("/crash-course/progress", async (req: Request, res: Response) => {
     console.error("Crash course progress error:", error);
     res.status(500).json({ error: "Failed to save progress" });
   }
+});
+
+// ─── Items 12-14: System health / env-var diagnostic ─────────────────────────
+// GET /api/portal/system-check
+// Returns a structured report of which env vars are configured and whether the
+// database can be reached. Intended for the owner to debug Vercel deployments
+// without leaking secret values. Responds with HTTP 200 even when degraded so
+// the report itself is always visible; individual checks contain pass/fail.
+//
+// Token gating: callers must supply `?key=<ADMIN_DIAG_KEY>` matching the env
+// var of the same name, OR be authenticated as the hardcoded owner email.
+// This avoids exposing infra details to the public internet.
+router.get("/system-check", async (req: Request, res: Response) => {
+  const supplied = (req.query.key as string) || "";
+  const expected = process.env.ADMIN_DIAG_KEY || "";
+
+  // Allow owner-authenticated callers as a fallback so this endpoint stays
+  // useful even before ADMIN_DIAG_KEY is set in Vercel.
+  let ownerAuth = false;
+  try {
+    const token = getAuthToken(req);
+    if (token) {
+      const authData = verifyAuthToken(token);
+      if (authData?.email?.toLowerCase() === "houstoninvestments@gmail.com") {
+        ownerAuth = true;
+      }
+    }
+  } catch { /* ignore */ }
+
+  if (!ownerAuth && (!expected || supplied !== expected)) {
+    return res.status(401).json({ error: "Unauthorized. Provide ?key=<ADMIN_DIAG_KEY> or sign in as the owner." });
+  }
+
+  const presence = (name: string): { name: string; set: boolean; preview?: string } => {
+    const v = process.env[name];
+    if (!v) return { name, set: false };
+    // Reveal only the leading prefix and length so we can verify
+    // shape (e.g. sk_test_, whsec_, postgres://) without leaking secrets.
+    const head = v.slice(0, Math.min(8, v.length));
+    return { name, set: true, preview: `${head}… (len ${v.length})` };
+  };
+
+  const envChecks = {
+    database: [
+      presence("DATABASE_URL"),
+      presence("SUPABASE_URL"),
+      presence("SUPABASE_ANON_KEY"),
+      presence("SUPABASE_SERVICE_ROLE_KEY"),
+    ],
+    auth: [presence("JWT_SECRET"), presence("ADMIN_EMAIL")],
+    stripe: [
+      presence("STRIPE_SECRET_KEY"),
+      presence("STRIPE_PUBLISHABLE_KEY"),
+      presence("STRIPE_WEBHOOK_SECRET"),
+    ],
+    email: [presence("RESEND_API_KEY")],
+    ai: [presence("ANTHROPIC_API_KEY")],
+    app: [presence("PORTAL_BASE_URL"), presence("APP_URL")],
+  };
+
+  // Database ping — runs a trivial SELECT 1 to confirm we can reach Postgres.
+  const dbCheck: { ok: boolean; ms: number; error?: string } = { ok: false, ms: 0 };
+  const dbStart = Date.now();
+  try {
+    await db.execute(sql`SELECT 1`);
+    dbCheck.ok = true;
+  } catch (err) {
+    dbCheck.error = err instanceof Error ? err.message : String(err);
+  } finally {
+    dbCheck.ms = Date.now() - dbStart;
+  }
+
+  // Anthropic key sanity check — does NOT call the network. Just verifies
+  // the key shape (sk-ant-… is the documented prefix).
+  const anthropicKey = process.env.ANTHROPIC_API_KEY || "";
+  const anthropicShape = {
+    set: anthropicKey.length > 0,
+    looksValid: anthropicKey.startsWith("sk-ant-"),
+  };
+
+  // Stripe key sanity — should be sk_test_ or sk_live_; webhook should be whsec_.
+  const stripeKey = process.env.STRIPE_SECRET_KEY || "";
+  const stripeWebhook = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const stripeShape = {
+    secretKeySet: stripeKey.length > 0,
+    secretKeyMode: stripeKey.startsWith("sk_test_") ? "test" : stripeKey.startsWith("sk_live_") ? "live" : "unknown",
+    webhookSecretSet: stripeWebhook.length > 0,
+    webhookSecretValid: stripeWebhook.startsWith("whsec_"),
+  };
+
+  // Database URL shape: surface the pieces we'd need to debug Supabase
+  // "Tenant or user not found" without revealing the password.
+  let dbUrlShape: Record<string, any> = { set: false };
+  const rawUrl = process.env.DATABASE_URL || "";
+  if (rawUrl) {
+    try {
+      const u = new URL(rawUrl);
+      dbUrlShape = {
+        set: true,
+        protocol: u.protocol,
+        host: u.hostname,
+        port: u.port || "(default)",
+        database: u.pathname.replace(/^\//, "") || "(none)",
+        username: u.username || "(none)",
+        passwordSet: u.password.length > 0,
+        // Common Supabase symptom: SUPABASE_URL is set but DATABASE_URL still
+        // points at the wrong project ref. Flag any obvious mismatch.
+        supabaseUrlMatch:
+          process.env.SUPABASE_URL?.includes(u.hostname.split(".")[0].replace("db.", "")) ?? null,
+      };
+    } catch (e) {
+      dbUrlShape = { set: true, parseError: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  // Recommendations the owner can paste into Vercel.
+  const issues: string[] = [];
+  if (!dbCheck.ok) {
+    issues.push(
+      `DATABASE_URL is unreachable: ${dbCheck.error || "unknown"}. ` +
+      `If Supabase reports 'Tenant or user not found', the connection string ` +
+      `is pointing at the wrong project ref or has been rotated. Verify in ` +
+      `Supabase → Project Settings → Database → Connection string and ` +
+      `paste the full string (including password) into Vercel as DATABASE_URL.`
+    );
+  }
+  if (!anthropicShape.set) {
+    issues.push("ANTHROPIC_API_KEY is missing — the Pocket Archivist chat will return 503. Add it in Vercel → Environment Variables.");
+  } else if (!anthropicShape.looksValid) {
+    issues.push("ANTHROPIC_API_KEY is set but does not start with sk-ant-. Double check you copied a real key.");
+  }
+  if (!stripeShape.secretKeySet) {
+    issues.push("STRIPE_SECRET_KEY is missing — checkout endpoints will throw. Add a sk_test_ or sk_live_ key in Vercel.");
+  } else if (stripeShape.secretKeyMode === "unknown") {
+    issues.push("STRIPE_SECRET_KEY does not start with sk_test_ or sk_live_. Likely truncated or pasted wrong.");
+  }
+  if (!stripeShape.webhookSecretSet) {
+    issues.push("STRIPE_WEBHOOK_SECRET is missing — incoming webhooks will be rejected, so purchases will not flip access_level. Add the whsec_ value from Stripe Dashboard → Developers → Webhooks → your endpoint.");
+  } else if (!stripeShape.webhookSecretValid) {
+    issues.push("STRIPE_WEBHOOK_SECRET does not start with whsec_. Probably the wrong value.");
+  }
+  if (!process.env.JWT_SECRET) {
+    issues.push("JWT_SECRET is missing — defaulting to an insecure dev value. Generate with: openssl rand -base64 64");
+  }
+
+  res.json({
+    ok: dbCheck.ok && anthropicShape.set && stripeShape.secretKeySet && stripeShape.webhookSecretSet,
+    timestamp: new Date().toISOString(),
+    nodeEnv: process.env.NODE_ENV || "(unset)",
+    env: envChecks,
+    database: { ...dbCheck, urlShape: dbUrlShape },
+    anthropic: anthropicShape,
+    stripe: { ...stripeShape, webhookEndpointHint: "https://thearchivistmethod.com/api/portal/webhooks/stripe" },
+    issues,
+  });
 });
 
 export default router;

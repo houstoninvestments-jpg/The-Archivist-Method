@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const FONT_HEADING = "'Bebas Neue', sans-serif";
 const FONT_MONO    = "'JetBrains Mono', monospace";
@@ -42,6 +42,19 @@ export default function PortalLogin() {
   const [status, setStatus]   = useState<'idle' | 'sending' | 'sent' | 'error' | 'instant' | 'devlink'>('idle');
   const [errMsg, setErrMsg]   = useState('');
   const [devLink, setDevLink] = useState<string | null>(null);
+
+  // Item 16: graceful returning-user flow. /api/portal/auth/verify redirects
+  // here with ?error=expired or ?error=invalid when a magic link or session
+  // cookie has expired. Detect that and switch to the welcome-back copy
+  // instead of bouncing the user to a generic error screen.
+  const expiredReason = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    const p = new URLSearchParams(window.location.search).get('error');
+    if (p === 'expired') return 'expired';
+    if (p === 'invalid') return 'invalid';
+    return null;
+  }, []);
+  const isReturning = expiredReason !== null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,7 +133,7 @@ export default function PortalLogin() {
           letterSpacing: '0.03em',
           lineHeight: 1.05,
         }}>
-          REQUEST ACCESS LINK
+          {isReturning ? 'WELCOME BACK.' : 'REQUEST ACCESS LINK'}
         </p>
 
         <p style={{
@@ -130,7 +143,11 @@ export default function PortalLogin() {
           margin: '0 0 40px',
           lineHeight: 1.6,
         }}>
-          Enter your email. We'll send a secure link — no password required.
+          {isReturning
+            ? expiredReason === 'expired'
+              ? 'Your previous link expired. Enter your email for a new access link — we\u2019ll drop you back where you left off.'
+              : 'That link couldn\u2019t be verified. Enter your email for a fresh access link.'
+            : 'Enter your email. We\u2019ll send a secure link — no password required.'}
         </p>
 
         {/* Divider */}

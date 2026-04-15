@@ -12,6 +12,9 @@ interface TocResponse {
   primaryPattern: string | null;
   groups: TocGroup[];
   firstSectionId: string;
+  /** Item 16: server returns the most recently read section so returning
+   *  users land back where they left off. Falls back to firstSectionId. */
+  lastSectionId?: string | null;
   stats?: { completedSections: number; totalSections: number; percentComplete: number };
   progress?: Record<string, { completed: boolean; lastPosition: number }>;
 }
@@ -58,6 +61,7 @@ function FeirPill({ door }: { door: FeirDoor }) {
   const c = FEIR_COLORS[door];
   return (
     <span
+      className="portal-feir-pill"
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -75,7 +79,7 @@ function FeirPill({ door }: { door: FeirDoor }) {
       }}
     >
       <span style={{ width: 6, height: 6, borderRadius: "50%", background: c.accent, boxShadow: `0 0 8px ${c.accent}` }} />
-      {door} // {c.name}
+      <span className="portal-feir-pill-text">{door} // {c.name}</span>
     </span>
   );
 }
@@ -347,9 +351,10 @@ export default function Portal() {
         if (!res.ok) throw new Error(`TOC ${res.status}`);
         const data = (await res.json()) as TocResponse;
         setToc(data);
-        // Determine initial section from URL hash or firstSectionId
+        // Determine initial section: explicit hash > resume (lastSectionId) > first
         const hash = window.location.hash.replace(/^#\/?/, "");
-        const initial = hash && /^(m\d|p\d|ep-)/.test(hash) ? hash : data.firstSectionId;
+        const resume = data.lastSectionId || null;
+        const initial = hash && /^(m\d|p\d|ep-)/.test(hash) ? hash : (resume || data.firstSectionId);
         setActiveId(initial);
       } catch {
         if (!devRoute) setAuthError(true);
@@ -358,6 +363,25 @@ export default function Portal() {
       }
     })();
   }, [devMode, devRoute]);
+
+  // Item 11: when the Field Guide user switches patterns, we need to refetch
+  // the TOC so the new pattern's chapters are shown. This bumps `tocVersion`
+  // which forces a re-run of the loader above (we'll add it to the dep list).
+  const [tocVersion, setTocVersion] = useState(0);
+  useEffect(() => {
+    if (tocVersion === 0 || devMode || devRoute) return;
+    (async () => {
+      try {
+        const res = await fetch("/api/portal/reader/toc", { credentials: "include" });
+        if (res.status === 401) { setAuthError(true); return; }
+        if (!res.ok) return;
+        const data = (await res.json()) as TocResponse;
+        setToc(data);
+        // Reset to first section of the new pattern
+        setActiveId(data.firstSectionId);
+      } catch { /* ignore */ }
+    })();
+  }, [tocVersion, devMode, devRoute]);
 
   useEffect(() => {
     if (authError && !devMode && !devRoute) navigate("/portal/login");
@@ -493,6 +517,18 @@ export default function Portal() {
             z-index: 80;
           }
         }
+
+        /* Item 15: mobile (≤390px iPhone width) — keep the top bar from
+           wrapping. Tighten padding, shrink the FeirPill into a dot, and
+           drop the "Archivist" label to its icon. */
+        @media (max-width: 480px) {
+          .portal-topbar { padding: 0 12px !important; gap: 8px !important; }
+          .portal-topbar-actions { gap: 6px !important; }
+          .portal-feir-pill { padding: 4px 6px !important; font-size: 0 !important; gap: 0 !important; }
+          .portal-feir-pill-text { display: none !important; }
+          .portal-archivist-label { display: none !important; }
+          .portal-reader-content { padding: 32px 18px 0 !important; }
+        }
       `}</style>
 
       {/* Ambient wash */}
@@ -514,9 +550,11 @@ export default function Portal() {
         onSelect={handleSelectSection}
         onClose={() => setMobileNavOpen(false)}
         pattern={patternDetail}
+        patternKey={toc.primaryPattern}
         tier={toc.tier}
         dayNumber={dayNumber}
         mobileOpen={mobileNavOpen}
+        onPatternSwitched={() => setTocVersion((v) => v + 1)}
       />
 
       <main
@@ -526,6 +564,7 @@ export default function Portal() {
       >
         {/* Top bar */}
         <div
+          className="portal-topbar"
           style={{
             height: 56,
             borderBottom: "1px solid #14121A",
@@ -538,6 +577,7 @@ export default function Portal() {
             position: "sticky",
             top: 0,
             zIndex: 20,
+            gap: 12,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -562,7 +602,7 @@ export default function Portal() {
             </button>
             <Breadcrumb sectionId={activeId} groups={toc.groups} />
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="portal-topbar-actions" style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <FeirPill door={feirDoor} />
             <button
               type="button"
@@ -589,7 +629,7 @@ export default function Portal() {
               }}
             >
               <MessageSquare size={12} />
-              Archivist
+              <span className="portal-archivist-label">Archivist</span>
             </button>
           </div>
         </div>
@@ -623,7 +663,7 @@ export default function Portal() {
           {!loadingSection && section?.locked && <LockOverlay />}
 
           {!loadingSection && section && !section.locked && (
-            <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 32px 0" }}>
+            <div className="portal-reader-content" style={{ maxWidth: 720, margin: "0 auto", padding: "48px 32px 0" }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.24em", color: feirPalette.accent, marginBottom: 20, fontWeight: 500 }}>
                 // {section.sectionId.toUpperCase()} · {section.readMinutes} MIN
               </div>
