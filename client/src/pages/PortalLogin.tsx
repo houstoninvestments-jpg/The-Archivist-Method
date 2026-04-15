@@ -11,6 +11,32 @@ const C_MUTED = "#A3A3A3";
 const C_DIM   = "#666666";
 const C_BORDER = "#2a2a2a";
 
+// ── DEVELOPER ACCESS BYPASS ───────────────────────────────────────────────────
+// Pre-signed HS256 JWT for the owner. Signed with the JWT_SECRET fallback used
+// in api/portal-routes.ts ("your-secret-key-change-in-production"). Payload:
+//   userId: "test_owner-bypass", email: "houstoninvestments@gmail.com"
+//   exp:    iat + 10 years
+// The verify-token + auth middleware short-circuits any userId starting with
+// "test_", so this passes server-side auth with no DB lookup. Portal.tsx also
+// honors the localStorage "dev_bypass" flag and skips API calls entirely so
+// the portal renders even if /api is down.
+const OWNER_BYPASS_JWT =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0X293bmVyLWJ5cGFzcyIsImVtYWlsIjoiaG91c3RvbmludmVzdG1lbnRzQGdtYWlsLmNvbSIsImlhdCI6MTc3NjI5MDIyNCwiZXhwIjoyMDkxNjUwMjI0fQ.6NcP1K0537n1_TqU28CR1SdinTcASWdqbruuNBv44kM";
+
+function activateDeveloperAccess() {
+  try {
+    localStorage.setItem("quiz_auth_token", OWNER_BYPASS_JWT);
+    localStorage.setItem("auth_token", OWNER_BYPASS_JWT);
+    localStorage.setItem("dev_bypass", "true");
+    // Also drop a non-httpOnly cookie so server-credentialed fetches that
+    // happen to work get the JWT. Matches the cookie name the API uses.
+    document.cookie = `auth_token=${OWNER_BYPASS_JWT}; path=/; max-age=${10 * 365 * 24 * 60 * 60}; SameSite=Lax`;
+  } catch {
+    /* ignore — still navigate */
+  }
+  window.location.href = "/portal";
+}
+
 export default function PortalLogin() {
   const [email, setEmail]     = useState('');
   const [status, setStatus]   = useState<'idle' | 'sending' | 'sent' | 'error' | 'instant' | 'devlink'>('idle');
@@ -265,6 +291,29 @@ export default function PortalLogin() {
               }}
             >
               {status === 'sending' ? 'SENDING...' : 'SEND ACCESS LINK →'}
+            </button>
+
+            {/* Developer access bypass — pure client-side, no API, no DB */}
+            <button
+              type="button"
+              onClick={activateDeveloperAccess}
+              style={{
+                display: 'block',
+                width: '100%',
+                marginTop: '16px',
+                background: 'transparent',
+                color: C_DIM,
+                fontFamily: FONT_MONO,
+                fontSize: '11px',
+                letterSpacing: '0.18em',
+                border: `1px dashed ${C_BORDER}`,
+                borderRadius: '2px',
+                padding: '12px',
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+              }}
+            >
+              DEVELOPER ACCESS
             </button>
           </form>
         )}
