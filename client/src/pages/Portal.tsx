@@ -290,6 +290,25 @@ function buildDevMockSection(sectionId: string): SectionResponse {
 }
 // ── END TEMP DEV BYPASS ─────────────────────────────────────────────────────
 
+// /portal/dev route: NO auth, NO database, NO JWT. Hits the public
+// /api/portal/dev/reader/* endpoints which read real markdown straight from
+// the the-archivist-method/ directory. Hardcoded as Aaron Houston, archive
+// tier, disappearing pattern.
+function isDevRoute(): boolean {
+  try {
+    return typeof window !== "undefined" && window.location.pathname === "/portal/dev";
+  } catch {
+    return false;
+  }
+}
+
+const DEV_ROUTE_USER = {
+  name: "Aaron Houston",
+  email: "houstoninvestments@gmail.com",
+  primaryPattern: "disappearing",
+  accessLevel: "archive" as const,
+};
+
 export default function Portal() {
   const [, navigate] = useLocation();
 
@@ -305,10 +324,11 @@ export default function Portal() {
 
   // TEMP DEV BYPASS — remove before launch
   const devMode = useMemo(() => isDevMode(), []);
+  const devRoute = useMemo(() => isDevRoute(), []);
 
   // Load TOC
   useEffect(() => {
-    if (devMode) {
+    if (devMode && !devRoute) {
       const mock = buildDevMockToc();
       setToc(mock);
       const hash = window.location.hash.replace(/^#\/?/, "");
@@ -317,10 +337,11 @@ export default function Portal() {
       setLoadingToc(false);
       return;
     }
+    const tocUrl = devRoute ? "/api/portal/dev/reader/toc" : "/api/portal/reader/toc";
     (async () => {
       try {
-        const res = await fetch("/api/portal/reader/toc", { credentials: "include" });
-        if (res.status === 401) {
+        const res = await fetch(tocUrl, devRoute ? {} : { credentials: "include" });
+        if (!devRoute && res.status === 401) {
           setAuthError(true);
           return;
         }
@@ -332,21 +353,21 @@ export default function Portal() {
         const initial = hash && /^(m\d|p\d|ep-)/.test(hash) ? hash : data.firstSectionId;
         setActiveId(initial);
       } catch {
-        setAuthError(true);
+        if (!devRoute) setAuthError(true);
       } finally {
         setLoadingToc(false);
       }
     })();
-  }, [devMode]);
+  }, [devMode, devRoute]);
 
   useEffect(() => {
-    if (authError && !devMode) navigate("/portal/login");
-  }, [authError, navigate, devMode]);
+    if (authError && !devMode && !devRoute) navigate("/portal/login");
+  }, [authError, navigate, devMode, devRoute]);
 
   // Load section when activeId changes
   useEffect(() => {
     if (!activeId) return;
-    if (devMode) {
+    if (devMode && !devRoute) {
       setSection(buildDevMockSection(activeId));
       setLoadingSection(false);
       try {
@@ -356,9 +377,12 @@ export default function Portal() {
     }
     let cancelled = false;
     setLoadingSection(true);
+    const sectionUrl = devRoute
+      ? `/api/portal/dev/reader/section/${encodeURIComponent(activeId)}`
+      : `/api/portal/reader/section/${encodeURIComponent(activeId)}`;
     (async () => {
       try {
-        const res = await fetch(`/api/portal/reader/section/${encodeURIComponent(activeId)}`, { credentials: "include" });
+        const res = await fetch(sectionUrl, devRoute ? {} : { credentials: "include" });
         if (!res.ok) throw new Error(`Section ${res.status}`);
         const data = (await res.json()) as SectionResponse;
         if (cancelled) return;
@@ -379,7 +403,7 @@ export default function Portal() {
       }
     })();
     return () => { cancelled = true; };
-  }, [activeId]);
+  }, [activeId, devMode, devRoute]);
 
   const patternDetail = useMemo(() => getPatternDetail(toc?.primaryPattern || null), [toc?.primaryPattern]);
 

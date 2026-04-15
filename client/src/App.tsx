@@ -43,6 +43,7 @@ function Router() {
       <Route path="/results" component={QuizResult} />
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal/crash-course" component={CrashCourseRedirect} />
+      <Route path="/portal/dev" component={Portal} />
       <Route path="/portal" component={Portal} />
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />

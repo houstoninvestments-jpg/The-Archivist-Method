@@ -1963,6 +1963,65 @@ router.get("/reader/section/:sectionId", async (req: Request, res: Response) => 
   }
 });
 
+// ── DEV BYPASS READER ROUTES ────────────────────────────────────────────────
+// Public, no-auth, no-DB versions of /reader/toc and /reader/section. Backs
+// the /portal/dev page so the owner can read the real markdown content even
+// when auth or the database are completely down. Hardcoded as the
+// "disappearing" pattern, archive tier, "Aaron Houston".
+router.get("/dev/reader/toc", async (_req: Request, res: Response) => {
+  try {
+    const tier = "archive" as const;
+    const primaryPattern = "disappearing";
+    const toc = getCompleteArchiveToc(primaryPattern);
+    const annotatedGroups = toc.groups.map((g) => ({
+      ...g,
+      sections: g.sections.map((s) => ({ ...s, locked: false })),
+    }));
+    const totalSections = annotatedGroups.reduce(
+      (acc, g) => acc + g.sections.length,
+      0,
+    );
+    res.json({
+      tier,
+      primaryPattern,
+      groups: annotatedGroups,
+      progress: {},
+      stats: { completedSections: 0, totalSections, percentComplete: 0 },
+      firstSectionId: getFirstSectionId(tier, primaryPattern),
+      // Hardcoded user shell, in case the client wants to display it
+      user: { name: "Aaron Houston", email: "houstoninvestments@gmail.com", accessLevel: "archive" },
+    });
+  } catch (error) {
+    console.error("[dev reader toc] error:", error);
+    res.status(500).json({ error: "Failed to load dev TOC", detail: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+router.get("/dev/reader/section/:sectionId", async (req: Request, res: Response) => {
+  try {
+    const tier = "archive" as const;
+    const primaryPattern = "disappearing";
+    const { sectionId } = req.params;
+    const section = findSectionById(sectionId);
+    if (!section) return res.status(404).json({ error: "Section not found" });
+    const result = await getSectionContent(sectionId);
+    if (!result) return res.status(404).json({ error: "Content not found" });
+    const adjacent = getAdjacentSections(sectionId, tier, primaryPattern);
+    res.json({
+      sectionId,
+      title: section.title,
+      content: result.content,
+      readMinutes: result.readMinutes,
+      locked: false,
+      prev: adjacent.prev,
+      next: adjacent.next,
+    });
+  } catch (error) {
+    console.error("[dev reader section] error:", error);
+    res.status(500).json({ error: "Failed to load dev section", detail: error instanceof Error ? error.message : String(error) });
+  }
+});
+
 router.get("/reader/notes/:sectionId", async (req: Request, res: Response) => {
   try {
     const token = getAuthToken(req);
