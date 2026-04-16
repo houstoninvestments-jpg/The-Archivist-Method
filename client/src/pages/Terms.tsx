@@ -63,7 +63,7 @@ export default function Terms() {
           </h1>
 
           <p className="mb-12" style={{ ...bodyParagraphStyle, fontSize: "0.85rem", color: COLOR_MUTED }}>
-            Last updated: February 15, 2026
+            Last updated: April 16, 2026
           </p>
 
           <p style={bodyParagraphStyle}>
@@ -112,17 +112,17 @@ export default function Terms() {
 
           <SectionLabel>YOUR CONTENT</SectionLabel>
           <p style={bodyParagraphStyle}>
-            Anything you enter into the AI chat, brain dumps, or activation logs belongs to you. We don't sell your data. We don't share it. We don't use it for advertising.
+            Anything you enter into the AI chat, pattern logs, or interrupt logs belongs to you. We don't sell your data. We don't share it. We don't use it for advertising.
           </p>
 
           <SectionLabel>INTELLECTUAL PROPERTY</SectionLabel>
           <p style={bodyParagraphStyle}>
-            The Archivist Method&trade;, all written content, the FEIR framework, the Four Doors Protocol, pattern descriptions, field guides, and the Complete Archive are protected intellectual property. You may not redistribute, resell, or republish any materials without written permission.
+            The Archivist Method&trade;, all written content, the Four Doors framework, pattern descriptions, field guides, and the Complete Archive are protected intellectual property. You may not redistribute, resell, or republish any materials without written permission.
           </p>
 
           <SectionLabel>THE AI</SectionLabel>
           <p style={bodyParagraphStyle}>
-            The Archivist AI is a pattern recognition assistant. It is not a therapist. It does not provide medical, legal, or financial advice. Use your judgment. If something doesn't feel right, trust yourself over the AI.
+            The Pocket Archivist is a pattern recognition assistant. It is not a therapist. It does not provide medical, legal, or financial advice. Use your judgment. If something doesn't feel right, trust yourself over the AI.
           </p>
 
           <SectionLabel>LIABILITY</SectionLabel>

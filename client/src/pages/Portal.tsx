@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Menu, ChevronRight, Lock, MessageSquare, Zap, X } from "lucide-react";
 import { Sidebar, TocGroup } from "./portal/Sidebar";
 import { Markdown } from "./portal/markdown";
-import { feirForSection, FEIR_COLORS, FeirDoor } from "./portal/feir";
+import { doorForSection, DOOR_COLORS, Door } from "./portal/doors";
 import { getPatternDetail, type PatternDetail } from "./portal/patterns";
 import { ArchivistPanel } from "./portal/Archivist";
 
@@ -54,8 +54,8 @@ function Breadcrumb({ sectionId, groups }: { sectionId: string | null; groups: T
   );
 }
 
-function FeirPill({ door }: { door: FeirDoor }) {
-  const c = FEIR_COLORS[door];
+function DoorPill({ door }: { door: Door }) {
+  const c = DOOR_COLORS[door];
   return (
     <span
       style={{
@@ -75,7 +75,7 @@ function FeirPill({ door }: { door: FeirDoor }) {
       }}
     >
       <span style={{ width: 6, height: 6, borderRadius: "50%", background: c.accent, boxShadow: `0 0 8px ${c.accent}` }} />
-      {door} // {c.name}
+      DOOR {door} // {c.name}
     </span>
   );
 }
@@ -598,8 +598,8 @@ export default function Portal() {
 
   const patternDetail = useMemo(() => getPatternDetail(toc?.primaryPattern || null), [toc?.primaryPattern]);
 
-  const feirDoor: FeirDoor = activeId ? feirForSection(activeId) : "E";
-  const feirPalette = FEIR_COLORS[feirDoor];
+  const door: Door = activeId ? doorForSection(activeId) : 2;
+  const doorPalette = DOOR_COLORS[door];
 
   const handleSelectSection = (id: string) => {
     setActiveId(id);
@@ -627,15 +627,15 @@ export default function Portal() {
 
   return (
     <div
-      data-feir={feirDoor}
+      data-door={door}
       style={{
         minHeight: "100vh",
         background: "#080A0C",
         color: "#F0EDE8",
         position: "relative",
         // CSS custom properties for ambient color with transition
-        ["--ambient-accent" as any]: feirPalette.accent,
-        ["--ambient-color" as any]: feirPalette.ambient,
+        ["--ambient-accent" as any]: doorPalette.accent,
+        ["--ambient-color" as any]: doorPalette.ambient,
         transition: "background 1.2s ease",
       }}
     >
@@ -694,7 +694,7 @@ export default function Portal() {
           position: "fixed",
           inset: 0,
           pointerEvents: "none",
-          background: `radial-gradient(ellipse at 70% 0%, ${feirPalette.ambient} 0%, transparent 60%)`,
+          background: `radial-gradient(ellipse at 70% 0%, ${doorPalette.ambient} 0%, transparent 60%)`,
           transition: "background 1.2s ease",
           zIndex: 0,
         }}
@@ -755,7 +755,7 @@ export default function Portal() {
             <Breadcrumb sectionId={activeId} groups={toc.groups} />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <FeirPill door={feirDoor} />
+            <DoorPill door={door} />
             <button
               type="button"
               onClick={() => setInterruptOpen(true)}
@@ -850,10 +850,10 @@ export default function Portal() {
 
           {!loadingSection && section && !section.locked && (
             <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 32px 0" }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.24em", color: feirPalette.accent, marginBottom: 20, fontWeight: 500 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.24em", color: doorPalette.accent, marginBottom: 20, fontWeight: 500 }}>
                 // {section.sectionId.toUpperCase()} · {section.readMinutes} MIN
               </div>
-              <Markdown content={section.content} accentColor={feirPalette.accent} />
+              <Markdown content={section.content} accentColor={doorPalette.accent} />
               {section.next && (
                 <NextChapterCard nextId={section.next} groups={toc.groups} onSelect={handleSelectSection} />
               )}

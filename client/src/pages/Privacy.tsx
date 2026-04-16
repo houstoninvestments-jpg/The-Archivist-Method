@@ -76,7 +76,7 @@ export default function Privacy() {
           </h1>
 
           <p className="mb-12" style={{ ...bodyParagraphStyle, fontSize: "0.85rem", color: COLOR_MUTED }}>
-            Last updated: February 15, 2026
+            Last updated: April 16, 2026
           </p>
 
           <p style={bodyParagraphStyle}>
@@ -90,9 +90,10 @@ export default function Privacy() {
               <BulletItem title="Email address">Provided during the quiz or account creation. Used for authentication and communication.</BulletItem>
               <BulletItem title="Quiz responses">Your answers to the Pattern Identification Quiz. Used to determine your primary pattern and deliver personalized content.</BulletItem>
               <BulletItem title="Payment information">Processed securely by Stripe. We never see or store your full card number.</BulletItem>
-              <BulletItem title="AI chat conversations">Your messages with The Archivist AI. Stored to maintain conversation context within your session.</BulletItem>
-              <BulletItem title="Notes and highlights">Content you save in the reader. Stored in your account for your reference.</BulletItem>
-              <BulletItem title="Activation logs">Data you enter in the Vault Workbench. Stored in your account for pattern tracking.</BulletItem>
+              <BulletItem title="AI chat conversations">Your messages with the Pocket Archivist. Stored to maintain conversation context within your session.</BulletItem>
+              <BulletItem title="Reading progress">Your position in the portal content. Stored to resume where you left off.</BulletItem>
+              <BulletItem title="Pattern logs">Data you enter when logging an interrupt or tracking a pattern activation. Stored in your account.</BulletItem>
+              <BulletItem title="Pattern identification data">Your primary pattern, secondary patterns, and pattern scores from the quiz. Used to personalize your portal content and Pocket Archivist responses.</BulletItem>
             </ul>
           </div>
 
@@ -113,7 +114,7 @@ export default function Privacy() {
               <BulletItem title="Authentication">To verify your identity and grant access to purchased content.</BulletItem>
               <BulletItem title="Content delivery">To show you pattern-specific material based on your quiz results and purchases.</BulletItem>
               <BulletItem title="AI responses">To provide contextually relevant pattern recognition guidance within your chat sessions.</BulletItem>
-              <BulletItem title="Progress tracking">To save your reading position, completed sections, and streak data.</BulletItem>
+              <BulletItem title="Progress tracking">To save your reading position and completed sections.</BulletItem>
               <BulletItem title="Transactional emails">To send purchase confirmations and account-related notices. No marketing spam.</BulletItem>
             </ul>
           </div>
@@ -124,7 +125,8 @@ export default function Privacy() {
               We use authentication cookies to keep you logged in. That's it. No tracking cookies. No advertising pixels. No third-party analytics cookies.
             </p>
             <ul className="space-y-2 pl-1">
-              <BulletItem title="auth_token / quiz_token">Session cookies that authenticate your access to the portal. Expire when you close your browser or after a set period.</BulletItem>
+              <BulletItem title="auth_token">Authentication cookie that verifies your portal access. Expires after 7 days.</BulletItem>
+              <BulletItem title="quiz_auth_token">Stored in localStorage after quiz completion to enable portal access.</BulletItem>
             </ul>
           </div>
 
@@ -132,7 +134,10 @@ export default function Privacy() {
           <div className="space-y-4" style={bodyParagraphStyle}>
             <ul className="space-y-2 pl-1">
               <BulletItem title="Stripe">Handles payment processing. They have their own privacy policy. We never store your card details.</BulletItem>
-              <BulletItem title="Anthropic (Claude)">Powers The Archivist AI. Conversations are sent to their API for response generation. Subject to Anthropic's data handling policies.</BulletItem>
+              <BulletItem title="Anthropic (Claude)">Powers the Pocket Archivist. Conversations are sent to their API for response generation. Subject to Anthropic's data handling policies.</BulletItem>
+              <BulletItem title="Resend">Handles email delivery for magic link authentication and transactional emails. Subject to Resend's privacy policy.</BulletItem>
+              <BulletItem title="Supabase">Database hosting. Your data is stored on Supabase's infrastructure. Subject to Supabase's privacy policy.</BulletItem>
+              <BulletItem title="Vercel">Hosts the website. Subject to Vercel's privacy policy.</BulletItem>
             </ul>
             <p>
               We do not use Google Analytics, Facebook Pixel, or any advertising/tracking services.

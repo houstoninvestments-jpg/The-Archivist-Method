@@ -581,7 +581,7 @@ export default function ImmersiveFrames() {
             Four moments. Each one lives in your nervous system right now.
           </p>
 
-          <div className="feir-grid">
+          <div className="doors-grid">
             <div>
               <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#14B8A6', letterSpacing: '-0.02em', marginBottom: '8px' }}>01 FOCUS</p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: '0.8rem', color: 'rgba(250,250,250,0.5)', lineHeight: 1.6 }}>Name the pattern. See it clearly for the first time.</p>

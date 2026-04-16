@@ -212,7 +212,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
 
 export interface MarkdownProps {
   content: string;
-  accentColor: string; // ambient accent (FEIR)
+  accentColor: string; // ambient accent (Four Doors)
 }
 
 export function Markdown({ content, accentColor }: MarkdownProps) {

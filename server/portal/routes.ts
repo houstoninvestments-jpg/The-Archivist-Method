@@ -26,6 +26,16 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function getBaseUrl(req?: Request): string {
+  if (process.env.PORTAL_BASE_URL) return process.env.PORTAL_BASE_URL.replace(/\/$/, "");
+  if (req) {
+    const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+    const host = (req.headers["x-forwarded-host"] as string) || req.headers.host;
+    if (host) return `${proto}://${host}`;
+  }
+  return "http://localhost:5000";
+}
+
 // Validation schemas for PDF viewer routes - aligned with DB defaults
 const progressSchema = z.object({
   documentId: z.string().min(1).max(50),
@@ -77,9 +87,7 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
     
     if (testUser) {
       // Generate magic link for test user (for backup/email)
-      const baseUrl = process.env.REPL_SLUG
-        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-        : "http://localhost:5000";
+      const baseUrl = getBaseUrl(req);
 
       const magicLink = await generateMagicLink(email, `test_${testUser.id}`, baseUrl);
       console.log(`Magic link for test user ${email}: ${magicLink}`);
@@ -122,9 +130,7 @@ router.post("/auth/send-login-link", async (req: Request, res: Response) => {
       });
     }
 
-    const baseUrl = process.env.REPL_SLUG
-      ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-      : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const magicLink = await generateMagicLink(email, user.id, baseUrl);
 
@@ -394,11 +400,7 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
 // Create checkout session for Quick-Start upsell ($37)
 router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -428,11 +430,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
 // Create checkout session for Quick-Start regular ($67)
 router.post("/checkout/quick-start", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -461,11 +459,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
 // Create checkout session for Complete Archive ($297)
 router.post("/checkout/complete-archive", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -494,11 +488,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
 // Create checkout session for Archive Upgrade ($150 - for existing Quick-Start owners)
 router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     // Use price_data to create a one-time $150 upgrade price
     const session = await stripe.checkout.sessions.create({
@@ -570,9 +560,7 @@ router.post("/test-purchase", async (req: Request, res: Response) => {
 
     console.log(`[TEST] Purchase simulated: ${productId} for ${email} ($${amount || 0})`);
 
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const magicLink = await generateMagicLink(email, user.id, baseUrl);
 
@@ -670,9 +658,7 @@ router.post(
 
         console.log(`Purchase recorded for user ${user.id}: ${productName}`);
 
-        const baseUrl = process.env.REPL_SLUG
-          ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-          : "http://localhost:5000";
+        const baseUrl = getBaseUrl(req);
 
         const magicLink = await generateMagicLink(
           customerEmail,
@@ -1165,7 +1151,7 @@ PATTERN WORK IN CONVERSATION:
 
 KNOWLEDGE BASE:
 - 9 patterns: Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, Rage
-- FEIR: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
+- Four Doors: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
 - 3-7 second window: biological veto point before pattern executes
 - Body signatures: physical sensations that precede each pattern
 - Circuit breaks: specific interruption protocols

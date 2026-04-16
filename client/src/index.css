@@ -1153,16 +1153,16 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
     grid-template-columns: 1fr 1fr;
   }
   .hero-content-col {
-    text-align: left;
-    padding: 20px 24px 20px 10% !important;
+    text-align: center;
+    padding: 20px 48px !important;
   }
   .hero-rule {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
   }
   .hero-subtext {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
   }
   /* Desktop-only compression so the hero fits in one 1080p viewport */
   .hero-brand { margin-bottom: 2px !important; }
@@ -1281,7 +1281,7 @@ video::-webkit-media-controls-start-playback-button {
   color: #00FFC2;
   text-shadow: 0 0 12px rgba(0, 255, 194, 0.6), 0 0 26px rgba(0, 255, 194, 0.25);
 }
-.feir-grid {
+.doors-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
@@ -1290,7 +1290,7 @@ video::-webkit-media-controls-start-playback-button {
   text-align: center;
 }
 @media (max-width: 768px) {
-  .feir-grid {
+  .doors-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }

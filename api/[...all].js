@@ -74306,10 +74306,10 @@ var MODULE_1_SECTIONS = [
 ];
 var MODULE_2_SECTIONS = [
   { id: "m2-2.1", title: "Framework Overview", filePath: "module-2-four-doors/2.1-framework-overview.md", module: "module-2" },
-  { id: "m2-2.2", title: "Door 1: Recognition", filePath: "module-2-four-doors/2.2-door-1-recognition.md", module: "module-2" },
+  { id: "m2-2.2", title: "Door 1: Focus", filePath: "module-2-four-doors/2.2-door-1-focus.md", module: "module-2" },
   { id: "m2-2.3", title: "Door 2: Excavation", filePath: "module-2-four-doors/2.3-door-2-excavation.md", module: "module-2" },
   { id: "m2-2.4", title: "Door 3: Interruption", filePath: "module-2-four-doors/2.4-door-3-interruption.md", module: "module-2" },
-  { id: "m2-2.5", title: "Door 4: Override", filePath: "module-2-four-doors/2.5-door-4-override.md", module: "module-2" }
+  { id: "m2-2.5", title: "Door 4: Rewrite", filePath: "module-2-four-doors/2.5-door-4-rewrite.md", module: "module-2" }
 ];
 function getPatternSections(patternKey) {
   const dir = patternKeyToDirMap[patternKey];
@@ -74326,17 +74326,17 @@ function getPatternSections(patternKey) {
     { id: `p${n2}-${n2}.6`, title: "Pattern Archaeology", filePath: `module-3-patterns/${dir}/${n2}.6-pattern-archaeology.md`, module: "module-3" },
     { id: `p${n2}-${n2}.7`, title: "What It Costs", filePath: `module-3-patterns/${dir}/${n2}.7-what-it-costs.md`, module: "module-3" },
     { id: `p${n2}-${n2}.8`, title: "How to Interrupt", filePath: `module-3-patterns/${dir}/${n2}.8-how-to-interrupt.md`, module: "module-3" },
-    { id: `p${n2}-${n2}.9`, title: "The Override", filePath: `module-3-patterns/${dir}/${n2}.9-the-override.md`, module: "module-3" },
+    { id: `p${n2}-${n2}.9`, title: "The Rewrite", filePath: `module-3-patterns/${dir}/${n2}.9-the-rewrite.md`, module: "module-3" },
     { id: `p${n2}-${n2}.10`, title: "Troubleshooting", filePath: `module-3-patterns/${dir}/${n2}.10-troubleshooting.md`, module: "module-3" },
     { id: `p${n2}-${n2}.11`, title: "Quick Reference", filePath: `module-3-patterns/${dir}/${n2}.11-quick-reference.md`, module: "module-3" }
   ];
 }
 var MODULE_4_SECTIONS = [
   { id: "m4-4.1", title: "The 90-Day Map", filePath: "module-4-implementation/4.1-the-90-day-map.md", module: "module-4" },
-  { id: "m4-4.2", title: "Weeks 1-2: Recognition", filePath: "module-4-implementation/4.2-weeks-1-2-recognition.md", module: "module-4" },
+  { id: "m4-4.2", title: "Weeks 1-2: Focus", filePath: "module-4-implementation/4.2-weeks-1-2-focus.md", module: "module-4" },
   { id: "m4-4.3", title: "Weeks 3-4: Excavation", filePath: "module-4-implementation/4.3-weeks-3-4-excavation.md", module: "module-4" },
   { id: "m4-4.4", title: "Weeks 5-8: Interruption", filePath: "module-4-implementation/4.4-weeks-5-8-interruption.md", module: "module-4" },
-  { id: "m4-4.5", title: "Weeks 9-12: Override", filePath: "module-4-implementation/4.5-weeks-9-12-override.md", module: "module-4" },
+  { id: "m4-4.5", title: "Weeks 9-12: Rewrite", filePath: "module-4-implementation/4.5-weeks-9-12-rewrite.md", module: "module-4" },
   { id: "m4-4.6", title: "Daily Practice Protocol", filePath: "module-4-implementation/4.6-daily-practice-protocol.md", module: "module-4" },
   { id: "m4-4.7", title: "Weekly Check-In", filePath: "module-4-implementation/4.7-weekly-check-in.md", module: "module-4" },
   { id: "m4-4.8", title: "Progress Markers", filePath: "module-4-implementation/4.8-progress-markers.md", module: "module-4" }
@@ -74374,7 +74374,7 @@ function getCrashCourseToc() {
       { id: "day-4", title: "Day 4: The Four Doors", sections: MODULE_2_SECTIONS.slice(0, 2) },
       { id: "day-5", title: "Day 5: Excavation", sections: [MODULE_2_SECTIONS[2]] },
       { id: "day-6", title: "Day 6: Interruption", sections: [MODULE_2_SECTIONS[3]] },
-      { id: "day-7", title: "Day 7: Override", sections: [MODULE_2_SECTIONS[4]] }
+      { id: "day-7", title: "Day 7: Rewrite", sections: [MODULE_2_SECTIONS[4]] }
     ]
   };
 }
@@ -74488,6 +74488,15 @@ function getAllowlistedEmails() {
 function isEmailAllowlisted(email) {
   return getAllowlistedEmails().includes(email.toLowerCase());
 }
+function getBaseUrl(req) {
+  if (process.env.PORTAL_BASE_URL) return process.env.PORTAL_BASE_URL.replace(/\/$/, "");
+  if (req) {
+    const proto = req.headers["x-forwarded-proto"] || req.protocol || "https";
+    const host = req.headers["x-forwarded-host"] || req.headers.host;
+    if (host) return `${proto}://${host}`;
+  }
+  return "http://localhost:5000";
+}
 async function autoProvisionAllowlistedUser(normalizedEmail) {
   const defaultPattern = process.env.TEST_USER_PRIMARY_PATTERN?.trim() || "disappearing";
   const localPart = normalizedEmail.split("@")[0] || "admin";
@@ -74543,7 +74552,7 @@ async function autoProvisionAllowlistedUser(normalizedEmail) {
 }
 var PRODUCTS = {
   "crash-course": { id: "crash-course", name: "The Crash Course", price: 0, stripeProductId: "", stripePriceId: "", description: "Free pattern interruption crash course", features: ["Identify your destructive pattern", "Learn body signatures and triggers", "Circuit break scripts for all 9 patterns", "First interrupt attempt protocol", "Guided program"], pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf" },
-  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide \u2014 Your complete interrupt protocol.", features: ["Complete FEIR framework introduction", "Pattern-specific Field Guide PDF", "Quick-win strategies for immediate pattern interruption", "Essential worksheets and tracking tools", "Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
+  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide \u2014 Your complete interrupt protocol.", features: ["Complete Four Doors framework", "Pattern-specific Field Guide PDF", "Quick-win strategies for immediate pattern interruption", "Essential worksheets and tracking tools", "Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
   "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w", description: "The Complete Archive \u2014 Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped", "Complete rewrite protocol", "Advanced pattern archaeology techniques", "Lifetime pattern tracking system", "Crisis management protocols", "Pattern intersection analysis", "Custom rewrite frameworks", "Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" }
 };
 function calculateUserAccess(purchases2) {
@@ -75022,7 +75031,7 @@ router.get("/download/:productId", async (req, res) => {
 });
 router.post("/checkout/quick-start-upsell", async (req, res) => {
   try {
-    const baseUrl2 = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(",")[0]}` : "http://localhost:5000";
+    const baseUrl2 = getBaseUrl(req);
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -75049,7 +75058,7 @@ router.post("/checkout/quick-start-upsell", async (req, res) => {
 });
 router.post("/checkout/quick-start", async (req, res) => {
   try {
-    const baseUrl2 = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(",")[0]}` : "http://localhost:5000";
+    const baseUrl2 = getBaseUrl(req);
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -75075,7 +75084,7 @@ router.post("/checkout/quick-start", async (req, res) => {
 });
 router.post("/checkout/complete-archive", async (req, res) => {
   try {
-    const baseUrl2 = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(",")[0]}` : "http://localhost:5000";
+    const baseUrl2 = getBaseUrl(req);
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -75101,7 +75110,7 @@ router.post("/checkout/complete-archive", async (req, res) => {
 });
 router.post("/checkout/archive-upgrade", async (req, res) => {
   try {
-    const baseUrl2 = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(",")[0]}` : "http://localhost:5000";
+    const baseUrl2 = getBaseUrl(req);
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -75161,7 +75170,7 @@ router.post("/test-purchase", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1e3
     });
     console.log(`[TEST] Purchase simulated: ${productId} for ${email} ($${amount || 0})`);
-    const baseUrl2 = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : "http://localhost:5000";
+    const baseUrl2 = getBaseUrl(req);
     const magicLink = await generateMagicLink(email, user.id, baseUrl2);
     const { quizUsers: quizUsers2 } = await Promise.resolve().then(() => (init_schema2(), schema_exports));
     const [quizUser] = await db.select().from(quizUsers2).where(eq(quizUsers2.email, email));
@@ -75240,7 +75249,7 @@ router.post(
           paymentIntentId
         );
         console.log(`Purchase recorded for user ${user.id}: ${productName}`);
-        const baseUrl2 = process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : "http://localhost:5000";
+        const baseUrl2 = getBaseUrl(req);
         const magicLink = await generateMagicLink(
           customerEmail,
           user.id,
@@ -75592,7 +75601,7 @@ PATTERN WORK IN CONVERSATION:
 
 KNOWLEDGE BASE:
 - 9 patterns: Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, Rage
-- FEIR: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
+- Four Doors: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
 - 3-7 second window: biological veto point before pattern executes
 - Body signatures: physical sensations that precede each pattern
 - Circuit breaks: specific interruption protocols

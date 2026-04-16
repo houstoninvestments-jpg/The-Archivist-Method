@@ -29,12 +29,12 @@ export const PRODUCTS: Record<string, Product> = {
   "quick-start": {
     id: "quick-start",
     name: "The Field Guide",
-    price: 47,
+    price: 67,
     stripeProductId: "prod_quick_start",
     stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9",
     description: "The Field Guide — Your complete interrupt protocol.",
     features: [
-      "Complete FEIR framework introduction",
+      "Complete Four Doors framework",
       "Pattern-specific Field Guide PDF",
       "Quick-win strategies for immediate pattern interruption",
       "Essential worksheets and tracking tools",
@@ -45,7 +45,7 @@ export const PRODUCTS: Record<string, Product> = {
   "complete-archive": {
     id: "complete-archive",
     name: "The Complete Archive",
-    price: 197,
+    price: 297,
     stripeProductId: "prod_complete_archive",
     stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w",
     description: "The Complete Archive — Every pattern. Every scenario. The complete system.",

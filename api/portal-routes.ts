@@ -58,6 +58,16 @@ function isEmailAllowlisted(email: string): boolean {
   return getAllowlistedEmails().includes(email.toLowerCase());
 }
 
+function getBaseUrl(req?: Request): string {
+  if (process.env.PORTAL_BASE_URL) return process.env.PORTAL_BASE_URL.replace(/\/$/, "");
+  if (req) {
+    const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+    const host = (req.headers["x-forwarded-host"] as string) || req.headers.host;
+    if (host) return `${proto}://${host}`;
+  }
+  return "http://localhost:5000";
+}
+
 async function autoProvisionAllowlistedUser(
   normalizedEmail: string,
 ): Promise<{ id: string; email: string } | undefined> {
@@ -152,7 +162,7 @@ interface Product {
 }
 const PRODUCTS: Record<string, Product> = {
   "crash-course": { id: "crash-course", name: "The Crash Course", price: 0, stripeProductId: "", stripePriceId: "", description: "Free pattern interruption crash course", features: ["Identify your destructive pattern","Learn body signatures and triggers","Circuit break scripts for all 9 patterns","First interrupt attempt protocol","Guided program"], pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf" },
-  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete FEIR framework introduction","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
+  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete Four Doors framework","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
   "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w", description: "The Complete Archive — Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped","Complete rewrite protocol","Advanced pattern archaeology techniques","Lifetime pattern tracking system","Crisis management protocols","Pattern intersection analysis","Custom rewrite frameworks","Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" },
 };
 interface UserAccess { hasQuickStart: boolean; hasCompleteArchive: boolean; purchases: { productId: string; productName: string; purchasedAt: string }[]; }
@@ -781,11 +791,7 @@ router.get("/download/:productId", async (req: Request, res: Response) => {
 // Create checkout session for Quick-Start upsell ($37)
 router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
@@ -815,11 +821,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
 // Create checkout session for Quick-Start regular ($67)
 router.post("/checkout/quick-start", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
@@ -848,11 +850,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
 // Create checkout session for Complete Archive ($297)
 router.post("/checkout/complete-archive", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
@@ -881,11 +879,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
 // Create checkout session for Archive Upgrade ($150 - for existing Quick-Start owners)
 router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => {
   try {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DOMAINS
-        ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-        : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     // Use price_data to create a one-time $150 upgrade price
     const session = await getStripe().checkout.sessions.create({
@@ -957,9 +951,7 @@ router.post("/test-purchase", async (req: Request, res: Response) => {
 
     console.log(`[TEST] Purchase simulated: ${productId} for ${email} ($${amount || 0})`);
 
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : "http://localhost:5000";
+    const baseUrl = getBaseUrl(req);
 
     const magicLink = await generateMagicLink(email, user.id, baseUrl);
 
@@ -1057,9 +1049,7 @@ router.post(
 
         console.log(`Purchase recorded for user ${user.id}: ${productName}`);
 
-        const baseUrl = process.env.REPL_SLUG
-          ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-          : "http://localhost:5000";
+        const baseUrl = getBaseUrl(req);
 
         const magicLink = await generateMagicLink(
           customerEmail,
@@ -1552,7 +1542,7 @@ PATTERN WORK IN CONVERSATION:
 
 KNOWLEDGE BASE:
 - 9 patterns: Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, Rage
-- FEIR: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
+- Four Doors: Focus (name it), Excavation (find the origin), Interruption (use the window), Rewrite (install new response)
 - 3-7 second window: biological veto point before pattern executes
 - Body signatures: physical sensations that precede each pattern
 - Circuit breaks: specific interruption protocols

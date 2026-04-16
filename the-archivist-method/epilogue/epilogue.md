@@ -22,7 +22,7 @@ Before, the pattern was you. Your withdrawing was "just how I am." Your apologiz
 
 Now you know: it is not you. It is a program. It was installed. It runs automatically. And it can be interrupted.
 
-That knowledge—that separation between you and the pattern—is the most valuable thing in this method. More valuable than the Circuit Break. More valuable than the Override Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
+That knowledge—that separation between you and the pattern—is the most valuable thing in this method. More valuable than the Circuit Break. More valuable than the Rewrite Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
 
 You no longer believe that. The pattern is not who you are. It is something that happens to you. And you are learning to make it happen less.
 
@@ -58,7 +58,7 @@ That child was right—for that room. The learning was accurate. The adaptation 
 
 But the room changed. The child grew up. The threat ended—or transformed into something the adult could handle. And the program kept running. Not because you are broken. Because programs do not update themselves. They need to be updated manually. By you. One interrupt at a time.
 
-The child in the Original Room did not have The Archivist Method. They did not have the Four Doors, the Circuit Break, the Override Scripts, or the 90-day protocol. They had only their nervous system and the desperate, creative intelligence of a young mind trying to survive.
+The child in the Original Room did not have The Archivist Method. They did not have the Four Doors, the Circuit Break, the Rewrite Scripts, or the 90-day protocol. They had only their nervous system and the desperate, creative intelligence of a young mind trying to survive.
 
 You have everything they had, plus everything in The Archivist Method. You are better equipped. You are more resourced. And you carry within you the child who deserves to see what happens when the program finally, after all these years, stops running the show.
 

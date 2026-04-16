@@ -4,7 +4,7 @@ const footerLinks = {
   method: [
     { label: "Pattern Archaeology", href: "/#credibility", scrollTarget: "section-credibility" },
     { label: "The 9 Patterns", href: "/#patterns", scrollTarget: "section-patterns" },
-    { label: "FEIR Framework", href: "/#method", scrollTarget: "section-how-it-works" },
+    { label: "The Four Doors", href: "/#method", scrollTarget: "section-how-it-works" },
     { label: "The Original Room", href: "/#founder", scrollTarget: "section-founder" }
   ],
   products: [

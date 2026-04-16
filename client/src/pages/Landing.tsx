@@ -1736,11 +1736,11 @@ export default function Landing() {
           <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'center', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: '11px',
-              fontWeight: 400,
-              letterSpacing: '20px',
-              color: 'rgba(240,244,248,0.25)',
-              marginBottom: '18px'
+              fontSize: 'clamp(28px, 4.4vw, 52px)',
+              fontWeight: 600,
+              letterSpacing: '8px',
+              color: '#F0F4F8',
+              lineHeight: 1.05
             }}>THE</div>
             <div style={{
               fontFamily: "'Cinzel', 'Times New Roman', serif",
@@ -1992,7 +1992,7 @@ export default function Landing() {
 
       {/* ========== SECTION 7: HOW IT WORKS ========== */}
       <section className="py-20 px-6" data-testid="section-how-it-works" style={{ position: "relative" }}>
-        <SectorLabel text="PROTOCOL: FEIR-4 // CLEARANCE: STANDARD" />
+        <SectorLabel text="PROTOCOL: FOUR DOORS // CLEARANCE: STANDARD" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: "32px" }}>
             <SectionLabel>THE METHOD</SectionLabel>
