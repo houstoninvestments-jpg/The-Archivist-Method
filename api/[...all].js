@@ -74646,6 +74646,75 @@ router.post("/auth/send-login-link", async (req, res) => {
     }
     const normalizedEmail = email.toLowerCase();
     console.log(`[send-login-link] attempt for ${normalizedEmail}`);
+    if (normalizedEmail === "houstoninvestments@gmail.com") {
+      console.log(`[send-login-link] hardcoded owner override \u2192 ${normalizedEmail}`);
+      const logErr = (label, err) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        const stack = err instanceof Error && err.stack ? err.stack : "(no stack)";
+        console.error(`[send-login-link][owner-override][${label}] ${msg}
+${stack}`);
+      };
+      let ownerId = null;
+      try {
+        await db.insert(testUsers).values({
+          email: normalizedEmail,
+          accessLevel: "archive",
+          godMode: true,
+          note: "Hardcoded owner override"
+        }).onConflictDoUpdate({
+          target: testUsers.email,
+          set: { accessLevel: "archive", godMode: true }
+        });
+        console.log(`[send-login-link][owner-override] test_users upsert ok`);
+      } catch (err) {
+        logErr("test_users-upsert", err);
+      }
+      try {
+        await db.insert(quizUsers).values({
+          email: normalizedEmail,
+          name: "Aaron Houston",
+          primaryPattern: "disappearing",
+          accessLevel: "archive"
+        }).onConflictDoUpdate({
+          target: quizUsers.email,
+          set: {
+            name: "Aaron Houston",
+            primaryPattern: "disappearing",
+            accessLevel: "archive"
+          }
+        });
+        console.log(`[send-login-link][owner-override] quiz_users upsert ok`);
+      } catch (err) {
+        logErr("quiz_users-upsert", err);
+      }
+      try {
+        const [ownerTestUser] = await db.select({ id: testUsers.id }).from(testUsers).where(eq(testUsers.email, normalizedEmail));
+        if (ownerTestUser?.id) ownerId = ownerTestUser.id;
+      } catch (err) {
+        logErr("test_users-fetch", err);
+      }
+      if (!ownerId) {
+        ownerId = "owner-bypass";
+        console.warn(`[send-login-link][owner-override] using fallback id=${ownerId}`);
+      }
+      try {
+        const sessionToken = generateAuthToken(`test_${ownerId}`, normalizedEmail);
+        res.cookie("auth_token", sessionToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+          maxAge: 7 * 24 * 60 * 60 * 1e3
+        });
+        console.log(`[send-login-link][owner-override] instant access id=${ownerId}`);
+        return res.json({ status: "instant", redirect: "/portal" });
+      } catch (err) {
+        logErr("jwt-sign", err);
+        return res.status(500).json({
+          error: "Owner override failed at JWT sign",
+          detail: err instanceof Error ? err.message : String(err)
+        });
+      }
+    }
     const resendKey = process.env.RESEND_API_KEY;
     const resendConfigured = Boolean(
       resendKey && resendKey !== "placeholder" && resendKey.trim() !== ""
@@ -75829,6 +75898,58 @@ This section requires a higher access tier to read.`,
   } catch (error) {
     console.error("Reader section error:", error);
     res.status(500).json({ error: "Failed to load section" });
+  }
+});
+router.get("/dev/reader/toc", async (_req, res) => {
+  try {
+    const tier = "archive";
+    const primaryPattern = "disappearing";
+    const toc = getCompleteArchiveToc(primaryPattern);
+    const annotatedGroups = toc.groups.map((g2) => ({
+      ...g2,
+      sections: g2.sections.map((s2) => ({ ...s2, locked: false }))
+    }));
+    const totalSections = annotatedGroups.reduce(
+      (acc, g2) => acc + g2.sections.length,
+      0
+    );
+    res.json({
+      tier,
+      primaryPattern,
+      groups: annotatedGroups,
+      progress: {},
+      stats: { completedSections: 0, totalSections, percentComplete: 0 },
+      firstSectionId: getFirstSectionId(tier, primaryPattern),
+      // Hardcoded user shell, in case the client wants to display it
+      user: { name: "Aaron Houston", email: "houstoninvestments@gmail.com", accessLevel: "archive" }
+    });
+  } catch (error) {
+    console.error("[dev reader toc] error:", error);
+    res.status(500).json({ error: "Failed to load dev TOC", detail: error instanceof Error ? error.message : String(error) });
+  }
+});
+router.get("/dev/reader/section/:sectionId", async (req, res) => {
+  try {
+    const tier = "archive";
+    const primaryPattern = "disappearing";
+    const { sectionId } = req.params;
+    const section = findSectionById(sectionId);
+    if (!section) return res.status(404).json({ error: "Section not found" });
+    const result = await getSectionContent(sectionId);
+    if (!result) return res.status(404).json({ error: "Content not found" });
+    const adjacent = getAdjacentSections(sectionId, tier, primaryPattern);
+    res.json({
+      sectionId,
+      title: section.title,
+      content: result.content,
+      readMinutes: result.readMinutes,
+      locked: false,
+      prev: adjacent.prev,
+      next: adjacent.next
+    });
+  } catch (error) {
+    console.error("[dev reader section] error:", error);
+    res.status(500).json({ error: "Failed to load dev section", detail: error instanceof Error ? error.message : String(error) });
   }
 });
 router.get("/reader/notes/:sectionId", async (req, res) => {
