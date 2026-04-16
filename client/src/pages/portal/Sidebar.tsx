@@ -57,20 +57,37 @@ export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, t
       }}
     >
       {/* Brand header */}
-      <div style={{ padding: "28px 24px 20px", borderBottom: "1px solid #14121A", position: "relative" }}>
-        <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 600, fontSize: 15, letterSpacing: "0.12em", color: "#E8E3DC", lineHeight: 1.2 }}>
-          THE ARCHIVIST
-          <br />
-          METHOD
+      <div style={{ padding: "28px 24px 20px", borderBottom: "1px solid #14121A", position: "relative", overflow: "hidden" }}>
+        {/* Archivist-seated ambient background — subtle sense of the Archivist watching from his desk */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/hero-archivist-seated.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            opacity: 0.08,
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 600, fontSize: 15, letterSpacing: "0.12em", color: "#E8E3DC", lineHeight: 1.2 }}>
+            THE ARCHIVIST
+            <br />
+            METHOD
+          </div>
+          <div style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: 13, color: "#8A857D", marginTop: 6, letterSpacing: "0.02em" }}>
+            Pattern Archaeology, Not Therapy
+          </div>
         </div>
-        <div style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: 13, color: "#8A857D", marginTop: 6, letterSpacing: "0.02em" }}>
-          Pattern Archaeology, Not Therapy
-        </div>
-        {/* Gothic arch decoration */}
+        {/* Gothic arch decoration (sits on top of the ambient image) */}
         <svg
           aria-hidden="true"
           viewBox="0 0 120 40"
-          style={{ position: "absolute", right: 16, top: 28, width: 80, height: 26, opacity: 0.1, pointerEvents: "none" }}
+          style={{ position: "absolute", right: 16, top: 28, width: 80, height: 26, opacity: 0.1, pointerEvents: "none", zIndex: 2 }}
         >
           <path d="M10,40 L10,20 Q10,2 60,2 Q110,2 110,20 L110,40" stroke="#D4A574" strokeWidth="1" fill="none" />
           <path d="M30,40 L30,24 Q30,12 60,12 Q90,12 90,24 L90,40" stroke="#D4A574" strokeWidth="0.6" fill="none" />

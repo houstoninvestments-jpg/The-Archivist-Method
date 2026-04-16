@@ -14,7 +14,12 @@ type Block =
   | { kind: "ul" | "ol"; items: string[] }
   | { kind: "blockquote"; text: string }
   | { kind: "table"; headers: string[]; rows: string[][] }
-  | { kind: "special"; variant: SpecialVariant; label: string; text: string };
+  | { kind: "special"; variant: SpecialVariant; label: string; text: string }
+  | { kind: "frame"; name: string };
+
+// ![frame-01] / ![frame-02] etc. — shorthand for one of the chapter frame
+// illustrations in /images/frame-XX.png. Stripping the wrapping gives "frame-01".
+const FRAME_MARKER_RE = /^!\[(frame-\d{1,3})\]$/;
 
 // Strip the leading emoji/icon from a label line, returning just the caps text.
 function extractLabelText(line: string): string {
@@ -70,6 +75,14 @@ export function parseMarkdown(md: string): Block[] {
     }
 
     if (t === "") {
+      i++;
+      continue;
+    }
+
+    // Frame marker: a standalone line like ![frame-01] resolves to a framed image.
+    const frameMatch = t.match(FRAME_MARKER_RE);
+    if (frameMatch) {
+      out.push({ kind: "frame", name: frameMatch[1] });
       i++;
       continue;
     }
@@ -156,6 +169,7 @@ export function parseMarkdown(md: string): Block[] {
       if (/^[-*]\s+/.test(nt)) break;
       if (/^\d+\.\s+/.test(nt)) break;
       if (nt.startsWith("> ")) break;
+      if (FRAME_MARKER_RE.test(nt)) break;
       if (detectSpecial(lines[j])) break;
       buf.push(lines[j]);
       j++;
@@ -238,6 +252,44 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
         if (b.kind === "hr") {
           return (
             <hr key={key} style={{ border: 0, height: 1, background: `linear-gradient(to right, transparent 0%, ${accentColor}40 50%, transparent 100%)`, margin: "36px 0" }} />
+          );
+        }
+        if (b.kind === "frame") {
+          return (
+            <figure
+              key={key}
+              style={{
+                margin: "36px -8px",
+                padding: 0,
+                position: "relative",
+                borderRadius: 6,
+                overflow: "hidden",
+                border: "1px solid rgba(212,165,116,0.15)",
+                background: "#0A0C10",
+              }}
+            >
+              <img
+                src={`/images/${b.name}.png`}
+                alt=""
+                loading="lazy"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "auto",
+                }}
+              />
+              {/* Dark overlay fade — seats the diagram into the reader's palette. */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  background:
+                    "linear-gradient(180deg, rgba(8,10,12,0.0) 0%, rgba(8,10,12,0.0) 55%, rgba(8,10,12,0.75) 100%)",
+                }}
+              />
+            </figure>
           );
         }
         if (b.kind === "ul") {
