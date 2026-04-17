@@ -2272,13 +2272,13 @@ export default function Landing() {
                   Name the thing you keep doing. Understand why it won't stop on its own.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Primary pattern identified + named", "7-day pattern-specific email sequence", "Body signal primer"].map((item, i) => (
+                  {["Pattern identification quiz", "Primary pattern identified + named", "7-day pattern-specific email sequence", "Body signal primer", "Pocket Archivist (framework-level)"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
                     </div>
                   ))}
-                  {["Pocket Archivist", "Full interrupt protocol", "Body signature map"].map((item, i) => (
+                  {["Full interrupt protocol", "Body signature map"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
                       <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
@@ -2315,7 +2315,7 @@ export default function Landing() {
                   You know what it is. Now get everything you need to stop it — before it fires.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Everything in the Crash Course", "Full interrupt protocol (your pattern)", "Body signature map (your pattern)", "Pocket Archivist — your pattern only"].map((item, i) => (
+                  {["Everything in the Crash Course", "Full interrupt protocol (your pattern)", "Body signature map (your pattern)", "Pocket Archivist — trained on your pattern"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
@@ -2357,7 +2357,7 @@ export default function Landing() {
                   You've handled yours. Now you can see everyone else's — and your own from every angle.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "Pocket Archivist — all 9 patterns", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
+                  {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "Pocket Archivist — trained on all 9 patterns + protocol", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
@@ -2457,28 +2457,52 @@ export default function Landing() {
             THE POCKET ARCHIVIST
           </p>
           <h2 className="fade-section text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white", textTransform: "uppercase", lineHeight: 1.1, marginBottom: "24px" }}>
-            IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
+            THE ARCHIVIST IS ALWAYS IN YOUR POCKET
           </h2>
-          <p className="fade-section text-center" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "700px", margin: "0 auto 64px", lineHeight: 1.7 }}>
-            This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it.
+          <p className="fade-section text-center" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "1.125rem", color: "#14B8A6", maxWidth: "760px", margin: "0 auto 64px", lineHeight: 1.7 }}>
+            An AI trained exclusively on The Archivist Method — built for the 3-to-7-second window when the pattern fires.
           </p>
 
-          <div className="fade-section" style={{ maxWidth: "700px", margin: "0 auto" }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              You already know the feeling. The chest drop. The throat tighten. The pull toward the thing you said you wouldn't do again. Most tools want to talk about it later. The Pocket Archivist is built for right now.
-            </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              It's been trained exclusively on The Archivist Method framework — pattern architecture, body signal sequencing, interrupt protocols, and circuit break language. It doesn't give you generic advice. It knows your pattern's specific trigger sequence and responds with the exact language your nervous system can actually use in that moment.
-            </p>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, marginBottom: "24px" }}>
-              The problems it solves are the ones nobody names. The 11pm spiral. The shutdown before the conversation starts. The moment you watch yourself do it anyway. That's what it was built for.
-            </p>
+          <div className="fade-section" style={{ maxWidth: "720px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "40px" }}>
+            <div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "10px" }}>
+                WHAT IT IS
+              </p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7 }}>
+                An AI that only knows one thing: how to interrupt patterns before they run. It doesn't do homework, therapy, or small talk. It does the moment.
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "10px" }}>
+                IT KNOWS YOU
+              </p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7 }}>
+                Take the quiz and it learns your pattern, your triggers, your body signature, your rewrite script. Every conversation sharpens it.
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "10px" }}>
+                IT'S THERE WHEN IT MATTERS
+              </p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7 }}>
+                Not tomorrow. Not after. The second the pattern starts to fire — open it, say what's happening, get the interrupt.
+              </p>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "10px" }}>
+                FREE FOR EVERYONE
+              </p>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7 }}>
+                No paywall between you and help. The Field Guide and Archive unlock deeper protocols, but the Archivist is always there.
+              </p>
+            </div>
           </div>
 
-          <div className="fade-section text-center" style={{ marginTop: "40px" }}>
-            <button
-              onClick={() => setDemoModalOpen(true)}
+          <div className="fade-section text-center" style={{ marginTop: "56px" }}>
+            <Link
+              href="/quiz"
               style={{
+                display: "inline-block",
                 background: "transparent",
                 border: "1px solid #14B8A6",
                 borderRadius: "8px",
@@ -2494,10 +2518,10 @@ export default function Landing() {
               }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(20,184,166,0.1)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
-              data-testid="button-experience-demo"
+              data-testid="button-take-quiz-meet-archivist"
             >
-              EXPERIENCE IT FREE <ArrowRight className="inline w-3 h-3 ml-1" />
-            </button>
+              TAKE THE QUIZ — MEET YOUR ARCHIVIST <ArrowRight className="inline w-3 h-3 ml-1" />
+            </Link>
           </div>
         </div>
       </section>
