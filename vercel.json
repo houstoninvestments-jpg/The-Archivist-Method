@@ -17,5 +17,8 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     }
+  ],
+  "crons": [
+    { "path": "/api/cron/email-queue", "schedule": "0 13 * * *" }
   ]
 }

@@ -23,6 +23,12 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { sendPurchaseConfirmationEmail } from "./email";
 import { Resend } from 'resend';
+import { switchToSequence } from "../../src/emails/queue";
+import {
+  isPatternKey,
+  productIdToSequence,
+  type PatternKey,
+} from "../../src/emails/sequences";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -717,6 +723,21 @@ router.post(
           productName: productName,
           portalLink: magicLink,
         });
+
+        // Stop the Crash Course drip and kick off the buyer sequence.
+        const buyerSequence = productIdToSequence(productId);
+        const buyerPattern = quizUser?.primaryPattern;
+        if (buyerSequence && buyerPattern && isPatternKey(buyerPattern)) {
+          try {
+            await switchToSequence(db, {
+              userEmail: customerEmail,
+              pattern: buyerPattern as PatternKey,
+              sequence: buyerSequence,
+            });
+          } catch (err) {
+            console.error("Failed to switch email sequence after purchase:", err);
+          }
+        }
       }
 
       res.json({ received: true });

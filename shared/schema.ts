@@ -276,3 +276,26 @@ export const AccessLevel = {
 } as const;
 
 export type AccessLevel = typeof AccessLevel[keyof typeof AccessLevel];
+
+// Email Sequence Queue — scheduled sends for the Crash Course and buyer sequences.
+// A Vercel cron job scans this table daily and sends any row whose
+// scheduled_for has passed and that hasn't been cancelled.
+export const emailQueue = pgTable("email_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userEmail: text("user_email").notNull(),
+  sequence: text("sequence").notNull(), // 'crash_course' | 'field_guide' | 'complete_archive'
+  pattern: text("pattern").notNull(),
+  emailNumber: integer("email_number").notNull(),
+  scheduledFor: timestamp("scheduled_for", { withTimezone: true }).notNull(),
+  sent: boolean("sent").notNull().default(false),
+  sentAt: timestamp("sent_at", { withTimezone: true }),
+  cancelled: boolean("cancelled").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const insertEmailQueueSchema = createInsertSchema(emailQueue).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertEmailQueue = z.infer<typeof insertEmailQueueSchema>;
+export type EmailQueueRow = typeof emailQueue.$inferSelect;

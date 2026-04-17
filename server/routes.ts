@@ -4,6 +4,20 @@ import { storage } from "./storage";
 import { Resend } from 'resend';
 import { patternDisplayNames } from './portal/email';
 import { generateAuthToken } from "./portal/auth";
+import { db } from "./db";
+import { getResendClient, getFromEmail } from "../src/lib/resend";
+import {
+  scheduleSequence,
+  switchToSequence,
+  processDueEmails,
+} from "../src/emails/queue";
+import {
+  isPatternKey,
+  isSequenceType,
+  productIdToSequence,
+  type PatternKey,
+  type SequenceType,
+} from "../src/emails/sequences";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -168,6 +182,20 @@ export async function registerRoutes(
         console.error('Email send failed:', err);
       }
 
+      // Schedule the 7-email Crash Course drip for this pattern.
+      // Day-0 email fires on the next cron pass after this row is inserted.
+      if (isPatternKey(primaryPattern)) {
+        try {
+          await scheduleSequence(db, {
+            userEmail: email,
+            pattern: primaryPattern,
+            sequence: 'crash_course',
+          });
+        } catch (err) {
+          console.error('Failed to schedule Crash Course sequence:', err);
+        }
+      }
+
       const jwtToken = generateAuthToken(user.id, email);
 
       res.cookie("quiz_token", jwtToken, {
@@ -309,6 +337,88 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Get portal user data error:", error);
       res.status(500).json({ error: "Failed to get user data" });
+    }
+  });
+
+  // ============================================
+  // EMAIL SEQUENCE ROUTES
+  // ============================================
+
+  // Start the Crash Course sequence for a user. Called automatically from
+  // the quiz submission flow above; also exposed as an endpoint so admin
+  // tooling or retries can trigger it explicitly.
+  app.post("/api/email/start-sequence", async (req, res) => {
+    try {
+      const { email, pattern } = req.body ?? {};
+      if (!email || !pattern) {
+        return res.status(400).json({ error: "email and pattern are required" });
+      }
+      if (!isPatternKey(pattern)) {
+        return res.status(400).json({ error: "Unknown pattern" });
+      }
+      const scheduled = await scheduleSequence(db, {
+        userEmail: email,
+        pattern,
+        sequence: 'crash_course',
+      });
+      res.json({ success: true, scheduled });
+    } catch (err) {
+      console.error("start-sequence error:", err);
+      res.status(500).json({ error: "Failed to start sequence" });
+    }
+  });
+
+  // Purchase hook: stop the Crash Course and start the buyer sequence.
+  // Body: { email, pattern, sequence?, productId? }
+  app.post("/api/email/switch-sequence", async (req, res) => {
+    try {
+      const { email, pattern, productId } = req.body ?? {};
+      let { sequence } = req.body ?? {};
+
+      if (!email || !pattern) {
+        return res.status(400).json({ error: "email and pattern are required" });
+      }
+      if (!isPatternKey(pattern)) {
+        return res.status(400).json({ error: "Unknown pattern" });
+      }
+
+      if (!sequence && productId) {
+        sequence = productIdToSequence(productId);
+      }
+      if (
+        !isSequenceType(sequence) ||
+        sequence === 'crash_course'
+      ) {
+        return res.status(400).json({ error: "Invalid buyer sequence" });
+      }
+
+      const result = await switchToSequence(db, {
+        userEmail: email,
+        pattern: pattern as PatternKey,
+        sequence: sequence as Exclude<SequenceType, 'crash_course'>,
+      });
+      res.json({ success: true, ...result });
+    } catch (err) {
+      console.error("switch-sequence error:", err);
+      res.status(500).json({ error: "Failed to switch sequence" });
+    }
+  });
+
+  // Vercel cron entrypoint. Protected by CRON_SECRET — Vercel's cron
+  // pings this with `Authorization: Bearer <CRON_SECRET>`.
+  app.all("/api/cron/email-queue", async (req, res) => {
+    const secret = process.env.CRON_SECRET;
+    const auth = req.headers.authorization || "";
+    const provided = auth.startsWith("Bearer ") ? auth.slice(7) : (req.query.secret as string | undefined);
+    if (!secret || provided !== secret) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const result = await processDueEmails(db, getResendClient(), getFromEmail());
+      res.json({ success: true, ...result });
+    } catch (err) {
+      console.error("email-queue cron error:", err);
+      res.status(500).json({ error: "Failed to process email queue" });
     }
   });
 

@@ -6,6 +6,20 @@ import jwt from "jsonwebtoken";
 import pg from "pg";
 import portalRoutes from "./portal-routes.js";
 import adminRoutes from "./admin-routes.js";
+import { db } from "./_db.js";
+import { getResendClient, getFromEmail } from "../src/lib/resend.js";
+import {
+  scheduleSequence,
+  switchToSequence,
+  processDueEmails,
+} from "../src/emails/queue.js";
+import {
+  isPatternKey,
+  isSequenceType,
+  productIdToSequence,
+  type PatternKey,
+  type SequenceType,
+} from "../src/emails/sequences.js";
 
 // ── DB setup (inline, no server/ imports) ────────────────────────────────────
 const { Pool } = pg;
@@ -338,6 +352,19 @@ app.post("/api/quiz/submit", async (req, res) => {
       console.error("Email send failed:", err);
     }
 
+    // 2b. Schedule the 7-email Crash Course drip for this pattern.
+    if (isPatternKey(primaryPattern)) {
+      try {
+        await scheduleSequence(db, {
+          userEmail: email,
+          pattern: primaryPattern,
+          sequence: "crash_course",
+        });
+      } catch (err) {
+        console.error("Failed to schedule Crash Course sequence:", err);
+      }
+    }
+
     // 3. Generate JWT and set cookie
     const jwtToken = generateAuthToken(user.id, email);
 
@@ -473,6 +500,74 @@ app.get("/api/portal/user-data", async (req, res) => {
   } catch (error) {
     console.error("Get portal user data error:", error);
     res.status(500).json({ error: "Failed to get user data" });
+  }
+});
+
+// ── Email sequence endpoints ────────────────────────────────────────────────
+app.post("/api/email/start-sequence", async (req, res) => {
+  try {
+    const { email, pattern } = req.body ?? {};
+    if (!email || !pattern) {
+      return res.status(400).json({ error: "email and pattern are required" });
+    }
+    if (!isPatternKey(pattern)) {
+      return res.status(400).json({ error: "Unknown pattern" });
+    }
+    const scheduled = await scheduleSequence(db, {
+      userEmail: email,
+      pattern,
+      sequence: "crash_course",
+    });
+    res.json({ success: true, scheduled });
+  } catch (err) {
+    console.error("start-sequence error:", err);
+    res.status(500).json({ error: "Failed to start sequence" });
+  }
+});
+
+app.post("/api/email/switch-sequence", async (req, res) => {
+  try {
+    const { email, pattern, productId } = req.body ?? {};
+    let { sequence } = req.body ?? {};
+    if (!email || !pattern) {
+      return res.status(400).json({ error: "email and pattern are required" });
+    }
+    if (!isPatternKey(pattern)) {
+      return res.status(400).json({ error: "Unknown pattern" });
+    }
+    if (!sequence && productId) {
+      sequence = productIdToSequence(productId);
+    }
+    if (!isSequenceType(sequence) || sequence === "crash_course") {
+      return res.status(400).json({ error: "Invalid buyer sequence" });
+    }
+    const result = await switchToSequence(db, {
+      userEmail: email,
+      pattern: pattern as PatternKey,
+      sequence: sequence as Exclude<SequenceType, "crash_course">,
+    });
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error("switch-sequence error:", err);
+    res.status(500).json({ error: "Failed to switch sequence" });
+  }
+});
+
+// Vercel cron hits this daily. Protect with CRON_SECRET.
+app.all("/api/cron/email-queue", async (req, res) => {
+  const secret = process.env.CRON_SECRET;
+  const authHeader = req.headers.authorization || "";
+  const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : undefined;
+  const provided = bearer || (req.query.secret as string | undefined);
+  if (!secret || provided !== secret) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const result = await processDueEmails(db, getResendClient(), getFromEmail());
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error("email-queue cron error:", err);
+    res.status(500).json({ error: "Failed to process email queue" });
   }
 });
 
