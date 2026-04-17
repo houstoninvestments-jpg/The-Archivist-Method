@@ -2223,7 +2223,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "48px" }}>
             {[
-              { num: "1", text: "Take the quiz. 2 minutes. 15 questions. No signup required." },
+              { num: "1", text: "Take the quiz. 2 minutes. 20 questions. No signup required." },
               { num: "2", text: "Get your pattern. The one running underneath everything you keep doing." },
               { num: "3", text: "Learn the interrupt. The 3-second window where you choose something different." },
             ].map((step, i) => (
@@ -2267,19 +2267,13 @@ export default function Landing() {
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "2.5rem", color: "white", marginBottom: "16px" }}>$0</p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE CRASH COURSE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  Name the thing you keep doing. Understand why it won't stop on its own.
+                  Find out what's been running you.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Pattern identification quiz", "Primary pattern identified + named", "7-day pattern-specific email sequence", "Body signal primer", "Pocket Archivist (framework-level)"].map((item, i) => (
+                  {["Pattern identification quiz", "Your primary pattern named and explained", "7-day email sequence from the Archivist", "Body signal primer"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
-                    </div>
-                  ))}
-                  {["Full interrupt protocol", "Body signature map"].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
-                      <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
-                      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -2310,19 +2304,13 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE FIELD GUIDE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  You know what it is. Now get everything you need to stop it — before it fires.
+                  Everything you need to stop your pattern before it fires.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Everything in the Crash Course", "Full interrupt protocol (your pattern)", "Body signature map (your pattern)", "Pocket Archivist — trained on your pattern"].map((item, i) => (
+                  {["Everything in the Crash Course", "Full interrupt protocol for your pattern", "Body signature map for your pattern", "The Pocket Archivist, trained on your pattern"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
-                    </div>
-                  ))}
-                  {["All 9 pattern protocols", "Cross-pattern reference guide"].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px", opacity: 0.35 }}>
-                      <span className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 inline-flex items-center justify-center" style={{ color: "#666", fontSize: "10px" }}>&times;</span>
-                      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#666" }}>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -2352,10 +2340,10 @@ export default function Landing() {
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#999", marginBottom: "16px" }}>One-time payment. No subscription. Yours forever.</p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1.2rem", color: "white", marginBottom: "16px" }}>THE COMPLETE ARCHIVE</p>
                 <p style={{ color: "#999", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "20px" }}>
-                  You've handled yours. Now you can see everyone else's — and your own from every angle.
+                  All nine patterns. The complete system. Nothing held back.
                 </p>
                 <div style={{ marginBottom: "24px", flex: 1 }}>
-                  {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "Pocket Archivist — trained on all 9 patterns + protocol", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
+                  {["Everything in the Field Guide", "All 9 interrupt protocols", "All 9 body signature maps", "The Pocket Archivist, trained on all 9 patterns", "Pattern cross-reference guide", "Lifetime updates"].map((item, i) => (
                     <div key={i} className="flex items-start gap-2" style={{ marginBottom: "8px" }}>
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#14B8A6" }} />
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#aaa" }}>{item}</span>
