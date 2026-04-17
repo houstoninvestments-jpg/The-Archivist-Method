@@ -17,6 +17,10 @@ export const quizUsers = pgTable("quiz_users", {
   secondaryPatterns: text("secondary_patterns").array(),
   patternScores: json("pattern_scores").$type<Record<string, number>>(),
   accessLevel: text("access_level").default("free"),
+  // Normalized tier used by Stripe-gated features: "free" | "field_guide" | "complete_archive"
+  accessTier: text("access_tier").default("free"),
+  // Count of distinct conversation sessions started (used to gate free tier at 2 sessions)
+  chatSessionCount: integer("chat_session_count").default(0),
   crashCourseStarted: timestamp("crash_course_started"),
   crashCourseDay: integer("crash_course_day").default(0),
   magicLinkToken: text("magic_link_token"),

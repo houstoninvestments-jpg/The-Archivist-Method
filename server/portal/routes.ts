@@ -656,6 +656,46 @@ router.post(
           paymentIntentId,
         );
 
+        // Mirror the purchase into quiz_users.access_tier so the frontend
+        // tier gate (RequireTier) can resolve access from Supabase alone.
+        const newTier =
+          productId === "complete-archive"
+            ? "complete_archive"
+            : productId === "quick-start"
+              ? "field_guide"
+              : null;
+
+        if (newTier) {
+          try {
+            const { quizUsers } = await import("@shared/schema");
+            const [existingQuizUser] = await db
+              .select()
+              .from(quizUsers)
+              .where(eq(quizUsers.email, customerEmail));
+
+            // Never downgrade: complete_archive outranks field_guide.
+            const currentTier = existingQuizUser?.accessTier || "free";
+            const tierRank: Record<string, number> = { free: 0, field_guide: 1, complete_archive: 2 };
+            const finalTier = tierRank[newTier] > tierRank[currentTier] ? newTier : currentTier;
+
+            if (existingQuizUser) {
+              await db
+                .update(quizUsers)
+                .set({ accessTier: finalTier, accessLevel: finalTier === "complete_archive" ? "archive" : "quick-start" })
+                .where(eq(quizUsers.email, customerEmail));
+            } else {
+              await db.insert(quizUsers).values({
+                email: customerEmail,
+                name: customerName || null,
+                accessTier: finalTier,
+                accessLevel: finalTier === "complete_archive" ? "archive" : "quick-start",
+              });
+            }
+          } catch (err) {
+            console.error("Failed to update access_tier in quiz_users:", err);
+          }
+        }
+
         console.log(`Purchase recorded for user ${user.id}: ${productName}`);
 
         const baseUrl = getBaseUrl(req);
@@ -1046,6 +1086,25 @@ router.get("/chat/history", async (req: Request, res: Response) => {
   }
 });
 
+const FREE_TIER_SESSION_LIMIT = 2;
+
+// A "session" is a distinct calendar day (UTC) that a user sent at least one
+// message on. Free tier gets FREE_TIER_SESSION_LIMIT sessions total; field_guide
+// and complete_archive are unlimited.
+async function countDistinctChatSessionDays(userId: string): Promise<number> {
+  const rows = await db
+    .select({ createdAt: portalChatHistory.createdAt })
+    .from(portalChatHistory)
+    .where(and(eq(portalChatHistory.userId, userId), eq(portalChatHistory.role, "user")));
+
+  const days = new Set<string>();
+  for (const r of rows) {
+    if (!r.createdAt) continue;
+    days.add(r.createdAt.toISOString().slice(0, 10));
+  }
+  return days.size;
+}
+
 router.post("/chat", async (req: Request, res: Response) => {
   try {
     const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
@@ -1054,11 +1113,49 @@ router.post("/chat", async (req: Request, res: Response) => {
     if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
 
     const { tier } = await resolveUserTier(authData);
-    if (tier === "free") {
-      return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase." });
-    }
-
     const userId = authData.userId;
+
+    // Free users get a capped number of conversation sessions. A session counts
+    // as a distinct UTC day with at least one user message. Once the cap is
+    // hit, new sessions are blocked until they upgrade.
+    if (tier === "free") {
+      const today = new Date().toISOString().slice(0, 10);
+      const existingDays = await countDistinctChatSessionDays(userId);
+
+      const rows = await db
+        .select({ createdAt: portalChatHistory.createdAt })
+        .from(portalChatHistory)
+        .where(and(eq(portalChatHistory.userId, userId), eq(portalChatHistory.role, "user")));
+
+      const dayKeys = new Set<string>();
+      for (const r of rows) {
+        if (r.createdAt) dayKeys.add(r.createdAt.toISOString().slice(0, 10));
+      }
+      const isNewSession = !dayKeys.has(today);
+      const projectedSessions = isNewSession ? existingDays + 1 : existingDays;
+
+      if (projectedSessions > FREE_TIER_SESSION_LIMIT) {
+        return res.status(403).json({
+          error: "free_tier_sessions_exhausted",
+          message: "Free tier includes 2 conversation sessions. Upgrade to continue.",
+          sessionsUsed: existingDays,
+          sessionLimit: FREE_TIER_SESSION_LIMIT,
+        });
+      }
+
+      // Persist the incremented session counter on quiz_users when a new day starts.
+      if (isNewSession) {
+        try {
+          const { quizUsers } = await import("@shared/schema");
+          await db
+            .update(quizUsers)
+            .set({ chatSessionCount: projectedSessions })
+            .where(eq(quizUsers.email, authData.email));
+        } catch (err) {
+          console.error("Failed to update chat_session_count:", err);
+        }
+      }
+    }
 
     if (!anthropic) {
       return res.status(503).json({ error: "AI service unavailable" });
@@ -1099,7 +1196,12 @@ router.post("/chat", async (req: Request, res: Response) => {
     const streakCount = streak || 0;
 
     let tierAccess = "";
-    if (userTier === "quick-start") {
+    if (tier === "free") {
+      tierAccess = `If user_tier == "free":
+- You ONLY work with their primary pattern (${patternName}). Do not teach the other 8 patterns.
+- If asked about another pattern, acknowledge it briefly and point them at the Field Guide or Complete Archive.
+- They have a strict 2-session total cap; this is one of those sessions, so keep it high-signal.`;
+    } else if (userTier === "quick-start" || tier === "quick-start") {
       tierAccess = `If user_tier == "field_guide":
 - You know ALL 9 patterns fully
 - You can help with implementation, circuit breaks, 90-day protocol
@@ -1298,6 +1400,35 @@ router.post("/interrupt", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Record interrupt error:", error);
     res.status(500).json({ error: "Failed to record interrupt" });
+  }
+});
+
+// Tier status — used by the RequireTier component to decide whether to show
+// content or the paywall. Returns the canonical access_tier, the user's
+// primary pattern, and free-tier session usage.
+router.get("/tier-status", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid token" });
+
+    const { tier, primaryPattern, userId } = await resolveUserTier(authData);
+
+    const normalizedTier =
+      tier === "archive" ? "complete_archive" : tier === "quick-start" ? "field_guide" : "free";
+
+    const sessionsUsed = await countDistinctChatSessionDays(userId);
+
+    res.json({
+      accessTier: normalizedTier,
+      primaryPattern,
+      chatSessionsUsed: sessionsUsed,
+      chatSessionLimit: normalizedTier === "free" ? FREE_TIER_SESSION_LIMIT : null,
+    });
+  } catch (error) {
+    console.error("Tier status error:", error);
+    res.status(500).json({ error: "Failed to load tier status" });
   }
 });
 
