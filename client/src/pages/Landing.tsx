@@ -2107,7 +2107,7 @@ export default function Landing() {
                       borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.05)" : "none",
                     }}
                   >
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2.2rem, 4vw, 2.8rem)", color: "white", lineHeight: 1, minWidth: "72px" }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", fontSize: "clamp(2.2rem, 4vw, 2.8rem)", color: "white", lineHeight: 1, flex: "0 0 110px" }}>
                       {item.value}
                     </p>
                     <div>
