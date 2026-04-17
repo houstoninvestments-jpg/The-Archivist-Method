@@ -2145,104 +2145,87 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* PANEL 1: The Pattern File — teal glow border */}
-            <div
-              className="bento-panel"
-              data-testid="panel-dashboard"
-              style={{
-                background: "#111",
-                border: "1px solid #14B8A6",
-                borderRadius: "16px",
-                padding: "32px",
-                boxShadow: "0 0 20px rgba(20,184,166,0.08)",
-                transitionDelay: "0s",
-              }}
-            >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE PATTERN FILE</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "10px" }}>YOUR PATTERN. FULLY MAPPED.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Not a label. A complete behavioral map — your triggers, your body signals, your specific interrupt sequence. Documented so you can use it in real time, not reconstruct it after.
-              </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in all tiers · Pattern-specific</p>
-            </div>
-
-            {/* PANEL 2: The Pocket Archivist */}
-            <div
-              className="bento-panel"
-              data-testid="panel-ai-coach"
-              style={{
-                background: "#111",
-                border: "1px solid #1a1a1a",
-                borderRadius: "16px",
-                padding: "32px",
-                transitionDelay: "0.15s",
-              }}
-            >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE POCKET ARCHIVIST</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR PATTERN. IN REAL TIME.</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#ccc", lineHeight: 1.6, marginBottom: "16px" }}>
-                An AI trained on your specific pattern. It knows your triggers, your body signals, and your circuit break sequence. When the pattern runs, it meets you inside The Gap with the exact interrupt you need. Not generic advice. Your interrupt. Your pattern. Your window.
-              </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Available in the Field Guide ($67) and Complete Archive ($297)</p>
-            </div>
-
-            {/* PANEL 3: Body Signature Map */}
-            <div
-              className="bento-panel"
-              data-testid="panel-body-map"
-              style={{
-                background: "#111",
-                border: "1px solid #1a1a1a",
-                borderRadius: "16px",
-                padding: "32px",
-                transitionDelay: "0.3s",
-              }}
-            >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>BODY SIGNATURE MAP</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "14px" }}>YOUR BODY KNEW FIRST.</p>
-              <svg viewBox="0 0 280 24" width="100%" height="24" style={{ marginBottom: "18px", display: "block" }} preserveAspectRatio="none">
-                <polyline points="0,12 60,12 80,12 90,4 100,20 110,8 120,16 130,12 140,12 280,12" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <div style={{ marginBottom: "14px" }}>
-                {["THROAT CLOSES", "CHEST DROPS", "HANDS GO COLD"].map((signal) => (
-                  <div key={signal} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
-                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#14B8A6", flexShrink: 0, display: "inline-block" }} />
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6", letterSpacing: "0.1em" }}>{signal}</span>
-                  </div>
-                ))}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {[
+              {
+                testId: "panel-dashboard",
+                headline: "PATTERN FILE",
+                description: "Your identified pattern with triggers and body signature.",
+                tiers: "Included: Field Guide · Archive",
+                delay: "0s",
+              },
+              {
+                testId: "panel-ai-coach",
+                headline: "POCKET ARCHIVIST",
+                description: "AI trained on your pattern, ready for the moment.",
+                tiers: "Included: Free · Field Guide · Archive",
+                delay: "0.15s",
+              },
+              {
+                testId: "panel-body-map",
+                headline: "BODY SIGNATURE MAP",
+                description: "The physical tells that mean the pattern is loading.",
+                tiers: "Included: Field Guide · Archive",
+                delay: "0.3s",
+              },
+              {
+                testId: "panel-interrupt",
+                headline: "INTERRUPT PROTOCOL",
+                description: "The 3-to-7-second circuit break, scripted for your pattern.",
+                tiers: "Included: Field Guide · Archive",
+                delay: "0.45s",
+              },
+            ].map((item, i, arr) => (
+              <div
+                key={item.testId}
+                className="bento-panel"
+                data-testid={item.testId}
+                style={{
+                  padding: "56px 8px",
+                  borderTop: i === 0 ? "none" : "1px solid rgba(217,168,88,0.2)",
+                  transitionDelay: item.delay,
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 800,
+                    letterSpacing: "-0.03em",
+                    fontVariationSettings: "'opsz' 96",
+                    WebkitFontSmoothing: "antialiased",
+                    textTransform: "uppercase",
+                    fontSize: "clamp(1.75rem, 3.5vw, 2.25rem)",
+                    color: "white",
+                    lineHeight: 1.05,
+                    marginBottom: "16px",
+                  }}
+                >
+                  {item.headline}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "clamp(1rem, 1.6vw, 1.125rem)",
+                    color: "#bbb",
+                    lineHeight: 1.6,
+                    marginBottom: "20px",
+                  }}
+                >
+                  {item.description}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "11px",
+                    color: "rgba(217,168,88,0.7)",
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {item.tiers}
+                </p>
               </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Your nervous system broadcasts the pattern 3–7 seconds before your conscious mind catches up. That gap is the only place interruption is possible. This map teaches you to live in it.
-              </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $67 and $297 · Pattern-specific</p>
-            </div>
-
-            {/* PANEL 4: The Interrupt Protocol */}
-            <div
-              className="bento-panel"
-              data-testid="panel-interrupt"
-              style={{
-                background: "#111",
-                border: "1px solid #1a1a1a",
-                borderRadius: "16px",
-                padding: "32px",
-                transitionDelay: "0.45s",
-              }}
-            >
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>THE INTERRUPT PROTOCOL</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, letterSpacing: "-0.02em", textTransform: "uppercase", fontSize: "1rem", color: "white", marginBottom: "10px" }}>CIRCUIT BREAK.</p>
-              <p style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "13px", color: "#14B8A6", lineHeight: 1.5, marginBottom: "12px" }}>
-                "The pattern is running. I feel the tightness. I'm choosing to stay."
-              </p>
-              <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden", marginBottom: "14px" }}>
-                <div style={{ width: "62%", height: "100%", background: "#14B8A6", borderRadius: "2px" }} />
-              </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "#aaa", lineHeight: 1.6, marginBottom: "16px" }}>
-                Not a mantra. Not a reframe. A physical sequence trained into the nervous system through repetition — so that when the signal fires, the response is already loaded.
-              </p>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#14B8A6" }}>Included in $67 and $297 · Pattern-specific</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
