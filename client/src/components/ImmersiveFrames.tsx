@@ -65,6 +65,10 @@ function FrameBg({ src }: { src: string }) {
         src={src}
         alt=""
         aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        width={1600}
+        height={896}
         style={{
           position: 'absolute',
           inset: 0,
@@ -110,13 +114,9 @@ function Frame01() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
-  useEffect(() => {
-    console.log('[Frame01] image path:', '/images/frame-01.png');
-  }, []);
-
   return (
     <div ref={ref} style={{ ...frameWrapStyle('flex-start'), paddingTop: '15vh' }}>
-      <FrameBg src="/images/frame-01.png" />
+      <FrameBg src="/images/frame-01.webp" />
 
       {/* Text layer */}
       <div
@@ -191,10 +191,6 @@ function Frame02() {
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
   const [labelActive, setLabelActive] = useState([false, false, false]);
 
-  useEffect(() => {
-    console.log('[Frame02] image path:', '/images/frame-02.png');
-  }, []);
-
   // Scroll-progress based label triggers
   useEffect(() => {
     const handleScroll = () => {
@@ -229,7 +225,7 @@ function Frame02() {
         paddingBottom: '10vh',
       }}
     >
-      <FrameBg src="/images/frame-02.png" />
+      <FrameBg src="/images/frame-02.webp" />
 
       {/* Absolutely positioned diagnostic labels */}
       <div
@@ -342,9 +338,6 @@ function Frame03() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
-  useEffect(() => {
-    console.log('[Frame03] image path:', '/images/frame-03.png');
-  }, []);
 
   const windowLines = [
     { text: 'THE WINDOW IS REAL.', delay: 1800 },
@@ -354,7 +347,7 @@ function Frame03() {
 
   return (
     <div ref={ref} style={frameWrapStyle('center')}>
-      <FrameBg src="/images/frame-03.png" />
+      <FrameBg src="/images/frame-03.webp" />
 
       <div
         style={{
@@ -434,13 +427,10 @@ function Frame04() {
   const ref = useRef<HTMLDivElement>(null);
   const active = useOnceVisible(ref as React.RefObject<HTMLElement>);
 
-  useEffect(() => {
-    console.log('[Frame04] image path:', '/images/frame-04.png');
-  }, []);
 
   return (
     <div ref={ref} style={frameWrapStyle('center')}>
-      <FrameBg src="/images/frame-04.png" />
+      <FrameBg src="/images/frame-04.webp" />
 
       <div
         style={{
