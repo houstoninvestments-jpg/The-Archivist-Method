@@ -1154,7 +1154,17 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   }
   .hero-content-col {
     text-align: center;
-    padding: 20px 48px !important;
+    padding: 260px 48px 20px !important;
+  }
+  /* Center the brand block to the full viewport, independent of the content column. */
+  .hero-brand-block {
+    position: absolute !important;
+    top: 48px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 11 !important;
+    margin: 0 !important;
+    pointer-events: none;
   }
   .hero-rule {
     margin-left: auto;
