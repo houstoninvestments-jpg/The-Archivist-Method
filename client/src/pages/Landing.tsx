@@ -1770,6 +1770,9 @@ export default function Landing() {
               PATTERN ARCHAEOLOGY, <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '13.5px', color: '#FF2D9B', letterSpacing: '1px' }}>not therapy</em>
             </div>
           </div>
+          <p data-testid="text-hero-oneliner" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.05rem, 2vw, 1.25rem)", color: "rgba(250,250,250,0.78)", lineHeight: 1.55, maxWidth: "560px", marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.6s forwards" }}>
+            You keep doing the thing you swore you{"\u2019"}d stop. <span style={{ color: "#14B8A6" }}>This is why.</span> And this is how it ends.
+          </p>
           <div className="hero-rule hero-rule-1" style={{ height: "1px", background: "#14B8A6", width: 0, marginBottom: "32px", animation: "heroDrawLine 0.5s ease 0.8s forwards" }} />
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 1.0s both, heroTypewriter1 1.2s steps(32, end) 1.0s both, heroCursorFade 0.5s linear 1.0s infinite, heroCursorHide 0.01s linear 2.5s forwards" }}>{"\u201CYou\u2019ve watched yourself do it.\u201D"}</span></p>
           <p className="hero-confession" style={{ marginBottom: "4px", lineHeight: 1.9 }}><span style={{ display: "inline-block", overflow: "hidden", whiteSpace: "nowrap", borderRight: "2px solid transparent", width: 0, opacity: 0, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.9rem", color: "rgba(250,250,250,0.7)", letterSpacing: "0.02em", verticalAlign: "bottom", animation: "heroFadeIn 0.01s linear 2.5s both, heroTypewriter2 0.8s steps(23, end) 2.5s both, heroCursorFade 0.5s linear 2.5s infinite, heroCursorHide 0.01s linear 3.8s forwards" }}>{"\u201CYou\u2019ve tried to stop.\u201D"}</span></p>
@@ -1901,46 +1904,24 @@ export default function Landing() {
       </section>
 
 
-      {/* ========== SECTION 4.75: THE COST OF WAITING ========== */}
+      {/* ========== SECTION 4.75: WHAT HAPPENS IF YOU DON'T LOOK ========== */}
       <section className="py-20 px-6" data-testid="section-cost-of-waiting" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A" }}>
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(236,72,153,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
           <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#EC4899", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
-            THE COST
+            THE STAKES
           </p>
 
-          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.6rem, 4vw, 2.4rem)", color: "white", lineHeight: 1.15, marginBottom: "24px" }} data-testid="text-cost-headline">
-            THE PATTERN ISN'T GETTING WORSE. YOU'RE JUST GETTING BETTER AT HIDING IT.
+          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4.5vw, 2.75rem)", color: "white", lineHeight: 1.1, marginBottom: "40px" }} data-testid="text-stakes-headline">
+            WHAT HAPPENS IF YOU DON'T LOOK
           </h2>
 
-          <p className="fade-section fade-delay-2" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto 56px" }} data-testid="text-cost-subheadline">
-            Every year it runs, the cost compounds. Not in money. In the relationships you kept at arm's length. The versions of yourself you abandoned right before breakthrough.
-          </p>
-
-          <div className="fade-section fade-delay-2" style={{ display: "flex", flexDirection: "column", gap: "0", maxWidth: "520px", margin: "0 auto 56px" }}>
-            {[
-              "Your pattern fires 3\u20137 seconds before you can stop it.",
-              "Without the method \u2014 it runs every single time.",
-              "With the method \u2014 you get to choose.",
-            ].map((stat, i) => (
-              <div key={i} style={{ padding: "20px 0", borderTop: i === 0 ? "1px solid rgba(20,184,166,0.25)" : "1px solid rgba(20,184,166,0.15)", borderBottom: i === 2 ? "1px solid rgba(20,184,166,0.25)" : "none" }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.85rem", color: i === 2 ? "#14B8A6" : "#ccc", letterSpacing: "0.02em", lineHeight: 1.6 }} data-testid={`text-cost-stat-${i}`}>
-                  {stat}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <h2 className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.4rem, 3.5vw, 2rem)", color: "white", lineHeight: 1.2, marginBottom: "32px" }} data-testid="text-cost-heavy-line">
-            YOU KNOW EXACTLY WHAT IT'S COSTING YOU.
-          </h2>
-
-          <p className="fade-section" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)", color: "#14B8A6", lineHeight: 1.5, maxWidth: "550px", margin: "0 auto 48px" }} data-testid="text-cost-closing">
-            The method doesn't ask you to change who you are. It asks you to catch the signal before the pattern does.
+          <p className="fade-section fade-delay-2" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.15rem, 2.6vw, 1.4rem)", color: "rgba(250,250,250,0.82)", lineHeight: 1.75, maxWidth: "640px", margin: "0 auto 48px" }} data-testid="text-stakes-body">
+            The pattern fires again. The apology you didn{"\u2019"}t owe leaves your mouth. The text gets sent. The door gets slammed. The drink gets poured. The person who needed you to stay watches you disappear. And tomorrow you promise yourself it won{"\u2019"}t happen again. <span style={{ color: "#14B8A6" }}>It will. It always does.</span> Until you see the mechanism.
           </p>
 
           <div className="fade-section">
-            <CTAButton text="FIND YOUR PATTERN" />
+            <CTAButton text="IDENTIFY MY PATTERN — FREE" />
           </div>
         </div>
       </section>
@@ -2231,6 +2212,39 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ========== SECTION 8.9: HOW IT WORKS (3-STEP PLAN) ========== */}
+      <section className="py-20 px-6" data-testid="section-how-it-works-plan" style={{ position: "relative", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center" style={{ marginBottom: "64px" }}>
+            <h2 className="fade-section" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "white" }} data-testid="text-how-it-works-headline">
+              HOW IT WORKS
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "48px" }}>
+            {[
+              { num: "1", text: "Take the quiz. 2 minutes. 15 questions. No signup required." },
+              { num: "2", text: "Get your pattern. The one running underneath everything you keep doing." },
+              { num: "3", text: "Learn the interrupt. The 3-second window where you choose something different." },
+            ].map((step, i) => (
+              <div
+                key={step.num}
+                className={`fade-section fade-delay-${i + 1}`}
+                style={{ textAlign: "center", padding: "0 8px" }}
+                data-testid={`card-plan-step-${step.num}`}
+              >
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "-0.03em", fontSize: "clamp(3.5rem, 7vw, 5rem)", color: "#E1C378", lineHeight: 1, marginBottom: "20px" }}>
+                  {step.num}
+                </p>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(250,250,250,0.75)", fontSize: "1rem", lineHeight: 1.7, maxWidth: "280px", margin: "0 auto" }}>
+                  {step.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ========== SECTION 9: PRICING ========== */}
       <section className="py-20 px-6" data-testid="section-pricing" style={{ position: "relative" }}>
         <div className="max-w-6xl mx-auto">
@@ -2512,6 +2526,24 @@ export default function Landing() {
 
       <ArchivistDemoModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
 
+      {/* ========== SECTION 10.9: WHAT CHANGES ========== */}
+      <section className="py-20 px-6" data-testid="section-what-changes" style={{ position: "relative", overflow: "hidden", background: "#0A0A0A", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,184,166,0.07) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div className="max-w-3xl mx-auto text-center relative" style={{ zIndex: 2 }}>
+          <p className="fade-section" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "13px", color: "#14B8A6", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "24px" }}>
+            THE OUTCOME
+          </p>
+
+          <h2 className="fade-section fade-delay-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, letterSpacing: "-0.04em", fontVariationSettings: "'opsz' 96", WebkitFontSmoothing: "antialiased", textTransform: "uppercase", fontSize: "clamp(1.8rem, 4.5vw, 2.75rem)", color: "white", lineHeight: 1.1, marginBottom: "40px" }} data-testid="text-what-changes-headline">
+            WHAT CHANGES
+          </h2>
+
+          <p className="fade-section fade-delay-2" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.15rem, 2.6vw, 1.4rem)", color: "rgba(250,250,250,0.82)", lineHeight: 1.75, maxWidth: "640px", margin: "0 auto" }} data-testid="text-what-changes-body">
+            You feel the signal in your chest. You recognize it. For the first time, you do not react. The argument does not happen. The text does not get sent. The drink stays on the shelf. You stay in the room. <span style={{ color: "#14B8A6" }}>Three seconds of choice that change the next three hours, three days, three years.</span> That is The Archivist Method.
+          </p>
+        </div>
+      </section>
+
       {/* ========== SECTION 11: FOUNDER ========== */}
       <section className="px-6" data-testid="section-founder" style={{ position: "relative", paddingTop: "80px", paddingBottom: "80px", backgroundImage: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(217,168,88,0.04) 0%, transparent 70%)" }}>
         <div style={{ width: "40px", height: "1px", background: "#14B8A6", margin: "0 auto 48px" }} />
@@ -2527,12 +2559,12 @@ export default function Landing() {
 
           <div className="fade-section fade-delay-2 text-center">
             {[
-              "Nineteen years behind a bar. Thousands of conversations at 1am with people who said things they'd never tell their therapist. No clock, no copay, no notes. Just the truth coming out sideways because the person across the bar had already seen everything.",
+              "Nineteen years behind a bar. I watched people fall apart at 1am \u2014 thousands of conversations with people who said things they\u2019d never tell their therapist. No clock, no copay, no notes. Just the truth coming out sideways because the person across the bar had already seen everything.",
               "After enough of those nights, the patterns became impossible to miss. The same nine loops running in different people, different cities, different decades. The person who apologizes for existing. The one who disappears the moment something gets real. The one who tests everyone closest to them until they leave, then calls it proof.",
-              "I was running them too. Every pattern I catalogued in other people, I eventually found in myself. But understanding wasn't the fix. That's the part nobody tells you. You can see the cycle with perfect clarity and still watch yourself complete it.",
+              "I was running them too. Every pattern I catalogued in other people, I eventually found in myself. But understanding wasn\u2019t the fix. That\u2019s the part nobody tells you. You can see the cycle with perfect clarity and still watch yourself complete it.",
               "Every therapy model I could find was built for the conversation after. The reflection. The processing. None of them were built for the 3 to 7 seconds before the pattern fires, when your body has already decided and your brain is just along for the ride.",
-              "So I stopped looking for more insight and started looking for the interrupt.",
-              "I built The Archivist Method in a van, in an Idaho winter, on bartending tips and a hotspot connection. I didn't build it because I had it figured out. I built it because I needed something that worked in the flood, not after it receded.",
+              "So I stopped looking for more insight and started looking for the interrupt. I built the system that maps why: the 9 named patterns, and FEIR \u2014 the four-door protocol (Focus, Excavation, Interruption, Rewrite) that fires inside the 3-to-7-second window, not after it.",
+              "I built The Archivist Method in a van, in an Idaho winter, on bartending tips and a hotspot connection. I didn\u2019t build it because I had it figured out. I built it because I needed something that worked in the flood, not after it receded.",
             ].map((paragraph, i, arr) => (
               <p key={i} style={{
                 fontFamily: "'DM Serif Display', serif",
