@@ -6,7 +6,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { quizQuestions, calculatePatternScores, determineQuizResult, calculateMatchPercent, patternDisplayNames, patternDescriptions, PatternKey } from '@/lib/quizData';
 import { Check } from 'lucide-react';
 const heroVideoSrc = "/hero-loop-final.mp4";
-const heroPosterImg = "/hero-poster.jpg";
+const heroPosterImg = "/hero-poster.webp";
 import productCrashCourse from "@assets/product-crash-course.webp";
 import productFieldGuide from "@assets/product-field-guide.webp";
 import productCompleteArchive from "@assets/product-complete-archive.webp";
