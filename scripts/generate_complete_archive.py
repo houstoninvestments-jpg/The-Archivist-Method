@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 THE ARCHIVIST METHOD — COMPLETE ARCHIVE PDF Generator
-Assembles the full 600+ page flagship product ($197).
+Assembles the full 600+ page flagship product ($297).
 
 Usage:
     python3 generate_complete_archive.py

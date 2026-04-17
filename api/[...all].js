@@ -53853,6 +53853,10 @@ var init_schema2 = __esm({
       secondaryPatterns: text("secondary_patterns").array(),
       patternScores: json("pattern_scores").$type(),
       accessLevel: text("access_level").default("free"),
+      // Normalized tier used by Stripe-gated features: "free" | "field_guide" | "complete_archive"
+      accessTier: text("access_tier").default("free"),
+      // Count of distinct conversation sessions started (used to gate free tier at 2 sessions)
+      chatSessionCount: integer("chat_session_count").default(0),
       crashCourseStarted: timestamp("crash_course_started"),
       crashCourseDay: integer("crash_course_day").default(0),
       magicLinkToken: text("magic_link_token"),
@@ -76161,10 +76165,10 @@ var MODULE_1_SECTIONS2 = [
 ];
 var MODULE_2_SECTIONS2 = [
   { id: "m2-2.1", title: "Framework Overview", filePath: "module-2-four-doors/2.1-framework-overview.md", module: "module-2" },
-  { id: "m2-2.2", title: "Door 1: Recognition", filePath: "module-2-four-doors/2.2-door-1-recognition.md", module: "module-2" },
+  { id: "m2-2.2", title: "Door 1: Focus", filePath: "module-2-four-doors/2.2-door-1-focus.md", module: "module-2" },
   { id: "m2-2.3", title: "Door 2: Excavation", filePath: "module-2-four-doors/2.3-door-2-excavation.md", module: "module-2" },
   { id: "m2-2.4", title: "Door 3: Interruption", filePath: "module-2-four-doors/2.4-door-3-interruption.md", module: "module-2" },
-  { id: "m2-2.5", title: "Door 4: Override", filePath: "module-2-four-doors/2.5-door-4-override.md", module: "module-2" }
+  { id: "m2-2.5", title: "Door 4: Rewrite", filePath: "module-2-four-doors/2.5-door-4-rewrite.md", module: "module-2" }
 ];
 function getPatternSections2(patternKey) {
   const dir = patternKeyToDirMap2[patternKey];

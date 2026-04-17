@@ -6,6 +6,28 @@ import { Markdown } from "./portal/markdown";
 import { doorForSection, DOOR_COLORS, Door } from "./portal/doors";
 import { getPatternDetail } from "./portal/patterns";
 import { ArchivistPanel } from "./portal/Archivist";
+import { RequireTier } from "@/components/RequireTier";
+
+// p1 → disappearing, p2 → apologyLoop, ... (matches server/portal/content.ts).
+// Used to decide whether a locked section is a non-primary pattern detail view
+// (which should show the Complete Archive paywall) or something else.
+const PATTERN_PREFIX_TO_KEY: Record<string, string> = {
+  "p1-": "disappearing",
+  "p2-": "apologyLoop",
+  "p3-": "testing",
+  "p4-": "attractionToHarm",
+  "p5-": "drainingBond",
+  "p6-": "complimentDeflection",
+  "p7-": "perfectionism",
+  "p8-": "successSabotage",
+  "p9-": "rage",
+};
+
+function sectionPatternKey(sectionId: string | null | undefined): string | null {
+  if (!sectionId) return null;
+  const prefix = sectionId.slice(0, 3);
+  return PATTERN_PREFIX_TO_KEY[prefix] ?? null;
+}
 
 interface TocResponse {
   tier: "free" | "quick-start" | "archive";
@@ -620,7 +642,23 @@ export default function Portal() {
 
           {loadingSection && <ContentSkeleton />}
 
-          {!loadingSection && section?.locked && <LockOverlay />}
+          {!loadingSection && section?.locked && (() => {
+            const patternKey = sectionPatternKey(section.sectionId);
+            const isNonPrimaryPattern =
+              patternKey && patternKey !== toc.primaryPattern;
+            // Pattern-library detail for a pattern other than the user's own:
+            // gate behind Complete Archive with the Cormorant paywall.
+            if (isNonPrimaryPattern) {
+              return (
+                <RequireTier required="complete_archive" currentPattern={patternKey} inline>
+                  {null}
+                </RequireTier>
+              );
+            }
+            // Other locked content (non-pattern modules) keeps the existing
+            // Field Guide upsell overlay.
+            return <LockOverlay />;
+          })()}
 
           {!loadingSection && section && !section.locked && (
             <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 32px 0" }}>

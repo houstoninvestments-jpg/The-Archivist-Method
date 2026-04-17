@@ -1185,7 +1185,7 @@ class FieldGuideBuilder:
                 f'\u2022  {f}', ParagraphStyle(f'CTA_B_{id(f)}',
                 parent=S['body'], leftIndent=24, bulletIndent=12)))
 
-        self.flow.append(Paragraph("$197", S['cta_price']))
+        self.flow.append(Paragraph("$297", S['cta_price']))
         self.flow.append(Paragraph(
             "One purchase. Lifetime access. No subscription.",
             S['cta_body']))

@@ -783,7 +783,7 @@ def build_next_steps(styles):
     elements.append(Paragraph("The 7-Day Crash Course is proof of concept. Here is the full system:", styles['BodyText']))
     elements.append(Spacer(1, 0.2*inch))
     
-    elements.append(Paragraph("THE ARCHIVIST METHOD QUICK-START ($47)", styles['RuleText']))
+    elements.append(Paragraph("THE ARCHIVIST METHOD QUICK-START ($67)", styles['RuleText']))
     elements.append(Paragraph(
         "Full 90-day protocol. All 7 patterns. Circuit break library. Crisis protocols. Tracking templates. Relationship scripts.",
         styles['BodyText']
@@ -791,7 +791,7 @@ def build_next_steps(styles):
     elements.append(Paragraph("Portal access + Unlimited Archivist AI (your pattern-interruption assistant)", styles['BodyItalic']))
     elements.append(Spacer(1, 0.2*inch))
     
-    elements.append(Paragraph("THE COMPLETE ARCHIVE ($197)", styles['RuleText']))
+    elements.append(Paragraph("THE COMPLETE ARCHIVE ($297)", styles['RuleText']))
     elements.append(Paragraph(
         "Everything in Quick-Start plus: Advanced pattern combinations. Workplace applications. Relationship protocols. Parenting with patterns.",
         styles['BodyText']

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Send } from "lucide-react";
 import type { PatternDetail } from "./patterns";
+import { RequireTier } from "@/components/RequireTier";
 
 const SUGGESTION_PROMPTS = [
   "What's happening right now?",
@@ -265,12 +266,18 @@ export function ArchivistPanel({ open, onClose, pattern, patternKey, tier }: Arc
   // Single rendered panel. CSS in Portal.tsx sets position/width responsively:
   //   desktop: fixed right, width 300px, transform for open/close
   //   mobile: full-screen overlay when open, hidden otherwise
+  //
+  // Chat gating lives here: RequireTier mode="chat" lets free users through
+  // until the server-enforced 2-session cap is hit, then swaps the panel for
+  // the paywall. Field Guide and Complete Archive users always pass through.
   return (
     <div
       className={`portal-archivist ${open ? "portal-archivist-open" : ""}`}
       aria-hidden={!open}
     >
-      {panelContent}
+      <RequireTier required="free" mode="chat" inline currentPattern={patternKey}>
+        {panelContent}
+      </RequireTier>
     </div>
   );
 }

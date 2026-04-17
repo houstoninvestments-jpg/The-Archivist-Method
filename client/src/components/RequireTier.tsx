@@ -1,38 +1,29 @@
 // ============================================================
-// RequireTier
-// Wraps a subtree and only renders it if the current user meets
-// the required access tier. If they don't, a Cormorant-Garamond
-// paywall screen is shown with a gold-framed CTA to Stripe Checkout.
+// RequireTier (client app copy)
+// Mirrors /src/components/RequireTier.tsx — kept in-tree so it
+// stays inside the Vite root (client/). Paywall copy matches the
+// source component exactly.
 // ============================================================
 
 import { useEffect, useState, type ReactNode } from 'react';
 import {
+  fetchTierStatus,
   meetsTier,
-  normalizeTier,
   redirectToCheckout,
   type AccessTier,
-} from '../lib/stripe';
-
-interface TierStatus {
-  accessTier: AccessTier;
-  primaryPattern: string | null;
-  chatSessionsUsed: number;
-  chatSessionLimit: number | null;
-}
+  type TierStatus,
+} from '@/lib/stripe';
 
 interface RequireTierProps {
   required: AccessTier;
   children: ReactNode;
-  // Optional override for the pattern mentioned in the paywall copy.
-  // Defaults to the user's primary pattern from the server.
   currentPattern?: string | null;
-  // When true, the paywall CTA sends them to the Field Guide tier.
-  // Otherwise defaults to Complete Archive (the fuller upgrade path).
   upgradeTo?: Exclude<AccessTier, 'free'>;
-  // mode="chat" lets free users through as long as they still have conversation
-  // sessions remaining (enforced server-side at /api/portal/chat). Once the
-  // server reports the cap has been hit, the paywall renders instead.
+  // "chat" lets free users through until they hit the server-enforced session cap.
   mode?: 'tier' | 'chat';
+  // If true, render the paywall without taking up the full viewport. Useful when
+  // embedding inside a sidebar/panel (e.g. the Pocket Archivist chat).
+  inline?: boolean;
 }
 
 const patternDisplayNames: Record<string, string> = {
@@ -47,30 +38,13 @@ const patternDisplayNames: Record<string, string> = {
   rage: 'Rage',
 };
 
-async function fetchTierStatus(): Promise<TierStatus | null> {
-  try {
-    const res = await fetch('/api/portal/tier-status', {
-      credentials: 'include',
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return {
-      accessTier: normalizeTier(data.accessTier),
-      primaryPattern: data.primaryPattern ?? null,
-      chatSessionsUsed: data.chatSessionsUsed ?? 0,
-      chatSessionLimit: data.chatSessionLimit ?? null,
-    };
-  } catch {
-    return null;
-  }
-}
-
 export function RequireTier({
   required,
   children,
   currentPattern,
   upgradeTo = 'complete_archive',
   mode = 'tier',
+  inline = false,
 }: RequireTierProps) {
   const [status, setStatus] = useState<TierStatus | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,13 +64,19 @@ export function RequireTier({
   }, []);
 
   if (loading) {
-    return <div style={{ background: '#000', minHeight: '100vh' }} />;
+    return (
+      <div
+        style={{
+          background: '#0a0908',
+          minHeight: inline ? 120 : '100vh',
+        }}
+      />
+    );
   }
 
   const userTier: AccessTier = status?.accessTier ?? 'free';
   const tierMet = meetsTier(userTier, required);
 
-  // Chat mode: free users keep access until they've exhausted their session cap.
   if (mode === 'chat') {
     const limit = status?.chatSessionLimit ?? null;
     const used = status?.chatSessionsUsed ?? 0;
@@ -130,21 +110,22 @@ export function RequireTier({
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: inline ? 'auto' : '100vh',
+        height: inline ? '100%' : undefined,
         background: '#0a0908',
         color: '#f4ead5',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '48px 24px',
+        padding: inline ? '32px 20px' : '48px 24px',
       }}
     >
-      <div style={{ maxWidth: 620, width: '100%', textAlign: 'center' }}>
+      <div style={{ maxWidth: 520, width: '100%', textAlign: 'center' }}>
         <p
           style={{
             fontFamily: '"Cormorant Garamond", Georgia, serif',
             fontStyle: 'italic',
-            fontSize: 'clamp(22px, 3vw, 30px)',
+            fontSize: inline ? 'clamp(18px, 2.4vw, 22px)' : 'clamp(22px, 3vw, 30px)',
             lineHeight: 1.55,
             color: '#f4ead5',
             margin: 0,
@@ -160,13 +141,13 @@ export function RequireTier({
           onClick={handleUpgrade}
           disabled={checkoutPending}
           style={{
-            marginTop: 40,
-            padding: '16px 32px',
+            marginTop: 32,
+            padding: '14px 28px',
             background: 'transparent',
             border: '1px solid #c8a96a',
             color: '#c8a96a',
             fontFamily: '"JetBrains Mono", "Courier New", monospace',
-            fontSize: 12,
+            fontSize: 11,
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
             cursor: checkoutPending ? 'progress' : 'pointer',
@@ -188,10 +169,10 @@ export function RequireTier({
         {error && (
           <p
             style={{
-              marginTop: 20,
+              marginTop: 18,
               color: '#c97b6a',
               fontFamily: '"JetBrains Mono", monospace',
-              fontSize: 11,
+              fontSize: 10,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
             }}
@@ -205,10 +186,10 @@ export function RequireTier({
           status.chatSessionsUsed >= status.chatSessionLimit && (
             <p
               style={{
-                marginTop: 32,
+                marginTop: 28,
                 color: '#8a7a55',
                 fontFamily: '"JetBrains Mono", monospace',
-                fontSize: 11,
+                fontSize: 10,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
               }}

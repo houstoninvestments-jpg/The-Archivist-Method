@@ -1053,7 +1053,8 @@ def main():
     base_dir = os.path.join(script_dir, '..')
     content_dir = os.path.join(base_dir, 'content', 'book')
     logo_path = os.path.join(base_dir, 'attached_assets', 'archivist-portrait-circle.jpg')
-    output_dir = base_dir
+    output_dir = os.path.join(base_dir, 'public', 'downloads')
+    os.makedirs(output_dir, exist_ok=True)
 
     print('=' * 60)
     print('THE ARCHIVIST METHOD - FIELD GUIDE GENERATOR')
