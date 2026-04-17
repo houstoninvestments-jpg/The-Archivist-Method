@@ -14,38 +14,38 @@ type Block =
   | { kind: "ul" | "ol"; items: string[] }
   | { kind: "blockquote"; text: string }
   | { kind: "table"; headers: string[]; rows: string[][] }
-  | { kind: "special"; variant: SpecialVariant; label: string; text: string }
+  | { kind: "special"; variant: SpecialVariant; emoji: string; label: string; text: string }
   | { kind: "frame"; name: string };
 
 // ![frame-01] / ![frame-02] etc. — shorthand for one of the chapter frame
 // illustrations in /images/frame-XX.png. Stripping the wrapping gives "frame-01".
 const FRAME_MARKER_RE = /^!\[(frame-\d{1,3})\]$/;
 
-// Strip the leading emoji/icon from a label line, returning just the caps text.
-function extractLabelText(line: string): string {
-  // Remove leading emoji(s) + whitespace. An emoji sequence may include modifiers
-  // like the variation selector U+FE0F, so we trim until we hit an ASCII letter.
-  let s = line.trim();
-  while (s.length > 0 && !/^[A-Za-z]/.test(s)) {
-    s = s.slice(1).trim();
-  }
-  return s;
+// Split a label line into its leading emoji (pictograph + modifiers) and the
+// remaining ALL-CAPS text, so the renderer can preserve both.
+function splitEmojiLabel(line: string): { emoji: string; label: string } {
+  const s = line.trim();
+  let i = 0;
+  while (i < s.length && !/[A-Za-z]/.test(s[i])) i++;
+  const emoji = s.slice(0, i).trim();
+  const label = s.slice(i).trim();
+  return { emoji, label };
 }
 
-function detectSpecial(line: string): { variant: SpecialVariant; label: string } | null {
+function detectSpecial(line: string): { variant: SpecialVariant; emoji: string; label: string } | null {
   const t = line.trim();
-  // Known callouts with distinct styling.
-  if (/^💎\s*GOLD NUGGET/i.test(t)) return { variant: "gold", label: "GOLD NUGGET" };
-  if (/^⚡\s*QUICK WIN/i.test(t)) return { variant: "quick", label: extractLabelText(t) || "QUICK WIN" };
-  if (/^🔌?\s*CIRCUIT BREAK/i.test(t)) return { variant: "circuit", label: "CIRCUIT BREAK" };
-  if (/^🔑\s*KEY TAKEAWAYS/i.test(t)) return { variant: "key", label: "KEY TAKEAWAYS" };
-  if (/^📜\s*THE ARCHIVIST OBSERVES/i.test(t)) return { variant: "observes", label: "THE ARCHIVIST OBSERVES" };
+  // Known callouts with distinct variants. Emoji is preserved separately so the
+  // renderer can show it alongside the Bebas Neue header.
+  if (/^💎\s*GOLD NUGGET/i.test(t)) return { variant: "gold", emoji: "💎", label: "GOLD NUGGET" };
+  if (/^⚡\s*QUICK WIN/i.test(t)) { const s = splitEmojiLabel(t); return { variant: "quick", emoji: s.emoji || "⚡", label: s.label || "QUICK WIN" }; }
+  if (/^🔌?\s*CIRCUIT BREAK/i.test(t)) { const s = splitEmojiLabel(t); return { variant: "circuit", emoji: s.emoji || "🔌", label: "CIRCUIT BREAK" }; }
+  if (/^🔑\s*KEY TAKEAWAYS/i.test(t)) return { variant: "key", emoji: "🔑", label: "KEY TAKEAWAYS" };
+  if (/^📜\s*THE ARCHIVIST OBSERVES/i.test(t)) return { variant: "observes", emoji: "📜", label: "THE ARCHIVIST OBSERVES" };
   // Generic: any line starting with an emoji followed by an ALL-CAPS label.
   // Catches ⚠️ BEFORE YOU EXCAVATE, ⚠️ THE GAP, ⚠️ IMPORTANT, etc.
-  // Unicode property escapes are supported in modern browsers — used here to
-  // match a leading pictographic / symbol codepoint.
   if (/^[\p{Extended_Pictographic}\p{Emoji_Presentation}][\uFE0F\u200D]?\s+[A-Z][A-Z0-9 ,:()'\-—]{2,}/u.test(t)) {
-    return { variant: "warning", label: extractLabelText(t) || t };
+    const s = splitEmojiLabel(t);
+    return { variant: "warning", emoji: s.emoji, label: s.label || t };
   }
   return null;
 }
@@ -69,7 +69,7 @@ export function parseMarkdown(md: string): Block[] {
         inner.push(lines[j]);
         j++;
       }
-      out.push({ kind: "special", variant: special.variant, label: special.label, text: inner.join("\n").trim() });
+      out.push({ kind: "special", variant: special.variant, emoji: special.emoji, label: special.label, text: inner.join("\n").trim() });
       i = j + 1;
       continue;
     }
@@ -350,24 +350,52 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
           );
         }
         if (b.kind === "special") {
-          const palette =
-            b.variant === "gold"
-              ? { border: "#D4A574", bg: "rgba(212,165,116,0.06)", label: "#D4A574", font: "'EB Garamond', serif", italic: true, fontSize: 19 }
-              : b.variant === "quick"
-                ? { border: "#00FFC2", bg: "rgba(0,255,194,0.05)", label: "#00FFC2", font: "'Inter', sans-serif", italic: false, fontSize: 15 }
-                : b.variant === "circuit"
-                  ? { border: "#EC4899", bg: "rgba(236,72,153,0.06)", label: "#EC4899", font: "'JetBrains Mono', monospace", italic: false, fontSize: 15 }
-                  : b.variant === "key"
-                    ? { border: "#D4A574", bg: "rgba(212,165,116,0.05)", label: "#D4A574", font: "'Inter', sans-serif", italic: false, fontSize: 15 }
-                    : b.variant === "observes"
-                      ? { border: "#D4A574", bg: "rgba(212,165,116,0.04)", label: "#D4A574", font: "'EB Garamond', serif", italic: true, fontSize: 18 }
-                      : { border: "#EC4899", bg: "rgba(236,72,153,0.05)", label: "#EC4899", font: "'Inter', sans-serif", italic: false, fontSize: 15 };
+          // Archivist voice blocks — quotations from the narrator — render body as
+          // EB Garamond italic. Everything else uses Inter.
+          const isArchivistVoice = b.variant === "observes" || b.variant === "gold";
+          const bodyFont = isArchivistVoice ? "'EB Garamond', serif" : "'Inter', sans-serif";
+          const bodyFontSize = isArchivistVoice ? 18 : 15;
           return (
-            <div key={key} style={{ margin: "28px 0", padding: "22px 24px", borderLeft: `3px solid ${palette.border}`, background: palette.bg, borderRadius: "0 6px 6px 0" }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.28em", color: palette.label, marginBottom: 12, fontWeight: 500 }}>
-                // {b.label}
+            <div
+              key={key}
+              style={{
+                margin: "32px 0",
+                padding: 24,
+                background: "#0a0a0a",
+                border: "1px solid rgba(0,255,194,0.3)",
+                borderRadius: 4,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 20,
+                  letterSpacing: "0.12em",
+                  color: "#00FFC2",
+                  marginBottom: 14,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  lineHeight: 1,
+                }}
+              >
+                {b.emoji && (
+                  <span aria-hidden="true" style={{ fontFamily: "'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif", fontSize: 18 }}>
+                    {b.emoji}
+                  </span>
+                )}
+                <span>{b.label}</span>
               </div>
-              <div style={{ fontFamily: palette.font, fontStyle: palette.italic ? "italic" : "normal", fontSize: palette.fontSize, lineHeight: 1.65, color: "#E8E3DC", whiteSpace: "pre-wrap" }}>
+              <div
+                style={{
+                  fontFamily: bodyFont,
+                  fontStyle: isArchivistVoice ? "italic" : "normal",
+                  fontSize: bodyFontSize,
+                  lineHeight: 1.65,
+                  color: "#E8E3DC",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
                 {renderInline(b.text, key)}
               </div>
             </div>

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-import { Menu, ChevronRight, Lock, MessageSquare, Zap, X } from "lucide-react";
+import { Menu, ChevronRight, Lock, MessageSquare } from "lucide-react";
 import { Sidebar, TocGroup } from "./portal/Sidebar";
 import { Markdown } from "./portal/markdown";
 import { doorForSection, DOOR_COLORS, Door } from "./portal/doors";
-import { getPatternDetail, type PatternDetail } from "./portal/patterns";
+import { getPatternDetail } from "./portal/patterns";
 import { ArchivistPanel } from "./portal/Archivist";
 
 interface TocResponse {
@@ -125,197 +125,6 @@ function LockOverlay() {
       >
         Unlock Field Guide
       </a>
-    </div>
-  );
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-// InterruptScreen — full-screen crisis overlay. The Archivist's library is
-// rendered at 6% opacity behind the dark radial gradient, placing the user
-// inside the room at the moment of pattern activation. The breathing circle,
-// 4-step circuit break, and dismiss escape are all available in one view.
-// ────────────────────────────────────────────────────────────────────────────
-function InterruptScreen({ open, onClose, pattern }: { open: boolean; onClose: () => void; pattern: PatternDetail }) {
-  // Close on ESC
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    // Lock body scroll while open.
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return (
-    <div
-      role="dialog"
-      aria-label="Pattern interrupt"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 200,
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* Library scene — bottom-most layer, 6% opacity so it whispers rather than shouts. */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "url('/hero-poster.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.06,
-          pointerEvents: "none",
-        }}
-      />
-      {/* Dark radial gradient on top of the library image. */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse at 50% 40%, rgba(8,10,12,0.72) 0%, rgba(4,5,7,0.94) 55%, #040507 100%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Close */}
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close interrupt"
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 20,
-          width: 40,
-          height: 40,
-          background: "transparent",
-          border: "1px solid #2A2830",
-          color: "#C8C0B2",
-          borderRadius: 4,
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <X size={16} />
-      </button>
-
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: 560,
-          padding: "0 28px",
-          textAlign: "center",
-          animation: "interruptFadeIn 0.35s ease forwards",
-        }}
-      >
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.32em", color: "#EC4899", marginBottom: 16, fontWeight: 500 }}>
-          // PATTERN INTERRUPT // ACTIVE
-        </div>
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 44, letterSpacing: "0.04em", color: "#F0EDE8", margin: "0 0 10px", lineHeight: 1.1 }}>
-          THE PATTERN IS RUNNING.
-        </h1>
-        <p style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: 17, color: "#9A958D", margin: "0 0 32px", lineHeight: 1.55 }}>
-          Breathe. You have 3 to 7 seconds. That is enough.
-        </p>
-
-        {/* Breathing circle */}
-        <div style={{ display: "flex", justifyContent: "center", margin: "0 0 32px" }}>
-          <div
-            className="interrupt-breath"
-            aria-hidden="true"
-            style={{
-              width: 120,
-              height: 120,
-              borderRadius: "50%",
-              border: "1px solid rgba(0,255,194,0.4)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 10,
-              letterSpacing: "0.28em",
-              color: "#00FFC2",
-            }}
-          >
-            BREATHE
-          </div>
-        </div>
-
-        {/* Circuit break script — tied to the user's primary pattern */}
-        <div
-          style={{
-            textAlign: "left",
-            padding: "22px 24px",
-            background: "rgba(236,72,153,0.04)",
-            border: "1px solid rgba(236,72,153,0.2)",
-            borderRadius: 6,
-            marginBottom: 24,
-          }}
-        >
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.28em", color: "#EC4899", marginBottom: 10, fontWeight: 500 }}>
-            // CIRCUIT BREAK
-          </div>
-          <div style={{ fontFamily: "'EB Garamond', serif", fontSize: 17, lineHeight: 1.6, color: "#E8E3DC" }}>
-            {pattern.circuitBreak}
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={onClose}
-          style={{
-            padding: "12px 24px",
-            background: "transparent",
-            border: "1px solid #00FFC2",
-            color: "#00FFC2",
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 10,
-            letterSpacing: "0.28em",
-            fontWeight: 500,
-            textTransform: "uppercase",
-            borderRadius: 4,
-            cursor: "pointer",
-          }}
-        >
-          I have done the interrupt
-        </button>
-      </div>
-
-      <style>{`
-        @keyframes interruptFadeIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes interruptBreath {
-          0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(0,255,194,0.25), inset 0 0 18px rgba(0,255,194,0.08); }
-          50%      { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(0,255,194,0), inset 0 0 28px rgba(0,255,194,0.18); }
-        }
-        .interrupt-breath { animation: interruptBreath 4s ease-in-out infinite; }
-        @media (prefers-reduced-motion: reduce) {
-          .interrupt-breath { animation: none; }
-        }
-      `}</style>
     </div>
   );
 }
@@ -511,7 +320,6 @@ export default function Portal() {
   const [authError, setAuthError] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [interruptOpen, setInterruptOpen] = useState(false);
 
   // TEMP DEV BYPASS — remove before launch
   const devMode = useMemo(() => isDevMode(), []);
@@ -758,40 +566,6 @@ export default function Portal() {
             <DoorPill door={door} />
             <button
               type="button"
-              onClick={() => setInterruptOpen(true)}
-              aria-label="Pattern interrupt"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "6px 12px",
-                height: 28,
-                background: "transparent",
-                border: "1px solid rgba(236,72,153,0.5)",
-                borderRadius: 4,
-                color: "#EC4899",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 9,
-                letterSpacing: "0.2em",
-                fontWeight: 500,
-                textTransform: "uppercase",
-                cursor: "pointer",
-                transition: "border-color 0.15s, background 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#EC4899";
-                e.currentTarget.style.background = "rgba(236,72,153,0.08)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(236,72,153,0.5)";
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              <Zap size={12} />
-              Interrupt
-            </button>
-            <button
-              type="button"
               onClick={() => setChatOpen((v) => !v)}
               aria-label={chatOpen ? "Close Pocket Archivist" : "Open Pocket Archivist"}
               aria-pressed={chatOpen}
@@ -878,13 +652,6 @@ export default function Portal() {
         tier={toc.tier}
       />
 
-      {/* Pattern interrupt — fires when the user is mid-circuit. Full-screen
-          overlay placing them inside the Archivist's library. */}
-      <InterruptScreen
-        open={interruptOpen}
-        onClose={() => setInterruptOpen(false)}
-        pattern={patternDetail}
-      />
     </div>
   );
 }
