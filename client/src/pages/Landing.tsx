@@ -329,6 +329,7 @@ function useGlobalFadeIn() {
     const failsafe = setTimeout(() => {
       document.querySelectorAll(".fade-section, .bento-panel").forEach((el) => el.classList.add("visible"));
       document.querySelectorAll('[style*="opacity: 0"]').forEach((el) => {
+        if (el.closest('[data-testid="section-hero"]')) return;
         (el as HTMLElement).style.opacity = "1";
         (el as HTMLElement).style.transform = "none";
       });
