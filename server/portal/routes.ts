@@ -485,12 +485,12 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
   }
 });
 
-// Create checkout session for Archive Upgrade ($150 - for existing Quick-Start owners)
+// Create checkout session for Archive Upgrade ($230 - for existing Quick-Start owners)
 router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => {
   try {
     const baseUrl = getBaseUrl(req);
 
-    // Use price_data to create a one-time $150 upgrade price
+    // Use price_data to create a one-time $230 upgrade price ($297 - $67 Field Guide credit)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -501,7 +501,7 @@ router.post("/checkout/archive-upgrade", async (req: Request, res: Response) => 
               name: "Complete Archive Upgrade",
               description: "The Complete Archive — Every pattern. Every scenario. The complete system. (Upgrade pricing)",
             },
-            unit_amount: 15000, // $150 in cents
+            unit_amount: 23000, // $230 in cents
           },
           quantity: 1,
         },

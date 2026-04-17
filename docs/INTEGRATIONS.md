@@ -12,8 +12,8 @@
 
 | Product | Price | Stripe Price ID |
 |---------|-------|-----------------|
-| Quick-Start System | $47 | [VERIFY — stored in Replit Stripe config, test mode: `price_XXXXX`] |
-| Complete Archive | $197 | [VERIFY — stored in Replit Stripe config, test mode: `price_XXXXX`] |
+| Quick-Start System | $67 | `price_1Scurl11kGDis0LrLDIjwDc9` |
+| Complete Archive | $297 | `price_1ScuuG11kGDis0LrWdBlpZ5w` |
 
 The Crash Course is free and does not go through Stripe.
 

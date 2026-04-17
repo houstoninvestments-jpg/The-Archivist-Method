@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 The Archivist Method™ Complete Archive PDF Generator
-Premium $197 product with dark gothic/industrial aesthetic
+Premium $297 product with dark gothic/industrial aesthetic
 """
 
 from reportlab.lib.pagesizes import letter

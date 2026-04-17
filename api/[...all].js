@@ -75121,8 +75121,8 @@ router.post("/checkout/archive-upgrade", async (req, res) => {
               name: "Complete Archive Upgrade",
               description: "The Complete Archive \u2014 Every pattern. Every scenario. The complete system. (Upgrade pricing)"
             },
-            unit_amount: 15e3
-            // $150 in cents
+            unit_amount: 23e3
+            // $230 in cents
           },
           quantity: 1
         }
@@ -76161,10 +76161,10 @@ var MODULE_1_SECTIONS2 = [
 ];
 var MODULE_2_SECTIONS2 = [
   { id: "m2-2.1", title: "Framework Overview", filePath: "module-2-four-doors/2.1-framework-overview.md", module: "module-2" },
-  { id: "m2-2.2", title: "Door 1: Recognition", filePath: "module-2-four-doors/2.2-door-1-recognition.md", module: "module-2" },
+  { id: "m2-2.2", title: "Door 1: Focus", filePath: "module-2-four-doors/2.2-door-1-focus.md", module: "module-2" },
   { id: "m2-2.3", title: "Door 2: Excavation", filePath: "module-2-four-doors/2.3-door-2-excavation.md", module: "module-2" },
   { id: "m2-2.4", title: "Door 3: Interruption", filePath: "module-2-four-doors/2.4-door-3-interruption.md", module: "module-2" },
-  { id: "m2-2.5", title: "Door 4: Override", filePath: "module-2-four-doors/2.5-door-4-override.md", module: "module-2" }
+  { id: "m2-2.5", title: "Door 4: Rewrite", filePath: "module-2-four-doors/2.5-door-4-rewrite.md", module: "module-2" }
 ];
 function getPatternSections2(patternKey) {
   const dir = patternKeyToDirMap2[patternKey];
@@ -76783,7 +76783,7 @@ app.get("/api/portal/user-data", async (req, res) => {
       availableUpgrades.push({
         id: "quickstart",
         name: "The Field Guide",
-        price: 47,
+        price: 67,
         description: "Your pattern-specific Field Guide, all 9 patterns, crisis protocols"
       });
     }
@@ -76791,7 +76791,7 @@ app.get("/api/portal/user-data", async (req, res) => {
       availableUpgrades.push({
         id: "archive",
         name: "Complete Archive",
-        price: user.accessLevel === "quickstart" ? 150 : 197,
+        price: user.accessLevel === "quickstart" ? 230 : 297,
         description: "Pattern combinations, long-term maintenance, advanced applications"
       });
     }

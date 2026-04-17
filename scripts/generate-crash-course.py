@@ -833,7 +833,7 @@ def build_whats_next(elements, styles):
     ))
     elements.append(Spacer(1, 14))
 
-    elements.append(Paragraph("THE FIELD GUIDE \u2014 $47", styles['h2']))
+    elements.append(Paragraph("THE FIELD GUIDE \u2014 $67", styles['h2']))
     elements.append(Paragraph("Your pattern. Full depth. 90 days.", styles['body_bold']))
     b = '<font color="#14B8A6"><b>&bull;</b></font>'
     fg_features = [
@@ -850,7 +850,7 @@ def build_whats_next(elements, styles):
     elements.append(Paragraph("You proved it works. The Field Guide makes it stick.", styles['body_bold']))
     elements.append(Spacer(1, 20))
 
-    elements.append(Paragraph("THE COMPLETE ARCHIVE \u2014 $197", styles['h2']))
+    elements.append(Paragraph("THE COMPLETE ARCHIVE \u2014 $297", styles['h2']))
     elements.append(Paragraph("Everything. All 9 patterns. For life.", styles['body_bold']))
     ca_features = [
         "Full mastery of all 9 patterns",

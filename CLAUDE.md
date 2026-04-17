@@ -12,7 +12,7 @@
 
 ## Project Overview
 
-The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. Three tiers: The Crash Course (free), The Field Guide ($47), The Complete Archive ($197).
+The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. Three tiers: The Crash Course (free), The Field Guide ($67), The Complete Archive ($297).
 
 Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, deployed on Vercel.
 

@@ -17,7 +17,7 @@ TAM is a digital products business. Three tiers, one funnel, hands-off operation
 - Stripe live mode
 - Resend email delivery for magic links
 - End-to-end payment flow verified
-- Three products live: Crash Course (free), Quick-Start ($47), Complete Archive ($197)
+- Three products live: Crash Course (free), Quick-Start ($67), Complete Archive ($297)
 - ConvertKit email sequences active
 
 **What success looks like:** Someone can find the site, take the quiz, get their pattern, sign up for the Crash Course, and buy a paid product — all without Aaron touching anything.
@@ -31,7 +31,7 @@ TAM is a digital products business. Three tiers, one funnel, hands-off operation
 - 7-Day Crash Course email sequence live (11 emails, Day 0–21)
 - Quick-Start buyer onboarding live (5 emails, Day 0–60)
 - Archive buyer onboarding live (5 emails, Day 0–90)
-- Monitor conversion rates: Crash Course → $47, $47 → $197, direct → $197
+- Monitor conversion rates: Crash Course → $67, $67 → $297, direct → $297
 - Basic analytics on funnel performance
 
 ---
@@ -75,9 +75,9 @@ NotebookLM → ElevenLabs → Claude API → Shorts + Long-form
 **Target:** $200,000–$400,000 year one revenue.
 
 Revenue model:
-- Crash Course → $47 Quick-Start conversion (target: 10–15%)
-- Quick-Start → $197 Archive upsell (target: 20–30%)
-- Direct $197 purchases from organic traffic
+- Crash Course → $67 Quick-Start conversion (target: 10–15%)
+- Quick-Start → $297 Archive upsell (target: 20–30%)
+- Direct $297 purchases from organic traffic
 - Content automation drives organic reach
 - Email sequences do the selling
 

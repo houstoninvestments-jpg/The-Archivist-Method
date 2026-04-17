@@ -1319,7 +1319,7 @@ class CrashCourseBuilder:
                       ParagraphStyle('QSNote', parent=S['callout_body'],
                                      fontName='Helvetica-Bold')),
             Spacer(1, 8),
-            Paragraph("$47", ParagraphStyle(
+            Paragraph("$67", ParagraphStyle(
                 'QSPrice', parent=S['callout_body'], fontName='Helvetica-Bold',
                 fontSize=22, textColor=TEAL, alignment=TA_CENTER)),
             Paragraph("One pattern. Full depth. Lifetime access.",
@@ -1351,7 +1351,7 @@ class CrashCourseBuilder:
             inner_ca.append(Paragraph(
                 f"\u2022  {self._esc(f)}", S['callout_body']))
         inner_ca.append(Spacer(1, 8))
-        inner_ca.append(Paragraph("$197", ParagraphStyle(
+        inner_ca.append(Paragraph("$297", ParagraphStyle(
             'CAPrice', parent=S['callout_body'], fontName='Helvetica-Bold',
             fontSize=22, textColor=GOLD, alignment=TA_CENTER)))
         inner_ca.append(Paragraph("All nine patterns. One purchase. Lifetime access.",

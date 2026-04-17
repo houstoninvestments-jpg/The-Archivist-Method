@@ -445,7 +445,7 @@ app.get("/api/portal/user-data", async (req, res) => {
       availableUpgrades.push({
         id: "quickstart",
         name: "The Field Guide",
-        price: 47,
+        price: 67,
         description: "Your pattern-specific Field Guide, all 9 patterns, crisis protocols",
       });
     }
@@ -453,7 +453,7 @@ app.get("/api/portal/user-data", async (req, res) => {
       availableUpgrades.push({
         id: "archive",
         name: "Complete Archive",
-        price: user.accessLevel === "quickstart" ? 150 : 197,
+        price: user.accessLevel === "quickstart" ? 230 : 297,
         description: "Pattern combinations, long-term maintenance, advanced applications",
       });
     }

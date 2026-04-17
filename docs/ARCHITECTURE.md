@@ -122,8 +122,8 @@ client/
 │   │   └── StaggeredText.tsx        # Animation component
 │   ├── pages/
 │   │   ├── Landing.tsx              # Main landing page
-│   │   ├── QuickStart.tsx           # $47 sales page
-│   │   ├── CompleteArchive.tsx      # $197 sales page
+│   │   ├── QuickStart.tsx           # $67 sales page
+│   │   ├── CompleteArchive.tsx      # $297 sales page
 │   │   ├── Portal/
 │   │   │   ├── Login.tsx            # Magic link login
 │   │   │   ├── Dashboard.tsx        # Customer dashboard
