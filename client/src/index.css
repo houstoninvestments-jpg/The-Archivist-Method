@@ -1133,6 +1133,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   box-sizing: border-box;
 }
 .hero-content-col {
+  position: relative;
   z-index: 10;
   padding: 80px 24px;
   text-align: center;
@@ -1153,23 +1154,7 @@ html.is-bot .hero-scramble-char { opacity: 1 !important; }
   }
   .hero-content-col {
     text-align: center;
-    padding: 260px 48px 20px !important;
-  }
-  /* Anchor the brand block to the hero section (100vw), not the grid column. */
-  .hero-section-fade {
-    position: relative;
-  }
-  .hero-brand-block {
-    position: absolute !important;
-    top: 48px !important;
-    left: 50vw !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    z-index: 11 !important;
-    margin: 0 !important;
-    width: max-content !important;
-    max-width: calc(100vw - 32px) !important;
-    pointer-events: none;
+    padding: 20px 48px !important;
   }
   .hero-rule {
     margin-left: auto;
