@@ -1326,6 +1326,75 @@ STREAK ACKNOWLEDGMENT:
   }
 });
 
+// ============================================
+// VOICE — ElevenLabs TTS
+// Streams the Archivist's reply as audio. The client requests this only after
+// the typewriter text has finished, so audio and text stay in sync.
+// ============================================
+const voiceSpeakSchema = z.object({
+  text: z.string().min(1).max(4000),
+});
+
+router.post("/voice/speak", async (req: Request, res: Response) => {
+  try {
+    const userId = getAuthUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const parsed = voiceSpeakSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Invalid data" });
+    }
+
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    const voiceId = process.env.ELEVENLABS_VOICE_ID || "busoBrxbSdnsO2rCQwxq";
+    if (!apiKey) {
+      return res.status(503).json({ error: "Voice unavailable" });
+    }
+
+    // Strip bracketed stage-direction style markers that sometimes appear in
+    // generated text ([pause], [softly], etc.) so they don't get spoken.
+    const cleanText = parsed.data.text.replace(/\[[^\]]*\]/g, "").trim();
+
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      {
+        method: "POST",
+        headers: {
+          "xi-api-key": apiKey,
+          "Content-Type": "application/json",
+          Accept: "audio/mpeg",
+        },
+        body: JSON.stringify({
+          text: cleanText,
+          model_id: "eleven_turbo_v2_5",
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.75,
+            style: 0.1,
+            use_speaker_boost: true,
+          },
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => "");
+      console.error("ElevenLabs error:", response.status, detail);
+      return res.status(502).json({ error: "TTS failed" });
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    res.set({
+      "Content-Type": "audio/mpeg",
+      "Cache-Control": "no-store",
+    });
+    res.send(Buffer.from(arrayBuffer));
+  } catch (error) {
+    console.error("Voice speak error:", error);
+    res.status(500).json({ error: "Voice synthesis failed" });
+  }
+});
+
 router.delete("/chat/history", async (req: Request, res: Response) => {
   try {
     const userId = getAuthUserId(req);
