@@ -32,7 +32,7 @@ export const patternDisplayNames: Record<PatternKey, string> = {
   complimentDeflection: "Compliment Deflection",
   drainingBond: "The Draining Bond",
   successSabotage: "Success Sabotage",
-  perfectionism: "The Perfectionism Pattern",
+  perfectionism: "The Perfectionism Trap",
   rage: "The Rage Pattern",
 };
 

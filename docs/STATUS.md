@@ -35,7 +35,7 @@
 - Gothic library dark theme aesthetic
 - Header/footer on all pages
 - Framer Motion scroll animations
-- 3-tier pricing section (Free / $47 / $197)
+- 3-tier pricing section (Free / $67 / $297)
 - Chatbot widget (UI only, not wired to Claude API)
 
 ### Landing Page Overhaul (Feb 17, 2026)
@@ -73,7 +73,7 @@
 
 ### Payment
 - Stripe Checkout configured (TEST MODE)
-- Payment links for $47 and $197
+- Payment links for $67 and $297
 - Webhook endpoint at `/api/stripe/webhook`
 - STRIPE_WEBHOOK_SECRET configured
 
@@ -135,8 +135,8 @@
    - All copy is drafted, needs implementation in ConvertKit
 
 2. **Remaining Thank You Pages**
-   - `/thank-you-quick-start` — After $47 purchase
-   - `/thank-you-complete` — After $197 purchase
+   - `/thank-you-quick-start` — After $67 purchase
+   - `/thank-you-complete` — After $297 purchase
    - Include upsell opportunities
 
 3. **Archivist Chatbot: Wire to Claude API**

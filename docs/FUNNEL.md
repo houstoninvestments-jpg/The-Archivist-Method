@@ -25,7 +25,7 @@ Landing Page → Quiz (15 questions) → Analyzing Screen → Results Page → E
 - 9 Core Patterns accordion section (expandable, each pattern described)
 - FEIR Method explanation
 - Therapy vs. Archivist comparison table
-- 3-tier pricing section (FREE / $47 / $197)
+- 3-tier pricing section (FREE / $67 / $297)
 - FAQ section (accordion)
 - Header navigation + Footer on all pages
 - Archivist Chatbot widget (floating, bottom-right)
@@ -38,7 +38,7 @@ Landing Page → Quiz (15 questions) → Analyzing Screen → Results Page → E
 **Where conversion happens:**
 - CTA buttons in pricing section
 - "Start Free" / "Get Started" for Crash Course → Quiz or email capture
-- "Buy" buttons for $47 and $197 → Stripe Checkout
+- "Buy" buttons for $67 and $297 → Stripe Checkout
 
 ---
 
@@ -136,15 +136,15 @@ Landing Page → Quiz (15 questions) → Analyzing Screen → Results Page → E
 | Results Page | Engagement with results, "Does this sound like you?" |
 | Email Capture | Email capture rate |
 | Crash Course | Email open rates, click rates through 7-day sequence |
-| Purchase ($47) | Conversion from free to Quick-Start |
-| Purchase ($197) | Conversion to Complete Archive (direct or upsell) |
+| Purchase ($67) | Conversion from free to Quick-Start |
+| Purchase ($297) | Conversion to Complete Archive (direct or upsell) |
 | Portal Login | Return rate, portal engagement |
 
 ---
 
 ## Upsell Points
 
-1. **Crash Course PDF → Quick-Start ($47):** Day 7 of crash course + Day 21 email
-2. **Quick-Start → Complete Archive ($197):** End of Field Guide PDF + Day 30 and Day 60 emails
+1. **Crash Course PDF → Quick-Start ($67):** Day 7 of crash course + Day 21 email
+2. **Quick-Start → Complete Archive ($297):** End of Field Guide PDF + Day 30 and Day 60 emails
 3. **Results Page → Direct Purchase:** After quiz results, before email capture
 4. **Portal Dashboard:** Locked product cards visible as upsells

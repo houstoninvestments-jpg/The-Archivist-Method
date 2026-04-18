@@ -45,7 +45,7 @@ Three tiers. Digital products only. No affiliate programs. No coaching calls. No
 
 | Field | Value |
 |-------|-------|
-| **Price** | $47 |
+| **Price** | $67 |
 | **Purpose** | 90-day protocol for one pattern |
 | **Access Level** | Portal access with purchase verification |
 | **Product Slug** | `quick-start` |
@@ -85,7 +85,7 @@ Three tiers. Digital products only. No affiliate programs. No coaching calls. No
 
 | Field | Value |
 |-------|-------|
-| **Price** | $197 |
+| **Price** | $297 |
 | **Purpose** | Full system, all 9 patterns, Vault access |
 | **Access Level** | Full portal + Vault access |
 | **Product Slug** | `complete-archive` |

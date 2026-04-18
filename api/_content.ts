@@ -40,7 +40,7 @@ const patternDisplayName: Record<string, string> = {
   attractionToHarm: "Attraction to Harm",
   drainingBond: "The Draining Bond",
   complimentDeflection: "Compliment Deflection",
-  perfectionism: "Perfectionism",
+  perfectionism: "The Perfectionism Trap",
   successSabotage: "Success Sabotage",
   rage: "Rage",
 };

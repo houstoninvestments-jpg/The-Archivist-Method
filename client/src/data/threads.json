@@ -81,7 +81,7 @@
         { "artifactId": "module-1-foundation", "artifactTitle": "Foundation" },
         { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" },
         { "artifactId": "pattern-3-testing", "artifactTitle": "The Testing Pattern" },
-        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Pattern" }
+        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Trap" }
       ],
       "relatedThreads": [
         { "conceptId": "original-room", "conceptName": "The Original Room" },
@@ -96,7 +96,7 @@
         { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
         { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" },
         { "artifactId": "pattern-2-apology-loop", "artifactTitle": "The Apology Loop" },
-        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Pattern" }
+        { "artifactId": "pattern-7-perfectionism", "artifactTitle": "The Perfectionism Trap" }
       ],
       "relatedThreads": [
         { "conceptId": "circuit-break", "conceptName": "The Circuit Break" },

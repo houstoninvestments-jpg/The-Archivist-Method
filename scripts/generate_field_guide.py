@@ -825,7 +825,7 @@ class FieldGuideBuilder:
         self.flow.append(Paragraph(self.tagline, self.styles['cover_tagline']))
         self.flow.append(Spacer(1, 1.8 * inch))
         self.flow.append(Paragraph(
-            "Recognition \u2022 Interruption \u2022 Override",
+            "Focus \u2022 Interruption \u2022 Rewrite",
             self.styles['cover_footer']))
         self.flow.append(Spacer(1, 6))
         self.flow.append(Paragraph(
@@ -850,7 +850,7 @@ class FieldGuideBuilder:
             (f"03  YOUR PATTERN: THE {self.name.upper()} PATTERN", [
                 "At a Glance", "What It Is", "Pattern in Context", "Pattern Markers",
                 "Execution Log", "The Circuit", "Pattern Archaeology", "What It Costs",
-                "How to Interrupt It", "The Override", "Troubleshooting", "Quick Reference"]),
+                "How to Interrupt It", "The Rewrite", "Troubleshooting", "Quick Reference"]),
             ("04  THE OTHER 8 PATTERNS", ["Brief overview of each pattern"]),
             ("05  THE 90-DAY PROTOCOL", [
                 "The 90-Day Map", "Daily Practice Protocol",
@@ -893,7 +893,7 @@ class FieldGuideBuilder:
     # ── 4. FOUR DOORS PROTOCOL ──
     def _section_four_doors(self):
         self._part_divider("02", "THE FOUR DOORS PROTOCOL",
-            "Recognition \u2022 Excavation \u2022 Interruption \u2022 Override")
+            "Focus \u2022 Excavation \u2022 Interruption \u2022 Rewrite")
 
         # Include framework overview (comprehensive) - individual doors covered
         # in depth in the pattern-specific section
@@ -989,7 +989,7 @@ class FieldGuideBuilder:
         # Include map (comprehensive overview with all phases), daily practice,
         # and progress markers. Individual week details are in Complete Archive.
         files = [
-            ("THE 90-DAY MAP", "Four phases: Recognition \u2192 Excavation \u2192 Interruption \u2192 Override",
+            ("THE 90-DAY MAP", "Four phases: Focus \u2192 Excavation \u2192 Interruption \u2192 Rewrite",
              CONTENT_DIR / "module-4-implementation" / "4.1-the-90-day-map.md"),
             ("DAILY PRACTICE PROTOCOL", "Five minutes a day. The minimum effective dose.",
              CONTENT_DIR / "module-4-implementation" / "4.6-daily-practice-protocol.md"),
@@ -1064,13 +1064,13 @@ class FieldGuideBuilder:
         fields2 = [
             ("Week #", "_____"),
             ("Date", "_______________________________________________"),
-            ("Protocol Phase", "Recognition  /  Excavation  /  Interruption  /  Override"),
+            ("Protocol Phase", "Focus  /  Excavation  /  Interruption  /  Rewrite"),
             ("Activations This Week", "_____"),
             ("Strongest Activation (trigger + intensity)", "_______________________________________________"),
             ("Circuit Break Attempts", "_____"),
             ("Successful Interruptions", "_____"),
             ("Success Rate", "_____%"),
-            ("Override Level Attempted", "1  /  2  /  3  /  4  /  N/A"),
+            ("Rewrite Level Attempted", "1  /  2  /  3  /  4  /  N/A"),
             ("Days Practiced This Week", "_____ / 7"),
             ("Daily Score Average", "_____ / 10"),
             ("What I Noticed", "_______________________________________________"),
@@ -1125,13 +1125,13 @@ class FieldGuideBuilder:
             ("Start Date", "_______________________________________________"),
             ("End Date", "_______________________________________________"),
             ("Pattern Worked On", "_______________________________________________"),
-            ("Recognition (can I see it? 1\u201310)", "_____ / 10"),
+            ("Focus (can I see it? 1\u201310)", "_____ / 10"),
             ("Speed (how quickly do I catch it?)", "Seconds  /  Minutes  /  Hours  /  Days"),
             ("Excavation Complete?", "Yes  /  No"),
             ("Interruption (can I break it? 1\u201310)", "_____ / 10"),
             ("Success Rate (% of activations interrupted)", "_____%"),
-            ("Override Level Reached", "1  /  2  /  3  /  4"),
-            ("Successful Overrides (total count)", "_____"),
+            ("Rewrite Level Reached", "1  /  2  /  3  /  4"),
+            ("Successful Rewrites (total count)", "_____"),
             ("Impact on Pattern\u2019s Cost (1\u201310 improvement)", "_____ / 10"),
             ("Using Witness?", "Yes  /  No"),
             ("Using Professional Support?", "Yes  /  No"),

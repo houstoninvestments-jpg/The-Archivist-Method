@@ -1151,7 +1151,7 @@ class CompleteArchiveBuilder:
 
         # Chapter 3: The Four Doors Protocol
         self._chapter_title_page("THE FOUR DOORS PROTOCOL",
-            "Recognition \u2022 Excavation \u2022 Interruption \u2022 Override")
+            "Focus \u2022 Excavation \u2022 Interruption \u2022 Rewrite")
 
         self._chapter_from_file("THE FOUR DOORS FRAMEWORK",
             CONTENT_DIR / "module-2-four-doors" / "2.1-framework-overview.md",
@@ -1182,7 +1182,7 @@ class CompleteArchiveBuilder:
     def _part_ii_patterns(self):
         self._part_divider("II", "THE 9 PATTERNS",
             "Nine survival programs. Full deep dive on each.\n"
-            "Recognition. Excavation. Interruption. Override.")
+            "Focus. Excavation. Interruption. Rewrite.")
 
         for pnum in range(1, 10):
             pname = PATTERN_NAMES[pnum]
@@ -1312,7 +1312,7 @@ class CompleteArchiveBuilder:
 
         self._chapter_from_file("THE 90-DAY MAP",
             CONTENT_DIR / "module-4-implementation" / "4.1-the-90-day-map.md",
-            "Four phases: Recognition \u2192 Excavation \u2192 Interruption \u2192 Override")
+            "Four phases: Focus \u2192 Excavation \u2192 Interruption \u2192 Rewrite")
 
         self._chapter_from_file("WEEKS 1\u20132: RECOGNITION",
             CONTENT_DIR / "module-4-implementation" / "4.2-weeks-1-2-recognition.md",
@@ -1402,14 +1402,14 @@ class CompleteArchiveBuilder:
         fields2 = [
             ("Week #", "_____"),
             ("Date", "_______________________________________________"),
-            ("Protocol Phase", "Recognition  /  Excavation  /  Interruption  /  Override"),
+            ("Protocol Phase", "Focus  /  Excavation  /  Interruption  /  Rewrite"),
             ("Activations This Week", "_____"),
             ("Strongest Activation (trigger + intensity)",
              "_______________________________________________"),
             ("Circuit Break Attempts", "_____"),
             ("Successful Interruptions", "_____"),
             ("Success Rate", "_____%"),
-            ("Override Level Attempted", "1  /  2  /  3  /  4  /  N/A"),
+            ("Rewrite Level Attempted", "1  /  2  /  3  /  4  /  N/A"),
             ("Days Practiced This Week", "_____ / 7"),
             ("Daily Score Average", "_____ / 10"),
             ("What I Noticed", "_______________________________________________"),
@@ -1463,14 +1463,14 @@ class CompleteArchiveBuilder:
             ("Start Date", "_______________________________________________"),
             ("End Date", "_______________________________________________"),
             ("Pattern Worked On", "_______________________________________________"),
-            ("Recognition (can I see it? 1\u201310)", "_____ / 10"),
+            ("Focus (can I see it? 1\u201310)", "_____ / 10"),
             ("Speed (how quickly do I catch it?)",
              "Seconds  /  Minutes  /  Hours  /  Days"),
             ("Excavation Complete?", "Yes  /  No"),
             ("Interruption (can I break it? 1\u201310)", "_____ / 10"),
             ("Success Rate (% of activations interrupted)", "_____%"),
-            ("Override Level Reached", "1  /  2  /  3  /  4"),
-            ("Successful Overrides (total count)", "_____"),
+            ("Rewrite Level Reached", "1  /  2  /  3  /  4"),
+            ("Successful Rewrites (total count)", "_____"),
             ("Impact on Pattern\u2019s Cost (1\u201310 improvement)", "_____ / 10"),
             ("Using Witness?", "Yes  /  No"),
             ("Using Professional Support?", "Yes  /  No"),

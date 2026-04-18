@@ -10,7 +10,7 @@ The Archivist Method (TAM) is a **pattern interruption system** — not therapy,
 
 **Domain:** thearchivistmethod.com
 **Stack:** React + TypeScript, Tailwind, Framer Motion, Wouter, Express, Supabase, Stripe, Claude API
-**Products:** Free Crash Course → $47 Quick-Start → $197 Complete Archive
+**Products:** Free Crash Course → $67 Quick-Start → $297 Complete Archive
 **Status:** Pre-launch, ~90% built. Blocking: Stripe live mode, email delivery, payment flow test.
 
 ---

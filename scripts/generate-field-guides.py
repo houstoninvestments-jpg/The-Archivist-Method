@@ -536,10 +536,10 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
     story.append(Spacer(1, 20))
     toc_items = [
         ("WELCOME", ["How to Use This Guide", "The Rules", "What This Is (And What It Isn't)"]),
-        ("THE FOUR DOORS PROTOCOL", ["Door 1: Recognition", "Door 2: Excavation", "Door 3: Interruption", "Door 4: Override"]),
-        (f"YOUR PATTERN: {pattern_name}", ["What It Looks Like", "The Origin Room", "Your Triggers", "The Body Signature", "Circuit Break Scripts", "Override Protocol", "The Archaeology"]),
+        ("THE FOUR DOORS PROTOCOL", ["Door 1: Focus", "Door 2: Excavation", "Door 3: Interruption", "Door 4: Rewrite"]),
+        (f"YOUR PATTERN: {pattern_name}", ["What It Looks Like", "The Origin Room", "Your Triggers", "The Body Signature", "Circuit Break Scripts", "Rewrite Protocol", "The Archaeology"]),
         ("THE OTHER PATTERNS", ["Quick Reference Guide"]),
-        ("THE 90-DAY PROTOCOL", ["Days 1-7: Recognition", "Days 8-30: Excavation", "Days 31-60: Interruption", "Days 61-90: Override"]),
+        ("THE 90-DAY PROTOCOL", ["Days 1-7: Focus", "Days 8-30: Excavation", "Days 31-60: Interruption", "Days 61-90: Rewrite"]),
         ("CRISIS PROTOCOLS", ["When the Pattern Runs Anyway", "Emergency Interrupts", "The Morning After Protocol"]),
         ("TRACKING TEMPLATES", ["Daily Interrupt Log", "Trigger Map", "Progress Tracker"]),
         ("WHAT'S NEXT", []),
@@ -637,7 +637,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "Before you can interrupt a pattern, you have to see it.",
         "Not after it runs. Not the next day when you're full of regret. In the moment. As it's activating.",
         "This is harder than it sounds. Patterns are fast. They run in 3-7 seconds. By the time you realize what's happening, it's already happened.",
-        "Recognition has three layers:",
+        "Focus has three layers:",
         "",
         "__H2__LAYER 1: THE TRIGGER",
         "Something happens right before your pattern activates. Always. A word. A tone. A silence. A look on someone's face.",
@@ -719,7 +719,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
 
     # Door 4
     story.extend(add_text_section(styles, "DOOR 4: OVERRIDE", [
-        "Interruption stops the old pattern. Override installs a new one.",
+        "Interruption stops the old pattern. Rewrite installs a new one.",
         "You cannot just stop a behavior. You have to replace it with something. Otherwise the vacuum gets filled by the old pattern running again.",
         "",
         "__H2__THE OVERRIDE PROTOCOL",
@@ -841,13 +841,13 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "__H2__PHASE 4: OVERRIDE (Days 61-90)",
         "Focus: Install new behavior.",
         "",
-        "__H3__Week 9-10: Override Practice",
+        "__H3__Week 9-10: Rewrite Practice",
         "__CHECKBOX__Identify your override behavior",
         "__CHECKBOX__Practice override scripts",
         "__CHECKBOX__Use override after successful interrupts",
         "",
         "__H3__Week 11-12: Integration",
-        "__CHECKBOX__Override becomes more automatic",
+        "__CHECKBOX__Rewrite becomes more automatic",
         "__CHECKBOX__Notice when old pattern tries to return",
         "__CHECKBOX__Reinforce new pathway",
         "",
@@ -855,7 +855,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "__CHECKBOX__What changed in 90 days?",
         "__CHECKBOX__What still needs work?",
         "__CHECKBOX__Other patterns to address?",
-        "__BOLD__Success metric: Override feels less forced. New behavior is becoming default.",
+        "__BOLD__Success metric: Rewrite feels less forced. New behavior is becoming default.",
     ]))
     story.append(PageBreak())
 
@@ -991,7 +991,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "",
         "__FILL__Total activations this week",
         "__FILL__Successful interrupts",
-        "__FILL__Override attempts",
+        "__FILL__Rewrite attempts",
         "",
         "__FILL__What's getting easier",
         "__FILL__What's still hard",

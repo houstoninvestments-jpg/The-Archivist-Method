@@ -62,7 +62,7 @@ export const patterns: Pattern[] = [
   {
     id: 'perfectionism',
     number: 7,
-    name: 'The Perfectionism Pattern',
+    name: 'The Perfectionism Trap',
     shortName: 'Perfectionism',
     description: 'Revising endlessly because done never feels safe.',
     bodySignal: 'Hand reaching to revise again',
