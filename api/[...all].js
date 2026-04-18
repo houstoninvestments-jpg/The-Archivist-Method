@@ -14623,8 +14623,8 @@ var require_json = __commonJS({
         throw new SyntaxError("strict violation");
       } catch (e2) {
         return normalizeJsonSyntaxError(e2, {
-          message: e2.message.replace(JSON_SYNTAX_REGEXP, function(placeholder) {
-            return str.substring(index, index + placeholder.length);
+          message: e2.message.replace(JSON_SYNTAX_REGEXP, function(placeholder2) {
+            return str.substring(index, index + placeholder2.length);
           }),
           stack: e2.stack
         });
@@ -40821,8 +40821,8 @@ var require_client = __commonJS({
         }
         return data;
       }
-      cancel(client, query) {
-        if (client.activeQuery === query) {
+      cancel(client2, query) {
+        if (client2.activeQuery === query) {
           const con = this.connection;
           if (this.host && this.host.indexOf("/") === 0) {
             con.connect(this.host + "/.s.PGSQL." + this.port);
@@ -40830,10 +40830,10 @@ var require_client = __commonJS({
             con.connect(this.port, this.host);
           }
           con.on("connect", function() {
-            con.cancel(client.processID, client.secretKey);
+            con.cancel(client2.processID, client2.secretKey);
           });
-        } else if (client.queryQueue.indexOf(query) !== -1) {
-          client.queryQueue.splice(client.queryQueue.indexOf(query), 1);
+        } else if (client2.queryQueue.indexOf(query) !== -1) {
+          client2.queryQueue.splice(client2.queryQueue.indexOf(query), 1);
         }
       }
       setTypeParser(oid, format, parseFn) {
@@ -40986,8 +40986,8 @@ var require_pg_pool = __commonJS({
       return i2 === -1 ? void 0 : list.splice(i2, 1)[0];
     };
     var IdleItem = class {
-      constructor(client, idleListener, timeoutId) {
-        this.client = client;
+      constructor(client2, idleListener, timeoutId) {
+        this.client = client2;
         this.idleListener = idleListener;
         this.timeoutId = timeoutId;
       }
@@ -41006,8 +41006,8 @@ var require_pg_pool = __commonJS({
       }
       let rej;
       let res;
-      const cb = function(err, client) {
-        err ? rej(err) : res(client);
+      const cb = function(err, client2) {
+        err ? rej(err) : res(client2);
       };
       const result = new Promise2(function(resolve, reject) {
         res = resolve;
@@ -41018,15 +41018,15 @@ var require_pg_pool = __commonJS({
       });
       return { callback: cb, result };
     }
-    function makeIdleListener(pool2, client) {
+    function makeIdleListener(pool2, client2) {
       return function idleListener(err) {
-        err.client = client;
-        client.removeListener("error", idleListener);
-        client.on("error", () => {
+        err.client = client2;
+        client2.removeListener("error", idleListener);
+        client2.on("error", () => {
           pool2.log("additional client error after disconnection due to error", err);
         });
-        pool2._remove(client);
-        pool2.emit("error", err, client);
+        pool2._remove(client2);
+        pool2.emit("error", err, client2);
       };
     }
     var Pool5 = class extends EventEmitter2 {
@@ -41102,25 +41102,25 @@ var require_pg_pool = __commonJS({
         if (this._idle.length) {
           const idleItem = this._idle.pop();
           clearTimeout(idleItem.timeoutId);
-          const client = idleItem.client;
-          client.ref && client.ref();
+          const client2 = idleItem.client;
+          client2.ref && client2.ref();
           const idleListener = idleItem.idleListener;
-          return this._acquireClient(client, pendingItem, idleListener, false);
+          return this._acquireClient(client2, pendingItem, idleListener, false);
         }
         if (!this._isFull()) {
           return this.newClient(pendingItem);
         }
         throw new Error("unexpected condition");
       }
-      _remove(client, callback) {
-        const removed = removeWhere(this._idle, (item) => item.client === client);
+      _remove(client2, callback) {
+        const removed = removeWhere(this._idle, (item) => item.client === client2);
         if (removed !== void 0) {
           clearTimeout(removed.timeoutId);
         }
-        this._clients = this._clients.filter((c2) => c2 !== client);
+        this._clients = this._clients.filter((c2) => c2 !== client2);
         const context = this;
-        client.end(() => {
-          context.emit("remove", client);
+        client2.end(() => {
+          context.emit("remove", client2);
           if (typeof callback === "function") {
             callback();
           }
@@ -41161,9 +41161,9 @@ var require_pg_pool = __commonJS({
         return result;
       }
       newClient(pendingItem) {
-        const client = new this.Client(this.options);
-        this._clients.push(client);
-        const idleListener = makeIdleListener(this, client);
+        const client2 = new this.Client(this.options);
+        this._clients.push(client2);
+        const idleListener = makeIdleListener(this, client2);
         this.log("checking client timeout");
         let tid;
         let timeoutHit = false;
@@ -41171,18 +41171,18 @@ var require_pg_pool = __commonJS({
           tid = setTimeout(() => {
             this.log("ending client due to timeout");
             timeoutHit = true;
-            client.connection ? client.connection.stream.destroy() : client.end();
+            client2.connection ? client2.connection.stream.destroy() : client2.end();
           }, this.options.connectionTimeoutMillis);
         }
         this.log("connecting new client");
-        client.connect((err) => {
+        client2.connect((err) => {
           if (tid) {
             clearTimeout(tid);
           }
-          client.on("error", idleListener);
+          client2.on("error", idleListener);
           if (err) {
             this.log("client failed to connect", err);
-            this._clients = this._clients.filter((c2) => c2 !== client);
+            this._clients = this._clients.filter((c2) => c2 !== client2);
             if (timeoutHit) {
               err = new Error("Connection terminated due to connection timeout", { cause: err });
             }
@@ -41195,95 +41195,95 @@ var require_pg_pool = __commonJS({
             if (this.options.maxLifetimeSeconds !== 0) {
               const maxLifetimeTimeout = setTimeout(() => {
                 this.log("ending client due to expired lifetime");
-                this._expired.add(client);
-                const idleIndex = this._idle.findIndex((idleItem) => idleItem.client === client);
+                this._expired.add(client2);
+                const idleIndex = this._idle.findIndex((idleItem) => idleItem.client === client2);
                 if (idleIndex !== -1) {
                   this._acquireClient(
-                    client,
-                    new PendingItem((err2, client2, clientRelease) => clientRelease()),
+                    client2,
+                    new PendingItem((err2, client3, clientRelease) => clientRelease()),
                     idleListener,
                     false
                   );
                 }
               }, this.options.maxLifetimeSeconds * 1e3);
               maxLifetimeTimeout.unref();
-              client.once("end", () => clearTimeout(maxLifetimeTimeout));
+              client2.once("end", () => clearTimeout(maxLifetimeTimeout));
             }
-            return this._acquireClient(client, pendingItem, idleListener, true);
+            return this._acquireClient(client2, pendingItem, idleListener, true);
           }
         });
       }
       // acquire a client for a pending work item
-      _acquireClient(client, pendingItem, idleListener, isNew) {
+      _acquireClient(client2, pendingItem, idleListener, isNew) {
         if (isNew) {
-          this.emit("connect", client);
+          this.emit("connect", client2);
         }
-        this.emit("acquire", client);
-        client.release = this._releaseOnce(client, idleListener);
-        client.removeListener("error", idleListener);
+        this.emit("acquire", client2);
+        client2.release = this._releaseOnce(client2, idleListener);
+        client2.removeListener("error", idleListener);
         if (!pendingItem.timedOut) {
           if (isNew && this.options.verify) {
-            this.options.verify(client, (err) => {
+            this.options.verify(client2, (err) => {
               if (err) {
-                client.release(err);
+                client2.release(err);
                 return pendingItem.callback(err, void 0, NOOP);
               }
-              pendingItem.callback(void 0, client, client.release);
+              pendingItem.callback(void 0, client2, client2.release);
             });
           } else {
-            pendingItem.callback(void 0, client, client.release);
+            pendingItem.callback(void 0, client2, client2.release);
           }
         } else {
           if (isNew && this.options.verify) {
-            this.options.verify(client, client.release);
+            this.options.verify(client2, client2.release);
           } else {
-            client.release();
+            client2.release();
           }
         }
       }
       // returns a function that wraps _release and throws if called more than once
-      _releaseOnce(client, idleListener) {
+      _releaseOnce(client2, idleListener) {
         let released = false;
         return (err) => {
           if (released) {
             throwOnDoubleRelease();
           }
           released = true;
-          this._release(client, idleListener, err);
+          this._release(client2, idleListener, err);
         };
       }
       // release a client back to the poll, include an error
       // to remove it from the pool
-      _release(client, idleListener, err) {
-        client.on("error", idleListener);
-        client._poolUseCount = (client._poolUseCount || 0) + 1;
-        this.emit("release", err, client);
-        if (err || this.ending || !client._queryable || client._ending || client._poolUseCount >= this.options.maxUses) {
-          if (client._poolUseCount >= this.options.maxUses) {
+      _release(client2, idleListener, err) {
+        client2.on("error", idleListener);
+        client2._poolUseCount = (client2._poolUseCount || 0) + 1;
+        this.emit("release", err, client2);
+        if (err || this.ending || !client2._queryable || client2._ending || client2._poolUseCount >= this.options.maxUses) {
+          if (client2._poolUseCount >= this.options.maxUses) {
             this.log("remove expended client");
           }
-          return this._remove(client, this._pulseQueue.bind(this));
+          return this._remove(client2, this._pulseQueue.bind(this));
         }
-        const isExpired = this._expired.has(client);
+        const isExpired = this._expired.has(client2);
         if (isExpired) {
           this.log("remove expired client");
-          this._expired.delete(client);
-          return this._remove(client, this._pulseQueue.bind(this));
+          this._expired.delete(client2);
+          return this._remove(client2, this._pulseQueue.bind(this));
         }
         let tid;
         if (this.options.idleTimeoutMillis && this._isAboveMin()) {
           tid = setTimeout(() => {
             this.log("remove idle client");
-            this._remove(client, this._pulseQueue.bind(this));
+            this._remove(client2, this._pulseQueue.bind(this));
           }, this.options.idleTimeoutMillis);
           if (this.options.allowExitOnIdle) {
             tid.unref();
           }
         }
         if (this.options.allowExitOnIdle) {
-          client.unref();
+          client2.unref();
         }
-        this._idle.push(new IdleItem(client, idleListener, tid));
+        this._idle.push(new IdleItem(client2, idleListener, tid));
         this._pulseQueue();
       }
       query(text2, values, cb) {
@@ -41300,7 +41300,7 @@ var require_pg_pool = __commonJS({
         }
         const response = promisify(this.Promise, cb);
         cb = response.callback;
-        this.connect((err, client) => {
+        this.connect((err, client2) => {
           if (err) {
             return cb(err);
           }
@@ -41310,27 +41310,27 @@ var require_pg_pool = __commonJS({
               return;
             }
             clientReleased = true;
-            client.release(err2);
+            client2.release(err2);
             cb(err2);
           };
-          client.once("error", onError);
+          client2.once("error", onError);
           this.log("dispatching query");
           try {
-            client.query(text2, values, (err2, res) => {
+            client2.query(text2, values, (err2, res) => {
               this.log("query dispatched");
-              client.removeListener("error", onError);
+              client2.removeListener("error", onError);
               if (clientReleased) {
                 return;
               }
               clientReleased = true;
-              client.release(err2);
+              client2.release(err2);
               if (err2) {
                 return cb(err2);
               }
               return cb(void 0, res);
             });
           } catch (err2) {
-            client.release(err2);
+            client2.release(err2);
             return cb(err2);
           }
         });
@@ -41355,7 +41355,7 @@ var require_pg_pool = __commonJS({
         return this._idle.length;
       }
       get expiredCount() {
-        return this._clients.reduce((acc, client) => acc + (this._expired.has(client) ? 1 : 0), 0);
+        return this._clients.reduce((acc, client2) => acc + (this._expired.has(client2) ? 1 : 0), 0);
       }
       get totalCount() {
         return this._clients.length;
@@ -41436,13 +41436,13 @@ var require_query3 = __commonJS({
       );
       return this._promise;
     };
-    NativeQuery.prototype.submit = function(client) {
+    NativeQuery.prototype.submit = function(client2) {
       this.state = "running";
       const self = this;
-      this.native = client.native;
-      client.native.arrayMode = this._arrayMode;
+      this.native = client2.native;
+      client2.native.arrayMode = this._arrayMode;
       let after = function(err, rows, results) {
-        client.native.arrayMode = false;
+        client2.native.arrayMode = false;
         setImmediate(function() {
           self.emit("_done");
         });
@@ -41478,16 +41478,16 @@ var require_query3 = __commonJS({
           console.error("This can cause conflicts and silent errors executing queries");
         }
         const values = (this.values || []).map(utils.prepareValue);
-        if (client.namedQueries[this.name]) {
-          if (this.text && client.namedQueries[this.name] !== this.text) {
+        if (client2.namedQueries[this.name]) {
+          if (this.text && client2.namedQueries[this.name] !== this.text) {
             const err = new Error(`Prepared statements must be unique - '${this.name}' was used for a different statement`);
             return after(err);
           }
-          return client.native.execute(this.name, values, after);
+          return client2.native.execute(this.name, values, after);
         }
-        return client.native.prepare(this.name, this.text, values.length, function(err) {
+        return client2.native.prepare(this.name, this.text, values.length, function(err) {
           if (err) return after(err);
-          client.namedQueries[self.name] = self.text;
+          client2.namedQueries[self.name] = self.text;
           return self.native.execute(self.name, values, after);
         });
       } else if (this.values) {
@@ -41496,11 +41496,11 @@ var require_query3 = __commonJS({
           return after(err);
         }
         const vals = this.values.map(utils.prepareValue);
-        client.native.query(this.text, vals, after);
+        client2.native.query(this.text, vals, after);
       } else if (this.queryMode === "extended") {
-        client.native.query(this.text, [], after);
+        client2.native.query(this.text, [], after);
       } else {
-        client.native.query(this.text, after);
+        client2.native.query(this.text, after);
       }
     };
   }
@@ -53805,9 +53805,11 @@ __export(schema_exports, {
   PatternType: () => PatternType,
   bookmarks: () => bookmarks,
   downloadLogs: () => downloadLogs,
+  emailQueue: () => emailQueue,
   highlights: () => highlights,
   insertBookmarkSchema: () => insertBookmarkSchema,
   insertDownloadLogSchema: () => insertDownloadLogSchema,
+  insertEmailQueueSchema: () => insertEmailQueueSchema,
   insertHighlightSchema: () => insertHighlightSchema,
   insertInterruptLogSchema: () => insertInterruptLogSchema,
   insertPdfChatSchema: () => insertPdfChatSchema,
@@ -53833,7 +53835,7 @@ __export(schema_exports, {
   userProgress: () => userProgress,
   users: () => users
 });
-var users, quizUsers, insertUserSchema, insertQuizUserSchema, PatternType, patternNames, userProgress, insertUserProgressSchema, bookmarks, insertBookmarkSchema, highlights, insertHighlightSchema, downloadLogs, insertDownloadLogSchema, pdfChatHistory, insertPdfChatSchema, testUsers, insertTestUserSchema, portalChatHistory, insertPortalChatSchema, interruptLog, insertInterruptLogSchema, readerNotes, insertReaderNoteSchema, readingProgress, insertReadingProgressSchema, portalUsers, insertPortalUserSchema, purchases, insertPurchaseSchema, AccessLevel;
+var users, quizUsers, insertUserSchema, insertQuizUserSchema, PatternType, patternNames, userProgress, insertUserProgressSchema, bookmarks, insertBookmarkSchema, highlights, insertHighlightSchema, downloadLogs, insertDownloadLogSchema, pdfChatHistory, insertPdfChatSchema, testUsers, insertTestUserSchema, portalChatHistory, insertPortalChatSchema, interruptLog, insertInterruptLogSchema, readerNotes, insertReaderNoteSchema, readingProgress, insertReadingProgressSchema, portalUsers, insertPortalUserSchema, purchases, insertPurchaseSchema, AccessLevel, emailQueue, insertEmailQueueSchema;
 var init_schema2 = __esm({
   "shared/schema.ts"() {
     "use strict";
@@ -54042,6 +54044,23 @@ var init_schema2 = __esm({
       QUICK_START: "quick-start",
       ARCHIVE: "archive"
     };
+    emailQueue = pgTable("email_queue", {
+      id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+      userEmail: text("user_email").notNull(),
+      sequence: text("sequence").notNull(),
+      // 'crash_course' | 'field_guide' | 'complete_archive'
+      pattern: text("pattern").notNull(),
+      emailNumber: integer("email_number").notNull(),
+      scheduledFor: timestamp("scheduled_for", { withTimezone: true }).notNull(),
+      sent: boolean("sent").notNull().default(false),
+      sentAt: timestamp("sent_at", { withTimezone: true }),
+      cancelled: boolean("cancelled").notNull().default(false),
+      createdAt: timestamp("created_at", { withTimezone: true }).defaultNow()
+    });
+    insertEmailQueueSchema = createInsertSchema(emailQueue).omit({
+      id: true,
+      createdAt: true
+    });
   }
 });
 
@@ -64176,8 +64195,8 @@ function buildPaginationQuery(options) {
   return searchParams.toString();
 }
 var ApiKeys = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload, options = {}) {
     return await this.resend.post("/api-keys", payload, options);
@@ -64231,8 +64250,8 @@ async function render(node) {
   return render2(node);
 }
 var Batch = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async send(payload, options) {
     return this.create(payload, options);
@@ -64256,8 +64275,8 @@ var Batch = class {
   }
 };
 var Broadcasts = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload, options = {}) {
     if (payload.react) payload.html = await render(payload.react);
@@ -64324,8 +64343,8 @@ function parseContactPropertyToApiOptions(contactProperty) {
   return { fallback_value: contactProperty.fallbackValue };
 }
 var ContactProperties = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(options) {
     const apiOptions = parseContactPropertyToApiOptions(options);
@@ -64393,8 +64412,8 @@ var ContactProperties = class {
   }
 };
 var ContactSegments = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async list(options) {
     if (!options.contactId && !options.email) return {
@@ -64439,8 +64458,8 @@ var ContactSegments = class {
   }
 };
 var ContactTopics = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async update(payload) {
     if (!payload.id && !payload.email) return {
@@ -64472,8 +64491,8 @@ var ContactTopics = class {
   }
 };
 var Contacts = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
     this.topics = new ContactTopics(this.resend);
     this.segments = new ContactSegments(this.resend);
   }
@@ -64581,8 +64600,8 @@ function parseDomainToApiOptions(domain) {
   };
 }
 var Domains = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload, options = {}) {
     return await this.resend.post("/domains", parseDomainToApiOptions(payload), options);
@@ -64611,8 +64630,8 @@ var Domains = class {
   }
 };
 var Attachments$1 = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async get(options) {
     const { emailId, id } = options;
@@ -64626,8 +64645,8 @@ var Attachments$1 = class {
   }
 };
 var Attachments = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async get(options) {
     const { emailId, id } = options;
@@ -64641,9 +64660,9 @@ var Attachments = class {
   }
 };
 var Receiving = class {
-  constructor(resend) {
-    this.resend = resend;
-    this.attachments = new Attachments(resend);
+  constructor(resend2) {
+    this.resend = resend2;
+    this.attachments = new Attachments(resend2);
   }
   async get(id) {
     return await this.resend.get(`/emails/receiving/${id}`);
@@ -64756,10 +64775,10 @@ var Receiving = class {
   }
 };
 var Emails = class {
-  constructor(resend) {
-    this.resend = resend;
-    this.attachments = new Attachments$1(resend);
-    this.receiving = new Receiving(resend);
+  constructor(resend2) {
+    this.resend = resend2;
+    this.attachments = new Attachments$1(resend2);
+    this.receiving = new Receiving(resend2);
   }
   async send(payload, options = {}) {
     return this.create(payload, options);
@@ -64784,8 +64803,8 @@ var Emails = class {
   }
 };
 var Segments = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload, options = {}) {
     return await this.resend.post("/segments", payload, options);
@@ -64847,8 +64866,8 @@ var ChainableTemplateResult = class {
   }
 };
 var Templates = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   create(payload) {
     return new ChainableTemplateResult(this.performCreate(payload), this.publish.bind(this));
@@ -64885,8 +64904,8 @@ var Templates = class {
   }
 };
 var Topics = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload) {
     const { defaultSubscription, ...body } = payload;
@@ -64936,8 +64955,8 @@ var Topics = class {
   }
 };
 var Webhooks = class {
-  constructor(resend) {
-    this.resend = resend;
+  constructor(resend2) {
+    this.resend = resend2;
   }
   async create(payload, options = {}) {
     return await this.resend.post("/webhooks", payload, options);
@@ -70273,9 +70292,9 @@ function createStripe(platformFunctions, requestSender = defaultRequestSenderFac
           userAgent2[field] = encodeURIComponent((_a2 = seed[field]) !== null && _a2 !== void 0 ? _a2 : "null");
         }
         userAgent2.uname = encodeURIComponent(uname || "UNKNOWN");
-        const client = this.getApiField("httpClient");
-        if (client) {
-          userAgent2.httplib = encodeURIComponent(client.getClientName());
+        const client2 = this.getApiField("httpClient");
+        if (client2) {
+          userAgent2.httplib = encodeURIComponent(client2.getClientName());
         }
         if (this._appInfo) {
           userAgent2.application = this._appInfo;
@@ -71760,9 +71779,9 @@ var APIClient = class {
   }
 };
 var AbstractPage = class {
-  constructor(client, response, body, options) {
+  constructor(client2, response, body, options) {
     _AbstractPage_client.set(this, void 0);
-    __classPrivateFieldSet7(this, _AbstractPage_client, client, "f");
+    __classPrivateFieldSet7(this, _AbstractPage_client, client2, "f");
     this.options = options;
     this.response = response;
     this.body = body;
@@ -71808,8 +71827,8 @@ var AbstractPage = class {
   }
 };
 var PagePromise = class extends APIPromise {
-  constructor(client, request, Page2) {
-    super(request, async (props) => new Page2(client, props.response, await defaultParseResponse(props), props.options));
+  constructor(client2, request, Page2) {
+    super(request, async (props) => new Page2(client2, props.response, await defaultParseResponse(props), props.options));
   }
   /**
    * Allow auto-paginating iteration on an unawaited list call, eg:
@@ -72082,8 +72101,8 @@ var getHeader = (headers, header) => {
 
 // node_modules/@anthropic-ai/sdk/pagination.mjs
 var Page = class extends AbstractPage {
-  constructor(client, response, body, options) {
-    super(client, response, body, options);
+  constructor(client2, response, body, options) {
+    super(client2, response, body, options);
     this.data = body.data || [];
     this.has_more = body.has_more || false;
     this.first_id = body.first_id || null;
@@ -72136,8 +72155,8 @@ var Page = class extends AbstractPage {
 
 // node_modules/@anthropic-ai/sdk/resource.mjs
 var APIResource = class {
-  constructor(client) {
-    this._client = client;
+  constructor(client2) {
+    this._client = client2;
   }
 };
 
@@ -73998,9 +74017,9 @@ init_tracing();
 init_utils();
 var { Pool: Pool2, types: types2 } = esm_default;
 var NodePgPreparedQuery = class extends PgPreparedQuery {
-  constructor(client, queryString, params, logger, fields, name, _isResponseInArrayMode, customResultMapper) {
+  constructor(client2, queryString, params, logger, fields, name, _isResponseInArrayMode, customResultMapper) {
     super({ sql: queryString, params });
-    this.client = client;
+    this.client = client2;
     this.params = params;
     this.logger = logger;
     this.fields = fields;
@@ -74059,7 +74078,7 @@ var NodePgPreparedQuery = class extends PgPreparedQuery {
     return tracer.startActiveSpan("drizzle.execute", async () => {
       const params = fillPlaceholders(this.params, placeholderValues);
       this.logger.logQuery(this.rawQueryConfig.text, params);
-      const { fields, rawQueryConfig: rawQuery, client, queryConfig: query, joinsNotNullableMap, customResultMapper } = this;
+      const { fields, rawQueryConfig: rawQuery, client: client2, queryConfig: query, joinsNotNullableMap, customResultMapper } = this;
       if (!fields && !customResultMapper) {
         return tracer.startActiveSpan("drizzle.driver.execute", async (span) => {
           span?.setAttributes({
@@ -74067,7 +74086,7 @@ var NodePgPreparedQuery = class extends PgPreparedQuery {
             "drizzle.query.text": rawQuery.text,
             "drizzle.query.params": JSON.stringify(params)
           });
-          return client.query(rawQuery, params);
+          return client2.query(rawQuery, params);
         });
       }
       const result = await tracer.startActiveSpan("drizzle.driver.execute", (span) => {
@@ -74076,7 +74095,7 @@ var NodePgPreparedQuery = class extends PgPreparedQuery {
           "drizzle.query.text": query.text,
           "drizzle.query.params": JSON.stringify(params)
         });
-        return client.query(query, params);
+        return client2.query(query, params);
       });
       return tracer.startActiveSpan("drizzle.mapResponse", () => {
         return customResultMapper ? customResultMapper(result.rows) : result.rows.map((row) => mapResultRow(fields, row, joinsNotNullableMap));
@@ -74103,9 +74122,9 @@ var NodePgPreparedQuery = class extends PgPreparedQuery {
   }
 };
 var NodePgSession = class _NodePgSession extends PgSession {
-  constructor(client, dialect, schema, options = {}) {
+  constructor(client2, dialect, schema, options = {}) {
     super(dialect);
-    this.client = client;
+    this.client = client2;
     this.schema = schema;
     this.options = options;
     this.logger = options.logger ?? new NoopLogger();
@@ -74172,8 +74191,8 @@ var NodePgTransaction = class _NodePgTransaction extends PgTransaction {
 
 // node_modules/drizzle-orm/node-postgres/driver.js
 var NodePgDriver = class {
-  constructor(client, dialect, options = {}) {
-    this.client = client;
+  constructor(client2, dialect, options = {}) {
+    this.client = client2;
     this.dialect = dialect;
     this.options = options;
   }
@@ -74185,7 +74204,7 @@ var NodePgDriver = class {
 var NodePgDatabase = class extends PgDatabase {
   static [entityKind] = "NodePgDatabase";
 };
-function construct(client, config = {}) {
+function construct(client2, config = {}) {
   const dialect = new PgDialect({ casing: config.casing });
   let logger;
   if (config.logger === true) {
@@ -74205,10 +74224,10 @@ function construct(client, config = {}) {
       tableNamesMap: tablesConfig.tableNamesMap
     };
   }
-  const driver = new NodePgDriver(client, dialect, { logger });
+  const driver = new NodePgDriver(client2, dialect, { logger });
   const session = driver.createSession(schema);
   const db2 = new NodePgDatabase(dialect, session, schema);
-  db2.$client = client;
+  db2.$client = client2;
   return db2;
 }
 function drizzle(...params) {
@@ -74219,9 +74238,9 @@ function drizzle(...params) {
     return construct(instance, params[1]);
   }
   if (isConfig(params[0])) {
-    const { connection, client, ...drizzleConfig } = params[0];
-    if (client)
-      return construct(client, drizzleConfig);
+    const { connection, client: client2, ...drizzleConfig } = params[0];
+    if (client2)
+      return construct(client2, drizzleConfig);
     const instance = typeof connection === "string" ? new esm_default.Pool({
       connectionString: connection
     }) : new esm_default.Pool(connection);
@@ -74259,6 +74278,152 @@ var db = new Proxy({}, {
     return database[prop];
   }
 });
+
+// src/emails/queue.ts
+init_drizzle_orm();
+init_schema2();
+
+// src/emails/sequences.ts
+var SEQUENCE_DELAYS = [0, 2, 4, 6, 8, 11, 14];
+var PATTERN_KEYS = [
+  "disappearing",
+  "apologyLoop",
+  "testing",
+  "attractionToHarm",
+  "complimentDeflection",
+  "drainingBond",
+  "successSabotage",
+  "perfectionism",
+  "rage"
+];
+var PATTERN_DISPLAY_NAMES = {
+  disappearing: "The Disappearing Pattern",
+  apologyLoop: "The Apology Loop",
+  testing: "The Testing Pattern",
+  attractionToHarm: "Attraction to Harm",
+  complimentDeflection: "Compliment Deflection",
+  drainingBond: "The Draining Bond",
+  successSabotage: "Success Sabotage",
+  perfectionism: "The Perfectionism Pattern",
+  rage: "The Rage Pattern"
+};
+function placeholder(sequence, pattern, emailNumber, delayDays) {
+  const name = PATTERN_DISPLAY_NAMES[pattern];
+  return {
+    subject: `[${sequence}] ${name} \u2014 email ${emailNumber} (TODO: replace subject)`,
+    body: `TODO: paste email ${emailNumber} of the ${sequence} sequence for ${name}. This will send ${delayDays} day(s) after the sequence begins.`,
+    delayDays
+  };
+}
+function buildSequence(sequence) {
+  const out = {};
+  for (const pattern of PATTERN_KEYS) {
+    out[pattern] = SEQUENCE_DELAYS.map(
+      (delay, i2) => placeholder(sequence, pattern, i2 + 1, delay)
+    );
+  }
+  return out;
+}
+var CRASH_COURSE_SEQUENCES = buildSequence("crash_course");
+var FIELD_GUIDE_SEQUENCES = buildSequence("field_guide");
+var COMPLETE_ARCHIVE_SEQUENCES = buildSequence("complete_archive");
+var SEQUENCES = {
+  crash_course: CRASH_COURSE_SEQUENCES,
+  field_guide: FIELD_GUIDE_SEQUENCES,
+  complete_archive: COMPLETE_ARCHIVE_SEQUENCES
+};
+function isPatternKey(value) {
+  return typeof value === "string" && PATTERN_KEYS.includes(value);
+}
+function isSequenceType(value) {
+  return value === "crash_course" || value === "field_guide" || value === "complete_archive";
+}
+function productIdToSequence(productId) {
+  if (productId === "quick-start" || productId === "field_guide") return "field_guide";
+  if (productId === "complete-archive" || productId === "complete_archive") return "complete_archive";
+  return null;
+}
+
+// src/emails/queue.ts
+var DAY_MS = 24 * 60 * 60 * 1e3;
+async function scheduleSequence(db2, opts) {
+  const start = opts.startFrom ?? /* @__PURE__ */ new Date();
+  const emails = SEQUENCES[opts.sequence]?.[opts.pattern];
+  if (!emails || emails.length === 0) return 0;
+  const rows = emails.map((e2, i2) => ({
+    userEmail: opts.userEmail.toLowerCase(),
+    sequence: opts.sequence,
+    pattern: opts.pattern,
+    emailNumber: i2 + 1,
+    scheduledFor: new Date(start.getTime() + e2.delayDays * DAY_MS)
+  }));
+  await db2.insert(emailQueue).values(rows);
+  return rows.length;
+}
+async function cancelPendingSequences(db2, userEmail, sequence) {
+  const conditions = [
+    eq(emailQueue.userEmail, userEmail.toLowerCase()),
+    eq(emailQueue.sent, false),
+    eq(emailQueue.cancelled, false)
+  ];
+  if (sequence) conditions.push(eq(emailQueue.sequence, sequence));
+  const result = await db2.update(emailQueue).set({ cancelled: true }).where(and(...conditions)).returning({ id: emailQueue.id });
+  return result.length;
+}
+async function switchToSequence(db2, opts) {
+  const cancelled = await cancelPendingSequences(db2, opts.userEmail);
+  const scheduled = await scheduleSequence(db2, {
+    userEmail: opts.userEmail,
+    pattern: opts.pattern,
+    sequence: opts.sequence,
+    startFrom: opts.startFrom
+  });
+  return { cancelled, scheduled };
+}
+async function processDueEmails(db2, resend2, fromEmail, now = /* @__PURE__ */ new Date(), batchSize = 100) {
+  const due = await db2.select().from(emailQueue).where(
+    and(
+      eq(emailQueue.sent, false),
+      eq(emailQueue.cancelled, false),
+      lte(emailQueue.scheduledFor, now)
+    )
+  ).orderBy(asc(emailQueue.scheduledFor)).limit(batchSize);
+  let sent = 0;
+  let failed = 0;
+  let skipped = 0;
+  for (const row of due) {
+    if (!isSequenceType(row.sequence) || !isPatternKey(row.pattern)) {
+      skipped++;
+      continue;
+    }
+    const template = SEQUENCES[row.sequence][row.pattern][row.emailNumber - 1];
+    if (!template) {
+      skipped++;
+      continue;
+    }
+    try {
+      await resend2.emails.send({
+        from: fromEmail,
+        to: [row.userEmail],
+        subject: template.subject,
+        text: template.body
+      });
+      await db2.update(emailQueue).set({ sent: true, sentAt: /* @__PURE__ */ new Date() }).where(eq(emailQueue.id, row.id));
+      sent++;
+    } catch (err) {
+      console.error("[email-queue] send failed", {
+        id: row.id,
+        to: row.userEmail,
+        sequence: row.sequence,
+        pattern: row.pattern,
+        emailNumber: row.emailNumber,
+        err
+      });
+      failed++;
+    }
+  }
+  return { attempted: due.length, sent, failed, skipped };
+}
 
 // api/portal-routes.ts
 var import_jsonwebtoken = __toESM(require_jsonwebtoken());
@@ -75269,6 +75434,19 @@ router.post(
           productName,
           portalLink: magicLink
         });
+        const buyerSequence = productIdToSequence(productId);
+        const buyerPattern = quizUser?.primaryPattern;
+        if (buyerSequence && buyerPattern && isPatternKey(buyerPattern)) {
+          try {
+            await switchToSequence(db, {
+              userEmail: customerEmail,
+              pattern: buyerPattern,
+              sequence: buyerSequence
+            });
+          } catch (err) {
+            console.error("Failed to switch email sequence after purchase:", err);
+          }
+        }
       }
       res.json({ received: true });
     } catch (error) {
@@ -76431,6 +76609,27 @@ router2.get("/env-check", adminAuth, (_req, res) => {
 });
 var admin_routes_default = router2;
 
+// src/lib/resend.ts
+var client = null;
+function getResendClient() {
+  if (!client) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) {
+      throw new Error("RESEND_API_KEY is not set. Add it to your environment to send email.");
+    }
+    client = new Resend(key);
+  }
+  return client;
+}
+function getFromEmail() {
+  return process.env.RESEND_FROM_EMAIL || "The Archivist <archivist@thearchivistmethod.com>";
+}
+var resend = new Proxy({}, {
+  get(_target, prop) {
+    return getResendClient()[prop];
+  }
+});
+
 // api/index.ts
 var { Pool: Pool4 } = esm_default;
 var _pool = null;
@@ -76695,6 +76894,17 @@ app.post("/api/quiz/submit", async (req, res) => {
     } catch (err) {
       console.error("Email send failed:", err);
     }
+    if (isPatternKey(primaryPattern)) {
+      try {
+        await scheduleSequence(db, {
+          userEmail: email,
+          pattern: primaryPattern,
+          sequence: "crash_course"
+        });
+      } catch (err) {
+        console.error("Failed to schedule Crash Course sequence:", err);
+      }
+    }
     const jwtToken = generateAuthToken2(user.id, email);
     res.cookie("quiz_token", jwtToken, {
       httpOnly: true,
@@ -76814,6 +77024,69 @@ app.get("/api/portal/user-data", async (req, res) => {
   } catch (error) {
     console.error("Get portal user data error:", error);
     res.status(500).json({ error: "Failed to get user data" });
+  }
+});
+app.post("/api/email/start-sequence", async (req, res) => {
+  try {
+    const { email, pattern } = req.body ?? {};
+    if (!email || !pattern) {
+      return res.status(400).json({ error: "email and pattern are required" });
+    }
+    if (!isPatternKey(pattern)) {
+      return res.status(400).json({ error: "Unknown pattern" });
+    }
+    const scheduled = await scheduleSequence(db, {
+      userEmail: email,
+      pattern,
+      sequence: "crash_course"
+    });
+    res.json({ success: true, scheduled });
+  } catch (err) {
+    console.error("start-sequence error:", err);
+    res.status(500).json({ error: "Failed to start sequence" });
+  }
+});
+app.post("/api/email/switch-sequence", async (req, res) => {
+  try {
+    const { email, pattern, productId } = req.body ?? {};
+    let { sequence } = req.body ?? {};
+    if (!email || !pattern) {
+      return res.status(400).json({ error: "email and pattern are required" });
+    }
+    if (!isPatternKey(pattern)) {
+      return res.status(400).json({ error: "Unknown pattern" });
+    }
+    if (!sequence && productId) {
+      sequence = productIdToSequence(productId);
+    }
+    if (!isSequenceType(sequence) || sequence === "crash_course") {
+      return res.status(400).json({ error: "Invalid buyer sequence" });
+    }
+    const result = await switchToSequence(db, {
+      userEmail: email,
+      pattern,
+      sequence
+    });
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error("switch-sequence error:", err);
+    res.status(500).json({ error: "Failed to switch sequence" });
+  }
+});
+app.all("/api/cron/email-queue", async (req, res) => {
+  const secret = process.env.CRON_SECRET;
+  const authHeader = req.headers.authorization || "";
+  const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : void 0;
+  const provided = bearer || req.query.secret;
+  if (!secret || provided !== secret) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const result = await processDueEmails(db, getResendClient(), getFromEmail());
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error("email-queue cron error:", err);
+    res.status(500).json({ error: "Failed to process email queue" });
   }
 });
 function handler(req, res) {
