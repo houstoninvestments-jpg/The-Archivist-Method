@@ -269,7 +269,7 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
               }}
             >
               <img
-                src={`/images/${b.name}.png`}
+                src={`/images/${b.name}.webp`}
                 alt=""
                 loading="lazy"
                 style={{
