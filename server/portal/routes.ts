@@ -24,6 +24,7 @@ import { z } from "zod";
 import { sendPurchaseConfirmationEmail } from "./email";
 import { Resend } from 'resend';
 import { switchToSequence } from "../../src/emails/queue";
+import { checkPocketRateLimit } from "../../src/lib/pocket-rate-limit";
 import {
   isPatternKey,
   productIdToSequence,
@@ -1153,6 +1154,23 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     const { tier } = await resolveUserTier(authData);
     const userId = authData.userId;
+
+    // Per-tier daily message cap (free 15 / field_guide 75 / complete_archive 300).
+    // Resets at UTC midnight. Returns 429 with reset_at unix seconds.
+    try {
+      const limit = await checkPocketRateLimit(db, userId, tier);
+      if (!limit.allowed) {
+        return res.status(429).json({
+          error: "rate_limit",
+          reset_at: limit.resetAt,
+          tier: limit.tier,
+          limit: limit.limit,
+          used: limit.used,
+        });
+      }
+    } catch (err) {
+      console.error("[pocket.rate-limit] failed; allowing request", err);
+    }
 
     // Free users get a capped number of conversation sessions. A session counts
     // as a distinct UTC day with at least one user message. Once the cap is

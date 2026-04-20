@@ -10,6 +10,7 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { db } from "./_db.js";
 import { switchToSequence } from "../src/emails/queue.js";
+import { checkPocketRateLimit } from "../src/lib/pocket-rate-limit.js";
 import {
   isPatternKey,
   productIdToSequence,
@@ -1546,6 +1547,22 @@ router.post("/chat", async (req: Request, res: Response) => {
     }
 
     const userId = authData.userId;
+
+    // Per-tier daily message cap (field_guide 75 / complete_archive 300).
+    try {
+      const limit = await checkPocketRateLimit(db, userId, tier);
+      if (!limit.allowed) {
+        return res.status(429).json({
+          error: "rate_limit",
+          reset_at: limit.resetAt,
+          tier: limit.tier,
+          limit: limit.limit,
+          used: limit.used,
+        });
+      }
+    } catch (err) {
+      console.error("[pocket.rate-limit] failed; allowing request", err);
+    }
 
     if (!anthropic) {
       return res.status(503).json({ error: "AI service unavailable" });
