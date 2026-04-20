@@ -74304,7 +74304,7 @@ var PATTERN_DISPLAY_NAMES = {
   complimentDeflection: "Compliment Deflection",
   drainingBond: "The Draining Bond",
   successSabotage: "Success Sabotage",
-  perfectionism: "The Perfectionism Pattern",
+  perfectionism: "The Perfectionism Trap",
   rage: "The Rage Pattern"
 };
 function placeholder(sequence, pattern, emailNumber, delayDays) {
@@ -74451,7 +74451,7 @@ var patternDisplayName = {
   attractionToHarm: "Attraction to Harm",
   drainingBond: "The Draining Bond",
   complimentDeflection: "Compliment Deflection",
-  perfectionism: "Perfectionism",
+  perfectionism: "The Perfectionism Trap",
   successSabotage: "Success Sabotage",
   rage: "Rage"
 };
