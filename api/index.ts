@@ -1,4 +1,17 @@
 import type { IncomingMessage, ServerResponse } from "http";
+import * as Sentry from "@sentry/node";
+if (process.env.SENTRY_DSN) {
+  try {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV || "production",
+      release: process.env.VERCEL_GIT_COMMIT_SHA,
+      tracesSampleRate: 0.1,
+    });
+  } catch (err) {
+    console.warn("[sentry] api init failed", err);
+  }
+}
 import express from "express";
 import cookieParser from "cookie-parser";
 import { Resend } from "resend";
@@ -207,6 +220,15 @@ function getResend() { return new Resend(process.env.RESEND_API_KEY || "placehol
 // Portal and admin sub-routers (self-contained, no server/ imports)
 app.use("/api/portal", portalRoutes);
 app.use("/api/admin", adminRoutes);
+
+// Error handler -> Sentry for 5xx, then default JSON response.
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  const status = err?.status || err?.statusCode || 500;
+  if (status >= 500 && process.env.SENTRY_DSN) {
+    try { Sentry.captureException(err); } catch { /* noop */ }
+  }
+  res.status(status).json({ message: err?.message || "Internal Server Error" });
+});
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });

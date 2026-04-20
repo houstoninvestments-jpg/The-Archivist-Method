@@ -1,3 +1,6 @@
+import { initSentry, Sentry } from "./sentry";
+initSentry();
+
 import express, { type Request, Response, NextFunction } from "express";
 import compression from "compression";
 import { registerRoutes } from "./routes";
@@ -81,6 +84,9 @@ export async function createApp() {
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
+    if (status >= 500) {
+      try { Sentry.captureException(err); } catch { /* sentry disabled */ }
+    }
     res.status(status).json({ message });
     throw err;
   });
