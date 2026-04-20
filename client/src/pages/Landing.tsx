@@ -1712,6 +1712,7 @@ export default function Landing() {
             muted
             loop
             playsInline
+            preload="auto"
             webkit-playsinline="true"
             x-webkit-airplay="deny"
             disablePictureInPicture
