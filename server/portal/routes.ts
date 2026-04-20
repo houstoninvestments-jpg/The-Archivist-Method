@@ -573,12 +573,21 @@ router.post("/test-purchase", async (req: Request, res: Response) => {
     const { quizUsers } = await import("@shared/schema");
     const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, email));
 
+    const testTier =
+      productId === "complete-archive"
+        ? "complete_archive"
+        : productId === "quick-start"
+          ? "field_guide"
+          : null;
+
     await sendPurchaseConfirmationEmail({
       email,
       firstName: user.name?.split(" ")[0] || undefined,
       patternName: quizUser?.primaryPattern || null,
       productName: productName || productId,
       portalLink: magicLink,
+      tier: testTier,
+      amountPaid: typeof amount === "number" ? amount : undefined,
     });
 
     res.json({
@@ -716,12 +725,21 @@ router.post(
         const { quizUsers } = await import("@shared/schema");
         const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, customerEmail));
 
+        const emailTier =
+          productId === "complete-archive"
+            ? "complete_archive"
+            : productId === "quick-start"
+              ? "field_guide"
+              : null;
+
         await sendPurchaseConfirmationEmail({
           email: customerEmail,
           firstName: customerName?.split(" ")[0] || undefined,
           patternName: quizUser?.primaryPattern || null,
           productName: productName,
           portalLink: magicLink,
+          tier: emailTier,
+          amountPaid: amountTotal / 100,
         });
 
         // Stop the Crash Course drip and kick off the buyer sequence.

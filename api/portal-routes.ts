@@ -218,18 +218,75 @@ async function createPurchase(userId: string, productId: string, productName: st
 }
 
 // ── Inline: email ─────────────────────────────────────────────────────────────
-const patternDisplayNames: Record<string, string> = { disappearing: "The Disappearing Pattern", apologyLoop: "The Apology Loop", testing: "The Testing Pattern", attractionToHarm: "Attraction to Harm", complimentDeflection: "Compliment Deflection", drainingBond: "The Draining Bond", successSabotage: "Success Sabotage", perfectionism: "The Perfectionism Pattern", rage: "The Rage Pattern" };
-async function sendPurchaseConfirmationEmail(data: { email: string; firstName?: string; patternName?: string | null; productName: string; portalLink: string }): Promise<boolean> {
+const patternDisplayNames: Record<string, string> = { disappearing: "The Disappearing Pattern", apologyLoop: "The Apology Loop", testing: "The Testing Pattern", attractionToHarm: "Attraction to Harm", complimentDeflection: "Compliment Deflection", drainingBond: "The Draining Bond", successSabotage: "Success Sabotage", perfectionism: "The Perfectionism Trap", rage: "The Rage Pattern" };
+type PurchaseTier = "field_guide" | "complete_archive" | null;
+interface PurchaseEmailPayload {
+  email: string;
+  firstName?: string;
+  patternName?: string | null;
+  productName: string;
+  portalLink: string;
+  tier?: PurchaseTier;
+  amountPaid?: number;
+}
+function _patternLineHtml(patternName?: string | null) {
+  if (!patternName) return "";
+  const display = patternDisplayNames[patternName] || patternName;
+  return `<p style="color:#14B8A6;font-size:14px;margin:16px 0;">Your identified pattern: <strong>${display}</strong></p>`;
+}
+function _patternLineText(patternName?: string | null) {
+  if (!patternName) return "";
+  const display = patternDisplayNames[patternName] || patternName;
+  return `Your identified pattern: ${display}\n\n`;
+}
+function _receiptHtml(amount?: number) {
+  if (typeof amount !== "number" || amount <= 0) return "";
+  return `<p style="color:#A3A3A3;font-size:14px;margin:8px 0 24px;">Receipt: $${amount.toFixed(2)} — a copy from Stripe will arrive separately.</p>`;
+}
+function _receiptText(amount?: number) {
+  if (typeof amount !== "number" || amount <= 0) return "";
+  return `Receipt: $${amount.toFixed(2)} — a copy from Stripe will arrive separately.\n\n`;
+}
+function _tierTemplate(tier: PurchaseTier, firstName: string) {
+  if (tier === "field_guide") {
+    return {
+      subject: "Your Field Guide is ready",
+      headline: `Your Field Guide is ready, ${firstName}.`,
+      opener: "You have the full markup on one pattern now — what it is, how it fires, how to interrupt it, and the 90-day rewrite. This is the one that matches the signal your body is already sending.",
+      howToStart: "Start with 1.1 What This Is, then skim your pattern's At a Glance. Don't read the whole guide in one sitting. One section a day, for seven days. That's the method.",
+      ctaLabel: "Open the Field Guide",
+    };
+  }
+  if (tier === "complete_archive") {
+    return {
+      subject: "The Complete Archive is open",
+      headline: `The Complete Archive is open, ${firstName}.`,
+      opener: "All nine patterns. The Four Doors framework. The 90-day implementation map. The advanced protocols, context chapters, and field notes. Every file you'll need to read yourself differently.",
+      howToStart: "Start where your body points: your primary pattern's At a Glance. From there, either drill down into that pattern or widen out through the Four Doors. Pace is one section a day; depth beats speed.",
+      ctaLabel: "Open the Archive",
+    };
+  }
+  return {
+    subject: `Your archive is open, ${firstName}.`,
+    headline: `Your archive is open, ${firstName}.`,
+    opener: "The patterns have been running long enough. Time to read them differently.",
+    howToStart: "Open your portal and start at the first section.",
+    ctaLabel: "Enter Your Portal",
+  };
+}
+async function sendPurchaseConfirmationEmail(data: PurchaseEmailPayload): Promise<boolean> {
   const firstName = data.firstName || "there";
-  const subject = `Your archive is open, ${firstName}.`;
-  const patternLine = data.patternName ? `<p style="color:#14B8A6;font-size:14px;margin:16px 0;">Your identified pattern: <strong>${patternDisplayNames[data.patternName] || data.patternName}</strong></p>` : "";
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#000;font-family:'Helvetica Neue',Arial,sans-serif;"><div style="max-width:560px;margin:0 auto;padding:48px 24px;"><p style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:#737373;margin-bottom:32px;">The Archivist Method</p><h1 style="color:#FAFAFA;font-size:24px;font-weight:700;margin-bottom:24px;">Your archive is open, ${firstName}.</h1>${patternLine}<p style="color:#A3A3A3;font-size:15px;line-height:1.7;margin-bottom:8px;">Your purchase: <strong style="color:#FAFAFA;">${data.productName}</strong></p><div style="margin:32px 0;"><a href="${data.portalLink}" style="display:inline-block;padding:14px 32px;background:#14B8A6;color:#000;text-decoration:none;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Enter Your Portal</a></div></div></body></html>`;
-  if (process.env.NODE_ENV === "development") { console.log("[EMAIL] Dev mode - skipping send"); return true; }
+  const tpl = _tierTemplate(data.tier ?? null, firstName);
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#000;font-family:'Helvetica Neue',Arial,sans-serif;"><div style="max-width:560px;margin:0 auto;padding:48px 24px;"><p style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:#737373;margin-bottom:32px;">The Archivist Method</p><h1 style="color:#FAFAFA;font-size:24px;font-weight:700;margin-bottom:24px;">${tpl.headline}</h1><p style="color:#A3A3A3;font-size:15px;line-height:1.7;margin-bottom:24px;">${tpl.opener}</p>${_patternLineHtml(data.patternName)}<p style="color:#A3A3A3;font-size:15px;line-height:1.7;margin-bottom:8px;">Your purchase: <strong style="color:#FAFAFA;">${data.productName}</strong></p>${_receiptHtml(data.amountPaid)}<p style="color:#FAFAFA;font-size:14px;line-height:1.7;margin:32px 0 8px;font-weight:600;">Here's how to start</p><p style="color:#A3A3A3;font-size:15px;line-height:1.7;margin-bottom:24px;">${tpl.howToStart}</p><div style="margin:32px 0;"><a href="${data.portalLink}" style="display:inline-block;padding:14px 32px;background:#14B8A6;color:#000;text-decoration:none;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">${tpl.ctaLabel}</a></div></div></body></html>`;
+  const text = `THE ARCHIVIST METHOD\n\n${tpl.headline}\n\n${tpl.opener}\n\n${_patternLineText(data.patternName)}Your purchase: ${data.productName}\n${_receiptText(data.amountPaid)}Here's how to start\n${tpl.howToStart}\n\n${tpl.ctaLabel}: ${data.portalLink}\n`;
+  console.log(`[email.purchase] to=${data.email} tier=${data.tier ?? "generic"} product=${data.productName} subject="${tpl.subject}"`);
+  if (process.env.NODE_ENV === "development") { console.log("[email.purchase] dev mode — not sending"); return true; }
   try {
     const _resendForEmail = new Resend(process.env.RESEND_API_KEY);
-    await _resendForEmail.emails.send({ from: "The Archivist <hello@archiebase.com>", to: [data.email], subject, html });
+    const result = await _resendForEmail.emails.send({ from: "The Archivist <hello@archiebase.com>", to: [data.email], subject: tpl.subject, html, text });
+    console.log(`[email.purchase] sent id=${(result as any)?.data?.id || "unknown"}`);
     return true;
-  } catch (err) { console.error("Email send failed:", err); return false; }
+  } catch (err) { console.error("[email.purchase] send failed:", err); return false; }
 }
 
 function getResend() { return new Resend(process.env.RESEND_API_KEY || "placeholder"); }
@@ -964,12 +1021,21 @@ router.post("/test-purchase", async (req: Request, res: Response) => {
     const { quizUsers } = await import("../shared/schema.js");
     const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, email));
 
+    const testTier =
+      productId === "complete-archive"
+        ? "complete_archive"
+        : productId === "quick-start"
+          ? "field_guide"
+          : null;
+
     await sendPurchaseConfirmationEmail({
       email,
       firstName: user.name?.split(" ")[0] || undefined,
       patternName: quizUser?.primaryPattern || null,
       productName: productName || productId,
       portalLink: magicLink,
+      tier: testTier,
+      amountPaid: typeof amount === "number" ? amount : undefined,
     });
 
     res.json({
@@ -1067,12 +1133,21 @@ router.post(
         const { quizUsers } = await import("../shared/schema.js");
         const [quizUser] = await db.select().from(quizUsers).where(eq(quizUsers.email, customerEmail));
 
+        const emailTier =
+          productId === "complete-archive"
+            ? "complete_archive"
+            : productId === "quick-start"
+              ? "field_guide"
+              : null;
+
         await sendPurchaseConfirmationEmail({
           email: customerEmail,
           firstName: customerName?.split(" ")[0] || undefined,
           patternName: quizUser?.primaryPattern || null,
           productName: productName,
           portalLink: magicLink,
+          tier: emailTier,
+          amountPaid: amountTotal / 100,
         });
 
         // Stop the Crash Course drip and kick off the buyer sequence.
