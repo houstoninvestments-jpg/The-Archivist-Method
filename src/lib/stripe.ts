@@ -25,8 +25,8 @@ export type AccessTier = 'free' | 'field_guide' | 'complete_archive';
 // Product-to-tier map. Prices/products live in the Stripe dashboard;
 // these are the live price IDs already configured on the account.
 export const TIER_PRICE_IDS: Record<Exclude<AccessTier, 'free'>, string> = {
-  field_guide: 'price_1Scurl11kGDis0LrLDIjwDc9',
-  complete_archive: 'price_1ScuuG11kGDis0LrWdBlpZ5w',
+  field_guide: 'price_1TOlJr11kGDis0LrBP8ITvIC',
+  complete_archive: 'price_1TOlGX11kGDis0LrvJl0SBhm',
 };
 
 const TIER_ORDER: Record<AccessTier, number> = {

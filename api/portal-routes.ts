@@ -169,8 +169,8 @@ interface Product {
 }
 const PRODUCTS: Record<string, Product> = {
   "crash-course": { id: "crash-course", name: "The Crash Course", price: 0, stripeProductId: "", stripePriceId: "", description: "Free pattern interruption crash course", features: ["Identify your destructive pattern","Learn body signatures and triggers","Circuit break scripts for all 9 patterns","First interrupt attempt protocol","Guided program"], pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf" },
-  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9", description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete Four Doors framework","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
-  "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w", description: "The Complete Archive — Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped","Complete rewrite protocol","Advanced pattern archaeology techniques","Lifetime pattern tracking system","Crisis management protocols","Pattern intersection analysis","Custom rewrite frameworks","Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" },
+  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1TOlJr11kGDis0LrBP8ITvIC", description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete Four Doors framework","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
+  "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: "price_1TOlGX11kGDis0LrvJl0SBhm", description: "The Complete Archive — Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped","Complete rewrite protocol","Advanced pattern archaeology techniques","Lifetime pattern tracking system","Crisis management protocols","Pattern intersection analysis","Custom rewrite frameworks","Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" },
 };
 interface UserAccess { hasQuickStart: boolean; hasCompleteArchive: boolean; purchases: { productId: string; productName: string; purchasedAt: string }[]; }
 function calculateUserAccess(purchases: any[]): UserAccess {
@@ -891,7 +891,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $67
+          price: "price_1TOlJr11kGDis0LrBP8ITvIC", // Quick-Start $67
           quantity: 1,
         },
       ],
@@ -920,7 +920,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $297
+          price: "price_1TOlGX11kGDis0LrvJl0SBhm", // Complete Archive $297
           quantity: 1,
         },
       ],

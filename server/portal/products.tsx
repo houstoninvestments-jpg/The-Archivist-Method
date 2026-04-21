@@ -31,7 +31,7 @@ export const PRODUCTS: Record<string, Product> = {
     name: "The Field Guide",
     price: 67,
     stripeProductId: "prod_quick_start",
-    stripePriceId: "price_1Scurl11kGDis0LrLDIjwDc9",
+    stripePriceId: "price_1TOlJr11kGDis0LrBP8ITvIC",
     description: "The Field Guide — Your complete interrupt protocol.",
     features: [
       "Complete Four Doors framework",
@@ -47,7 +47,7 @@ export const PRODUCTS: Record<string, Product> = {
     name: "The Complete Archive",
     price: 297,
     stripeProductId: "prod_complete_archive",
-    stripePriceId: "price_1ScuuG11kGDis0LrWdBlpZ5w",
+    stripePriceId: "price_1TOlGX11kGDis0LrvJl0SBhm",
     description: "The Complete Archive — Every pattern. Every scenario. The complete system.",
     features: [
       "All 9 destructive patterns fully mapped",

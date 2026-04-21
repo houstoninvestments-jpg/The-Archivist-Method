@@ -443,7 +443,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1Scurl11kGDis0LrLDIjwDc9", // Quick-Start $67
+          price: "price_1TOlJr11kGDis0LrBP8ITvIC", // Field Guide $67
           quantity: 1,
         },
       ],
@@ -472,7 +472,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1ScuuG11kGDis0LrWdBlpZ5w", // Complete Archive $297
+          price: "price_1TOlGX11kGDis0LrvJl0SBhm", // Complete Archive $297
           quantity: 1,
         },
       ],
