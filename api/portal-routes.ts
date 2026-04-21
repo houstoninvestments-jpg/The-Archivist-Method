@@ -1599,17 +1599,23 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     const { pattern, tier: clientTier, streak } = req.body;
     const patternName = pattern || "unknown";
-    const userTier = tier || clientTier || "free";
+    const rawTier = tier || clientTier || "free";
+    // Internal tier values from resolveUserTier are "quick-start" / "archive";
+    // normalize to the canonical marketing names used in the system prompt.
+    const userTier: "field_guide" | "complete_archive" | "free" =
+      rawTier === "quick-start" || rawTier === "field_guide" ? "field_guide"
+      : rawTier === "archive" || rawTier === "complete_archive" ? "complete_archive"
+      : "free";
     const streakCount = streak || 0;
 
     let tierAccess = "";
-    if (userTier === "quick-start") {
-      tierAccess = `If user_tier == "field_guide":
+    if (userTier === "field_guide") {
+      tierAccess = `TIER: field_guide
 - You know ALL 9 patterns fully
 - You can help with implementation, circuit breaks, 90-day protocol
-- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive—want the short version?"`;
-    } else {
-      tierAccess = `If user_tier == "complete_archive":
+- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive — want the short version?"`;
+    } else if (userTier === "complete_archive") {
+      tierAccess = `TIER: complete_archive
 - Full access to everything
 - No gates, no upsells
 - Pattern combinations, relationship protocols, workplace applications, parenting, advanced techniques`;
