@@ -90,11 +90,12 @@ function isDevBypassAllowed(req: Request): boolean {
 }
 
 // Shadow user used when dev bypass is active. Matches the hardcoded owner
-// of the /dev/reader/* endpoints.
+// of the /dev/reader/* endpoints. Tier uses the canonical marketing name
+// so it lines up with the PortalTier union used elsewhere.
 const DEV_BYPASS_USER = {
   userId: "dev-portal-bypass",
   email: "houstoninvestments@gmail.com",
-  tier: "archive" as const,
+  tier: "complete_archive" as const,
   primaryPattern: "disappearing",
 };
 
@@ -1170,7 +1171,10 @@ router.post("/chat", async (req: Request, res: Response) => {
     const devBypass = isDevBypassAllowed(req);
 
     let userId: string;
-    let tier: "free" | "quick-start" | "archive";
+    // Union covers both internal names from resolveUserTier ("quick-start" /
+    // "archive") and the canonical marketing names used by DEV_BYPASS_USER
+    // and the downstream prompt template.
+    let tier: "free" | "quick-start" | "archive" | "field_guide" | "complete_archive";
     let authData: { userId: string; email: string };
 
     if (devBypass) {
