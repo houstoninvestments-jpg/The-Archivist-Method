@@ -86,8 +86,15 @@ export interface TierStatus {
 
 export async function fetchTierStatus(): Promise<TierStatus | null> {
   try {
+    // On /portal/dev, send the dev bypass header so this endpoint resolves
+    // without a session. Accepted by the server when NODE_ENV !== production
+    // or when DEV_BYPASS_SECRET env var matches the header value.
+    const isDevRoute =
+      typeof window !== "undefined" &&
+      window.location.pathname === "/portal/dev";
     const res = await fetch('/api/portal/tier-status', {
       credentials: 'include',
+      headers: isDevRoute ? { "X-Dev-Bypass": "1" } : {},
     });
     if (!res.ok) return null;
     const data = await res.json();
