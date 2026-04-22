@@ -33,10 +33,28 @@ function verifyAuthToken(token: string): { userId: string; email: string } | nul
 // DEV_BYPASS_SECRET env var is set AND the header value matches it exactly.
 function isDevBypassAllowed(req: Request): boolean {
   const header = req.headers["x-dev-bypass"];
-  if (!header || typeof header !== "string") return false;
-  if (process.env.NODE_ENV !== "production") return true;
   const secret = process.env.DEV_BYPASS_SECRET;
-  return !!secret && header === secret;
+  // DEBUG — remove after dev bypass is verified working.
+  console.log("[dev-bypass.check]", {
+    rawHeader: header,
+    headerType: typeof header,
+    headerLength: typeof header === "string" ? header.length : null,
+    secretValue: secret ?? "[undefined]",
+    secretLength: typeof secret === "string" ? secret.length : null,
+    nodeEnv: process.env.NODE_ENV,
+    allHeaderKeys: Object.keys(req.headers),
+  });
+  if (!header || typeof header !== "string") {
+    console.log("[dev-bypass.check] result=false reason=no_valid_header");
+    return false;
+  }
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[dev-bypass.check] result=true reason=non_production");
+    return true;
+  }
+  const match = !!secret && header === secret;
+  console.log("[dev-bypass.check] result=" + match + " reason=production_compare header_eq_secret=" + (header === secret));
+  return match;
 }
 
 // Shadow user used when dev bypass is active. Matches the hardcoded owner
@@ -1558,7 +1576,19 @@ router.get("/chat/history", async (req: Request, res: Response) => {
 
 router.post("/chat", async (req: Request, res: Response) => {
   try {
+    // DEBUG — remove after dev bypass is verified working.
+    console.log("[pocket.chat] request start", {
+      url: req.originalUrl,
+      method: req.method,
+      hasCookieQuizToken: !!req.cookies?.quiz_token,
+      hasCookieAuthToken: !!req.cookies?.auth_token,
+      hasAuthorization: !!req.headers.authorization,
+      xDevBypass: req.headers["x-dev-bypass"],
+      nodeEnv: process.env.NODE_ENV,
+      devBypassSecretSet: !!process.env.DEV_BYPASS_SECRET,
+    });
     const devBypass = isDevBypassAllowed(req);
+    console.log("[pocket.chat] devBypass resolved to:", devBypass);
 
     let userId: string;
     // Union covers both internal names from resolveUserTier ("quick-start" /
