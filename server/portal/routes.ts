@@ -24,7 +24,7 @@ import { z } from "zod";
 import { sendPurchaseConfirmationEmail } from "./email";
 import { Resend } from 'resend';
 import { switchToSequence } from "../../src/emails/queue";
-import { checkPocketRateLimit } from "../../src/lib/pocket-rate-limit";
+import { checkPocketRateLimit, normaliseTier } from "../../src/lib/pocket-rate-limit";
 import {
   isPatternKey,
   productIdToSequence,
@@ -1297,22 +1297,25 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     const { pattern, tier: clientTier, streak } = req.body;
     const patternName = pattern || (devBypass ? DEV_BYPASS_USER.primaryPattern : "unknown");
-    const userTier = tier || clientTier || "free";
+    // Collapse all tier variants (internal "quick-start" / "archive",
+    // canonical "field_guide" / "complete_archive", or anything else
+    // clientTier might send) down to a single canonical name.
+    const userTier = normaliseTier(tier || clientTier || "free");
     const streakCount = streak || 0;
 
     let tierAccess = "";
-    if (tier === "free") {
-      tierAccess = `If user_tier == "free":
+    if (userTier === "free") {
+      tierAccess = `TIER: free
 - You ONLY work with their primary pattern (${patternName}). Do not teach the other 8 patterns.
 - If asked about another pattern, acknowledge it briefly and point them at the Field Guide or Complete Archive.
 - They have a strict 2-session total cap; this is one of those sessions, so keep it high-signal.`;
-    } else if (userTier === "quick-start" || tier === "quick-start") {
-      tierAccess = `If user_tier == "field_guide":
+    } else if (userTier === "field_guide") {
+      tierAccess = `TIER: field_guide
 - You know ALL 9 patterns fully
 - You can help with implementation, circuit breaks, 90-day protocol
-- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive—want the short version?"`;
+- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive — want the short version?"`;
     } else {
-      tierAccess = `If user_tier == "complete_archive":
+      tierAccess = `TIER: complete_archive
 - Full access to everything
 - No gates, no upsells
 - Pattern combinations, relationship protocols, workplace applications, parenting, advanced techniques`;

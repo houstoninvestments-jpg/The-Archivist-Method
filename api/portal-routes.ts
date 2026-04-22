@@ -10,7 +10,7 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { db } from "./_db.js";
 import { switchToSequence } from "../src/emails/queue.js";
-import { checkPocketRateLimit } from "../src/lib/pocket-rate-limit.js";
+import { checkPocketRateLimit, normaliseTier } from "../src/lib/pocket-rate-limit.js";
 import {
   isPatternKey,
   productIdToSequence,
@@ -1644,13 +1644,10 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     const { pattern, tier: clientTier, streak } = req.body;
     const patternName = pattern || (devBypass ? DEV_BYPASS_USER.primaryPattern : "unknown");
-    const rawTier = tier || clientTier || "free";
-    // Internal tier values from resolveUserTier are "quick-start" / "archive";
-    // normalize to the canonical marketing names used in the system prompt.
-    const userTier: "field_guide" | "complete_archive" | "free" =
-      rawTier === "quick-start" || rawTier === "field_guide" ? "field_guide"
-      : rawTier === "archive" || rawTier === "complete_archive" ? "complete_archive"
-      : "free";
+    // Internal tier values from resolveUserTier ("quick-start" / "archive"),
+    // DEV_BYPASS_USER's canonical value, and whatever clientTier sends all
+    // collapse to the canonical marketing names here.
+    const userTier = normaliseTier(tier || clientTier || "free");
     const streakCount = streak || 0;
 
     let tierAccess = "";
