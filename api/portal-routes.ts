@@ -30,10 +30,10 @@ function verifyAuthToken(token: string): { userId: string; email: string } | nul
 
 // Dev-bypass: lets /portal/dev reach auth-gated routes without a session.
 // Accepted when NODE_ENV !== "production" (any header value), OR when
-// DEV_BYPASS_SECRET env var is set AND the header value matches it exactly.
+// ARCHIVIST_BYPASS_KEY env var is set AND the header value matches it exactly.
 function isDevBypassAllowed(req: Request): boolean {
   const header = req.headers["x-dev-bypass"];
-  const secret = process.env.DEV_BYPASS_SECRET;
+  const secret = process.env.ARCHIVIST_BYPASS_KEY;
   // DEBUG — remove after dev bypass is verified working.
   console.log("[dev-bypass.check]", {
     rawHeader: header,
@@ -1585,7 +1585,7 @@ router.post("/chat", async (req: Request, res: Response) => {
       hasAuthorization: !!req.headers.authorization,
       xDevBypass: req.headers["x-dev-bypass"],
       nodeEnv: process.env.NODE_ENV,
-      devBypassSecretSet: !!process.env.DEV_BYPASS_SECRET,
+      archivistBypassKeySet: !!process.env.ARCHIVIST_BYPASS_KEY,
     });
     const devBypass = isDevBypassAllowed(req);
     console.log("[pocket.chat] devBypass resolved to:", devBypass);
@@ -1605,17 +1605,17 @@ router.post("/chat", async (req: Request, res: Response) => {
       // the mismatch is visible from the curl response. Remove after the root
       // cause is identified.
       const _rawHeader = req.headers["x-dev-bypass"];
-      const _rawSecret = process.env.DEV_BYPASS_SECRET;
+      const _rawBypassKey = process.env.ARCHIVIST_BYPASS_KEY;
       const _debug = {
         devBypassResult: devBypass,
         rawHeader: _rawHeader ?? "[UNDEFINED]",
         rawHeaderType: typeof _rawHeader,
         rawHeaderLength: typeof _rawHeader === "string" ? _rawHeader.length : -1,
-        secretRaw: _rawSecret ?? "[UNDEFINED]",
-        secretType: typeof _rawSecret,
-        secretLength: typeof _rawSecret === "string" ? _rawSecret.length : -1,
-        secretIsSet: !!_rawSecret,
-        headerEqualsSecret: _rawHeader === _rawSecret,
+        archivistBypassKeyRaw: _rawBypassKey ?? "[UNDEFINED]",
+        archivistBypassKeyType: typeof _rawBypassKey,
+        archivistBypassKeyLength: typeof _rawBypassKey === "string" ? _rawBypassKey.length : -1,
+        archivistBypassKeyIsSet: !!_rawBypassKey,
+        headerEqualsArchivistBypassKey: _rawHeader === _rawBypassKey,
         nodeEnv: process.env.NODE_ENV ?? "[UNDEFINED]",
         allHeaderKeys: Object.keys(req.headers).sort(),
         allEnvKeysWithBypass: Object.keys(process.env).filter(k => k.toLowerCase().includes("bypass")).sort(),

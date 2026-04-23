@@ -88,7 +88,7 @@ export async function fetchTierStatus(): Promise<TierStatus | null> {
   try {
     // On /portal/dev, send the dev bypass header so this endpoint resolves
     // without a session. Accepted by the server when NODE_ENV !== production
-    // or when DEV_BYPASS_SECRET env var matches the header value.
+    // or when ARCHIVIST_BYPASS_KEY env var matches the header value.
     const isDevRoute =
       typeof window !== "undefined" &&
       window.location.pathname === "/portal/dev";

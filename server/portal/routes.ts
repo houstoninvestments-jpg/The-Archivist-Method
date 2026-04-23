@@ -80,12 +80,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 // Dev-bypass: lets /portal/dev reach auth-gated routes without a session.
 // Accepted when NODE_ENV !== "production" (any header value), OR when
-// DEV_BYPASS_SECRET env var is set AND the header value matches it exactly.
+// ARCHIVIST_BYPASS_KEY env var is set AND the header value matches it exactly.
 function isDevBypassAllowed(req: Request): boolean {
   const header = req.headers["x-dev-bypass"];
   if (!header || typeof header !== "string") return false;
   if (process.env.NODE_ENV !== "production") return true;
-  const secret = process.env.DEV_BYPASS_SECRET;
+  const secret = process.env.ARCHIVIST_BYPASS_KEY;
   return !!secret && header === secret;
 }
 

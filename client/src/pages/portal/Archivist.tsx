@@ -204,7 +204,7 @@ export function ArchivistPanel({ open, onClose, pattern, patternKey, tier }: Arc
       try {
         // On /portal/dev, send an X-Dev-Bypass header so the server can
         // short-circuit auth for the demo route. Value is accepted as-is by
-        // the local dev server; production requires DEV_BYPASS_SECRET to match.
+        // the local dev server; production requires ARCHIVIST_BYPASS_KEY to match.
         const isDevRoute =
           typeof window !== "undefined" &&
           window.location.pathname === "/portal/dev";
