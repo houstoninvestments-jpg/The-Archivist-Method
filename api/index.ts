@@ -213,9 +213,22 @@ function rowToQuizUser(row: any): QuizUser {
 // DEBUG — module-load log to prove the bundle is being loaded at cold start.
 console.log("[bundle.load] api/index.ts loaded, marker=BUNDLE_MARKER_20260423 at", new Date().toISOString());
 const app = express();
+// Disable automatic ETag on res.json(). Vercel's edge otherwise caches 401
+// responses and serves them back via If-None-Match 304s, which means the
+// function never runs on repeat requests and logs never fire.
+app.disable("etag");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// Force all /api/* responses to be uncacheable at any CDN / browser layer.
+// Runs before routers so every downstream handler inherits these headers.
+app.use("/api", (_req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private, max-age=0");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  res.removeHeader("ETag");
+  next();
+});
 // DEBUG — request-level log to prove the Express app is receiving requests.
 app.use((req, _res, next) => {
   console.log("[api.request]", req.method, req.originalUrl, "x-dev-bypass=", req.headers["x-dev-bypass"]);
