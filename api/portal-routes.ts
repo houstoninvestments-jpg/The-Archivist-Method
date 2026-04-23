@@ -1600,17 +1600,36 @@ router.post("/chat", async (req: Request, res: Response) => {
       userId = DEV_BYPASS_USER.userId;
       tier = DEV_BYPASS_USER.tier;
     } else {
+      // DEBUG — since Vercel runtime logs are not showing up on this deploy,
+      // surface the bypass-check inputs directly in the 401 response body so
+      // the mismatch is visible from the curl response. Remove after the root
+      // cause is identified.
+      const _rawHeader = req.headers["x-dev-bypass"];
+      const _rawSecret = process.env.DEV_BYPASS_SECRET;
+      const _debug = {
+        devBypassResult: devBypass,
+        rawHeader: _rawHeader ?? "[UNDEFINED]",
+        rawHeaderType: typeof _rawHeader,
+        rawHeaderLength: typeof _rawHeader === "string" ? _rawHeader.length : -1,
+        secretRaw: _rawSecret ?? "[UNDEFINED]",
+        secretType: typeof _rawSecret,
+        secretLength: typeof _rawSecret === "string" ? _rawSecret.length : -1,
+        secretIsSet: !!_rawSecret,
+        headerEqualsSecret: _rawHeader === _rawSecret,
+        nodeEnv: process.env.NODE_ENV ?? "[UNDEFINED]",
+        allHeaderKeys: Object.keys(req.headers).sort(),
+        allEnvKeysWithBypass: Object.keys(process.env).filter(k => k.toLowerCase().includes("bypass")).sort(),
+      };
+
       const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
-      // DEBUG — distinctive marker on the 401 body so the caller can tell
-      // whether this new handler is responding vs. an older bundle.
-      if (!token) return res.status(401).json({ error: "Not authenticated", _marker: "pocket-chat-v244f910+markers" });
+      if (!token) return res.status(401).json({ error: "Not authenticated", _marker: "pocket-chat-v244f910+markers", _debug });
       const authData = verifyAuthToken(token);
-      if (!authData) return res.status(401).json({ error: "Invalid or expired token", _marker: "pocket-chat-v244f910+markers" });
+      if (!authData) return res.status(401).json({ error: "Invalid or expired token", _marker: "pocket-chat-v244f910+markers", _debug });
 
       const resolved = await resolveUserTier(authData);
       tier = resolved.tier;
       if (tier === "free") {
-        return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase." });
+        return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase.", _debug });
       }
       userId = authData.userId;
     }
