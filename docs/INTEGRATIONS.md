@@ -67,7 +67,7 @@ Full system prompt is defined in `TAM-HANDOFF-COMPLETE.md` under "CHATBOT SYSTEM
 - Identity: "You are The Archivist, a direct, wise pattern archaeologist"
 - Operates in mechanical layer, not emotional layer
 - Full definitions of all 9 patterns with triggers and body signatures
-- FEIR framework instructions
+- Four Doors framework instructions
 - Conversation style: direct, specific, 2–4 paragraphs max
 - Critical rules: no therapy language, never condescending, name patterns clearly
 

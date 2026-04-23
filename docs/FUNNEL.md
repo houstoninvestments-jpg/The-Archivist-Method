@@ -23,7 +23,7 @@ Landing Page → Quiz (15 questions) → Analyzing Screen → Results Page → E
 - "THE ARCHIVIST METHOD" title
 - "Pattern Archaeology, Not Therapy" tagline
 - 9 Core Patterns accordion section (expandable, each pattern described)
-- FEIR Method explanation
+- The Four Doors explanation
 - Therapy vs. Archivist comparison table
 - 3-tier pricing section (FREE / $67 / $297)
 - FAQ section (accordion)

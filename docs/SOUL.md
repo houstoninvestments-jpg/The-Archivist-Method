@@ -51,21 +51,10 @@ This is not about understanding why the house is on fire. It is about stopping y
 
 The system everything else builds on. Four sequential doors:
 
-1. **Recognition** — See the pattern while it is running. Notice the body signature. Name it: "The program is running."
-2. **Excavation** — Find the "Original Room" — the childhood moment where the pattern was installed. Who was there, what happened, what you learned.
+1. **Focus** — See the pattern while it is running. Notice the body signature. Name it: "The program is running." Observe without judgment.
+2. **Excavation** — Find the "Original Room" — the childhood moment where the pattern was installed. Who was there, what happened, what you learned. Name it fast. The Archivist doesn't linger — lingering IS the pattern.
 3. **Interruption** — Break the circuit in the 3–7 second gap between body signature and automatic behavior. Say the Circuit Break script out loud.
-4. **Override** — Replace the pattern with a new behavioral response that addresses the same survival need without the cost.
-
----
-
-## The FEIR Framework
-
-The operational framework applied at every level:
-
-- **F — FOCUS:** Observe the pattern without judgment. See it running.
-- **E — EXCAVATION:** Find the Original Room where the pattern was installed. Name it fast. You have 10 seconds. The Archivist doesn't linger — lingering IS the pattern. Name it and move.
-- **I — INTERRUPTION:** Identify the circuit break point (the 3–7 second window between trigger and behavior).
-- **R — REWRITE:** Install a new behavioral response.
+4. **Rewrite** — Install a new behavioral response that meets the same survival need without the cost.
 
 ---
 

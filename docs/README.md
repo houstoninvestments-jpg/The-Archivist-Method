@@ -28,7 +28,7 @@ The Archivist Method (TAM) is a **pattern interruption system** — not therapy,
 ### Brand & Content
 | Doc | What It Covers |
 |-----|---------------|
-| [SOUL.md](SOUL.md) | Brand identity, philosophy, 9 patterns, Four Doors, FEIR, what TAM is and isn't |
+| [SOUL.md](SOUL.md) | Brand identity, philosophy, 9 patterns, Four Doors, what TAM is and isn't |
 | [PATTERNS.md](PATTERNS.md) | All 9 patterns: name, description, body signature, cost, interrupt, circuit break |
 | [LANGUAGE.md](LANGUAGE.md) | Words we use, words we never use, tone guide, good vs. bad copy examples |
 | [COPY-VOICE.md](COPY-VOICE.md) | How The Archivist speaks in every context: landing, quiz, results, portal, PDFs, email |

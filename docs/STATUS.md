@@ -31,7 +31,7 @@
 - PDF generator scripts working (Python + ReportLab)
 
 ### Website (Replit)
-- Landing page with hero, patterns accordion, FEIR method, pricing, FAQ
+- Landing page with hero, patterns accordion, Four Doors, pricing, FAQ
 - Gothic library dark theme aesthetic
 - Header/footer on all pages
 - Framer Motion scroll animations
