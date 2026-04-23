@@ -210,10 +210,17 @@ function rowToQuizUser(row: any): QuizUser {
 }
 
 // ── Express app ───────────────────────────────────────────────────────────────
+// DEBUG — module-load log to prove the bundle is being loaded at cold start.
+console.log("[bundle.load] api/index.ts loaded, marker=BUNDLE_MARKER_20260423 at", new Date().toISOString());
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// DEBUG — request-level log to prove the Express app is receiving requests.
+app.use((req, _res, next) => {
+  console.log("[api.request]", req.method, req.originalUrl, "x-dev-bypass=", req.headers["x-dev-bypass"]);
+  next();
+});
 
 function getResend() { return new Resend(process.env.RESEND_API_KEY || "placeholder"); }
 

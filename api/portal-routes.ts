@@ -1601,9 +1601,11 @@ router.post("/chat", async (req: Request, res: Response) => {
       tier = DEV_BYPASS_USER.tier;
     } else {
       const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
-      if (!token) return res.status(401).json({ error: "Not authenticated" });
+      // DEBUG — distinctive marker on the 401 body so the caller can tell
+      // whether this new handler is responding vs. an older bundle.
+      if (!token) return res.status(401).json({ error: "Not authenticated", _marker: "pocket-chat-v244f910+markers" });
       const authData = verifyAuthToken(token);
-      if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+      if (!authData) return res.status(401).json({ error: "Invalid or expired token", _marker: "pocket-chat-v244f910+markers" });
 
       const resolved = await resolveUserTier(authData);
       tier = resolved.tier;
