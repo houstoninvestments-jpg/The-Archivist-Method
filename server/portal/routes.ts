@@ -79,14 +79,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 });
 
 // Dev-bypass: lets /portal/dev reach auth-gated routes without a session.
-// Accepted when NODE_ENV !== "production" (any header value), OR when
-// ARCHIVIST_BYPASS_KEY env var is set AND the header value matches it exactly.
+// Accepted when the X-Dev-Bypass header value exactly matches the hardcoded
+// literal below. Env-var based matching was abandoned — Vercel's env
+// injection was unreliable for this deploy.
+const DEV_BYPASS_LITERAL = "aaron-testing-bypass-2026";
 function isDevBypassAllowed(req: Request): boolean {
   const header = req.headers["x-dev-bypass"];
-  if (!header || typeof header !== "string") return false;
-  if (process.env.NODE_ENV !== "production") return true;
-  const secret = process.env.ARCHIVIST_BYPASS_KEY;
-  return !!secret && header === secret;
+  return typeof header === "string" && header === DEV_BYPASS_LITERAL;
 }
 
 // Shadow user used when dev bypass is active. Matches the hardcoded owner

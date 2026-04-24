@@ -29,32 +29,13 @@ function verifyAuthToken(token: string): { userId: string; email: string } | nul
 }
 
 // Dev-bypass: lets /portal/dev reach auth-gated routes without a session.
-// Accepted when NODE_ENV !== "production" (any header value), OR when
-// ARCHIVIST_BYPASS_KEY env var is set AND the header value matches it exactly.
+// Accepted when the X-Dev-Bypass header value exactly matches the hardcoded
+// literal below. Env-var based matching was abandoned — Vercel's env
+// injection was unreliable for this deploy.
+const DEV_BYPASS_LITERAL = "aaron-testing-bypass-2026";
 function isDevBypassAllowed(req: Request): boolean {
   const header = req.headers["x-dev-bypass"];
-  const secret = process.env.ARCHIVIST_BYPASS_KEY;
-  // DEBUG — remove after dev bypass is verified working.
-  console.log("[dev-bypass.check]", {
-    rawHeader: header,
-    headerType: typeof header,
-    headerLength: typeof header === "string" ? header.length : null,
-    secretValue: secret ?? "[undefined]",
-    secretLength: typeof secret === "string" ? secret.length : null,
-    nodeEnv: process.env.NODE_ENV,
-    allHeaderKeys: Object.keys(req.headers),
-  });
-  if (!header || typeof header !== "string") {
-    console.log("[dev-bypass.check] result=false reason=no_valid_header");
-    return false;
-  }
-  if (process.env.NODE_ENV !== "production") {
-    console.log("[dev-bypass.check] result=true reason=non_production");
-    return true;
-  }
-  const match = !!secret && header === secret;
-  console.log("[dev-bypass.check] result=" + match + " reason=production_compare header_eq_secret=" + (header === secret));
-  return match;
+  return typeof header === "string" && header === DEV_BYPASS_LITERAL;
 }
 
 // Shadow user used when dev bypass is active. Matches the hardcoded owner
@@ -1576,19 +1557,7 @@ router.get("/chat/history", async (req: Request, res: Response) => {
 
 router.post("/chat", async (req: Request, res: Response) => {
   try {
-    // DEBUG — remove after dev bypass is verified working.
-    console.log("[pocket.chat] request start", {
-      url: req.originalUrl,
-      method: req.method,
-      hasCookieQuizToken: !!req.cookies?.quiz_token,
-      hasCookieAuthToken: !!req.cookies?.auth_token,
-      hasAuthorization: !!req.headers.authorization,
-      xDevBypass: req.headers["x-dev-bypass"],
-      nodeEnv: process.env.NODE_ENV,
-      archivistBypassKeySet: !!process.env.ARCHIVIST_BYPASS_KEY,
-    });
     const devBypass = isDevBypassAllowed(req);
-    console.log("[pocket.chat] devBypass resolved to:", devBypass);
 
     let userId: string;
     // Union covers both internal names from resolveUserTier ("quick-start" /
@@ -1600,36 +1569,15 @@ router.post("/chat", async (req: Request, res: Response) => {
       userId = DEV_BYPASS_USER.userId;
       tier = DEV_BYPASS_USER.tier;
     } else {
-      // DEBUG — since Vercel runtime logs are not showing up on this deploy,
-      // surface the bypass-check inputs directly in the 401 response body so
-      // the mismatch is visible from the curl response. Remove after the root
-      // cause is identified.
-      const _rawHeader = req.headers["x-dev-bypass"];
-      const _rawBypassKey = process.env.ARCHIVIST_BYPASS_KEY;
-      const _debug = {
-        devBypassResult: devBypass,
-        rawHeader: _rawHeader ?? "[UNDEFINED]",
-        rawHeaderType: typeof _rawHeader,
-        rawHeaderLength: typeof _rawHeader === "string" ? _rawHeader.length : -1,
-        archivistBypassKeyRaw: _rawBypassKey ?? "[UNDEFINED]",
-        archivistBypassKeyType: typeof _rawBypassKey,
-        archivistBypassKeyLength: typeof _rawBypassKey === "string" ? _rawBypassKey.length : -1,
-        archivistBypassKeyIsSet: !!_rawBypassKey,
-        headerEqualsArchivistBypassKey: _rawHeader === _rawBypassKey,
-        nodeEnv: process.env.NODE_ENV ?? "[UNDEFINED]",
-        allHeaderKeys: Object.keys(req.headers).sort(),
-        allEnvKeysWithBypass: Object.keys(process.env).filter(k => k.toLowerCase().includes("bypass")).sort(),
-      };
-
       const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
-      if (!token) return res.status(401).json({ error: "Not authenticated", _marker: "pocket-chat-v244f910+markers", _debug });
+      if (!token) return res.status(401).json({ error: "Not authenticated" });
       const authData = verifyAuthToken(token);
-      if (!authData) return res.status(401).json({ error: "Invalid or expired token", _marker: "pocket-chat-v244f910+markers", _debug });
+      if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
 
       const resolved = await resolveUserTier(authData);
       tier = resolved.tier;
       if (tier === "free") {
-        return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase.", _debug });
+        return res.status(403).json({ error: "The Pocket Archivist requires a Field Guide or Complete Archive purchase." });
       }
       userId = authData.userId;
     }

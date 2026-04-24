@@ -1,23 +1,5 @@
-// Cache-busting no-op: 2026-04-23T23:59:59Z — forces a new bundle hash so
-// Vercel's build cache cannot reuse a previous artifact. Safe to remove once
-// the ARCHIVIST_BYPASS_KEY env var is confirmed reaching the function.
 import type { IncomingMessage, ServerResponse } from "http";
-import { readFileSync } from "fs";
-import { join } from "path";
 import * as Sentry from "@sentry/node";
-
-// Vercel: pin the serverless runtime to Node.js (not Edge).
-export const runtime = "nodejs";
-
-// Force the bundler to mark this module as non-pure by reading a runtime
-// artifact. The value is intentionally unused; presence of the sync read
-// prevents esbuild tree-shaking and any downstream cache reuse.
-const _cacheBustPkg = (() => {
-  try { return readFileSync(join(process.cwd(), "package.json"), "utf-8").length; }
-  catch { return 0; }
-})();
-void _cacheBustPkg;
-
 if (process.env.SENTRY_DSN) {
   try {
     Sentry.init({
