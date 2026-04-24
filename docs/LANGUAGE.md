@@ -12,7 +12,7 @@
 | Circuit break | The verbal interrupt spoken in the gap between trigger and behavior |
 | Activated | When a pattern fires — "The pattern activated" |
 | Interrupt | The act of breaking the automatic sequence |
-| Override | The replacement behavior installed after interruption |
+| Rewrite | The replacement behavior installed after interruption |
 | Body signature | The physical sensation that precedes a pattern (chest tightness, throat closing, etc.) |
 | Survival code | The pattern itself — code installed in childhood to survive a threat |
 | The gap | The 3–7 second window between body signature and automatic behavior |
@@ -32,7 +32,7 @@
 | Banned Term | Why | Use Instead |
 |-------------|-----|-------------|
 | Triggered | Therapy-speak, overused, vague | "Pattern activated" or "The program is running" |
-| Coping strategy | Implies management, not interruption | "Circuit break" or "Override" |
+| Coping strategy | Implies management, not interruption | "Circuit break" or "Rewrite" |
 | Healing journey | Soft, passive, no endpoint | "The 90-day protocol" or "Pattern interruption" |
 | Safe space | Therapy language | "The gap" or just don't use it |
 | Therapy-speak | Any soft, process-oriented language | Mechanical, direct language |
@@ -41,7 +41,7 @@
 | Coping mechanism | Management, not interruption | "Survival code" or "The pattern" |
 | Trauma | Loaded term, clinical | "The installation event" or "What happened in the Original Room" |
 | Self-care | Vague, commercialized | "The daily practice protocol" |
-| Boundaries | Overused | "Circuit breaks" or "Override scripts" |
+| Boundaries | Overused | "Circuit breaks" or "Rewrite scripts" |
 | Toxic | Lazy shorthand | Name the specific pattern or behavior |
 | Empowerment | Marketing fluff | Don't use. The work speaks for itself. |
 

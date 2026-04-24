@@ -93,7 +93,7 @@ SECTION 1: BEGIN YOUR EXCAVATION (collapsible)
 ┌─────────────────────────────────────────────────────────────┐
 │ 🏛️ BEGIN YOUR EXCAVATION                                    │
 │                                                             │
-│ Step 1: Watch the Pattern Recognition Session ⬇️           │
+│ Step 1: Watch the Pattern Focus Session ⬇️           │
 │ Step 2: Read your specific pattern breakdown               │
 │ Step 3: Download your Crash Course (Day 1)                 │
 │                                                             │
@@ -110,10 +110,10 @@ Styling:
 
 ═══════════════════════════════════════════════════════════════
 
-SECTION 2: PATTERN RECOGNITION SESSION VIDEO
+SECTION 2: PATTERN FOCUS SESSION VIDEO
 
 ┌─────────────────────────────────────────────────────────────┐
-│ 📹 PATTERN RECOGNITION SESSION                              │
+│ 📹 PATTERN FOCUS SESSION                              │
 │                                                             │
 │ ┌─────────────────────────────────────────────────────┐   │
 │ │                                                     │   │
@@ -246,7 +246,7 @@ CARD 1: 7-DAY CRASH COURSE
 │                                                             │
 │ 🚪 DOOR 1: FOCUS                                            │
 │                                                             │
-│ Day 1: Pattern Recognition                                  │
+│ Day 1: Pattern Focus                                  │
 │ [View PDF] [Download]                                       │
 │                                                             │
 │ Next: Day 2 arrives in 2 days (via email)                  │

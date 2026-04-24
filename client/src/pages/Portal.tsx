@@ -206,7 +206,7 @@ function NextChapterCard({ nextId, groups, onSelect }: { nextId: string; groups:
 // If the URL has ?dev=true we skip the auth check and load mocked TOC + section
 // content so the reader UI can be previewed without real portal credentials.
 // ────────────────────────────────────────────────────────────────────────────
-const DEV_MOCK_MARKDOWN = `# PREVIEW: PATTERN RECOGNITION
+const DEV_MOCK_MARKDOWN = `# PREVIEW: FOCUS
 
 This section is mock content served by the dev bypass. The real content loads from the content API once auth is restored.
 

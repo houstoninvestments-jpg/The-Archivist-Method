@@ -22,10 +22,10 @@ TAM operates on a single premise: **patterns can be interrupted**. Not healed. N
 
 The method is mechanical, not emotional. It treats behavioral patterns like code — programs with triggers, circuits, and outputs. The approach is:
 
-1. **See the pattern** (Recognition)
+1. **See the pattern** (Focus)
 2. **Find where it was installed** (Excavation)
 3. **Break the circuit in the 3–7 second gap** (Interruption)
-4. **Replace it with something that serves you** (Override)
+4. **Replace it with something that serves you** (Rewrite)
 
 This is not about understanding why the house is on fire. It is about stopping yourself from lighting the match.
 

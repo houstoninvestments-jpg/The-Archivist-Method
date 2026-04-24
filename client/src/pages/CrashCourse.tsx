@@ -63,12 +63,12 @@ interface Day {
 const DAYS: Day[] = [
   {
     label: "DAY 1",
-    title: "RECOGNITION",
+    title: "FOCUS",
     directive: "See the pattern running.",
     body: (p) => [
       `${PATTERN_NAMES[p] || 'Your pattern'} does not announce itself. It runs in the background — a program executing before you are aware it started.`,
       `Today's work is not to stop it. It is to see it.`,
-      `This is the first step. Recognition. The pattern cannot be interrupted until it can be observed. You cannot catch what you cannot see.`,
+      `This is the first step. Focus. The pattern cannot be interrupted until it can be observed. You cannot catch what you cannot see.`,
     ],
     taskLabel: "TODAY'S PROTOCOL",
     task: "When you feel any activation today — body tightening, urge to act, familiar dread — say one sentence. Out loud or in writing: \"The pattern is running.\" That is all. Just name it.",

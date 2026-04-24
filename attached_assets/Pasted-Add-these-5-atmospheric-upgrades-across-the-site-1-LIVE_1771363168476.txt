@@ -37,7 +37,7 @@ Each section gets a unique string:
 - Gut check: "SECTOR 01 // EMOTIONAL SCAN // STATUS: ACTIVE"
 - 9 Patterns: "ARCHIVE REF: 09-CORE // CLASSIFICATION: PRIMARY"
 - 3-7 Window: "TEMPORAL ANALYSIS // WINDOW: 3.2-6.8s // THRESHOLD: ACTIVE"
-- How it works: "PROTOCOL: FEIR-4 // CLEARANCE: STANDARD"
+- How it works: "PROTOCOL: 4DOOR // CLEARANCE: STANDARD"
 - Credibility bar: "DATASET: 685 PAGES // PATTERNS: 9 // CONFIDENCE: 0.97"
 
 These should be barely noticeable — discovered, not displayed. Someone who notices them thinks "wow, the attention to detail." Someone who doesn't notice isn't distracted.

@@ -222,7 +222,7 @@ ___ I minimize achievements automatically
 ___ I redirect compliments to others  
 ___ I believe compliments aren't genuine  
 ___ I downplay my skills and talents  
-___ Recognition makes me want to hide  
+___ Focus makes me want to hide  
 
 **TOTAL: ___ / 25**
 
@@ -400,7 +400,7 @@ You catch pattern AFTER it runs. "Oh shit, that was the pattern."
 
 ### WEEK 2
 
-Recognition speed increases. Catch it within 30 seconds.
+Focus speed increases. Catch it within 30 seconds.
 
 You start feeling body signature BEFORE automatic behavior executes.
 

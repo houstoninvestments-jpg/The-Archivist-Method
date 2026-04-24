@@ -73,7 +73,7 @@ def create_styles():
     """Create custom paragraph styles for the PDF"""
     styles = getSampleStyleSheet()
     
-    # Override default BodyText style with our dark theme version
+    # Rewrite default BodyText style with our dark theme version
     styles['BodyText'].fontName = 'Helvetica'
     styles['BodyText'].fontSize = 11
     styles['BodyText'].textColor = LIGHT_GRAY
@@ -452,7 +452,7 @@ def build_assessment_quiz(styles):
             "I redirect compliments to others",
             "I believe compliments aren't genuine",
             "I downplay my skills and talents",
-            "Recognition makes me want to hide"
+            "Focus makes me want to hide"
         ]),
         ("PATTERN 6: DRAINING BOND", [
             "I know I should leave but can't",
@@ -538,7 +538,7 @@ def build_90_day_protocol(styles):
     
     elements.append(Paragraph("WEEK-BY-WEEK EXPECTATIONS", styles['PatternHeader']))
     elements.append(Paragraph("<b>WEEK 1:</b> You forget to track. Normal. You catch pattern AFTER it runs. Success: Recognizing activation within 1-2 minutes.", styles['BodyText']))
-    elements.append(Paragraph("<b>WEEK 2:</b> Recognition speed increases. Catch it within 30 seconds. You start feeling body signature BEFORE automatic behavior executes.", styles['BodyText']))
+    elements.append(Paragraph("<b>WEEK 2:</b> Focus speed increases. Catch it within 30 seconds. You start feeling body signature BEFORE automatic behavior executes.", styles['BodyText']))
     elements.append(Paragraph("<b>WEEK 3:</b> Pattern recognition becomes automatic. Body sensation = instant recognition. Success: Identify pattern within 10 seconds. Ready for interruption phase.", styles['BodyText']))
     
     elements.append(PageBreak())

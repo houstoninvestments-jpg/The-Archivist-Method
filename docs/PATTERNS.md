@@ -174,6 +174,6 @@ Every pattern in the content library follows the same 12-section structure:
 | 6 | pattern-archaeology | Origin story and self-excavation template |
 | 7 | what-it-costs | Life impact across every domain |
 | 8 | how-to-interrupt | Circuit Break scripts and practice protocols |
-| 9 | the-override | Replacement behaviors and graduated scripts |
+| 9 | the-rewrite | Replacement behaviors and graduated scripts |
 | 10 | troubleshooting | Common challenges and solutions |
 | 11 | quick-reference | One-page reference card |

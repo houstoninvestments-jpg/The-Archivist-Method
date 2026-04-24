@@ -261,7 +261,7 @@ def build_part2_patterns(styles):
             ("The Partner Who Stays", "You've been terrible. They stayed. Their staying makes you panic more. You escalate until they finally leave.", "Their staying did not make you feel safe. It made you feel more panicked. That is pattern.", "\"You stayed when I pushed you away. That scares me more than if you had left. I'm working on this pattern.\"")
         ],
         circuit_breaks=[
-            ("Body Sensation Recognition", "When you feel chest tightness and urge to flee after intimacy increases", "The Disappearing Pattern just activated. This is my proximity alarm. The program wants me to create distance. I am observing this."),
+            ("Body Sensation Focus", "When you feel chest tightness and urge to flee after intimacy increases", "The Disappearing Pattern just activated. This is my proximity alarm. The program wants me to create distance. I am observing this."),
             ("Thought Interruption", "When thoughts like 'This is too much' or 'I need space' arise", "These are not my thoughts. This is the pattern generating reasons to leave."),
             ("Behavior Intervention", "Right before canceling, ghosting, or creating distance", "I am about to execute the Disappearing Pattern. What would it look like to stay instead?")
         ],
@@ -325,7 +325,7 @@ def build_part2_patterns(styles):
             ("The Reliable Friend Suspicion", "A friend is consistently there for you. This reliability feels suspicious. You become demanding, create crises.", "Reliability feels unfamiliar. That is not evidence it is fake.", "\"You've been really consistent with me. Part of me is waiting for you to stop. That's not fair to you.\"")
         ],
         circuit_breaks=[
-            ("Abandonment Anxiety Recognition", "When attachment deepens and panic begins", "The Testing Pattern is activating. This is not evidence they are leaving. This is my nervous system running the old program."),
+            ("Abandonment Anxiety Focus", "When attachment deepens and panic begins", "The Testing Pattern is activating. This is not evidence they are leaving. This is my nervous system running the old program."),
             ("Test Impulse Identification", "When you notice yourself planning a test", "I am about to test them. This is not about them. This is the pattern.")
         ],
         rewrites=[
@@ -384,7 +384,7 @@ def build_part2_patterns(styles):
             ("The Personal Compliment", "Someone tells you that you look good today. You say 'What? No. I look terrible.'", "You corrected someone's positive perception of you. That is pattern.", "\"Thank you.\" Full stop.")
         ],
         circuit_breaks=[
-            ("Deflection Impulse Recognition", "Compliment received, deflection incoming", "Compliment Deflection just activated. I want to minimize. I am going to accept instead.")
+            ("Deflection Impulse Focus", "Compliment received, deflection incoming", "Compliment Deflection just activated. I want to minimize. I am going to accept instead.")
         ],
         rewrites=[
             ("Two-Word Maximum", "Compliment → deflection → minimization", "Compliment → 'Thank you' — no deflection, no explanation"),
@@ -411,7 +411,7 @@ def build_part2_patterns(styles):
             ("The Job That Is Killing You", "The job is toxic. Your health is suffering. 'They depend on me. I can't leave them in a lurch.'", "You are more loyal to a job than to yourself.", "\"I am allowed to leave jobs that harm me. That is not abandonment.\"")
         ],
         circuit_breaks=[
-            ("Departure Guilt Recognition", "Thinking about leaving triggers guilt", "This guilt is pattern, not moral truth. Leaving is allowed.")
+            ("Departure Guilt Focus", "Thinking about leaving triggers guilt", "This guilt is pattern, not moral truth. Leaving is allowed.")
         ],
         rewrites=[
             ("Departure Planning", "Think about leaving → guilt → stay", "Think about leaving → make concrete plan → follow through"),
@@ -439,7 +439,7 @@ def build_part2_patterns(styles):
             ("The Almost-Happy Relationship", "The relationship is the best you have had. You create a crisis that destroys it.", "You did not have problems. You created them.", "\"I am sabotaging a good relationship because good feels dangerous. I am choosing to stay.\"")
         ],
         circuit_breaks=[
-            ("Breakthrough Recognition", "70-90% toward goal and panic starts", "I am approaching success. Success Sabotage is activating. This is pattern, not reality."),
+            ("Breakthrough Focus", "70-90% toward goal and panic starts", "I am approaching success. Success Sabotage is activating. This is pattern, not reality."),
             ("Sabotage Delay", "Urge to quit, destroy, or create crisis", "I am going to wait 48 hours. If I still want to sabotage, I'll reconsider.")
         ],
         rewrites=[
@@ -470,7 +470,7 @@ def build_part3_combinations(styles):
         ("DISAPPEARING + SUCCESS SABOTAGE", "Relationship is going well (success). You disappear right before a milestone or commitment.", "You destroy relationships at exactly the moment they could become stable.", "Interrupt Success Sabotage first. The disappearing is the method. The intolerance of success is the driver."),
         ("DRAINING BOND + APOLOGY LOOP", "You apologize for your needs (Apology Loop). This allows others to ignore them. You stay in situations where your needs are dismissed (Draining Bond).", "You train people to dismiss you, then stay with them while they dismiss you.", "Interrupt Apology Loop first. If you believe your needs matter, you stop tolerating people who dismiss them."),
         ("ATTRACTION TO HARM + DRAINING BOND", "You are attracted to harmful people (Attraction to Harm). Then you cannot leave them (Draining Bond).", "You choose harm, then cannot escape it.", "Interrupt Attraction to Harm first. If you do not choose harmful people, Draining Bond has less opportunity to activate."),
-        ("SUCCESS SABOTAGE + COMPLIMENT DEFLECTION", "You approach success. Someone acknowledges the achievement. You deflect, which triggers shame, which triggers sabotage.", "Recognition becomes a sabotage trigger.", "Interrupt Compliment Deflection. Accept the praise. Let it land. This reduces the shame that triggers sabotage.")
+        ("SUCCESS SABOTAGE + COMPLIMENT DEFLECTION", "You approach success. Someone acknowledges the achievement. You deflect, which triggers shame, which triggers sabotage.", "Being recognized becomes a sabotage trigger.", "Interrupt Compliment Deflection. Accept the praise. Let it land. This reduces the shame that triggers sabotage.")
     ]
     
     for name, how_it_works, danger, strategy in combinations:

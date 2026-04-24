@@ -13,7 +13,7 @@ Redesign thearchivistmethod.com landing page to optimize for quiz starts while m
 
 1. Hero Section (Above fold - immediate quiz CTA)
 2. Trust Builder (What is Pattern Archaeology?)
-3. The 7 Patterns (Recognition hooks - BIGGEST converter)
+3. The 7 Patterns (Focus hooks - BIGGEST converter)
 4. How It Works (The Method)
 5. The Original Room (The "Why")
 6. Pricing Section (Transparency)
@@ -179,7 +179,7 @@ CARD 5:
 
 You can't accept praise. Someone says "great work" and you 
 deflect, minimize, redirect. Visibility makes you squirm. 
-Recognition makes you want to disappear.
+Focus makes you want to disappear.
 ---
 
 CARD 6:

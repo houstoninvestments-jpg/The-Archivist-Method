@@ -416,7 +416,7 @@ export const breadcrumbData: Record<PatternKey, { triggers: string; costs: strin
     whyWillpowerFails: "You can't just choose the safe person. Your attraction template was written before you had language. Chemistry isn't a preference—it's a trauma signature. The pull toward harm feels like desire because that's how your brain learned love.",
   },
   complimentDeflection: {
-    triggers: "Someone sees you. Really sees you. A compliment. Recognition. Being put in the spotlight. Your body reads visibility as exposure, and exposure as danger.",
+    triggers: "Someone sees you. Really sees you. A compliment. Being seen. Being put in the spotlight. Your body reads visibility as exposure, and exposure as danger.",
     costs: "Years of work no one has seen. Promotions you didn't apply for. Relationships you ended because being known felt like being hunted. You've hidden from the very thing you want most.",
     whyWillpowerFails: "You can't force yourself to accept praise. The deflection is a reflex, not a decision. Your nervous system learned early that being seen made you a target. Until you rewire that association, willpower just creates a performance of acceptance.",
   },

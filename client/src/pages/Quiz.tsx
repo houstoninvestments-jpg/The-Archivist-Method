@@ -285,7 +285,7 @@ export default function Quiz() {
   const [typingComplete, setTypingComplete] = useState(false);
   const [visibleAnswers, setVisibleAnswers] = useState(0);
 
-  // Recognition line
+  // Ack line
   const [recognition, setRecognition] = useState<{ optionId: string; text: string; visible: boolean } | null>(null);
   const recognitionTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -372,7 +372,7 @@ export default function Quiz() {
     return () => timers.forEach(clearTimeout);
   }, [typingComplete, isQ20, currentQuestion, question]);
 
-  // ── Recognition line trigger
+  // ── Ack line trigger
   const triggerRecognition = useCallback((optionId: string, text: string) => {
     recognitionTimers.current.forEach(clearTimeout);
     setRecognition({ optionId, text, visible: false });
@@ -751,7 +751,7 @@ export default function Quiz() {
                       )}
                     </button>
 
-                    {/* Recognition line */}
+                    {/* Ack line */}
                     {showRecognition && (
                       <p style={{
                         fontFamily: "'JetBrains Mono', monospace",

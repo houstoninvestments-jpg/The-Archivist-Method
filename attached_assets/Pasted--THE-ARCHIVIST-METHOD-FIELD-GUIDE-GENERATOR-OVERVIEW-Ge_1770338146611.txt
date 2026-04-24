@@ -137,10 +137,10 @@ WELCOME ........................................... 3
    What This Is (And What It Isn't)
 
 THE FOUR DOORS PROTOCOL ........................... 7
-   Door 1: Recognition
+   Door 1: Focus
    Door 2: Excavation
    Door 3: Interruption
-   Door 4: Override
+   Door 4: Rewrite
 
 YOUR PATTERN: THE [PATTERN NAME] .................. 19
    What It Looks Like
@@ -148,17 +148,17 @@ YOUR PATTERN: THE [PATTERN NAME] .................. 19
    Your Triggers
    The Body Signature
    Circuit Break Scripts
-   Override Protocol
+   Rewrite Protocol
    The Archaeology
 
 THE OTHER PATTERNS ................................ 65
    Quick Reference Guide
 
 THE 90-DAY PROTOCOL ............................... 77
-   Days 1-7: Recognition
+   Days 1-7: Focus
    Days 8-30: Excavation
    Days 31-60: Interruption
-   Days 61-90: Override
+   Days 61-90: Rewrite
 
 CRISIS PROTOCOLS .................................. 97
    When the Pattern Runs Anyway
@@ -331,7 +331,7 @@ on the last.
    ┌─────────────────┐
    │                 │
    │   DOOR 1        │
-   │   RECOGNITION   │
+   │   FOCUS   │
    │                 │
    │   See the       │
    │   pattern       │
@@ -364,7 +364,7 @@ on the last.
    ┌─────────────────┐
    │                 │
    │   DOOR 4        │
-   │   OVERRIDE      │
+   │   REWRITE      │
    │                 │
    │   Install new   │
    │   response      │
@@ -378,10 +378,10 @@ hating the pattern, but never moving through the other doors.
 This guide walks you through all four.
 ```
 
-### Door 1: Recognition (2-3 pages)
+### Door 1: Focus (2-3 pages)
 
 ```
-DOOR 1: RECOGNITION
+DOOR 1: FOCUS
 
 ─────────────────────────────────────────────────
 
@@ -394,7 +394,7 @@ This is harder than it sounds. Patterns are fast. They run in
 3-7 seconds. By the time you realize what's happening, it's 
 already happened.
 
-Recognition has three layers:
+Focus has three layers:
 
 
 LAYER 1: THE TRIGGER
@@ -432,7 +432,7 @@ Almost invisible. But it's there.
 Your job: Catch the thought.
 
 
-RECOGNITION COMPLETE WHEN:
+FOCUS COMPLETE WHEN:
 
 You can feel the pattern activating BEFORE it runs. You notice 
 the trigger, feel the body signature, and catch the thought.
@@ -550,36 +550,36 @@ doesn't have to be perfect. It doesn't have to stick. You
 just need ONE successful interrupt to prove the circuit can break.
 ```
 
-### Door 4: Override (2-3 pages)
+### Door 4: Rewrite (2-3 pages)
 
 ```
-DOOR 4: OVERRIDE
+DOOR 4: REWRITE
 
 ─────────────────────────────────────────────────
 
 Interruption stops the old pattern.
-Override installs a new one.
+Rewrite installs a new one.
 
 You cannot just stop a behavior. You have to replace it with 
 something. Otherwise the vacuum gets filled by the old pattern 
 running again.
 
 
-THE OVERRIDE PROTOCOL
+THE REWRITE PROTOCOL
 
 An override is the new behavior you do INSTEAD of the pattern.
 
 PATTERN: Disappear when someone gets close.
-OVERRIDE: Stay and communicate what you're feeling.
+REWRITE: Stay and communicate what you're feeling.
 
 PATTERN: Apologize before asking for something.
-OVERRIDE: Ask directly without preamble.
+REWRITE: Ask directly without preamble.
 
 PATTERN: Test if they really love you.
-OVERRIDE: Ask for reassurance directly.
+REWRITE: Ask for reassurance directly.
 
 
-THE OVERRIDE SCRIPT
+THE REWRITE SCRIPT
 
 Just like circuit breaks, overrides have scripts. Pre-written 
 words for the new behavior.
@@ -587,7 +587,7 @@ words for the new behavior.
 You'll find your override scripts in Section 3.
 
 
-WHY OVERRIDE IS HARD
+WHY REWRITE IS HARD
 
 The pattern feels natural. The override feels fake.
 
@@ -601,7 +601,7 @@ This is normal. You're not being fake. You're being intentional.
 Keep running the override. Eventually, it wears its own groove.
 
 
-OVERRIDE COMPLETE WHEN:
+REWRITE COMPLETE WHEN:
 
 The new behavior starts to feel less forced. You reach for 
 the override without having to consciously remember it.
@@ -648,9 +648,9 @@ CIRCUIT BREAK SCRIPTS (6-8 pages)
 - Emergency circuit break
 - Practice exercises
 
-OVERRIDE PROTOCOL (6-8 pages)
+REWRITE PROTOCOL (6-8 pages)
 - The new behavior
-- Override scripts for common situations
+- Rewrite scripts for common situations
 - What to expect (the awkward phase)
 
 THE ARCHAEOLOGY (5-6 pages)
@@ -796,7 +796,7 @@ THE 90-DAY PROTOCOL
 This is your structure. What to focus on each phase.
 
 
-PHASE 1: RECOGNITION (Days 1-7)
+PHASE 1: FOCUS (Days 1-7)
 
 Focus: See the pattern in real-time.
 
@@ -853,17 +853,17 @@ Success metric: At least ONE successful interrupt where you chose a different be
 
 ─────────────────────────────────────────────────
 
-PHASE 4: OVERRIDE (Days 61-90)
+PHASE 4: REWRITE (Days 61-90)
 
 Focus: Install new behavior.
 
-Week 9-10: Override Practice
+Week 9-10: Rewrite Practice
 □ Identify your override behavior
 □ Practice override scripts
 □ Use override after successful interrupts
 
 Week 11-12: Integration
-□ Override becomes more automatic
+□ Rewrite becomes more automatic
 □ Notice when old pattern tries to return
 □ Reinforce new pathway
 
@@ -872,7 +872,7 @@ Week 13: Review + What's Next
 □ What still needs work?
 □ Other patterns to address?
 
-Success metric: Override feels less forced. New behavior is becoming default.
+Success metric: Rewrite feels less forced. New behavior is becoming default.
 
 ─────────────────────────────────────────────────
 
@@ -1067,7 +1067,7 @@ Week: _____ of 13
 
 Total activations this week: _____
 Successful interrupts: _____
-Override attempts: _____
+Rewrite attempts: _____
 
 What's getting easier:
 __________________________________________________________
@@ -1082,7 +1082,7 @@ __________________________________________________________
 
 90-DAY PROGRESS TRACKER
 
-         RECOGNITION    EXCAVATION    INTERRUPTION    OVERRIDE
+         FOCUS    EXCAVATION    INTERRUPTION    REWRITE
 Week 1   [ ][ ][ ][ ][ ][ ][ ]
 Week 2                  [ ][ ][ ][ ][ ][ ][ ]
 Week 3                  [ ][ ][ ][ ][ ][ ][ ]

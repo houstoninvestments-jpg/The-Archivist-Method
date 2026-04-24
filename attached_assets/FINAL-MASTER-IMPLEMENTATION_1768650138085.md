@@ -48,7 +48,7 @@ Get users to take the pattern assessment.
 ## PAGE STRUCTURE (7 Sections - Minimal)
 
 1. **Hero** - Brand lockup + hook + CTA
-2. **Pattern Cards** - Recognition engine (7 patterns)
+2. **Pattern Cards** - Focus engine (7 patterns)
 3. **The Origin** - The Original Room (compressed to 3 paragraphs)
 4. **The Method** - How interruption works (3 steps)
 5. **Founding Member Offer** - Beta tester pitch (replaces pricing)
@@ -325,7 +325,7 @@ Free • 2 Minutes • Instant Results
 
 ---
 
-## SECTION 2: THE 7 PATTERNS (Recognition Engine)
+## SECTION 2: THE 7 PATTERNS (Focus Engine)
 
 ### **Strategic Purpose:**
 This is THE highest-converting element. Pattern recognition creates "holy shit that's me" moment.
@@ -448,7 +448,7 @@ You push people away to see if they'll stay. They pass the test? You create a bi
 Safe people feel boring. Chaos feels like chemistry. Red flags don't register as warnings—they register as attraction. Harm feels like home.
 
 **5. COMPLIMENT DEFLECTION**
-You can't accept praise. Someone says "great work"—you deflect, minimize, redirect. Visibility makes you squirm. Recognition makes you want to disappear.
+You can't accept praise. Someone says "great work"—you deflect, minimize, redirect. Visibility makes you squirm. Focus makes you want to disappear.
 
 **6. DRAINING BOND**
 You can't leave. Toxic job, harmful relationship, depleting friendship. You know you should go. Everyone tells you to leave. You stay.

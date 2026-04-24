@@ -774,7 +774,7 @@ def get_pattern_files(pnum):
         '0': 'at-a-glance', '1': 'what-it-is', '2': 'pattern-in-context',
         '3': 'pattern-markers', '4': 'execution-log', '5': 'the-circuit',
         '6': 'pattern-archaeology', '7': 'what-it-costs', '8': 'how-to-interrupt',
-        '9': 'the-override', '10': 'troubleshooting', '11': 'quick-reference',
+        '9': 'the-rewrite', '10': 'troubleshooting', '11': 'quick-reference',
     }
     files = {}
     for key, suf in suffixes.items():
@@ -917,7 +917,7 @@ class FieldGuideBuilder:
             ('6', "PATTERN ARCHAEOLOGY", "Where the pattern came from and why it installed"),
             ('7', "WHAT IT COSTS", "Relationships, career, health, time"),
             ('8', "HOW TO INTERRUPT IT", "Circuit Break scripts and practice protocols"),
-            ('9', "THE OVERRIDE", "Replacement behaviors that meet the same need"),
+            ('9', "THE REWRITE", "Replacement behaviors that meet the same need"),
             ('10', "TROUBLESHOOTING", "When interruption is not working"),
             ('11', "QUICK REFERENCE", "Everything you need on one page"),
         ]

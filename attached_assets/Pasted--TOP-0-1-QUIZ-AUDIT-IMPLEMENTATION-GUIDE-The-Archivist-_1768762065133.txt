@@ -602,7 +602,7 @@ function calculateDominantPattern(answers) {
     Your Pattern: {pattern.name}
   </h1>
   
-  {/* Body Signature (Visceral Recognition) */}
+  {/* Body Signature (Visceral Focus) */}
   <div className="body-signature">
     <h2>Your Body Signature:</h2>
     <p>{pattern.body_signature}</p>

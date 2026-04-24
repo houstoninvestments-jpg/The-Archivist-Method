@@ -50,7 +50,7 @@ Anything you enter into the AI chat, brain dumps, or activation logs belongs to 
 [section label]
 INTELLECTUAL PROPERTY
 
-The Archivist Method™, all written content, the FEIR framework, the Four Doors Protocol, pattern descriptions, field guides, and the Complete Archive are protected intellectual property. You may not redistribute, resell, or republish any materials without written permission.
+The Archivist Method™, all written content, the Four Doors Protocol, the Four Doors Protocol, pattern descriptions, field guides, and the Complete Archive are protected intellectual property. You may not redistribute, resell, or republish any materials without written permission.
 
 [section label]
 THE AI

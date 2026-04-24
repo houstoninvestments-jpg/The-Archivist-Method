@@ -160,10 +160,10 @@ class FourDoorsFlowable(Flowable):
         box_w, box_h = 180, 80
         start_y = self.height - 20
         doors = [
-            ("DOOR 1", "RECOGNITION", "See the pattern"),
+            ("DOOR 1", "FOCUS", "See the pattern"),
             ("DOOR 2", "EXCAVATION", "Understand the origin"),
             ("DOOR 3", "INTERRUPTION", "Break the circuit"),
-            ("DOOR 4", "OVERRIDE", "Install new response"),
+            ("DOOR 4", "REWRITE", "Install new response"),
         ]
         for i, (label, title, desc) in enumerate(doors):
             y = start_y - i * 115
@@ -633,7 +633,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
     story.append(PageBreak())
 
     # Door 1
-    story.extend(add_text_section(styles, "DOOR 1: RECOGNITION", [
+    story.extend(add_text_section(styles, "DOOR 1: FOCUS", [
         "Before you can interrupt a pattern, you have to see it.",
         "Not after it runs. Not the next day when you're full of regret. In the moment. As it's activating.",
         "This is harder than it sounds. Patterns are fast. They run in 3-7 seconds. By the time you realize what's happening, it's already happened.",
@@ -718,11 +718,11 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
     story.append(PageBreak())
 
     # Door 4
-    story.extend(add_text_section(styles, "DOOR 4: OVERRIDE", [
+    story.extend(add_text_section(styles, "DOOR 4: REWRITE", [
         "Interruption stops the old pattern. Rewrite installs a new one.",
         "You cannot just stop a behavior. You have to replace it with something. Otherwise the vacuum gets filled by the old pattern running again.",
         "",
-        "__H2__THE OVERRIDE PROTOCOL",
+        "__H2__THE REWRITE PROTOCOL",
         "An override is the new behavior you do INSTEAD of the pattern.",
         "__BULLET__PATTERN: Disappear when someone gets close.",
         "__BULLET__OVERRIDE: Stay and communicate what you're feeling.",
@@ -731,7 +731,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "__BULLET__PATTERN: Test if they really love you.",
         "__BULLET__OVERRIDE: Ask for reassurance directly.",
         "",
-        "__H2__WHY OVERRIDE IS HARD",
+        "__H2__WHY REWRITE IS HARD",
         "The pattern feels natural. The override feels fake.",
         "That's because the pattern has been running for years. Maybe decades. It's worn a groove in your brain.",
         "The override is a new path. It feels awkward. Forced. Wrong.",
@@ -791,7 +791,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
     story.extend(add_text_section(styles, "THE 90-DAY PROTOCOL", [
         "This is your structure. What to focus on each phase.",
         "",
-        "__H2__PHASE 1: RECOGNITION (Days 1-7)",
+        "__H2__PHASE 1: FOCUS (Days 1-7)",
         "Focus: See the pattern in real-time.",
         "__CHECKBOX__Day 1: Identify your pattern (done--you're here)",
         "__CHECKBOX__Day 2: Learn your body signature",
@@ -838,7 +838,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
         "__BOLD__Success metric: At least ONE successful interrupt where you chose a different behavior.",
         "",
         "__RULE__",
-        "__H2__PHASE 4: OVERRIDE (Days 61-90)",
+        "__H2__PHASE 4: REWRITE (Days 61-90)",
         "Focus: Install new behavior.",
         "",
         "__H3__Week 9-10: Rewrite Practice",

@@ -13,7 +13,7 @@
       "relatedThreads": [
         { "conceptId": "body-signature", "conceptName": "Body Signature" },
         { "conceptId": "the-gap", "conceptName": "The Gap" },
-        { "conceptId": "override", "conceptName": "The Override" }
+        { "conceptId": "rewrite", "conceptName": "The Rewrite" }
       ]
     },
     {
@@ -71,7 +71,7 @@
       "relatedThreads": [
         { "conceptId": "original-room", "conceptName": "The Original Room" },
         { "conceptId": "pattern-archaeology", "conceptName": "Pattern Archaeology" },
-        { "conceptId": "override", "conceptName": "The Override" }
+        { "conceptId": "rewrite", "conceptName": "The Rewrite" }
       ]
     },
     {
@@ -90,8 +90,8 @@
       ]
     },
     {
-      "conceptId": "override",
-      "conceptName": "The Override",
+      "conceptId": "rewrite",
+      "conceptName": "The Rewrite",
       "appearsIn": [
         { "artifactId": "module-4-implementation", "artifactTitle": "Implementation Guide" },
         { "artifactId": "module-5-advanced", "artifactTitle": "Advanced Techniques" },

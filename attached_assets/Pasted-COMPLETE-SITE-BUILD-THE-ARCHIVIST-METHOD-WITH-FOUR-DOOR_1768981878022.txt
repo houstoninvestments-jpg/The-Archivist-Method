@@ -235,14 +235,14 @@ Your Pattern: [PATTERN NAME]"
 SECTION 1: BEGIN YOUR EXCAVATION (collapsible box at top)
 Title: "🏛️ BEGIN YOUR EXCAVATION"
 Content:
-"Step 1: Watch the Pattern Recognition Session ⬇️
+"Step 1: Watch the Pattern Focus Session ⬇️
 Step 2: Read your specific pattern breakdown
 Step 3: Download your Crash Course (Day 1)"
 
 Button: [Start →]
 
-SECTION 2: PATTERN RECOGNITION SESSION VIDEO
-Title: "📹 PATTERN RECOGNITION SESSION"
+SECTION 2: PATTERN FOCUS SESSION VIDEO
+Title: "📹 PATTERN FOCUS SESSION"
 
 [Video player embed - 25:26 minutes]
 YouTube/Vimeo embed (no autoplay, show controls)
@@ -293,7 +293,7 @@ Card 1: 7-DAY CRASH COURSE
 Status: ✅ UNLOCKED
 Content:
 "🚪 DOOR 1: FOCUS
-Day 1: Pattern Recognition
+Day 1: Pattern Focus
 [View PDF] [Download]
 
 Next: Day 2 arrives in 2 days (via email)"

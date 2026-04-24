@@ -28,7 +28,7 @@ Teal icons or accent lines. Warm and knowing tone, not clinical.
 
 Section 3 — The Gate:
 Headline: 'The pattern has a name. The exit has a door.'
-Subhead: 'Your free Crash Course walks you through the first step of the FEIR method — built specifically for your pattern.'
+Subhead: 'Your free Crash Course walks you through the first step of the Four Doors Protocol — built specifically for your pattern.'
 Email input + button: 'Send Me The First Step'
 Small text below: 'No sales sequence. Just the work.'
 

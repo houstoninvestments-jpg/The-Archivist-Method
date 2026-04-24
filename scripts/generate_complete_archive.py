@@ -68,7 +68,7 @@ PATTERN_SECTION_SUFFIXES = {
     '0': 'at-a-glance', '1': 'what-it-is', '2': 'pattern-in-context',
     '3': 'pattern-markers', '4': 'execution-log', '5': 'the-circuit',
     '6': 'pattern-archaeology', '7': 'what-it-costs', '8': 'how-to-interrupt',
-    '9': 'the-override', '10': 'troubleshooting', '11': 'quick-reference',
+    '9': 'the-rewrite', '10': 'troubleshooting', '11': 'quick-reference',
 }
 
 PATTERN_SECTION_TITLES = {
@@ -81,7 +81,7 @@ PATTERN_SECTION_TITLES = {
     '6': 'PATTERN ARCHAEOLOGY',
     '7': 'WHAT IT COSTS',
     '8': 'HOW TO INTERRUPT',
-    '9': 'THE OVERRIDE',
+    '9': 'THE REWRITE',
     '10': 'TROUBLESHOOTING',
     '11': 'QUICK REFERENCE',
 }
@@ -1157,8 +1157,8 @@ class CompleteArchiveBuilder:
             CONTENT_DIR / "module-2-four-doors" / "2.1-framework-overview.md",
             "The system everything else builds on")
 
-        self._chapter_from_file("DOOR 1: RECOGNITION",
-            CONTENT_DIR / "module-2-four-doors" / "2.2-door-1-recognition.md",
+        self._chapter_from_file("DOOR 1: FOCUS",
+            CONTENT_DIR / "module-2-four-doors" / "2.2-door-1-focus.md",
             "See the pattern while it is running")
 
         self._chapter_from_file("DOOR 2: EXCAVATION",
@@ -1169,8 +1169,8 @@ class CompleteArchiveBuilder:
             CONTENT_DIR / "module-2-four-doors" / "2.4-door-3-interruption.md",
             "Break the circuit in the 3\u20137 second gap")
 
-        self._chapter_from_file("DOOR 4: OVERRIDE",
-            CONTENT_DIR / "module-2-four-doors" / "2.5-door-4-override.md",
+        self._chapter_from_file("DOOR 4: REWRITE",
+            CONTENT_DIR / "module-2-four-doors" / "2.5-door-4-rewrite.md",
             "Replace the pattern with something that serves you")
 
         self._maybe_pull_quote()
@@ -1314,8 +1314,8 @@ class CompleteArchiveBuilder:
             CONTENT_DIR / "module-4-implementation" / "4.1-the-90-day-map.md",
             "Four phases: Focus \u2192 Excavation \u2192 Interruption \u2192 Rewrite")
 
-        self._chapter_from_file("WEEKS 1\u20132: RECOGNITION",
-            CONTENT_DIR / "module-4-implementation" / "4.2-weeks-1-2-recognition.md",
+        self._chapter_from_file("WEEKS 1\u20132: FOCUS",
+            CONTENT_DIR / "module-4-implementation" / "4.2-weeks-1-2-focus.md",
             "See the pattern. Name it. Track it.")
 
         self._chapter_from_file("WEEKS 3\u20134: EXCAVATION",
@@ -1326,8 +1326,8 @@ class CompleteArchiveBuilder:
             CONTENT_DIR / "module-4-implementation" / "4.4-weeks-5-8-interruption.md",
             "Break the circuit. Say the script. Choose differently.")
 
-        self._chapter_from_file("WEEKS 9\u201312: OVERRIDE",
-            CONTENT_DIR / "module-4-implementation" / "4.5-weeks-9-12-override.md",
+        self._chapter_from_file("WEEKS 9\u201312: REWRITE",
+            CONTENT_DIR / "module-4-implementation" / "4.5-weeks-9-12-rewrite.md",
             "Replace the pattern. Graduated exposure. New behaviors.")
 
         self._maybe_pull_quote()

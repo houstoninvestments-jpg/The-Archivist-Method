@@ -69,10 +69,10 @@ Each Field Guide assembles: Foundation content + Four Doors + Full pattern deep 
 
 ### Module 2: Four Doors Protocol (5 files)
 - `2.1-framework-overview.md`
-- `2.2-door-1-recognition.md`
+- `2.2-door-1-focus.md`
 - `2.3-door-2-excavation.md`
 - `2.4-door-3-interruption.md`
-- `2.5-door-4-override.md`
+- `2.5-door-4-rewrite.md`
 
 ### Module 3: Patterns (108 files — 12 per pattern × 9 patterns)
 
@@ -89,7 +89,7 @@ pattern-N-<name>/
 ├── N.6-pattern-archaeology.md
 ├── N.7-what-it-costs.md
 ├── N.8-how-to-interrupt.md
-├── N.9-the-override.md
+├── N.9-the-rewrite.md
 ├── N.10-troubleshooting.md
 └── N.11-quick-reference.md
 ```
@@ -107,10 +107,10 @@ Pattern directories:
 
 ### Module 4: Implementation (8 files)
 - `4.1-the-90-day-map.md`
-- `4.2-weeks-1-2-recognition.md`
+- `4.2-weeks-1-2-focus.md`
 - `4.3-weeks-3-4-excavation.md`
 - `4.4-weeks-5-8-interruption.md`
-- `4.5-weeks-9-12-override.md`
+- `4.5-weeks-9-12-rewrite.md`
 - `4.6-daily-practice-protocol.md`
 - `4.7-weekly-check-in.md`
 - `4.8-progress-markers.md`

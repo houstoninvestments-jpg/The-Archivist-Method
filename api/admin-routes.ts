@@ -65,17 +65,17 @@ function getPatternSections(patternKey: string): Section[] {
     { id: `p${n}-${n}.6`, title: "Pattern Archaeology", filePath: `module-3-patterns/${dir}/${n}.6-pattern-archaeology.md`, module: "module-3" },
     { id: `p${n}-${n}.7`, title: "What It Costs", filePath: `module-3-patterns/${dir}/${n}.7-what-it-costs.md`, module: "module-3" },
     { id: `p${n}-${n}.8`, title: "How to Interrupt", filePath: `module-3-patterns/${dir}/${n}.8-how-to-interrupt.md`, module: "module-3" },
-    { id: `p${n}-${n}.9`, title: "The Override", filePath: `module-3-patterns/${dir}/${n}.9-the-override.md`, module: "module-3" },
+    { id: `p${n}-${n}.9`, title: "The Rewrite", filePath: `module-3-patterns/${dir}/${n}.9-the-rewrite.md`, module: "module-3" },
     { id: `p${n}-${n}.10`, title: "Troubleshooting", filePath: `module-3-patterns/${dir}/${n}.10-troubleshooting.md`, module: "module-3" },
     { id: `p${n}-${n}.11`, title: "Quick Reference", filePath: `module-3-patterns/${dir}/${n}.11-quick-reference.md`, module: "module-3" },
   ];
 }
 const MODULE_4_SECTIONS: Section[] = [
   { id: "m4-4.1", title: "The 90-Day Map", filePath: "module-4-implementation/4.1-the-90-day-map.md", module: "module-4" },
-  { id: "m4-4.2", title: "Weeks 1-2: Recognition", filePath: "module-4-implementation/4.2-weeks-1-2-recognition.md", module: "module-4" },
+  { id: "m4-4.2", title: "Weeks 1-2: Focus", filePath: "module-4-implementation/4.2-weeks-1-2-focus.md", module: "module-4" },
   { id: "m4-4.3", title: "Weeks 3-4: Excavation", filePath: "module-4-implementation/4.3-weeks-3-4-excavation.md", module: "module-4" },
   { id: "m4-4.4", title: "Weeks 5-8: Interruption", filePath: "module-4-implementation/4.4-weeks-5-8-interruption.md", module: "module-4" },
-  { id: "m4-4.5", title: "Weeks 9-12: Override", filePath: "module-4-implementation/4.5-weeks-9-12-override.md", module: "module-4" },
+  { id: "m4-4.5", title: "Weeks 9-12: Rewrite", filePath: "module-4-implementation/4.5-weeks-9-12-rewrite.md", module: "module-4" },
   { id: "m4-4.6", title: "Daily Practice Protocol", filePath: "module-4-implementation/4.6-daily-practice-protocol.md", module: "module-4" },
   { id: "m4-4.7", title: "Weekly Check-In", filePath: "module-4-implementation/4.7-weekly-check-in.md", module: "module-4" },
   { id: "m4-4.8", title: "Progress Markers", filePath: "module-4-implementation/4.8-progress-markers.md", module: "module-4" },
