@@ -1002,8 +1002,15 @@ router.post("/reader/track-download", async (req: Request, res: Response) => {
   }
 });
 
-// PDF-aware AI chat - verify API key exists
-const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
+// PDF-aware AI chat — Anthropic SDK accessed lazily per-request rather than
+// at module load. See matching comment in api/portal-routes.ts for context.
+let _anthropic: Anthropic | null | undefined = undefined;
+function getAnthropic(): Anthropic | null {
+  if (_anthropic === undefined) {
+    _anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
+  }
+  return _anthropic;
+}
 
 router.post("/reader/chat", async (req: Request, res: Response) => {
   try {
@@ -1011,6 +1018,7 @@ router.post("/reader/chat", async (req: Request, res: Response) => {
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
     // Check if AI is available
+    const anthropic = getAnthropic();
     if (!anthropic) {
       return res.status(503).json({ error: "AI service unavailable" });
     }
@@ -1254,6 +1262,7 @@ router.post("/chat", async (req: Request, res: Response) => {
       }
     }
 
+    const anthropic = getAnthropic();
     if (!anthropic) {
       return res.status(503).json({ error: "service_unavailable" });
     }

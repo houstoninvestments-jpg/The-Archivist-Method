@@ -1411,8 +1411,18 @@ router.post("/reader/track-download", async (req: Request, res: Response) => {
   }
 });
 
-// PDF-aware AI chat - verify API key exists
-const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
+// PDF-aware AI chat — Anthropic SDK accessed lazily per-request rather than
+// at module load. Vercel was injecting ANTHROPIC_API_KEY into process.env
+// AFTER the cold-start module evaluation, so the eager-init pattern locked
+// in `null` for the lifetime of the function instance. The lazy getter
+// re-checks process.env on first use, by which point the env is populated.
+let _anthropic: Anthropic | null | undefined = undefined;
+function getAnthropic(): Anthropic | null {
+  if (_anthropic === undefined) {
+    _anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
+  }
+  return _anthropic;
+}
 
 router.post("/reader/chat", async (req: Request, res: Response) => {
   try {
@@ -1420,6 +1430,7 @@ router.post("/reader/chat", async (req: Request, res: Response) => {
     if (!userId) return res.status(401).json({ error: "Not authenticated" });
 
     // Check if AI is available
+    const anthropic = getAnthropic();
     if (!anthropic) {
       return res.status(503).json({ error: "AI service unavailable" });
     }
@@ -1601,11 +1612,13 @@ router.post("/chat", async (req: Request, res: Response) => {
       }
     }
 
+    const anthropic = getAnthropic();
     if (!anthropic) {
-      // DEBUG — the anthropic SDK was null at module-load time, meaning
-      // ANTHROPIC_API_KEY was not present in process.env when api/index.ts
-      // was first imported. Surface env-var state in the response body so
-      // the operator can confirm whether the key is reaching this runtime.
+      // DEBUG — the anthropic SDK was null even after lazy first-touch,
+      // meaning ANTHROPIC_API_KEY is genuinely absent from process.env at
+      // request time (not a cold-start timing race). Surface env-var state
+      // in the response body so the operator can confirm what's reaching
+      // this runtime.
       const _debug = {
         anthropicKeyIsSet: !!process.env.ANTHROPIC_API_KEY,
         anthropicKeyPrefix: process.env.ANTHROPIC_API_KEY ? process.env.ANTHROPIC_API_KEY.substring(0, 10) : "[UNDEFINED]",
