@@ -212,7 +212,7 @@ function rowToQuizUser(row: any): QuizUser {
 
 // ── Express app ───────────────────────────────────────────────────────────────
 // DEBUG — module-load log to prove the bundle is being loaded at cold start.
-console.log("[bundle.load] api/index.ts loaded, marker=BUNDLE_MARKER_20260423 at", new Date().toISOString());
+console.log("[bundle.load] api/index.ts loaded, marker=BUNDLE_MARKER_20260424_CACHE_BUST_4d07906 at", new Date().toISOString());
 const app = express();
 // Disable automatic ETag on res.json(). Vercel's edge otherwise caches 401
 // responses and serves them back via If-None-Match 304s, which means the
