@@ -1602,7 +1602,21 @@ router.post("/chat", async (req: Request, res: Response) => {
     }
 
     if (!anthropic) {
-      return res.status(503).json({ error: "service_unavailable" });
+      // DEBUG — the anthropic SDK was null at module-load time, meaning
+      // ANTHROPIC_API_KEY was not present in process.env when api/index.ts
+      // was first imported. Surface env-var state in the response body so
+      // the operator can confirm whether the key is reaching this runtime.
+      const _debug = {
+        anthropicKeyIsSet: !!process.env.ANTHROPIC_API_KEY,
+        anthropicKeyPrefix: process.env.ANTHROPIC_API_KEY ? process.env.ANTHROPIC_API_KEY.substring(0, 10) : "[UNDEFINED]",
+        anthropicKeyLength: process.env.ANTHROPIC_API_KEY?.length || 0,
+        errorMessage: null,
+        errorName: null,
+        errorStatus: null,
+        errorType: null,
+        sourcePath: "anthropic_null_guard",
+      };
+      return res.status(503).json({ error: "service_unavailable", _debug });
     }
 
     const validation = portalChatSchema.safeParse(req.body);
@@ -1855,7 +1869,20 @@ If it sounds like a therapist wrote it, rewrite it. If it sounds like a field ma
     } else if (status === 529 || msg.includes("overloaded")) {
       errorCode = "upstream_overloaded"; httpStatus = 503;
     }
-    res.status(httpStatus).json({ error: errorCode });
+    // DEBUG — surface env-var state and raw error fields so the operator
+    // can see exactly what the SDK threw, since Vercel runtime logs are
+    // unreliable on this deploy.
+    const _debug = {
+      anthropicKeyIsSet: !!process.env.ANTHROPIC_API_KEY,
+      anthropicKeyPrefix: process.env.ANTHROPIC_API_KEY ? process.env.ANTHROPIC_API_KEY.substring(0, 10) : "[UNDEFINED]",
+      anthropicKeyLength: process.env.ANTHROPIC_API_KEY?.length || 0,
+      errorMessage: rawMsg || null,
+      errorName: error?.name ?? null,
+      errorStatus: error?.status ?? null,
+      errorType: typeof error,
+      sourcePath: "chat_catch_block",
+    };
+    res.status(httpStatus).json({ error: errorCode, _debug });
   }
 });
 
