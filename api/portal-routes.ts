@@ -4,6 +4,12 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import crypto from "crypto";
 import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "../shared/schema.js";
+import {
+  getStripeMode,
+  getStripeSecretKey,
+  getStripeWebhookSecrets,
+  getStripePriceIds,
+} from "../shared/stripe-config.js";
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
@@ -188,10 +194,11 @@ interface Product {
   stripeProductId: string; stripePriceId: string;
   description: string; features: string[]; pdfFileName: string;
 }
+const _MODE_PRICES = getStripePriceIds();
 const PRODUCTS: Record<string, Product> = {
   "crash-course": { id: "crash-course", name: "The Crash Course", price: 0, stripeProductId: "", stripePriceId: "", description: "Free pattern interruption crash course", features: ["Identify your destructive pattern","Learn body signatures and triggers","Circuit break scripts for all 9 patterns","First interrupt attempt protocol","Guided program"], pdfFileName: "THE-ARCHIVIST-METHOD-CRASH-COURSE.pdf" },
-  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: "price_1TOlJr11kGDis0LrBP8ITvIC", description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete Four Doors framework","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
-  "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: "price_1TOlGX11kGDis0LrvJl0SBhm", description: "The Complete Archive — Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped","Complete rewrite protocol","Advanced pattern archaeology techniques","Lifetime pattern tracking system","Crisis management protocols","Pattern intersection analysis","Custom rewrite frameworks","Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" },
+  "quick-start": { id: "quick-start", name: "The Field Guide", price: 67, stripeProductId: "prod_quick_start", stripePriceId: _MODE_PRICES.fieldGuide, description: "The Field Guide — Your complete interrupt protocol.", features: ["Complete Four Doors framework","Pattern-specific Field Guide PDF","Quick-win strategies for immediate pattern interruption","Essential worksheets and tracking tools","Emergency brake techniques"], pdfFileName: "THE-ARCHIVIST-METHOD-FIELD-GUIDE-DISAPPEARING.pdf" },
+  "complete-archive": { id: "complete-archive", name: "The Complete Archive", price: 297, stripeProductId: "prod_complete_archive", stripePriceId: _MODE_PRICES.completeArchive, description: "The Complete Archive — Every pattern. Every scenario. The complete system.", features: ["All 9 destructive patterns fully mapped","Complete rewrite protocol","Advanced pattern archaeology techniques","Lifetime pattern tracking system","Crisis management protocols","Pattern intersection analysis","Custom rewrite frameworks","Everything from The Field Guide"], pdfFileName: "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf" },
 };
 interface UserAccess { hasQuickStart: boolean; hasCompleteArchive: boolean; purchases: { productId: string; productName: string; purchasedAt: string }[]; }
 function calculateUserAccess(purchases: any[]): UserAccess {
@@ -345,8 +352,12 @@ const chatSchema = z.object({
 
 const router = express.Router();
 function getStripe() {
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
+  const key = getStripeSecretKey();
+  if (!key) {
+    throw new Error(
+      `Stripe secret key not configured for mode "${getStripeMode()}" — set ${getStripeMode() === "test" ? "STRIPE_TEST_SECRET_KEY" : "STRIPE_SECRET_KEY"}`,
+    );
+  }
   return new Stripe(key, { apiVersion: "2025-11-17.clover" as const });
 }
 
@@ -882,7 +893,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1SpdpX11kGDis0LriTWyDo1f", // $37 upsell price
+          price: getStripePriceIds().fieldGuideUpsell, // $37 upsell price
           quantity: 1,
         },
       ],
@@ -912,7 +923,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1TOlJr11kGDis0LrBP8ITvIC", // Quick-Start $67
+          price: getStripePriceIds().fieldGuide, // Quick-Start $67
           quantity: 1,
         },
       ],
@@ -941,7 +952,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1TOlGX11kGDis0LrvJl0SBhm", // Complete Archive $297
+          price: getStripePriceIds().completeArchive, // Complete Archive $297
           quantity: 1,
         },
       ],
@@ -1084,17 +1095,30 @@ router.post(
         return res.status(400).json({ error: "No signature" });
       }
 
-      const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
-      let event: Stripe.Event;
+      const secrets = getStripeWebhookSecrets();
+      if (secrets.length === 0) {
+        console.error("No webhook secrets configured (STRIPE_WEBHOOK_SECRET / STRIPE_TEST_WEBHOOK_SECRET)");
+        return res.status(500).json({ error: "Webhook not configured" });
+      }
 
-      try {
-        event = getStripe().webhooks.constructEvent(
-          req.body,
-          signature,
-          webhookSecret,
-        );
-      } catch (err) {
-        console.error("Webhook signature verification failed:", err);
+      let event: Stripe.Event | null = null;
+      let lastErr: unknown = null;
+      const stripeClient = getStripe();
+      for (const secret of secrets) {
+        try {
+          event = stripeClient.webhooks.constructEvent(
+            req.body,
+            signature,
+            secret,
+          );
+          break;
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+
+      if (!event) {
+        console.error("Webhook signature verification failed against all configured secrets:", lastErr);
         return res.status(400).json({ error: "Invalid signature" });
       }
 

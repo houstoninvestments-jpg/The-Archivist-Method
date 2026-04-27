@@ -18,6 +18,11 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { db } from "../db";
 import { userProgress, bookmarks, highlights, downloadLogs, pdfChatHistory, testUsers, portalChatHistory, interruptLog } from "@shared/schema";
+import {
+  getStripeSecretKey,
+  getStripeWebhookSecrets,
+  getStripePriceIds,
+} from "@shared/stripe-config";
 import { eq, and, desc, asc } from "drizzle-orm";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
@@ -74,7 +79,7 @@ const chatSchema = z.object({
 });
 
 const router = express.Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+const stripe = new Stripe(getStripeSecretKey() || "", {
   apiVersion: "2025-11-17.clover" as const,
 });
 
@@ -433,7 +438,7 @@ router.post("/checkout/quick-start-upsell", async (req: Request, res: Response) 
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1SpdpX11kGDis0LriTWyDo1f", // $37 upsell price
+          price: getStripePriceIds().fieldGuideUpsell, // $37 upsell price
           quantity: 1,
         },
       ],
@@ -463,7 +468,7 @@ router.post("/checkout/quick-start", async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1TOlJr11kGDis0LrBP8ITvIC", // Field Guide $67
+          price: getStripePriceIds().fieldGuide, // Field Guide $67
           quantity: 1,
         },
       ],
@@ -492,7 +497,7 @@ router.post("/checkout/complete-archive", async (req: Request, res: Response) =>
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1TOlGX11kGDis0LrvJl0SBhm", // Complete Archive $297
+          price: getStripePriceIds().completeArchive, // Complete Archive $297
           quantity: 1,
         },
       ],
@@ -635,17 +640,29 @@ router.post(
         return res.status(400).json({ error: "No signature" });
       }
 
-      const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
-      let event: Stripe.Event;
+      const secrets = getStripeWebhookSecrets();
+      if (secrets.length === 0) {
+        console.error("No webhook secrets configured (STRIPE_WEBHOOK_SECRET / STRIPE_TEST_WEBHOOK_SECRET)");
+        return res.status(500).json({ error: "Webhook not configured" });
+      }
 
-      try {
-        event = stripe.webhooks.constructEvent(
-          req.body,
-          signature,
-          webhookSecret,
-        );
-      } catch (err) {
-        console.error("Webhook signature verification failed:", err);
+      let event: Stripe.Event | null = null;
+      let lastErr: unknown = null;
+      for (const secret of secrets) {
+        try {
+          event = stripe.webhooks.constructEvent(
+            req.body,
+            signature,
+            secret,
+          );
+          break;
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+
+      if (!event) {
+        console.error("Webhook signature verification failed against all configured secrets:", lastErr);
         return res.status(400).json({ error: "Invalid signature" });
       }
 

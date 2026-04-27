@@ -6,7 +6,14 @@
 
 import { loadStripe, type Stripe as StripeClient } from '@stripe/stripe-js';
 
-const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ?? '';
+const STRIPE_MODE = (import.meta.env.VITE_STRIPE_MODE ?? 'live').toLowerCase();
+const isTestMode = STRIPE_MODE === 'test';
+
+const publishableKey = isTestMode
+  ? (import.meta.env.VITE_STRIPE_TEST_PUBLISHABLE_KEY ??
+      import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ??
+      '')
+  : (import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ?? '');
 
 let stripePromise: Promise<StripeClient | null> | null = null;
 
@@ -21,10 +28,21 @@ export function getStripe(): Promise<StripeClient | null> {
 
 export type AccessTier = 'free' | 'field_guide' | 'complete_archive';
 
-export const TIER_PRICE_IDS: Record<Exclude<AccessTier, 'free'>, string> = {
+const LIVE_TIER_PRICE_IDS: Record<Exclude<AccessTier, 'free'>, string> = {
   field_guide: 'price_1TOlJr11kGDis0LrBP8ITvIC',
   complete_archive: 'price_1TOlGX11kGDis0LrvJl0SBhm',
 };
+
+export const TIER_PRICE_IDS: Record<Exclude<AccessTier, 'free'>, string> = isTestMode
+  ? {
+      field_guide:
+        import.meta.env.VITE_STRIPE_TEST_PRICE_FIELD_GUIDE ??
+        LIVE_TIER_PRICE_IDS.field_guide,
+      complete_archive:
+        import.meta.env.VITE_STRIPE_TEST_PRICE_COMPLETE_ARCHIVE ??
+        LIVE_TIER_PRICE_IDS.complete_archive,
+    }
+  : LIVE_TIER_PRICE_IDS;
 
 const TIER_ORDER: Record<AccessTier, number> = {
   free: 0,

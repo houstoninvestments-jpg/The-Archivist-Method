@@ -342,10 +342,22 @@ function useGlobalFadeIn() {
   }, []);
 }
 
-const STRIPE_PAYMENT_LINKS: Record<string, string> = {
+const STRIPE_MODE = (import.meta.env.VITE_STRIPE_MODE ?? "live").toLowerCase();
+const LIVE_PAYMENT_LINKS: Record<string, string> = {
   "quick-start": "https://buy.stripe.com/cNidR1eKi8cb16qalY6c001",
   "complete-archive": "https://buy.stripe.com/8x214f7hQdwv2augKm6c002",
 };
+const STRIPE_PAYMENT_LINKS: Record<string, string> =
+  STRIPE_MODE === "test"
+    ? {
+        "quick-start":
+          import.meta.env.VITE_STRIPE_TEST_PAYMENT_LINK_QUICK_START ??
+          LIVE_PAYMENT_LINKS["quick-start"],
+        "complete-archive":
+          import.meta.env.VITE_STRIPE_TEST_PAYMENT_LINK_COMPLETE_ARCHIVE ??
+          LIVE_PAYMENT_LINKS["complete-archive"],
+      }
+    : LIVE_PAYMENT_LINKS;
 
 function handleCheckout(product: string) {
   const stripeUrl = STRIPE_PAYMENT_LINKS[product];
