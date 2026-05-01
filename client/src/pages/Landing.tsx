@@ -1751,7 +1751,7 @@ export default function Landing() {
         <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
           <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'center', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
-            <img src="/wordmark-horizontal-dark.png" alt="The Archivist Method" className="w-auto h-auto max-h-[14vh] sm:max-h-[18vh] max-w-[600px] mx-auto" />
+            <img src="/wordmark-horizontal-dark.png" alt="The Archivist Method" className="w-full h-auto max-w-[480px] sm:max-w-[560px] md:max-w-[640px] mx-auto" />
           </div>
           <p data-testid="text-hero-oneliner" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.05rem, 2vw, 1.25rem)", color: "rgba(250,250,250,0.78)", lineHeight: 1.55, maxWidth: "560px", marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.6s forwards" }}>
             You keep doing the thing you swore you{"\u2019"}d stop. <span style={{ color: "#14B8A6" }}>This is why.</span> And this is how it ends.
