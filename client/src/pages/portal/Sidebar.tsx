@@ -74,14 +74,7 @@ export function Sidebar({ groups, activeSectionId, onSelect, onClose, pattern, t
           }}
         />
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 600, fontSize: 15, letterSpacing: "0.12em", color: "#E8E3DC", lineHeight: 1.2 }}>
-            THE ARCHIVIST
-            <br />
-            METHOD
-          </div>
-          <div style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: 13, color: "#8A857D", marginTop: 6, letterSpacing: "0.02em" }}>
-            Pattern Archaeology, Not Therapy
-          </div>
+          <img src="/wordmark-stacked-dark.png" alt="The Archivist Method" className="w-full max-w-[200px] h-auto" />
         </div>
         {/* Gothic arch decoration (sits on top of the ambient image) */}
         <svg

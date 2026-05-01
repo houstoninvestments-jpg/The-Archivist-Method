@@ -98,7 +98,7 @@ function buildPurchaseEmailHtml(data: PurchaseEmailData, tpl: TemplateStrings): 
 <head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#000;font-family:'Helvetica Neue',Arial,sans-serif;">
   <div style="max-width:560px;margin:0 auto;padding:48px 24px;">
-    <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:#737373;margin-bottom:32px;">The Archivist Method</p>
+    <img src="https://thearchivistmethod.com/wordmark-stacked-dark.png" width="200" alt="The Archivist Method" style="display:block;margin-bottom:24px">
 
     <h1 style="color:#FAFAFA;font-size:24px;font-weight:700;margin-bottom:24px;">${tpl.headline}</h1>
 

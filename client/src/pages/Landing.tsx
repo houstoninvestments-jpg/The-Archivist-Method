@@ -1751,40 +1751,7 @@ export default function Landing() {
         <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", animation: "ambientEdgeGlow 15s ease-in-out infinite" }} />
         <div className="hero-content-col">
           <div className="hero-brand-block hero-logo" data-testid="hero-brand-block" style={{ textAlign: 'center', lineHeight: 1, marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.2s forwards" }}>
-            <div style={{
-              fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: 'clamp(28px, 4.4vw, 52px)',
-              fontWeight: 600,
-              letterSpacing: '8px',
-              color: '#F0F4F8',
-              lineHeight: 1.05
-            }}>THE</div>
-            <div style={{
-              fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: 'clamp(36px, 5.5vw, 64px)',
-              fontWeight: 600,
-              letterSpacing: '8px',
-              color: '#F0F4F8',
-              lineHeight: 1.05
-            }}>ARCHIVIST</div>
-            <div style={{
-              fontFamily: "'Cinzel', 'Times New Roman', serif",
-              fontSize: 'clamp(30px, 4.8vw, 56px)',
-              fontWeight: 600,
-              letterSpacing: '8px',
-              color: '#F0F4F8',
-              lineHeight: 1.05
-            }}>METHOD</div>
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: '11.5px',
-              fontWeight: 300,
-              letterSpacing: '4px',
-              color: 'rgba(240,244,248,0.45)',
-              marginTop: '12px'
-            }}>
-              PATTERN ARCHAEOLOGY, <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '13.5px', color: '#FF2D9B', letterSpacing: '1px' }}>not therapy</em>
-            </div>
+            <img src="/wordmark-stacked-dark.png" alt="The Archivist Method" className="w-full max-w-[480px] h-auto mx-auto" />
           </div>
           <p data-testid="text-hero-oneliner" style={{ fontFamily: "'DM Serif Display', serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.05rem, 2vw, 1.25rem)", color: "rgba(250,250,250,0.78)", lineHeight: 1.55, maxWidth: "560px", marginBottom: "24px", opacity: 0, animation: "heroFadeIn 0.6s ease 0.6s forwards" }}>
             You keep doing the thing you swore you{"\u2019"}d stop. <span style={{ color: "#14B8A6" }}>This is why.</span> And this is how it ends.
