@@ -31,19 +31,50 @@
 
 | Banned Term | Why | Use Instead |
 |-------------|-----|-------------|
-| Triggered | Therapy-speak, overused, vague | "Pattern activated" or "The program is running" |
-| Coping strategy | Implies management, not interruption | "Circuit break" or "Rewrite" |
-| Healing journey | Soft, passive, no endpoint | "The 90-day protocol" or "Pattern interruption" |
-| Safe space | Therapy language | "The gap" or just don't use it |
-| Therapy-speak | Any soft, process-oriented language | Mechanical, direct language |
-| Emotional processing | Implies feeling your way through | "Pattern archaeology" |
-| Inner child | Overused, associated with pop psychology | "The Original Room" or "The child who installed this code" |
-| Coping mechanism | Management, not interruption | "Survival code" or "The pattern" |
-| Trauma | Loaded term, clinical | "The installation event" or "What happened in the Original Room" |
-| Self-care | Vague, commercialized | "The daily practice protocol" |
-| Boundaries | Overused | "Circuit breaks" or "Rewrite scripts" |
-| Toxic | Lazy shorthand | Name the specific pattern or behavior |
-| Empowerment | Marketing fluff | Don't use. The work speaks for itself. |
+| journey | Soft, passive, no endpoint | "The 90-day protocol" or "Pattern interruption" |
+| healing | Therapy framing — implies woundedness, not pattern interruption | "Pattern interruption" or "Override" |
+| heal | Same as above — clinical/spiritual framing | "Interrupt" or "Override" |
+| toxic | Lazy shorthand | Name the specific pattern or behavior |
+| triggers | Therapy-speak, overused, vague | "body signature" or "pattern activation" |
+| boundaries | Overused | "Circuit breaks" or "Rewrite scripts" |
+| self-care | Vague, commercialized | "The daily practice protocol" |
+| empower | Marketing fluff | Don't use. The work speaks for itself. |
+| empowerment | Marketing fluff | Don't use. The work speaks for itself. |
+| transform | Soft, vague, no mechanism | "Interrupt", "Rewrite", "Install a new circuit" |
+| validate | Therapy-speak | "See" or "Recognize the pattern" |
+| hold space | Therapy-speak | Don't use. Be present without naming it. |
+| unpack | Therapy-speak | "Excavate" or "Map the circuit" |
+| trauma response | Loaded clinical term — only OK with unambiguous clinical context | "Pattern" or "The body's installed response" |
+| safe space | Therapy language | "The gap" or just don't use it |
+| coping strategy | Implies management, not interruption | "Circuit break" or "Rewrite" |
+| coping mechanism | Management, not interruption | "Survival code" or "The pattern" |
+| emotional processing | Implies feeling your way through | "Pattern archaeology" |
+| inner child | Overused, associated with pop psychology | "The Original Room" or "The child who installed this code" |
+| trauma | Loaded standalone term — "trauma response" with clinical framing is OK | "The installation event" or "What happened in the Original Room" |
+| therapy-speak | Any soft, process-oriented language | Mechanical, direct language |
+| thrive | Wellness-industry vocabulary | Don't use. Describe the actual change in behavior. |
+| thriving | Wellness-industry vocabulary | Don't use. Describe the actual change in behavior. |
+| wellness | Wellness-industry vocabulary | "The protocol" or "Pattern interruption" |
+| beta | Implies unfinished/unproven product | Don't use. The product is the product. |
+| early access | Implies unfinished/unproven product | Don't use. |
+| founding (member) | Cult/launch-marketing framing | Don't use. |
+| TAM | User-facing abbreviation — flattens the brand | Always write "The Archivist Method" in full |
+| FEIR | Deprecated framework name | Use "The Four Doors" framework |
+
+### Banned Filler Phrases
+
+Never use any of these in copy, AI replies, or onboarding flows:
+
+- "I understand"
+- "That must be difficult"
+- "Let's explore that"
+- "How does that make you feel?"
+- "Hey friend!"
+- "Hope you're having a great day!"
+- "Great question"
+- "Certainly"
+- "As an AI"
+- "That resonates"
 
 ---
 

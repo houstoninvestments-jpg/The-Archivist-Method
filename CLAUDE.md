@@ -20,11 +20,20 @@ Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, deployed o
 
 - Pink (#EC4899) ONLY on "NOT" in tagline
 - NEVER use emoji — use Lucide icons styled with theme colors
-- NEVER use "healing/heal/thrive" or "beta/early/founding" language
 - Always "Pattern Archaeology, NOT Therapy"
 - AI persona: Direct, not harsh; warm, not soft; clinical when needed
 - Typography: Bebas Neue (display) + Inter (body) + JetBrains Mono (labels)
 - Colors: #000000 bg, #FAFAFA text, #14B8A6 teal accent, #EC4899 pink accent
+
+## Banned Words (canonical — mirrors `docs/LANGUAGE.md` and the Pocket Archivist system prompt)
+
+Never use these in user-facing copy, prose, docs, AI replies, email templates, or content:
+
+journey, healing, heal, toxic, triggers (use "body signature" or "pattern activation" instead), boundaries, self-care, empower, empowerment, transform, validate, hold space, unpack, trauma response (unless clinical context is unambiguous), safe space, coping strategy, coping mechanism, emotional processing, inner child, trauma (as standalone term — "trauma response" with clinical framing OK), therapy-speak, thrive, thriving, wellness, beta, early access, founding (as in "founding member"), TAM (as user-facing abbreviation — always write "The Archivist Method" in full), FEIR (deprecated framework name).
+
+Banned filler phrases: "I understand", "That must be difficult", "Let's explore that", "How does that make you feel?", "Hey friend!", "Hope you're having a great day!", "Great question", "Certainly", "As an AI", "That resonates".
+
+Note: code identifiers (variable names, file names, route slugs) may keep "TAM" — the ban applies only to user-facing copy. Canonical source: `docs/LANGUAGE.md`. Any change to the banned list happens there first; mirror to `docs/character/pocket-archivist-system-prompt.md` and this file.
 
 ## Architecture Notes
 

@@ -28,5 +28,10 @@
   ],
   "crons": [
     { "path": "/api/cron/email-queue", "schedule": "0 13 * * *" }
-  ]
+  ],
+  "functions": {
+    "api/[...all].js": {
+      "includeFiles": "docs/character/pocket-archivist-system-prompt.md"
+    }
+  }
 }
