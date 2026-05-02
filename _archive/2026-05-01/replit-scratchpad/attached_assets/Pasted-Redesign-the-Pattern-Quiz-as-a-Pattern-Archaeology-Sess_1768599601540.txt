@@ -1,0 +1,76 @@
+Redesign the Pattern Quiz as a "Pattern Archaeology Session" with The Archivist analyzing the user.
+
+NEW FLOW:
+
+SCREEN 1 - INTRO
+Archivist avatar with text:
+"I'm The Archivist. I've catalogued over 10,000 destructive patterns. In the next 90 seconds, I'll identify which one is running your life. This works better if you're honest. Ready?"
+[Button: "Yes, analyze me"]
+
+SCREENS 2-5 - SCENARIO-BASED STATEMENTS (3-4 screens)
+Show specific scenarios with multiple choice answers. Each scenario should reveal different patterns.
+
+IMPORTANT: Every scenario must include "None of these" as the last option.
+
+Example scenarios:
+1. "You meet someone. Three months in, they say 'I love you.' Choose what happens next:"
+   - My chest gets tight, I need space (Disappearing)
+   - I wonder if they really mean it (Testing)
+   - I feel uncomfortable but stay (Attraction to Harm)
+   - None of these
+
+2. "Someone compliments your work. Your immediate reaction:"
+   - Minimize it ("anyone could have done this") (Compliment Deflection)
+   - Feel suspicious of their motives (Testing)
+   - Apologize for something unrelated (Apology Loop)
+   - None of these
+
+3. "You're approaching a major milestone. What typically happens?"
+   - I sabotage it right before success (Success Sabotage)
+   - I stay stuck in a situation holding me back (Draining Bond)
+   - I pull away from support (Disappearing)
+   - None of these
+
+4. "When you need to ask for help, you typically:"
+   - Start with "Sorry to bother you..." (Apology Loop)
+   - Avoid asking entirely (Disappearing/Draining Bond)
+   - Test if they'll offer first (Testing)
+   - None of these
+
+SCREEN 6 - ANALYSIS
+"Analyzing patterns..."
+[Animated loading with teal glow effect - 2-3 seconds]
+
+SCREEN 7 - RESULTS
+
+IF clear pattern identified (user selected pattern-specific answers 2+ times):
+"You're running the [PATTERN NAME]."
+[Show full pattern description with examples]
+"This pattern has been running for years. Sound right?"
+[Button: "Yes, that's me"] [Button: "No, show me all patterns"]
+
+IF no clear pattern (user selected "None of these" on most questions):
+"I can't identify your primary pattern from those responses. Let me show you all 7 - read through them and pick the one that made your stomach drop."
+[Show all 7 patterns with descriptions, user selects one]
+
+SCREEN 8 - EMAIL CAPTURE
+"Your [PATTERN NAME] is destroying your [life area based on pattern]. I can teach you to interrupt it in 7 days. Want the protocol?"
+[Email form]
+[Button: "Send Me The Free Course"]
+
+DESIGN:
+- Keep the dark theme with teal accents
+- Archivist avatar visible throughout
+- Progress indicator showing "Analysis in progress"
+- Smooth transitions between screens
+- Results reveal should feel significant (animation, emphasis)
+- Make "None of these" clearly visible but not prominent (users should try the pattern-specific answers first)
+
+TECHNICAL:
+- Track which answers map to which patterns
+- If 2+ answers map to same pattern → assign that pattern
+- If all "None of these" → show full list for self-selection
+- Store selected pattern + email in Supabase
+- Redirect to /thank-you with pattern result
+
+Make this feel like a real analysis session, not a generic personality quiz.

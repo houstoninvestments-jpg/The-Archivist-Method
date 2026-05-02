@@ -1,0 +1,85 @@
+Add a new FAQ section to the site (or expand existing FAQ if one exists).
+
+Add these three questions and answers to the FAQ page:
+
+---
+
+Q: Is this therapy?
+
+A: No. This is pattern archaeology.
+
+Therapy asks: "Why do I do this?"
+The Archivist Method asks: "What pattern am I running right now?"
+
+Therapy is designed to help you understand your past.
+This is designed to help you interrupt your present.
+
+We're not healing trauma.
+We're not processing emotions.
+We're not building coping strategies.
+
+We're teaching you to recognize patterns in real-time and interrupt them before they run.
+
+That's not therapy.
+That's pattern recognition training.
+
+Think of it like this:
+Therapy is archaeology of the past.
+This is archaeology of the present.
+
+Both have value.
+They're just solving different problems.
+
+---
+
+Q: Can I do this instead of therapy?
+
+A: That's not for me to say.
+
+If you're in therapy and it's working, keep going.
+
+This method works alongside therapy, not against it.
+
+The difference:
+Therapy helps you understand WHY you run patterns.
+This helps you INTERRUPT them when they activate.
+
+Understanding why ≠ stopping what.
+
+You can have both.
+You can have one.
+You can have neither.
+
+But if you're tired of understanding your patterns and ready to actually interrupt them—this is the method.
+
+---
+
+Q: Do I need to talk about my trauma?
+
+A: No.
+
+The Archivist Method doesn't require you to:
+• Revisit your past
+• Process your trauma
+• Share your story
+• Understand your childhood
+
+All you need to do is:
+• Recognize which pattern you're running
+• Feel it activating in your body
+• Interrupt it before the action
+• Redirect the energy
+
+Your past created the pattern.
+But your present is where you break it.
+
+We stay in your present.
+
+---
+
+Styling notes:
+- Questions should be bold or larger font
+- Answers should be clearly readable
+- Use bullet points where shown (•)
+- Maintain consistent spacing between Q&A pairs
+- If FAQ doesn't exist yet, create a new FAQ page and add these three questions

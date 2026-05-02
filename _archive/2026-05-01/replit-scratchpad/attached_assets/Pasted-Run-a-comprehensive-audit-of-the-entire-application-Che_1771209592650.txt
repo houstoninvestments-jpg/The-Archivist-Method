@@ -1,0 +1,72 @@
+Run a comprehensive audit of the entire application. Check every single page, route, link, button, and piece of copy. Report back with a numbered list of every issue found.
+
+CHECK ALL ROUTES — visit each one and confirm it loads without errors:
+- / (landing page)
+- /quiz
+- /results
+- /portal
+- /portal/reader
+- /vault/workbench
+- /vault/archive
+- /terms
+- /privacy
+- /contact (if it exists)
+- Any other routes in App.tsx
+
+CHECK ALL LINKS AND BUTTONS:
+- Every CTA button on the landing page — does it link to /quiz?
+- Every sidebar link in the portal — does it navigate correctly?
+- "The Workbench" → /vault/workbench
+- "The Archive" → /vault/archive
+- "Talk to The Archivist" or "Back to Chat" → AI chat view
+- "My Downloads" → downloads section
+- "Settings" → settings view
+- "I'm Activated" card → /vault/workbench
+- "Brain Dump" card → /vault/workbench
+- "Download PDF" button → correct PDF downloads
+- All pricing buttons: Free → /quiz, Field Guide → Stripe checkout, Complete Archive → Stripe checkout
+- Terms and Privacy links in footer → correct pages
+- "Discover your pattern" links throughout → /quiz
+
+CHECK ALL COPY FOR CONSISTENCY:
+- No references to "Broken Psychology" or old branding anywhere
+- No placeholder text like "Lorem ipsum" or "[TODO]"
+- No "2025" dates — should all be 2026
+- All pattern names consistent: Disappearing, Apology Loop, Testing, Attraction to Harm, Compliment Deflection, Draining Bond, Success Sabotage, Perfectionism, Rage
+- No therapy language: no "triggered", "coping mechanism", "healing journey", "safe space"
+- Correct TAM language used: "activated", "interrupt", "circuit break", "body signature", "pattern archaeology"
+- Founder section says "About The Founder" not "About The Archivist"
+- Founder section ends with "For her." and "— Aaron"
+
+CHECK DESIGN CONSISTENCY:
+- All pages using the correct fonts: Playfair Display (headlines), Source Sans 3 (body), JetBrains Mono (monospace labels)
+- All pages using correct colors: bg #0A0A0A, text #F5F5F5, muted #737373, teal #14B8A6, pink #EC4899
+- No pages still using old design (lighter backgrounds, different fonts, old card styles)
+- Landing page thread animation present and working
+- Portal has the cinematic dark theme
+- Terms and Privacy pages match the dark editorial style
+
+CHECK FUNCTIONALITY:
+- Quiz loads all 15 questions and advances correctly
+- Quiz results page shows correct pattern based on answers
+- Email capture works
+- Portal loads after authentication
+- AI chatbot responds with The Archivist voice (not generic)
+- Content reader opens and displays content
+- Notes panel works (can add and save notes)
+- Text selection toolbar appears when highlighting text in reader
+- "I interrupted my pattern" checkbox works
+- Streak counter updates
+- Tooltips appear on hover for key terms
+- Locked content shows upgrade prompts
+- PDF downloads work for correct files
+
+CHECK FOR ERRORS:
+- Any console errors on any page
+- Any broken imports or missing components
+- Any TypeScript errors
+- Any 404s for assets, fonts, or images
+- Any Supabase connection errors
+- Any Stripe integration errors
+
+Return a NUMBERED LIST of every issue found, grouped by category (Broken, Copy Issues, Design Issues, Functionality Issues). For each issue, state exactly what's wrong and where it is.

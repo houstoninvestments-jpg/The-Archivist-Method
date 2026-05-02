@@ -1,0 +1,87 @@
+Rebuild the admin system completely. Remove the old admin panel and god mode system and replace with a clean, modern admin dashboard. Here are ALL the changes:
+
+STEP 1 — REMOVE GOD MODE POLLUTION:
+
+1. In App.tsx: DELETE the URL parameter check for ?godmode=true/false (lines 58-72 area). This causes a double page reload and is not needed.
+
+2. DELETE GodModeBadge.tsx entirely. Remove its import and rendering from App.tsx. It polls localStorage every 1 second on every page — that's wasteful and it shows on every page for no reason.
+
+3. DELETE TestingPanel.tsx entirely. Remove its import and rendering from App.tsx. The floating gear button is unnecessary clutter.
+
+4. Keep the god mode CONCEPT but make it work properly: instead of cosmetic-only, god mode should actually bypass content gates in the portal. Import the hasGodModeAccess function logic directly into the portal/reader components that check purchase tier. If localStorage.godMode === 'true', treat the user as having 'archive' tier access.
+
+5. God mode should ONLY be activatable from the new admin dashboard. No URL params. No floating buttons. No badge on every page.
+
+STEP 2 — REBUILD ADMIN DASHBOARD:
+
+Replace AdminLogin.tsx and AdminDashboard.tsx with a clean, modern admin panel.
+
+ADMIN LOGIN (/admin):
+- Dark design matching the rest of the site (#0A0A0A background)
+- Centered card, max-width 400px
+- "ADMIN" in JetBrains Mono, teal, uppercase
+- Simple password field + "Enter" button
+- Same button style as the rest of the site (white border, transparent bg)
+- On success, redirect to /admin/dashboard
+
+ADMIN DASHBOARD (/admin/dashboard):
+- Full dark design (#0A0A0A background)
+- Top bar: "THE ARCHIVIST METHOD — ADMIN" in JetBrains Mono, teal, with "Logout" link on the right
+
+- Layout: Left sidebar (200px) + main content area
+
+SIDEBAR NAVIGATION:
+- "OVERVIEW" (default view)
+- "USERS"
+- "CONTENT"
+- "SETTINGS"
+Each nav item: JetBrains Mono, 13px, uppercase. Active: teal text + teal left border. Inactive: #737373.
+
+OVERVIEW PAGE:
+Four stat cards in a 2x2 grid:
+- "Total Users" — count of all users
+- "Free Tier" — count of crash course users
+- "Field Guide ($47)" — count of paid $47 users
+- "Complete Archive ($197)" — count of paid $197 users
+Each card: glass-morphism style (rgba(255,255,255,0.03) bg, 1px border), number in Playfair Display teal 2.5rem, label in Source Sans 3 #999
+
+Below the stats: "Recent Signups" — last 10 users in a simple table (email, tier, signup date, last active). Clean dark table with subtle row borders.
+
+USERS PAGE:
+- Search bar at top (filter by email)
+- User table: Email | Tier | Signup Date | Last Active | God Mode | Actions
+- Tier shown as colored badge (free=gray, field-guide=teal, archive=pink)
+- God Mode: toggle switch per user. When enabled, that user gets full archive access regardless of purchase. Toggle calls the existing PATCH endpoint.
+- Actions: "Delete" button (with confirmation dialog)
+- "Add Test User" button at top right — opens a simple modal: email input + tier dropdown (free/field-guide/archive) + "Create" button
+
+CONTENT PAGE:
+- Shows all content files organized by product tier
+- Crash Course section: list of crash course markdown files
+- Field Guide section: 9 patterns listed, each expandable to show their content files
+- Complete Archive section: all modules listed
+- Each item shows: filename, word count, last modified
+- Read-only view — this is for auditing content, not editing
+
+SETTINGS PAGE:
+- "God Mode" section: Master toggle to enable/disable god mode for YOUR current browser session. Toggles localStorage.godMode. Shows current state.
+- "Danger Zone" section: "Clear All Test Users" button with confirmation. Calls DELETE endpoint for each test user.
+- "Environment" section: Shows which environment variables are set (SUPABASE_URL, STRIPE keys, etc.) — just green checkmark or red X, don't show actual values.
+
+STEP 3 — CLEAN UP:
+
+1. Remove any references to the old TestingPanel or GodModeBadge in any file
+2. Remove any floating gear buttons or pulsing badges
+3. Make sure the admin routes are NOT visible to regular users (no links to /admin anywhere in the public site or portal)
+4. Admin session uses the existing token-based auth from server/admin/routes.ts
+5. All existing API endpoints stay the same — just update the frontend that calls them
+
+DESIGN REQUIREMENTS:
+- Entire admin panel uses the same dark cinematic design system
+- Fonts: Playfair Display (stat numbers, page titles), Source Sans 3 (body text, tables), JetBrains Mono (labels, nav, monospace data)
+- Colors: bg #0A0A0A, text #F5F5F5, muted #737373, teal #14B8A6, pink #EC4899
+- Cards: rgba(255,255,255,0.03) with 1px rgba(255,255,255,0.06) border
+- Buttons: white border style from rest of site
+- Tables: clean, minimal, dark rows with subtle borders
+- Everything should feel fast, clean, and professional
+- No clutter. No unnecessary elements. Every pixel earns its place.

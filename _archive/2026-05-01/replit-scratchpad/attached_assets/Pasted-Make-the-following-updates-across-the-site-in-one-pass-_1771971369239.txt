@@ -1,0 +1,76 @@
+Make the following updates across the site in one pass:
+
+**1. REPLACE "SPREADSHEET TO A KNIFE FIGHT" LINE**
+Remove that line entirely. Replace the italic subhead in the willpower section with:
+"Your pattern doesn't live in your thoughts. It lives in your body. And it moves faster than your intentions do."
+
+**2. FIX BENTO IMAGE GRID**
+The 4 bento panel images are not loading. Locate the broken image containers in "THE METHOD IN 4 FRAMES" section and replace them with the 4 uploaded images in this order:
+- Panel 01: Archivist split brain lightning bolt — caption: THE HIT
+- Panel 02: Teal wireframe body 4 signal points — caption: YOUR BODY KNEW FIRST
+- Panel 03: Pink chaos into teal window — caption: 3-7 SECONDS
+- Panel 04: Child in red chaos / adult in teal — caption: YOU ARE NOT THAT CHILD ANYMORE
+
+Remove any stick figure or placeholder body map images completely.
+
+**3. POCKET ARCHIVIST — FULL COPY AND SECTION REWRITE**
+Remove all founding period / early pricing language from this section.
+
+Replace with this structure:
+
+Label: THE POCKET ARCHIVIST
+
+Headline: IT ALREADY KNOWS WHAT YOU'RE ABOUT TO DO.
+
+Subhead: "This isn't a chatbot. It's a precision instrument trained on one thing — the exact moment your pattern fires and what to do inside the 3-7 second window before you lose it."
+
+Body copy — 3 short cutting paragraphs:
+
+Paragraph 1: "You already know the feeling. The chest drop. The throat tighten. The pull toward the thing you said you wouldn't do again. Most tools want to talk about it later. The Pocket Archivist is built for right now."
+
+Paragraph 2: "It's been trained exclusively on The Archivist Method framework — pattern architecture, body signal sequencing, interrupt protocols, and circuit break language. It doesn't give you generic advice. It knows your pattern's specific trigger sequence and responds with the exact language your nervous system can actually use in that moment."
+
+Paragraph 3: "The problems it solves are the ones nobody names. The 11pm spiral. The shutdown before the conversation starts. The moment you watch yourself do it anyway. That's what it was built for."
+
+End with a single line in teal italic: "Not a companion. A circuit breaker."
+
+No pricing mentions. No CTA in this section — the demo below does that work.
+
+**4. ADD POCKET ARCHIVIST DEMO SECTION**
+Insert a new full-width section AFTER the Pocket Archivist section and BEFORE the pricing section.
+
+Label at top: EXPERIENCE IT
+
+Headline: MEET YOUR PATTERN.
+
+Subhead in teal italic: "Three questions. That's all it takes to feel the difference between insight and interruption."
+
+Build an interactive 3-question mini interrupt sequence powered by the Claude API. Here's exactly how it works:
+
+Step 1 — The system shows this prompt:
+"Think of the last time you did the thing you're trying to stop. What did you feel in your body right before it happened?"
+Free text input. One sentence max encouraged. Submit button: "I felt..."
+
+Step 2 — The AI responds in Archivist voice: warm, precise, non-clinical. It names what they described as a body signal, validates it as a pattern marker, and asks:
+"How long has that feeling been your starting gun?"
+Free text input. Submit button: "About..."
+
+Step 3 — The AI reflects their pattern back to them with a name, a one-sentence description of what it costs them, and ends with:
+"This is your signal. The method teaches you what to do the moment you feel it."
+
+Final screen after Step 3:
+Headline: "Your pattern has a name. The exit has a door."
+Single CTA button: "Find Your Pattern" → links to quiz
+Small text below: "Free. 2 minutes. No email required until you're ready."
+
+Design: Match homepage exactly. Dark background, teal accents. Each step fades in cleanly. Feels like the tool is already working on them. Mobile first.
+
+API instructions: Use the Anthropic Claude API. The system prompt for the AI should be: "You are The Pocket Archivist — a precision pattern interruption tool trained exclusively on The Archivist Method framework. You speak with warmth, directness, and clinical precision. You never use therapy language. You name patterns specifically. You validate body signals as real neurological data. You do not give advice — you reflect patterns back with enough accuracy that the person feels deeply seen. Keep all responses under 4 sentences. End every response with a question that goes one layer deeper."
+
+**5. OVERALL DESIGN RULES FOR ALL CHANGES**
+- Match homepage design language throughout
+- Mobile first on everything
+- No generic messaging anywhere
+- Emotional tone: warm, knowing, precise
+- Every section should feel like one coherent experience
+- Remove any remaining placeholder content, broken images, or outdated copy

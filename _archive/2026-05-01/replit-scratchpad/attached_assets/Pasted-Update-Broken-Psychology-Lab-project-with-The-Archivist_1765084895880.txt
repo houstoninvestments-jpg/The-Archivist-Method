@@ -1,0 +1,92 @@
+Update Broken Psychology Lab project with The Archivist Method™ complete product suite and visual branding.
+
+=== UPLOAD THESE 6 PDFs TO /public/downloads/ ===
+(I'll provide download links from Claude)
+1. THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf
+2. THE-ARCHIVIST-METHOD-QUICK-START.pdf  
+3. THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf
+4. BONUS-1-Daily-Tracker-Archivist-Method.pdf
+5. BONUS-2-Weekly-Review-Archivist-Method.pdf
+6. BONUS-3-Emergency-Cards-Archivist-Method.pdf
+
+=== VISUAL BRANDING SPECS ===
+
+COLORS:
+- Primary Teal: #00FFC8 (cyan/teal)
+- Primary Pink: #FF0094 (hot pink)
+- Dark Background: #1a1a1a
+- Light Background: #FAFAFA
+- Text: #1a1a1a (dark) / #FFFFFF (on dark backgrounds)
+
+TYPOGRAPHY:
+- Headers: "Helvetica Neue", Helvetica, Arial, sans-serif
+- Body: Georgia, "Palatino Linotype", serif (for long-form content)
+- Alternative Body: "Helvetica Neue" (for UI/short content)
+
+LOGO USAGE:
+- Icon-only logo: Circular Archivist head (use on dark or light backgrounds)
+- Full logo: Icon + "BROKEN PSYCHOLOGY LAB" + tagline
+- Tagline: "PATTERN ARCHAEOLOGY, NOT THERAPY"
+
+GRADIENTS:
+- Teal to Pink: linear-gradient(135deg, #00FFC8 0%, #FF0094 100%)
+- Pink to Purple: linear-gradient(135deg, #FF0094 0%, #FF3DB5 100%)
+- Fog overlay: Teal/pink mist effect (use as subtle backgrounds)
+
+DESIGN ELEMENTS:
+- Circuit board/brain pattern texture (tech aesthetic)
+- Decorative horizontal dividers (teal→pink→teal gradient)
+- Subtle icon watermarks at 12-15% opacity
+
+=== HOMEPAGE STRUCTURE ===
+
+HERO SECTION:
+- Background: Dark (#1a1a1a) with teal/pink fog overlay
+- Archivist icon (large, centered or left)
+- H1: "THE ARCHIVIST METHOD™"
+- Subhead: "Pattern Archaeology, Not Therapy"
+- Description: "Stop running the same destructive patterns. Learn the proven method to interrupt trauma patterns in 7-90 days."
+- CTA Button: "Start Free 7-Day Crash Course" (teal background, pink hover)
+
+3-TIER PRODUCT SECTION:
+Card 1 - 7-Day Crash Course:
+- Badge: "FREE" or "$7"
+- Title: "7-Day Crash Course"
+- Subtitle: "Can't commit to 90 days? Start here."
+- Features: Pattern identification, body signature recognition, first interrupt attempt
+- CTA: "Start Free" (teal button)
+
+Card 2 - Quick-Start System:
+- Price: "$47"
+- Title: "Quick-Start System"  
+- Subtitle: "Fix ONE pattern in 90 days"
+- Features: Complete protocol, crisis protocols, tracking templates, relationship scripts
+- CTA: "Get Quick-Start" (pink button)
+- Badge: "MOST POPULAR"
+
+Card 3 - Complete Archive:
+- Price: "$197"
+- Title: "Complete Archive"
+- Subtitle: "Master all patterns. Every context. Forever."
+- Features: 685 pages, all 23 sections, advanced applications, lifetime reference
+- CTA: "Get Full Archive" (gradient button teal→pink)
+
+VISUAL STYLE:
+- Cards have subtle teal/pink glow borders on hover
+- Use circuit board pattern as subtle background texture
+- Dark mode aesthetic with pops of neon teal/pink
+
+FOOTER:
+- "THE ARCHIVIST METHOD™ | BROKEN PSYCHOLOGY LAB"
+- "Pattern Archaeology, Not Therapy"
+- Social links (if any)
+
+=== PRODUCT DIFFERENTIATION ===
+
+7-DAY: "Test drive. One week. One pattern. See if it works."
+$47: "Commit. 90 days. One pattern mastered."  
+$197: "Complete mastery. All patterns. All contexts. Lifetime."
+
+Keep existing Faceless.so Psychology Facts automation running - don't modify that.
+
+Use modern, clean design with dark mode + neon accents. Think: cyberpunk meets therapy.

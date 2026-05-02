@@ -1,0 +1,341 @@
+# THE ARCHIVIST METHOD - COMPLETE ARCHIVE PDF GENERATOR
+
+## CRITICAL: READ THIS FIRST
+
+You are generating a 600+ page professional PDF from 145 markdown files. This must be PREMIUM QUALITY - a $197 product. Before generating anything:
+
+1. **PARSE ALL MARKDOWN PROPERLY** - No raw tags should ever appear in the output
+2. **MATCH THE CRASH COURSE PDF EXACTLY** - Use THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf in attached_assets as your reference
+3. **TEST THE OUTPUT** - Check that formatting renders correctly before finalizing
+
+---
+
+## STEP 1: PREPROCESSING - CLEAN THE MARKDOWN
+
+Before converting to PDF, you MUST preprocess all markdown files to:
+
+1. Convert `<<<BOLD>>>text<<<ENDBOLD>>>` → **text** (then render as bold)
+2. Convert `**text**` → bold formatting
+3. Convert `*text*` → italic formatting  
+4. Convert `# Header` → H1 styling
+5. Convert `## Header` → H2 styling
+6. Convert `### Header` → H3 styling
+7. Convert `- item` → bullet point
+8. Convert `1. item` → numbered list
+9. Convert `> quote` → blockquote styling
+10. Convert `___` or `---` → horizontal rule
+11. Strip any remaining raw markdown/formatting artifacts
+
+**NO RAW FORMATTING TAGS SHOULD EVER APPEAR IN THE FINAL PDF**
+
+---
+
+## STEP 2: DOCUMENT SETUP
+
+```python
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.colors import HexColor
+
+# Page dimensions
+PAGE_WIDTH, PAGE_HEIGHT = letter  # 8.5" x 11"
+MARGIN = 1 * inch
+
+# Brand colors
+DARK_BG = HexColor('#1A1A1A')       # Background
+WHITE = HexColor('#FFFFFF')          # Headers, bold text
+LIGHT_GRAY = HexColor('#E5E5E5')     # Body text
+TEAL = HexColor('#14B8A6')           # Accents, H2, rules
+PINK = HexColor('#EC4899')           # "NOT" in tagline only
+DARK_GRAY = HexColor('#888888')      # Footer text
+```
+
+---
+
+## STEP 3: TYPOGRAPHY SYSTEM
+
+### Title Page
+- Logo: Centered, 150px width (use archivist-portrait-circle.jpg)
+- Main title: 48pt, WHITE, bold, centered, tracking +2%
+- Subtitle: 32pt, WHITE, regular, centered
+- Tagline: 14pt, WHITE, italic, centered
+- Brand phrase: 16pt, TEAL (except "NOT" in PINK), centered
+- Footer: 10pt, DARK_GRAY, centered
+
+### Section Title Pages (Module starts)
+- "MODULE X" label: 14pt, TEAL, centered
+- Module name: 36pt, WHITE, bold, centered
+- Vertically centered on page
+
+### Content Pages
+
+**H1 Headers (Chapter titles):**
+- Font: 24pt, bold
+- Color: WHITE
+- Transform: ALL CAPS
+- Spacing: 24pt above, 12pt below
+- Add teal horizontal rule below (1pt)
+
+**H2 Headers (Major sections):**
+- Font: 18pt, bold
+- Color: TEAL
+- Spacing: 18pt above, 8pt below
+
+**H3 Headers (Subsections):**
+- Font: 14pt, bold
+- Color: WHITE
+- Spacing: 14pt above, 6pt below
+
+**Body Text:**
+- Font: 11pt, regular
+- Color: LIGHT_GRAY
+- Line height: 1.6 (generous for readability)
+- Paragraph spacing: 10pt between paragraphs
+
+**Bold Text (within paragraphs):**
+- Font: 11pt, bold
+- Color: WHITE (makes it pop against gray body text)
+
+**Italic Text:**
+- Font: 11pt, italic
+- Color: LIGHT_GRAY
+
+**Bullet Points:**
+- Bullet character: • (teal colored)
+- Text: LIGHT_GRAY
+- Indent: 0.25" from margin
+- Spacing: 6pt between items
+
+**Numbered Lists:**
+- Numbers: TEAL colored
+- Text: LIGHT_GRAY
+- Indent: 0.25" from margin
+- Spacing: 6pt between items
+
+**Blockquotes:**
+- Left border: 3pt TEAL line
+- Indent: 0.5" from margin
+- Text: LIGHT_GRAY, italic
+- Background: Slightly lighter than page (#222222)
+
+**Fill-in Blanks (like "MY PATTERN: _______"):**
+- Label: WHITE, bold
+- Underline: TEAL, extending to right margin
+
+**Horizontal Rules:**
+- Color: TEAL
+- Weight: 1pt
+- Width: Full content width
+- Spacing: 12pt above and below
+
+---
+
+## STEP 4: PAGE TEMPLATE
+
+Every page (except title page) must have:
+
+### Header Area
+- None (clean top margin)
+
+### Content Area  
+- Full dark background (#1A1A1A)
+- Content in margins (1" all sides)
+
+### Footer Area
+- Position: 0.5" from bottom
+- Left side: "THE ARCHIVIST METHOD™ | CLASSIFIED"
+- Right side: Page number
+- Separator: Thin TEAL line above footer
+- Font: 9pt, DARK_GRAY
+
+---
+
+## STEP 5: CONTENT ORDER
+
+Generate pages in this exact order:
+
+1. **Title Page** (page 1)
+   - Logo at top
+   - "THE ARCHIVIST METHOD™"
+   - "COMPLETE ARCHIVE"
+   - Tagline: "The complete system for identifying and interrupting the patterns destroying your life."
+   - "PATTERN ARCHAEOLOGY, NOT THERAPY"
+   - Footer
+
+2. **Table of Contents** (pages 2-3)
+   - List all modules with page numbers
+   - TEAL dots connecting title to page number
+
+3. **Module 0: Emergency** - Start on new page
+   - Module title page
+   - All Module 0 content from content/book/
+
+4. **Module 1: Foundation** - Start on new page
+
+5. **Module 2: Four Doors Protocol** - Start on new page
+
+6. **Module 3: The Patterns** - Start on new page
+   - Each pattern gets its own subsection
+   - Pattern order: Disappearing, Apology Loop, Testing, Attraction to Harm, Draining Bond, Compliment Deflection, Perfectionism, Success Sabotage, Rage
+
+7. **Module 4: Implementation** - Start on new page
+
+8. **Module 5: Advanced** - Start on new page
+
+9. **Module 6: Context** - Start on new page
+
+10. **Module 7: Field Notes** - Start on new page
+
+11. **Module 8: Resources** - Start on new page
+
+12. **Epilogue** - Start on new page
+
+---
+
+## STEP 6: QUALITY CHECKLIST
+
+Before saving the final PDF, verify:
+
+- [ ] No raw markdown tags visible (**, ##, <<<BOLD>>>, etc.)
+- [ ] All bold text renders as bold (white color, bold weight)
+- [ ] All headers have correct hierarchy and styling
+- [ ] Dark background (#1A1A1A) on EVERY page
+- [ ] Footer appears on every page except title
+- [ ] Page numbers are sequential and correct
+- [ ] Teal accents used consistently
+- [ ] Body text is readable (light gray on dark)
+- [ ] Adequate spacing between sections
+- [ ] No orphaned headers (header at bottom of page with content on next)
+- [ ] No widows (single line at top of new page)
+- [ ] Logo displays correctly on title page
+- [ ] Fill-in blanks have teal underlines
+- [ ] Horizontal rules are teal, not black
+
+---
+
+## STEP 7: OUTPUT
+
+Save as: `THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf`
+
+Expected size: ~600-800 pages, 5-15MB file size
+
+---
+
+## EXAMPLE CODE STRUCTURE
+
+```python
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.colors import HexColor
+import re
+import os
+
+# Colors
+DARK_BG = HexColor('#1A1A1A')
+WHITE = HexColor('#FFFFFF')
+LIGHT_GRAY = HexColor('#E5E5E5')
+TEAL = HexColor('#14B8A6')
+PINK = HexColor('#EC4899')
+
+# Define styles
+styles = {
+    'title': ParagraphStyle(
+        'Title',
+        fontSize=48,
+        textColor=WHITE,
+        alignment=1,  # Center
+        fontName='Helvetica-Bold',
+        spaceAfter=20
+    ),
+    'h1': ParagraphStyle(
+        'H1',
+        fontSize=24,
+        textColor=WHITE,
+        fontName='Helvetica-Bold',
+        spaceBefore=24,
+        spaceAfter=12,
+        textTransform='uppercase'
+    ),
+    'h2': ParagraphStyle(
+        'H2',
+        fontSize=18,
+        textColor=TEAL,
+        fontName='Helvetica-Bold',
+        spaceBefore=18,
+        spaceAfter=8
+    ),
+    'body': ParagraphStyle(
+        'Body',
+        fontSize=11,
+        textColor=LIGHT_GRAY,
+        fontName='Helvetica',
+        leading=17,  # Line height
+        spaceAfter=10
+    ),
+    'body_bold': ParagraphStyle(
+        'BodyBold',
+        fontSize=11,
+        textColor=WHITE,
+        fontName='Helvetica-Bold',
+        leading=17
+    )
+}
+
+def preprocess_markdown(text):
+    """Clean and convert markdown to reportlab-compatible formatting"""
+    
+    # Remove custom bold tags and convert to reportlab <b> tags
+    text = re.sub(r'<<<BOLD>>>(.*?)<<<ENDBOLD>>>', r'<b>\1</b>', text)
+    
+    # Convert standard markdown bold
+    text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
+    
+    # Convert markdown italic
+    text = re.sub(r'\*(.*?)\*', r'<i>\1</i>', text)
+    
+    # Strip any remaining artifacts
+    text = text.replace('<<<', '').replace('>>>', '')
+    
+    return text
+
+def create_page_template(canvas, doc):
+    """Draw dark background and footer on each page"""
+    canvas.saveState()
+    
+    # Dark background
+    canvas.setFillColor(DARK_BG)
+    canvas.rect(0, 0, letter[0], letter[1], fill=True)
+    
+    # Footer line
+    canvas.setStrokeColor(TEAL)
+    canvas.setLineWidth(0.5)
+    canvas.line(inch, 0.6*inch, letter[0]-inch, 0.6*inch)
+    
+    # Footer text
+    canvas.setFillColor(HexColor('#888888'))
+    canvas.setFont('Helvetica', 9)
+    canvas.drawString(inch, 0.4*inch, "THE ARCHIVIST METHOD™ | CLASSIFIED")
+    canvas.drawRightString(letter[0]-inch, 0.4*inch, str(doc.page))
+    
+    canvas.restoreState()
+
+# Build the document
+doc = SimpleDocTemplate(
+    "THE-ARCHIVIST-METHOD-COMPLETE-ARCHIVE.pdf",
+    pagesize=letter,
+    leftMargin=inch,
+    rightMargin=inch,
+    topMargin=inch,
+    bottomMargin=inch
+)
+```
+
+---
+
+## FINAL INSTRUCTION
+
+Read all 145 files from content/book/, preprocess them to clean all markdown formatting, apply the styling above, and generate a single professional PDF that matches the quality and aesthetic of THE-ARCHIVIST-METHOD-7-DAY-CRASH-COURSE.pdf.
+
+This is a $197 product. It must look premium. No shortcuts.

@@ -1,0 +1,131 @@
+═══════════════════════════════════════════════════════════════
+
+PART 4: DATABASE CLEANUP (if applicable)
+
+1. Remove unused database tables/collections
+2. Remove test data (unless needed)
+3. Keep only:
+   - users table
+   - test_users table (for admin)
+   - Any active user data
+   - Quiz results (if stored)
+
+═══════════════════════════════════════════════════════════════
+
+PART 5: REMOVE OLD/UNUSED FEATURES
+
+Delete code for features no longer in use:
+- Old quiz versions (if any)
+- Old portal designs (if any)
+- Unused admin features (keep only what's needed)
+- Old pricing structures
+- Deprecated API endpoints
+- Old authentication methods
+
+═══════════════════════════════════════════════════════════════
+
+PART 6: CLEAN UP CONFIGURATION FILES
+
+1. .gitignore - ensure it includes:
+   - node_modules
+   - .env
+   - build/dist folders
+   - .DS_Store
+   - Any local config files
+
+2. package.json - remove:
+   - Unused scripts
+   - Unused dependencies
+   - Old metadata
+
+3. tsconfig.json - optimize:
+   - Remove unused paths
+   - Ensure proper strictness
+   - Optimize compilation
+
+4. tailwind.config.js - clean:
+   - Remove unused theme extensions
+   - Remove unused plugins
+   - Keep only active customizations
+
+═══════════════════════════════════════════════════════════════
+
+PART 7: PERFORMANCE OPTIMIZATIONS
+
+1. CODE SPLITTING:
+   - Lazy load quiz component
+   - Lazy load portal components
+   - Lazy load admin panel (if exists)
+
+2. BUNDLE SIZE:
+   - Analyze bundle size
+   - Split large dependencies
+   - Use dynamic imports for heavy libraries
+
+3. ASSET OPTIMIZATION:
+   - Minify CSS/JS (if not automatic)
+   - Optimize font loading
+   - Reduce initial bundle size
+
+═══════════════════════════════════════════════════════════════
+
+PART 8: FINAL CHECKS
+
+After cleanup, verify:
+
+1. LANDING PAGE WORKS:
+   - / loads correctly
+   - All sections display
+   - CTA buttons work
+   - Links function
+   - Mobile responsive
+
+2. QUIZ WORKS:
+   - /quiz loads
+   - All 15 questions work
+   - Animations smooth
+   - Email capture functions
+   - Results calculate correctly
+
+3. PORTAL WORKS:
+   - /portal/login loads
+   - Authentication works
+   - /portal/dashboard loads
+   - All sections display
+   - Products show correct access levels
+   - Video embeds work
+
+4. PERFORMANCE:
+   - Site loads under 3 seconds
+   - No console errors
+   - No 404s on assets
+   - Smooth animations
+   - No memory leaks
+
+═══════════════════════════════════════════════════════════════
+
+CLEANUP CHECKLIST OUTPUT:
+
+After cleanup, provide report:
+
+FILES REMOVED:
+- List all deleted files
+- Total space saved
+
+DEPENDENCIES REMOVED:
+- List removed packages
+- Bundle size reduction
+
+OPTIMIZATION RESULTS:
+- Before/after bundle size
+- Before/after load time
+- Number of HTTP requests reduced
+
+REMAINING STRUCTURE:
+- Final folder structure
+- Total files count
+- Total project size
+
+═══════════════════════════════════════════════════════════════
+
+Execute this comprehensive cleanup maintaining all working functionality while removing bloat and improving performance.

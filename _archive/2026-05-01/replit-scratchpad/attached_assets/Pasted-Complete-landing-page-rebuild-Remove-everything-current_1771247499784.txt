@@ -1,0 +1,335 @@
+Complete landing page rebuild. Remove everything currently in the landing page and rebuild from scratch with this exact section order, copy, and design. Keep the same tech: React, inline styles, Playfair Display + Source Sans 3 + JetBrains Mono fonts, particle background animation. Background #0A0A0A throughout.
+
+SECTION 1 — HERO (full viewport height, centered)
+
+[JetBrains Mono, 14px, uppercase, letter-spacing 0.3em, teal #14B8A6]
+THE ARCHIVIST METHOD™
+
+[Playfair Display, 4.5rem desktop / 2.5rem mobile, white, font-weight 700, line-height 1.15]
+You know exactly what you're doing.
+You just can't stop.
+
+[Source Sans 3, 1.15rem, #999, max-width 580px, margin-top 32px]
+The first pattern interruption system that works in real-time — not in retrospect.
+
+[Source Sans 3, 1.05rem, white, max-width 540px, margin-top 24px]
+Your body warns you 3-7 seconds before every destructive pattern runs. Therapy never taught you to listen. This does.
+
+[Button: JetBrains Mono, uppercase, letter-spacing 0.15em, white border 1px, transparent bg, padding 18px 48px, 15px. Hover: white bg, black text. Links to /quiz]
+FIND YOUR PATTERN →
+
+[Source Sans 3, 13px, #737373, margin-top 16px]
+Free · 2 Minutes · Instant Results
+
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em, margin-top 48px, opacity 0.7]
+Pattern archaeology, not therapy.
+
+---
+
+SECTION 2 — GUT CHECK (dark section, centered)
+
+[Playfair Display, 2rem, white]
+Which one makes your stomach drop?
+
+Below the headline, display ALL 9 pattern names in a vertical staggered list. Each name fades in one at a time on scroll (0.3s delay between each). DO NOT use a horizontal scroller — stack them vertically, centered.
+
+Pattern names in JetBrains Mono, 1.1rem, uppercase:
+- THE DISAPPEARING PATTERN (teal)
+- THE APOLOGY LOOP (pink #EC4899)
+- THE TESTING PATTERN (teal)
+- ATTRACTION TO HARM (pink)
+- COMPLIMENT DEFLECTION (teal)
+- THE DRAINING BOND (pink)
+- SUCCESS SABOTAGE (teal)
+- THE PERFECTIONISM TRAP (pink)
+- THE RAGE PATTERN (teal)
+
+Each name has opacity 0.5 by default. On hover or tap, it goes to full opacity with a subtle glow matching its color. The alternating teal/pink creates visual rhythm.
+
+Below the list:
+[Source Sans 3, 1rem, #999, italic]
+"If you felt something reading one of those — that's your body signature. That's the thread."
+
+---
+
+SECTION 3 — THE 9 PATTERNS (recognition section)
+
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+THE PATTERNS
+
+[Playfair Display, 2.5rem, white]
+9 Destructive Patterns. You're Running at Least One.
+
+3-column grid on desktop, 1-column on mobile. Each card:
+- Background: rgba(255,255,255,0.03)
+- Border: 1px solid rgba(255,255,255,0.06)
+- Hover: border color changes to teal or pink (alternating)
+- Padding: 32px
+- Top: Pink number (JetBrains Mono, 2rem, #EC4899) — "01" through "09"
+- Pattern name: JetBrains Mono, uppercase, white, 0.85rem, letter-spacing 0.1em
+- Description: Source Sans 3, #999, 0.95rem, 2-3 lines max
+
+Card descriptions (keep short, gut-punch style):
+01 DISAPPEARING — "You pull away the moment someone gets close. Not because you don't care. Because closeness feels like danger."
+02 APOLOGY LOOP — "You apologize for existing. For having needs. For taking up space. You've been doing it so long it feels normal."
+03 TESTING — "You push people to their limit to see if they'll stay. Then hate yourself when they leave."
+04 ATTRACTION TO HARM — "You're drawn to people and situations that hurt you. Not because you're broken. Because chaos feels like home."
+05 COMPLIMENT DEFLECTION — "Someone says something good about you and your entire body rejects it. You literally cannot let it in."
+06 DRAINING BOND — "You stay connected to people who drain you. You know you should leave. You physically can't."
+07 SUCCESS SABOTAGE — "You destroy things right before they work. Promotions, relationships, projects. The closer you get, the harder you burn it down."
+08 PERFECTIONISM TRAP — "Nothing is ever good enough to ship, share, or finish. You'd rather abandon it than release it imperfect."
+09 RAGE PATTERN — "The anger comes fast and hot and disproportionate. Afterward you wonder who that was. It was the pattern."
+
+Fade-in on scroll for each card.
+
+---
+
+SECTION 4 — CTA BREAK (minimal, centered, lots of whitespace)
+
+[Playfair Display, 1.8rem, white]
+Recognize yourself?
+
+[Same button style as hero]
+FIND YOUR PATTERN →
+
+---
+
+SECTION 5 — THE 3-7 SECOND WINDOW (the science)
+
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+THE MECHANISM
+
+[Playfair Display, 2.5rem, white]
+You Have a 3-7 Second Window
+
+[Source Sans 3, 1.1rem, #999, max-width 600px, centered]
+Every destructive pattern follows the same sequence. There's a moment between the trigger and the behavior where your body is screaming at you. That moment is where everything changes.
+
+Below this, create a horizontal flow diagram with 3 boxes connected by arrows:
+
+BOX 1: "TRIGGER" — border: 1px solid #737373, JetBrains Mono, muted text
+ARROW: → (simple, #737373)
+BOX 2: "BODY SIGNATURE" — border: 2px solid teal, GLOWING teal box-shadow, JetBrains Mono, white text. Below the box in small teal text: "3-7 SECONDS"
+ARROW: → but this arrow is pink (#EC4899) with text above it: "INTERRUPT HERE"
+BOX 3: "PATTERN RUNS" — border: 1px solid #737373, JetBrains Mono, muted text, with strikethrough effect or slight opacity to imply "this doesn't have to happen"
+
+On mobile: stack the 3 boxes vertically with downward arrows.
+
+Below the diagram:
+[Source Sans 3, 1rem, white, max-width 500px]
+"Your chest tightens. Your stomach drops. Your jaw clenches. That's not anxiety — that's information. That's your body telling you the pattern is about to run. Learn to catch it, and you can interrupt it before it finishes."
+
+---
+
+SECTION 6 — THIS IS FOR YOU / NOT FOR YOU (validation)
+
+[JetBrains Mono, 12px, teal, uppercase]
+WHO THIS IS FOR
+
+Two cards side by side on desktop, stacked on mobile.
+
+LEFT CARD (teal border-left 3px):
+[Playfair Display, 1.5rem, white]
+This Is For You If:
+
+[Source Sans 3, 1rem, #ccc, each item on its own line with a teal "—" prefix]
+— You watch yourself repeat the same destructive behavior and can't figure out how to stop
+— You've done therapy and understand WHY but nothing changes
+— You're smart enough to see the pattern but stuck enough to keep running it
+— You're tired of "just try harder" advice that ignores how your nervous system actually works
+— You want something that works in the moment, not after six months of processing
+
+RIGHT CARD (pink border-left 3px):
+[Playfair Display, 1.5rem, white]
+This Is Not For You If:
+
+[Source Sans 3, 1rem, #999, each item on its own line with a pink "—" prefix]
+— You're looking for a therapist (we're not that)
+— You want someone to tell you you're fine (you already know you're not)
+— You're not ready to look at your own patterns honestly
+— You need crisis intervention (call 988)
+
+---
+
+SECTION 7 — HOW IT WORKS (clarity, 3 steps)
+
+[JetBrains Mono, 12px, teal, uppercase]
+THE METHOD
+
+[Playfair Display, 2.5rem, white]
+How Pattern Interruption Works
+
+3 horizontal cards on desktop, stacked on mobile. Each card:
+- Background: rgba(255,255,255,0.03)
+- Border: 1px solid rgba(255,255,255,0.06)
+- Large number in Playfair Display, teal, 3rem
+- Step name in JetBrains Mono, uppercase, white
+- Description in Source Sans 3, #999
+
+CARD 1:
+"1"
+IDENTIFY
+"Take the free assessment. Discover which of the 9 patterns is running your behavior. See your specific triggers, body signatures, and the origin of the pattern."
+
+CARD 2:
+"2"
+INTERRUPT
+"Learn your 3-7 second window. Recognize the body signature. Apply the circuit break before the pattern finishes executing. One successful interrupt changes everything."
+
+CARD 3:
+"3"
+REWRITE
+"Repetition weakens the pattern. Each interrupt builds a new neural pathway. The pattern doesn't disappear — it loses its grip. You get your choices back."
+
+---
+
+SECTION 8 — NOT THERAPY (differentiation, comparison table)
+
+[JetBrains Mono, 12px, teal, uppercase]
+THE DIFFERENCE
+
+[Playfair Display, 2rem, white]
+Pattern Archaeology vs. Traditional Therapy
+
+Simple two-column comparison table:
+Left column header: "THERAPY" (JetBrains Mono, muted)
+Right column header: "THE ARCHIVIST METHOD" (JetBrains Mono, teal)
+
+Rows (Source Sans 3, left column #737373, right column white):
+"Asks why you do it" → "Teaches you to catch it happening"
+"Processes the past" → "Interrupts the present"
+"Weekly sessions for months" → "Works in 3-7 seconds"
+"Talks about feelings" → "Reads body signatures"
+"Explores your childhood" → "Interrupts your Tuesday"
+"Builds understanding" → "Builds muscle memory"
+
+Clean lines between rows. Subtle teal left border on the right column entries.
+
+---
+
+SECTION 9 — PRICING (action)
+
+[JetBrains Mono, 12px, teal, uppercase]
+CHOOSE YOUR DEPTH
+
+[Playfair Display, 2.5rem, white]
+Start Free. Go Deeper When You're Ready.
+
+3 pricing cards. Middle card is visually emphasized (teal border, slightly larger).
+
+CARD 1 — THE CRASH COURSE
+[JetBrains Mono, label] FREE
+[Playfair Display, price] $0
+[Source Sans 3, description]
+"Your pattern identified. 7-day introduction to pattern interruption. Body signature basics. Your first circuit break."
+[Button: white border] START FREE →
+Links to /quiz
+
+CARD 2 — THE FIELD GUIDE (emphasized)
+[JetBrains Mono, label] YOUR PATTERN
+[Playfair Display, price] $47
+[Source Sans 3, description]
+"Everything about YOUR specific pattern. Complete body signature mapping. Custom interrupt protocols. Relationship pattern analysis. 90+ pages. AI pattern coach access."
+[Button: teal border, slightly brighter] GET YOUR FIELD GUIDE →
+Links to Stripe checkout
+
+CARD 3 — THE COMPLETE ARCHIVE
+[JetBrains Mono, label] ALL 9 PATTERNS
+[Playfair Display, price] $197
+[Source Sans 3, description]
+"The entire Archivist Method. All 9 patterns fully documented. Cross-pattern analysis. Advanced protocols. The Four Doors system. Full Vault access. 600+ pages."
+[Button: white border] GET THE COMPLETE ARCHIVE →
+Links to Stripe checkout
+
+Below the cards:
+[Source Sans 3, 13px, #737373, centered]
+"One-time purchase. No subscriptions. No recurring charges. Yours forever."
+
+---
+
+SECTION 10 — CREDIBILITY BAR (simple stats, one line)
+
+A horizontal bar with 4 stats, evenly spaced:
+[JetBrains Mono, teal, 1.5rem] "685+"
+[Source Sans 3, #999, small] "Pages of Research"
+
+[JetBrains Mono, teal] "9"
+[Source Sans 3, #999] "Documented Patterns"
+
+[JetBrains Mono, teal] "3-7"
+[Source Sans 3, #999] "Second Window"
+
+[JetBrains Mono, teal] "24/7"
+[Source Sans 3, #999] "AI Pattern Coach"
+
+On mobile: 2x2 grid.
+
+---
+
+SECTION 11 — FOUNDER (emotional close)
+
+[JetBrains Mono, 12px, muted, uppercase]
+FIELD NOTES
+
+[Playfair Display, 2rem, white]
+About The Founder
+
+[Source Sans 3, 1.1rem, #ccc, max-width 600px, centered, line-height 1.8]
+"I built this because I was watching patterns destroy something I cared about deeply. Someone I love was running the same loops I was — and neither of us knew how to stop. We could see it happening. We could name it. We just couldn't interrupt it.
+
+So I started researching. Obsessively. Tearing apart every framework I could find. Looking for the one thing underneath all of it that actually worked. Not in six months. Not in theory. Right now. In the middle of the fight. In the middle of the flood.
+
+This method is what I found. I built it for us. I'm sharing it because I know we're not the only ones."
+
+[Source Sans 3, 1.1rem, white, italic, margin-top 32px]
+"For her."
+
+[Source Sans 3, 1rem, #999, margin-top 16px]
+"— Aaron"
+
+IMPORTANT: Give this section massive whitespace above and below. At least 120px padding top and bottom. "For her." should feel like the last line of a movie. Let it breathe.
+
+---
+
+SECTION 12 — FINAL CTA (minimal close)
+
+[Playfair Display, 2rem, white]
+You found the thread. Now pull it.
+
+[Same button style as hero]
+FIND YOUR PATTERN →
+
+[Source Sans 3, 13px, #737373]
+Free · 2 Minutes · Instant Results
+
+---
+
+SECTION 13 — FOOTER
+
+Minimal footer. Single line centered:
+[Source Sans 3, 13px, #737373]
+"© 2026 The Archivist Method™ · Pattern archaeology, not therapy."
+("not" in pink #EC4899)
+
+Below that:
+[Source Sans 3, 12px, #555]
+Links: Terms · Privacy · Contact
+Each links to the correct page.
+
+Below that:
+[JetBrains Mono, 11px, #444]
+"Built in the fire. Systematized December 2025."
+
+---
+
+GLOBAL REQUIREMENTS:
+
+- Every section fades in on scroll using Intersection Observer (threshold 0.15, opacity 0 to 1, translateY 20px to 0, duration 0.6s)
+- CTA buttons appear at sections 1, 4, 9, and 12 (4 total touchpoints)
+- All fonts imported from Google Fonts: Playfair Display (400, 700), Source Sans 3 (400, 600), JetBrains Mono (400)
+- Particle animation stays in the background across the entire page
+- Thread animation: keep the vertical teal line on the left (desktop only) and the threaded word underlines on key phrases
+- Mobile responsive: all grids collapse to single column, font sizes scale down appropriately, horizontal diagrams stack vertically
+- Page should load fast — no heavy images, no external libraries beyond fonts
+- Keep all existing routing, auth, and functionality intact. This is ONLY a landing page rebuild.
+- Total sections: 13 (including footer). This is the complete page. Do not add or remove sections.

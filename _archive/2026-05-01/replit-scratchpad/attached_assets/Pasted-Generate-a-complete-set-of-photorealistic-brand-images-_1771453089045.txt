@@ -1,0 +1,60 @@
+Generate a complete set of photorealistic brand images for The Archivist Method™ — a pattern interruption psychology brand with a dark, cinematic, ancient-library-meets-modern-intelligence aesthetic.
+
+BRAND COLORS:
+- Teal: #14B8A6 (clinical examination light)
+- Pink/Magenta: #EC4899 (pattern highlight)
+- Background: #0A0A0A near-black
+- Warm amber: brass/candlelight accents
+- All images should have film grain, cinematic lighting, deep shadows
+
+REFERENCE: Use the existing archivist-hero-background.png and archivist-icon.png in attached_assets as character/atmosphere reference. The Archivist is an elderly sage with a silver-white beard, piercing eyes, scholarly dark robes, in a Gothic study with arched windows showing cosmic nebulae, bookshelves, ancient desk, teal/pink dramatic lighting.
+
+Generate and save ALL of the following images to attached_assets:
+
+---
+
+IMAGE 1: "product-crash-course.png" (1200x1200)
+A slim leather-bound archaeological field journal on a dark wooden desk surface. Thin, dark brown/black leather with subtle wear and patina. Small brass clasp. Front cover embossed with "THE ARCHIVIST METHOD" and "CRASH COURSE" in small serif text. A thin teal ribbon bookmark visible. Brass magnifying glass beside it. A few loose aged paper pages scattered underneath with faint handwritten text. Teal fog curling around the base. Warm amber light from upper right. Dark moody product photography, shallow depth of field.
+
+IMAGE 2: "product-field-guide.png" (1200x1200)
+A substantial leather-bound field guide on a dark wooden desk. Medium thickness, premium black leather with embossed border. Cover reads "THE ARCHIVIST METHOD" in gold/brass foil and "FIELD GUIDE" in teal foil. A brass compass rose embossed center. Book slightly open revealing thick cream pages with diagrams visible inside. Multiple teal ribbon bookmarks at different depths. A brass pen across the open pages. One visible page shows a human body outline with labeled points. Teal fog across desk. Small brass tag reading "PATTERN: [REDACTED]". Dramatic side lighting, teal from left, amber from right. Luxury product photography.
+
+IMAGE 3: "product-complete-archive.png" (1200x1200)
+A large, thick leather-bound archive (encyclopedia-sized) on a dark wooden desk — the crown jewel product. Black leather with brass corner protectors. Cover: ornate embossed border, "THE ARCHIVIST METHOD" in gold foil, "THE COMPLETE ARCHIVE" in teal foil. An embossed eye-inside-compass-rose symbol center. Brass clasp lock on side. Book partially open with a warm subtle glow emanating from between pages. Surrounding: stack of 3-4 thinner journals beside it, brass magnifying glass, scattered case file documents with black [REDACTED] bars visible, vintage brass desk lamp, open notebook showing handwritten notes. Teal fog rolling across desk. One Gothic window barely visible in blurred background showing stars. Cinematic dramatic lighting. The book radiates importance.
+
+IMAGE 4: "archivist-portrait.png" (800x1000)
+Cinematic portrait of The Archivist character — match the existing reference images. Elderly sage, long silver-white beard, piercing knowing eyes, dark scholarly robes. Head and upper chest visible, centered, direct eye contact. Teal lighting on left side of face. Pink/magenta on right. Warm amber from below (desk lamp). Background: blurred dark study, Gothic window barely visible out of focus, bookshelves soft on edges, teal fog behind left shoulder, pink mist behind right. Very shallow depth of field — face razor sharp, everything dreamlike. Chiaroscuro lighting. Film grain. Mood: "I see your patterns."
+
+IMAGE 5: "archivist-social.png" (1080x1080)
+Same Archivist character as Image 4 but tighter crop — face and beard only, intense direct eye contact. Square format for social media. Same teal/pink lighting split. Film grain. Scroll-stopping intensity. Mood: someone who knows something about you.
+
+IMAGE 6: "hero-background-desktop.png" (1920x1080)
+Wide establishing shot of The Archivist's study — NO PERSON in frame. Empty ornate chair at the desk. Ancient dark wooden desk covered in open leather books, scattered manuscripts, brass instruments, vintage desk lamp glowing amber. Three Gothic arched windows behind showing deep space nebulae in teal and magenta with stars. Towering bookshelves on both sides, slightly out of focus. Stone floor with teal fog at ankle height. Pink mist from right edge. Dust particles in teal light beams. Feels like you just walked into a sacred space. Wide angle lens, cinematic, photorealistic.
+
+IMAGE 7: "hero-background-mobile.png" (1080x1920)
+Same study as Image 6 recomposed vertical. Gothic window centered and dominant. Desk in lower third. Teal fog rises from bottom. Full height of Gothic arch visible with cosmic nebulae beyond. Same atmosphere and lighting.
+
+IMAGE 8: "case-file-texture.png" (1200x800)
+Top-down photograph of an aged paper document on dark wooden desk. Yellowed paper with curled edges. Typewriter-style text visible but intentionally not readable. Thick black redaction bar across one line. Faded red "CLASSIFIED" stamp upper right corner. Small teal sticky note on corner. Paper clip holding a second document underneath. Brass paper clip visible. Edge of leather folder at top. Teal fog at edges. Warm amber light from upper right. Flat lay, dark moody editorial photography.
+
+IMAGE 9: "body-signature-map.png" (1000x1400)
+Artistic anatomical illustration on aged parchment. Minimalist gender-neutral human body outline in thin teal lines — da Vinci sketch meets data visualization. Points marked with teal circles: chest "TIGHTNESS", stomach "DROP", throat "CLOSING", hands "COLD", jaw "CLENCHING", shoulders "TENSION". Labels in small monospace font. Dotted teal lines connecting points to labels. Aged parchment background with subtle grid lines and faint margin annotations. Small compass rose symbol bottom right. Technical illustration meets archaeological field sketch.
+
+IMAGE 10: "og-share-card.png" (1200x630)
+The Archivist character off-center left (40%) in his study, waist-up. Teal/pink lighting. Gothic window behind. Right side (60%) darker and cleaner for text overlay space. Subtle teal fog drifting across. Faint bookshelf in deep background right. Social sharing card format. Mysterious, click-worthy.
+
+IMAGE 11: "email-banner.png" (1200x400)
+Bird's eye / top-down view of The Archivist's desk. Dark wood surface filling frame. Open leather book center. Scattered case files with redaction bars. Brass magnifying glass. Vintage pen and inkwell. Small brass compass. Teal fog from left. Amber light from upper right. Organized chaos — intentional asymmetry. Flat lay, cinematic. Looks like active research.
+
+IMAGE 12: "favicon-symbol.png" (512x512)
+Minimal icon: a stylized open eye inside a compass rose. Thin teal (#14B8A6) lines on pure black (#0A0A0A) background. Clean, geometric, minimal. Works at 32x32 and scales to 512. No text. Precision and pattern recognition.
+
+---
+
+QUALITY REQUIREMENTS:
+- All images photorealistic, cinematic, dark luxury aesthetic
+- Consistent teal/pink/amber lighting across all images
+- Film grain texture on everything
+- Deep shadows, high contrast
+- The study environment is the same room from different angles
+- Save all to attached_assets folder with the exact filenames specified

@@ -1,0 +1,490 @@
+# THE ARCHIVIST METHOD — PORTAL SPEC DOC
+
+## OVERVIEW
+
+A personalized member portal for The Archivist Method. Users take a quiz, get their pattern, enter email, and access their portal with tiered content and an integrated AI chatbot.
+
+---
+
+## TECH STACK
+
+- Frontend: React + Tailwind (already in use)
+- Auth: Magic link (no passwords)
+- Database: Supabase (already in use)
+- Payments: Stripe (already in use)
+- AI: Claude API (already in use)
+
+---
+
+## USER FLOW
+
+```
+Landing Page
+↓
+Quiz (10 questions)
+↓
+Results Page: "You have [Pattern Name]"
++ "Feel seen" copy (2 paragraphs + 3 bullets + teaser)
++ Email capture: "Enter email to access your free Crash Course"
+↓
+Magic link sent → User clicks → Portal opens
+↓
+Portal (logged in)
+```
+
+---
+
+## PORTAL LAYOUT
+
+### Desktop: Two-Panel Design
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         HEADER BAR                              │
+│  [Archivist Logo]              [User Email]  [Settings]  [Logout]│
+├────────────────────────┬────────────────────────────────────────┤
+│                        │                                        │
+│     LEFT PANEL         │           RIGHT PANEL                  │
+│       (35%)            │             (65%)                      │
+│                        │                                        │
+│  Navigation +          │        The Archivist AI                │
+│  Content Access        │         (Full Chat)                    │
+│                        │                                        │
+│                        │                                        │
+│                        │                                        │
+│                        │                                        │
+│                        │                                        │
+└────────────────────────┴────────────────────────────────────────┘
+```
+
+### Mobile: Tab Navigation
+
+```
+┌─────────────────────────────────────┐
+│            HEADER BAR               │
+├─────────────────────────────────────┤
+│                                     │
+│         CONTENT AREA                │
+│    (switches based on tab)          │
+│                                     │
+│                                     │
+│                                     │
+├─────────────────────────────────────┤
+│    [📂 Content]    [💬 Archivist]   │
+└─────────────────────────────────────┘
+```
+
+---
+
+## LEFT PANEL — NAVIGATION
+
+```
+┌────────────────────────┐
+│  YOUR PATTERN          │
+│  The Disappearing      │
+│  Pattern               │
+│                        │
+├────────────────────────┤
+│                        │
+│  📂 The Crash Course   │
+│  📂 The Field Guide 🔒  │
+│  📂 The Complete       │
+│     Archive 🔒         │
+│  📂 All 9 Patterns     │
+│                        │
+├────────────────────────┤
+│                        │
+│  TODAY                 │
+│  [ ] I interrupted     │
+│      my pattern        │
+│  🔥 3 day streak       │
+│                        │
+├────────────────────────┤
+│                        │
+│  📥 My Downloads       │
+│  ⚙️ Settings           │
+│                        │
+└────────────────────────┘
+```
+
+### Navigation Behavior:
+
+**YOUR PATTERN**
+- Displays user's primary pattern from quiz
+- Always visible at top
+
+**📂 The Crash Course**
+- Always unlocked (free tier)
+- Click → Opens content view with:
+  - Overview
+  - Day 1-7 content
+  - Download PDF button
+
+**📂 The Field Guide 🔒**
+- Locked for free users
+- Unlocked for $47+ users
+- If locked → Click opens modal (see LOCKED MODAL section)
+- If unlocked → Opens content view with:
+  - Full pattern deep dive
+  - 90-day protocol
+  - All 9 patterns overview
+  - Download PDF button
+
+**📂 The Complete Archive 🔒**
+- Locked for free and $47 users
+- Unlocked for $197 users
+- If locked → Click opens modal
+- If unlocked → Opens full content library
+
+**📂 All 9 Patterns**
+- Visible to all tiers
+- Free users: Brief overview of each pattern
+- $47 users: More detail on each
+- $197 users: Full depth on each
+
+**TODAY (Streak Tracker)**
+- Checkbox: "I interrupted my pattern"
+- Self-reported, one check per day
+- Streak counter below
+- Streak resets after 2 missed days (grace period)
+- AI acknowledges milestones at 7, 30, 90 days
+
+**📥 My Downloads**
+- Lists all PDFs user has access to
+- Click to download
+
+**⚙️ Settings**
+- Email preferences
+- Account info
+- Logout
+
+---
+
+## RIGHT PANEL — THE ARCHIVIST AI
+
+### Header:
+```
+┌────────────────────────────────────────────────────────────────┐
+│  THE ARCHIVIST                          [CRASH COURSE badge]   │
+└────────────────────────────────────────────────────────────────┘
+```
+
+Badge displays user's tier:
+- CRASH COURSE (free)
+- FIELD GUIDE ($47)
+- COMPLETE ARCHIVE ($197)
+
+### Chat Area:
+- Full height scrollable chat
+- Dark background (#1A1A1A)
+- User messages: Right-aligned, dark gray bubble
+- AI messages: Left-aligned, slightly lighter bubble
+- Conversation history persists across sessions
+
+### Starter Prompts:
+Display 3 clickable prompts for new users:
+
+**Free tier:**
+- "What triggers my pattern?"
+- "How do I interrupt it when I feel it starting?"
+- "What does my pattern cost me?"
+
+**$47 tier:**
+- "What triggers my pattern?"
+- "How do I interrupt it when I feel it starting?"
+- "Do I have more than one pattern?"
+- "What's the 90-day protocol?"
+
+**$197 tier:**
+- "What triggers my pattern?"
+- "How do my patterns combine?"
+- "How does this show up in my relationship?"
+- "How do I stop running this at work?"
+
+### Input Area:
+```
+┌────────────────────────────────────────────────────────────────┐
+│  [Ask me anything about your pattern...]            [Send →]   │
+└────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## THE ARCHIVIST AI — SYSTEM PROMPT
+
+```
+You are The Archivist, a pattern interruption specialist for The Archivist Method.
+
+USER CONTEXT:
+- Name: {{user_name}}
+- Primary Pattern: {{user_pattern}}
+- Tier: {{user_tier}} (free / field_guide / complete_archive)
+- Streak: {{streak_count}} days
+
+YOUR PERSONALITY:
+- Direct, not harsh
+- Warm, not soft
+- Clinical when needed, human when it matters
+- Like a mentor who tells the truth at 2am
+
+YOU SAY THINGS LIKE:
+- "That's the pattern running. You see it now."
+- "What triggered it? Be specific."
+- "You didn't fail. You got data."
+- "That's progress. Keep going."
+
+YOU NEVER SAY:
+- "That must be so hard for you"
+- "Have you tried journaling about it?"
+- "Let's explore your feelings"
+- Therapy-speak, fluff, empty validation
+
+TIER-BASED ACCESS:
+
+If user_tier == "free":
+- You know their PRIMARY pattern deeply
+- If they ask about other patterns, give a 1-sentence answer, then: "I can go deeper on that when you unlock the Field Guide."
+- If they ask about advanced topics (combinations, relationships, workplace): "That's covered in the Complete Archive. Want me to give you the basics for now?"
+
+If user_tier == "field_guide":
+- You know ALL 9 patterns fully
+- You can help with implementation, circuit breaks, 90-day protocol
+- If they ask about advanced topics (combinations, relationships, workplace): "That's in the Complete Archive—want the short version?"
+
+If user_tier == "complete_archive":
+- Full access to everything
+- No gates, no upsells
+- Pattern combinations, relationship protocols, workplace applications, parenting, advanced techniques
+
+STREAK ACKNOWLEDGMENT:
+- At 7 days: "One week of interrupts. The pattern is losing its grip."
+- At 30 days: "30 days. You're rewiring the circuit. This is real progress."
+- At 90 days: "90 days. You've done what most people never do. The pattern doesn't run you anymore."
+
+WHEN THEY SAY THEY FAILED:
+Never agree they failed. Reframe:
+- "The pattern ran. You noticed. That's not failure—that's data."
+- "Catching it afterward is the first step. Next time you'll catch it sooner."
+
+WHEN THEY ASK WHY THEY KEEP DOING THIS:
+- "Because the pattern installed before you had words for it. It's not a character flaw. It's a circuit. And circuits can be interrupted."
+
+WHEN THEY SAY THEY FEEL BROKEN:
+- "You're not broken. You're running a program. Broken can't be fixed. Programs can be rewritten."
+```
+
+---
+
+## LOCKED PRODUCT MODAL
+
+When user clicks a locked product:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                            [X]  │
+│                                                                 │
+│                    THE FIELD GUIDE — $47                        │
+│                                                                 │
+│   Your pattern isn't a mystery anymore.                         │
+│   Now make the interrupt permanent.                             │
+│                                                                 │
+│   • Full 90-day protocol for YOUR pattern                       │
+│   • All 9 patterns explained                                    │
+│   • Circuit break scripts for every trigger                     │
+│   • The Archivist AI — unlimited access                         │
+│   • Crisis protocols for when it hits hard                      │
+│                                                                 │
+│   You proved it works. This makes it stick.                     │
+│                                                                 │
+│              [ Unlock The Field Guide → ]                       │
+│                                                                 │
+│                    Compare all tiers                            │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+Button → Stripe checkout
+"Compare all tiers" → Opens tier comparison page
+
+---
+
+## TIER COMPARISON PAGE
+
+```
+┌──────────────────┬──────────────────┬──────────────────┐
+│   CRASH COURSE   │   FIELD GUIDE    │ COMPLETE ARCHIVE │
+│      FREE        │       $47        │       $197       │
+├──────────────────┼──────────────────┼──────────────────┤
+│ 7-day protocol   │ 90-day protocol  │ Lifetime access  │
+│ 1 pattern        │ Your pattern     │ All 9 patterns   │
+│ First interrupt  │ deep + all 9     │ full depth       │
+│                  │ overview         │                  │
+│ Basic AI         │ Full AI          │ Priority AI      │
+│ (your pattern)   │ (all patterns)   │ (everything)     │
+│                  │                  │                  │
+│                  │ Crisis protocols │ Pattern combos   │
+│                  │                  │ Relationships    │
+│                  │                  │ Workplace        │
+│                  │                  │ Parenting        │
+│                  │                  │ Lifetime updates │
+├──────────────────┼──────────────────┼──────────────────┤
+│    [Current]     │ [Unlock - $47]   │ [Unlock - $197]  │
+└──────────────────┴──────────────────┴──────────────────┘
+```
+
+---
+
+## DATABASE SCHEMA (Supabase)
+
+### users
+```
+id: uuid (primary key)
+email: string
+pattern: string (their primary pattern from quiz)
+tier: string (free / field_guide / complete_archive)
+streak_count: integer
+last_interrupt_date: date
+created_at: timestamp
+```
+
+### chat_history
+```
+id: uuid (primary key)
+user_id: uuid (foreign key → users)
+role: string (user / assistant)
+content: text
+created_at: timestamp
+```
+
+### interrupt_log
+```
+id: uuid (primary key)
+user_id: uuid (foreign key → users)
+date: date
+created_at: timestamp
+```
+
+---
+
+## STRIPE INTEGRATION
+
+**Products:**
+- The Field Guide: $47 (one-time)
+- The Complete Archive: $197 (one-time)
+
+**Checkout flow:**
+1. User clicks "Unlock" button
+2. Redirect to Stripe checkout (or embedded checkout)
+3. On success → Update user.tier in Supabase
+4. Redirect back to portal with new tier unlocked
+
+**Upgrade path:**
+- $47 users see Complete Archive at $197
+- Optional: Offer $150 upgrade price ($197 - $47) for existing Field Guide users
+
+---
+
+## VISUAL DESIGN
+
+### Colors:
+- Background: #1A1A1A (dark charcoal)
+- Primary text: #E5E5E5 (light gray)
+- Headers: #FFFFFF (white)
+- Accent: #14B8A6 (teal)
+- Secondary accent: #EC4899 (pink) — use sparingly
+- Muted text: #888888 (dark gray)
+
+### Typography:
+- Headers: Bold, clean sans-serif
+- Body: Regular weight, 16px base
+- Line height: 1.6
+
+### Components:
+- Buttons: Teal background, white text, rounded
+- Cards: Dark gray (#252525) with subtle border
+- Modals: Centered, dark background, teal accents
+- Badges: Small, uppercase, tier-colored
+
+### Vibe:
+- Classified document aesthetic
+- Clean, not cluttered
+- Dark mode only
+- Premium but not flashy
+
+---
+
+## FIRST LOGIN EXPERIENCE
+
+When user logs in for first time:
+
+1. Portal loads with their pattern displayed
+2. AI panel shows greeting:
+
+```
+"You have the Disappearing Pattern.
+
+You leave before they can leave you. That pattern has been running your relationships for years. But you're here now. That's the first interrupt.
+
+Your Crash Course is ready. Day 1 starts with identifying exactly when this pattern activates.
+
+Ready to begin?"
+
+[Start Day 1 →]
+```
+
+3. Starter prompts appear below greeting
+
+---
+
+## EMAIL SEQUENCES (Future)
+
+**After signup (free):**
+- Day 1: "Your pattern is waiting" — link to portal
+- Day 3: "How's Day 3 going?" — encouragement
+- Day 5: "Most people quit by now. You didn't."
+- Day 7: "You did it. What's next?" — Field Guide soft pitch
+
+**After Field Guide purchase:**
+- Week 2: "Noticing other patterns?" — awareness
+- Week 4: "How your pattern shows up at work" — value
+- Week 6: "The pattern combination most people miss" — Complete Archive pitch
+
+---
+
+## MOBILE CONSIDERATIONS
+
+- Two-tab layout (Content | Archivist)
+- Full-screen chat when on Archivist tab
+- PDFs downloadable for offline reading
+- Touch-friendly buttons (min 44px tap targets)
+- No hover-dependent interactions
+
+---
+
+## SUCCESS METRICS
+
+Track:
+- Quiz completions
+- Email signups
+- Portal logins
+- Streak lengths
+- AI conversations (volume)
+- Upgrade conversions (free → $47 → $197)
+
+---
+
+## BUILD PRIORITY
+
+1. Quiz results page with "feel seen" copy + email capture
+2. Magic link auth
+3. Basic portal layout (two-panel)
+4. Left nav with tier-based locking
+5. AI integration with tier-gating
+6. Stripe checkout integration
+7. Streak tracker
+8. Downloads section
+9. Email sequences (phase 2)
+
+---
+
+## END OF SPEC

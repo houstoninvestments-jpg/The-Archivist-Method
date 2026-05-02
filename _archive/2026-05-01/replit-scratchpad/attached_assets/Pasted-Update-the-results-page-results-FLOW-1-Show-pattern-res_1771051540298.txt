@@ -1,0 +1,57 @@
+Update the results page (/results):
+
+FLOW:
+1. Show pattern result with animation (fade in, slight scale)
+2. Display "feel seen" copy for their pattern
+3. Show confirmation: "Does this sound like you?"
+4. Two buttons: [Yes, that's me] and [Not quite]
+5. If Yes → reveal email capture
+6. If Not quite → show second highest pattern with same confirmation
+7. If Not quite again → show all 9 patterns as cards to manually select
+8. After selection confirmed + email entered → send magic link → redirect to portal
+
+DESIGN:
+- Pattern name large, white, centered
+- Feel seen copy in light gray, 2 paragraphs max
+- Teal underline beneath pattern name
+- Buttons: teal outline, white text, subtle hover glow
+- Email input: dark field, teal border on focus
+- "Send Magic Link" button: solid teal
+
+FEEL SEEN COPY (use these):
+
+DISAPPEARING:
+You leave before they can leave you. Three months in and your chest gets tight. You feel the walls closing. You're already planning your exit before they even know something's wrong.
+
+APOLOGY LOOP:
+Sorry. Sorry. Sorry. You apologize for asking. For needing. For taking up space. You make yourself small before anyone can tell you you're too much.
+
+TESTING:
+You don't ask if they love you. You make them prove it. You pick fights at midnight. You push them away to see if they'll fight to stay.
+
+ATTRACTION TO HARM:
+The safe ones bore you. The red flags feel like chemistry. You know they're bad for you—that's what makes it exciting.
+
+DRAINING BOND:
+You know you should leave. Everyone tells you to leave. Your body tells you to leave. You stay. The guilt of going feels worse than the pain of staying.
+
+COMPLIMENT DEFLECTION:
+"You're so talented." You flinch. You deflect. You explain why it wasn't that good. Visibility feels dangerous. Being seen feels like being a target.
+
+PERFECTIONISM:
+If it's not perfect, it's garbage. So you tweak endlessly. Or you don't start at all. You're not lazy—you're terrified of the gap between your vision and your output.
+
+SUCCESS SABOTAGE:
+You get close. Then you blow it up. Right before the win, something in you pulls the pin. You're not afraid of failure—you're afraid of what happens if you actually succeed.
+
+RAGE:
+It comes fast. One second you're fine, the next you're saying things you can't take back. The anger takes over. Afterward, you barely recognize who that was.
+
+ANIMATION:
+- Pattern name types in (typewriter effect, fast)
+- Feel seen copy fades in after name completes
+- Confirmation buttons fade in last
+- On "Not quite" → current pattern fades out, next fades in
+- Email capture slides up from bottom when confirmed
+
+Keep dark theme, teal accents, clean spacing.

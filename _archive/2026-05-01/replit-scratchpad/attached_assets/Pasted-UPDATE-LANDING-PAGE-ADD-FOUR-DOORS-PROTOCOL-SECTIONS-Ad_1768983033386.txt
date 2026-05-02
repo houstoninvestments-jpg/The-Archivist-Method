@@ -1,0 +1,220 @@
+UPDATE LANDING PAGE - ADD FOUR DOORS PROTOCOL SECTIONS
+
+Add two new sections to the landing page at thearchivistmethod.com between the hero section and pricing section.
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 1: ABOUT THE ARCHIVIST METHOD
+
+Place this section AFTER hero, BEFORE Four Doors section.
+
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│              ABOUT THE ARCHIVIST METHOD                     │
+│                                                             │
+│ The archive was built over years.                           │
+│ December 2025 made it a system.                             │
+│                                                             │
+│ Not theory. Not academic research.                          │
+│ Pattern archaeology performed in real time.                 │
+│                                                             │
+│ Built while running the code it documents.                  │
+│ Field research. Real conditions. Active patterns.           │
+│                                                             │
+│ When you're inside the pattern, you see the architecture.   │
+│                                                             │
+│ The method works because it was tested where it matters.    │
+│                                                             │
+│                      — The Archivist                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+Styling:
+- Background: Slightly darker than main background (slate-900/slate-950)
+- Border top: 1px solid slate-700
+- Border bottom: 1px solid slate-700
+- Padding: 80px vertical, 24px horizontal
+- Max width: 800px centered
+- Title: "ABOUT THE ARCHIVIST METHOD"
+  - Teal (#14B8A6)
+  - Uppercase
+  - Tracking: widest
+  - Font bold
+  - Text-2xl
+  - Margin bottom: 32px
+- "December 2025": Pink (#EC4899), font-semibold
+- Last two lines (starting "When you're inside..."): 
+  - Slate-400
+  - Italic
+  - Margin top: 16px
+- Attribution "— The Archivist":
+  - Slate-500
+  - Text-sm
+  - Italic
+  - Margin top: 24px
+- All other text: Slate-300, leading-relaxed, text-center
+
+═══════════════════════════════════════════════════════════════
+
+SECTION 2: THE FOUR DOORS PROTOCOL
+
+Place this section AFTER "About" section, BEFORE pricing section.
+
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│           THE FOUR DOORS PROTOCOL™                          │
+│                                                             │
+│      Your systematic path to pattern interruption           │
+│                                                             │
+│  ┌──────────────────┐  ┌──────────────────┐               │
+│  │ 🚪 DOOR 1: FOCUS │  │ 🚪 DOOR 2:       │               │
+│  │                  │  │   EXCAVATION     │               │
+│  │ See the pattern  │  │                  │               │
+│  │ clearly          │  │ Understand the   │               │
+│  │                  │  │ original room    │               │
+│  └──────────────────┘  └──────────────────┘               │
+│                                                             │
+│  ┌──────────────────┐  ┌──────────────────┐               │
+│  │ 🚪 DOOR 3:       │  │ 🚪 DOOR 4:       │               │
+│  │   INTERRUPTION   │  │   REWRITE        │               │
+│  │                  │  │                  │               │
+│  │ Break the        │  │ Build new        │               │
+│  │ circuit in       │  │ behavioral       │               │
+│  │ real-time        │  │ pathways         │               │
+│  └──────────────────┘  └──────────────────┘               │
+│                                                             │
+│         Pattern archaeology in four stages.                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+Layout:
+- 2x2 grid on desktop (2 doors per row)
+- Single column on mobile (1 door per row)
+- Gap between cards: 24px
+
+Styling:
+- Background: Same as main background (slate-950)
+- Padding: 80px vertical, 24px horizontal
+- Max width: 1200px centered
+
+Title "THE FOUR DOORS PROTOCOL™":
+- Teal (#14B8A6)
+- Uppercase
+- Tracking: widest
+- Font black (extra bold)
+- Text-3xl
+- Text center
+- Margin bottom: 16px
+
+Subtitle "Your systematic path to pattern interruption":
+- Slate-400
+- Text-xl
+- Text center
+- Margin bottom: 48px
+
+Each Door Card:
+- Background: slate-800/slate-900
+- Border left: 4px solid teal (#14B8A6)
+- Padding: 32px
+- Rounded: 8px
+- Door emoji + title: 
+  - White
+  - Font bold
+  - Text-xl
+  - Margin bottom: 16px
+- Description text:
+  - Slate-300
+  - Leading relaxed
+- Hover effect: Slight scale (1.02), teal glow
+
+Bottom text "Pattern archaeology in four stages":
+- Slate-400
+- Italic
+- Text center
+- Margin top: 48px
+
+═══════════════════════════════════════════════════════════════
+
+UPDATE PRICING CARDS
+
+Update the three pricing tier cards with Four Doors Protocol language:
+
+FREE TIER CARD:
+Title: "7-DAY CRASH COURSE"
+Badge: "FREE"
+Subtitle: "🚪 DOOR 1: FOCUS"
+
+Features:
+- Pattern recognition training
+- Body signature identification
+- 7 days of observation protocols
+- Your pattern breakdown
+
+Footer text: "Start here. Free forever."
+
+Button: "Discover Your Pattern →" (links to /quiz)
+Button color: Teal (#14B8A6)
+
+QUICK-START CARD ($47):
+Title: "90-DAY QUICK-START GUIDE"
+Price: "$47"
+Subtitle: "THE FOUR DOORS PROTOCOL For Your Pattern"
+
+Features:
+🚪 DOOR 1: FOCUS (Days 1-7)
+🚪 DOOR 2: EXCAVATION (Days 8-21)
+🚪 DOOR 3: INTERRUPTION (Days 22-60)
+🚪 DOOR 4: REWRITE (Days 61-90)
+
+- Complete interruption system
+- Daily exercises (90 days)
+- Archivist AI access
+- Body signature tracking
+
+Button: "Unlock Quick-Start →"
+Button color: Teal (#14B8A6)
+Add "POPULAR" badge at top (teal background)
+
+COMPLETE ARCHIVE CARD ($197):
+Title: "COMPLETE PATTERN ARCHIVE"
+Price: "$197"
+Subtitle: "THE FOUR DOORS PROTOCOL For All 7 Patterns"
+
+Features:
+🚪 All Four Doors, Fully Documented
+
+- All 7 patterns mapped
+- Cross-pattern analysis
+- Advanced protocols
+- Lifetime access
+- Archivist AI access
+
+Button: "Enter The Archive →"
+Button color: Pink (#EC4899)
+
+Card styling (maintain existing):
+- Dark backgrounds (slate-800/slate-900)
+- Rounded corners
+- Hover effects
+- Proper spacing
+- Mobile responsive (stack vertically)
+
+═══════════════════════════════════════════════════════════════
+
+UPDATE FOOTER
+
+Replace or add to existing footer:
+
+"Built in the fire. Years of observation. Systematized December 2025."
+— The Archivist
+
+Styling:
+- Border top: 1px solid slate-800
+- Padding: 32px vertical
+- Text center
+- First line: slate-500, text-sm, leading-relaxed
+- Second line: slate-600, text-xs, italic, margin-top 8px
+
+═══════════════════════════════════════════════════════════════
+
+Maintain existing dark theme aesthetic, animations, and responsive design. Integrate these sections seamlessly with current landing page layout.

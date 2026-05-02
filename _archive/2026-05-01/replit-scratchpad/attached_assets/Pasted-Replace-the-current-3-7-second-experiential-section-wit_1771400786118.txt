@@ -1,0 +1,85 @@
+Replace the current 3-7 second experiential section with a new version that combines the timed text sequence with an animated progress bar visualization. This is the most important section on the entire page.
+
+SECTION LABEL:
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.2em]
+THE WINDOW
+
+INTRO TEXT (appears immediately when section scrolls into view):
+[Source Sans 3, 1rem, #777, centered]
+"Willpower is a prefrontal cortex function. Your pattern runs subcortical. That's why knowing better never worked."
+
+[1.5s pause]
+
+[Playfair Display, 2.2rem, white, centered, fade in]
+"Every pattern follows the same circuit."
+
+[1.0s pause]
+
+THE PROGRESS BAR SEQUENCE:
+Create a horizontal progress bar, centered, max-width 600px.
+- Bar container: height 4px, background rgba(255,255,255,0.1), border-radius 2px
+- Fill bar: height 4px, border-radius 2px
+- Above the bar: a label that updates at each phase
+- Below the bar: a timestamp counter
+
+The bar fills from left to right over 7 seconds total. It goes through 3 phases:
+
+PHASE 1 — TRIGGER (0-2 seconds):
+- Bar fills from 0% to 28%, color: #EC4899 (pink/red)
+- Bar has a subtle pulse animation (opacity 0.8 to 1.0)
+- Label above bar: [JetBrains Mono, 13px, pink] "SYSTEM TRIGGERED"
+- Below bar: [JetBrains Mono, 11px, #555] counting "0.0s... 0.1s... 0.2s..." up to "2.0s"
+- Text appears below counter: [Source Sans 3, 1rem, #777, fade in] "Something happens. A text. A compliment. Closeness."
+
+PHASE 2 — BODY SIGNATURE (2-4 seconds):
+- Bar fills from 28% to 57%, color transitions from pink to orange/amber (#F59E0B)
+- Bar starts to subtly vibrate (translateX -1px to 1px, rapid, 50ms interval)
+- Label: [JetBrains Mono, 13px, amber] "BODY SIGNATURE DETECTED"
+- Counter continues: "2.0s... 2.1s..." up to "4.0s"
+- Text: [Source Sans 3, 1rem, white, fade in] "Chest tightens. Stomach drops. Hands go cold. Your body is screaming."
+
+PHASE 3 — THE GAP (4-7 seconds):
+- Bar FREEZES at 57%. Stops filling completely.
+- The entire bar glitches — 2 brief flashes where the bar jumps (translateX 3px then -3px, 100ms)
+- Screen slightly desaturates for 0.2s then returns to normal
+- The bar color shifts to teal (#14B8A6) and PULSES slowly (opacity 0.6 to 1.0, 1s interval)
+- Label: [JetBrains Mono, 15px, teal, bold] "THE GAP"
+- Counter freezes and blinks: "4.0s" blinking on/off every 0.5s
+- After 1 second of freeze, text appears: [Playfair Display, 1.8rem, white, fade in] "Right here. Right now. You can still choose."
+- After another 1 second: [Source Sans 3, 1rem, teal, fade in] "This is the window. This is where the interrupt happens."
+
+AFTER THE BAR (2 seconds after Phase 3 completes):
+- Bar fades to 20% opacity and stays
+- Below everything, the final text sequence:
+
+[1.0s pause]
+[Source Sans 3, 1.1rem, #777, centered, fade in]
+"The pattern bets everything on you letting that bar finish."
+
+[1.5s pause]
+[Playfair Display, 2rem, white, centered, fade in]
+"The Archivist Method is what happens when you pull the plug."
+
+[2.0s pause]
+
+THE 3-SECOND TEST (interactive CTA):
+[JetBrains Mono, 12px, teal, uppercase, letter-spacing 0.15em]
+"THE 3-SECOND TEST"
+
+[Source Sans 3, 1.1rem, #ccc, centered, max-width 500px, line-height 1.7]
+"Think of the last time you did the thing. The thing you swore you'd stop doing. Remember the heat in your face. The tightness in your chest. That was the alarm. You had 3-7 seconds to respond. Did you have the words?"
+
+[Same CTA button style with pink trace animation]
+GET THE CIRCUIT BREAK SCRIPTS →
+(Links to /quiz)
+
+TECHNICAL DETAILS:
+- The entire sequence triggers when the section scrolls into view (intersection observer, threshold 0.4)
+- Plays once per page load. If user scrolls away and back, shows final state (bar frozen at 57%, all text visible)
+- The counter uses requestAnimationFrame for smooth number updates
+- The vibrate effect in Phase 2 uses CSS keyframes, not JavaScript
+- The desaturation in Phase 3 uses CSS filter: saturate(0.3) transitioning back to saturate(1) over 0.2s applied to the section container
+- Mobile: same sequence, same timing, bar is full width with 24px horizontal padding
+- All fonts, colors match the rest of the landing page design system
+
+This section should feel like watching your own nervous system activate in real time. The frozen bar at 57% IS the gap. The user experiences the window, not just reads about it.
