@@ -28,14 +28,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { sendPurchaseConfirmationEmail } from "./email";
 import { Resend } from 'resend';
-import { switchToSequence } from "../../src/emails/queue";
-import { checkPocketRateLimit, normaliseTier } from "../../src/lib/pocket-rate-limit";
+import { switchToSequence } from "../emails/queue";
+import { checkPocketRateLimit, normaliseTier } from "../lib/pocket-rate-limit";
 import { buildPocketArchivistPrompt } from "./system-prompt";
 import {
   isPatternKey,
   productIdToSequence,
   type PatternKey,
-} from "../../src/emails/sequences";
+} from "../emails/sequences";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

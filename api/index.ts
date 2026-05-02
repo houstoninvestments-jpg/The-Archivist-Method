@@ -21,19 +21,19 @@ import pg from "pg";
 import portalRoutes from "./portal-routes.js";
 import adminRoutes from "./admin-routes.js";
 import { db } from "./_db.js";
-import { getResendClient, getFromEmail } from "../src/lib/resend.js";
+import { getResendClient, getFromEmail } from "../server/lib/resend.js";
 import {
   scheduleSequence,
   switchToSequence,
   processDueEmails,
-} from "../src/emails/queue.js";
+} from "../server/emails/queue.js";
 import {
   isPatternKey,
   isSequenceType,
   productIdToSequence,
   type PatternKey,
   type SequenceType,
-} from "../src/emails/sequences.js";
+} from "../server/emails/sequences.js";
 
 // ── DB setup (inline, no server/ imports) ────────────────────────────────────
 const { Pool } = pg;

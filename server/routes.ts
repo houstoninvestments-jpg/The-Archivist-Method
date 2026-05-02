@@ -5,19 +5,19 @@ import { Resend } from 'resend';
 import { patternDisplayNames } from './portal/email';
 import { generateAuthToken } from "./portal/auth";
 import { db } from "./db";
-import { getResendClient, getFromEmail } from "../src/lib/resend";
+import { getResendClient, getFromEmail } from "./lib/resend";
 import {
   scheduleSequence,
   switchToSequence,
   processDueEmails,
-} from "../src/emails/queue";
+} from "./emails/queue";
 import {
   isPatternKey,
   isSequenceType,
   productIdToSequence,
   type PatternKey,
   type SequenceType,
-} from "../src/emails/sequences";
+} from "./emails/sequences";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

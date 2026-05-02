@@ -15,14 +15,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { Resend } from "resend";
 import { db } from "./_db.js";
-import { switchToSequence } from "../src/emails/queue.js";
-import { checkPocketRateLimit, normaliseTier } from "../src/lib/pocket-rate-limit.js";
+import { switchToSequence } from "../server/emails/queue.js";
+import { checkPocketRateLimit, normaliseTier } from "../server/lib/pocket-rate-limit.js";
 import { buildPocketArchivistPrompt } from "../server/portal/system-prompt.js";
 import {
   isPatternKey,
   productIdToSequence,
   type PatternKey,
-} from "../src/emails/sequences.js";
+} from "../server/emails/sequences.js";
 
 // ── Inline: auth ──────────────────────────────────────────────────────────────
 import jwt from "jsonwebtoken";
