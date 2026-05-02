@@ -41,7 +41,7 @@ This is not about understanding why the house is on fire. It is about stopping y
 | 4 | Attraction to Harm | Consistently choose people who hurt you |
 | 5 | The Draining Bond | Stay in relationships that deplete you |
 | 6 | Compliment Deflection | Unable to accept praise or acknowledgment |
-| 7 | The Perfectionism Pattern | Can't start unless conditions are perfect |
+| 7 | The Perfectionism Trap | Can't start unless conditions are perfect |
 | 8 | Success Sabotage | Destroy progress right before breakthrough |
 | 9 | The Rage Pattern | Explosive anger as fight response |
 

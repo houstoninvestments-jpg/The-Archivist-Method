@@ -22,7 +22,7 @@ const PATTERN_NAMES: Record<string, string> = {
   complimentDeflection: "COMPLIMENT DEFLECTION",
   drainingBond:         "THE DRAINING BOND",
   successSabotage:      "SUCCESS SABOTAGE",
-  perfectionism:        "THE PERFECTIONISM PATTERN",
+  perfectionism:        "THE PERFECTIONISM TRAP",
   rage:                 "THE RAGE PATTERN",
 };
 

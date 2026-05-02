@@ -49,9 +49,11 @@ export const PatternType = {
   APOLOGY_LOOP: "apologyLoop",
   TESTING: "testing",
   ATTRACTION_TO_HARM: "attractionToHarm",
-  COMPLIMENT_DEFLECTION: "complimentDeflection",
   DRAINING_BOND: "drainingBond",
+  COMPLIMENT_DEFLECTION: "complimentDeflection",
+  PERFECTIONISM_TRAP: "perfectionismTrap",
   SUCCESS_SABOTAGE: "successSabotage",
+  RAGE: "rage",
 } as const;
 
 export type PatternType = typeof PatternType[keyof typeof PatternType];
@@ -61,9 +63,11 @@ export const patternNames: Record<PatternType, string> = {
   apologyLoop: "The Apology Loop",
   testing: "The Testing Pattern",
   attractionToHarm: "Attraction to Harm",
-  complimentDeflection: "Compliment Deflection",
   drainingBond: "The Draining Bond",
+  complimentDeflection: "Compliment Deflection",
+  perfectionismTrap: "The Perfectionism Trap",
   successSabotage: "Success Sabotage",
+  rage: "The Rage Pattern",
 };
 
 // PDF Viewer - User Progress

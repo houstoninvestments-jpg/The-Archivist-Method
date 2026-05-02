@@ -25,25 +25,25 @@ export const PATTERN_DETAILS: Record<string, PatternDetail> = {
     bodySignature: "Boredom with safety, excitement with instability, confusion between love and adrenaline.",
     circuitBreak: "When 'boring' appears, reframe: 'This is what safe feels like.' Sit with safe for one hour. That's the interrupt.",
   },
-  complimentDeflection: {
-    name: "COMPLIMENT DEFLECTION",
-    bodySignature: "Heat in face, urge to look away, immediate mental list of why they're wrong.",
-    circuitBreak: "When a compliment lands, say only: 'Thank you.' Nothing else. No qualifier. That's the interrupt.",
-  },
   drainingBond: {
     name: "THE DRAINING BOND",
     bodySignature: "Guilt when considering boundaries, physical heaviness when near the person, exhaustion mistaken for love.",
     circuitBreak: "Ask: 'If a friend described this exact situation, what would I tell them?' Listen to your own advice. That's the interrupt.",
   },
+  complimentDeflection: {
+    name: "COMPLIMENT DEFLECTION",
+    bodySignature: "Heat in face, urge to look away, immediate mental list of why they're wrong.",
+    circuitBreak: "When a compliment lands, say only: 'Thank you.' Nothing else. No qualifier. That's the interrupt.",
+  },
+  perfectionism: {
+    name: "THE PERFECTIONISM TRAP",
+    bodySignature: "Paralysis. Dread. A widening gap between the vision in your head and reality on the page.",
+    circuitBreak: "The Perfectionism Trap is telling you it's not ready. Done is better than perfect. Ship it. That's the interrupt.",
+  },
   successSabotage: {
     name: "SUCCESS SABOTAGE",
     bodySignature: "Anxiety increasing as deadline approaches, sudden urge to destroy what you've built, feeling like a fraud.",
     circuitBreak: "When the urge to sabotage hits, finish one more step. Just one. Don't evaluate — execute. That's the interrupt.",
-  },
-  perfectionism: {
-    name: "THE PERFECTIONISM PATTERN",
-    bodySignature: "Paralysis. Dread. A widening gap between the vision in your head and reality on the page.",
-    circuitBreak: "Perfectionism is telling you it's not ready. Done is better than perfect. Ship it. That's the interrupt.",
   },
   rage: {
     name: "THE RAGE PATTERN",

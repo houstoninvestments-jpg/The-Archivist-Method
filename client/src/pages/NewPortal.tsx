@@ -53,7 +53,7 @@ const patternDetails: Record<string, { name: string; bodySignature: string; circ
     circuitBreak: "When the urge to sabotage hits, finish one more step. Just one. Don't evaluate — execute. That's the interrupt."
   },
   perfectionism: {
-    name: "THE PERFECTIONISM PATTERN",
+    name: "THE PERFECTIONISM TRAP",
     bodySignature: "Paralysis. Dread. A widening gap between the vision in your head and reality on the page.",
     circuitBreak: "Perfectionism is telling you it's not ready. Done is better than perfect. Ship it. That's the interrupt."
   },

@@ -85,7 +85,7 @@ PATTERNS = [
     },
     {
         'id': 'perfectionism',
-        'name': 'THE PERFECTIONISM PATTERN',
+        'name': 'THE PERFECTIONISM TRAP',
         'dir': 'pattern-7-perfectionism',
         'prefix': '7',
         'filename': 'THE-ARCHIVIST-METHOD-FIELD-GUIDE-PERFECTIONISM.pdf',

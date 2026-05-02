@@ -340,7 +340,7 @@ def build_nine_patterns(elements, styles):
         ("6. COMPLIMENT DEFLECTION",
          'Someone says "nice work." You say "oh it was nothing." They stop complimenting you.',
          "Career stagnation. Underpaid despite talent. Invisible to people who could help you."),
-        ("7. THE PERFECTIONISM PATTERN",
+        ("7. THE PERFECTIONISM TRAP",
          "If it's not perfect, it's garbage. So you don't finish. Or you don't start.",
          "Pattern of almost-finished projects. Ideas that die in your head. Years spent polishing things no one sees."),
         ("8. SUCCESS SABOTAGE",

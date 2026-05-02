@@ -108,7 +108,7 @@
 
 ---
 
-## Pattern 7: The Perfectionism Pattern
+## Pattern 7: The Perfectionism Trap
 
 **One-line:** Revising endlessly because done never feels safe.
 
