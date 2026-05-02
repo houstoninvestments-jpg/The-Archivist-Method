@@ -40,7 +40,6 @@ The Archivist Method (TAM) is a **pattern interruption system** — not therapy,
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Full stack, folder structure, routes, API endpoints, auth flow, Vault architecture |
 | [DATABASE.md](DATABASE.md) | All Supabase tables, columns, types, relationships, RLS policies |
 | [INTEGRATIONS.md](INTEGRATIONS.md) | Stripe, Claude API, Resend, ConvertKit, environment variables |
-| [DEPLOYMENT.md](DEPLOYMENT.md) | Replit hosting, domain setup, deploy process, git workflow |
 
 ### Product & Business
 | Doc | What It Covers |
@@ -54,7 +53,6 @@ The Archivist Method (TAM) is a **pattern interruption system** — not therapy,
 |-----|---------------|
 | [STATUS.md](STATUS.md) | What's complete, in progress, blocking launch, and parked |
 | [ROADMAP.md](ROADMAP.md) | Future vision: Vault V2, content automation, revenue targets, what's NOT planned |
-| [WORKFLOW.md](WORKFLOW.md) | How Claude Chat, Claude Code, and Replit AI work together. Git sync flow. |
 
 ---
 
@@ -63,8 +61,6 @@ The Archivist Method (TAM) is a **pattern interruption system** — not therapy,
 | File | Purpose |
 |------|---------|
 | `CLAUDE.md` | Project-specific Claude Code instructions |
-| `AARON-MASTER-PREFERENCES.md` | Aaron's universal AI preferences |
-| `TAM-HANDOFF-COMPLETE.md` | Full project handoff document (comprehensive reference) |
 
 ---
 
