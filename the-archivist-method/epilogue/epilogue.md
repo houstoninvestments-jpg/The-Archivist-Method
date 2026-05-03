@@ -66,7 +66,7 @@ You have everything they had, plus everything in The Archivist Method. You are b
 
 ## The Archivist's Final Observation
 
-📜 THE ARCHIVIST OBSERVES
+[RECOGNITION]
 ═══════════════════════════════════════════════
 The subject has completed the archive. They
 arrived carrying a pattern they could not name.
