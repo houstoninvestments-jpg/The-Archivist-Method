@@ -10,7 +10,7 @@ It had a plan for the protocol too. Let you start it. Let you track for three da
 
 That was the plan.
 
-You are reading the epilogue. The plan failed.
+You are reading the epilogue — the plan failed.
 
 ---
 
@@ -66,7 +66,7 @@ You have everything they had, plus everything in The Archivist Method. You are b
 
 ## The Archivist's Final Observation
 
-[RECOGNITION]
+[FIELD OBSERVATION]
 ═══════════════════════════════════════════════
 The subject has completed the archive. They
 arrived carrying a pattern they could not name.
