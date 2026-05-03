@@ -4,7 +4,7 @@
 
 You were not supposed to get this far.
 
-The pattern had a plan for The Archivist Method. It was going to let you buy it. It was going to let you read the first chapter—maybe the first few. It was going to let you feel the recognition, the brief surge of "this is me," and then it was going to close the tab. Put it aside. Move on.
+The pattern had a plan for The Archivist Method. It was going to let you buy it. It was going to let you read the first chapter, maybe the first few. It was going to let you feel the recognition, the brief surge of "this is me," and then it was going to close the tab. Put it aside. Move on.
 
 It had a plan for the protocol too. Let you start it. Let you track for three days, maybe five. Then miss a day. Then two. Then tell you it was not working, that this was just another thing you tried that did not stick, that you are the kind of person who starts things but does not finish them.
 
@@ -22,7 +22,7 @@ Before, the pattern was you. Your withdrawing was "just how I am." Your apologiz
 
 Now you know: it is not you. It is a program. It was installed. It runs automatically. And it can be interrupted.
 
-That knowledge—that separation between you and the pattern—is the most valuable thing in this method. More valuable than the Circuit Break. More valuable than the Rewrite Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
+That knowledge, that separation between you and the pattern, is the most valuable thing in this method. More valuable than the Circuit Break. More valuable than the Rewrite Scripts. More valuable than the 90-day protocol. Because the separation is the precondition for everything else. You cannot interrupt a program you believe is your identity.
 
 You no longer believe that. The pattern is not who you are. It is something that happens to you. And you are learning to make it happen less.
 
@@ -30,7 +30,7 @@ You no longer believe that. The pattern is not who you are. It is something that
 
 ## What Happens Next
 
-You will run the pattern again. Probably soon. Possibly today. The method does not prevent activation. It does not cure the circuit. What it does—what you now carry—is the ability to see the activation while it is happening and to choose differently.
+You will run the pattern again. Probably soon. Possibly today. The method does not prevent activation. It does not cure the circuit. What it does, what you now carry, is the ability to see the activation while it is happening and to choose differently.
 
 You will not always choose differently. Sometimes the pattern will be faster than the Circuit Break. Sometimes you will be too tired, too stressed, too depleted to interrupt. Sometimes you will watch yourself run the pattern in full, knowing exactly what is happening and unable to stop it.
 
@@ -42,9 +42,9 @@ Those moments are not failure. They are data. They go in the log. They inform th
 
 In six months, the pattern will still activate. It will be quieter. The activation will be slower, less intense, shorter-lived. But it will still be there. Expecting it to disappear is a setup for disappointment. Expecting it to weaken is realistic.
 
-In a year, the pattern will feel like an old weather system—you can see it approaching on the horizon, feel the barometric pressure change, and prepare. Sometimes it will pass without landing. Sometimes it will land and you will manage it. Occasionally it will hit full force and knock you sideways. But you will get up faster than you used to. And you will know exactly what hit you.
+In a year, the pattern will feel like an old weather system. You can see it approaching on the horizon, feel the barometric pressure change, and prepare. Sometimes it will pass without landing. Sometimes it will land and you will manage it. Occasionally it will hit full force and knock you sideways. But you will get up faster than you used to. And you will know exactly what hit you.
 
-In five years—if you maintain the practice—the pattern will be a part of your history rather than a part of your daily life. Not gone. Dormant. Manageable. A scar rather than an open wound. You will recognize it in others and feel compassion instead of projection. You will see it in your children and interrupt the transmission. You will remember who you were before the interruption and feel the distance.
+In five years, if you maintain the practice, the pattern will be a part of your history rather than a part of your daily life. Not gone. Dormant. Manageable. A scar rather than an open wound. You will recognize it in others and feel compassion instead of projection. You will see it in your children and interrupt the transmission. You will remember who you were before the interruption and feel the distance.
 
 That distance is freedom. Not dramatic, sudden freedom. Incremental, earned, maintained freedom. The kind that costs five minutes a day and pays back in decades.
 
@@ -54,9 +54,9 @@ That distance is freedom. Not dramatic, sudden freedom. Incremental, earned, mai
 
 Somewhere in your past, a child walked into a room and learned something wrong about the world. They learned that love disappears. Or that existing requires apology. Or that calm is the prelude to catastrophe. Or that anger is the only language that gets heard.
 
-That child was right—for that room. The learning was accurate. The adaptation was intelligent. The pattern was, in its original context, a masterpiece of survival engineering.
+That child was right, for that room. The learning was accurate. The adaptation was intelligent. The pattern was, in its original context, a masterpiece of survival engineering.
 
-But the room changed. The child grew up. The threat ended—or transformed into something the adult could handle. And the program kept running. Not because you are broken. Because programs do not update themselves. They need to be updated manually. By you. One interrupt at a time.
+But the room changed. The child grew up. The threat ended, or shifted into something the adult could handle. And the program kept running. Not because you are broken. Because programs do not update themselves. They need to be updated manually. By you. One interrupt at a time.
 
 The child in the Original Room did not have The Archivist Method. They did not have the Four Doors, the Circuit Break, the Rewrite Scripts, or the 90-day protocol. They had only their nervous system and the desperate, creative intelligence of a young mind trying to survive.
 
