@@ -714,8 +714,8 @@ The voice is the access moat. Voice and access are, per the external evaluation,
 
 The path from current state to soft launch is bounded. The phase gating reflects what is actually next, not aspirational sequencing.
 
-1. ✅ **Derived ecosystem documentation alignment.** Complete. Every contributor-facing document propagated to the canonical state.
-2. 🔄 **Quiz audit and revision.** In progress. Fresh audit session queued per `audits/quiz_audit_handoff.md`. Banned-word scan, pattern-name fidelity, per-pattern coverage, Four Doors fidelity, callout label fidelity, brand-rule fidelity, voice register check, structural particularity check.
+1. **[Done] Derived ecosystem documentation alignment.** Every contributor-facing document propagated to the canonical state.
+2. **[In progress] Quiz audit and revision.** Fresh audit session queued per `audits/quiz_audit_handoff.md`. Banned-word scan, pattern-name fidelity, per-pattern coverage, Four Doors fidelity, callout label fidelity, brand-rule fidelity, voice register check, structural particularity check.
 3. **Crash course content drafted.** Nine pattern-specific modules at the locked 3,000 to 5,000 word bound, embedded in the portal. Distinct from the 7-Day Crash Course email overview. Source material: the canonical book chapters; this is redistribution, not origination.
 4. **Portal design pass.** One consistent aesthetic across all nine patterns with subtle pattern-specific atmospheric signals only. Reader, dashboard, and onboarding flows.
 5. **Email sequences drafted into automation.** 7-Day Crash Course nurture, Field Guide buyer onboarding (5 emails), Complete Archive buyer onboarding (5 emails), Pocket Archivist trial-to-subscription sequence.
