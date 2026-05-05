@@ -419,44 +419,6 @@ export default function QuizResult() {
               </a>
             </div>
 
-            {/* ── Pocket Archivist standalone */}
-            <div style={{
-              background: '#0a0a0a',
-              border: '1px solid #1a1a1a',
-              borderRadius: '4px',
-              padding: '24px',
-              marginBottom: '32px',
-              textAlign: 'left',
-            }}>
-              <p style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.6rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: '#94A3B8',
-                marginBottom: '8px',
-              }}>
-                THE POCKET ARCHIVIST — $14.99/MO
-              </p>
-              <h3 style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: '1.4rem',
-                color: 'white',
-                lineHeight: 1.1,
-                marginBottom: '12px',
-              }}>
-                The companion that remembers.
-              </h3>
-              <p style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.9rem',
-                color: '#CBD5E1',
-                lineHeight: 1.7,
-              }}>
-                Unlimited turns inside whichever pattern is firing right now. Included free with every paid tier above. Standalone for the months you need it most.
-              </p>
-            </div>
-
             {/* ── Share */}
             <p style={{
               fontFamily: "'JetBrains Mono', monospace",
