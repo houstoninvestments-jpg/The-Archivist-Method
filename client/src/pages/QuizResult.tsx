@@ -10,240 +10,6 @@ import {
 } from '@/lib/quizData';
 
 // ─────────────────────────────────────────────
-// POCKET ARCHIVIST MODAL
-// ─────────────────────────────────────────────
-interface DemoMessage { role: 'user' | 'assistant'; content: string; }
-
-function PocketArchivistModal({
-  patternName,
-  onClose,
-}: {
-  patternName: string;
-  onClose: () => void;
-}) {
-  const [step, setStep] = useState<1 | 2 | 'done'>(1);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState<DemoMessage[]>([]);
-  const [apiError, setApiError] = useState('');
-
-  const sendStep = async (stepNum: 1 | 2, userInput: string) => {
-    setLoading(true);
-    setApiError('');
-    try {
-      const history = messages.map(m => ({ role: m.role, content: m.content }));
-      const res = await fetch('/api/archivist-demo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ step: stepNum, userInput, history }),
-      });
-      const data = await res.json();
-      const assistantText = data.response || 'Your pattern is speaking. The method is listening.';
-      setMessages(prev => [
-        ...prev,
-        { role: 'user', content: userInput },
-        { role: 'assistant', content: assistantText },
-      ]);
-      setStep(stepNum === 1 ? 2 : 'done');
-    } catch {
-      setApiError('Something went wrong. Try again.');
-    } finally {
-      setLoading(false);
-      setInput('');
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!input.trim() || step === 'done') return;
-    sendStep(step, input.trim());
-  };
-
-  return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      background: 'rgba(0,0,0,0.93)',
-      zIndex: 1000,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px',
-    }}>
-      <div style={{
-        background: '#0a0a0a',
-        border: '1px solid rgba(0,212,170,0.25)',
-        borderRadius: '4px',
-        padding: '40px',
-        maxWidth: '520px',
-        width: '100%',
-      }}>
-        <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.6rem',
-          letterSpacing: '0.3em',
-          textTransform: 'uppercase',
-          color: '#00d4aa',
-          marginBottom: '4px',
-        }}>
-          THE POCKET ARCHIVIST
-        </p>
-        <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.6rem',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: '#475569',
-          marginBottom: '28px',
-        }}>
-          {patternName} PATTERN — FREE SESSION
-        </p>
-
-        {/* Initial prompt (step 1, no messages yet) */}
-        {messages.length === 0 && (
-          <p style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '1rem',
-            color: '#CBD5E1',
-            lineHeight: 1.7,
-            marginBottom: '20px',
-          }}>
-            What do you feel in your body right before your {patternName} pattern fires?
-          </p>
-        )}
-
-        {/* Conversation */}
-        {messages.map((m, i) => (
-          m.role === 'assistant' && (
-            <p key={i} style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1rem',
-              color: '#CBD5E1',
-              lineHeight: 1.7,
-              marginBottom: '20px',
-            }}>
-              {m.content}
-            </p>
-          )
-        ))}
-
-        {/* Input area */}
-        {step !== 'done' && (
-          <div>
-            <textarea
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder="Type your response..."
-              rows={3}
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit();
-                }
-              }}
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                background: '#111',
-                border: '1px solid #1a1a1a',
-                borderRadius: '2px',
-                color: 'white',
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.95rem',
-                outline: 'none',
-                resize: 'none',
-                marginBottom: '12px',
-                boxSizing: 'border-box',
-              }}
-              onFocus={e => { e.currentTarget.style.borderColor = '#00d4aa'; }}
-              onBlur={e => { e.currentTarget.style.borderColor = '#1a1a1a'; }}
-            />
-            {apiError && (
-              <p style={{ color: '#f87171', fontSize: '0.8rem', marginBottom: '8px' }}>{apiError}</p>
-            )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <button
-                onClick={handleSubmit}
-                disabled={loading || !input.trim()}
-                style={{
-                  border: '1px solid rgba(0,212,170,0.4)',
-                  background: 'transparent',
-                  color: '#00d4aa',
-                  padding: '10px 24px',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
-                  opacity: loading || !input.trim() ? 0.5 : 1,
-                }}
-              >
-                {loading ? 'READING...' : 'SEND →'}
-              </button>
-              <button
-                onClick={onClose}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#475569',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Done state */}
-        {step === 'done' && (
-          <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: '28px', marginTop: '8px' }}>
-            <p style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: '0.65rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: '#00d4aa',
-              marginBottom: '12px',
-            }}>
-              FULL ACCESS INCLUDED WITH THE FIELD GUIDE
-            </p>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.9rem',
-              color: '#64748B',
-              lineHeight: 1.6,
-              marginBottom: '20px',
-            }}>
-              Unlimited sessions, the full interrupt protocol library, and the complete pattern map for your sequence.
-            </p>
-            <button
-              onClick={onClose}
-              style={{
-                border: '1px solid #1a1a1a',
-                background: 'transparent',
-                color: '#94A3B8',
-                padding: '10px 24px',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.7rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-              }}
-            >
-              CLOSE →
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────
 // MAIN RESULTS PAGE
 // ─────────────────────────────────────────────
 export default function QuizResult() {
@@ -296,9 +62,6 @@ export default function QuizResult() {
   // Content visibility
   const [circuitVisible, setCircuitVisible] = useState(false);
   const [gateVisible, setGateVisible] = useState(false);
-
-  // Demo modal
-  const [showDemoModal, setShowDemoModal] = useState(false);
 
   // Post-submission share prompt
   const [showSharePrompt, setShowSharePrompt] = useState(false);
@@ -440,14 +203,6 @@ export default function QuizResult() {
   return (
     <div style={{ background: '#000000', minHeight: '100vh' }}>
 
-      {/* ── DEMO MODAL */}
-      {showDemoModal && (
-        <PocketArchivistModal
-          patternName={patternDisplayNames[activePattern]}
-          onClose={() => setShowDemoModal(false)}
-        />
-      )}
-
       {/* ── SHARE PROMPT OVERLAY */}
       {showSharePrompt && (
         <div style={{
@@ -548,6 +303,158 @@ export default function QuizResult() {
               >
                 OPEN YOUR CRASH COURSE →
               </a>
+            </div>
+
+            {/* ── Field Guide */}
+            <div style={{
+              background: '#0a0a0a',
+              border: '1px solid #1a1a1a',
+              borderRadius: '4px',
+              padding: '24px',
+              marginBottom: '14px',
+              textAlign: 'left',
+            }}>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: '#94A3B8',
+                marginBottom: '8px',
+              }}>
+                THE FIELD GUIDE — $67
+              </p>
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.4rem',
+                color: 'white',
+                lineHeight: 1.1,
+                marginBottom: '12px',
+              }}>
+                Your pattern, opened to its full depth.
+              </h3>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.9rem',
+                color: '#CBD5E1',
+                lineHeight: 1.7,
+                marginBottom: '16px',
+              }}>
+                The full ninety-day protocol — the circuit map, the body signature decoded, every interrupt rehearsal, the rewrite frame that holds when the script lands. The Pocket Archivist runs alongside, unlimited, the entire time.
+              </p>
+              <a
+                href="/checkout?product=quickstart"
+                style={{
+                  display: 'inline-block',
+                  border: '1px solid #1a1a1a',
+                  background: 'transparent',
+                  color: '#94A3B8',
+                  padding: '12px 24px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                GET THE FIELD GUIDE — $67 →
+              </a>
+            </div>
+
+            {/* ── Complete Archive */}
+            <div style={{
+              background: '#0a0a0a',
+              border: '1px solid #1a1a1a',
+              borderRadius: '4px',
+              padding: '24px',
+              marginBottom: '14px',
+              textAlign: 'left',
+            }}>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: '#94A3B8',
+                marginBottom: '8px',
+              }}>
+                THE COMPLETE ARCHIVE — $297
+              </p>
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.4rem',
+                color: 'white',
+                lineHeight: 1.1,
+                marginBottom: '12px',
+              }}>
+                All nine patterns at the same depth.
+              </h3>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.9rem',
+                color: '#CBD5E1',
+                lineHeight: 1.7,
+                marginBottom: '16px',
+              }}>
+                Lifetime access to the full pattern library. Includes the physical softcover of the book and a thirty-day Pocket Archivist trial while you find which patterns are running.
+              </p>
+              <a
+                href="/checkout?product=archive"
+                style={{
+                  display: 'inline-block',
+                  border: '1px solid #1a1a1a',
+                  background: 'transparent',
+                  color: '#94A3B8',
+                  padding: '12px 24px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                GET THE COMPLETE ARCHIVE — $297 →
+              </a>
+            </div>
+
+            {/* ── Pocket Archivist standalone */}
+            <div style={{
+              background: '#0a0a0a',
+              border: '1px solid #1a1a1a',
+              borderRadius: '4px',
+              padding: '24px',
+              marginBottom: '32px',
+              textAlign: 'left',
+            }}>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: '#94A3B8',
+                marginBottom: '8px',
+              }}>
+                THE POCKET ARCHIVIST — $14.99/MO
+              </p>
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.4rem',
+                color: 'white',
+                lineHeight: 1.1,
+                marginBottom: '12px',
+              }}>
+                The companion that remembers.
+              </h3>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.9rem',
+                color: '#CBD5E1',
+                lineHeight: 1.7,
+              }}>
+                Unlimited turns inside whichever pattern is firing right now. Included free with every paid tier above. Standalone for the months you need it most.
+              </p>
             </div>
 
             {/* ── Share */}
@@ -951,33 +858,16 @@ export default function QuizResult() {
                   lineHeight: 1.1,
                   marginBottom: '10px',
                 }}>
-                  The only tool built for the moment it fires.
+                  The companion that runs in the gap.
                 </h3>
                 <p style={{
                   fontFamily: "'Inter', sans-serif",
                   fontSize: '0.95rem',
-                  color: '#64748B',
-                  lineHeight: 1.6,
-                  marginBottom: '20px',
+                  color: '#CBD5E1',
+                  lineHeight: 1.7,
                 }}>
-                  One free session. No email required.
+                  Trained on the method. Speaks in your pattern's voice. The one you reach for when the body signature fires and you need a second mind in the three-to-seven-second window.
                 </p>
-                <button
-                  onClick={() => setShowDemoModal(true)}
-                  style={{
-                    border: '1px solid rgba(0,212,170,0.6)',
-                    background: '#0d1a18',
-                    color: '#00d4aa',
-                    padding: '12px 28px',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                  }}
-                >
-                  TRY A SESSION →
-                </button>
               </div>
 
               {/* ── Email gate */}
