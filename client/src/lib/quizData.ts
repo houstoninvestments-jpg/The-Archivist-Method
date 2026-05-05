@@ -131,7 +131,7 @@ export const quizQuestions: QuizQuestion[] = [
     title: "Your relationship history:",
     options: [
       { id: "8a", text: "90 days. Max. Then you're gone.", pattern: "disappearing", recognition: "The timer was always running." },
-      { id: "8b", text: "Toxic but alive. Safe feels dead.", pattern: "attractionToHarm", recognition: "You've been chasing that voltage." },
+      { id: "8b", text: "Chaos but alive. Safe feels dead.", pattern: "attractionToHarm", recognition: "You've been chasing that voltage." },
       { id: "8c", text: "You stayed until there was nothing left of you", pattern: "drainingBond", recognition: "You gave until empty." },
       { id: "8d", text: "You tested them until they proved you right", pattern: "testing", recognition: "You wrote the ending before they did." },
       { id: "8e", text: "You gave everything. Asked for nothing. Got nothing.", pattern: "apologyLoop", recognition: "That's the whole story." },
@@ -164,7 +164,7 @@ export const quizQuestions: QuizQuestion[] = [
     title: "You mess up. First thought:",
     options: [
       { id: "11a", text: "Knew it. You always ruin it.", pattern: "successSabotage", recognition: "The pattern was waiting for proof." },
-      { id: "11b", text: "They'll leave now. Watch.", pattern: "testing", recognition: "Mistakes as abandonment triggers." },
+      { id: "11b", text: "They'll leave now. Watch.", pattern: "testing", recognition: "Each mistake reads as goodbye." },
       { id: "11c", text: "You're too much. You're not enough. Both.", pattern: "apologyLoop", recognition: "The impossible standard." },
       { id: "11d", text: "Rage. At them. At yourself.", pattern: "rage", recognition: "Shame that moves like fire." },
       { id: "11e", text: "Whatever. Add it to the pile.", pattern: "complimentDeflection", recognition: "Numbness as armor." },
@@ -177,7 +177,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "12a", text: "Want to evaporate", pattern: "complimentDeflection", recognition: "Seen feels like exposed." },
       { id: "12b", text: "Suspicious. Why are they looking?", pattern: "testing", recognition: "Attention as threat." },
       { id: "12c", text: "Sorry for being seen", pattern: "apologyLoop", recognition: "Existing feels like an imposition." },
-      { id: "12d", text: "Need to run", pattern: "disappearing", recognition: "Visibility triggers the exit." },
+      { id: "12d", text: "Need to run", pattern: "disappearing", recognition: "Visibility fires the exit reflex." },
       { id: "12e", text: "Watch yourself ruin it. You always ruin it.", pattern: "successSabotage", recognition: "The pattern is already calling the ending." },
     ],
   },

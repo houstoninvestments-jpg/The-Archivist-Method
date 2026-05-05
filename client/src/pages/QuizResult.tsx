@@ -218,7 +218,7 @@ function PocketArchivistModal({
               lineHeight: 1.6,
               marginBottom: '20px',
             }}>
-              Unlimited sessions, all 47 interrupt protocols, and the complete pattern map for your sequence.
+              Unlimited sessions, the full interrupt protocol library, and the complete pattern map for your sequence.
             </p>
             <button
               onClick={onClose}
@@ -866,7 +866,7 @@ export default function QuizResult() {
                   margin: '0 auto',
                 }}
               >
-                This is one of 47 protocols in your pattern's full interrupt sequence.
+                This is one entry in your pattern's full interrupt protocol.
               </p>
             </div>
           </section>
