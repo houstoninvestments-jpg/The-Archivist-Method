@@ -350,13 +350,6 @@ export default function QuizResult() {
     }
   }, [focusPattern]);
 
-  // ── Auto-redirect after share prompt
-  useEffect(() => {
-    if (!showSharePrompt) return;
-    const t = setTimeout(() => window.location.assign('/portal'), 3000);
-    return () => clearTimeout(t);
-  }, [showSharePrompt]);
-
   // ── Email submit
   const handleSubmit = async () => {
     const trimmedEmail = email.trim();
@@ -466,8 +459,9 @@ export default function QuizResult() {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '24px',
+          overflowY: 'auto',
         }}>
-          <div style={{ maxWidth: '440px', width: '100%', textAlign: 'center' }}>
+          <div style={{ maxWidth: '480px', width: '100%', textAlign: 'center' }}>
             <p style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.65rem',
@@ -494,12 +488,80 @@ export default function QuizResult() {
               fontWeight: 300,
               color: '#94A3B8',
               lineHeight: 1.6,
-              marginBottom: '36px',
+              marginBottom: '32px',
             }}>
-              Tell someone.
+              The work begins now.
             </p>
 
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '32px', flexWrap: 'wrap' }}>
+            {/* ── Crash course handoff */}
+            <div style={{
+              background: '#0a0a0a',
+              border: '1px solid rgba(0,212,170,0.25)',
+              borderRadius: '4px',
+              padding: '28px',
+              marginBottom: '28px',
+              textAlign: 'left',
+            }}>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: '#00d4aa',
+                marginBottom: '12px',
+              }}>
+                YOUR FREE CRASH COURSE
+              </p>
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
+                color: 'white',
+                lineHeight: 1.1,
+                marginBottom: '14px',
+              }}>
+                Seven days inside {patternDisplayNames[submittedPattern || primaryPattern]}.
+              </h3>
+              <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.95rem',
+                color: '#CBD5E1',
+                lineHeight: 1.7,
+                marginBottom: '20px',
+              }}>
+                Inside is the work itself. The pattern named in full. The body signature you feel three to seven seconds before it fires. The mechanism your nervous system installed and why willpower cannot override it. One interruption script you can run the moment you feel the heat. One rewrite frame that holds when the script lands. One field assignment for the next time the pattern activates.
+              </p>
+              <a
+                href={`/crash-course/${submittedPattern || primaryPattern}`}
+                style={{
+                  display: 'inline-block',
+                  border: '1px solid rgba(0,212,170,0.6)',
+                  background: '#0d1a18',
+                  color: '#00d4aa',
+                  padding: '14px 32px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                OPEN YOUR CRASH COURSE →
+              </a>
+            </div>
+
+            {/* ── Share */}
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.6rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: '#475569',
+              marginBottom: '12px',
+            }}>
+              TELL SOMEONE
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
                 href={xShareUrl}
                 target="_blank"
@@ -508,20 +570,20 @@ export default function QuizResult() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  border: '1px solid rgba(0,212,170,0.4)',
+                  border: '1px solid #1a1a1a',
                   background: 'transparent',
-                  color: '#00d4aa',
-                  padding: '12px 24px',
+                  color: '#64748B',
+                  padding: '10px 20px',
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.75rem',
+                  fontSize: '0.7rem',
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
                   textDecoration: 'none',
                   cursor: 'pointer',
                 }}
               >
-                <Share2 size={14} />
-                SHARE TO X
+                <Share2 size={12} />
+                X
               </a>
               <button
                 onClick={handleInstagramShare}
@@ -532,34 +594,18 @@ export default function QuizResult() {
                   border: '1px solid #1a1a1a',
                   background: 'transparent',
                   color: '#64748B',
-                  padding: '12px 24px',
+                  padding: '10px 20px',
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.75rem',
+                  fontSize: '0.7rem',
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
                   cursor: 'pointer',
                 }}
               >
-                <Copy size={14} />
-                INSTAGRAM STORIES
+                <Copy size={12} />
+                INSTAGRAM
               </button>
             </div>
-
-            <button
-              onClick={() => window.location.assign('/portal')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#475569',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-              }}
-            >
-              Continue to portal →
-            </button>
           </div>
         </div>
       )}

@@ -20,6 +20,7 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const Checkout = lazy(() => import("@/pages/Checkout"));
+const CrashCourse = lazy(() => import("@/pages/CrashCourse"));
 
 function PageLoader() {
   return (
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/results" component={QuizResult} />
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal/crash-course" component={CrashCourseRedirect} />
+      <Route path="/crash-course/:patternId" component={CrashCourse} />
       <Route path="/portal/dev" component={Portal} />
       <Route path="/portal" component={Portal} />
       <Route path="/admin" component={AdminLogin} />
@@ -64,7 +66,8 @@ function AppContent() {
   const isQuiz = location.startsWith("/quiz");
   const isResults = location.startsWith("/results");
   const isAdmin = location.startsWith("/admin");
-  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin;
+  const isCrashCourse = location.startsWith("/crash-course");
+  const hideHeaderFooter = isPortal || isQuiz || isLanding || isResults || isAdmin || isCrashCourse;
 
   return (
     <div className="min-h-screen flex flex-col">
