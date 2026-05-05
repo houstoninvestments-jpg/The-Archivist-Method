@@ -431,12 +431,8 @@ export default function QuizResult() {
   const activePattern = focusPattern || primaryPattern;
   const circuitBreak = circuitBreakData[activePattern];
 
-  // Proportional bar widths — primary is always 100%, secondaries relative to it
-  const maxScore = primaryScore || 1;
   const secondary1Score = secondaryPattern1 ? (scores[secondaryPattern1] || 0) : 0;
   const secondary2Score = secondaryPattern2 ? (scores[secondaryPattern2] || 0) : 0;
-  const secondary1BarPct = Math.round((secondary1Score / maxScore) * 100);
-  const secondary2BarPct = Math.round((secondary2Score / maxScore) * 100);
 
   // Three patterns to offer as focus choices
   const focusChoices: PatternKey[] = [
@@ -642,7 +638,7 @@ export default function QuizResult() {
             }}>
               <div style={{
                 height: '100%',
-                width: barsReady ? '100%' : '0%',
+                width: barsReady ? `${primaryScore}%` : '0%',
                 background: '#EC4899',
                 borderRadius: '3px',
                 transition: 'width 1200ms cubic-bezier(0.16, 1, 0.3, 1)',
@@ -662,8 +658,8 @@ export default function QuizResult() {
 
           {/* ── SECONDARY pattern cards */}
           {[
-            secondaryPattern1 ? { pattern: secondaryPattern1, barPct: secondary1BarPct, score: secondary1Score } : null,
-            secondaryPattern2 ? { pattern: secondaryPattern2, barPct: secondary2BarPct, score: secondary2Score } : null,
+            secondaryPattern1 ? { pattern: secondaryPattern1, score: secondary1Score } : null,
+            secondaryPattern2 ? { pattern: secondaryPattern2, score: secondary2Score } : null,
           ].filter(Boolean).map((item, idx) => (
             <div
               key={item!.pattern}
@@ -706,7 +702,7 @@ export default function QuizResult() {
               }}>
                 <div style={{
                   height: '100%',
-                  width: revealStep >= 3 ? `${item!.barPct}%` : '0%',
+                  width: revealStep >= 3 ? `${item!.score}%` : '0%',
                   background: 'rgba(236, 72, 153, 0.45)',
                   borderRadius: '3px',
                   transition: `width 1000ms cubic-bezier(0.16, 1, 0.3, 1) ${200 + idx * 150}ms`,
