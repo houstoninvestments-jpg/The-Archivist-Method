@@ -55,7 +55,7 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       { id: "1a", text: "The urge to burn it down before it burns you", pattern: "successSabotage", recognition: "You end it before it ends you." },
       { id: "1b", text: "Suspicious. What's the trap?", pattern: "testing", recognition: "The pattern is already scanning." },
-      { id: "1c", text: "Guilt. You don't get to have this.", pattern: "apologyLoop", recognition: "That's not humility. That's the wound." },
+      { id: "1c", text: "The pressure to never let it slip. To make it perfect now.", pattern: "perfectionism", recognition: "The bar moved the moment you got close." },
       { id: "1d", text: "Walls going up. Exit located.", pattern: "disappearing", recognition: "Your nervous system just confirmed it." },
       { id: "1e", text: "Nothing. You stopped feeling years ago.", pattern: "attractionToHarm", recognition: "Numbness is its own signal." },
     ],
@@ -89,7 +89,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "4a", text: "Bored. Where's the chaos?", pattern: "attractionToHarm", recognition: "Safety doesn't feel like safety yet." },
       { id: "4b", text: "Waiting for the mask to slip", pattern: "testing", recognition: "The pattern expects betrayal." },
       { id: "4c", text: "Already planning your exit", pattern: "disappearing", recognition: "The door found before the feeling." },
-      { id: "4d", text: "You don't deserve them", pattern: "apologyLoop", recognition: "That's not true. That's old." },
+      { id: "4d", text: "You're not finished enough yet. Not whole enough. Soon.", pattern: "perfectionism", recognition: "The bar lives between you and the door." },
       { id: "4e", text: "You'll destroy this. Give it time.", pattern: "successSabotage", recognition: "The pattern already knows how this ends." },
     ],
   },
@@ -143,7 +143,7 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       { id: "9a", text: "Terror. It's about to collapse.", pattern: "successSabotage", recognition: "The pattern doesn't trust the win." },
       { id: "9b", text: "Fraud. They'll find out.", pattern: "perfectionism", recognition: "Impostor before the ink dries." },
-      { id: "9c", text: "Guilt. Who are you to have this?", pattern: "apologyLoop", recognition: "Success feels like stealing." },
+      { id: "9c", text: "Heat. Resentment at whoever's about to take it.", pattern: "rage", recognition: "The pattern guards the win with fire." },
       { id: "9d", text: "Exposed. Too visible.", pattern: "complimentDeflection", recognition: "Good things make you a target." },
       { id: "9e", text: "Empty. What now?", pattern: "attractionToHarm", recognition: "The high didn't land." },
     ],
@@ -178,7 +178,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "12b", text: "Suspicious. Why are they looking?", pattern: "testing", recognition: "Attention as threat." },
       { id: "12c", text: "Sorry for being seen", pattern: "apologyLoop", recognition: "Existing feels like an imposition." },
       { id: "12d", text: "Need to run", pattern: "disappearing", recognition: "Visibility triggers the exit." },
-      { id: "12e", text: "Feel nothing. Already gone inside.", pattern: "attractionToHarm", recognition: "Checked out before they could." },
+      { id: "12e", text: "Watch yourself ruin it. You always ruin it.", pattern: "successSabotage", recognition: "The pattern is already calling the ending." },
     ],
   },
   {
@@ -189,7 +189,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "13b", text: "You pushed until they finally broke", pattern: "testing", recognition: "You needed to know for sure." },
       { id: "13c", text: "You stayed until you forgot who you were", pattern: "drainingBond", recognition: "You dissolved into them." },
       { id: "13d", text: "You burned it down in one conversation", pattern: "rage", recognition: "One moment. Everything gone." },
-      { id: "13e", text: "You gave until empty then resented them for it", pattern: "apologyLoop", recognition: "Generosity as slow destruction." },
+      { id: "13e", text: "You gave until empty then exploded at them for it", pattern: "rage", recognition: "Generosity that turned to fire." },
     ],
   },
   {
@@ -210,7 +210,7 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       { id: "15a", text: "Start waiting for it to end. It always does.", pattern: "successSabotage", recognition: "The pattern doesn't trust the good." },
       { id: "15b", text: "Feel suffocated. Where's the edge?", pattern: "attractionToHarm", recognition: "Peace feels like danger." },
-      { id: "15c", text: "Wonder what you have to do to keep it.", pattern: "apologyLoop", recognition: "Love as transaction." },
+      { id: "15c", text: "Wonder what you have to perform perfectly to keep it.", pattern: "perfectionism", recognition: "Love as a performance review." },
       { id: "15d", text: "Feel nothing. Good doesn't register anymore.", pattern: "drainingBond", recognition: "You're already somewhere else." },
       { id: "15e", text: "Get uncomfortable. Too exposed.", pattern: "complimentDeflection", recognition: "Goodness as threat." },
     ],
@@ -223,7 +223,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "16b", text: "Suddenly can't remember why you started.", pattern: "successSabotage", recognition: "The pattern pulled the meaning out." },
       { id: "16c", text: "Let someone else cross it. You'll start over.", pattern: "complimentDeflection", recognition: "Victory handed off." },
       { id: "16d", text: "Push so hard you destroy what got you here.", pattern: "rage", recognition: "Burning the bridge you're standing on." },
-      { id: "16e", text: "Convince yourself you never wanted it anyway.", pattern: "attractionToHarm", recognition: "Desire denied before loss." },
+      { id: "16e", text: "Decide it wasn't worth it. Walk away from the win you were about to claim.", pattern: "successSabotage", recognition: "Sabotage dressed as not wanting it." },
     ],
   },
   {
@@ -243,7 +243,7 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       { id: "18a", text: "Heat. Jaw tight. Who gave them the right.", pattern: "rage", recognition: "Praise as provocation." },
       { id: "18b", text: "Shrink. Get smaller. Don't let them see you sweat.", pattern: "complimentDeflection", recognition: "Disappearing in plain sight." },
-      { id: "18c", text: "Already composing the apology for taking up space.", pattern: "apologyLoop", recognition: "Gratitude converted to guilt." },
+      { id: "18c", text: "Already finding the flaws they missed.", pattern: "perfectionism", recognition: "Praise that proves you fooled them." },
       { id: "18d", text: "Scanning every face for the one who doesn't mean it.", pattern: "testing", recognition: "The pattern finds the threat." },
       { id: "18e", text: "Mentally already out the door.", pattern: "disappearing", recognition: "Gone before the applause ends." },
     ],
