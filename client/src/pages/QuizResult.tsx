@@ -305,120 +305,6 @@ export default function QuizResult() {
               </a>
             </div>
 
-            {/* ── Field Guide */}
-            <div style={{
-              background: '#0a0a0a',
-              border: '1px solid #1a1a1a',
-              borderRadius: '4px',
-              padding: '24px',
-              marginBottom: '14px',
-              textAlign: 'left',
-            }}>
-              <p style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.6rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: '#94A3B8',
-                marginBottom: '8px',
-              }}>
-                THE FIELD GUIDE — $67
-              </p>
-              <h3 style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: '1.4rem',
-                color: 'white',
-                lineHeight: 1.1,
-                marginBottom: '12px',
-              }}>
-                Your pattern, opened to its full depth.
-              </h3>
-              <p style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.9rem',
-                color: '#CBD5E1',
-                lineHeight: 1.7,
-                marginBottom: '16px',
-              }}>
-                The full ninety-day protocol — the circuit map, the body signature decoded, every interrupt rehearsal, the rewrite frame that holds when the script lands. The Pocket Archivist runs alongside, unlimited, the entire time.
-              </p>
-              <a
-                href="/checkout?product=quickstart"
-                style={{
-                  display: 'inline-block',
-                  border: '1px solid #1a1a1a',
-                  background: 'transparent',
-                  color: '#94A3B8',
-                  padding: '12px 24px',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                GET THE FIELD GUIDE — $67 →
-              </a>
-            </div>
-
-            {/* ── Complete Archive */}
-            <div style={{
-              background: '#0a0a0a',
-              border: '1px solid #1a1a1a',
-              borderRadius: '4px',
-              padding: '24px',
-              marginBottom: '14px',
-              textAlign: 'left',
-            }}>
-              <p style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '0.6rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: '#94A3B8',
-                marginBottom: '8px',
-              }}>
-                THE COMPLETE ARCHIVE — $297
-              </p>
-              <h3 style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: '1.4rem',
-                color: 'white',
-                lineHeight: 1.1,
-                marginBottom: '12px',
-              }}>
-                All nine patterns at the same depth.
-              </h3>
-              <p style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.9rem',
-                color: '#CBD5E1',
-                lineHeight: 1.7,
-                marginBottom: '16px',
-              }}>
-                Lifetime access to the full pattern library. Includes the physical softcover of the book and a thirty-day Pocket Archivist trial while you find which patterns are running.
-              </p>
-              <a
-                href="/checkout?product=archive"
-                style={{
-                  display: 'inline-block',
-                  border: '1px solid #1a1a1a',
-                  background: 'transparent',
-                  color: '#94A3B8',
-                  padding: '12px 24px',
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                GET THE COMPLETE ARCHIVE — $297 →
-              </a>
-            </div>
-
             {/* ── Share */}
             <p style={{
               fontFamily: "'JetBrains Mono', monospace",
@@ -783,7 +669,7 @@ export default function QuizResult() {
           </section>
         )}
 
-        {/* ── SECTION 3: Pocket Archivist preview + Email gate */}
+        {/* ── SECTION 3: Crash course CTA, email gate, ladder, Pocket Archivist */}
         {focusPattern && (
           <section
             className="px-4 py-16 md:py-24"
@@ -795,13 +681,13 @@ export default function QuizResult() {
           >
             <div className="max-w-lg mx-auto">
 
-              {/* ── Pocket Archivist preview */}
+              {/* ── Crash course CTA */}
               <div style={{
                 background: '#0a0a0a',
-                border: '1px solid #1a1a1a',
+                border: '1px solid rgba(0,212,170,0.25)',
                 borderRadius: '4px',
                 padding: '28px',
-                marginBottom: '48px',
+                marginBottom: '32px',
               }}>
                 <p style={{
                   fontFamily: "'JetBrains Mono', monospace",
@@ -811,25 +697,44 @@ export default function QuizResult() {
                   color: '#00d4aa',
                   marginBottom: '12px',
                 }}>
-                  THE POCKET ARCHIVIST
+                  YOUR FREE CRASH COURSE
                 </p>
                 <h3 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
                   color: 'white',
                   lineHeight: 1.1,
-                  marginBottom: '10px',
+                  marginBottom: '14px',
                 }}>
-                  The companion that runs in the gap.
+                  Seven days inside {patternDisplayNames[focusPattern || primaryPattern]}.
                 </h3>
                 <p style={{
                   fontFamily: "'Inter', sans-serif",
                   fontSize: '0.95rem',
                   color: '#CBD5E1',
                   lineHeight: 1.7,
+                  marginBottom: '20px',
                 }}>
-                  Trained on the method. Speaks in your pattern's voice. The one you reach for when the body signature fires and you need a second mind in the three-to-seven-second window.
+                  Inside is the work itself. The pattern named in full. The body signature you feel three to seven seconds before it fires. The mechanism your nervous system installed and why willpower cannot override it. One interruption script you can run the moment you feel the heat. One rewrite frame that holds when the script lands. One field assignment for the next time the pattern activates.
                 </p>
+                <a
+                  href={`/crash-course/${focusPattern || primaryPattern}`}
+                  style={{
+                    display: 'inline-block',
+                    border: '1px solid rgba(0,212,170,0.6)',
+                    background: '#0d1a18',
+                    color: '#00d4aa',
+                    padding: '14px 32px',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  OPEN YOUR CRASH COURSE →
+                </a>
               </div>
 
               {/* ── Email gate */}
@@ -915,6 +820,155 @@ export default function QuizResult() {
                   }}
                 >
                   No sales sequence. Just the work.
+                </p>
+              </div>
+
+              {/* ── Field Guide */}
+              <div style={{
+                background: '#0a0a0a',
+                border: '1px solid #1a1a1a',
+                borderRadius: '4px',
+                padding: '24px',
+                marginTop: '48px',
+                marginBottom: '14px',
+              }}>
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#94A3B8',
+                  marginBottom: '8px',
+                }}>
+                  THE FIELD GUIDE — $67
+                </p>
+                <h3 style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: '1.4rem',
+                  color: 'white',
+                  lineHeight: 1.1,
+                  marginBottom: '12px',
+                }}>
+                  Your pattern, opened to its full depth.
+                </h3>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.9rem',
+                  color: '#CBD5E1',
+                  lineHeight: 1.7,
+                  marginBottom: '16px',
+                }}>
+                  The full ninety-day protocol — the circuit map, the body signature decoded, every interrupt rehearsal, the rewrite frame that holds when the script lands. The Pocket Archivist runs alongside, unlimited, the entire time.
+                </p>
+                <a
+                  href="/checkout?product=quickstart"
+                  style={{
+                    display: 'inline-block',
+                    border: '1px solid #1a1a1a',
+                    background: 'transparent',
+                    color: '#94A3B8',
+                    padding: '12px 24px',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  GET THE FIELD GUIDE — $67 →
+                </a>
+              </div>
+
+              {/* ── Complete Archive */}
+              <div style={{
+                background: '#0a0a0a',
+                border: '1px solid #1a1a1a',
+                borderRadius: '4px',
+                padding: '24px',
+                marginBottom: '40px',
+              }}>
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#94A3B8',
+                  marginBottom: '8px',
+                }}>
+                  THE COMPLETE ARCHIVE — $297
+                </p>
+                <h3 style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: '1.4rem',
+                  color: 'white',
+                  lineHeight: 1.1,
+                  marginBottom: '12px',
+                }}>
+                  All nine patterns at the same depth.
+                </h3>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.9rem',
+                  color: '#CBD5E1',
+                  lineHeight: 1.7,
+                  marginBottom: '16px',
+                }}>
+                  Lifetime access to the full pattern library. Includes the physical softcover of the book and a thirty-day Pocket Archivist trial while you find which patterns are running.
+                </p>
+                <a
+                  href="/checkout?product=archive"
+                  style={{
+                    display: 'inline-block',
+                    border: '1px solid #1a1a1a',
+                    background: 'transparent',
+                    color: '#94A3B8',
+                    padding: '12px 24px',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  GET THE COMPLETE ARCHIVE — $297 →
+                </a>
+              </div>
+
+              {/* ── Pocket Archivist preview (last, no checkout) */}
+              <div style={{
+                background: '#0a0a0a',
+                border: '1px solid #1a1a1a',
+                borderRadius: '4px',
+                padding: '24px',
+              }}>
+                <p style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#00d4aa',
+                  marginBottom: '12px',
+                }}>
+                  THE POCKET ARCHIVIST
+                </p>
+                <h3 style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: '1.4rem',
+                  color: 'white',
+                  lineHeight: 1.1,
+                  marginBottom: '12px',
+                }}>
+                  The companion that runs in the gap.
+                </h3>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.9rem',
+                  color: '#CBD5E1',
+                  lineHeight: 1.7,
+                }}>
+                  Trained on the method. Speaks in your pattern's voice. The one you reach for when the body signature fires and you need a second mind in the three-to-seven-second window. Included with every paid tier above.
                 </p>
               </div>
             </div>
