@@ -322,13 +322,14 @@ export interface QuizResult {
 }
 
 export function determineQuizResult(rawScores: Record<PatternKey, number>): QuizResult {
-  // Convert raw scores to percentages
+  const total = Object.values(rawScores).reduce((a, b) => a + b, 0);
+
+  // Convert raw scores to share-of-scored-points percentages (sum to ~100)
   const scores: Record<PatternKey, number> = {} as Record<PatternKey, number>;
   for (const key of Object.keys(rawScores) as PatternKey[]) {
-    scores[key] = Math.round((rawScores[key] / MAX_POSSIBLE_SCORE) * 100);
+    scores[key] = total > 0 ? Math.round((rawScores[key] / total) * 100) : 0;
   }
 
-  const total = Object.values(rawScores).reduce((a, b) => a + b, 0);
   const sorted = (Object.entries(scores) as [PatternKey, number][])
     .sort((a, b) => b[1] - a[1])
     .filter(([_, score]) => score > 0);
