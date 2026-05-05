@@ -595,11 +595,6 @@ export default function Quiz() {
               opacity: 0.7,
             }}>
               {currentQuestion + 1} / {quizQuestions.length}
-              {isQ20 && (
-                <span style={{ marginLeft: '12px', color: 'rgba(0,255,209,0.5)' }}>
-                  TRIPLE WEIGHT
-                </span>
-              )}
             </p>
 
             {/* Q20 special header */}
