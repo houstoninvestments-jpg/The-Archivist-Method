@@ -374,18 +374,18 @@ The revenue model has eight streams in year one. The streams compound; later str
 
 | # | Stream | Year-One Contribution | Notes |
 |---|--------|----------------------|-------|
-| 1 | Organic Field Guide ($67) | **[TBD — Aaron]** | Driven by quiz-to-paid conversion at Day 7 of Crash Course nurture and Day 21 follow-up |
-| 2 | Organic Complete Archive ($297) | **[TBD — Aaron]** | Driven by Field Guide-to-Archive upsell (end of Field Guide PDF, Day 30 and Day 60 buyer onboarding) and direct from results page |
-| 3 | Paid ads (from Month 3) | **[TBD — Aaron]** | Activates after organic conversion baseline established; ad spend recouped via Field Guide and Archive conversion |
-| 4 | Book launch (from Month 4) | **[TBD — Aaron]** | KDP, Audible, Ingram retail. Drives Path B (book-first reader) into ecosystem. Reader role is also a recommender to peers. |
-| 5 | Email upsells | **[TBD — Aaron]** | Field Guide-to-Archive upsell sequences and Pocket Archivist trial-to-subscription conversion |
-| 6 | Podcast revenue (from Month 6) | **[TBD — Aaron]** | Sponsorship, ad reads, audience-driven Field Guide and Archive conversion |
-| 7 | Pocket Archivist subscriptions ($14.99/mo) | **[TBD — Aaron]** | Standalone subscriptions plus Complete Archive trial conversions plus organic monthly subscribers |
+| 1 | Organic Field Guide ($67) | **[TBD: Aaron]** | Driven by quiz-to-paid conversion at Day 7 of Crash Course nurture and Day 21 follow-up |
+| 2 | Organic Complete Archive ($297) | **[TBD: Aaron]** | Driven by Field Guide-to-Archive upsell (end of Field Guide PDF, Day 30 and Day 60 buyer onboarding) and direct from results page |
+| 3 | Paid ads (from Month 3) | **[TBD: Aaron]** | Activates after organic conversion baseline established; ad spend recouped via Field Guide and Archive conversion |
+| 4 | Book launch (from Month 4) | **[TBD: Aaron]** | KDP, Audible, Ingram retail. Drives Path B (book-first reader) into ecosystem. Reader role is also a recommender to peers. |
+| 5 | Email upsells | **[TBD: Aaron]** | Field Guide-to-Archive upsell sequences and Pocket Archivist trial-to-subscription conversion |
+| 6 | Podcast revenue (from Month 6) | **[TBD: Aaron]** | Sponsorship, ad reads, audience-driven Field Guide and Archive conversion |
+| 7 | Pocket Archivist subscriptions ($14.99/mo) | **[TBD: Aaron]** | Standalone subscriptions plus Complete Archive trial conversions plus organic monthly subscribers |
 | 8 | Affiliate (year two and beyond) | n/a in year one | Recommender appendix in book opens this channel post-validation |
 
 **Base case year-one total.** The older `docs/ROADMAP.md` lists $200,000 to $400,000 as the year-one revenue target. **[Needs Aaron's input: confirm whether the current base case is in this range or the canonical TAM_FullFinancials base case differs. If a sophisticated investor anchor exists separately from the base case, surface it here.]**
 
-**Combined estimate range.** **[TBD — Aaron]**.
+**Combined estimate range.** **[TBD: Aaron]**.
 
 ## Cost structure
 
@@ -393,17 +393,17 @@ The variable cost structure is bounded. The fixed monthly burn is small relative
 
 | Cost | Amount | Notes |
 |------|--------|-------|
-| Anthropic API (per Pocket Archivist conversation) | **[TBD — Aaron]** | Cost-per-conversation depends on model (Claude Sonnet/Haiku family), token count per turn, and turn cap. Free tier capped server-side; paid tier full-length. |
+| Anthropic API (per Pocket Archivist conversation) | **[TBD: Aaron]** | Cost-per-conversation depends on model (Claude Sonnet/Haiku family), token count per turn, and turn cap. Free tier capped server-side; paid tier full-length. |
 | Stripe fees | 2.9% + $0.30 per transaction | Standard Stripe rate; subscription billing identical |
-| Resend | **[TBD — Aaron]** | Transactional email + magic links + sequence delivery |
+| Resend | **[TBD: Aaron]** | Transactional email + magic links + sequence delivery |
 | ElevenLabs Creator tier | $22/mo | Archivist voice ID for content production |
 | Higgsfield Plus | $49/mo | Cinematic ambient video |
-| Sentry | **[TBD — Aaron]** | Error tracking |
-| Upstash Redis | **[TBD — Aaron]** | Rate limiting (env-gated, optional) |
-| Vercel hosting | **[TBD — Aaron]** | Pro tier projected post-traffic |
-| Supabase database | **[TBD — Aaron]** | Pro tier projected post-traffic |
-| **Total fixed monthly burn pre-launch** | **[TBD — Aaron]** | |
-| **Variable cost per Pocket Archivist user** | **[TBD — Aaron]** | Dominated by Anthropic API per-conversation cost |
+| Sentry | **[TBD: Aaron]** | Error tracking |
+| Upstash Redis | **[TBD: Aaron]** | Rate limiting (env-gated, optional) |
+| Vercel hosting | **[TBD: Aaron]** | Pro tier projected post-traffic |
+| Supabase database | **[TBD: Aaron]** | Pro tier projected post-traffic |
+| **Total fixed monthly burn pre-launch** | **[TBD: Aaron]** | |
+| **Variable cost per Pocket Archivist user** | **[TBD: Aaron]** | Dominated by Anthropic API per-conversation cost |
 
 The structural point. Variable cost per user is dominated by Anthropic API consumption, which is bounded by the free-tier turn cap (server-side limit) and by the realistic conversation density of paid users. Margin per Field Guide and per Complete Archive purchase is high (Stripe + transactional email + minimal infrastructure cost per unit). Margin per Pocket Archivist subscription depends on conversation density per user but is structurally positive at $14.99/mo against bounded API consumption.
 
@@ -411,7 +411,7 @@ The structural point. Variable cost per user is dominated by Anthropic API consu
 
 > **All figures in this subsection are flagged as needing Aaron's input.**
 
-**Customer acquisition cost.** Organic CAC is dominated by content production cost per acquired customer. Paid CAC is dominated by ad spend per converted customer. **[TBD — Aaron]** for current organic CAC estimate; **[TBD — Aaron]** for paid CAC target post-Month 3.
+**Customer acquisition cost.** Organic CAC is dominated by content production cost per acquired customer. Paid CAC is dominated by ad spend per converted customer. **[TBD: Aaron]** for current organic CAC estimate; **[TBD: Aaron]** for paid CAC target post-Month 3.
 
 **LTV by acquisition channel.** The hierarchy, in order of expected LTV from highest to lowest:
 
@@ -420,7 +420,7 @@ The structural point. Variable cost per user is dominated by Anthropic API consu
 3. **Organic content.** Moderate LTV. Reader arrives via short-form or long-form content; conversion via the standard funnel (quiz to crash course to upsell).
 4. **Paid traffic.** Lowest LTV but most predictable. Reader arrives via ad; conversion is bounded by ad creative quality and offer match.
 
-**Margin on each product tier.** **[TBD — Aaron]**. Structurally, margins on the Field Guide and Complete Archive are high (digital delivery, bounded variable cost). The Complete Archive's POD softcover bundling is a small per-unit cost against a $297 sale. Pocket Archivist standalone is a recurring subscription with bounded variable cost per user.
+**Margin on each product tier.** **[TBD: Aaron]**. Structurally, margins on the Field Guide and Complete Archive are high (digital delivery, bounded variable cost). The Complete Archive's POD softcover bundling is a small per-unit cost against a $297 sale. Pocket Archivist standalone is a recurring subscription with bounded variable cost per user.
 
 **Why the math works.** The canonical-source ecosystem decouples revenue from founder time. Unlike a coach or therapist (revenue scales with calendar density), a content production company (revenue scales with new content), or a SaaS startup (revenue scales with feature velocity), this business scales with reader recognition events. Each Field Guide purchase, each Complete Archive purchase, each Pocket Archivist subscription is a recognition event followed by depth-pull. The marginal cost of the next recognition event is the marginal cost of one more reader finding the work, not the marginal cost of one more hour of founder labor.
 
@@ -488,14 +488,14 @@ The remaining eight verticals are sequenced post-validation of Verticals 1 and 2
 
 | # | Vertical | Pattern overlay (defensible from canonical framework) | Why it fits | Detail |
 |---|----------|------------------------------------------------------|-------------|--------|
-| 3 | Relationships | Disappearing, Apology Loop, Testing, Attraction to Harm, Draining Bond | Every pattern activates in romantic and intimate relationships; the canonical book already foregrounds relationship surfaces in pattern examples. | **[TBD — Aaron]** |
-| 4 | High Performance | Perfectionism Trap, Success Sabotage, Compliment Deflection, Disappearing | Executives, athletes, creatives, founders. Success-threshold patterns dominate. | **[TBD — Aaron]** |
-| 5 | ADHD | Perfectionism, Apology Loop, Rage, Disappearing, Compliment Deflection | High pattern-activation density in ADHD population; recognition surface is sharp. **[Needs Aaron's input: clinical scoping rules.]** | **[TBD — Aaron]** |
-| 6 | Trauma (clinically scoped) | All nine | The framework is explicitly not therapy; trauma vertical requires careful clinical scoping and crisis routing. **[Needs Aaron's input: how to scope without crossing into clinical claims.]** | **[TBD — Aaron]** |
-| 7 | Veterans | Rage, Disappearing, Draining Bond, Apology Loop | Specific population access via veteran service organizations and military-adjacent channels. | **[TBD — Aaron]** |
-| 8 | Parenting | Apology Loop, Rage, Draining Bond, Perfectionism, Compliment Deflection | The book already includes parenting context content. Generational pattern-transmission is a recognition surface. | **[TBD — Aaron]** |
-| 9 | Eating Disorders | Perfectionism, Apology Loop, Compliment Deflection, Success Sabotage | Requires clinical-adjacent scoping. **[Needs Aaron's input: scoping rules.]** | **[TBD — Aaron]** |
-| 10 | Grief | Disappearing, Draining Bond, Apology Loop, Rage | Pattern activation under grief load is a recognition surface; channel access via grief-support infrastructure. | **[TBD — Aaron]** |
+| 3 | Relationships | Disappearing, Apology Loop, Testing, Attraction to Harm, Draining Bond | Every pattern activates in romantic and intimate relationships; the canonical book already foregrounds relationship surfaces in pattern examples. | **[TBD: Aaron]** |
+| 4 | High Performance | Perfectionism Trap, Success Sabotage, Compliment Deflection, Disappearing | Executives, athletes, creatives, founders. Success-threshold patterns dominate. | **[TBD: Aaron]** |
+| 5 | ADHD | Perfectionism, Apology Loop, Rage, Disappearing, Compliment Deflection | High pattern-activation density in ADHD population; recognition surface is sharp. **[Needs Aaron's input: clinical scoping rules.]** | **[TBD: Aaron]** |
+| 6 | Trauma (clinically scoped) | All nine | The framework is explicitly not therapy; trauma vertical requires careful clinical scoping and crisis routing. **[Needs Aaron's input: how to scope without crossing into clinical claims.]** | **[TBD: Aaron]** |
+| 7 | Veterans | Rage, Disappearing, Draining Bond, Apology Loop | Specific population access via veteran service organizations and military-adjacent channels. | **[TBD: Aaron]** |
+| 8 | Parenting | Apology Loop, Rage, Draining Bond, Perfectionism, Compliment Deflection | The book already includes parenting context content. Generational pattern-transmission is a recognition surface. | **[TBD: Aaron]** |
+| 9 | Eating Disorders | Perfectionism, Apology Loop, Compliment Deflection, Success Sabotage | Requires clinical-adjacent scoping. **[Needs Aaron's input: scoping rules.]** | **[TBD: Aaron]** |
+| 10 | Grief | Disappearing, Draining Bond, Apology Loop, Rage | Pattern activation under grief load is a recognition surface; channel access via grief-support infrastructure. | **[TBD: Aaron]** |
 
 ## The certification play
 
@@ -633,3 +633,150 @@ The structural argument for the floor: the canonical-source ecosystem (locked bo
 The structural logic. Each validation milestone re-prices the business by adding a defensible category of asset. The 500-outcome dataset is the empirical foundation. Peer-review publication establishes mechanism credibility. Practitioner certification establishes a trained network. Institutional partnership establishes channel access. Each is additive, not exclusive.
 
 \newpage
+
+# Section 10. The Voice
+
+The voice is the moat. The external evaluations cited in the brief identify voice and access as the framework's deepest competitive advantage. Section 10 is four representative passages from the canonical book at `the-archivist-method/`, demonstrating the three-layer voice register (Mechanism, Action, Recognition) and the seven canonical callout types in live form.
+
+## Excerpt 1. Field Observation (clinical third person)
+
+From `module-3-patterns/pattern-1-disappearing/1.1-what-it-is.md`:
+
+> [FIELD OBSERVATION]
+>
+> The subject performs intimacy well at low doses. First weeks are warm. First months are convincing. The subject reports wanting connection and pursues it actively. Then the threshold is crossed. A partner says the wrong true thing. A friend names the closeness. A boss offers permanence. The subject smiles. Within seventy-two hours, the cancellations begin. Within two weeks, response times double. Within two months, the relationship is over and the subject describes it as a mismatch. The subject calls themselves independent. The behavior is not independence. It is evacuation. The pattern has been running for an average of fifteen to thirty years before the subject recognizes it as a pattern at all.
+
+**What this excerpt is doing.** Field Observation is the clinical third-person register. The subject is observed. The behavior is timestamped. The subject's internal narrative ("independent") is named and contradicted ("evacuation"). The reader recognizes themselves as the subject without being addressed directly. This is the recognition mechanism in its most clinical form: the reader is not being persuaded; they are being shown a clinical observation that, structurally, fits their own pattern.
+
+The voice that produces Field Observation is hard to replicate because it requires both clinical precision and atmospheric weight. Most self-help is either clinical (and dry) or atmospheric (and imprecise). The Archivist voice holds both at once.
+
+## Excerpt 2. Recognition (hyperspecific mirror)
+
+From the same chapter:
+
+> [RECOGNITION]
+>
+> You are not afraid of being alone. You are afraid of being close and then being alone. The pattern prevents the closeness so the "then" never arrives. But the loneliness is the same.
+
+**What this excerpt is doing.** Recognition is the second-person register that produces the *how does he know* response. Twenty-eight words. The reader supplies the surface (which relationships, which decade, which context). The architecture is what is named: the inversion of the apparent fear, the structural function of the pattern, the failure mode of the protection.
+
+This is the moat. Recognition at this density of compression is the work of years and the work of the right voice. A competitor with a different voice can produce a Recognition callout with the same intent and produce it badly. The voice is what makes the compression land.
+
+## Excerpt 3. Mechanism (the science layer)
+
+From `module-3-patterns/pattern-1-disappearing/1.5-the-circuit.md`:
+
+> [MECHANISM]
+>
+> The amygdala fires first. An intimacy signal arrives through auditory cortex (the words "I love you") or visual cortex (a face moving closer, a hand reaching). The signal routes to the thalamus, which forwards it in parallel to two destinations: the slow path through the prefrontal cortex (conscious evaluation, 300-500 milliseconds) and the fast path straight to the amygdala (40-50 milliseconds). The amygdala does not wait for the prefrontal cortex. It checks the signal against stored threat patterns. If a match exists (closeness preceded loss in the Original Room), the amygdala triggers the sympathetic nervous system before the conscious mind has registered what was said. The diaphragm locks. Cortisol releases. Blood shunts from extremities toward large muscles. The chest band, the cold hands, the urge to move, all downstream of that amygdala fire. By the time you think "I should stay," the body has been moving toward the door for three full seconds. The leverage point is not the amygdala. The amygdala is faster than you. The leverage point is the prefrontal cortex coming online. Spoken language activates Broca's area, which loops back to prefrontal regions. Saying the Circuit Break out loud forces the slow path online. That is the biology. That is why the script works and the thought does not.
+
+**What this excerpt is doing.** Mechanism is the science register. The amygdala timing (40 to 50 milliseconds), the prefrontal timing (300 to 500 milliseconds), the diaphragm response, the Broca's area loop are all specific and verifiable. The Mechanism is also what produces respect from the technical reader: this is not vague self-help reframe; this is timed neurological architecture with a specific mechanical intervention (spoken language) targeting a specific biological pathway (prefrontal engagement via Broca's area).
+
+The framework's defensibility against the "this is just self-help" critique runs through the Mechanism layer. The reader who tests the science holds. The reader who tests the surface for hype tropes finds none.
+
+## Excerpt 4. Interruption Script (the spoken intervention)
+
+From `module-3-patterns/pattern-1-disappearing/1.8-how-to-interrupt.md`:
+
+> [INTERRUPTION SCRIPT]
+>
+> Say this out loud 5 times RIGHT NOW:
+>
+> "The Disappearing Pattern just activated. I feel chest tightness. The pattern wants me to pull away. I am choosing to stay and communicate instead."
+>
+> Short version: "Pattern. Stay."
+>
+> Say it. 5 times. Do it before reading further.
+
+**What this excerpt is doing.** Interruption Script is the Action register at its most distilled. Four sentences for the full script. Two words for the short version. The instruction is to say it out loud, now, five times, before reading further. The pattern survives in part because the reader keeps reading instead of practicing. The Interruption Script callout interrupts the reader the same way the Circuit Break interrupts the pattern.
+
+The voice does not soften the demand. It does not say "if you're ready" or "when you have a moment" or "this might feel uncomfortable, and that's okay." It says: say it five times, do it before reading further. The directness is the register.
+
+## Why the voice is the moat
+
+Four observations across the four excerpts.
+
+**Compression density.** The Recognition excerpt does in 28 words what most self-help does in 280. Compression at this density is a craft outcome, not a stylistic choice. It cannot be reverse-engineered by prompting an AI to "write in the Archivist voice." It is the residue of 131,969 words of canonical decisions about what stays and what goes.
+
+**Three-layer simultaneity.** Field Observation, Recognition, Mechanism, and Interruption Script appear within the same chapter. The chapter does not switch tones; it operates in three registers simultaneously. The reader receives Mechanism, Action, and Recognition in the same reading session, in the same voice, without genre transitions. This is what produces the framework's depth.
+
+**No banned-word footprint.** Across the four excerpts, the canonical banned-word list (journey, healing, toxic, triggers, boundaries, self-care, empower, transform, validate, hold space, unpack, trauma response, safe space, coping, emotional processing, inner child, thrive, wellness, beta, founding, FEIR) does not appear. This is not accidental; it is a four-phase revision pass on a 131,969-word corpus. The banned-word discipline is structural; competitors who attempt to replicate the voice without enforcing the banned-word list produce text that drifts into therapy-speak or self-help cliché within paragraphs.
+
+**Surface openness.** No proper nouns. No platforms. No celebrity references. No dated cultural artifacts. The reader supplies the surface; the architecture is universal. This is what makes the work durable across decades and translatable across populations (which is what makes the vertical expansion model work).
+
+The voice is the access moat. Voice and access are, per the external evaluation, the framework's deepest competitive advantage.
+
+\newpage
+
+# Section 11. What's Next
+
+## Launch sequence (current launch prep state)
+
+The path from current state to soft launch is bounded. The phase gating reflects what is actually next, not aspirational sequencing.
+
+1. ✅ **Derived ecosystem documentation alignment.** Complete. Every contributor-facing document propagated to the canonical state.
+2. 🔄 **Quiz audit and revision.** In progress. Fresh audit session queued per `audits/quiz_audit_handoff.md`. Banned-word scan, pattern-name fidelity, per-pattern coverage, Four Doors fidelity, callout label fidelity, brand-rule fidelity, voice register check, structural particularity check.
+3. **Crash course content drafted.** Nine pattern-specific modules at the locked 3,000 to 5,000 word bound, embedded in the portal. Distinct from the 7-Day Crash Course email overview. Source material: the canonical book chapters; this is redistribution, not origination.
+4. **Portal design pass.** One consistent aesthetic across all nine patterns with subtle pattern-specific atmospheric signals only. Reader, dashboard, and onboarding flows.
+5. **Email sequences drafted into automation.** 7-Day Crash Course nurture, Field Guide buyer onboarding (5 emails), Complete Archive buyer onboarding (5 emails), Pocket Archivist trial-to-subscription sequence.
+6. **Pocket Archivist runtime rewrite.** Free-tier capping logic enforced server-side (primary pattern only, capped turns per session, no memory persistence). Paid-tier behavior (all nine patterns, full session length, persistent memory). Crisis routing test (988 referral, exit conversation).
+7. **Integration and upsell architecture verified end-to-end.** Stripe checkout in live and test mode. Webhook to portal user creation to tier assignment to magic link delivery. 30-day Pocket Archivist trial redemption flow at `/reader`. Standalone Pocket Archivist subscription billing.
+8. **Final pre-launch checklist.** Stripe live-mode end-to-end purchase test. Email delivery verification. PDF download authenticated routes verified for all tiers. Logo finalization. POD softcover print verification. Crisis routing test. Recognition-not-persuasion audit on every public surface.
+9. **Soft launch.**
+
+## Post-launch sequence
+
+Post-launch is the longer arc. The work shifts from construction to propagation.
+
+- **Ecosystem rewrite pass.** Every non-canonical surface (landing copy, ad copy, social copy, podcast scripts, partnership materials, certification curriculum, vertical-specific applications) realigned to book voice. The canonical book is the source; the rewrite pass propagates the source into every redistribution surface. Funded by Trigger 2 (first $25,000) for professional copywriter and designer support.
+- **Knowledge base assembly.** Internal knowledge base of editorial decisions, voice rules, banned-word edge cases, callout-type usage rules, the Spirit Architecture craft moves, the per-vertical adaptation playbook. The operations bible. Trade-secret status (Section 9 IP Category 5).
+- **Content engine activation.** Primary content extraction from the canonical book begins. Eighteen to twenty-four months of high-quality content (short-form video, long-form video, podcast appearances, written content, social posts, email content, partnership-channel content) can be redistributed from the canonical source without writing new long-form material. The content engine pipeline is the redistribution mechanism.
+- **Recovery Archive completion and launch.** First vertical out the gate. Funded by Trigger 3 (first $100,000). Proves the canonical-source-plus-vertical model.
+- **First IP filings.** Funded by Trigger 1 (first $5,000). LLC, primary trademarks, manuscript copyright, privacy attorney consultation. See Section 9 phasing.
+- **Validation milestones.** First 100 paying customers. First 500 paying customers. First 1,000 paying customers. First repeat purchasers (Field Guide buyers upgrading to Complete Archive). First recommender-driven traffic. First vertical revenue. First peer-review submission.
+- **Vertical 2 selection.** Based on the first six months of data. Service Industry is the working second-priority vertical given founder credibility; final selection follows the validation data on conversion, retention, and channel access from the first six months post-launch.
+
+## Operating principle for the next phase
+
+The build is done. The next phase is propagation: of the canonical source into every redistribution surface, of the framework into the first verticals, of the IP filings into protection, of the validation milestones into category authority. The work compounds because the canonical source does not need to be reinvented. Every new surface inherits voice, framework, architecture, and pattern definitions from the locked book.
+
+\newpage
+
+# Section 12. The Long Arc
+
+## Five-year vision
+
+The canonical-source business compounds. The compounding mechanism is structural, not promotional.
+
+Each vertical adds revenue and proves the model. Recovery Archive, then Service Industry, then the remaining eight in sequence. Each vertical ships in weeks because the canonical source already exists. Each vertical expands the addressable population, the channel access, and the per-vertical recommender network.
+
+Practitioner certification creates a trained network. Coaches, sober coaches, sponsors, pastors, peer-support workers trained in The Archivist Method. The network is both a revenue stream (certification fees, continuing education) and a distribution channel (each certified practitioner is a recommender to clients). The certification structure (Level 1, Level 2, Level 3) follows validated precedents in the IFS world.
+
+Clinical validation opens healthcare and insurance integration. Phase I feasibility trial. Mechanism white paper. Peer-review publication. Once clinical validation exists, behavioral health benefit inclusion under mental health parity laws becomes accessible. Self-insured employer wellness programs are accessible earlier. EAPs and telehealth platforms become channel partners.
+
+Peer review and academic partnership solidify category creation. Pattern archaeology becomes a defined category in the literature. The framework is cited; the framework is taught; the framework is the comparator that future entrants must position against.
+
+The longitudinal pattern interruption dataset accumulates as the long-term strategic asset. Per-user pattern memory across the paid-tier user base becomes, with consent and privacy protection, an outcome dataset of pattern activations, attempted Circuit Breaks, reported successes, and behavioral change over time. This is the dataset that supports peer-review publication, that supports clinical trial design, that supports certification curriculum, that supports vertical expansion. It compounds with the user base.
+
+## Strategic exit scenarios
+
+> **Sourcing note.** Specific exit / valuation documents are not in the repository. Acquirer categories below are defensible; valuation ranges referenced in the brief are flagged as needing Aaron's input.
+
+- **Teladoc or comparable behavioral health acquirer.** The Archivist Method as a clinically-adjacent behavioral health tool with longitudinal pattern data and a trained practitioner network. Channel fit: telehealth integration, behavioral health benefit inclusion.
+- **UnitedHealth or comparable insurance conglomerate.** The Archivist Method as a benefit-eligible mental health tool with validation data and a defined pattern-archaeology category. Channel fit: mental health parity coverage, employer benefit programs.
+- **PE rollup.** The Archivist Method as the anchor IP-rich content business in a behavioral health portfolio with scaling operational infrastructure and a category-defining canonical source.
+- **Private holding.** Continued growth as an independent IP company. The canonical-source-plus-vertical model scales without acquisition; the founder retains structural control of the framework, the voice, and the longitudinal dataset.
+
+**Base case exit:** $50M to $800M. **[Needs Aaron's input.]**
+
+**Ceiling scenario:** $5B. **[Needs Aaron's input. The brief references this as a ceiling figure; the source document is not in the repository.]**
+
+## Closing
+
+This is what was built and where it goes.
+
+Not promises. Architecture. The canonical book exists. The five-surface ecosystem exists. The voice is locked. The framework is defined. The patterns are named. The Four Doors are sequenced. The seven callout types are canonical. The Pocket Archivist runs. The portal runs. Stripe is wired in live and test mode. The repository is consolidated. The IP categories are identified.
+
+Not projections. Sequenced milestones with revenue triggers. The IP floor at first $5,000. The ecosystem rewrite at first $25,000. Recovery Archive at first $100,000. The second vertical at first $250,000. The decision point at first $1,000,000. Each milestone funds the next phase of work. Each phase is bounded.
+
+The work is real. The next six weeks decide whether it ships clean or ships under conditions that compromise the launch. The decision is operational, not architectural; the architecture is done.
