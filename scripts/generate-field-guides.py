@@ -745,7 +745,7 @@ def generate_field_guide(pattern_info, content_dir, logo_path, output_dir, style
     ]))
     story.append(PageBreak())
 
-    # ===== SECTION 3: YOUR PATTERN (from content/book/) =====
+    # ===== SECTION 3: YOUR PATTERN (from the-archivist-method/) =====
     story.extend(build_section_page(styles, "SECTION 3", f"YOUR PATTERN:\n{pattern_name}"))
 
     pattern_files = get_pattern_files(content_dir, pattern_info['dir'])

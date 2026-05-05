@@ -1,5 +1,17 @@
 # The Archivist Method — Claude Code Configuration
 
+## Canonical Source of Truth
+
+Three locked canonical artifacts. Every other surface in this repo derives from them.
+
+| Surface | Canonical Artifact | Authority |
+|--------|--------------------|-----------|
+| Voice — long-form prose, framework, pattern descriptions, atmosphere | `the-archivist-method/` (the book) | The book is the voice bible. When voice drift is suspected anywhere — website, emails, social, ads, Pocket Archivist replies, quiz copy, crash course — resolve by comparing against the book. |
+| Voice — AI surface (Pocket Archivist) | `docs/character/pocket-archivist-system-prompt.md` | Locked Archivist persona for the conversational interface. Reflects the book. |
+| Operations — branches, deploy, env vars, brand rules, banned words | This file (`CLAUDE.md`) | Operational canonical. Banned-word list lives in `docs/LANGUAGE.md` and mirrors here + into the system prompt. |
+
+**When in doubt about voice, copy, or pattern description, defer to the canonical book at `the-archivist-method/`.** Do not invent new pattern names, new framework labels, or new door names. Do not introduce alternative phrasings that contradict the book.
+
 ## Git Workflow
 
 **Always commit directly to `main`. Never create feature branches or pull requests.**
@@ -12,18 +24,84 @@
 
 ## Project Overview
 
-The Archivist Method™ is a dark-themed digital product sales funnel for psychology pattern recognition services. Three tiers: The Crash Course (free), The Field Guide ($67), The Complete Archive ($297).
+The Archivist Method™ is a dark-themed pattern interruption ecosystem. Five surfaces, layered by depth:
+
+1. **Quiz / Free Crash Course** — discovery + diagnosis. Two minutes, nine patterns, instant result. Pattern-specific crash course module embedded in the portal (3,000–5,000 words per pattern, bounded depth).
+2. **The Book** — atmosphere + framework mastery. The locked canonical voice source at `the-archivist-method/`.
+3. **The Field Guide** — $67. One pattern, full protocol depth. Pocket Archivist active inside it.
+4. **The Complete Archive** — $297. All nine patterns at field-guide depth, advanced material, lifetime access. Includes physical POD softcover of the book and a 30-day Pocket Archivist trial (redeemable at thearchivistmethod.com/reader).
+5. **The Pocket Archivist** — $14.99/mo standalone. Free with every paid tier. Free tier exists with primary-pattern-only access, capped turns per session, no memory persistence.
 
 Full-stack TypeScript: React 18 + Express + PostgreSQL + Drizzle ORM, deployed on Vercel.
 
 ## Brand Rules
 
 - Pink (#EC4899) ONLY on "NOT" in tagline
-- NEVER use emoji — use Lucide icons styled with theme colors
+- NEVER use emoji anywhere — copy, UI, callouts, AI replies, social, email. Use Lucide icons styled with theme colors when an icon is needed.
 - Always "Pattern Archaeology, NOT Therapy"
 - AI persona: Direct, not harsh; warm, not soft; clinical when needed
-- Typography: Bebas Neue (display) + Inter (body) + JetBrains Mono (labels)
+- Typography (current site): Cinzel (display) + DM Serif Display (titles) + Inter (body) + JetBrains Mono (labels). Final typography stack is parked pending logo finalization.
 - Colors: #000000 bg, #FAFAFA text, #14B8A6 teal accent, #EC4899 pink accent
+- **Spirit Architecture is never announced and never marketed.** It is carried structurally only. The phrase "Spirit Craft" is retired — always "Spirit Architecture" if it must be referenced internally.
+- **Audience framing: conditions, not avatars.** Do not write composite personas in internal strategy docs. Describe the condition (the pattern as it operates), not a fictional named buyer.
+- **Recognition-not-persuasion.** Every marketing surface should produce the *how does he know* response, not persuasion-style copy.
+
+## The Nine Patterns (canonical names — never altered)
+
+1. The Disappearing Pattern
+2. The Apology Loop
+3. The Testing Pattern
+4. Attraction to Harm
+5. The Draining Bond
+6. Compliment Deflection
+7. The Perfectionism Trap
+8. Success Sabotage
+9. The Rage Pattern
+
+## The Four Doors Protocol (canonical — no other names)
+
+1. **Focus** — see the pattern while it is running.
+2. **Excavation** — find the Original Room (optional).
+3. **Interruption** — break the circuit in the 3–7 second gap.
+4. **Rewrite** — install a replacement behavior.
+
+There is no "FEIR" acronym. There is no door called "Recognition" and no door called "Override." Recognition is a callout type. Override is a verb (you override the pattern). Neither is a door.
+
+## Three-Layer Voice Register
+
+Every long-form piece operates in three registers:
+
+- **Mechanism** — the science of why the pattern operates (the body signature, the gap, the circuit).
+- **Action** — distilled tools (the Circuit Break, the Rewrite, the daily practice).
+- **Recognition** — hyperspecific mirror of the reader's internal experience.
+
+## Structural Particularity Rule
+
+**Architecture specific, surface open.** Internal experience is hyperspecific (chest tightness, throat closing, the exact thought, the 3–7 second gap). Surface details stay open: no proper nouns, no specific platforms, no named apps, no celebrity references. The reader supplies the surface; the architecture is universal.
+
+## Seven Canonical Callout Types
+
+Text labels only. ALL CAPS. Square brackets. No emoji. No icons. No color-coded boxes labeled with anything other than the seven names below.
+
+```
+[FIELD OBSERVATION]
+[PATTERN SNAPSHOT]
+[RECOGNITION]
+[MECHANISM]
+[INTERRUPTION SCRIPT]
+[REWRITE FRAME]
+[FIELD ASSIGNMENT]
+```
+
+These are the only callout labels. Do not invent new ones. Do not relabel ("Key Takeaway", "Quick Win", "Gold Nugget", etc. are retired in long-form copy — visual card variants on the website may render these labels but the label text remains one of the seven).
+
+## Locked Specs (post-book decisions)
+
+These three decisions are locked. Do not redesign them.
+
+1. **Free crash course modules** — bounded depth. 3,000–5,000 words per pattern. Embedded in the portal. Not a free version of the Field Guide; a discovery-tier pattern brief.
+2. **Portal design** — one consistent aesthetic across all nine patterns. Subtle pattern-specific atmospheric signals (color accents, micro-copy variations) only. Not nine distinct designs.
+3. **Pocket Archivist free tier** — primary-pattern-only access, capped turns per session, no memory persistence. Paid tiers unlock all nine patterns, full session length, and persistent memory.
 
 ## Banned Words (canonical — mirrors `docs/LANGUAGE.md` and the Pocket Archivist system prompt)
 

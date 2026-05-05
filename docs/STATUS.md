@@ -1,157 +1,132 @@
 # THE ARCHIVIST METHOD — PROJECT STATUS
 
-> Last updated: February 17, 2026
+> Last updated: May 5, 2026
 
 ---
 
-## Overall: Pre-launch, ~90% built
+## Overall: Pre-launch, framework canonical, derived surfaces in alignment pass
+
+The book is locked as the canonical voice source. The repository cleanup waves are complete. The v4.1 master strategic doc is locked. The current phase is propagating the canonical state into every derived surface.
+
+---
+
+## What's Locked (canonical)
+
+### The Book
+
+- **`the-archivist-method/`** — locked as the canonical voice source for the entire ecosystem.
+- Four-phase revision complete:
+  - Phase 1: banned word + em-dash surgical pass
+  - Phase 2: canonical callout extraction and relabeling (seven canonical labels)
+  - Phase 3: architectural new writes
+  - Phase 4: reading order, friction protocol, final cohesion pass
+- Compiled outputs: `builds/the-archivist-method-FULL.md`, `builds/the-archivist-method-FULL.pdf`
+
+### Operational Canonical
+
+- `CLAUDE.md` — operational rules, branch policy (always commit to `main`), brand rules, banned words, locked specs (free crash course depth, portal design, Pocket Archivist free tier), seven callout types, the Four Doors, Spirit Architecture rule, audience framing
+- `docs/LANGUAGE.md` — banned word list (canonical, mirrored to `CLAUDE.md` and the Pocket Archivist system prompt)
+- `docs/character/pocket-archivist-system-prompt.md` — locked Pocket Archivist persona
+
+### Repo Structure
+
+- Wave 5C cleanup complete: legacy `content/book/` tree archived to `_archive/2026-05-01/` and replaced by `the-archivist-method/`
+- `src/data/patterns.ts` and `src/data/interrupts.ts` removed; pattern reference now lives in `shared/schema.ts` (`PatternType`, `patternNames`)
+- Replit-era infrastructure removed (auto-merge workflow, scratchpad, light-mode CSS, dead docs)
+- Pricing canonical: $67 Field Guide (`price_1TOlJr11kGDis0LrBP8ITvIC`), $297 Complete Archive (`price_1TOlGX11kGDis0LrvJl0SBhm`), $14.99/mo Pocket Archivist standalone
+
+---
+
+## What's Pending for Launch
+
+### Derived Ecosystem Documentation Alignment
+
+This pass — propagating the canonical state into every surface and contributor-facing document. (The work this STATUS update is part of.)
+
+### Quiz Audit + Revision
+
+The 15-question quiz needs an audit pass against the canonical pattern descriptions in the book. Verify scoring weights, question phrasing, and that question copy uses the recognition-not-persuasion register.
+
+### Crash Course Content Drafting
+
+Pattern-specific crash course modules — bounded depth (3,000–5,000 words per pattern, locked spec). Nine modules, embedded in the portal. Distinct from the existing free 7-day email sequence.
+
+### Portal Design Pass
+
+One consistent aesthetic across all nine patterns with subtle pattern-specific atmospheric signals only (locked spec — not nine distinct designs). Reader, dashboard, and onboarding flows need the design pass before launch.
+
+### Email Sequence Drafting
+
+- 7-Day Crash Course nurture (drafted as copy, not yet implemented in automation)
+- Field Guide buyer onboarding (5 emails)
+- Complete Archive buyer onboarding (5 emails)
+- Pocket Archivist trial-to-subscription sequence
+
+### Pocket Archivist Rewrite
+
+The system prompt at `docs/character/pocket-archivist-system-prompt.md` is voice-locked but the runtime implementation needs a pass to enforce the locked free-tier spec (primary pattern only, capped turns per session, no memory persistence) and the paid-tier behavior (all nine patterns, full session length, persistent memory).
+
+### Integration + Upsell Architecture
+
+End-to-end testing of:
+- Stripe checkout (Field Guide and Complete Archive in live mode; both flows in test mode on a preview deploy)
+- Webhook → portal user creation → tier assignment → magic link delivery (Resend)
+- 30-day Pocket Archivist trial redemption flow at `/reader`
+- Standalone Pocket Archivist subscription billing
+
+### Final Pre-Launch Checklist
+
+- Stripe live-mode end-to-end purchase test
+- Email delivery verification (transactional + sequence)
+- PDF download authenticated routes verified for all tiers
+- Logo finalization (typography stack is parked pending logo)
+- POD softcover print verification for Complete Archive bundling
+- Crisis routing test in Pocket Archivist (988 referral)
+- Recognition-not-persuasion audit on every public surface
 
 ---
 
 ## What's Complete
 
-### Content
-- All 145 markdown content files written across 10 modules
-- All 9 patterns fully defined (12 sections each = 108 pattern files)
-- Foundation content (What This Is, Why Not Therapy, Why Different, Who This Isn't For)
-- Four Doors Protocol (framework + all 4 doors)
-- Implementation content (90-day map, weekly phases, daily practice, check-in, progress markers)
-- Advanced content (multiple patterns, pattern combinations, relapse protocol)
-- Context content (work, relationships, parenting, body)
-- Field notes (letters from the field)
-- Resources (reading list, finding a therapist, supporting someone, glossary, when to seek help)
-- Epilogue
-- Email sequence copy drafted (7-Day Crash Course, Quick-Start Onboarding, Archive Onboarding)
-- Chatbot system prompt written
+### Canonical Content
+- All canonical book chapters in `the-archivist-method/` (modules 0, 1, 1a, 2, 2.5, 3, 4, 5, 6, 7, 8, epilogue, back-matter)
+- All nine pattern chapters (12 sections each = 108 pattern files + module 3 index)
+- Foundation, framework, implementation, advanced, context, field notes, resources, epilogue
+- Back-matter: three-tier framing, ecosystem doorway, Pocket Archivist trial, recommender appendix, closing page
+- Compiled book PDF + markdown for review
 
-### PDF Products
-- Complete Archive PDF generated (~1.2 MB, 600+ pages)
-- 7-Day Crash Course PDF generated (~44 KB)
-- All 9 Field Guide PDFs generated (~200 KB each)
-- PDF generator scripts working (Python + ReportLab)
+### PDF Generators (working)
+- Complete Archive
+- Crash Course (7-day overview)
+- Per-pattern Field Guide
+- Multi-pattern Field Guide
 
-### Website (Replit)
-- Landing page with hero, patterns accordion, Four Doors, pricing, FAQ
-- Gothic library dark theme aesthetic
-- Header/footer on all pages
-- Framer Motion scroll animations
-- 3-tier pricing section (Free / $67 / $297)
-- Chatbot widget (UI only, not wired to Claude API)
+### Web App (Vercel)
+- Landing page with approved hero section (locked, do not revert)
+- Quiz, results, portal dashboard, portal onboarding, content reader, vault workbench, vault archive, admin login, admin dashboard
+- Wouter routing, Shadcn/ui, TanStack Query, Framer Motion
+- Express API on `/api`, `POST /api/portal/webhooks/stripe` for Stripe webhooks, `POST /api/portal/chat` for Pocket Archivist
+- Drizzle ORM + Supabase PostgreSQL
+- Stripe live mode wired; test mode wired in parallel via `STRIPE_MODE=test` on preview deploys
+- Magic link auth (Resend)
 
-### Landing Page Overhaul (Feb 17, 2026)
-- **Hero rewritten** — new headline, positioning, and mechanism copy
-- **Quiz intro page** redesigned to match cinematic dark aesthetic
-- **Admin panel** completely rebuilt: clean dashboard, proper role-based god mode (no more dev toggles)
-- **Timed sequence** — 3-7 second static window replaced with experiential timed sequence
-- **Pattern card hover-to-reveal** — hovering pattern cards surfaces triggering thought samples
-- **"From The Archives" section** — case file documents added to landing page
-- **Redacted hover-reveal** — classified text reveals on hover across case files
-- **Bento box dashboard preview** — visual preview of the portal experience added
-- **Live system log footer** — animated log entries give the UI a living-system feel
-- **Micro-coordinates** — section labels with coordinate notation (`LAT/LON`, `REF:`) throughout
-- **Background scroll evolution** — grain texture → grid → clean dark as user scrolls
-- **Quiz results glitch effect** — distortion transition on result reveal
-- **Skeleton blueprint loading** — loading states styled as technical blueprints
-- **Results page pattern probability %** — percentage display added to pattern results
-- **Footer line updated** — copy refreshed to match current brand voice
-- **Multiple CTA touchpoints** — CTAs distributed throughout page, not just bottom
-- **Full comprehensive audit** — all orphaned refs, dead imports, and UI inconsistencies resolved
-
-### Backend
-- Express server running on Replit
-- Supabase database with users/purchases tables
-- Vault schema defined (activation_logs, brain_dumps, user_streaks, user_activity)
-- JWT-based magic link authentication (backend logic)
-- API endpoints: auth, user-data, downloads, Stripe webhook
-- Purchase verification logic
-
-### Portal
-- Login page (email input for magic link)
-- Dashboard structure (owned products, locked upsells)
-- PDF viewer modal
-- Preview mode at `/portal/preview`
-
-### Payment
-- Stripe Checkout configured (TEST MODE)
-- Payment links for $67 and $297
-- Webhook endpoint at `/api/stripe/webhook`
-- STRIPE_WEBHOOK_SECRET configured
-
-### Vault (src/ in this repo)
-- TypeScript types defined for all entities
-- Pattern data and interrupt scripts defined
-- Supabase client setup
-- React hooks for activation logs, brain dumps, streaks, activity
-- Archive wing components (home, search, artifact card/reader, threads, recent)
-- Workbench wing components (home, stats, insights, activation flow, brain dump, recent logs)
-
-### Documentation
-- TAM-HANDOFF-COMPLETE.md (full project handoff)
-- AARON-MASTER-PREFERENCES.md (Aaron's AI preferences)
-- CLAUDE.md (project-specific instructions)
-- docs/ folder (this documentation set — 16 files)
-
----
-
-## What's In Progress
-
-- Wiring up email delivery (Resend) for magic links — currently logs to console
-- End-to-end payment flow testing
-
----
-
-## Launch Blockers (Must Fix Before Going Live)
-
-1. **Stripe: Switch from TEST to LIVE mode**
-   - Update payment links to live versions
-   - Update webhook endpoint in Stripe dashboard
-   - Update STRIPE_SECRET_KEY, STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
-
-2. **Email Delivery: Magic links must actually send**
-   - Resend integration needed
-   - Configure RESEND_API_KEY
-   - Currently dev-mode (console logging only)
-
-3. **Payment Flow: End-to-end test**
-   - Purchase → Webhook → User created → Magic link sent → Portal access
-   - Not yet tested in production
-
-4. **PDF Delivery: Verify files in place**
-   - Confirm `client/public/products/quick-start-system.pdf` exists on Replit
-   - Confirm `client/public/products/complete-archive.pdf` exists on Replit
-   - Test download endpoint with auth
-
-5. **Logo: Remove white background**
-   - `archivist-icon.png` has white background, needs transparency
-
----
-
-## Post-Launch (Week 1)
-
-1. **Email Sequences in ConvertKit**
-   - 7-Day Crash Course sequence (11 emails)
-   - Quick-Start Buyer onboarding (5 emails)
-   - Archive Buyer onboarding (5 emails)
-   - All copy is drafted, needs implementation in ConvertKit
-
-2. **Remaining Thank You Pages**
-   - `/thank-you-quick-start` — After $67 purchase
-   - `/thank-you-complete` — After $297 purchase
-   - Include upsell opportunities
-
-3. **Archivist Chatbot: Wire to Claude API**
-   - Currently placeholder UI
-   - System prompt exists in TAM-HANDOFF-COMPLETE.md
-   - Needs ANTHROPIC_API_KEY and API integration
+### Documentation (this alignment pass)
+- `CLAUDE.md` — operational canonical
+- `docs/SOUL.md`, `docs/PATTERNS.md`, `docs/LANGUAGE.md`, `docs/COPY-VOICE.md`, `docs/STYLE.md`
+- `docs/ARCHITECTURE.md`, `docs/DATABASE.md`, `docs/INTEGRATIONS.md`
+- `docs/PRODUCTS.md`, `docs/FUNNEL.md`, `docs/CONTENT-MAP.md`
+- `docs/STATUS.md` (this file), `docs/ROADMAP.md`, `docs/README.md`
+- `docs/character/pocket-archivist-system-prompt.md`
 
 ---
 
 ## Parked (Post-Launch)
 
 - Customer name display ("Welcome back, [Name]")
-- Progress tracking in portal
+- Advanced progress tracking in portal
 - Testimonial collection automation
 - Advanced analytics
-- Vault V2 (Workbench + Archive integrated into portal)
+- The Vault tier ($497, leather-bound + advanced modules) — designed, launch Month 2–3
 - SORA AI video content
-- Content automation pipeline
+- Content automation pipeline for Pocket Archivist update letters
+- Audio surface (audiobook + excerpt-driven content)

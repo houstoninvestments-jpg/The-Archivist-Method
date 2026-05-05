@@ -1,8 +1,8 @@
 # THE ARCHIVIST METHOD — DESIGN SYSTEM
 
-> Last updated: February 17, 2026
+> Last updated: May 5, 2026
 >
-> Source: `TAM-HANDOFF-COMPLETE.md`, PDF generator scripts
+> Source: live `client/src/`, `tailwind.config.ts`, PDF generator scripts in `scripts/`. Canonical voice/atmosphere reference: `the-archivist-method/`.
 
 ---
 
@@ -54,9 +54,12 @@
 
 | Role | Font | Weight |
 |------|------|--------|
-| Headlines | Playfair Display | Bold |
-| Body | Source Sans 3 | Regular |
-| Monospace accents | JetBrains Mono | Regular |
+| Display / brand wordmark | Cinzel | Regular / Bold |
+| Section titles | DM Serif Display | Regular |
+| Body | Inter | Regular |
+| Monospace accents (labels, callouts, system log) | JetBrains Mono | Regular |
+
+> **Note:** Final typography stack is parked pending logo finalization. The current site uses Cinzel + DM Serif Display + Inter + JetBrains Mono. Earlier handoff docs referenced Bebas Neue or Playfair Display + Source Sans 3 — those are superseded by what's wired in `client/src/index.css` and `tailwind.config.ts` today.
 
 ### PDFs (ReportLab)
 
@@ -84,16 +87,33 @@ PDFs use Helvetica (built-in ReportLab font):
 - Padding: 12px
 - No outer border, just left accent line
 
-### Callout Types
+### Callout Types — Seven Canonical Labels
 
-| Type | Border Color | Background | Title Color |
-|------|-------------|-----------|-------------|
-| Info | Teal Dim `#0F7B6E` | `#242424` | Teal `#14B8A6` |
-| Gold Nugget | Gold `#F59E0B` | `#242010` | Gold `#F59E0B` |
-| Key Takeaway | Teal `#14B8A6` | `#1A2420` | Teal `#14B8A6` |
-| Quick Win | Green `#22C55E` | `#1A2A1A` | Green `#22C55E` |
-| Warning | Red `#EF4444` | `#2A1A1A` | Red `#EF4444` |
-| Archivist Observes | Teal Dim `#0F7B6E` | `#1E2428` | Teal `#14B8A6` |
+The seven canonical callout labels (text only, ALL CAPS, square brackets, no emoji, no icons) are defined in `CLAUDE.md` and used verbatim in the book and Field Guides:
+
+```
+[FIELD OBSERVATION]
+[PATTERN SNAPSHOT]
+[RECOGNITION]
+[MECHANISM]
+[INTERRUPTION SCRIPT]
+[REWRITE FRAME]
+[FIELD ASSIGNMENT]
+```
+
+Visual card variants on the website may color-code these for skimmability, but the label text never changes and never picks up an emoji. Suggested visual mappings (renderer's choice — labels remain canonical):
+
+| Callout Label | Border Color | Background | Title Color |
+|---|---|---|---|
+| `[FIELD OBSERVATION]` | Teal Dim `#0F7B6E` | `#1E2428` | Teal `#14B8A6` |
+| `[PATTERN SNAPSHOT]` | Teal `#14B8A6` | `#1A2420` | Teal `#14B8A6` |
+| `[RECOGNITION]` | Teal Dim `#0F7B6E` | `#242424` | Teal `#14B8A6` |
+| `[MECHANISM]` | Cyan `#06B6D4` | `#142028` | Cyan `#06B6D4` |
+| `[INTERRUPTION SCRIPT]` | Pink `#EC4899` | `#2A1A22` | Pink `#EC4899` |
+| `[REWRITE FRAME]` | Gold `#F59E0B` | `#242010` | Gold `#F59E0B` |
+| `[FIELD ASSIGNMENT]` | Red `#EF4444` | `#2A1A1A` | Red `#EF4444` |
+
+Older labels ("Gold Nugget", "Key Takeaway", "Quick Win", "Archivist Observes", "Info", "Warning") are retired in long-form copy. If existing UI components still use those names internally as variant identifiers, the displayed label text must still be one of the seven canonical labels above.
 
 ---
 

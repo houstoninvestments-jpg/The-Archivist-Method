@@ -1,8 +1,8 @@
 # THE ARCHIVIST METHOD — THE 9 PATTERNS
 
-> Last updated: February 15, 2026
+> Last updated: May 5, 2026
 >
-> Source: `content/book/module-3-patterns/`, `src/data/patterns.ts`, `src/data/interrupts.ts`
+> Canonical source: `the-archivist-method/module-3-patterns/` (the book, locked). The summaries below mirror the book's pattern chapters. When this file and the book diverge, the book wins.
 
 ---
 
@@ -161,19 +161,52 @@
 
 ## Pattern Structure
 
-Every pattern in the content library follows the same 12-section structure:
+Every pattern chapter in `the-archivist-method/module-3-patterns/` follows the same 12-section structure. The directory layout:
+
+```
+the-archivist-method/module-3-patterns/
+├── pattern-1-disappearing/
+├── pattern-2-apology-loop/
+├── pattern-3-testing/
+├── pattern-4-attraction-to-harm/
+├── pattern-5-draining-bond/
+├── pattern-6-compliment-deflection/
+├── pattern-7-perfectionism/
+├── pattern-8-success-sabotage/
+└── pattern-9-rage/
+```
+
+Each pattern directory contains 12 files (`N.0` through `N.11`):
 
 | Section | File Suffix | Content |
 |---------|-------------|---------|
-| 0 | at-a-glance | Quick orientation |
-| 1 | what-it-is | Definition, mechanism, checklist |
-| 2 | pattern-in-context | Real-life scenarios across four domains |
-| 3 | pattern-markers | Identification checklist |
-| 4 | execution-log | Timestamped real-time activation trace |
-| 5 | the-circuit | Trigger → Body → Thought → Gap → Behavior → Relief → Reinforcement |
-| 6 | pattern-archaeology | Origin story and self-excavation template |
-| 7 | what-it-costs | Life impact across every domain |
-| 8 | how-to-interrupt | Circuit Break scripts and practice protocols |
-| 9 | the-rewrite | Replacement behaviors and graduated scripts |
-| 10 | troubleshooting | Common challenges and solutions |
-| 11 | quick-reference | One-page reference card |
+| X.0 | at-a-glance | Quick-scan reference card |
+| X.1 | what-it-is | Definition and surface description |
+| X.2 | pattern-in-context | How the pattern shows up across domains |
+| X.3 | pattern-markers | Observable signs the pattern is active |
+| X.4 | execution-log | Timestamped real-time activation trace |
+| X.5 | the-circuit | Trigger → Body → Thought → Gap → Behavior → Relief → Reinforcement |
+| X.6 | pattern-archaeology | Subject case study, the Original Room |
+| X.7 | what-it-costs | Career, relationships, finances, identity, generational |
+| X.8 | how-to-interrupt | Circuit Break script and practice protocol |
+| X.9 | the-rewrite | New behavior installation, graduated levels |
+| X.10 | troubleshooting | What to do when the interrupt is not working |
+| X.11 | quick-reference | One-page summary |
+
+---
+
+## Recommended Reading Order
+
+The book lists a recommended reading order optimized for fastest recognition:
+
+1. The Apology Loop
+2. Compliment Deflection
+3. The Perfectionism Trap
+4. The Disappearing Pattern
+5. The Testing Pattern
+6. The Draining Bond
+7. Attraction to Harm
+8. Success Sabotage
+9. The Rage Pattern
+
+The numbering above (1–9) is the canonical reference numbering used in URLs, slugs, quiz scoring, and product files. Reading order is guidance only.

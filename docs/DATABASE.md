@@ -1,160 +1,124 @@
 # THE ARCHIVIST METHOD — DATABASE SCHEMA
 
-> Last updated: February 15, 2026
+> Last updated: May 5, 2026
 >
-> Source: `TAM-HANDOFF-COMPLETE.md`, `src/sql/vault-schema.sql`, `src/types/vault.ts`
+> Source of truth: `shared/schema.ts` (Drizzle ORM table definitions) and `migrations/0001_supabase_schema.sql` (raw SQL). Run `npm run db:push` to apply schema changes.
 
 ---
 
 ## Overview
 
-Database: **Supabase (PostgreSQL)**
+Database: **Supabase (PostgreSQL)** accessed via Drizzle ORM.
 
-Two schema layers:
-1. **Core tables** — users and purchases (defined in handoff, created in Supabase)
-2. **Vault tables** — activation logs, brain dumps, streaks, activity (defined in `src/sql/vault-schema.sql`)
+The schema covers four functional areas:
 
----
+1. **Auth and accounts** — `users`, `quiz_users`, `portal_users`, `test_users`
+2. **Purchases and access** — `purchases`, `email_queue`
+3. **Reader and PDF interaction** — `user_progress`, `bookmarks`, `highlights`, `reader_notes`, `reading_progress`, `download_logs`
+4. **Pattern interruption tracking and conversations** — `interrupt_log`, `pdf_chat_history`, `portal_chat_history`
 
-## Core Tables
-
-### `users`
-
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | User ID |
-| `email` | TEXT | UNIQUE, NOT NULL | User's email address |
-| `created_at` | TIMESTAMPTZ | DEFAULT `NOW()` | Account creation timestamp |
-| `last_login` | TIMESTAMPTZ | Nullable | Last login timestamp |
-| `stripe_customer_id` | TEXT | Nullable | Stripe customer ID for payment linking |
-
-### `purchases`
-
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Purchase ID |
-| `user_id` | UUID | FK → `users(id)` ON DELETE CASCADE | Buyer |
-| `product` | TEXT | NOT NULL, CHECK IN ('crash-course', 'quick-start', 'complete-archive') | Product purchased |
-| `stripe_payment_id` | TEXT | UNIQUE, NOT NULL | Stripe payment intent/session ID |
-| `amount` | INTEGER | NOT NULL | Amount in cents |
-| `status` | TEXT | NOT NULL, DEFAULT 'active' | Purchase status |
-| `purchased_at` | TIMESTAMPTZ | DEFAULT `NOW()` | Purchase timestamp |
-
-**Indexes:**
-- `idx_purchases_user_id` on `purchases(user_id)`
-- `idx_purchases_stripe_payment_id` on `purchases(stripe_payment_id)`
+Canonical table definitions live in `shared/schema.ts`. Names below mirror that file.
 
 ---
 
-## Vault Tables
+## Tables
 
-### `activation_logs`
+### Auth and Accounts
 
-Tracks each time a user logs a pattern activation.
+| Table | Purpose |
+|-------|---------|
+| `users` | Internal admin/system users (username + password hash) |
+| `quiz_users` | Quiz-takers and free-tier signups. Holds primary pattern, secondary patterns, pattern scores, access level/tier, magic link state, crash course progress, onboarding state |
+| `portal_users` | Paying portal users created from Stripe webhooks; tier-gated access |
+| `test_users` | Stripe test-mode user records |
 
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `uuid_generate_v4()` | Log entry ID |
-| `user_id` | UUID | FK → `users(id)` ON DELETE CASCADE | User |
-| `pattern_id` | INTEGER | NOT NULL, CHECK 1–9 | Which pattern activated |
-| `intensity` | INTEGER | NOT NULL, CHECK 1–5 | Activation intensity |
-| `context` | TEXT | Nullable | Free-text context about what triggered it |
-| `interrupted` | BOOLEAN | NOT NULL, DEFAULT FALSE | Did the user interrupt the pattern? |
-| `timestamp` | TIMESTAMPTZ | DEFAULT `NOW()` | When it happened |
+### Purchases and Email
 
-**Indexes:**
-- `idx_activation_logs_user_id` on `activation_logs(user_id)`
-- `idx_activation_logs_timestamp` on `activation_logs(user_id, timestamp DESC)`
-- `idx_activation_logs_week` on `activation_logs(user_id, timestamp)` WHERE `timestamp > NOW() - INTERVAL '14 days'`
+| Table | Purpose |
+|-------|---------|
+| `purchases` | Stripe-confirmed purchases — links Stripe payment IDs to users and tier |
+| `email_queue` | Outbound email delivery queue (Resend) |
 
-### `brain_dumps`
+### Reader / PDF
 
-Free-form text entries that can be converted to activation logs.
+| Table | Purpose |
+|-------|---------|
+| `user_progress` | Per-document page progress, percent complete, pages viewed |
+| `bookmarks` | Per-page bookmarks with optional note |
+| `highlights` | Text highlights inside PDFs |
+| `reader_notes` | Long-form reader notes attached to documents |
+| `reading_progress` | Reader-tier progress tracking (book/Field Guide reading) |
+| `download_logs` | Audit log of PDF downloads |
 
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `uuid_generate_v4()` | Entry ID |
-| `user_id` | UUID | FK → `users(id)` ON DELETE CASCADE | User |
-| `content` | TEXT | NOT NULL | Free-form text |
-| `suggested_pattern` | INTEGER | Nullable, CHECK 1–9 or NULL | AI-suggested pattern match |
-| `converted_to_log` | BOOLEAN | DEFAULT FALSE | Whether this became an activation log |
-| `timestamp` | TIMESTAMPTZ | DEFAULT `NOW()` | When it was written |
+### Pattern Interruption + Conversations
 
-**Indexes:**
-- `idx_brain_dumps_user_id` on `brain_dumps(user_id)`
-- `idx_brain_dumps_timestamp` on `brain_dumps(user_id, timestamp DESC)`
+| Table | Purpose |
+|-------|---------|
+| `interrupt_log` | User-logged pattern interrupts and activations |
+| `portal_chat_history` | Pocket Archivist conversation transcripts (authenticated portal chat) |
+| `pdf_chat_history` | In-PDF chat interactions |
 
-### `user_streaks`
+---
 
-Tracks consecutive interrupt streaks (one row per user).
+## Pattern Reference Constants
 
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `user_id` | UUID | PRIMARY KEY, FK → `users(id)` ON DELETE CASCADE | User |
-| `current_streak` | INTEGER | DEFAULT 0 | Current consecutive interrupt days |
-| `longest_streak` | INTEGER | DEFAULT 0 | All-time best streak |
-| `last_interrupt_date` | DATE | Nullable | Date of most recent interrupt |
+`shared/schema.ts` exports the canonical `PatternType` enum and `patternNames` map. The nine pattern keys (used as IDs in DB rows and quiz scoring) are:
 
-### `user_activity`
+```ts
+DISAPPEARING:           "disappearing"
+APOLOGY_LOOP:           "apologyLoop"
+TESTING:                "testing"
+ATTRACTION_TO_HARM:     "attractionToHarm"
+DRAINING_BOND:          "drainingBond"
+COMPLIMENT_DEFLECTION:  "complimentDeflection"
+PERFECTIONISM_TRAP:     "perfectionismTrap"
+SUCCESS_SABOTAGE:       "successSabotage"
+RAGE:                   "rage"
+```
 
-Tracks reading/interaction with Archive content.
+The `patternNames` map renders the canonical user-facing pattern names — these match the names in `the-archivist-method/module-3-patterns/index.md`.
 
-| Column | Type | Constraints | Description |
-|--------|------|------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `uuid_generate_v4()` | Activity ID |
-| `user_id` | UUID | FK → `users(id)` ON DELETE CASCADE | User |
-| `artifact_id` | TEXT | NOT NULL | ID of the content artifact |
-| `action` | TEXT | NOT NULL, CHECK IN ('opened', 'completed', 'bookmarked') | What the user did |
-| `timestamp` | TIMESTAMPTZ | DEFAULT `NOW()` | When it happened |
+---
 
-**Indexes:**
-- `idx_user_activity_user_id` on `user_activity(user_id)`
-- `idx_user_activity_timestamp` on `user_activity(user_id, timestamp DESC)`
+## Access Tiers
+
+`AccessLevel` (in `shared/schema.ts`) and `quiz_users.access_tier` are the gating mechanism for portal features and Pocket Archivist limits:
+
+| Tier | Source | Access |
+|------|--------|--------|
+| `free` | quiz signup, no purchase | Crash course module for primary pattern only; Pocket Archivist limited free tier (primary pattern only, capped turns, no memory persistence) |
+| `field_guide` | $67 Stripe purchase | One Field Guide PDF + portal reader + full Pocket Archivist for that pattern |
+| `complete_archive` | $297 Stripe purchase | All nine Field Guides + Complete Archive PDF + lifetime portal access + physical book + 30-day Pocket Archivist trial (then continues bundled while subscription active) |
+
+Pocket Archivist standalone subscription ($14.99/mo) sets a separate flag and unlocks paid-tier behavior across all nine patterns even without a Field Guide / Archive purchase.
 
 ---
 
 ## Row Level Security (RLS)
 
-All Vault tables have RLS enabled. Users can only access their own data.
-
-| Table | Policy | Rule |
-|-------|--------|------|
-| `user_activity` | SELECT | `auth.uid() = user_id` |
-| `user_activity` | INSERT | `auth.uid() = user_id` |
-| `activation_logs` | SELECT | `auth.uid() = user_id` |
-| `activation_logs` | INSERT | `auth.uid() = user_id` |
-| `brain_dumps` | SELECT | `auth.uid() = user_id` |
-| `brain_dumps` | INSERT | `auth.uid() = user_id` |
-| `brain_dumps` | UPDATE | `auth.uid() = user_id` |
-| `user_streaks` | SELECT | `auth.uid() = user_id` |
-| `user_streaks` | ALL | `auth.uid() = user_id` |
-
----
-
-## Relationships
-
-```
-users (1) ──→ (many) purchases
-users (1) ──→ (many) activation_logs
-users (1) ──→ (many) brain_dumps
-users (1) ──→ (1)    user_streaks
-users (1) ──→ (many) user_activity
-```
+All user-scoped tables run with RLS in Supabase. Policies enforce `auth.uid() = user_id` for SELECT/INSERT/UPDATE on user-owned rows. Server-side webhooks use `SUPABASE_SERVICE_ROLE_KEY` to bypass RLS for admin operations.
 
 ---
 
 ## Supabase Client
 
-Frontend connects via `@supabase/supabase-js`:
+```ts
+// server-side (api/)
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
 
-```typescript
-// src/lib/supabase.ts
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// client-side (client/src/)
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
+);
 ```
 
 Environment variables:
-- `VITE_SUPABASE_URL` — Supabase project URL
-- `VITE_SUPABASE_ANON_KEY` — Supabase anonymous key (client-side, RLS-protected)
-- `SUPABASE_SERVICE_ROLE_KEY` — Server-side only, bypasses RLS (used in webhooks)
+
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — server-side, bypasses RLS, used by webhooks and admin routes
+- `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` — client-side, RLS-protected

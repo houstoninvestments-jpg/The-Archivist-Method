@@ -1,137 +1,136 @@
 # THE ARCHIVIST METHOD — INTEGRATIONS
 
-> Last updated: February 15, 2026
+> Last updated: May 5, 2026
 >
-> Source: `TAM-HANDOFF-COMPLETE.md`, Replit codebase
+> Source: live `server/`, `api/`, `vercel.json`, `CLAUDE.md` (Stripe Test Mode section). Canonical operational rules: `CLAUDE.md`.
 
 ---
 
 ## Stripe
 
-### Products
+### Live Products and Price IDs
 
-| Product | Price | Stripe Price ID |
-|---------|-------|-----------------|
-| Quick-Start System | $67 | [VERIFY — stored in Replit Stripe config, test mode: `price_XXXXX`] |
-| Complete Archive | $297 | [VERIFY — stored in Replit Stripe config, test mode: `price_XXXXX`] |
+| Product | Price | Live Stripe Price ID |
+|---------|-------|----------------------|
+| Field Guide | $67 | `price_1TOlJr11kGDis0LrBP8ITvIC` |
+| Complete Archive | $297 | `price_1TOlGX11kGDis0LrvJl0SBhm` |
+| Pocket Archivist (standalone subscription) | $14.99/mo | TBD — see Stripe Dashboard, Products |
 
-The Crash Course is free and does not go through Stripe.
+The Crash Course is free and does not go through Stripe. Pocket Archivist access is bundled free with Field Guide and Complete Archive purchases (30-day trial with the Complete Archive includes a physical POD softcover of the book and is redeemable at thearchivistmethod.com/reader).
+
+### Test Mode
+
+A parallel test-mode flow is wired alongside live and controlled by `STRIPE_MODE` (server) and `VITE_STRIPE_MODE` (client). Test-mode env vars and Vercel preview-deploy procedure are documented in full in `CLAUDE.md` under "Stripe Test Mode." Production scope on Vercel always stays in live mode; test mode runs on preview URLs only.
 
 ### Checkout Flow
 
-1. User clicks "Buy" on product page
-2. Redirect to Stripe Checkout (hosted by Stripe)
+1. User clicks Buy on the landing or pricing surface
+2. Redirect to Stripe Checkout (hosted)
 3. User completes payment
 4. Stripe fires `checkout.session.completed` webhook
-5. Server receives at `POST /api/stripe/webhook`
+5. Server receives at `POST /api/portal/webhooks/stripe`
 6. Webhook handler:
-   - Creates user in Supabase (if new) with email from Stripe session
-   - Records purchase in `purchases` table
-   - Links `stripe_customer_id` to user
+   - Tries every secret in `STRIPE_WEBHOOK_SECRET` and `STRIPE_TEST_WEBHOOK_SECRET` until one verifies
+   - Inserts a row in `portal_users` (Supabase) with email + tier
    - Sends magic link email for portal access
-7. User redirected to success/thank-you page
+7. User redirected to thank-you page
 
-### Success URLs
+### Webhook Endpoint
 
-- Quick-Start: `/thank-you-quick-start` [VERIFY — may be `/success/quick-start`]
-- Complete Archive: `/thank-you-complete` [VERIFY]
+`/api/portal/webhooks/stripe` accepts both live and test signatures. Both the live Stripe dashboard and the test-mode Stripe dashboard must be configured to fire events at this URL.
 
-### Webhook Events
+### Webhook Events Handled
 
-Only one event is handled: `checkout.session.completed`
-
-### Current Status
-
-**TEST MODE.** Switching to live requires:
-- Update `STRIPE_SECRET_KEY` to `sk_live_*`
-- Update `STRIPE_PUBLISHABLE_KEY` to `pk_live_*`
-- Update `STRIPE_WEBHOOK_SECRET` to live webhook secret
-- Update payment links/price IDs to live versions
-- Re-register webhook endpoint in Stripe dashboard
+- `checkout.session.completed`
 
 ---
 
-## Claude API (Anthropic)
+## Claude API (Anthropic) — Pocket Archivist
 
 ### Where It's Used
 
-The Archivist Chatbot (`ArchivistChatbot.tsx` in Replit codebase) — a floating chat widget on the landing page that uses Claude to embody The Archivist persona.
+The Pocket Archivist conversational interface — authenticated `POST /api/portal/chat` endpoint inside `api/portal-routes.ts`. Free tier and paid tier both route through this endpoint; tier governs allowed turns, pattern access, and memory persistence.
 
 ### Model
 
-[VERIFY — likely `claude-3-haiku` or `claude-3-sonnet` based on cost considerations]
+Defaults to the latest Claude Sonnet/Haiku/Opus model per cost-and-latency tradeoff. Configured server-side; not exposed to the client.
 
 ### System Prompt
 
-Full system prompt is defined in `TAM-HANDOFF-COMPLETE.md` under "CHATBOT SYSTEM PROMPT." Key elements:
-- Identity: "You are The Archivist, a direct, wise pattern archaeologist"
+Locked at `docs/character/pocket-archivist-system-prompt.md`. The book at `the-archivist-method/` is the voice canonical that the system prompt mirrors. Any change to voice happens in the book first, then propagates to the system prompt.
+
+Key elements:
+
+- Identity: precision pattern intervention tool, not a chatbot
 - Operates in mechanical layer, not emotional layer
-- Full definitions of all 9 patterns with triggers and body signatures
+- Full definitions of all nine patterns with body signatures
 - Four Doors framework instructions
-- Conversation style: direct, specific, 2–4 paragraphs max
-- Critical rules: no therapy language, never condescending, name patterns clearly
-
-### Current Status
-
-Chatbot is a **placeholder** — needs to be wired to Claude API with the system prompt. Currently not functional.
+- Conversation style: short, declarative, second person, present tense
+- Crisis routing: 988 referral, exit conversation
+- Banned-word + banned-filler-phrase enforcement (mirrors `docs/LANGUAGE.md`)
 
 ---
 
 ## Email
 
-### Resend
+### Resend (transactional)
 
-Planned email delivery service for transactional emails (magic links).
+Used for magic links and receipts.
 
-- **API Key:** `RESEND_API_KEY` (stored in Replit Secrets)
-- **Status:** Not yet wired up. Magic links currently log to console in dev mode.
-- **Use case:** Send magic link emails after purchase or login request
+- **API Key:** `RESEND_API_KEY` (Vercel env)
+- **Status:** wired
+- **Use case:** magic link delivery after purchase or login request, receipt emails
 
-### ConvertKit (Kit)
+### Email Sequence Automation
 
-Email sequence automation for nurture/onboarding emails.
-
-- **Status:** Sequences are drafted (copy exists), not yet implemented in ConvertKit
-- **Sequences:**
-  1. **7-Day Crash Course** (11 emails, free signups) — Days 0, 1, 2, 3, 4, 5, 6, 7, 10, 14, 21
-  2. **Quick-Start Buyer Onboarding** (5 emails) — Days 0, 1, 7, 30, 60
-  3. **Archive Buyer Onboarding** (5 emails) — Days 0, 1, 7, 30, 90
+Email sequences (Crash Course nurture, buyer onboarding) are drafted but not yet implemented in the automation provider. Status tracked in `docs/STATUS.md`.
 
 ---
 
-## Fal.ai Voice
+## Supabase
 
-No fal.ai voice setup exists in the current codebase. This may be a future consideration for audio content delivery.
+PostgreSQL backend. Schema documented in `docs/DATABASE.md`. Connected via `@supabase/supabase-js` server-side and via Drizzle ORM for migrations.
 
 ---
 
 ## Environment Variables
 
-All stored in **Replit Secrets** (not in code).
+All env vars live in **Vercel → Project → Settings → Environment Variables** (production, preview, development scopes as appropriate). Never commit secrets.
 
 ```
 # Supabase
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_ANON_KEY=xxxxx
-SUPABASE_SERVICE_ROLE_KEY=xxxxx
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 
 # Supabase (client-side, prefixed for Vite)
-VITE_SUPABASE_URL=https://xxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=xxxxx
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
 
-# Stripe
-STRIPE_SECRET_KEY=sk_test_xxxxx        # Switch to sk_live_* for production
-STRIPE_WEBHOOK_SECRET=whsec_xxxxx
-STRIPE_PUBLISHABLE_KEY=pk_test_xxxxx   # Switch to pk_live_* for production
+# Stripe — live mode (Production scope)
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+
+# Stripe — test mode (Preview scope only — never Production)
+STRIPE_MODE=test
+STRIPE_TEST_SECRET_KEY=sk_test_...
+STRIPE_TEST_WEBHOOK_SECRET=whsec_...
+STRIPE_TEST_PRICE_FIELD_GUIDE=price_test_...
+STRIPE_TEST_PRICE_COMPLETE_ARCHIVE=price_test_...
+VITE_STRIPE_MODE=test
+VITE_STRIPE_TEST_PUBLISHABLE_KEY=pk_test_...
+VITE_STRIPE_TEST_PRICE_FIELD_GUIDE=price_test_...
+VITE_STRIPE_TEST_PRICE_COMPLETE_ARCHIVE=price_test_...
 
 # Auth
-JWT_SECRET=xxxxx                        # Strong random string for JWT signing
+JWT_SECRET=
 
 # Email
-RESEND_API_KEY=re_xxxxx                 # For magic link delivery
+RESEND_API_KEY=re_...
 
 # AI
-ANTHROPIC_API_KEY=sk-ant-xxxxx          # For Archivist Chatbot
+ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-**Important:** Never commit secrets to the repo. All values live in Replit Secrets panel.
+See `CLAUDE.md` for the full test-mode flip procedure and the canonical list of where each test-mode value lives in the Stripe Dashboard.

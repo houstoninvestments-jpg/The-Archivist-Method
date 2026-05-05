@@ -57,7 +57,7 @@ The-Archivist-Method/
 │       ├── module-8-resources/       # Therapist, glossary, reading (5 files)
 │       └── epilogue/                 # Epilogue (1 file)
 │
-├── the-archivist-method/            # Symlink/mirror of content/book/
+├── the-archivist-method/            # Canonical book (locked voice source)
 │
 ├── src/
 │   ├── components/
