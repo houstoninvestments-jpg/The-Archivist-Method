@@ -201,3 +201,60 @@ What to expect on the first real Rewrite. Ten to fifteen seconds where the body 
 In most cases, the other person says something kind back, or moves on. The interaction continues. The praise stays where they put it. Nothing collapses. The pattern was wrong about the danger. The pattern is wrong about the danger almost every time, with every adult offering you a compliment. The Original Room is closed.
 
 One rep is not the work. One rep per day, for three weeks, on increasing stakes, is the work. The internal record the pattern has been deleting for decades begins to refill. One landed compliment at a time.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, count compliments.
+
+Every kind word. Every "good job," every "thanks
+for that," every text that says anything affirming.
+Tally on your hand. Note in your phone. Do not
+try to stop your deflection. Just count.
+
+For each compliment, log your response. Mark T
+for "Thank you, full stop." Mark D for any
+deflection.
+
+At the end of the twenty-four hours, count the Ds.
+
+Then choose one D. Tomorrow, when that situation
+repeats, swap the deflection for "Thank you."
+Closed mouth.
+
+One swap. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report fewer compliments than they expected, and then realize the number is low because the deflections trained the people around them to stop offering. The shock is the data. You have been deflecting for so long that the supply has shrunk. Counting makes the shrinkage visible. Visibility is the first move.
+
+Do not try to stop the deflections during the count. Stopping is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss most of the compliments because you were busy bracing not to deflect, and you fail to stop the deflection anyway because you did not have a script ready. Today is just the count. The script you rehearsed in section four is for tomorrow's one swap, not for today's tally.
+
+The one-swap discipline matters. The pattern wants to be fixed all at once. The pattern wants you to commit to never deflecting again, fail by lunch, and conclude that the protocol does not work. One swap blocks that move. One swap is small enough to actually do. One swap is enough to produce the new data point. The second swap is easier than the first because the body has the data from the first. The tenth is easier than the ninth. Fifty to a hundred swaps before the new posture starts to feel natural. At one to three swaps a day, that is two to ten weeks. Compliment Deflection runs less often than some other patterns, which means each swap counts more. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the heat, in the squirm, in the eye break, in the laugh. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour count. One swap.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The casual compliments. The doorway praise. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for Compliment Deflection carries the full ninety-day Earn Path. The graduated rewrite levels three and four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If Compliment Deflection produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Count compliments today. Swap one tomorrow. The first swap is the first piece of evidence that the pattern has been wrong about the danger.
+
+Keep collecting evidence.
