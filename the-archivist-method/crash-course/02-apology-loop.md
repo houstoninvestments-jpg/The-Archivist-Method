@@ -224,3 +224,64 @@ What to expect on the first real Rewrite. Sixty to ninety seconds of guilt that 
 
 After the silence, in most cases, the other person responds normally. Because you made a normal request. The pattern was wrong about the danger. The pattern is wrong about the danger almost every time, in every room, with every adult you actually talk to. New data. One rep at a time.
 
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, count your sorrys.
+
+Every "sorry" that comes out of your mouth, count
+it. Tally on your hand. Note in your phone. Stick
+a Post-it on the laptop. Do not try to stop. Do
+not try to fix anything. Just count.
+
+For each sorry you log, ask one question: "Did I
+do something wrong?"
+
+If yes, the sorry is legitimate. Mark it L.
+
+If no, the sorry is the pattern. Mark it P.
+
+At the end of the twenty-four hours, count the Ps.
+
+Then choose one P from the list. Tomorrow, when
+that situation repeats, replace the sorry with
+"thank you" or with a direct statement.
+
+One swap. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report ten to fifteen sorrys per day on the first count. Some report twenty to thirty once they start watching. The shock is the data. You have been doing this so often that the count is invisible to you. Counting makes it visible. Visibility is the first move.
+
+Do not try to stop the sorrys during the count. Stopping is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss most of the sorrys because you were busy trying not to say them, and you fail to stop them anyway because you did not have a script ready. Today is just the count. The script you rehearsed in section four is for tomorrow's one swap, not for today's tally.
+
+The one-swap discipline matters. The pattern wants to be fixed all at once. The pattern wants you to commit to never apologizing again, fail by lunch, and conclude that the protocol does not work. One swap blocks that move. One swap is small enough to actually do. One swap is enough to produce the new data point. The second swap is easier than the first because the body has the data from the first. The tenth is easier than the ninth. Fifty to a hundred swaps before the new posture starts to feel natural. At three swaps a day, that is two to five weeks. The Apology Loop runs more often than any other pattern, which means it gives you more practice opportunities than any other pattern. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the gap, in the throat, in the cheeks, in the hands. You learned why willpower has not been catching the apology and why the script will. You loaded one Circuit Break. You loaded one Rewrite Frame. You took a twenty-four-hour count. You picked one swap.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest, most frequent form. The throat-level apologies. The doorway sorrys. The "sorry to bother you" emails. The "sorry, can I ask a question" meetings. The throat opens once, mechanically, and the body learns. The first swap matters. The crash course exists for the first swap.
+
+What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Apology Loop carries the full ninety-day Earn Path. The graduated rewrite levels three and four, including the salary-negotiation execution map and the line-drawing scenarios. All seven body signatures mapped against your specific signature, with the personal practice protocol for catching the pattern earlier in the chain. The Pattern Archaeology section, where the Original Room work happens for readers who want it. The full troubleshooting protocol for when the script lands but the guilt does not fade in ninety seconds. The Pocket Archivist activated inside the Field Guide for this pattern, available in the moment the pattern fires, not the next morning when you have time to journal. The Field Guide is sixty-seven dollars. It is one pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. The advanced material on pattern combinations and interaction maps, because most people run two or three patterns that feed each other. The full Four Doors framework. The relapse protocol. The context-specific guides for work, relationships, parenting, and the body. The physical book ships with it. The Pocket Archivist trial activates for thirty days at the redemption link. The Complete Archive is two hundred and ninety-seven dollars. It is the full system, lifetime access, with the book in your hands.
+
+If The Apology Loop was the pattern that produced the recognition you felt in section one, the Field Guide is the next move. If you read the at-a-glance reference for the other eight patterns and recognized two or three more, the Complete Archive is the next move. If you read this crash course and only want the daily companion, the Pocket Archivist standalone subscription is fourteen ninety-nine a month and carries the same voice as the book.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by counting your sorrys today, swapping one tomorrow, and not stopping until the math the pattern has been doing for you starts coming out the other way.
+
+The first swap is the first piece of evidence that the pattern has been wrong about the danger.
+
+Keep collecting evidence.
