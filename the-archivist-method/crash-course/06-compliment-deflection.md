@@ -131,3 +131,73 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Speed-up. Faster speech, autonomic activation, conversation pushed forward.
 • Redirect. Eyes, body, words pointed elsewhere. Invisibility restored.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Two words. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated levels and the deployment maps.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Right now. Today. The next time someone says
+something kind about you, respond with only:
+"Thank you." Two words. Then close your mouth.
+Feel the squirm. Let it pass. That is one rep.
+One rep changes nothing. One rep per day for 21
+days changes the circuit.
+═══════════════════════════════════════════════
+
+If you read past that callout without rehearsing it, the pattern is running. It said the script was too small to need practice. It said two words do not need rehearsal. It said you would do it later, in a real situation, on a real compliment. The pattern is wrong. Two words is exactly what needs rehearsal, because two words is what your mouth has to produce while the body is loading the deflection. Go back. Say it five times out loud. Then come back.
+
+Here is what the script is doing.
+
+The deflection lives in the mouth. Not in the mind. The motor program for "it was nothing" is loaded in the same musculature that produces speech. When praise arrives, the autonomic system queues the deflection at the larynx and the lips. The conscious mind receives a finished sentence, not a draft. By the time you are aware of choosing words, the words are already half-spoken. Thinking the right response in your head changes nothing, because the head is not where the deflection lives.
+
+Saying "Thank you" out loud, on purpose, in rehearsal, while no one is in the room with you, loads a different motor program through the same channel. The vocal cords engage on a different vowel. The lips form a different shape. The breath moves on a different rhythm. You are not building belief. You are building muscle memory.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. No phone in your hand. This is rehearsal, not deployment. You are pre-loading the response so it can fire when the prefrontal cortex is half-offline and the body is squirming.
+
+Then deploy. Smallest compliment. Lowest stakes. A nice shirt. A good email. A coffee well poured. Thank you. Stop. Then survive the next fifteen seconds without speaking again.
+
+What to expect after the words land. Seconds one through five, the heat surges. The pattern expected the deflection and did not get it, so it raises the volume on the wrongness signal. It tells you to add something now, anything, before the praise gets too comfortable. Hold the line. Seconds six through fifteen, you notice nothing has happened. The other person did not look offended. Did not look disappointed. Did not realize you are a fraud. They look pleased. The pleased look is what your deflections have been blocking for years.
+
+Seconds sixteen through ninety, the heat fades. The body is checking for the punishment that was supposed to arrive. There is no punishment. By minute two, you are still here, you are still intact, and you have one piece of new data the pattern has been deleting for decades. One rep is not the work. One rep per day, for three weeks, on increasing stakes, is the work.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The interrupt blocks the deflection. The Rewrite replaces it. Two words is enough to stop the script. Two words is not enough to fill the silence that follows. The mouth has produced the deflection script for so many years that any silence after the praise will be filled, by something, fast. If you do not have a replacement loaded, the deflection back-fills on a delay. The Rewrite is what fills the space.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+Replace deflection with reception. When praise
+arrives, the new behavior is: receive, then
+acknowledge, then confirm. "Thank you." Pause.
+Optional: "I worked hard on that." The behavior
+is not modesty management. It is information
+intake. Praise is data about how you are seen.
+You do not have to agree with the data to receive
+it. You do have to stop returning it unopened.
+Each rep updates the internal record the pattern
+has been deleting for decades.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the receive. Two words. "Thank you." Closed mouth. No add-on. No qualifier. No joke. The compliment arrives, the words come out, the silence sits. Most days, this is the work. Master level one before you reach for level two. Master means the words come without a thirty-second internal debate. The heat still arrives. The squirm still arrives. You do not deflect anyway.
+
+The deflection scripts are reflex. The receive script has to become reflex too. That takes repetition, on real compliments, in real rooms, when the body is producing the wrongness signal at full volume. Three weeks at level one is not slow. Three weeks at level one is the actual schedule.
+
+The full Rewrite is graduated. Level two adds acknowledgment. Level three confirms the praise is earned. Level four initiates visibility without being prompted. Each level dismantles a different layer of the original installation. The Field Guide carries levels two through four with the deployment maps and the troubleshooting protocol.
+
+What you are practicing is not gratitude. The "thank you" is not the social politeness it sounds like. The polite version is what you have already been saying for years, layered as the preamble to "it was nothing." The Rewrite version is the sentence ending where the deflection used to begin. Same two words. Different function.
+
+What to expect on the first real Rewrite. Ten to fifteen seconds where the body insists you have done something wrong. The pattern reads the silence after "thank you" as evidence of social failure. It tells you to laugh, to add a qualifier, to redirect to the team, anything to dilute the praise that just landed. Do not. Sit. The silence is not punishment. The silence is the other person taking a normal moment to register that their compliment was received.
+
+In most cases, the other person says something kind back, or moves on. The interaction continues. The praise stays where they put it. Nothing collapses. The pattern was wrong about the danger. The pattern is wrong about the danger almost every time, with every adult offering you a compliment. The Original Room is closed.
+
+One rep is not the work. One rep per day, for three weeks, on increasing stakes, is the work. The internal record the pattern has been deleting for decades begins to refill. One landed compliment at a time.
