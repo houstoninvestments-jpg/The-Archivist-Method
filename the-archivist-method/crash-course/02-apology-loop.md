@@ -141,3 +141,86 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Hands fidgeting. Picking, rubbing, adjusting nothing.
 • Eye aversion. Looking down or past the other person at the moment of asking.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Not three. The crash course gives you one tool that works. The Field Guide carries the variations and the deep practice protocol.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Say this out loud, five times, right now.
+
+"I am about to apologize for existing. I have done
+nothing wrong. I am replacing 'sorry' with 'thank
+you.'"
+
+Short version, for when the full script is too much:
+"Not sorry. Thank you."
+
+Five times. Out loud. Before you read the next paragraph.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it, the pattern is running. It said the script was unnecessary. It said you would do it later. It said you got the idea. The pattern always says those things. The pattern is protecting itself. Go back. Say it. Five times. Then come back.
+
+Here is what the script is doing.
+
+The Apology Loop lives in the throat. The dorsal vagal output constricts the larynx before the prefrontal cortex can intervene. The script forces a deliberate, non-apologetic vocalization through the constriction. The vocal cords engage on a different sound. The breath moves on a different shape. The constriction breaks mechanically, not because you understood something new. Saying the script in your head does not work. Thinking in your head does not reach the larynx. Speaking does. Whisper counts. Mouthing the words with breath behind them counts. Silent does not.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives (a real meeting, a real text thread, a real request), the prefrontal cortex will be partially offline. Motor memory stays accessible. The words need to be loaded enough that they can fire even when the rest of the system is locked.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. This is rehearsal, not deployment. You are not waiting for the real activation to try the script for the first time. You are pre-loading.
+
+Then deploy. The first deployment will feel ridiculous. The pattern will narrate the absurdity in real time. "This is silly." "You sound like a script." "They will think you are weird." The pattern is correct that it feels silly. It is wrong about everything else. The other person cannot hear your inner narration. They cannot see the script in your head. They see a person stating a need. That is all. The seismic event is happening only inside you.
+
+What to expect after the script lands. Seconds one through five, the guilt intensifies. The pattern expected the apology and did not get it, so it escalates. It tells you to apologize now, fast, before the damage is done. There is no damage. Hold the line. Seconds six through fifteen, you notice nothing has happened. The other person did not flinch. Did not pull back. Did not withdraw whatever it is you were afraid of losing. Seconds sixteen through ninety, the guilt peaks and starts to fade. The body is checking for the punishment that was supposed to arrive. There is no punishment. The dorsal vagal output begins to stand down. The throat opens. The breath returns to a normal shape. By minute two or three, you are still here, you are still intact, and you have one piece of new data that the pattern has been protecting you from collecting for decades. The data point is small. It is also worth more than ten years of understanding why you apologize. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script stops the sorry. The Rewrite gives you what to say instead.
+
+The Apology Loop meets a real survival need. The need is safety from punishment. The pattern meets it through preemptive submission. If you interrupt the apology and replace it with nothing, the silence feels dangerous and the pattern reasserts itself within seconds. The Rewrite fills the silence with something that is not an apology and is not silence.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+Replace "sorry" with "thank you." State needs
+directly. Take up the space the request actually
+occupies. You do not need to become loud. You do
+not need to become demanding. You need to become
+accurate. Say what you need. Not more. Not less.
+Accuracy is the Rewrite. Sorry was the noise.
+═══════════════════════════════════════════════
+
+The simplest form of the Rewrite is a one-word swap. Sorry becomes thank you. Same situation, different word, different relationship to the situation.
+
+"Sorry I am late" becomes "Thank you for waiting."
+
+"Sorry to bother you" becomes "Thank you for your time."
+
+"Sorry, can I ask a question" becomes "I have a question."
+
+"Sorry for the long email" becomes "Thank you for reading this."
+
+"Sorry, I need help" becomes "Can you help me with this."
+
+The swap does two things. First, it removes the flinch. Sorry is a flinch. It braces for a punishment that is not coming. Thank you is a gift. It acknowledges the other person without diminishing yourself. Same information, opposite posture.
+
+Second, it changes the power dynamic. "Sorry I am late" puts you below the other person, asking for forgiveness for a small infraction. "Thank you for waiting" puts you on equal footing, acknowledging a small generosity. The information transmitted is the same. The relationship the words establish is not.
+
+The Rewrite has a graduated structure. The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the swap. Remove the sorry. Replace with thank you. No need stated. This is the entry point. Most days, this is the work.
+
+Level two is stating a small need without padding. "I have a question." "Can you help me with this." "I need five minutes." Need stated. No apology. No exit ramp built in for the other person. No "only if you have time" or "no worries if not." The exit ramp is the pattern. The exit ramp is how the pattern protects itself by giving the other person an easy way to say no, so the request was effectively withdrawn before it was made.
+
+Level three is naming the pattern out loud while making a real request. Level four is full directness on a high-stakes ask, like a salary negotiation or a line drawn in a relationship. The Field Guide carries levels three and four with full scenario maps and execution protocols. For now, work level one. Master level one. Level one is the foundation that levels two through four sit on.
+
+What to expect on the first real Rewrite. Sixty to ninety seconds of guilt that feels like you just did something terrible. You did not. You stated a need. The guilt is the pattern protesting. Let it protest. Do not apologize for not apologizing. The most common failure mode is making the request without the sorry, then watching the silence afterward, then panicking, then back-filling with the apology you skipped at the front. The script blocks the front. The Rewrite must hold the back. Sit with the silence. The silence is not punishment. The silence is the other person taking a normal moment to process a normal request.
+
+After the silence, in most cases, the other person responds normally. Because you made a normal request. The pattern was wrong about the danger. The pattern is wrong about the danger almost every time, in every room, with every adult you actually talk to. New data. One rep at a time.
+
