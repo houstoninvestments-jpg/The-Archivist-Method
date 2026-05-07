@@ -230,12 +230,6 @@ app.use("/api", (_req, res, next) => {
   res.removeHeader("ETag");
   next();
 });
-// DEBUG — request-level log to prove the Express app is receiving requests.
-app.use((req, _res, next) => {
-  console.log("[api.request]", req.method, req.originalUrl, "x-dev-bypass=", req.headers["x-dev-bypass"]);
-  next();
-});
-
 function getResend() { return new Resend(process.env.RESEND_API_KEY || "placeholder"); }
 
 // Portal and admin sub-routers (self-contained, no server/ imports)

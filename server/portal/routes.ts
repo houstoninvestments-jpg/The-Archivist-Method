@@ -84,26 +84,6 @@ const stripe = new Stripe(getStripeSecretKey() || "", {
   apiVersion: "2025-11-17.clover" as const,
 });
 
-// Dev-bypass: lets /portal/dev reach auth-gated routes without a session.
-// Accepted when the X-Dev-Bypass header value exactly matches the hardcoded
-// literal below. Env-var based matching was abandoned — Vercel's env
-// injection was unreliable for this deploy.
-const DEV_BYPASS_LITERAL = "aaron-testing-bypass-2026";
-function isDevBypassAllowed(req: Request): boolean {
-  const header = req.headers["x-dev-bypass"];
-  return typeof header === "string" && header === DEV_BYPASS_LITERAL;
-}
-
-// Shadow user used when dev bypass is active. Matches the hardcoded owner
-// of the /dev/reader/* endpoints. Tier uses the canonical marketing name
-// so it lines up with the PortalTier union used elsewhere.
-const DEV_BYPASS_USER = {
-  userId: "dev-portal-bypass",
-  email: "houstoninvestments@gmail.com",
-  tier: "complete_archive" as const,
-  primaryPattern: "disappearing",
-};
-
 // Send magic login link
 router.post("/auth/send-login-link", async (req: Request, res: Response) => {
   try {
@@ -1193,55 +1173,44 @@ async function countDistinctChatSessionDays(userId: string): Promise<number> {
 
 router.post("/chat", async (req: Request, res: Response) => {
   try {
-    const devBypass = isDevBypassAllowed(req);
-
     let userId: string;
     // Union covers both internal names from resolveUserTier ("quick-start" /
-    // "archive") and the canonical marketing names used by DEV_BYPASS_USER
-    // and the downstream prompt template.
+    // "archive") and the canonical marketing names used by the downstream
+    // prompt template.
     let tier: "free" | "quick-start" | "archive" | "field_guide" | "complete_archive";
     let authData: { userId: string; email: string };
 
-    if (devBypass) {
-      userId = DEV_BYPASS_USER.userId;
-      tier = DEV_BYPASS_USER.tier;
-      authData = { userId: DEV_BYPASS_USER.userId, email: DEV_BYPASS_USER.email };
-    } else {
-      const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
-      if (!token) return res.status(401).json({ error: "Not authenticated" });
-      const verified = verifyAuthToken(token);
-      if (!verified) return res.status(401).json({ error: "Invalid or expired token" });
-      authData = verified;
+    const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const verified = verifyAuthToken(token);
+    if (!verified) return res.status(401).json({ error: "Invalid or expired token" });
+    authData = verified;
 
-      const resolved = await resolveUserTier(authData);
-      tier = resolved.tier;
-      userId = authData.userId;
-    }
+    const resolved = await resolveUserTier(authData);
+    tier = resolved.tier;
+    userId = authData.userId;
 
     // Per-tier daily message cap (free 15 / field_guide 75 / complete_archive 300).
     // Resets at UTC midnight. Returns 429 with reset_at unix seconds.
-    // Skipped for dev bypass so demo sessions are unlimited.
-    if (!devBypass) {
-      try {
-        const limit = await checkPocketRateLimit(db, userId, tier);
-        if (!limit.allowed) {
-          return res.status(429).json({
-            error: "rate_limit",
-            reset_at: limit.resetAt,
-            tier: limit.tier,
-            limit: limit.limit,
-            used: limit.used,
-          });
-        }
-      } catch (err) {
-        console.error("[pocket.rate-limit] failed; allowing request", err);
+    try {
+      const limit = await checkPocketRateLimit(db, userId, tier);
+      if (!limit.allowed) {
+        return res.status(429).json({
+          error: "rate_limit",
+          reset_at: limit.resetAt,
+          tier: limit.tier,
+          limit: limit.limit,
+          used: limit.used,
+        });
       }
+    } catch (err) {
+      console.error("[pocket.rate-limit] failed; allowing request", err);
     }
 
     // Free users get a capped number of conversation sessions. A session counts
     // as a distinct UTC day with at least one user message. Once the cap is
     // hit, new sessions are blocked until they upgrade.
-    if (!devBypass && tier === "free") {
+    if (tier === "free") {
       const today = new Date().toISOString().slice(0, 10);
       const existingDays = await countDistinctChatSessionDays(userId);
 
@@ -1292,37 +1261,31 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     const { message } = validation.data;
 
-    // Persistence and history — skipped for dev bypass so demo chats don't
-    // pollute the authenticated owner's history.
     let messages: Array<{ role: "user" | "assistant"; content: string }>;
-    if (devBypass) {
-      messages = [{ role: "user" as const, content: message }];
-    } else {
-      await db.insert(portalChatHistory).values({
-        userId,
-        role: "user",
-        message,
-      });
+    await db.insert(portalChatHistory).values({
+      userId,
+      role: "user",
+      message,
+    });
 
-      const history = await db
-        .select()
-        .from(portalChatHistory)
-        .where(eq(portalChatHistory.userId, userId))
-        .orderBy(asc(portalChatHistory.createdAt))
-        .limit(50);
+    const history = await db
+      .select()
+      .from(portalChatHistory)
+      .where(eq(portalChatHistory.userId, userId))
+      .orderBy(asc(portalChatHistory.createdAt))
+      .limit(50);
 
-      messages = history.slice(-20).map((h) => ({
-        role: h.role as "user" | "assistant",
-        content: h.message,
-      }));
+    messages = history.slice(-20).map((h) => ({
+      role: h.role as "user" | "assistant",
+      content: h.message,
+    }));
 
-      if (messages.length === 0 || messages[messages.length - 1].content !== message) {
-        messages.push({ role: "user" as const, content: message });
-      }
+    if (messages.length === 0 || messages[messages.length - 1].content !== message) {
+      messages.push({ role: "user" as const, content: message });
     }
 
     const { pattern, tier: clientTier, streak } = req.body;
-    const patternName = pattern || (devBypass ? DEV_BYPASS_USER.primaryPattern : "unknown");
+    const patternName = pattern || "unknown";
     // Collapse all tier variants (internal "quick-start" / "archive",
     // canonical "field_guide" / "complete_archive", or anything else
     // clientTier might send) down to a single canonical name.
@@ -1369,10 +1332,6 @@ router.post("/chat", async (req: Request, res: Response) => {
       // Model returned no text block (e.g. tool_use only, or cut off pre-text).
       // Rare, but distinguish it rather than fabricating a reply.
       return res.status(502).json({ error: "empty_response" });
-    }
-
-    if (devBypass) {
-      return res.json({ message: assistantMessage });
     }
 
     await db.insert(portalChatHistory).values({
@@ -1576,15 +1535,6 @@ router.post("/interrupt", async (req: Request, res: Response) => {
 // primary pattern, and free-tier session usage.
 router.get("/tier-status", async (req: Request, res: Response) => {
   try {
-    if (isDevBypassAllowed(req)) {
-      return res.json({
-        accessTier: "complete_archive",
-        primaryPattern: DEV_BYPASS_USER.primaryPattern,
-        chatSessionsUsed: 0,
-        chatSessionLimit: null,
-      });
-    }
-
     const token = req.cookies?.quiz_token || req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
     if (!token) return res.status(401).json({ error: "Not authenticated" });
     const authData = verifyAuthToken(token);

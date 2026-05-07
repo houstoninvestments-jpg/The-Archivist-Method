@@ -202,18 +202,9 @@ export function ArchivistPanel({ open, onClose, pattern, patternKey, tier }: Arc
       setInput("");
       if (fromVoice) setVoiceEngaged(true);
       try {
-        // On /portal/dev, send an X-Dev-Bypass header so the server can
-        // short-circuit auth for the demo route. Server accepts this exact
-        // literal value on both local dev and production.
-        const isDevRoute =
-          typeof window !== "undefined" &&
-          window.location.pathname === "/portal/dev";
-        const devHeader: Record<string, string> = isDevRoute
-          ? { "X-Dev-Bypass": "aaron-testing-bypass-2026" }
-          : {};
         const res = await fetch("/api/portal/chat", {
           method: "POST",
-          headers: { "Content-Type": "application/json", ...devHeader },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ message: trimmed, pattern: patternKey || undefined, tier }),
         });

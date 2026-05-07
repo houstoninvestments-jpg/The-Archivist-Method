@@ -253,10 +253,6 @@ That's enough for right now.
 function isDevMode(): boolean {
   try {
     if (new URLSearchParams(window.location.search).get("dev") === "true") return true;
-    // DEVELOPER ACCESS button on /portal/login sets this flag. When present,
-    // we skip every /api/portal call and render the portal from mocked data,
-    // so the owner can always reach /portal even with the API or DB offline.
-    if (typeof localStorage !== "undefined" && localStorage.getItem("dev_bypass") === "true") return true;
   } catch {
     /* ignore */
   }
