@@ -1,26 +1,33 @@
 # THE ARCHIVIST METHOD — ROADMAP
 
-> Last updated: February 15, 2026
+> Last updated: May 7, 2026
 
 ---
 
 ## The Bigger Vision
 
-TAM is a digital products business. Three tiers, one funnel, hands-off operation after launch. The roadmap is designed to scale revenue without scaling complexity.
+TAM is a digital products business. Four products, one funnel, hands-off operation after launch. The roadmap is designed to scale revenue without scaling complexity.
+
+The four products:
+
+- **Free Crash Course** — per-pattern portal modules, the discovery tier
+- **Field Guide** ($67) — single pattern, full protocol depth
+- **Complete Archive** ($297) — all nine patterns at field-guide depth, includes physical POD softcover of the book and a 30-day Pocket Archivist trial
+- **Pocket Archivist** ($14.99/month standalone) — conversational AI interface; free-tier access to primary pattern only; free with Field Guide for the activated pattern; free for 30 days with Complete Archive
 
 ---
 
-## Phase 1: Launch (Now)
+## Phase 1: Launch (Substantially complete, awaiting soft launch)
 
-**Goal:** Working payments, automated delivery, first sales.
+**Goal:** Soft launch and first sales. Build is substantially complete; revenue has not yet landed.
 
-- Stripe live mode
-- Resend email delivery for magic links
-- End-to-end payment flow verified
-- Three products live: Crash Course (free), Quick-Start ($67), Complete Archive ($297)
-- ConvertKit email sequences active
+- Stripe live mode wired
+- Resend email delivery wired (magic links and sequences)
+- End-to-end payment flow exists
+- Four products live: Free Crash Course (nine per-pattern portal modules, 3,000–5,000 words each), Field Guide ($67), Complete Archive ($297), Pocket Archivist ($14.99/month standalone with free-tier access to primary pattern)
+- Resend email sequences active
 
-**What success looks like:** Someone can find the site, take the quiz, get their pattern, sign up for the Crash Course, and buy a paid product — all without Aaron touching anything.
+**What success looks like:** Someone can find the site, take the quiz, get their pattern, sign up for the Free Crash Course, and buy a paid product — all without Aaron touching anything. **What remains:** soft launch and first sales.
 
 ---
 
@@ -28,10 +35,10 @@ TAM is a digital products business. Three tiers, one funnel, hands-off operation
 
 **Goal:** Automated email sequences drive conversions from free to paid.
 
-- 7-Day Crash Course email sequence live (11 emails, Day 0–21)
-- Quick-Start buyer onboarding live (5 emails, Day 0–60)
-- Archive buyer onboarding live (5 emails, Day 0–90)
-- Monitor conversion rates: Crash Course → $67, $67 → $297, direct → $297
+- 7-Day Crash Course email sequence live in Resend (11 emails, Day 0–21) — acquisition and onboarding funnel that feeds into the per-pattern portal modules. The email sequence and the portal Crash Course are distinct: the sequence does acquisition and nurture; the portal modules are the actual free-tier deliverable.
+- Field Guide buyer onboarding live in Resend (5 emails, Day 0–60)
+- Archive buyer onboarding live in Resend (5 emails, Day 0–90)
+- Monitor conversion rates: Free Crash Course → $67, $67 → $297, direct → $297, Pocket Archivist trial → paid subscription
 - Basic analytics on funnel performance
 
 ---
@@ -75,9 +82,11 @@ NotebookLM → ElevenLabs → Claude API → Shorts + Long-form
 **Target:** $200,000–$400,000 year one revenue.
 
 Revenue model:
-- Crash Course → $67 Quick-Start conversion (target: 10–15%)
-- Quick-Start → $297 Archive upsell (target: 20–30%)
+- Free Crash Course → $67 Field Guide conversion (target: 10–15%)
+- Field Guide → $297 Archive upsell (target: 20–30%)
 - Direct $297 purchases from organic traffic
+- Pocket Archivist subscription MRR ($14.99/month standalone)
+- Pocket Archivist trial-to-paid conversion (30-day trial activates with Complete Archive purchase)
 - Content automation drives organic reach
 - Email sequences do the selling
 
@@ -89,11 +98,9 @@ Revenue model:
 |-------|-----|
 | Affiliate programs | TAM doesn't need network marketing. The product sells itself. |
 | Coaching calls | TAM is a system, not a service. No 1:1 time-for-money model. |
-| Subscriptions | One-time purchases. No recurring billing complexity. |
 | Group programs | Same as coaching — doesn't scale, doesn't fit the brand. |
 | Live events | Digital-only. No physical presence needed. |
-| Certifications | "Certified Archivist" is not the goal. People use the system, not sell the system. |
-| Physical products | Digital-only. PDFs, Vault, content. No merch, no printed books (for now). |
+| Physical products beyond the book | The Complete Archive includes a print-on-demand softcover of the book. No other merch, no standalone printed books. |
 
 ---
 
