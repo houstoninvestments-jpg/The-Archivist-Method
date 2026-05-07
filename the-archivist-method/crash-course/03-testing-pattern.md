@@ -199,3 +199,59 @@ What you are practicing is asking. Not eloquence. Not vulnerability. Not the per
 What to expect on the first real Rewrite. Twenty minutes where the body insists you have made a mistake. The pattern reads the sent ask as exposure. It tells you to follow up with a clarification, a softening, a joke, an excuse. Do not. The phone stays face-down. The slot machine wants one more pull. You let it stay quiet.
 
 In most cases, the partner texts back something kind. The reassurance lands. The chest opens the same way it would have opened after a passed test. Same outcome. No damage. No fight to repair. No eggshells the next morning. The relief is the same relief the test would have produced, minus the cost.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, count the checks.
+
+Every time you open the partner's social media,
+their last-active status. Every time you read a
+text for tone. Every time you scan their face for
+a tell. Tally on your hand.
+
+For each check, log one mark. T if it produced a
+test. A if you asked directly instead.
+
+At the end of the twenty-four hours, count the Ts.
+
+Then choose one T. Tomorrow, when that situation
+repeats, send the ask instead. One sentence. Phone
+face-down.
+
+One ask. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report fifteen to forty checks per day in high-anxiety stretches, and the count is shocking even when they were already aware they checked too often. The shock is the data. You have been checking so frequently that the act of checking no longer registers. Counting forces it back into awareness. Awareness is the first move.
+
+Do not try to stop the checking during the count. Stopping is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss most of the checks because you were busy bracing not to check, and you fail to stop checking anyway because you did not have an ask reflex loaded. Today is just the count. The script you rehearsed in section four is for tomorrow's one ask, not for today's tally.
+
+The one-ask discipline matters. The pattern wants to be fixed all at once. The pattern wants you to commit to never testing again, fail by the next silence, and conclude that the protocol does not work on a pattern this old. One ask blocks that move. One ask is small enough to actually do. One ask is enough to produce the new data point. The second ask is easier than the first because the body has the data from the first. The tenth is easier than the ninth. Ten to twenty asks before the slot machine starts to lose some of its pull. The Testing Pattern fires less often than some other patterns and at higher intensity, which means each ask weighs more than a typical rep. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the heart, in the chest, in the eyes, in the hands. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour check count. One ask.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The unanswered text. The quiet weekend. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Testing Pattern carries the full ninety-day Earn Path. The graduated rewrite levels two through four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If The Testing Pattern produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Count checks today. Ask one tomorrow. The first ask is the first piece of evidence that the slot machine is not the only game your body knows how to play.
+
+Keep collecting evidence.
