@@ -132,3 +132,86 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Appetite shift during stability. Cortisol routing through hunger.
 • Unnamed anxiety. Body certain something is wrong with no evidence.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Said when the calm becomes unbearable. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+Pattern 8 has one structural feature different from the others. Awareness alone does not interrupt it. You can see the sabotage unfolding in real time, watch your hand reach for the match, and act anyway. Knowing the pattern is running is not enough. The body is faster than the knowing. The interrupt has to do something the knowing cannot do.
+
+That something is the script.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+When you notice the restlessness, the agitation,
+the itch to blow something up, say this out loud:
+
+"Things are going well and I feel the urge to blow
+it up. This is the pattern. I do not have to act
+on this feeling. I can tolerate good."
+
+Short version: "Tolerate good."
+
+The pattern operates internally. Your voice is
+external. It breaks the loop.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script will not work because awareness alone never has. It said your situation is genuinely off this time. It said the urge to act is the right urge. The pattern is wrong. The script is not awareness. The script is sound waves moving through the room. You will not say it later. You will say it now. Five times. Out loud. Then come back.
+
+What the script is doing.
+
+The pattern operates inside the head. The thoughts arrive in your voice and feel like your own thinking. They are not. They are the costume the pattern wears. The mind cannot argue with itself. Speaking puts a sound into the room that the loop did not predict. Your ears hear the words. Your nervous system registers external input. The pattern does not know what to do with that.
+
+The script names what the body is feeling and refuses the asking. Naming through the voice activates the prefrontal cortex by giving it speech to produce. The prefrontal cortex is the slow path. The slow path is the only path that can hold against the cortisol-driven impulse the pattern is generating.
+
+Saying the words in your head does not work. The pattern lives in your head. Whisper counts. Mouthing the words with breath behind them counts. Silent does not.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives, the restlessness will be physical and the agitation will be loud and the case for blowing it up will feel obvious. Motor memory stays accessible. The words need to fire when the body has already decided this is the moment.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. This is rehearsal, not deployment. You are pre-loading the response so it can fire in the gap between the itch arriving and the hand reaching for the match.
+
+Then deploy. Smallest activation. A peaceful weekend that produces a small itch. A stable week. A good morning. Say the script. Stay seated. Then survive forty-eight hours without acting on the impulse, whatever the impulse names itself as: boredom, dissatisfaction, "needing a change."
+
+What to expect after the words land. The first hour, the urge sharpens. The pattern says the script does not apply because this situation is genuinely different. Hold the line. Hours one through twelve, the urgency stays loud. Hours twelve through forty-eight, the urge softens. The cortisol drops. The set point pulls without the hit. By hour forty-eight, the urge has either faded or dropped to a level you can assess from a body no longer in compensatory arousal.
+
+By the end of the forty-eight hours, you are still here, the match has not been lit, and you have one piece of new data the pattern has been deleting for years. The data point is small. It is worth more than ten years of understanding why you do this. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script names the urge. The Rewrite is staying still while the body wants the match. Naming the urge alone does not retrain the set point. The cortisol is still below baseline. The skin is still itching. The chest is still pressuring. If you do not have a different behavior loaded, the body will reach for the match within hours, dressed up as a reasonable need. The Rewrite is what the body does for the next forty-eight hours instead of lighting the fire.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+The rewrite for Success Sabotage is not "stop
+destroying." It is "learn to tolerate good."
+Destruction is the symptom. Intolerance of
+stability is the cause. Every hour you tolerate
+the discomfort of things going well is an hour
+of recalibration. Your nervous system is learning,
+not through insight, but through experience, that
+good things can last. That calm does not always
+precede catastrophe. That you can hold something
+precious without dropping it.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the forty-eight-hour wait. When the urge arrives, set a timer. Do not act for forty-eight hours. Not because the urge is wrong. Because the pattern uses urgency as its weapon, and forty-eight hours disarms the urgency. Watch the urge peak in the first six hours. Watch it decline by hour twenty-four. Watch it sit below three out of ten by hour forty-eight.
+
+That is the entire Rewrite at level one. A timer and a closed phone. Most days, this is the work. Master level one before you reach for level two. Master means the urge arrives, the cortisol drops below baseline, the body itches, and you do not light the match for forty-eight hours. The pattern still says act now. The body still says now. You wait anyway.
+
+The pattern has been training the body for years to act on the urge inside the first hour. The wait-forty-eight-hours behavior has to become a reflex too. That takes repetition, on real urges, when the calm is unbearable and the cover story sounds airtight. Three to five waits before the body starts to register that the urge passes without action.
+
+The full Rewrite is graduated. Level two adds telling a witness during the wait. Level three is counter-investment, taking a deliberate action that deepens commitment to the thing the pattern wants to destroy. Level four is public commitment, making the stake visible and difficult to undo. The Field Guide carries levels two through four with the protocols, the witness setup, and the troubleshooting for the days the urge does not pass.
+
+What you are practicing is tolerating. Not curing. Not transcending. Tolerating. The body has been calling the discomfort of stability unbearable for years. Tolerance alone is the work. The cortisol stays below baseline for the full forty-eight hours. The skin stays itchy. The chest stays pressured. You sit with all of it. The match stays unlit.
+
+What to expect on the first real Rewrite. Forty-eight hours where the body insists you are missing the window. The pattern reads the unlit match as a threat: if you do not act now, the good thing will be taken later, by someone else. Do not. Sit. The taking is not coming. The taking only ever came when you took it.
+
+In most cases, the urge fades by hour twenty-four and is below three out of ten by hour forty-eight. The good thing is still here. Nothing collapsed. The set point logs one non-catastrophic outcome. Multiply across weeks, the set point starts to recalibrate downward. The match gets a fraction lighter in the hand each time it is not lit.
