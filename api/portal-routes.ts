@@ -1973,6 +1973,8 @@ import {
   getTocForTier,
   getCompleteArchiveToc,
   canAccessSection,
+  canAccessCrashCourseSection,
+  crashCourseKeyToSectionId,
   getSectionContent,
   findSectionById,
   getAdjacentSections,
@@ -2335,6 +2337,47 @@ router.get("/reader/progress", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Get progress error:", error);
     res.status(500).json({ error: "Failed to load progress" });
+  }
+});
+
+// ─── Crash Course: Get Markdown Content ──────────────────────────────────────
+router.get("/crash-course/content/:patternKey", async (req: Request, res: Response) => {
+  try {
+    const token = getAuthToken(req);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+    const authData = verifyAuthToken(token);
+    if (!authData) return res.status(401).json({ error: "Invalid or expired token" });
+
+    const { patternKey } = req.params;
+    const sectionId = crashCourseKeyToSectionId[patternKey];
+    if (!sectionId) return res.status(404).json({ error: "Unknown pattern key" });
+
+    const { tier, primaryPattern } = await resolveUserTier(authData);
+
+    if (!primaryPattern && tier === "free") {
+      return res.status(409).json({ reason: "quiz-incomplete" });
+    }
+
+    if (!canAccessCrashCourseSection(sectionId, primaryPattern, tier)) {
+      return res.status(403).json({ locked: true, reason: "free-tier-other-pattern" });
+    }
+
+    const result = await getSectionContent(sectionId);
+    if (!result) return res.status(404).json({ error: "Section content not found" });
+
+    const section = findSectionById(sectionId);
+    res.json({
+      sectionId,
+      patternKey,
+      title: section?.title || null,
+      content: result.content,
+      readMinutes: result.readMinutes,
+      tier,
+      primaryPattern,
+    });
+  } catch (error) {
+    console.error("Crash course content error:", error);
+    res.status(500).json({ error: "Failed to load crash course content" });
   }
 });
 

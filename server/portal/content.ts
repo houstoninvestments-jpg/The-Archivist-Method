@@ -147,16 +147,34 @@ const EPILOGUE_SECTIONS: Section[] = [
   { id: "ep-1", title: "Epilogue", filePath: "epilogue/epilogue.md", module: "epilogue" },
 ];
 
+const CRASH_COURSE_SECTIONS: Section[] = [
+  { id: "cc-disappearing",  title: "The Disappearing Pattern",  filePath: "crash-course/01-disappearing-pattern.md",  module: "crash-course" },
+  { id: "cc-apology",       title: "The Apology Loop",          filePath: "crash-course/02-apology-loop.md",          module: "crash-course" },
+  { id: "cc-testing",       title: "The Testing Pattern",       filePath: "crash-course/03-testing-pattern.md",       module: "crash-course" },
+  { id: "cc-attraction",    title: "Attraction to Harm",        filePath: "crash-course/04-attraction-to-harm.md",    module: "crash-course" },
+  { id: "cc-draining",      title: "The Draining Bond",         filePath: "crash-course/05-draining-bond.md",         module: "crash-course" },
+  { id: "cc-deflection",    title: "Compliment Deflection",     filePath: "crash-course/06-compliment-deflection.md", module: "crash-course" },
+  { id: "cc-perfectionism", title: "The Perfectionism Trap",    filePath: "crash-course/07-perfectionism-trap.md",    module: "crash-course" },
+  { id: "cc-sabotage",      title: "Success Sabotage",          filePath: "crash-course/08-success-sabotage.md",      module: "crash-course" },
+  { id: "cc-rage",          title: "The Rage Pattern",          filePath: "crash-course/09-rage-pattern.md",          module: "crash-course" },
+];
+
+export const crashCourseKeyToSectionId: Record<string, string> = {
+  disappearing:         "cc-disappearing",
+  apologyLoop:          "cc-apology",
+  testing:              "cc-testing",
+  attractionToHarm:     "cc-attraction",
+  drainingBond:         "cc-draining",
+  complimentDeflection: "cc-deflection",
+  perfectionism:        "cc-perfectionism",
+  successSabotage:      "cc-sabotage",
+  rage:                 "cc-rage",
+};
+
 export function getCrashCourseToc(): TocTree {
   return {
     groups: [
-      { id: "day-1", title: "Day 1: Emergency Protocol", sections: MODULE_0_SECTIONS },
-      { id: "day-2", title: "Day 2: What This Is", sections: MODULE_1_SECTIONS.slice(0, 3) },
-      { id: "day-3", title: "Day 3: Know Your Pattern", sections: MODULE_1_SECTIONS.slice(3) },
-      { id: "day-4", title: "Day 4: The Four Doors", sections: MODULE_2_SECTIONS.slice(0, 2) },
-      { id: "day-5", title: "Day 5: Excavation", sections: [MODULE_2_SECTIONS[2]] },
-      { id: "day-6", title: "Day 6: Interruption", sections: [MODULE_2_SECTIONS[3]] },
-      { id: "day-7", title: "Day 7: Rewrite", sections: [MODULE_2_SECTIONS[4]] },
+      { id: "crash-course", title: "Crash Course", sections: CRASH_COURSE_SECTIONS },
     ],
   };
 }
@@ -190,6 +208,7 @@ export function getCompleteArchiveToc(primaryPattern?: string): TocTree {
 
   return {
     groups: [
+      { id: "crash-course", title: "Crash Course", sections: CRASH_COURSE_SECTIONS },
       { id: "emergency", title: "Emergency Protocol", sections: MODULE_0_SECTIONS },
       { id: "foundation", title: "Foundation", sections: MODULE_1_SECTIONS },
       { id: "four-doors", title: "The Four Doors", sections: MODULE_2_SECTIONS },
@@ -202,6 +221,17 @@ export function getCompleteArchiveToc(primaryPattern?: string): TocTree {
       { id: "epilogue", title: "Epilogue", sections: EPILOGUE_SECTIONS },
     ],
   };
+}
+
+export function canAccessCrashCourseSection(
+  sectionId: string,
+  primaryPattern: string | null | undefined,
+  tier: string,
+): boolean {
+  if (!sectionId.startsWith("cc-")) return false;
+  if (tier !== "free") return true;
+  if (!primaryPattern) return false;
+  return crashCourseKeyToSectionId[primaryPattern] === sectionId;
 }
 
 export function getTocForTier(
