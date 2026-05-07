@@ -212,3 +212,56 @@ What you are building is the gap. The gap that is two to ten seconds wide right 
 What to expect on the first real Rewrite. Twenty minutes where the pattern says you have abandoned the argument, that you are weak. Sit with all of it. The thoughts will fade by minute fifteen. The cold water and the slow breath will keep doing their work. By minute twenty, the heart is at baseline, the heat is gone, and the room you walked into is just a room.
 
 In most cases, the other person responds well to a returned conversation that does not involve screaming. The fight you thought was about the trash is actually about something smaller and more workable. The cool-down made the workable conversation possible. Multiply across weeks. The pattern weakens every time the explosion does not happen. The fuel still accumulates. The body learns it does not have to discharge through the explosion. It can discharge through the legs.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, track the heat.
+
+Every time the heat rises in the chest. Every
+time the jaw sets. Every time the fists tighten.
+Note it. Phone, paper, hand. Note what set it
+off. Note whether you exploded.
+
+At the end of the twenty-four hours, count the
+events. Count the explosions. The events
+outnumber the explosions every time. That is the
+gap.
+
+Then write down three pieces of fuel from the
+week. Three things that accumulated. Not for
+fixing today. For naming.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report many more heat events than explosions. The heat rises and the explosion does not always follow. The pattern wants you to believe they are the same thing. They are not. The explosion is one possible outcome of the heat. The others have been happening too, every time the heat rose and you did not yell, did not follow the car, did not say the cruelest sentence available. Counting makes those non-explosions visible. Visibility is the first move.
+
+Do not try to leave the room during the count. The leaving is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss the heat events because you were busy planning the exit, and you fail to actually leave when the explosion comes because the body has not been pre-loaded with the practice. Today is just the count. The script you rehearsed in section four is for tomorrow's first deployment, not for today's tally.
+
+The fuel inventory is the second half. Three pieces of fuel from the week. The traffic that backed up. The email that landed wrong. The sleep that did not happen. The family member who never hears you. The pattern does not fire on the small thing in front of you. It fires on the small thing landing on top of all of those. Naming the fuel makes it visible. Visible fuel is fuel you can discharge before the next small thing lands. Hidden fuel is what makes the next explosion feel inevitable.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the heat, in the jaw, in the fists, in the tunnel vision. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour heat count and fuel inventory.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The next time the heat rises and you say four words and walk to a different room. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Rage Pattern carries the full ninety-day Earn Path. The graduated rewrite levels two through four. The Pattern Archaeology section, where the Original Room work happens. The de-escalation library, the post-explosion repair protocol, the witness setup, the full troubleshooting. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If The Rage Pattern produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move. If your rage has crossed into physical violence, professional support comes before either.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Track the heat today. Walk one heat into a different room tomorrow. The first walked heat is evidence the gap is wide enough.
+
+Keep collecting evidence.
