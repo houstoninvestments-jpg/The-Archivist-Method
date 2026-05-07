@@ -204,3 +204,60 @@ What you are practicing is line-drawing. Not vindication. Not the perfect explan
 What to expect after the first line is drawn. Two to five minutes where the guilt peaks. The chest gets heavier. The phone vibrates with whatever the bonded person sends back. Do not pick up. Do not soften. Do not pre-apologize. Sit. The guilt is loud because the chain is being tested for the first time in a long time. Of course it is loud.
 
 In most cases, the bonded person responds with displeasure that is real and survivable. Sometimes a sharper response. Sometimes a guilt-trip. Sometimes silence. None of it requires you to take the line back. The line stays drawn. Tomorrow the chain is a fraction looser. Not free. Looser. The slow leak slows for one day. Multiply that across weeks.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, name three costs.
+
+What is this situation taking from you in
+specific, listable terms. Hours not slept.
+Friendships faded. Doctor visits postponed.
+Income lost. Three specific costs. Write them
+down.
+
+Read them out loud. To yourself. With the door
+closed if you have to. Hearing the words in the
+air is the assignment.
+
+Then tell one person. Not the bonded person.
+Someone outside the situation. Tell them the
+three costs. Not for advice. To hear yourself
+say them to another human.
+
+One person. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern can produce three costs immediately and then keep producing them. Five costs. Ten. The list grows beyond the assignment. The shock is the data. You knew the costs. The pattern kept them quiet. Counting forces them out of the silence and into the room. The silence is what the pattern feeds on. Awareness is the first move.
+
+Do not try to leave during the count. Leaving is the work of weeks or months, with support, with a plan, and sometimes with professional help. The count is the work of one day. Trying to skip from naming to leaving usually produces neither. You stay because the pattern is louder than the count alone. The count is the foundation the later steps will rest on. Without it, the leaving collapses back into staying within days. The script you rehearsed in section four is for daily repetition during this twenty-four-hour window, not just before it. Say the script. Name the costs. Tell one person. That is today.
+
+The one-person discipline matters. The pattern wants you to keep the costs to yourself. Telling one person breaks the silence the pattern depends on. Once another human has heard the list, the pattern can no longer pretend the costs are not real. Choose someone who will not push you to leave today. Choose someone who will simply hear the list. The point is not action. The point is having the costs witnessed. One person is enough. One witness ends the silence.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the chest, in the shoulders, in the chronic exhaustion, in the crushing guilt. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour cost-naming. One witness.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The day's three costs. The one line drawn. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Draining Bond carries the full ninety-day Earn Path. The graduated rewrite levels two through four. The full leaving protocol with safety planning for high-risk situations. All chronic and acute body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If The Draining Bond produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move. If the situation involves physical danger, professional support comes before either.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Name three costs today. Tell one person tomorrow. The first witness is the first piece of evidence that the silence is no longer the climate.
+
+Keep collecting evidence.
