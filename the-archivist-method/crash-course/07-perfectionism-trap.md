@@ -190,3 +190,60 @@ What you are practicing is not lower standards. The pattern will accuse you of t
 What to expect on the first real Rewrite. Ten to twenty minutes where the body insists you have made a mistake. The pattern reads the closed file as evidence of imminent disaster. It tells you to reopen, just to check, just for a second. Do not. Sit. The closed file is not punishment. The closed file is the work no longer being held hostage by the alarm.
 
 In most cases, the work is received the same as the work you used to over-revise. Sometimes better. The recipient does not see the cycles you spared yourself. They see the work. The work was finished at draft two. Draft seven was the alarm. The data accumulates. One submission at a time. The horizon stops receding when the work stops being chased.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, time your tasks.
+
+Every task with a clear endpoint. Before you
+start, set a timer for the amount of time the
+task reasonably requires. If unsure, halve your
+first guess.
+
+When the timer rings, log one thing. Mark S if
+you submitted. Mark R if you kept revising past
+the timer.
+
+At the end of the twenty-four hours, count the Rs.
+
+Then choose one R. Tomorrow, when that situation
+repeats, set the timer again. When it rings,
+submit. Hands off the keyboard.
+
+One submit. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report that almost every task crosses into R territory, and that the gap between the timer ringing and the actual submit is far larger than they expected. The shock is the data. You have been treating the timer as a suggestion and the alarm as authority. The count makes the ratio visible. Visibility is the first move.
+
+Do not try to stop revising during the count. Stopping is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss most of the timer rings because you were busy bracing not to revise, and you fail to stop revising anyway because you did not have a submit reflex loaded. Today is just the count. The script you rehearsed in section four is for tomorrow's one submit, not for today's tally.
+
+The one-submit discipline matters. The pattern wants to be fixed all at once. The pattern wants you to commit to never revising past a timer again, fail before noon, and conclude that the protocol is unrealistic. One submit blocks that move. One submit is small enough to actually do. One submit is enough to produce the new data point. The second submit is easier than the first because the body has the data from the first. The tenth is easier than the ninth. Fifty to a hundred submits before the timer ring stops firing the alarm at full volume. At one to three submits a day, that is two to ten weeks. The Perfectionism Trap fires on every task with an endpoint, which means it gives you more practice opportunities than almost any other pattern. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the jaw, in the chest, in the scan, in the breath. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour timer count. One submit.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The three-sentence emails. The doorway revisions. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Perfectionism Trap carries the full ninety-day Earn Path. The graduated rewrite levels two through four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If The Perfectionism Trap produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Time one task today. Submit one tomorrow. The first submit is the first piece of evidence that the horizon was always a function of the alarm, not the work.
+
+Keep collecting evidence.
