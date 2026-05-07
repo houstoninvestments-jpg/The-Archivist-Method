@@ -5,7 +5,21 @@ import { ReactNode } from "react";
 const SEP_CHAR = "═";
 const isSepLine = (l: string) => l.trim().length >= 6 && [...l.trim()].every((c) => c === SEP_CHAR);
 
-type SpecialVariant = "gold" | "quick" | "circuit" | "key" | "observes" | "warning";
+type SpecialVariant = "gold" | "quick" | "circuit" | "key" | "observes" | "warning" | "bracket";
+
+// The seven canonical bracketed callout labels carried by the crash-course
+// markdown files. Each gets its own accent palette via SpecialVariant="bracket"
+// + the subkind discriminator. (Order matches the canonical render styling.)
+type BracketSubkind =
+  | "FIELD OBSERVATION"
+  | "RECOGNITION"
+  | "MECHANISM"
+  | "PATTERN SNAPSHOT"
+  | "INTERRUPTION SCRIPT"
+  | "REWRITE FRAME"
+  | "FIELD ASSIGNMENT";
+
+const BRACKET_LABEL_RE = /^\[(FIELD OBSERVATION|RECOGNITION|MECHANISM|PATTERN SNAPSHOT|INTERRUPTION SCRIPT|REWRITE FRAME|FIELD ASSIGNMENT)\]$/;
 
 type Block =
   | { kind: "h1" | "h2" | "h3"; text: string }
@@ -14,7 +28,7 @@ type Block =
   | { kind: "ul" | "ol"; items: string[] }
   | { kind: "blockquote"; text: string }
   | { kind: "table"; headers: string[]; rows: string[][] }
-  | { kind: "special"; variant: SpecialVariant; emoji: string; label: string; text: string }
+  | { kind: "special"; variant: SpecialVariant; emoji: string; label: string; text: string; subkind?: BracketSubkind }
   | { kind: "frame"; name: string };
 
 // ![frame-01] / ![frame-02] etc. — shorthand for one of the chapter frame
@@ -32,8 +46,14 @@ function splitEmojiLabel(line: string): { emoji: string; label: string } {
   return { emoji, label };
 }
 
-function detectSpecial(line: string): { variant: SpecialVariant; emoji: string; label: string } | null {
+function detectSpecial(line: string): { variant: SpecialVariant; emoji: string; label: string; subkind?: BracketSubkind } | null {
   const t = line.trim();
+  // Bracketed callouts carried by the crash-course markdown files.
+  const bracket = t.match(BRACKET_LABEL_RE);
+  if (bracket) {
+    const subkind = bracket[1] as BracketSubkind;
+    return { variant: "bracket", emoji: "", label: subkind, subkind };
+  }
   // Known callouts with distinct variants. Emoji is preserved separately so the
   // renderer can show it alongside the Bebas Neue header.
   if (/^💎\s*GOLD NUGGET/i.test(t)) return { variant: "gold", emoji: "💎", label: "GOLD NUGGET" };
@@ -69,7 +89,7 @@ export function parseMarkdown(md: string): Block[] {
         inner.push(lines[j]);
         j++;
       }
-      out.push({ kind: "special", variant: special.variant, emoji: special.emoji, label: special.label, text: inner.join("\n").trim() });
+      out.push({ kind: "special", variant: special.variant, emoji: special.emoji, label: special.label, text: inner.join("\n").trim(), subkind: special.subkind });
       i = j + 1;
       continue;
     }
@@ -88,6 +108,15 @@ export function parseMarkdown(md: string): Block[] {
     }
 
     if (/^---+$/.test(t) || /^\*\*\*+$/.test(t)) {
+      out.push({ kind: "hr" });
+      i++;
+      continue;
+    }
+
+    // Unicode box-drawing horizontal rules. Pairs around bracketed callouts
+    // are consumed above by the special-block branch; orphan ═/─ runs here
+    // render as decorative dividers.
+    if (/^═{3,}$/.test(t) || /^─{3,}$/.test(t)) {
       out.push({ kind: "hr" });
       i++;
       continue;
@@ -355,6 +384,25 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
           const isArchivistVoice = b.variant === "observes" || b.variant === "gold";
           const bodyFont = isArchivistVoice ? "'EB Garamond', serif" : "'Inter', sans-serif";
           const bodyFontSize = isArchivistVoice ? 18 : 15;
+          // Bracket subkinds get distinct accent palettes per design lock.
+          // Amber side: FIELD OBSERVATION, MECHANISM, INTERRUPTION SCRIPT, FIELD ASSIGNMENT.
+          // Teal side: RECOGNITION, PATTERN SNAPSHOT, REWRITE FRAME.
+          const bracketStyle = (() => {
+            if (b.variant !== "bracket") return null;
+            switch (b.subkind) {
+              case "FIELD OBSERVATION":   return { accent: "#D4A574", borderRgba: "rgba(212,165,116,0.30)", borderWidth: 1 };
+              case "MECHANISM":           return { accent: "#B89066", borderRgba: "rgba(184,144,102,0.30)", borderWidth: 1 };
+              case "INTERRUPTION SCRIPT": return { accent: "#D4A574", borderRgba: "rgba(212,165,116,0.55)", borderWidth: 2 };
+              case "FIELD ASSIGNMENT":    return { accent: "#D4A574", borderRgba: "rgba(212,165,116,0.40)", borderWidth: 1 };
+              case "RECOGNITION":         return { accent: "#00FFC2", borderRgba: "rgba(0,255,194,0.30)", borderWidth: 1 };
+              case "PATTERN SNAPSHOT":    return { accent: "#4FBFA8", borderRgba: "rgba(79,191,168,0.30)", borderWidth: 1 };
+              case "REWRITE FRAME":       return { accent: "#00FFC2", borderRgba: "rgba(0,255,194,0.55)", borderWidth: 2 };
+              default:                    return { accent: "#00FFC2", borderRgba: "rgba(0,255,194,0.30)", borderWidth: 1 };
+            }
+          })();
+          const accent = bracketStyle?.accent ?? "#00FFC2";
+          const borderRgba = bracketStyle?.borderRgba ?? "rgba(0,255,194,0.3)";
+          const borderWidth = bracketStyle?.borderWidth ?? 1;
           return (
             <div
               key={key}
@@ -362,7 +410,7 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
                 margin: "32px 0",
                 padding: 24,
                 background: "#0a0a0a",
-                border: "1px solid rgba(0,255,194,0.3)",
+                border: `${borderWidth}px solid ${borderRgba}`,
                 borderRadius: 4,
               }}
             >
@@ -371,7 +419,7 @@ export function Markdown({ content, accentColor }: MarkdownProps) {
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: 20,
                   letterSpacing: "0.12em",
-                  color: "#00FFC2",
+                  color: accent,
                   marginBottom: 14,
                   display: "flex",
                   alignItems: "center",
