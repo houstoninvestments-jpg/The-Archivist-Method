@@ -581,6 +581,29 @@ export default function Portal() {
             <Breadcrumb sectionId={activeId} groups={toc.groups} />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button
+              type="button"
+              onClick={() => navigate("/crash-course")}
+              aria-label="Open the crash course"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "6px 12px",
+                height: 28,
+                background: "transparent",
+                border: "1px solid #2A2830",
+                borderRadius: 4,
+                color: "#C8C0B2",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 9,
+                letterSpacing: "0.2em",
+                fontWeight: 500,
+                textTransform: "uppercase",
+                cursor: "pointer",
+              }}
+            >
+              Crash Course
+            </button>
             <DoorPill door={door} />
             <button
               type="button"

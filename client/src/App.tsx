@@ -31,7 +31,7 @@ function PageLoader() {
 function CrashCourseRedirect() {
   const [, navigate] = useLocation();
   useEffect(() => {
-    navigate("/portal", { replace: true });
+    navigate("/crash-course", { replace: true });
   }, [navigate]);
   return <PageLoader />;
 }
@@ -45,6 +45,7 @@ function Router() {
       <Route path="/portal/login" component={PortalLogin} />
       <Route path="/portal/crash-course" component={CrashCourseRedirect} />
       <Route path="/crash-course/:patternId" component={CrashCourse} />
+      <Route path="/crash-course" component={CrashCourse} />
       <Route path="/portal/dev" component={Portal} />
       <Route path="/portal" component={Portal} />
       <Route path="/admin" component={AdminLogin} />
