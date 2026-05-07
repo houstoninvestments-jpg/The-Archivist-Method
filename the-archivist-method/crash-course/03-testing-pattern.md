@@ -129,3 +129,73 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Hot face. The flush of anticipation while the test is being composed.
 • The constant hum. The baseline question that only a passed test quiets.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Said early. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Say this out loud 5 times RIGHT NOW:
+
+"The Testing Pattern activated. I want to test if
+they really care. I am not creating a test. I am
+asking directly instead."
+
+Short version: "Not a test. Ask directly."
+
+Say it. 5 times. Do it before reading further.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script was unnecessary because the surveillance is real and the partner really is acting strange. It said you can run the script later, after you have just checked the partner's phone for one more piece of evidence. The pattern is wrong. The script is what you say before the evidence-gathering begins, not after. You will not run it later. You will run it now. Five times. Out loud. Then come back.
+
+Here is what the script is doing.
+
+The Testing Pattern has a longer fuse than most patterns. The cortisol does not peak in milliseconds. It builds across minutes and hours. The dopamine system enters prediction error and the urge to act sharpens with every minute the partner stays silent or distracted. The window for intervention is wide, and the window narrows as the fermentation continues. The first heart-rate spike is the leverage point. Two hours into the surveillance, the case for testing feels airtight. By the time the message is drafted, the only thing left is to hit send.
+
+The script names the activation early. Naming engages the dorsolateral prefrontal cortex, the same brain region that overrides the dopamine-seeking loop when the loop is caught early. Saying the words out loud forces the slow path online. The voice is the lever because the voice is external. The pattern argues with thoughts. It cannot argue with sound waves moving through the room. The script's job is to put a sound into the room before the message is composed.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives, the cortisol will be high and the surveillance will be loud and the case for testing will feel airtight. Motor memory stays accessible. The words need to be loaded enough that they can fire when the partner has not texted for two hours and the chest is fluttering and the hand is reaching for the phone.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. No phone in your hand. This is rehearsal, not deployment. You are pre-loading the response so it can fire in the window between the first heart-rate spike and the surveillance phase that follows.
+
+Then deploy. Smallest activation. Lowest stakes. A friend has not replied for an hour. The chest flutters by a fraction. The phone is in your hand before you decided to pick it up. Say the script. Put the phone face-down. Then survive the next thirty minutes without checking it.
+
+What to expect after the words land. Minute one, the heart stays high. The pattern says the script does not apply because this situation is real. Minute two through fifteen, the urgency starts to soften. Not the anxiety. The urgency. The case for acting on it begins to lose its airtight quality. By minute thirty, the urge to compose the message has faded enough that you can choose. By the hour mark, the fermentation that was building has stopped building.
+
+By the end of the hour, you are still here, the message has not been sent, and you have one piece of new data the pattern has been deleting for years. The data point is small. It is also worth more than ten years of understanding why you test. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script stops the test. The Rewrite is the message you send instead. The hand that was reaching for the phone still wants the phone. The chest is still fluttering. The fermentation has not finished fermenting. If you do not have a different message loaded, the test message will draft itself within minutes, in your voice, sounding rational. The Rewrite is the message that goes where the test was going to go.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+The test asks: "Do you care enough to survive my
+worst?" The ask says: "I need you. Can you be
+here?" One is a trial. One is a request. Your
+relationships will not survive trials. They will
+survive requests.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the minimum ask. One sentence. "I am having an anxious day. Can you tell me we are okay?" Send it before the test message drafts itself. Do not explain the pattern. Do not justify the anxiety. Do not pre-apologize. State the need. Hit send. Then put the phone down.
+
+That is the entire Rewrite at level one. One sentence and a phone face-down on the table. Most days, this is the work. Master level one before you reach for level two. Master means the heart races, the chest flutters, the hand reaches for the phone, and the message that goes out is the ask, not the test. The fermentation still happens. The slot machine still spins. You ask anyway.
+
+The test has been a reflex for years. The ask-instead-of-test behavior has to become a reflex too. That takes repetition, on real activations, with the hum loud and the surveillance running and the case for testing feeling airtight. Three weeks at level one is not slow. Three weeks at level one is the actual schedule.
+
+The full Rewrite is graduated. Level two names the feeling without explaining the pattern. Level three names the pattern out loud to the partner. Level four is full vulnerability on a high-stakes activation, the moment the test is loudest, with no exit ramp prepared. The Field Guide carries levels two through four with the protocols, the scenario maps, and the troubleshooting for the days the urge to test refuses to drop.
+
+What you are practicing is asking. Not eloquence. Not vulnerability. Not the perfect sentence. Asking. The body has been testing for so long that asking alone is the radical act. The first asks will feel weak. The pattern will say weak is dangerous. Send the ask anyway. The phone going face-down is the action. The waiting is the practice.
+
+What to expect on the first real Rewrite. Twenty minutes where the body insists you have made a mistake. The pattern reads the sent ask as exposure. It tells you to follow up with a clarification, a softening, a joke, an excuse. Do not. The phone stays face-down. The slot machine wants one more pull. You let it stay quiet.
+
+In most cases, the partner texts back something kind. The reassurance lands. The chest opens the same way it would have opened after a passed test. Same outcome. No damage. No fight to repair. No eggshells the next morning. The relief is the same relief the test would have produced, minus the cost.
