@@ -126,3 +126,67 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Time loop. Five minutes becomes an hour. The body cannot read the clock under cortisol.
 • The itch. Mental. The work looks fine and feels dangerous. The alarm's signature.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Said out loud. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated levels and the deployment maps.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+"This is the pattern, not quality control.
+Done is better than perfect. Submitting now."
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it, the pattern is running. It said the script was too obvious to need rehearsal. It said three sentences will not do anything for the alarm in your chest. It said you will say it later, in a real moment, on a real piece of work. The pattern is wrong. You will not say it later. You will say it now. Five times. Out loud. Then come back.
+
+Here is what the script is doing.
+
+The interrupt has to be spoken because the alarm lives below language. Cortisol does not respond to thought. Cortisol responds to verbal labeling. When you say the activation aloud, the prefrontal cortex re-engages on the task of producing speech, and the act of speaking routes the signal back through the slow path. The amygdala output drops within seconds. This is not metaphor. It is the mechanism the leverage point in section two named.
+
+Saying the words in your head does not work. The head is where the alarm is already running. The head will simply add the script to the loop and keep revising. The voice is the lever because the voice is external. It interrupts the internal cycle by putting a sound into the room that the cycle did not predict. Whisper counts. Mouthing the words with breath behind them counts. Silent does not.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives (a real deadline, a real send button, a real submission window), the prefrontal cortex will be partially offline. Cognitive load will be high. Motor memory stays accessible. The words need to be loaded enough that they can fire even when the system is locked.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. This is rehearsal, not deployment. You are pre-loading the response so it can fire in the gap between approaching done and starting another revision pass.
+
+Then deploy. Smallest task. Lowest stakes. A three-sentence email. A one-paragraph note. The reply that does not need a fourth pass. Say the script. Hit send. Then survive the next ten minutes without reopening it.
+
+What to expect after the words land. Seconds one through fifteen, the alarm intensifies. The pattern expected another revision and did not get it, so it raises the volume on the wrongness. It tells you to reopen the file now, fast, before the damage is permanent. There is no damage. Hold the line. Seconds sixteen through ninety, you notice nothing has happened. The recipient has not replied with a complaint. The world has not flagged the work as inadequate. The cortisol begins to drop because action without negative consequence is the fastest way for the body to update its threat encoding.
+
+By minute three, you are still here, the work has been received, and you have one piece of new data the pattern has been deleting for years. The data point is small. It is also worth more than ten years of understanding why you over-revise. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script names the alarm. The Rewrite replaces what the alarm was making your hands do. Naming alone will not hold. The hands have been trained for years to return to the work the moment the script tries to release it. If you do not have a replacement behavior loaded, the hands will reach for the file again within minutes. The Rewrite is what fills the space.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+The override is not "lower your standards." The
+override is "submit on time and let reality, not
+the pattern, tell you whether the work is good."
+Reality is a better judge than the pattern. The
+pattern has never said anything was good enough.
+Reality says most things are.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the timer submit. Set a timer for the time the task reasonably requires. Not the time you want. Not the time the pattern says. The reasonable time. If you are unsure, ask someone without this pattern how long it would take them and use their number. Work until the timer rings. When it rings, submit what you have. Close the file. Do not reopen.
+
+That is the entire Rewrite at level one. A timer and a closed file. Most days, this is the work. Master level one before you reach for level two. Master means the timer rings and you submit without a thirty-minute internal debate. The alarm still arrives. The hands still want to reach back. You submit anyway.
+
+The revision impulse has been a reflex for years. The submit-when-the-timer-rings behavior has to become a reflex too. That takes repetition, on real tasks, with the alarm at full volume, when the work feels like it is not ready. Three weeks at level one is not slow. Three weeks at level one is the actual schedule.
+
+The full Rewrite is graduated. Level two is the single-pass rule. Level three is the imperfect share. Level four is public imperfection. Each level dismantles a different layer of the original installation. The Field Guide carries levels two through four with the protocols and the troubleshooting for the days the alarm refuses to drop.
+
+What you are practicing is not lower standards. The pattern will accuse you of that the first time the timer rings. The accusation is the pattern's last move. Lower standards would be submitting work that is not actually finished. The Rewrite is submitting work that is finished and that the pattern is still calling unfinished. Same work. Different verdict. The verdict the work earns from reality is the one you are about to start collecting.
+
+What to expect on the first real Rewrite. Ten to twenty minutes where the body insists you have made a mistake. The pattern reads the closed file as evidence of imminent disaster. It tells you to reopen, just to check, just for a second. Do not. Sit. The closed file is not punishment. The closed file is the work no longer being held hostage by the alarm.
+
+In most cases, the work is received the same as the work you used to over-revise. Sometimes better. The recipient does not see the cycles you spared yourself. They see the work. The work was finished at draft two. Draft seven was the alarm. The data accumulates. One submission at a time. The horizon stops receding when the work stops being chased.
