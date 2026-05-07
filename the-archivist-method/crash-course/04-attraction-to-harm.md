@@ -133,3 +133,80 @@ You will not have all seven. You will probably have three or four around the dan
 • Flatness around the safe person. Calm registers as empty.
 • Restlessness. The body looking for the cocktail and finding nothing.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Said before pursuit. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+Before the script, a hard line. If you are in a relationship that has escalated to physical or emotional abuse, this section is not enough. Crisis support comes first. Reach out to a therapist, a domestic violence hotline, or a trusted person outside the relationship. If the situation feels acutely unsafe today, find safety first. The pattern will still be here tomorrow.
+
+If you are in the early stages of an attraction or in a volatile but physically safe relationship, proceed.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Say this out loud 5 times RIGHT NOW:
+
+"I feel chemistry with this person. Let me check:
+are they safe or familiar? This is pattern
+recognition, not love. I am choosing not to pursue."
+
+Short version: "Familiar, not safe."
+
+Say it. 5 times. Do it before reading further.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script does not apply because this one is different. It said the chemistry is too strong to be the pattern. It said you can run the check later. The pattern is wrong. The check is for the moment the cocktail floods, not the moment after. You will not run it later. You will run it now. Five times. Out loud. Then come back.
+
+What the script is doing.
+
+The cocktail does not respond to thought. By the time the conscious mind notices the pulse climbing, the limbic system has already fired recognition. The body has already labeled the experience. The pattern argues with thoughts. It cannot argue with sound waves moving through the room. The voice is the lever because the voice is external. The script forces the prefrontal cortex online by giving it speech to produce, and the speech opens the gap between recognition and pursuit.
+
+The window matters. The Attraction to Harm cocktail builds over days, not seconds. The bond solidifies around week two or three. Before the bond, the prefrontal cortex is still partially in the room. After the bond, the neurochemistry has the room. Run the script in week one.
+
+Saying the words in your head does not work. Whisper counts. Mouthing the words with breath behind them counts. Silent does not.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives, the pulse will be high and the obsession loud and the case for pursuing this one will feel airtight. Motor memory stays accessible. The words need to fire when the body has already decided this is love.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. This is rehearsal, not deployment. You are pre-loading the response so it can fire in the gap between the chemistry hitting and the message going out.
+
+Then deploy. Smallest activation. A face in a coffee shop. A stranger online. A new acquaintance who produces a small flush. Run the script before you do anything. Then survive seventy-two hours without acting. No texting beyond basic politeness. No deep-dive on their profile. No fantasizing. Seventy-two hours of holding still while the cocktail starts to fade.
+
+What to expect after the words land. The first hour, the obsession sharpens. The pattern says the script is wrong, this one is different. Hold the line. Hours one through twelve, the pull stays strong. The body wants its hit. Hours twelve through forty-eight, the urgency starts to soften. The cocktail is metabolizing. By hour seventy-two, the chemistry has either stayed (and you can run the safety check from a calmer body) or faded.
+
+By the end of the seventy-two hours, you are still here, the message has not been sent, and you have one piece of new data the pattern has been deleting for years. The data point is small. It is worth more than ten years of understanding why you choose this. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script catches the fire. The Rewrite is what you do in the flatness. Catching the fire alone will not retrain the template. The body still goes silent around the safe person. If you do not have a different behavior loaded, the body will exit within three dates. The Rewrite is what the body does inside the flatness instead of leaving it.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+You do not have to stop feeling the electricity.
+You have to stop following it. Feel the pull.
+Acknowledge it. Then walk the other direction.
+Toward the person who does not make your heart
+race. Yet. Give it time. Safety is a slow burn.
+It is also the only thing that lasts.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the three-date minimum. Give the safe person three dates before you walk. Not one. Not two. Three. One date is not enough data for the nervous system to register a new template. The signals you collect on three dates (they texted back, they showed up, they said what they meant) do not produce the cocktail. They produce something quieter. Three dates is enough for the body to start logging it.
+
+That is the entire Rewrite at level one. Three dates. No fire. No exit on date one. Most attractions, this is the work. Master level one before you reach for level two. Master means the safe person produces no electricity, the body says no spark, and you schedule the second date anyway. The flatness still arrives. You sit through the date with your eyes on what the safe person actually does.
+
+The pattern has been training the body for years to walk away from the flatness within fifteen minutes. The stay-through-three-dates behavior has to become a reflex too. That takes repetition, on real safe people, while the cocktail elsewhere is calling. Three dates with three different safe people, over weeks, before the body registers a different signal in the silence.
+
+The full Rewrite is graduated. Level two is checking your reading with a trusted friend who can see from outside what the body cannot see from inside. Level three is naming the pattern aloud when the flatness arrives. Level four is full vulnerability with a safe partner. The Field Guide carries levels two through four with the scenario maps and the troubleshooting for the days the cocktail elsewhere wins the day.
+
+What you are practicing is sitting in the flatness. Not enthusiasm. Not the perfect feeling. Sitting. The body has been trained to read the absence of the cocktail as the absence of love. Sitting in the absence is the practice. The flatness is where the new signal will arrive. By the third date or the fifth, you will recognize it.
+
+What to expect on the first real Rewrite. Three dates of feeling almost nothing. The pattern will say nothing is wrong with you for feeling nothing. The pattern will be wrong. By date three, the first quieter signal lands. A small warmth. A laugh that did not feel performed. A moment of being seen without the spotlight. Not electricity. Connection. Different shape. Same word.
+
+In most cases, the safe person stays around long enough for the body to register their consistency. They text back. They show up. They do what they said they would do. Three months in, the body starts to register that the absence of the cocktail is not the absence of love. It is the absence of the alarm. The signal that arrives in the absence of the alarm is the slow burn. That is the thing that lasts.
