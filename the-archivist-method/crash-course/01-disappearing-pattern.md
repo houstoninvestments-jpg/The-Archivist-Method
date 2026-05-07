@@ -125,3 +125,73 @@ You will not have all seven. You will probably have three or four, in a recogniz
 • Stomach drop. The floor falls when the threshold is crossed.
 • Face flatness. Expression pulls back. The mask goes on.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Four sentences. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Say this out loud 5 times RIGHT NOW:
+
+"The Disappearing Pattern just activated. I feel
+chest tightness. The pattern wants me to pull away.
+I am choosing to stay and communicate instead."
+
+Short version: "Pattern. Stay."
+
+Say it. 5 times. Do it before reading further.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script was too long to need rehearsal. It said you would feel ridiculous saying four full sentences out loud to no one. It said you will say it later, in a real moment, when someone you love says the wrong true thing. The pattern is wrong. You will not say it later. You will say it now. Five times. Out loud. Then come back.
+
+Here is what the script is doing.
+
+The flight response lives below language. The amygdala fires in forty milliseconds. The diaphragm locks. The legs are loaded for movement. The conscious mind arrives last and finds itself watching its own body prepare to leave. Thinking the right thing in your head changes nothing because the head is not where the flight lives. Speaking is the lever because speaking activates Broca's area, which loops back to the prefrontal cortex, which is the slow path the amygdala outran. The voice is the only tool fast enough to reach back into the circuit before the legs commit.
+
+Saying the words in your head does not work. The pattern argues with thoughts. It cannot argue with sound waves moving through the room. Your ears hear the words. Your nervous system registers external input. The pattern does not know what to do with that. The script's job is to put a sound into the room that the circuit did not predict.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives, the prefrontal cortex will be partially offline. The chest will be a band. The legs will be loaded. Motor memory stays accessible. The words need to be loaded enough that they can fire even when the rest of the system is locked.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. No phone in your hand. This is rehearsal, not deployment. You are pre-loading the response so it can fire in the gap between the chest tightening and the legs standing.
+
+Then deploy. Smallest activation. Lowest stakes. A friend says something kind that lands harder than expected. A coworker thanks you for something specific. The chest tightens by a fraction. Say the script. Stay seated. Then survive the next ninety seconds without leaving the room.
+
+What to expect after the words land. Seconds one through five, you feel ridiculous. The pattern says this is absurd. Seconds six through fifteen, the discomfort sharpens. You broke the circuit but you did not give the body the distance it asked for. The chest tightens harder. The legs argue. Hold the line. Seconds sixteen through ninety, the discomfort peaks and starts to fade. The amygdala checks for actual danger and finds none. The diaphragm releases. The breath returns. The room becomes the right size again.
+
+By minute three, you are still here. The closeness did not destroy you. The threshold did not break you. You have one piece of new data the pattern has been deleting for years. The data point is small. It is also worth more than ten years of understanding why you leave. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script breaks the circuit. The Rewrite tells the legs what to do next. Naming the pattern alone will not hold the body. The legs are loaded. The chest is still a band. The eyes are still mapping the door. If you do not have a replacement behavior for the body to execute, the legs will move on their own within minutes, dressed up as a reasonable need. The Rewrite is what the legs do instead of leaving.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+The bravest thing a person who runs the
+Disappearing Pattern can do is not climb a
+mountain or start a business. It is sitting on
+a couch next to someone who said "I love you"
+and saying: "That terrifies me. I am staying."
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the minimum stay. Five words. "I need a minute." Then you stay in the room. You do not explain. You do not justify. You do not leave. You stay seated for ten minutes longer than the pattern wants you to. The legs will argue. The chest will tighten. The eyes will keep glancing at the door. You stay anyway.
+
+That is the entire Rewrite at level one. Five words and ten minutes of stayed seat. Most days, this is the work. Master level one before you reach for level two. Master means the chest tightens, the legs load, you say the words, and your body remains in the chair. The discomfort still arrives. The flight signal still fires. You stay anyway.
+
+The flight response has been a reflex for years. The stay-in-the-room behavior has to become a reflex too. That takes repetition, on real activations, with the threshold crossed and the body screaming for the exit. Three weeks at level one is not slow. Three weeks at level one is the actual schedule.
+
+The full Rewrite is graduated. Level two is partial disclosure: a single sentence that names what is happening without full vulnerability. Level three names the pattern out loud to the other person. Level four is full vulnerability on a high-stakes activation, with no exit ramp prepared. The Field Guide carries levels two through four with the scenario maps and the troubleshooting for the days the legs refuse to stay seated.
+
+What you are practicing is staying. Not eloquence. Not vulnerability. Not the right thing said in the right order. Staying. The body has been disappearing for so long that staying alone is the radical act. One sentence is enough. One minute kept seated is enough. The size of what you say does not matter. The chair underneath you matters.
+
+What to expect on the first real Rewrite. Ninety seconds where the body insists you have made a mistake. The chest tightens harder. The throat closes. The legs hum. The pattern reads the closed door of the room as confinement and the open door as rescue. Do not walk through it. Sit. The rescue is the thing that has been killing you.
+
+In most cases, the other person says something kind back, or pauses, or moves closer, or asks what is happening, or simply continues the conversation. The closeness does not destroy you. The other person does not leave. The threshold gets crossed and the body remains intact on the other side of it. The Original Room is closed. You are in a different room now. One stayed minute at a time. One sentence kept short.
