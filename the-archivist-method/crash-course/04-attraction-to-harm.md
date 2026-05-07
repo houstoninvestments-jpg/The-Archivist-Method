@@ -210,3 +210,59 @@ What you are practicing is sitting in the flatness. Not enthusiasm. Not the perf
 What to expect on the first real Rewrite. Three dates of feeling almost nothing. The pattern will say nothing is wrong with you for feeling nothing. The pattern will be wrong. By date three, the first quieter signal lands. A small warmth. A laugh that did not feel performed. A moment of being seen without the spotlight. Not electricity. Connection. Different shape. Same word.
 
 In most cases, the safe person stays around long enough for the body to register their consistency. They text back. They show up. They do what they said they would do. Three months in, the body starts to register that the absence of the cocktail is not the absence of love. It is the absence of the alarm. The signal that arrives in the absence of the alarm is the slow burn. That is the thing that lasts.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, run two lists.
+
+List one: the last three people you felt intense
+chemistry with. Mark each S (safe, consistent) or
+F (familiar, intermittent).
+
+List two: the last three you rejected for "no
+spark." Mark S or F.
+
+If list one is mostly F and list two is mostly S,
+the pattern is selecting for you.
+
+Then choose one move. Hold off seventy-two hours
+on the next chemistry that fires. Or give the next
+safe person three dates instead of one.
+
+One move. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The two lists will surprise you. Most people who run this pattern produce list one (the chemistry list) made entirely of F. They also produce list two (the no-spark list) made entirely of S. The shock is the data on paper. You knew the pattern existed in the abstract. The lists put it on a page where you cannot un-see it. Visibility is the first move.
+
+Do not try to date safer during the count. The count is the work of one day. Trying to leap from naming to selecting differently usually produces neither. You miss the assessment because you were busy planning new behavior, and you fail to behave differently anyway because the body's template has not been retrained yet. Today is just the lists. The script you rehearsed in section four is for the next time the cocktail fires, not for today's tally.
+
+The one-move discipline matters. The pattern wants you to fix it all at once. The pattern wants you to commit to dating only safe people forever, fail at the first F who walks into the room, and conclude that the protocol does not work on a body that has been trained for years. One move blocks that. One move is small enough to actually do. One seventy-two-hour pause, or one three-date minimum on a safe person, is enough to produce the new data point. The second move is easier than the first because the body has the data from the first. Three to five moves before the cocktail starts to lose some of its first-class authority. Pattern 4 fires on a longer fuse than most patterns, which means each move counts more than a typical rep. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the fire and the flatness, in the obsession and the absence. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour two-list inventory. One move.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The seventy-two-hour pause. The three-date minimum. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for Attraction to Harm carries the full ninety-day Earn Path. The graduated rewrite levels two through four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol, including protocols for higher-acuity situations involving active high-risk relationships. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If Attraction to Harm produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move. If the situation involves physical danger, professional support comes before either.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Run the lists today. Hold one pause tomorrow. The first held pause is the first piece of evidence that the cocktail is not the only signal your body knows.
+
+Keep collecting evidence.
