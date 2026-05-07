@@ -195,3 +195,59 @@ What you are practicing is staying. Not eloquence. Not vulnerability. Not the ri
 What to expect on the first real Rewrite. Ninety seconds where the body insists you have made a mistake. The chest tightens harder. The throat closes. The legs hum. The pattern reads the closed door of the room as confinement and the open door as rescue. Do not walk through it. Sit. The rescue is the thing that has been killing you.
 
 In most cases, the other person says something kind back, or pauses, or moves closer, or asks what is happening, or simply continues the conversation. The closeness does not destroy you. The other person does not leave. The threshold gets crossed and the body remains intact on the other side of it. The Original Room is closed. You are in a different room now. One stayed minute at a time. One sentence kept short.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, count the exit
+thoughts.
+
+Every "I need space." Every urge to check your
+phone for no message. Every glance at the door.
+Tally on your hand. Just count.
+
+For each exit thought, log one mark. L if you
+left. S if you stayed.
+
+At the end of the twenty-four hours, count the Ls.
+
+Then choose one L. Tomorrow, when that situation
+repeats, do not leave for ten minutes. Stay
+seated. Say nothing if you have nothing to say.
+
+One stay. Not five. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern report fewer exit thoughts than they expected, and then realize the number is low because the leaving has become so automatic the thoughts no longer announce themselves. The shock is the data. You have been disappearing for so long that the disappearance no longer requires conscious permission. Counting forces the thoughts back into awareness. Awareness is the first move.
+
+Do not try to stop the leaving during the count. Stopping is the work of week two. The count is the work of day one. Trying to do both at once usually produces neither. You miss most of the exit thoughts because you were busy bracing not to leave, and you fail to stop leaving anyway because you did not have a stay reflex loaded. Today is just the count. The script you rehearsed in section four is for tomorrow's one stay, not for today's tally.
+
+The one-stay discipline matters. The pattern wants to be fixed all at once. The pattern wants you to commit to never leaving again, fail by the next conversation that gets real, and conclude that the protocol does not work on a pattern this old. One stay blocks that move. One stay is small enough to actually do. One stay is enough to produce the new data point. The second stay is easier than the first because the body has the data from the first. The tenth is easier than the ninth. Fifteen to twenty-five stays before the chair starts to feel less like a confinement and more like the room you live in. The Disappearing Pattern fires every time someone gets close enough to matter, which means it gives you fewer practice opportunities than some other patterns and the ones it gives you weigh more. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the diaphragm, in the chest, in the eyes, in the legs. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour exit-thought count. One stay.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The friend who asked something kind. The coworker who got specific. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for The Disappearing Pattern carries the full ninety-day Earn Path. The graduated rewrite levels two through four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If The Disappearing Pattern produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Count exit thoughts today. Stay one tomorrow. The first stay is the first piece of evidence that the door of the room you are in is no longer the door of the hallway you grew up in.
+
+Keep collecting evidence.
