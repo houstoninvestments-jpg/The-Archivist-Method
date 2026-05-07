@@ -128,3 +128,87 @@ You will not have all seven on every event. You will probably have three or four
 • Hearing sharpens for threat. Words louder, crying quieter. Empathy muted.
 • Rapid shallow upper-chest breath. Combat preparation.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Four words. The body has to do them, not the mind. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+Before the script, a hard line. If your rage has resulted in physical violence toward another person, this section is not sufficient. Hitting, pushing, grabbing, restraining, throwing objects at someone. Any of these means professional intervention comes before pattern work. Reach out to a therapist who specializes in anger management, or to a program designed for people who have been violent. This is not shame. This is strategy. A method cannot substitute for professional support at that level. Use this material alongside professional help, not instead of it.
+
+If your rage stays verbal, if it has not crossed into physical violence, proceed.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+When you feel the heat in the chest, say this
+out loud:
+
+"The rage is here. It is not me. I am leaving
+this room for 20 minutes. I will return when I
+can speak, not explode."
+
+Short version: "I need 20 minutes."
+
+Then leave. Do not wait for a response. Do not
+explain. Do not finish the conversation. Cold
+water on the wrists. Do not return until the
+heart rate drops below 100.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script does not apply because this argument is different. It said walking out is weakness. The pattern is wrong. The script is what gets the body out before the explosion. You will not run it later. You will run it now. Five times. Out loud. Then come back.
+
+What the script is doing.
+
+The hijack is physiological. The amygdala has fired. The prefrontal cortex is partially offline. Cognitive intervention does not work because the cognitive system is the system that is offline. The body has to do the work. Specifically, the legs. Your brain cannot outthink the amygdala. Your legs can outwalk it. The hijack ends when the room ends.
+
+The script names the rage and announces the exit. Saying it out loud activates the prefrontal cortex by giving it speech to produce. The voice is the lever. The legs are the action. The voice loads. The legs deliver.
+
+Saying the words in your head does not work. The pattern lives in your head. Out loud, the words exist in the room as sound, and the pattern cannot edit sound waves once they have left your mouth. Whisper counts. Three syllables muttered as you stand up counts.
+
+What you are practicing is not the right belief. You are practicing the right motor pattern. When the real moment arrives, the heat will be in your chest and the words will already be loaded. Motor memory stays accessible. The legs need to be loaded enough that they can stand even when the body wants to fight.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. Stand up while saying the script, every rep. You are pre-loading the body to stand at the words.
+
+Then deploy. Smallest activation. A small irritation that produces a small heat. Say the script. Stand up. Walk to a different room. Stay twenty minutes. Cold water. Then return.
+
+What to expect after the words land. Seconds one through five, the pattern will tell you walking out is wrong, that you are abandoning the conversation. Hold the line. Walk anyway. Minutes one through twenty, the adrenaline metabolizes. The heart rate drops. The room you walked into becomes the only room. By minute twenty-one, the prefrontal cortex is back online and you can decide whether to return.
+
+By the end of the cool-down, you are still here, no one has been screamed at, and you have one piece of new data the pattern has been deleting for years. The data point is small. It is worth more than ten years of understanding why you explode. Because it is lived proof, not insight.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script empties the room. The Rewrite is what fills the twenty minutes after. Walking out alone is not enough. The body is still in full activation when it leaves. The cortisol is still high. The fists are still loaded. The Rewrite is the work the body does in the cool-down.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+The rewrite for rage is not "do not get angry."
+Anger is a legitimate emotion that carries real
+information. The rewrite is: feel the anger.
+Do not act on it until your brain is online.
+Leave the room. Let the neurological hijack
+resolve. Then, and only then, decide what the
+anger is telling you. It might be telling you
+something true. But you cannot hear it over
+the explosion.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the cool-down. Twenty minutes minimum. Cold water on the wrists. Slow breathing, four counts in, six counts out. Walking, not running. Do not rehearse the argument. Do not plan the rebuttal. Do not replay the slight. Each of these activities pumps fresh adrenaline back into the system you are trying to drain.
+
+That is the entire Rewrite at level one. Twenty minutes of cool-down behavior. Most days, this is the work. Master level one before you reach for level two. Master means the heat starts, the script comes out, the body leaves the room, and the body actually cools down during the twenty minutes. The walking out still feels like losing. You walk anyway.
+
+The pattern has been training the body for years to discharge the activation through the explosion. The cool-down behavior has to become the new discharge route. That takes repetition, on real activations, with the heat in the chest and the certainty that the other person deserves what is about to be said. Three to five clean cool-downs before the body registers that the activation can resolve without the explosion.
+
+The full Rewrite is graduated. Level two adds return-and-repair, going back into the room after the cool-down to finish the conversation at a normal volume. Level three is the pre-emptive disclosure, telling the people in your house about the protocol. Level four is professional support, an accountability structure beyond your own willpower. The Field Guide carries levels two through four with the protocols and the troubleshooting for the days the cool-down does not hold.
+
+What you are building is the gap. The gap that is two to ten seconds wide right now. With repetition, the gap widens. The heat still rises. The script still has to be said. The legs still have to walk. But the body learns there is room between the heat and the explosion, and the room gets a little wider every time you walk into it without setting it on fire.
+
+What to expect on the first real Rewrite. Twenty minutes where the pattern says you have abandoned the argument, that you are weak. Sit with all of it. The thoughts will fade by minute fifteen. The cold water and the slow breath will keep doing their work. By minute twenty, the heart is at baseline, the heat is gone, and the room you walked into is just a room.
+
+In most cases, the other person responds well to a returned conversation that does not involve screaming. The fight you thought was about the trash is actually about something smaller and more workable. The cool-down made the workable conversation possible. Multiply across weeks. The pattern weakens every time the explosion does not happen. The fuel still accumulates. The body learns it does not have to discharge through the explosion. It can discharge through the legs.
