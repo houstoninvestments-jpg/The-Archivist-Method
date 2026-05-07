@@ -215,3 +215,60 @@ What you are practicing is tolerating. Not curing. Not transcending. Tolerating.
 What to expect on the first real Rewrite. Forty-eight hours where the body insists you are missing the window. The pattern reads the unlit match as a threat: if you do not act now, the good thing will be taken later, by someone else. Do not. Sit. The taking is not coming. The taking only ever came when you took it.
 
 In most cases, the urge fades by hour twenty-four and is below three out of ten by hour forty-eight. The good thing is still here. Nothing collapsed. The set point logs one non-catastrophic outcome. Multiply across weeks, the set point starts to recalibrate downward. The match gets a fraction lighter in the hand each time it is not lit.
+
+---
+
+## 6. ONE FIELD ASSIGNMENT
+
+[FIELD ASSIGNMENT]
+═══════════════════════════════════════════════
+For the next twenty-four hours, find your set
+point.
+
+Look back at the last three good things you
+ended. For each one, write the duration. How
+many months of stability before the sabotage
+arrived.
+
+There is a number. The number is consistent. Find
+yours. Five months. Eight weeks. One quarter.
+That number is your set point in time.
+
+Then, if you feel an itch to destroy something
+right now, set a forty-eight-hour timer. Do not
+act for forty-eight hours. The pattern needs
+urgency. Deny it.
+
+One number. One timer. One. That is your first
+interrupt.
+═══════════════════════════════════════════════
+
+The number will surprise you. Most people who run this pattern produce a remarkably consistent set point in time: a duration their nervous system tolerates before the urge to destroy arrives. Four months. Six months. One year. Two years for the sturdier among us. The shock is the consistency. You did not realize you had a clock running. The clock has been running.
+
+Do not try to extend the set point during the count. The count is the work of one day. Trying to leap from naming the number to staying past it usually produces neither. You miss the number because you are busy committing to outlast it, and you fail to outlast it anyway because the body's calibration has not been updated. Today is just the number. The script you rehearsed in section four is for the next time the itch fires, not for today's tally.
+
+The one-timer discipline matters. The pattern wants you to fix it all at once. The pattern wants you to commit to never sabotaging again, fail at the next set-point breach, and conclude that the protocol does not work on a body that has been calibrated for chaos for years. One timer blocks that. One timer is small enough to actually do. One forty-eight-hour wait is enough to produce the new data point. The second wait is easier than the first because the body has the data from the first. Three to five waits before the body starts to register that the urge passes without action. Pattern 8 fires on a longer cycle than most patterns, which means each wait covers more ground than a typical rep. Use that.
+
+---
+
+## 7. WHAT'S NEXT
+
+You just did something specific.
+
+You found out the pattern has a name. You read what your body has been doing in the restlessness, in the skin-crawl, in the chest pressure, in the unnamed anxiety. You loaded one Circuit Break. One Rewrite Frame. One twenty-four-hour set-point inventory. One timer.
+
+That is the crash course.
+
+What you have now is enough to interrupt the pattern in its smallest form. The next forty-eight-hour wait. The next number found. What the crash course does not carry is the rest of the protocol.
+
+The Field Guide for Success Sabotage carries the full ninety-day Earn Path. The graduated rewrite levels two through four. All seven body signatures mapped against your specific signature. The Pattern Archaeology section, where the Original Room work happens. The full troubleshooting protocol. The witness setup. The Stability Contract. The Pocket Archivist activated for this pattern. Sixty-seven dollars. One pattern at full depth.
+
+The Complete Archive carries all nine patterns at the same depth. Every Field Guide. Pattern combinations and interaction maps. The full Four Doors framework. The relapse protocol. The physical book ships with it. The Pocket Archivist trial activates for thirty days. Two hundred and ninety-seven dollars. Lifetime access.
+
+The Pocket Archivist standalone is fourteen ninety-nine a month. Same voice as the book.
+
+If Success Sabotage produced the recognition you felt in section one, the Field Guide is the next move. If you recognized other patterns in the quiz result, the Complete Archive is the next move.
+
+The work from here is repetition. The pattern took years to install. It will not be undone by understanding. It will be undone by repetition. Find the number today. Set the timer tomorrow. The first held timer is the first piece of evidence that the match does not have to be lit.
+
+Keep collecting evidence.
