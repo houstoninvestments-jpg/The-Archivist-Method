@@ -130,3 +130,77 @@ You will not have all seven. You will probably have three or four chronic signal
 • Paralysis. The limbic system overriding the prefrontal cortex's instruction to move.
 • Unbidden crying when the gap between "I must leave" and "I cannot leave" gets too wide.
 ═══════════════════════════════════════════════
+
+---
+
+## 4. ONE INTERRUPTION SCRIPT
+
+One script. Said daily. The crash course gives you the one interrupt that works on this pattern. The Field Guide carries the graduated rewrite levels and the deployment maps.
+
+Before the script, a hard line. The Draining Bond is the only one of the nine where physical safety can be the issue. If you are in a situation where someone could harm you, this section is not enough. Crisis support comes before pattern work. If you are unsure whether your situation qualifies, err on the side of contacting professional support, a therapist, a domestic violence hotline, or a trusted person outside the situation. This system works alongside that support, not instead of it.
+
+If you are in an emotionally draining but physically safe situation, proceed.
+
+[INTERRUPTION SCRIPT]
+═══════════════════════════════════════════════
+Say this out loud 5 times RIGHT NOW:
+
+"I know I should leave this situation. I am staying
+out of pattern, not love or necessity. Leaving is
+self-preservation, not betrayal."
+
+Short version: "Pattern, not loyalty."
+
+Say it. 5 times. Do it before reading further.
+═══════════════════════════════════════════════
+
+If you read past that callout without saying it five times, the pattern is running. It said the script does not apply because your situation is different. It said your bond is real love, not pattern. It said you can run the script later, after you decide whether you really want to leave. The pattern is wrong. The script is not for the moment of decision. It is for every day before the decision. You will not run it later. You will run it now. Five times. Out loud. Then come back.
+
+Here is what the script is doing.
+
+This script is different from the other eight in the system. The other eight scripts break fast circuits: a 6-second flight reflex, a 2-second throat constriction, a revision pass between drafts. The Draining Bond script does not interrupt a fast circuit. It deprograms a chronic one. You do not say it once and walk out. You say it daily, sometimes hourly, while the chain stays loud and the weight stays on the chest.
+
+Each time you say "I am staying out of pattern, not love," the guilt gets slightly quieter. Not much. Slightly. The repetition is not about a single dramatic interrupt. It is about gradually separating the guilt from the decision so that when the decision arrives, the guilt no longer gets the casting vote. This takes longer than the other patterns. It requires more repetitions. And for many people, it requires support.
+
+Saying the words in your head does not work. The pattern argues with thoughts. It cannot argue with sound waves moving through the room. The voice is the lever because the voice is external. Whisper counts. Mouthing the words with breath behind them counts. Silent does not.
+
+What you are practicing is not a single intervention. You are practicing a deprogramming protocol that runs over weeks. The first time you say the script, the guilt will scream. Louder than any other pattern's response. "You are selfish." "They will fall apart." "You promised." This is the chain at maximum volume. It will feel like your own moral compass. Your moral compass does not produce crushing physical guilt when you consider your own well-being. The pattern does.
+
+Practice ten times a day when calm. Five in the morning, five in the evening. Eyes open. Voice audible. This is rehearsal and deployment together. The chronic state means every day is a deployment day. You are not waiting for an activation. You are inside the activation already.
+
+What to expect after the words land. Minute one through five, the guilt peaks. The chest gets heavier. The shoulders lock. The body tells you to take it back. Hold the line. Do not obey. Minute five through fifteen, the crushing edge of the guilt starts to soften. Not the heaviness. The heaviness will stay for weeks. The crushing edge gets a fraction quieter every time you do not obey it.
+
+Repeat tomorrow. And the day after. The first shift comes around two weeks of daily repetition. You will not feel free. You will feel the chain stop tightening when you reach for it.
+
+One script. Use it.
+
+---
+
+## 5. ONE REWRITE FRAME
+
+The script names the chain. The Rewrite is the line you draw against it. Naming the pattern alone will not get you out. The chain stays attached as long as the body keeps obeying it, which the body will, every day, for as long as no contrary action is taken. The Rewrite is the contrary action. Small. Survivable. Repeatable. One line per week, drawn against the chain.
+
+[REWRITE FRAME]
+═══════════════════════════════════════════════
+Leaving is not betrayal. Staying until you are
+destroyed is not loyalty. The pattern has swapped
+the definitions. Put them back. Leaving is
+self-preservation. Staying at this cost is
+self-destruction.
+═══════════════════════════════════════════════
+
+The crash course gives you the first level. The Field Guide carries the rest.
+
+Level one is the small line. Not leaving. One limit. "I cannot come home early today. I will be there at seven." "I am not available after nine." "I am going to see my friends this Saturday." Choose one. Say it once. Hold it for the day. The line does not have to be permanent. It has to be real for one day.
+
+That is the entire Rewrite at level one. One line. One day. Most weeks, this is the work. Master level one before you reach for level two. Master means the limit gets stated, the guilt arrives, and you do not take the limit back. The body wants to take it back. The chain tightens when the line is drawn. You hold the line anyway.
+
+The pattern has been running for years. Sometimes decades. The line-holding behavior has to be built one day at a time, against a body that has been trained to give up its own needs at the first sign of friction. Each line held is a non-catastrophic outcome the limbic system can use. The bonded person did not fall apart. The body did not break. The chain registers the absence of the predicted disaster. Multiply across weeks, the chain loses fractions of authority.
+
+The full Rewrite is graduated. Level two is naming the pattern to a trusted person outside the situation. Level three is naming a limit directly to the bonded person with explanation. Level four is the departure itself, planned and supported. The Field Guide carries levels two through four with the protocols, the scenario maps, and the troubleshooting for the days the chain refuses to slacken. For Level four, the Field Guide also carries the safety-planning material this section will not cover.
+
+What you are practicing is line-drawing. Not vindication. Not the perfect explanation. Not the right speech. Lines drawn and held for one day each. The body has been giving up the line for years. Holding alone is the action. The line itself is small. The holding is what does the work.
+
+What to expect after the first line is drawn. Two to five minutes where the guilt peaks. The chest gets heavier. The phone vibrates with whatever the bonded person sends back. Do not pick up. Do not soften. Do not pre-apologize. Sit. The guilt is loud because the chain is being tested for the first time in a long time. Of course it is loud.
+
+In most cases, the bonded person responds with displeasure that is real and survivable. Sometimes a sharper response. Sometimes a guilt-trip. Sometimes silence. None of it requires you to take the line back. The line stays drawn. Tomorrow the chain is a fraction looser. Not free. Looser. The slow leak slows for one day. Multiply that across weeks.
